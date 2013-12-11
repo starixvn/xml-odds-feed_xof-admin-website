@@ -1,0 +1,368 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2136E1D1-DB76-4365-9B4F-C1DDCFF376A8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Fanex.OddsFeed.Core</RootNamespace>
+    <AssemblyName>Fanex.OddsFeed.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Antlr3.Runtime">
+      <HintPath>..\..\_Dependencies\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="dotless.Core">
+      <HintPath>..\..\_Dependencies\dotless.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Fanex.Caching">
+      <HintPath>..\..\_Dependencies\Fanex.Caching.dll</HintPath>
+    </Reference>
+    <Reference Include="Fanex.Common">
+      <HintPath>..\..\_Dependencies\Fanex.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Fanex.Data, Version=0.5.404.55, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\_Dependencies\Fanex.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Fanex.Logging">
+      <HintPath>..\..\_Dependencies\Fanex.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Fanex.NAP.Core, Version=1.0.0.2, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\_Dependencies\Fanex.NAP.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Caching">
+      <HintPath>..\..\_Dependencies\Microsoft.Practices.EnterpriseLibrary.Caching.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="MvcBundleConfig">
+      <HintPath>..\..\_Dependencies\Others\MvcBundleConfig.dll</HintPath>
+    </Reference>
+    <Reference Include="MvcPager">
+      <HintPath>..\..\_Dependencies\Others\MvcPager.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\..\_Dependencies\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UMControllerLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\_Dependencies\UM\UMControllerLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <HintPath>..\..\_Dependencies\WebGrease.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Business\Constant.cs" />
+    <Compile Include="Business\CacheKey.cs" />
+    <Compile Include="Business\LogAction.cs">
+      <DependentUpon>LogAction.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Business\FunctionKeys.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FunctionKeys.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Command\CommandResult.cs" />
+    <Compile Include="Command\ICommand.cs" />
+    <Compile Include="Configuration\NapSettings.cs" />
+    <Compile Include="Criteria\Administrator\CheckExistAdministratorCriteria.cs" />
+    <Compile Include="Criteria\Administrator\GetAllSystemCriteria.cs" />
+    <Compile Include="Criteria\Administrator\GetTop10AdminCriteria.cs" />
+    <Compile Include="Criteria\Administrator\AdminList_GetTop10Criteria.cs" />
+    <Compile Include="Criteria\Administrator\UpdateAdminPasswordCriteria.cs" />
+    <Compile Include="Criteria\Administrator\GetExistedAdminCriteria.cs" />
+    <Compile Include="Criteria\Administrator\GetSystemByUserIDCriteria.cs" />
+    <Compile Include="Criteria\Administrator\UpdateAdminSystemCriteria.cs" />
+    <Compile Include="Criteria\Administrator\UpdateAdminInfoCriteria.cs" />
+    <Compile Include="Criteria\Administrator\DeleteAdminCriteria.cs" />
+    <Compile Include="Criteria\Administrator\GetAdminCriteria.cs" />
+    <Compile Include="Criteria\Administrator\GetSystemCriteria.cs" />
+    <Compile Include="Criteria\Administrator\InsertAdminCriteria.cs" />
+    <Compile Include="Criteria\Affiliate\CheckExistAffiliateCriteria.cs" />
+    <Compile Include="Criteria\Affiliate\GetAffiliateProfileByIDCriteria.cs" />
+    <Compile Include="Criteria\Affiliate\DeleteSettingIP_AffiliateCriteria.cs" />
+    <Compile Include="Criteria\Affiliate\GetBettypeBySystemIDCriteria.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Criteria\Affiliate\GetCountryBySystemIDCriteria.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Criteria\Affiliate\GetOddStyleByAffiliateIDCriteria.cs" />
+    <Compile Include="Criteria\Affiliate\GetSportBySystemIDCriteria.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Criteria\Affiliate\UpdateSettingIPCriteria.cs" />
+    <Compile Include="Criteria\Affiliate\GetTop10DomainCriteria.cs" />
+    <Compile Include="Criteria\Affiliate\GetSupportedSportCriteria.cs" />
+    <Compile Include="Criteria\Affiliate\GetAllCountryCriteria.cs" />
+    <Compile Include="Criteria\Affiliate\GetSupportedBettypeCriteria.cs" />
+    <Compile Include="Criteria\Affiliate\DeleteAffiliateCriteria.cs" />
+    <Compile Include="Criteria\Affiliate\GetAffiliateByNameCriteria.cs" />
+    <Compile Include="Criteria\Affiliate\GetAffiliateBySystemIDCriteria.cs" />
+    <Compile Include="Criteria\Affiliate\GetAllAffiliateCriteria.cs" />
+    <Compile Include="Criteria\Affiliate\GetAllDomainCriteria.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Criteria\Affiliate\GetBettypeByAffiliateIDCriteria.cs" />
+    <Compile Include="Criteria\Affiliate\GetCountryByAffiliateIDCriteria.cs" />
+    <Compile Include="Criteria\Affiliate\GetDomainByAffiliateIDCriteria.cs" />
+    <Compile Include="Criteria\Affiliate\GetAllLanguageCriteria.cs" />
+    <Compile Include="Criteria\Affiliate\GetDomainBySystemIDCriteria.cs" />
+    <Compile Include="Criteria\Affiliate\GetIpByAffiliateIDCriteria.cs" />
+    <Compile Include="Criteria\Affiliate\GetLanguageByAffiliateIDCriteria.cs" />
+    <Compile Include="Criteria\Affiliate\GetLanguageBySystemIDCriteria.cs" />
+    <Compile Include="Criteria\Affiliate\GetSportByAffiliateIDCriteria.cs" />
+    <Compile Include="Criteria\Affiliate\GetTop10AffiliateCriteria.cs" />
+    <Compile Include="Criteria\Affiliate\GetTypeSettingByAffiliateIDCriteria.cs" />
+    <Compile Include="Criteria\Affiliate\GetTypeSettingCriteria.cs" />
+    <Compile Include="Criteria\Affiliate\RequestStatisticCriteria.cs" />
+    <Compile Include="Criteria\Affiliate\UpdateActiveCriteria.cs" />
+    <Compile Include="Criteria\Affiliate\UpdateAffiliateCriteria.cs" />
+    <Compile Include="Criteria\Affiliate\UpdateProfileCriteria.cs" />
+    <Compile Include="Criteria\Affiliate\UpdateSettingCriteria.cs" />
+    <Compile Include="Criteria\CompanyIP\DeleteCompanyIPCriteria.cs" />
+    <Compile Include="Criteria\CompanyIP\UpdateCompanyIPCriteria.cs" />
+    <Compile Include="Criteria\Dashboard\GetRecentActivitiesCriteria.cs" />
+    <Compile Include="Criteria\Dashboard\GetCurrentOnlineUserCriteria.cs" />
+    <Compile Include="Criteria\CompanyIP\GetAllCompanyIPCriteria.cs" />
+    <Compile Include="Criteria\CompanyIP\InsertCompanyIPsCriteria.cs" />
+    <Compile Include="Criteria\Dashboard\GetLoginInfoCriteria.cs" />
+    <Compile Include="Criteria\Dashboard\GetAccountStatisticsCriteria.cs" />
+    <Compile Include="Criteria\Domain\CreateDomainCriteria.cs" />
+    <Compile Include="Criteria\Domain\DeleteDomainCriteria.cs" />
+    <Compile Include="Criteria\Domain\UpdateDomainCriteria.cs" />
+    <Compile Include="Criteria\Domain\GetDomainByPageCriteria.cs" />
+    <Compile Include="Criteria\Domain\GetDomainSettingByPageCriteria.cs" />
+    <Compile Include="Criteria\Domain\GetTop10DomainCriteria.cs" />
+    <Compile Include="Criteria\Licensee\CheckExistLicenseeCriteria.cs" />
+    <Compile Include="Criteria\Licensee\GetProfileAllPartnersBySystemIdCriteria.cs" />
+    <Compile Include="Criteria\Licensee\GetActivateByLicenseeIDCriteria.cs" />
+    <Compile Include="Criteria\Licensee\DeleteSettingIP_LicenseeCriteria.cs" />
+    <Compile Include="Criteria\Licensee\GetLicenseeSettingByLicenseeIDCriteria.cs" />
+    <Compile Include="Criteria\Licensee\DeleteLicenseeCriteria.cs" />
+    <Compile Include="Criteria\Licensee\EditLicenseeCriteria.cs" />
+    <Compile Include="Criteria\Licensee\GetLicenseeByLicenseeIDCriteria.cs" />
+    <Compile Include="Criteria\Licensee\GetLicenseeByPageCriteria.cs" />
+    <Compile Include="Criteria\Licensee\CreateLicenseeCriteria.cs" />
+    <Compile Include="Criteria\Licensee\GetLeagueCriteria.cs" />
+    <Compile Include="Criteria\Licensee\GetOddStyleByLicenseeIDCriteria.cs" />
+    <Compile Include="Criteria\Licensee\GetOutRightCriteria.cs" />
+    <Compile Include="Criteria\Licensee\EditLicenseeInfoCriteria.cs" />
+    <Compile Include="Criteria\Licensee\EditLicenseeProfileCriteria.cs" />
+    <Compile Include="Criteria\Licensee\EditLicenseeSettingCriteria.cs" />
+    <Compile Include="Criteria\Licensee\GetLicenseeProfileByLicenseeIDCriteria.cs" />
+    <Compile Include="Criteria\Licensee\GetOptionalSystemBySubAccountIDCriteria.cs" />
+    <Compile Include="Criteria\Licensee\GetTop10LicenseeCriteria.cs" />
+    <Compile Include="Criteria\Licensee\LicenseeRequestCriteria.cs" />
+    <Compile Include="Criteria\Licensee\UpdateLicenseeActiveCriteria.cs" />
+    <Compile Include="Criteria\Licensee\UpdateSettingIP_LicenseeCriteria.cs" />
+    <Compile Include="Criteria\Misc\LogExecSpCriteria.cs" />
+    <Compile Include="Criteria\Misc\ResultCriteria.cs" />
+    <Compile Include="Criteria\Affiliate\InsertAffiliateCriteria.cs" />
+    <Compile Include="Criteria\SubAccount\AssignLicensee_SubAccCriteria.cs" />
+    <Compile Include="Criteria\SubAccount\CheckExistSubAccountCriteria.cs" />
+    <Compile Include="Criteria\SubAccount\DeleteSubAccCriteria.cs" />
+    <Compile Include="Criteria\SubAccount\EditPermissionSubAccCriteria.cs" />
+    <Compile Include="Criteria\SubAccount\GetSubAccByNameCriteria.cs" />
+    <Compile Include="Criteria\SubAccount\GetSubAccBySystemIDCriteria.cs" />
+    <Compile Include="Criteria\SubAccount\GetSystemCriteria.cs" />
+    <Compile Include="Criteria\SubAccount\GetTop10SubAccCriteria.cs" />
+    <Compile Include="Criteria\User\GetUserInfoCriteria.cs" />
+    <Compile Include="Criteria\User\UserGetPermissionCriteria.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Criteria\SubAccount\InsertSubAccCriteria.cs" />
+    <Compile Include="Criteria\SubAccount\ResetPassSubAccCriteria.cs" />
+    <Compile Include="Criteria\SubAccount\UpdateActiveSubAccCriteria.cs" />
+    <Compile Include="Criteria\SubAccount\UpdateSubAccCriteria.cs" />
+    <Compile Include="Criteria\User\UpdatePasswordUserCriteria.cs" />
+    <Compile Include="Criteria\User\UserGetProfileCriteria.cs" />
+    <Compile Include="Criteria\User\UserLoginUserCriteria.cs" />
+    <Compile Include="Criteria\User\LogOutUserCriteria.cs" />
+    <Compile Include="Criteria\User\UserReCheckInUserCriteria.cs" />
+    <Compile Include="Domain\IAdministrator.cs" />
+    <Compile Include="Domain\ILicensee.cs" />
+    <Compile Include="Domain\IAffiliate.cs" />
+    <Compile Include="Domain\IGroup.cs" />
+    <Compile Include="Domain\ISite.cs" />
+    <Compile Include="Domain\IUser.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="Helpers\DataCollection.cs" />
+    <Compile Include="Helpers\PagerList.cs" />
+    <Compile Include="Model\MissingPartnersProfile.cs" />
+    <Compile Include="Model\PartnersProfile.cs" />
+    <Compile Include="Model\OddsFeedActionResult.cs" />
+    <Compile Include="Model\Affiliate.cs" />
+    <Compile Include="Model\Licensee.cs" />
+    <Compile Include="Model\ValueObject\Bettype.cs" />
+    <Compile Include="Model\ValueObject\JSONSource.cs" />
+    <Compile Include="Model\ValueObject\Language.cs" />
+    <Compile Include="Model\ValueObject\PartnerIP.cs" />
+    <Compile Include="Model\ValueObject\PeriodType.cs" />
+    <Compile Include="Model\ValueObject\PermissionFlag.cs" />
+    <Compile Include="Model\ValueObject\RequestStatistic.cs" />
+    <Compile Include="Model\ValueObject\Sport.cs" />
+    <Compile Include="Model\ValueObject\Country.cs" />
+    <Compile Include="Model\ValueObject\DomainSetting.cs" />
+    <Compile Include="Model\ValueObject\LogUserLogin.cs" />
+    <Compile Include="Model\ValueObject\Downtime.cs" />
+    <Compile Include="Model\ValueObject\LogData.cs" />
+    <Compile Include="Model\ValueObject\LogExecSp.cs" />
+    <Compile Include="Model\ValueObject\SiteUrl.cs" />
+    <Compile Include="Model\Group.cs" />
+    <Compile Include="Model\Site.cs" />
+    <Compile Include="Model\User.cs" />
+    <Compile Include="Model\ValueObject\GroupPolicy.cs" />
+    <Compile Include="Model\ValueObject\SiteLevel.cs" />
+    <Compile Include="Model\ValueObject\TypeSetting.cs" />
+    <Compile Include="Model\ValueObject\UserLevel.cs" />
+    <Compile Include="Model\ValueObject\UserPolicy.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\Impl\AdministratorRepository.cs" />
+    <Compile Include="Repository\Impl\AffiliateRepository.cs" />
+    <Compile Include="Repository\Impl\SelectListRepository.cs" />
+    <Compile Include="Repository\Impl\LicenseeRepository.cs" />
+    <Compile Include="Repository\Impl\LanguageRepository.cs" />
+    <Compile Include="Repository\Impl\PartnerIPRepository.cs" />
+    <Compile Include="Repository\Impl\PartnerStatisticRepository.cs" />
+    <Compile Include="Repository\Impl\SportRepository.cs" />
+    <Compile Include="Repository\Impl\CountryRepository.cs" />
+    <Compile Include="Repository\Impl\DomainRepository.cs" />
+    <Compile Include="Repository\Impl\SubAccRepository.cs" />
+    <Compile Include="Repository\Impl\RepositoryBase.cs" />
+    <Compile Include="Repository\Impl\BettypeRepository.cs" />
+    <Compile Include="Repository\Impl\TypeSettingRepository.cs" />
+    <Compile Include="Repository\Impl\UserRepository.cs" />
+    <Compile Include="Repository\Interface\IAdministratorRepository.cs" />
+    <Compile Include="Repository\Interface\IBaseRepository.cs" />
+    <Compile Include="Repository\Interface\IBettypeRepository.cs" />
+    <Compile Include="Repository\Interface\IDomainRepository.cs" />
+    <Compile Include="Repository\Interface\ILicenseeRepository.cs" />
+    <Compile Include="Repository\Interface\IAffiliateRepository.cs" />
+    <Compile Include="Repository\Interface\ISubAccRepository.cs" />
+    <Compile Include="Repository\Interface\IUserRepository.cs" />
+    <Compile Include="Service\Impl\AdministratorService.cs" />
+    <Compile Include="Service\Impl\AffiliateService.cs" />
+    <Compile Include="Service\Impl\DashboardService.cs" />
+    <Compile Include="Service\Impl\DomainService.cs" />
+    <Compile Include="Service\Impl\LicenseeService.cs" />
+    <Compile Include="Service\Impl\SubAccService.cs" />
+    <Compile Include="Service\Impl\ServiceContext.cs" />
+    <Compile Include="Service\Impl\BaseService.cs" />
+    <Compile Include="Service\Impl\UserService.cs" />
+    <Compile Include="Service\Interface\IDashboardService.cs" />
+    <Compile Include="Service\Interface\IAdministratorService.cs" />
+    <Compile Include="Service\Interface\IBaseService.cs" />
+    <Compile Include="Service\Interface\IDomainService.cs" />
+    <Compile Include="Service\Interface\ILicenseeService.cs" />
+    <Compile Include="Service\Interface\IAffiliateService.cs" />
+    <Compile Include="Service\Interface\ISubAccService.cs" />
+    <Compile Include="Service\Interface\IServiceContext.cs" />
+    <Compile Include="Service\Interface\IUserService.cs" />
+    <Compile Include="Utilities.cs" />
+    <Compile Include="Web\Attribute\CompressAttribute.cs" />
+    <Compile Include="Web\Attribute\IsUnderMaintainanceAttribute.cs" />
+    <Compile Include="Web\Attribute\NapAuthAttribute.cs" />
+    <Compile Include="Web\Attribute\NapSuperAuthAttribute.cs" />
+    <Compile Include="Web\Auth\AuthInfo.cs" />
+    <Compile Include="Web\Auth\INapPrincipal.cs" />
+    <Compile Include="Web\Attribute\IsAuthorizeAttribute.cs" />
+    <Compile Include="Web\Auth\NapPrincipal.cs" />
+    <Compile Include="Web\Context\CurrentContext.cs" />
+    <Compile Include="Web\FanexGridHelper.cs" />
+    <Compile Include="Web\Session\CurrentSession.cs" />
+    <Compile Include="Web\Context\ICurrentContext.cs" />
+    <Compile Include="Web\Session\ICurrentSession.cs" />
+    <Compile Include="Web\HtmlHelperExtensions.cs" />
+    <Compile Include="Web\UrlHelperExtensions.cs" />
+    <Compile Include="Web\Validation\CollectionStringLengthAttribute.cs" />
+    <Compile Include="Web\ViewFlags.cs" />
+    <Compile Include="Web\ViewResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ViewResources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Business\LogAction.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>LogAction.cs</LastGenOutput>
+    </None>
+    <None Include="Business\FunctionKeys.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>FunctionKeys.cs</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Web\ViewResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ViewResources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Fanex.OddsFeed.Framework\Fanex.OddsFeed.Framework.csproj">
+      <Project>{6046E641-13FC-4C11-8173-0DB394F3E878}</Project>
+      <Name>Fanex.OddsFeed.Framework</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

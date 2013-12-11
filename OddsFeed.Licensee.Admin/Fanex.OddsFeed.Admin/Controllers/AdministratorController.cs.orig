@@ -1,0 +1,437 @@
+﻿// --------------------------------------------------------------------------
+// <copyright file="AdministratorController.cs" company="Nexcel Solutions Vietnam">
+// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
+// </copyright>
+// --------------------------------------------------------------------------
+// <history>
+//   <change who="Long.Luu" date="2013.03.05">Created</change>
+// </history>
+
+using System.Web.Mvc;
+using System.Web.Script.Serialization;
+using Fanex.OddsFeed.Core.Criteria.Administrator;
+using Fanex.OddsFeed.Core.Service.Impl;
+using Fanex.OddsFeed.Core.Service.Interface;
+using Fanex.OddsFeed.Core.Web;
+using System.Collections.Generic;
+using System;
+using Fanex.Logging;
+using Fanex.OddsFeed.Core;
+<<<<<<< HEAD
+using Fanex.OddsFeed.Core.Helpers;
+using System.Text;
+using System.Data;
+using Fanex.Common;
+=======
+using Nexcel.OddsFeed.Library.Attributes;
+using System.Diagnostics.CodeAnalysis;
+>>>>>>> 7ef8d2b0333df232767796efa7a760f4e8f4a5d1
+
+namespace Fanex.OddsFeed.Admin.Controllers
+{
+    [IsAuthorize]
+    [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented")]
+    public class AdministratorController : BaseController
+    {
+        #region Members
+
+        private readonly IAdministratorService _adminService;
+
+        #endregion
+
+        #region Constructors
+
+        public AdministratorController() : this(null)
+        {
+        }
+
+        public AdministratorController(IAdministratorService adminService = null)
+        {
+            _adminService = adminService ?? new AdministratorService { ServiceContext = ServiceContext };            
+        }
+
+        #endregion
+        //
+        // GET: /Administrator/
+
+        #region Add New Administrator
+        [HttpGet]
+        public ActionResult AdministratorAdd()
+        {
+            try
+            {
+                ViewBag.SportsFlag = CurrentSession.PermissionFlags.SportIDListFlag;
+                //System
+                ViewBag.SystemList = _adminService.GetSelectList(new GetSystemCriteria());
+            }
+            catch (Exception ex)
+            {
+                LogService.Error(ex.Message, ex);
+                throw ex;
+            }
+
+            return View();
+        }
+
+        [HttpPost]
+        public string AddNew(string name, string pwd, string fname, string lname, string email, int role, string system, string isimport)
+        {
+            try
+            {
+                bool Isimport = isimport == "1" ? false : true;
+
+                // hash password incase of add new
+                string password = pwd;
+                if (!Isimport)
+                {
+                    password = Cryptography.CfsEnCode(password);
+                }
+
+                var criteria = new InsertAdminCriteria
+                {
+                    UserName = name,
+                    Password = password,
+                    FirstName = fname,
+                    LastName = lname,
+                    Email = email,
+                    System = system,
+                    RoleID = role,
+                    IsImport = Isimport,
+                    Creator = CurrentSession.UserId,
+                    IP = CurrentContext.IP
+                };
+
+                var result = _adminService.InsertAdmin(criteria);
+
+                if (result != null && result.IsSuccessful)
+                {
+                    ViewBag.Success = true;
+                    return "Successfully!";
+                }
+                else
+                {
+                    return result.Message;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                LogService.Error(ex.Message, ex);
+                throw ex;
+            }
+        }
+
+        #endregion
+
+        # region Administrator List
+        public ActionResult AdministratorList()
+        {
+            try
+            {
+                //System
+                var temp = (List<SelectListItem>)_adminService.GetSelectList("Odds_System_Sel");
+                temp.Insert(0, new SelectListItem { Selected=true, Text="All", Value="0" });
+                ViewBag.SystemList = temp;
+
+                //Role
+                var tempRole = (List<SelectListItem>)_adminService.GetSelectList("Odds_Role_Sel");
+                tempRole.Insert(0, new SelectListItem { Selected = true, Text = "All", Value = "0" });
+                ViewBag.RoleList = tempRole;
+            }
+            catch (Exception ex)
+            {
+                LogService.Error(ex.Message, ex);
+                throw ex;
+            }
+
+            return View();
+        }
+
+        [HttpPost]
+        public string GetListAdminBySystemAndNameAndRole(GetAdminCriteria criteria)
+        {
+            criteria.PageIndex++;
+            var dr = _adminService.GetAdminListReturnDataCollection(criteria);
+            return FanexGridHelper.DataForFanexGrid(dr);
+        }
+        #endregion
+
+        #region Update Active status
+        [HttpPost]
+        public string UpdateActive(int adminid, bool isactive)
+        {
+            try
+            {
+                var criteria = new DeleteAdministratorCriteria
+                {
+                    adminID = adminid,
+                    Isactive = isactive
+                };
+                
+                var result = _adminService.UpdateAdmin(criteria);
+
+                if (result != null && result.IsSuccessful)
+                {
+                    return "Successfully!";
+                }
+                else
+                {
+                    return result.Message;
+                }
+            }
+            catch (Exception ex)
+            {
+                LogService.Error(ex.Message, ex);
+                throw ex;
+            }
+        }
+
+        #endregion
+
+        #region Update administrator's profile information
+        [HttpGet]
+        public ActionResult AdministratorEditProfile(int id, string username, int role, string fname, string lname, string email)
+        {
+            try
+            {
+                var criteria = new UpdateAdminInfoCriteria
+                {
+                    UserID = id,
+                    Username = username,
+                    RoleID = role,
+                    FirstName = fname,
+                    LastName = lname,
+                    Email = email
+                };
+
+                return View(criteria);
+            }
+            catch (Exception ex)
+            {
+                LogService.Error(ex.Message, ex);
+                throw ex;
+            }
+        }
+
+        [HttpPost]
+        public ActionResult AdministratorEditProfile(string id, string username, string firstname, string lastname, string email, int role)
+        {
+            try
+            {
+                var criteria = new UpdateAdminInfoCriteria
+                {
+                    UserID = int.Parse(id),
+                    Username = username,
+                    FirstName = firstname,
+                    LastName = lastname,
+                    Email = email,
+                    RoleID = role,
+                    Creator = CurrentSession.UserId,
+                    IP = CurrentContext.IP
+                };
+
+                var result = _adminService.UpdateAdminInfo(criteria);
+
+                if (result != null && result.IsSuccessful)
+                {
+                    ViewBag.Success = true;
+                }
+                return View(criteria);
+
+            }
+            catch (Exception ex)
+            {
+                LogService.Error(ex.Message, ex);
+                throw ex;
+            }
+        }
+
+        #endregion
+
+        #region Update administrator's system info
+        [HttpGet]
+        public ActionResult AdministratorEditSystem(int id)
+        {
+            try
+            {
+                ViewBag.SportsFlag = CurrentSession.PermissionFlags.SportIDListFlag;
+                //System
+                IEnumerable<SelectListItem> systemList = new List<SelectListItem>();
+                systemList = _adminService.GetSystemByUserId(id);
+                ViewBag.SystemListID = systemList;
+
+                var criteria = new UpdateAdminSystemCriteria
+                {
+                    UserID = id
+                };
+
+                return View(criteria);
+            }
+            catch (Exception ex)
+            {
+                LogService.Error(ex.Message, ex);
+                throw ex;
+            }
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AdministratorEditSystem(UpdateAdminSystemCriteria criteria)
+        {
+            try
+            {
+                criteria.Creator = CurrentSession.UserId;
+                criteria.IP = CurrentContext.IP;
+
+                var result = _adminService.UpdateAdminSystem(criteria);
+
+                if (result != null && result.IsSuccessful)
+                {
+                    ViewBag.Success = true;
+                }
+                IEnumerable<SelectListItem> systemList = new List<SelectListItem>();
+                systemList = _adminService.GetSelectList(new GetSystemCriteria());
+                ViewBag.SystemListID = systemList;
+                return View(criteria);
+                
+
+            }
+            catch (Exception ex)
+            {
+                LogService.Error(ex.Message, ex);
+                throw ex;
+            }
+            return View();
+        }
+        #endregion
+
+        #region import existed admin
+
+        [HttpPost]
+        public string ListExistedAdmin(string username)
+        {
+            var criteria = new GetTop10AdminCriteria
+            {
+                Username = username
+            };
+
+            var top10AdminDc = _adminService.GetTop10AdminReturnDataSet(criteria);
+
+            return DataForAutoComplete(top10AdminDc);
+        }
+
+        public string DataForAutoComplete(DataSet dc)
+        {
+            StringBuilder builder = new StringBuilder();
+            //builder.Append("[");
+
+            foreach (DataRow row in dc.Tables[0].Rows)
+            {
+                //builder.Append("\"");
+                builder.Append(row["username"].ToString());
+                //builder.Append("\"");
+                builder.Append(",");
+            }
+            builder.Remove(builder.Length - 1, 1);
+            //builder.Append("]");
+
+            return builder.ToString();
+        }
+
+        [HttpPost]
+        public string GetExistedAdmin(string username)
+        {
+            try
+            {
+                ViewBag.SportsFlag = CurrentSession.PermissionFlags.SportIDListFlag;
+                var criteria = new GetExistedAdminCriteria
+                {
+                    Username = username
+                };
+                var result = _adminService.GetExistedAdminDataSet(criteria);
+
+                if (result.Tables.Count != 0)
+                {
+                    string resultStr = result.Tables[0].Rows[0]["username"].ToString();
+                    resultStr += "," + result.Tables[0].Rows[0]["firstname"].ToString();
+                    resultStr += "," + result.Tables[0].Rows[0]["lastname"].ToString();
+                    resultStr += "," + result.Tables[0].Rows[0]["email"].ToString();
+                    resultStr += "," + result.Tables[0].Rows[0]["password"].ToString();
+                    resultStr += "," + result.Tables[0].Rows[0]["roleid"].ToString();
+                
+                    ViewBag.Success = true;
+                    return resultStr;
+                }
+                else
+                {
+                    return "Failed!";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                LogService.Error(ex.Message, ex);
+                throw ex;
+            }
+        }
+        #endregion
+
+        #region reset administrator's password
+        [HttpGet]
+        public ActionResult AdministratorResetPwd(int id)
+        {
+            try
+            {
+                var criteria = new UpdateAdminPasswordCriteria
+                {
+                    UserID = id
+                };
+
+                return View(criteria);
+            }
+            catch (Exception ex)
+            {
+                LogService.Error(ex.Message, ex);
+                throw ex;
+            }
+        }
+
+        [HttpPost]
+        public ActionResult AdministratorResetPwd(UpdateAdminPasswordCriteria criteria)
+        {
+            try
+            {                
+                if (criteria.Password != criteria.ConfirmPassword)
+                {
+                    ViewBag.Error = "The passwords do not match.";
+                }
+                else if (criteria.Password.Length > 50 || criteria.Password.Length < 6)
+                {
+                    ViewBag.Error = "The password field must be at leat 6 and maximum 50 characters long.";
+                }
+                else
+                {
+                    criteria.Password = Cryptography.CfsEnCode(criteria.Password);
+                    criteria.Creator = CurrentSession.UserId;
+                    criteria.IP = CurrentContext.IP;
+
+                    var result = _adminService.UpdateAdminPassword(criteria);
+
+                    if (result != null && result.IsSuccessful)
+                    {
+                        ViewBag.Success = true;
+                    }
+                }
+
+                return View(criteria);
+            }
+            catch (Exception ex)
+            {
+                LogService.Error(ex.Message, ex);
+                throw ex;
+            }
+        }
+        #endregion
+    }
+}

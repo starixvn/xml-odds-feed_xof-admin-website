@@ -1,0 +1,42 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+    <link rel="Stylesheet" type="text/css" href="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/App_Themes/Default/LoginCss")" />
+</head>
+<body>
+    <div class="lgbox">
+        <div class="lgright">&nbsp;</div>
+        <div class="lgcontent">
+            <div class="row line">
+                <span class="icadmin">&nbsp;</span> 
+                <label class="tit">ADMIN LOGIN</label>
+            </div>
+            <div class="row">
+                <div class="grid3"><span class="icuser">&nbsp;</span><label>USERNAME</label> </div>
+                <div class="grid5"><input type="text" id="username" /></div>
+            </div>
+            <div class="row">
+                <div class="grid3"><span class="icpass">&nbsp;</span><label>PASSWORD </label> </div>
+                <div class="grid5"><input type="password" id="password" /></div>
+            </div>
+            
+            <div class="row">
+                <div class="grid3">&nbsp;</div>
+                <div class="grid5"><input type="text" style="width: 100px;" />&nbsp;<img src="@Url.Content("~/App_Themes/Default/Images/LoginCaptcha.jpg")" width="40px" height="20px" /> &nbsp;<span class="icrefresh" onclick="void();">&nbsp;</span></div>
+            </div>
+            <div class="row">
+                <div class="grid3">&nbsp;</div>
+                <div class="grid5"><input type="submit" id="submit" value="Login" /></div>
+            </div>
+            
+        </div>
+    </div>
+</body>
+</html>

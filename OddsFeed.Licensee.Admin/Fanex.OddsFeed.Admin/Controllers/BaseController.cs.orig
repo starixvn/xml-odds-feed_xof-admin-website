@@ -1,0 +1,176 @@
+﻿// --------------------------------------------------------------------------
+// <copyright file="IDomainService.cs" company="Nexcel Solutions Vietnam">
+// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
+// </copyright>
+// --------------------------------------------------------------------------
+// <history>
+//   <change who="Thai.Tran" date="2013.1.7">Created</change>
+// </history>
+
+namespace Fanex.OddsFeed.Admin.Controllers
+{
+    using System.Diagnostics.CodeAnalysis;
+    using System.Web.Mvc;    
+    using System.Configuration;
+    using Fanex.OddsFeed.Core.Web.Context;
+    using Fanex.OddsFeed.Core.Web.Session;
+    using Fanex.OddsFeed.Core.Service.Interface;
+    using Fanex.OddsFeed.Core.Service.Impl;
+    using Resources;
+    using System;
+    using Fanex.OddsFeed.Core.Criteria.User;
+    using Nexcel.OddsFeed.Library.Attributes;
+    //using Fanex.OddsFeed.Core.Configuration;
+    using Fanex.NAP.Core.Web;
+    using Fanex.NAP.Core.Configuration;
+    using System.Data;
+<<<<<<< HEAD
+    using System.Text;    
+    using System.Collections.Generic;
+    using Fanex.OddsFeed.Core.Model.ValueObject;
+    
+=======
+    using System.Text;
+
+>>>>>>> ac99394aff311a6ed708fde6c38f94208e7580c7
+    [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented")]
+    public class BaseController : Controller
+    {
+
+        protected readonly string Environment = NapSettings.Settings.Environment;
+
+        protected readonly int SiteId = NapSettings.Settings.SiteId;
+
+        private int _issiteLogin = NapSettings.Settings.IsSiteLogin;
+
+        protected const string EmptyString = "";
+
+        protected const int NapAdminId = 1;
+
+        protected readonly ICurrentContext CurrentContext;
+
+        protected readonly ICurrentSession CurrentSession;
+
+        protected readonly IServiceContext ServiceContext;
+
+        private ViewFlags _viewFlags;
+
+        protected ViewFlags ViewFlags
+        {
+            get
+            {
+                return ViewBag.ViewFlags;
+            }
+
+            set
+            {
+                ViewBag.ViewFlags = _viewFlags = value;
+            }
+        }
+        
+        public BaseController()
+        {            
+            CurrentContext = new CurrentContext();
+            ViewBag.Session = CurrentSession = new CurrentSession();
+            ViewBag.CurrentDomain = this.CurrentContext.FullDomainName;
+            ServiceContext = new ServiceContext
+            {
+                UserId = this.CurrentSession.UserId,                
+                SystemId = this.CurrentSession.SystemId,
+                Ip = this.CurrentContext.IP
+            };
+
+            ViewFlags = new ViewFlags
+            {
+                IsReCheckin = NapSettings.Settings.ReCheckIn
+            };
+
+            ViewBag.MinDate = new DateTime(2000, 1, 1);
+            ViewBag.MaxDate = DateTime.Now;
+
+            ViewBag.CurrentTheme = "Default";
+
+            ViewBag.NavigationHome = "<a class='step' href='" + ViewBag.CurrentDomain + "/Affiliate/List'><span class='xicon home'></span>Home</a>";
+        }
+
+        /// <summary>
+        /// Get Error Message in Resource by ErrorCode
+        /// </summary>
+        /// <param name="ErrCode">Error code</param>
+        /// <returns></returns>
+        public string GetMessage(int ErrCode)
+        {
+            var msg = Resources.Lang.ResourceManager.GetString("Msg" + ErrCode.ToString());
+            return msg ?? ErrCode.ToString();
+        }
+
+        [HttpGet]
+        public ActionResult Home(byte systemId = 0)
+        {
+
+            if (systemId != 0 && CurrentSession.SystemId != systemId)
+            {
+                CurrentSession.SystemId = systemId;
+                ServiceContext.SystemId = systemId;
+
+                var criteriaProfile = new UserGetPermissionCriteria
+                {
+                    UserID = CurrentSession.UserId,
+                    SystemID = CurrentSession.SystemId,
+                    IP = CurrentContext.IP                    
+                };
+
+                var _userService = new UserService();
+                var flags = _userService.GetPermissionFlags(ref criteriaProfile);
+
+                //update permission flags
+                CurrentSession.PermissionFlags.NumberOfIPs = flags.NumberOfIPs;
+                CurrentSession.PermissionFlags.OddsTypeFlag = flags.OddsTypeFlag;
+                CurrentSession.PermissionFlags.OddsStyleFlag = flags.OddsStyleFlag;
+                CurrentSession.PermissionFlags.LanguageListFlag = flags.LanguageListFlag;
+                CurrentSession.PermissionFlags.SportIDListFlag = flags.SportIDListFlag;
+                CurrentSession.PermissionFlags.CountryCodeListFlag = flags.CountryCodeListFlag;
+                CurrentSession.PermissionFlags.BetTypeIDListFlag = flags.BetTypeIDListFlag;
+
+            }
+            
+            if (CurrentSession.ActionName.ToLower().Contains("edit"))
+            {
+                return RedirectToAction(CurrentSession.ActionName, CurrentSession.ControllerName, new { id = 0 });
+            }
+            else
+            {
+                return RedirectToAction(CurrentSession.ActionName, CurrentSession.ControllerName);
+            }
+        }
+
+        public string DataForAutoComplete(DataTable dt, string fieldName)
+        {
+            StringBuilder builder = new StringBuilder();            
+
+            foreach (DataRow row in dt.Rows)
+            {                
+                builder.Append(row[fieldName].ToString());             
+                builder.Append(",");
+            }              
+
+            return builder.ToString();
+        }
+
+        public JsonResult JsonForAutoComplete(DataTable dt, string valueName, string labelName)
+        {
+            List<JSONSource> list = new List<JSONSource>();
+
+            foreach (DataRow row in dt.Rows)
+            {
+                var data = new JSONSource();
+                data.value = row[valueName].ToString();
+                data.label = row[labelName].ToString();
+
+                list.Add(data);
+            }            
+
+            return Json(list);            
+        }
+    }
+}

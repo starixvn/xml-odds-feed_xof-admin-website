@@ -1,0 +1,45 @@
+﻿@using Fanex.OddsFeed.Core.Web
+@using Fanex.OddsFeed.Core
+@using System.Web.Optimization
+@model Fanex.OddsFeed.Core.Criteria.Affiliate.GetAffiliateByNameCriteria
+@{
+    ViewBag.Title = "Affiliate List";    
+    ViewBag.Nav = base.ViewBag.NavigationHome +                     
+                         "<span class='step'>" + ViewBag.Title + "</span>";
+    
+}
+@section Breadcrumb {
+    @Html.Raw(ViewBag.Nav)
+    @*<a class="step" href="#!">Home</a> <span class="step">@ViewBag.Title</span>*@    
+}
+@section Styles
+{
+    <link rel="Stylesheet" type="text/css" href="@BundleTable.Bundles.ResolveBundleUrl("~/App_Themes/Default/Fanex.Grid/Fanex.GridCss")" />
+    <link rel="Stylesheet" type="text/css" href="@BundleTable.Bundles.ResolveBundleUrl("~/App_Themes/Default/Affiliate/AffiliateCss")" />
+}
+@section Scripts
+{
+    <script src="@BundleTable.Bundles.ResolveBundleUrl("~/Scripts/Fanex.Grid/Fanex.GridJs")"></script>
+    <script src="~/Scripts/Affiliate/CommonAffiliate.js" type="text/javascript"></script>
+    <script src="~/Scripts/Affiliate/EditAffiliate.js" type="text/javascript"></script>
+    <script src="~/Scripts/Affiliate/AffiliateList.js" type="text/javascript"></script>
+}
+
+<div class="infor">
+    <span class="infor-ic">&nbsp;</span><span class="infor-text">The list of @(ViewBag.SystemName)'s affiliates.</span></div>
+<div class="newline">
+    &nbsp;</div>
+<form id="myForm" method="get" action="">
+<div class="formSearch">
+    @Html.HiddenFor(s => s.PageSize)
+    @Html.HiddenFor(s => s.PageIndex)
+    @Html.HiddenFor(s => s.PageCount)
+    @Html.TextBoxFor(s => s.UserName, new {@id = "Username", @maxlength = 50, @onkeyup="StartAutoSuggesttion()" })
+    <input type="hidden" id="IsActivateSystem" value="@ViewBag.IsActivateSystem" />
+    <input type="button" value="Search" onclick="OnSearch();" />
+</div>
+</form>
+<div class="newline">
+    &nbsp;</div>
+<div id="SearchResult" class="freegrid  content-grid">
+</div>

@@ -1,0 +1,41 @@
+// --------------------------------------------------------------------------
+// <copyright file="CreateDomainCriteria.cs" company="Nexcel Solutions Vietnam">
+// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
+// </copyright>
+// --------------------------------------------------------------------------
+// <history>
+//   <change who="Phillip.Truong" date="2013.02.22">Created</change>
+// </history>
+
+namespace Fanex.OddsFeed.Core.Criteria.Domain
+{
+    using System;
+    using Fanex.OddsFeed.Framework.Data;
+
+    /// <summary>
+    /// Class CreateDomainCriteria.
+    /// </summary>
+    public class CreateDomainCriteria : CriteriaBase
+    {
+        public short DomainID { get; set; }
+
+        public string DomainName { get; set; }
+
+        public string IP { get; set; }
+
+        public string ISP { get; set; }
+
+        public int Creator { get; set; }
+
+        public string CurrentIP { get; set; }
+
+        public int ErrCode { get; set; }
+
+        public string ErrMsg { get; set; }
+
+        public override string GetSettingKey()
+        {
+            return "Odds_DomainIns";
+        }
+    }
+}

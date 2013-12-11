@@ -1,0 +1,441 @@
+﻿// --------------------------------------------------------------------------
+// <copyright file="GetSportBySystemIDCriteria.cs" company="Nexcel Solutions Vietnam">
+// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
+// </copyright>
+// --------------------------------------------------------------------------
+// <history>
+//   <change who="Phillip.Truong" date="2013.2.7">Created</change>
+// </history>
+
+using System.Web.Mvc;
+using System.Web.Script.Serialization;
+using Fanex.OddsFeed.Core.Criteria.Licensee;
+using Fanex.OddsFeed.Core.Service.Impl;
+using Fanex.OddsFeed.Core.Service.Interface;
+using Fanex.OddsFeed.Core.Web;
+using Fanex.OddsFeed.Core;
+using System.Collections.Generic;
+using System.Linq;
+using Fanex.OddsFeed.Core.Criteria.Affiliate;
+using Fanex.OddsFeed.Framework.Data;
+using System.Data;
+using Fanex.OddsFeed.Core.Model;
+using System;
+using Fanex.Logging;
+
+namespace Fanex.OddsFeed.Admin.Controllers
+{
+    public class LicenseeController : BaseController
+    {
+        #region Members
+
+        private readonly ILicenseeService _licenseeService;
+        private readonly IAffiliateService _affiliateService;
+
+        #endregion
+
+        #region Constructors
+
+        public LicenseeController()
+            : this(null, null)
+        {
+        }
+
+        public LicenseeController(ILicenseeService licenseeService = null, IAffiliateService affiliateService = null)
+        {
+            _licenseeService = licenseeService ?? new LicenseeService { ServiceContext = ServiceContext };
+            _affiliateService = affiliateService ?? new AffiliateService { ServiceContext = ServiceContext };
+        }
+
+        #endregion
+
+        //
+        // GET: /Licensee/
+
+        public ActionResult ListLicensee()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// Add Licensee Controller
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult Add()
+        {
+            //OddsType
+            ViewBag.OddsTypeList = _licenseeService.GetSelectList(new GetTypeSettingCriteria
+            {
+                SystemID = 0,
+                Type = "OddsType"
+            }, false);
+
+            //OddsStyle
+            ViewBag.OddsStyleList = _licenseeService.GetSelectList(new GetTypeSettingCriteria
+            {
+                SystemID = 0,
+                Type = "OddsRegion"
+            }, false);
+
+            //Domain
+            ViewBag.DomainList = _licenseeService.GetSelectList(new GetAllDomainCriteria
+            {
+                SystemID = 0,
+                IsActive = null,
+                IsOddsDomain = null
+            });
+
+            //Market
+            ViewBag.BettypesList = _licenseeService.GetSelectList(new GetSupportedBettypeCriteria());
+
+            //Country
+            ViewBag.CountriesList = _licenseeService.GetSelectList(new GetAllCountryCriteria());
+
+            //Sport
+            ViewBag.SportList = _licenseeService.GetSelectList(new GetSupportedSportCriteria());
+
+            //Language
+            ViewBag.LanguageIDList = _licenseeService.GetSelectList(new GetAllLanguageCriteria());
+
+            // Licensees
+            ViewBag.LicenseesList = _licenseeService.GetSelectList("Odds_LicenseeSel");
+            var criteria = new CreateLicenseeCriteria();
+            return View(criteria);
+        }
+
+        public ActionResult GetLeague(GetLeagueCriteria criteria)
+        {
+            ViewBag.LeagueList = _licenseeService.GetSelectList(criteria);
+
+            return PartialView("_LeaguePartialView");
+        }
+
+        public ActionResult GetOutright(GetOutRightCriteria criteria)
+        {
+            ViewBag.OutrightList = _licenseeService.GetSelectList(criteria);
+
+            return PartialView("_OutRightPartialView");
+        }
+
+        public string GetLicenseeByName(GetLicenseeByPageCriteria criteria)
+        {
+            criteria.PageIndex++;
+            if (criteria.SystemName == null)
+            {
+                criteria.SystemName = string.Empty;
+            }
+
+            var dr = _licenseeService.GetData(criteria);
+            return FanexGridHelper.DataForFanexGrid(dr);
+        }
+
+        public int CreateLicensee(CreateLicenseeCriteria criteria)
+        {
+            if (!criteria.AddExistingLicensee)
+            {
+                criteria.LicenseeID = 0;
+            }
+
+            criteria.Creator = CurrentSession.UserId;
+            criteria.IP = CurrentContext.IP;
+            var res = _licenseeService.UpdateData(criteria);
+            return (int)res.Code;
+        }
+
+        public int EditLicensee(EditLicenseeCriteria criteria)
+        {
+            criteria.Creator = CurrentSession.UserId;
+            criteria.IP = CurrentContext.IP;
+            var res = _licenseeService.UpdateData(criteria);
+            return (int)res.Code;
+        }
+
+        public int EditActive(UpdateLicenseeActiveCriteria criteria)
+        {
+            criteria.Creator = CurrentSession.UserId;
+            criteria.IP = CurrentContext.IP;
+            var res = _licenseeService.UpdateData(criteria);
+            return (int)res.Code;
+        }
+
+        public int DeleteLicensee(DeleteLicenseeCriteria criteria)
+        {
+            criteria.Creator = CurrentSession.UserId;
+            criteria.IP = CurrentContext.IP;
+            var res = _licenseeService.UpdateData(criteria);
+            return (int)res.Code;
+        }
+
+
+        [HttpGet]
+        public ActionResult EditLicenseeInfo(EditLicenseeInfoCriteria criteria)
+        {
+            var licensee = _licenseeService.GetDataSet(new GetLicenseeByLicenseeIDCriteria() { SystemID = criteria.SystemID });
+            criteria.SystemName = licensee.Tables[0].Rows[0]["SystemName"].ToString();
+            criteria.LicenseeID = int.Parse(licensee.Tables[0].Rows[0]["LicenseeID"].ToString());
+            criteria.IsActive = bool.Parse(licensee.Tables[0].Rows[0]["IsActive"].ToString());
+            criteria.AddExistingLicensee = criteria.LicenseeID != 0;
+            // Licensees
+            ViewBag.LicenseesList = _licenseeService.GetSelectList("Odds_LicenseeSel");
+
+            return View(criteria);
+        }
+
+        [HttpPost]
+        public int EditLicenseeInfoPost(EditLicenseeInfoCriteria criteria)
+        {
+            if (!criteria.AddExistingLicensee)
+            {
+                criteria.LicenseeID = 0;
+            }
+
+            criteria.Creator = CurrentSession.UserId;
+            criteria.IP = CurrentContext.IP;
+            var res = _licenseeService.UpdateData(criteria);
+            return (int)res.Code;
+        }
+
+        [HttpGet]
+        public ActionResult EditSetting(EditLicenseeSettingCriteria criteria)
+        {
+            var licensee = _licenseeService.GetDataSet(new GetLicenseeSettingByLicenseeIDCriteria() { SystemID = criteria.SystemID });
+            var listIPFrom = "";
+            var listIPTo = "";
+            foreach (DataRow row in licensee.Tables[0].Rows) 
+            {
+                listIPFrom += row["IPFrom"].ToString() + ",";
+                listIPTo += row["IPTo"].ToString() + ",";
+            }
+
+            criteria.ListIPFrom = listIPFrom.Trim(',');
+            criteria.ListIPTo = listIPTo.Trim(',');
+
+            //Domain
+            var selectedDomains = _licenseeService.GetSelectList(new GetDomainBySystemIDCriteria
+            {
+                SystemID = (byte)criteria.SystemID
+            });
+
+            ViewBag.SelectedDomainList = selectedDomains;
+
+            ViewBag.DomainList = _licenseeService.GetSelectList(new GetAllDomainCriteria
+            {
+                SystemID = 0,
+                IsActive = null,
+                IsOddsDomain = null
+            }).Where(d => !selectedDomains.Any(s => s.Value == d.Value));
+
+            return View(criteria);
+        }
+
+        [HttpPost]
+        public int EditSettingPost(EditLicenseeSettingCriteria criteria)
+        {
+            criteria.Creator = CurrentSession.UserId;
+            criteria.IP = CurrentContext.IP;
+            var res = _licenseeService.UpdateData(criteria);
+            return (int)res.Code;
+        }
+
+        [HttpGet]
+        public ActionResult EditProfile(EditLicenseeProfileCriteria criteria)
+        {
+
+            var licensee = _licenseeService.GetDataSet(new GetLicenseeProfileByLicenseeIDCriteria() { SystemID = criteria.SystemID });
+            criteria.BettypeIDList = licensee.Tables[0].Rows[0]["BettypeIDList"].ToString();
+            criteria.BettypeIDListFlag = bool.Parse(licensee.Tables[0].Rows[0]["BettypeIDListFlag"].ToString());
+            criteria.CountryCodeList = licensee.Tables[0].Rows[0]["CountryCodeList"].ToString();
+            criteria.CountryCodeListFlag = bool.Parse(licensee.Tables[0].Rows[0]["CountryCodeListFlag"].ToString());
+            criteria.DelayTimes = licensee.Tables[0].Rows[0]["DelayTimes"].ToString();
+            criteria.DelayTimesFlag = bool.Parse(licensee.Tables[0].Rows[0]["DelayTimesFlag"].ToString());
+            criteria.LanguageList = licensee.Tables[0].Rows[0]["LanguageList"].ToString();
+            criteria.LanguageListFlag = bool.Parse(licensee.Tables[0].Rows[0]["LanguageListFlag"].ToString());
+            criteria.LeagueIDList = licensee.Tables[0].Rows[0]["LeagueIDList"].ToString();
+            criteria.LeagueIDListFlag = bool.Parse(licensee.Tables[0].Rows[0]["LeagueIDListFlag"].ToString());
+            criteria.LeagueKeyword = licensee.Tables[0].Rows[0]["LeagueKeyword"].ToString();
+            criteria.LeagueKeyword_O = licensee.Tables[0].Rows[0]["LeagueKeyword_O"].ToString();
+            criteria.LeagueKeyword_OFlag = bool.Parse(licensee.Tables[0].Rows[0]["LeagueKeyword_OFlag"].ToString());
+            criteria.LeagueKeywordFlag = bool.Parse(licensee.Tables[0].Rows[0]["LeagueKeywordFlag"].ToString());
+            criteria.OddsRegion = licensee.Tables[0].Rows[0]["OddsRegion"].ToString();
+            criteria.OddsRegionFlag = bool.Parse(licensee.Tables[0].Rows[0]["OddsRegionFlag"].ToString());
+            criteria.OddsType = licensee.Tables[0].Rows[0]["OddsType"].ToString();
+            criteria.OddsTypeFlag = bool.Parse(licensee.Tables[0].Rows[0]["OddsTypeFlag"].ToString());
+            //criteria.OutRightIDList = licensee.Tables[0].Rows[0]["OutRightIDList"].ToString();
+            criteria.SportIDList = licensee.Tables[0].Rows[0]["SportIDList"].ToString();
+            criteria.SportIDListFlag = bool.Parse(licensee.Tables[0].Rows[0]["SportIDListFlag"].ToString());
+
+            var leaguesOutrightIDList = criteria.LeagueIDList.ToString().Split(';');
+            if (leaguesOutrightIDList.Length == 2)
+            {
+                criteria.LeagueIDList = leaguesOutrightIDList[0];
+                criteria.OutRightIDList = leaguesOutrightIDList[1];
+            }
+
+            //OddsType
+            ViewBag.OddsTypeList = _licenseeService.GetSelectList(new GetTypeSettingCriteria
+            {
+                SystemID = 0,
+                Type = "OddsType"
+            }, false);
+
+            //OddsStyle
+            ViewBag.OddsStyleList = _licenseeService.GetSelectList(new GetTypeSettingCriteria
+            {
+                SystemID = 0,
+                Type = "OddsRegion"
+            }, false);
+
+            //Market
+            ViewBag.BettypesList = _licenseeService.GetSelectList(new GetSupportedBettypeCriteria());
+
+            //Country
+            ViewBag.CountriesList = _licenseeService.GetSelectList(new GetAllCountryCriteria());
+
+            //Sport
+            ViewBag.SportList = _licenseeService.GetSelectList(new GetSupportedSportCriteria());
+
+            //League
+            ViewBag.LeagueList = _licenseeService.GetSelectList(new GetLeagueCriteria() { SportIDList = criteria.SportIDList, CountryCodeList = criteria.CountryCodeList });
+
+            //OutRights
+            ViewBag.OutrightList = _licenseeService.GetSelectList(new GetOutRightCriteria() { SportIDList = criteria.SportIDList, CountryCodeList = criteria.CountryCodeList });
+
+            //Language
+            ViewBag.LanguageIDList = _licenseeService.GetSelectList(new GetAllLanguageCriteria());
+
+            // Licensees
+            ViewBag.LicenseesList = _licenseeService.GetSelectList("Odds_LicenseeSel");
+            return View(criteria);
+        }
+
+        [HttpPost]
+        public int EditProfilePost(EditLicenseeProfileCriteria criteria)
+        {
+            criteria.Creator = CurrentSession.UserId;
+            criteria.IP = CurrentContext.IP;
+            var res = _licenseeService.UpdateData(criteria);
+            return (int)res.Code;
+        }
+
+<<<<<<< Updated upstream
+        //[HttpGet]
+        //public ActionResult Requests()
+        //{
+        //    try
+        //    {
+        //        //Add "All"  to LicenseeCombo
+        //        SelectListItem itemNew = new SelectListItem();
+        //        itemNew.Text = "All";
+        //        itemNew.Value = "0";
+        //        IList<SelectListItem> licenseeList = _licenseeService.GetAllLicensee().ToList();
+        //        licenseeList.Insert(0, itemNew);
+
+        //        ViewBag.LicenseeList = licenseeList;
+
+        //        var model = new LicenseeRequestCriteria();
+        //        return View("LicenseeRequest", model);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        LogService.Error(ex.Message, ex);
+        //        throw ex;
+        //    }
+        //}
+=======
+        [HttpGet]
+        public ActionResult Requests()
+        {
+            try
+            {
+                //Add "All"  to LicenseeCombo
+                SelectListItem itemNew = new SelectListItem();
+                itemNew.Text = "All";
+                itemNew.Value = "0";
+                IList<SelectListItem> licenseeList = _licenseeService.GetSelectList(new GetLicenseeByPageCriteria() { SystemName="", PageIndex=0, PageSize=9999 }).ToList();
+                licenseeList.Insert(0, itemNew);
+
+                ViewBag.LicenseeList = licenseeList;
+
+                var model = new LicenseeRequestCriteria();
+                return View("LicenseeRequest", model);
+            }
+            catch (Exception ex)
+            {
+                LogService.Error(ex.Message, ex);
+                throw ex;
+            }
+        }
+>>>>>>> Stashed changes
+
+        public string GetAllLicenseeRequest(LicenseeRequestCriteria criteria)
+        {
+            try
+            {                
+                criteria.PageIndex++;
+
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                var dr = _licenseeService.GetAllLicenseeRequestReturnDataCollection(criteria);
+
+                return FanexGridHelper.DataForFanexGrid(dr);
+            }
+            catch (Exception ex)
+            {
+                LogService.Error(ex.Message, ex);
+                throw ex;
+            }
+        }
+
+        public string GetLicenseeRequestsDetail(RequestStatisticCriteria _criteria, string date, int year)
+        {
+            try
+            {
+                DateTime dateStart = new DateTime();
+                DateTime dateEnd = new DateTime();
+
+                switch (_criteria.PeriodOption.ToString())
+                {
+                    case "Week":
+                        DateTime dt = new DateTime(year, 1, 1).AddDays((int.Parse(date) - 1) * 7 - (int.Parse(date) == 1 ? 0 : 1));
+                        dt = dt.AddDays(-(int)dt.DayOfWeek);
+
+                        dateStart = dt.AddDays(1);
+                        dateEnd = dt.AddDays(7);
+
+                        break;
+                    case "Year":
+                        dateStart = DateTime.Parse(date);
+                        dateEnd =  DateTime.Parse(date).AddMonths(1).AddDays(-1); //get last day of month
+                        break;
+
+                    default:
+                        dateStart = DateTime.Parse(date);
+                        dateEnd = DateTime.Parse(date);
+                        break;
+                }
+
+                var criteria = new RequestStatisticCriteria()
+                {
+                    SystemId = _criteria.SystemId,
+                    DateStart = dateStart,
+                    DateEnd = dateEnd,
+                    PageSize  = _criteria.PageSize,
+                    PageIndex = _criteria.PageIndex
+
+                };
+               
+                criteria.PageIndex++;
+
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                var dr = _affiliateService.GetPartnerRequestStatisticReturnDataCollection(criteria);
+
+                return FanexGridHelper.DataForFanexGrid(dr);
+            }
+            catch (Exception ex)
+            {
+                LogService.Error(ex.Message, ex);
+                throw ex;
+            }
+        }        
+    }
+}

@@ -1,0 +1,210 @@
+﻿@using Fanex.OddsFeed.Core.Web
+@using Fanex.OddsFeed.Core
+@model Fanex.OddsFeed.Core.Criteria.Affiliate.UpdateProfileCriteria
+@{
+    ViewBag.Title = "Edit Affiliate Odds Profile";
+    ViewBag.Nav = base.ViewBag.NavigationHome +
+                         "<a class='step' href='" + base.ViewBag.CurrentDomain + "/Affiliate/List'>Affiliate list</a>" +
+                         "<span class='step'>" + ViewBag.Title + ViewBag.CurrentUser + "</span>";
+    
+}
+@section Breadcrumb {
+    @Html.Raw(ViewBag.Nav)
+}
+@section Styles
+{
+    <link rel="Stylesheet" type="text/css" href="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/App_Themes/Default/Affiliate/AffiliateCss")" />
+}
+@section Scripts
+{
+    <script type="text/javascript" src="~/Scripts/Functions/ListLicensee/CommonLicensee.js"></script>
+    <script type="text/javascript" src="~/Scripts/Affiliate/CommonAffiliate.js"></script>
+    <script type="text/javascript" src="~/Scripts/Affiliate/EditAffiliateStep3.js"></script>
+    <script type="text/javascript">
+        var viewResources = {
+            Error_Require_AssignedDomain: '@ViewResources.Error_Require_AssignedDomain',
+            Error_Require_OddType: '@ViewResources.Error_Require_OddType',
+            Error_Require_Language: '@ViewResources.Error_Require_Language',
+            Error_Require_Sport: '@ViewResources.Error_Require_Sport',
+            Error_Require_Country: '@ViewResources.Error_Require_Country',
+            Error_Require_Market: '@ViewResources.Error_Require_Market',
+            Error_Require_League: '@ViewResources.Error_Require_League',
+            Error_Require_Outright: '@ViewResources.Error_Require_Outright',
+            Error_Require_NumberOfIPs: '@ViewResources.Error_Require_NumberOfIPs',
+            Error_NumberOfIPs: '@ViewResources.Error_NumberOfIPs',
+            MaximumNumberOfIPs: '@ViewResources.MaximumNumberOfIPs'             
+        };
+    </script>
+}
+<div class="newline">
+    &nbsp;</div>
+    @using (Html.BeginForm("Home", "Index", FormMethod.Post, new { id = "formAffiliate" }))
+    {
+<div id="editStep3">
+    <div class="infor">
+        <span class="infor-ic"></span><span class="infor-text">Odds profile will show which
+            data (sports, markets, ...) affiliate should have in xml stream.</span>
+    </div>
+    <div class="newline">
+        &nbsp;</div>
+    <h3>
+        @Html.Raw(ViewResources.HtmlTemplate_InputRequireds)</h3>
+    @using (Html.BeginForm())
+    {
+        if (ViewBag.Success == true)
+        {
+        <div id="success-message-box" class="success-message-box">
+            <ul>
+                <li>@ViewResources.ActionResult_UpdateAffiliateInfoSuccess</li>
+            </ul>
+        </div>          
+        <input type="hidden" id="successed" value="true" />
+        }
+        else if (!string.IsNullOrEmpty(ViewBag.Error))
+        {
+        <div class="red">@ViewBag.Error</div>     
+        <div class="newline">
+            &nbsp;</div>
+        }        
+        <div id="errorStep3" class="hidden validation-summary-errors" data-valmsg-summary="true">
+        </div>
+        <div class="result-message-box hidden">
+        </div>
+        @Html.ValidationSummary()
+        @Html.HiddenFor(m => m.PartnerID)
+
+        <input type="hidden" id="oddsTypeFlag" value="@ViewBag.OddsTypeFlag" />
+        <input type="hidden" id="oddsStyleFlag" value="@ViewBag.OddsStyleFlag" />
+        <input type="hidden" id="languagesFlag" value="@ViewBag.LanguagesFlag" />
+        <input type="hidden" id="sportsFlag" value="@ViewBag.SportsFlag" />
+        <input type="hidden" id="countriesFlag" value="@ViewBag.CountriesFlag" />
+        <input type="hidden" id="marketsFlag" value="@ViewBag.MarketsFlag" />
+        <input type="hidden" id="isAccountManagerPermission" value="@ViewBag.HasAccountManagerPermission" />
+        <input type="hidden" id="ActualNumberOfIps" value="@ViewBag.ActualNumberOfIps" />
+                
+        <div class="form2" style="width: auto;">
+            <div class="row">
+                <div class="grid4" style="text-align: right">
+                    <label for="id1">
+                        @ViewResources.OddsType</label></div>
+                @Html.CheckBoxListFor(m => m.OddsType, ViewBag.OddsTypeList as IEnumerable<SelectListItem>, new { @Class = "oddstype", @isDisabled = @ViewBag.OddsTypeFlag ? "" : "disabled" }, false)
+                <div class="grid1" style="float: none;">
+                    @Html.Raw(ViewResources.HtmlTemplate_InputRequiredSymbol)
+                </div>
+            </div>
+            <div class="row">
+                <div class="grid4" style="text-align: right">
+                    <label for="id1">
+                        @ViewResources.OddsStyle</label></div>
+                @Html.DropDownListFor(m => m.OddsRegion, ViewBag.OddsStyleList as IEnumerable<SelectListItem>, new { @id = "slOddsStyle", @isDisabled = @ViewBag.OddsStyleFlag ? "" : "disabled" })
+            </div>
+           @if (ViewBag.HasAccountManagerPermission == true)
+           {
+                <div class="row">
+                    <div class="grid4" style="text-align: right">
+                        @Html.LabelFor(m => m.DelayTimes, "Delay Time")
+                    </div>
+                    @Html.LabelFor(m => m.DeadballDelayTimes, "Deadball", new { @class = "font-normal" })
+                    @Html.DropDownListFor(m => m.DeadballDelayTimes, (IEnumerable<SelectListItem>)ViewBag.DelayTimeList, new { @style = "width: 50px" })
+                    @Html.LabelFor(m => m.LiveDelayTimes, "Live", new { @class = "font-normal" })
+                    @Html.DropDownListFor(m => m.LiveDelayTimes, (IEnumerable<SelectListItem>)ViewBag.DelayTimeList, new { @style = "width: 50px" })
+                    @Html.LabelFor(m => m.OutrightDelayTimes, "Outright", new { @class = "font-normal" })
+                    @Html.DropDownListFor(m => m.OutrightDelayTimes, (IEnumerable<SelectListItem>)ViewBag.DelayTimeList, new { @style = "width: 50px" })
+                </div>
+                <div class="row">
+                    <div class="grid4" style="text-align: right">
+                        @Html.LabelFor(m => m.NumberOfIPs, "Number of IPs")
+                    </div>
+                    @Html.TextBoxFor(m => m.NumberOfIPs, new { @style = "width: 50px" })
+                    <div class="grid1" style="float: none;">
+                        @Html.Raw(ViewResources.HtmlTemplate_InputRequiredSymbol)
+                </div>
+                </div>                
+           }
+            <div class="row">
+                <div class="grid4" style="text-align: right">
+                    <label for="id1">
+                        @ViewResources.Languages</label></div>
+                @Html.CheckBoxListFor(m => m.LanguageList, ViewBag.LanguageIDList as IEnumerable<SelectListItem>, new { @id = "slLanguage", @Class = "language", @isDisabled = @ViewBag.LanguagesFlag ? "" : "disabled" }, false)
+                <div class="grid1" style="float: none;">
+                    @Html.Raw(ViewResources.HtmlTemplate_InputRequiredSymbol)
+                </div>
+            </div>
+            <div class="row3">
+                <div class="grid4" style="line-height: 170px; text-align: right">
+                    <label for="chkAllSports">
+                        @ViewResources.Sports</label><input type="checkbox" id="chkAllSports" isdisabled = @(ViewBag.SportsFlag ? "" : "disabled") />
+                </div>
+                <div class="grid7" style="text-align: left; border-style: solid; border-width: 1px;
+                    border-color: #C8C8C8; overflow: scroll">
+                    @Html.CheckBoxDropDownListFor(m => m.SportIDList, ViewBag.SportList as IEnumerable<SelectListItem>, new { @Class = "chkSport", @isDisabled = @ViewBag.SportsFlag ? "" : "disabled" }, false)
+                    @Html.HiddenFor(m => m.SportIDList)
+                </div>
+                <div class="grid1" style="line-height: 150px; text-align: left">
+                    @Html.Raw(ViewResources.HtmlTemplate_InputRequiredSymbol)
+                </div>
+            </div>
+            <div class="row3">
+                <div class="grid4" style="line-height: 170px; text-align: right">
+                    <label for="chkAllCountries">
+                        @ViewResources.Countries</label><input type="checkbox" id="chkAllCountries" isdisabled = @(ViewBag.CountriesFlag ? "" : "disabled")  />
+                </div>
+                <div class="grid7" style="text-align: left; border-style: solid; border-width: 1px;
+                    border-color: #C8C8C8; overflow: scroll">
+                    @Html.CheckBoxDropDownListFor(m => m.CountryCodeList, ViewBag.CountriesList as IEnumerable<SelectListItem>, new { @Class = "chkCountry", @isDisabled = @ViewBag.CountriesFlag ? "" : "disabled" }, false)
+                    @Html.HiddenFor(m => m.CountryCodeList)
+                </div>
+                <div class="grid1" style="line-height: 150px; text-align: left">
+                    @Html.Raw(ViewResources.HtmlTemplate_InputRequiredSymbol)
+                </div>
+            </div>
+             @if (ViewBag.HasAccountManagerPermission == true)
+             {
+              <div id="League" class="row3">
+                    @Html.Partial("_LeaguePartialView", new Fanex.OddsFeed.Core.Criteria.Licensee.GetLeagueCriteria()
+               {
+                   SportIDList = Model.SportIDList,
+                   CountryCodeList = Model.CountryCodeList,
+                   LeagueIDList = Model.LeagueIDList,
+                   LeagueKeyword = Model.LeagueKeyword,
+                   ViewBagLeagueList = ViewBag.LeagueList
+               })
+                </div>
+                <div id="Outrights" class="row3">
+                    @Html.Partial("_OutrightPartialView", new Fanex.OddsFeed.Core.Criteria.Licensee.GetOutRightCriteria()
+               {
+                   SportIDList = Model.SportIDList,
+                   CountryCodeList = Model.CountryCodeList,
+                   OutRightIDList = Model.OutRightIDList,
+                   LeagueKeyword_O = Model.LeagueKeyword_O,
+                   ViewBagOutrightList = ViewBag.OutrightList
+               })
+                </div>
+             }
+            <div id="Market" class="row3">
+                <div class="grid4" style="line-height: 170px; text-align: right">
+                    <label for="chkAllMarkets">
+                        @ViewResources.Markets</label><input type="checkbox" id="chkAllMarkets" isdisabled = @(ViewBag.MarketsFlag ? "" : "disabled") />
+                </div>
+                <div class="grid7" style="text-align: left; border-style: solid; border-width: 1px;
+                    border-color: #C8C8C8; overflow: scroll">
+                    @Html.CheckBoxDropDownListFor(m => m.BetTypeIDList, ViewBag.BettypesList as IEnumerable<SelectListItem>, new { @Class = "chkMarket", @isDisabled = @ViewBag.MarketsFlag ? "" : "disabled" }, false)
+                </div>
+                <div class="grid1" style="line-height: 150px; text-align: left">
+                    @Html.Raw(ViewResources.HtmlTemplate_InputRequiredSymbol)
+                </div>
+            </div>
+            <div class="row">
+                <div class="grid4">
+                </div>
+                <div class="grid2">
+                    <a href="@Url.Action("list", "affiliate")" class="button">@ViewResources.Back</a>
+                </div>
+                <div class="grid2">
+                    <input id="editStep3Save" type="button" value="@ViewResources.Save" />
+                </div>
+            </div>
+        </div>            
+    }
+</div>
+    }

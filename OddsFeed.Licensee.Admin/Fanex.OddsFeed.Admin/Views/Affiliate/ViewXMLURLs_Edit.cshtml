@@ -1,0 +1,114 @@
+﻿@using Fanex.OddsFeed.Core.Web
+@using Fanex.OddsFeed.Core
+@using System.Linq;
+@using System.Web.Mvc;
+@{
+    ViewBag.Title = "XML Odds Feed URLs";
+    ViewBag.Nav = base.ViewBag.NavigationHome +
+                         "<a class='step' href='" + base.ViewBag.CurrentDomain + "/Affiliate/List'>Affiliate list</a>" +
+                         "<span class='step'>" + ViewBag.Title + ViewBag.CurrentUser + "</span>";
+    
+}
+@section Breadcrumb {
+    @Html.Raw(ViewBag.Nav)
+}
+@section Styles
+{
+    <link rel="Stylesheet" type="text/css" href="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/App_Themes/Default/Affiliate/AffiliateCss")" />
+}
+@section Scripts
+{    
+    <script type="text/javascript">
+        var viewResources = {
+            Error_Require_AssignedDomain: '@ViewResources.Error_Require_AssignedDomain'
+        };
+    </script>
+}
+<div id="editStep3">
+    <div class="infor">
+        <span class="infor-ic"></span><span class="infor-text">Please send the below XML Odds
+            Feed links to affiliate.</span>
+    </div>
+    <div class="newline">
+        &nbsp;</div>
+    @{
+        var domainSelList = ((IEnumerable<SelectListItem>)ViewBag.AssignedDomain).ToList();
+        var affiliateController = new Fanex.OddsFeed.Admin.Controllers.AffiliateController();
+        if (domainSelList == null || domainSelList.Count() == 0)
+        {
+        <div class="result-message-box error-message-box">
+            <ul>
+                <li>Affiliate isn't assigned domain yet.</li></ul>
+        </div>
+        }
+    }
+    <div class="form2" style="width: auto; height: 100%">
+        <div id="doneId" style="text-align: left;">
+            @{
+                if (domainSelList != null && domainSelList.Count() > 1)
+                {
+                    var domainSelListLength = domainSelList.Count();
+
+                    var displayURL = affiliateController.GetXMLOddsFeedLink(domainSelList[0].Text, ViewBag.AffiliateName);
+                <div class="row">
+                    <div class="grid5">
+                        XML Odds Feed Main URL</div>
+                    <a href="@displayURL">@displayURL</a>
+                </div>
+                
+                    for (var i = 1; i < domainSelListLength; i++)
+                    {
+                        displayURL = affiliateController.GetXMLOddsFeedLink(domainSelList[i].Text, ViewBag.AffiliateName);
+                <div class="row">
+                    <div class="grid5">
+                        XML Odds Feed URL (Backup)
+                    </div>
+                    <a href="@displayURL">@displayURL</a>
+                </div>
+                    }
+
+                    displayURL = affiliateController.GetXMLOddsFeed_HelpLink(domainSelList[0].Text, ViewBag.AffiliateName);
+                <div class="row">
+                    <div class="grid5">
+                        How to implement</div>
+                    <a href="@displayURL">@displayURL</a>
+                </div>         
+                     
+                    for (var i = 1; i < domainSelListLength; i++)
+                    {
+                        displayURL = affiliateController.GetXMLOddsFeed_HelpLink(domainSelList[i].Text, ViewBag.AffiliateName);
+                <div class="row">
+                    <div class="grid5">
+                        How to implement (Backup)
+                    </div>
+                    <a href="@displayURL">@displayURL</a>
+                </div>
+                    }
+                }
+                else if (domainSelList != null && domainSelList.Count() == 1)
+                {
+                    var domainSelListLength = domainSelList.Count();
+
+                    var displayURL = affiliateController.GetXMLOddsFeedLink(domainSelList[0].Text, ViewBag.AffiliateName);
+                <div class="row">
+                    <div class="grid5">
+                        XML Odds Feed Main URL</div>
+                    <a href="@displayURL">@displayURL</a>
+                </div>
+                
+                    displayURL = affiliateController.GetXMLOddsFeed_HelpLink(domainSelList[0].Text, ViewBag.AffiliateName);
+                <div class="row">
+                    <div class="grid5">
+                        How to implement</div>
+                    <a href="@displayURL">@displayURL</a>
+                </div>
+                }
+            }
+            <div class="row">
+                <div class="grid2">
+                    <a href="@Url.Action("list", "affiliate")" class="button">@ViewResources.Back</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

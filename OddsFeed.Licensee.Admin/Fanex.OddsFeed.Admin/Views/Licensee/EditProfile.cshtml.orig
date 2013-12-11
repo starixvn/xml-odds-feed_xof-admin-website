@@ -1,0 +1,165 @@
+﻿@using Fanex.OddsFeed.Core.Web
+@using Fanex.OddsFeed.Core
+@using Fanex.OddsFeed.Core.Criteria.Licensee;
+@model EditLicenseeProfileCriteria
+@{
+    ViewBag.Title = " Editing Licensee Odds Profile";
+    ViewBag.Nav = base.ViewBag.NavigationHome +
+                             "<a class='step' href='" + base.ViewBag.CurrentDomain + "/Licensee/ListLicensee'>Licensee list</a>" +
+                             "<span class='step'>" + ViewBag.Title + "</span>";    
+}
+@section Breadcrumb {
+    @Html.Raw(ViewBag.Nav)    
+}
+@section Styles
+{
+    <link rel="Stylesheet" type="text/css" href="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/App_Themes/Default/Affiliate/AffiliateCss")" />
+}
+@section Scripts
+{
+    <script src="~/Scripts/Functions/ListLicensee/CommonLicensee.js" type="text/javascript"></script>
+    <script src="~/Scripts/Functions/ListLicensee/EditLicenseeProfile.js" type="text/javascript"></script>
+}
+
+@using (Html.BeginForm("EditProfilePost", "Licensee", FormMethod.Post, new { id = "formEditLicenseeProfile" }))
+{
+    <div id="step3" class="step">
+<<<<<<< HEAD
+        <h2>
+            Editing Licensee Odds Profile</h2>
+        <h3>
+            Odds profile will show which data (sport, market, ...) affiliate should have in
+            their xml stream.</h3>
+        <div id="errorStep3" class="validation-summary-errors" data-valmsg-summary="true">
+        </div>
+=======
+        <div class="infor">
+            <span class="infor-ic"></span><span class="infor-text">Odds profile will show which
+                data (sport, market, ...) affiliate should have in their xml stream.</span>
+        </div>
+        <div class="newline">
+            &nbsp;</div>
+>>>>>>> 93c1d4453bf5ba33ad1a40d71401572e11e575e0
+        <div class="form2">
+            @Html.HiddenFor(m => m.SystemID)
+            <div class="row">
+                <div class="grid4" style="text-align: right">
+                    @Html.LabelFor(m => m.OddsType, "Odds Type")
+                </div>
+                @Html.CheckBoxListFor(m => m.OddsType, (IEnumerable<SelectListItem>)ViewBag.OddsTypeList, new { @Class = "oddstype" }, false)
+                @Html.HiddenFor(m => m.OddsType)
+                @Html.CheckBoxFor(m => m.OddsTypeFlag)
+                @Html.LabelFor(m => m.OddsTypeFlag, "Editable", new { @Class = "font-normal" })
+            </div>
+            <div class="row">
+                <div class="grid4" style="text-align: right">
+                    @Html.LabelFor(m => m.OddsRegion, "Odds Style")
+                </div>
+                @Html.DropDownListFor(m => m.OddsRegion, (IEnumerable<SelectListItem>)ViewBag.OddsStyleList)
+                @Html.CheckBoxFor(m => m.OddsRegionFlag)
+                @Html.LabelFor(m => m.OddsRegionFlag, "Editable", new { @Class = "font-normal" })
+            </div>
+            <div class="row">
+                <div class="grid4" style="text-align: right">
+                    @Html.LabelFor(m => m.DelayTimes, "Delay Time")
+                </div>
+                @Html.LabelFor(m => m.DeadballDelayTimes, "Deadball", new { @class = "font-normal" })
+                @Html.DropDownListFor(m => m.DeadballDelayTimes, (IEnumerable<SelectListItem>)ViewBag.DelayTimeList, new { @style = "width: 50px" })
+                @Html.LabelFor(m => m.LiveDelayTimes, "Live", new { @class = "font-normal" })
+                @Html.DropDownListFor(m => m.LiveDelayTimes, (IEnumerable<SelectListItem>)ViewBag.DelayTimeList, new { @style = "width: 50px" })
+                @Html.LabelFor(m => m.OutrightDelayTimes, "Outright", new { @class = "font-normal" })
+                @Html.DropDownListFor(m => m.OutrightDelayTimes, (IEnumerable<SelectListItem>)ViewBag.DelayTimeList, new { @style = "width: 50px" })
+                @Html.CheckBoxFor(m => m.DelayTimesFlag)
+                @Html.LabelFor(m => m.DelayTimesFlag, "Editable", new { @Class = "font-normal" })
+            </div>
+            <div class="row">
+                <div class="grid4" style="text-align: right">
+                    @Html.LabelFor(m => m.NumberOfIPs, "Number of IPs")
+                </div>
+                @Html.TextBoxFor(m => m.NumberOfIPs, new { @style = "width: 50px" })
+            </div>
+            <div class="row">
+                <div class="grid4" style="text-align: right">
+                    @Html.LabelFor(m => m.LanguageList, "Languages")
+                </div>
+                @Html.CheckBoxListFor(m => m.LanguageList, (IEnumerable<SelectListItem>)ViewBag.LanguageIDList, new { @Class = "language" }, false)
+                @Html.HiddenFor(m => m.LanguageList)
+                @Html.CheckBoxFor(m => m.LanguageListFlag)
+                @Html.LabelFor(m => m.LanguageListFlag, "Editable", new { @Class = "font-normal" })
+            </div>
+            <div class="row3">
+                <div class="grid4" style="line-height: 170px; text-align: right">
+                    @Html.LabelFor(m => m.SportIDList, "Sports")
+                    <input type="checkbox" id="chkAllSports" />
+                </div>
+                <div class="grid7 checkbox-list">
+                    @Html.CheckBoxDropDownListFor(m => m.SportIDList, (IEnumerable<SelectListItem>)ViewBag.SportList, new { @class = "chkSport" }, false)
+                    @Html.HiddenFor(m => m.SportIDList)
+                </div>
+                <div class="grid4" style="line-height: 170px; text-align: left">
+                    @Html.CheckBoxFor(m => m.SportIDListFlag)
+                    @Html.LabelFor(m => m.SportIDListFlag, "Editable", new { @Class = "font-normal" })
+                </div>
+            </div>
+            <div class="row3">
+                <div class="grid4" style="line-height: 170px; text-align: right">
+                    @Html.LabelFor(m => m.CountryCodeList, "Countries")
+                    <input type="checkbox" id="chkAllCountries" />
+                </div>
+                <div class="grid7 checkbox-list">
+                    @Html.CheckBoxDropDownListFor(m => m.CountryCodeList, (IEnumerable<SelectListItem>)ViewBag.CountriesList, new { @class = "chkCountry" }, false)
+                    @Html.HiddenFor(m => m.CountryCodeList)
+                </div>
+                <div class="grid4" style="line-height: 170px; text-align: left">
+                    @Html.CheckBoxFor(m => m.CountryCodeListFlag)
+                    @Html.LabelFor(m => m.CountryCodeListFlag, "Editable", new { @Class = "font-normal" })
+                </div>
+            </div>
+            <div id="League" class="row3">
+                @Html.Partial("_LeaguePartialView", new GetLeagueCriteria()
+           {
+               SportIDList = Model.SportIDList,
+               LeagueIDList = Model.LeagueIDList,
+               LeagueIDListFlag = Model.LeagueIDListFlag,
+               CountryCodeList = Model.CountryCodeList,
+               LeagueKeyword = Model.LeagueKeyword,
+               LeagueKeywordFlag = Model.LeagueKeywordFlag
+           })
+            </div>
+            <div id="Outrights" class="row3">
+                @Html.Partial("_OutrightPartialView", new GetOutRightCriteria()
+           {
+               SportIDList = Model.SportIDList,
+               OutRightIDList = Model.OutRightIDList,
+               CountryCodeList = Model.CountryCodeList,
+               LeagueKeyword_O = Model.LeagueKeyword_O,
+               LeagueKeyword_OFlag = Model.LeagueKeyword_OFlag
+           })
+            </div>
+            <div class="row3">
+                <div class="grid4" style="line-height: 170px; text-align: right">
+                    @Html.LabelFor(m => m.BettypeIDList, "Bet types")
+                    <input type="checkbox" id="chkAllMarkets" />
+                </div>
+                <div class="grid7 checkbox-list">
+                    @Html.CheckBoxDropDownListFor(m => m.BettypeIDList, (IEnumerable<SelectListItem>)ViewBag.BettypesList, new { @class = "chkMarket" }, false)
+                    @Html.HiddenFor(m => m.BettypeIDList)
+                </div>
+                <div class="grid4" style="line-height: 170px; text-align: left">
+                    @Html.CheckBoxFor(m => m.BettypeIDListFlag)
+                    @Html.LabelFor(m => m.BettypeIDListFlag, "Editable", new { @Class = "font-normal" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="grid4">
+                </div>
+                <div class="grid2">
+                    <input id="step3Cancel" type="button" value="Cancel" class="cancel" />
+                </div>
+                <div class="grid2">
+                    <input id="step3Done" type="button" value="Save" />
+                </div>
+            </div>
+        </div>
+    </div>
+}

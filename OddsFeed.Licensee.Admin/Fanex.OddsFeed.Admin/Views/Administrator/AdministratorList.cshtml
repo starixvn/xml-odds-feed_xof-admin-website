@@ -1,0 +1,53 @@
+﻿@using Fanex.OddsFeed.Core.Web
+@using Fanex.OddsFeed.Core
+@using System.Web.Optimization
+@model Fanex.OddsFeed.Core.Criteria.Administrator.GetAdminCriteria
+@{
+    ViewBag.Title = "Administrator List";
+    ViewBag.Nav = base.ViewBag.NavigationHome +
+                         "<span class='step'>" + ViewBag.Title + "</span>";
+    
+}
+@section Breadcrumb {
+    @Html.Raw(ViewBag.Nav)
+}
+@section Styles
+{
+    <link rel="Stylesheet" type="text/css" href="@BundleTable.Bundles.ResolveBundleUrl("~/App_Themes/Default/Fanex.Grid/Fanex.GridCss")" />
+    <link rel="Stylesheet" type="text/css" href="@BundleTable.Bundles.ResolveBundleUrl("~/App_Themes/Default/Administrator/AdministratorCss")" />
+}
+@section Scripts
+{
+    <script src="@BundleTable.Bundles.ResolveBundleUrl("~/Scripts/Fanex.Grid/Fanex.GridJs")"></script>
+    <script src="@BundleTable.Bundles.ResolveBundleUrl("~/Scripts/Administrator/ListAdministratorJs")"></script>
+}
+<div class="infor">
+    <span class="infor-ic">&nbsp;</span><span class="infor-text">The list of administrators.</span></div>
+<div class="newline">
+    &nbsp;</div>
+<form id="myForm" method="get" action="">
+<div class="form680" style="width: auto;">
+    <div class="grid2">
+        <label for="id1">
+            Licensee</label></div>
+    <div class="grid4">
+        @Html.DropDownList("slSystem", (ViewBag.SystemList as IEnumerable<SelectListItem>), new { @id = "SystemID", @Name = "SystemID", @class = "width-auto-fit request" })</div>
+    <div class="grid1">
+        <label for="id1">
+            Role</label></div>
+    <div class="grid4">
+        @Html.DropDownList("slRole", (ViewBag.RoleList as IEnumerable<SelectListItem>), new { @id = "RoleID", @Name = "RoleID", @class = "width-auto-fit request" })</div>
+    <div class="grid2">
+        <label for="id1">
+            Username</label></div>
+    @Html.HiddenFor(s => s.PageSize)
+    @Html.HiddenFor(s => s.PageIndex)
+    @Html.HiddenFor(s => s.PageCount)
+    @Html.TextBoxFor(s => s.Username, new { @style = "width:200px", @maxlength = 50, @onkeyup = "StartAutoSuggesttion()" })
+    <input type="button" value="Search" onclick="_pageIndex = 0;_pageSize = 10;Search();" />
+</div>
+</form>
+<div class="newline">
+    &nbsp;</div>
+<div id="SearchResult" class="freegrid  content-grid">
+</div>

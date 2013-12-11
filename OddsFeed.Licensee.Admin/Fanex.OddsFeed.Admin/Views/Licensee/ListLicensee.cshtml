@@ -1,0 +1,69 @@
+﻿@using Fanex.OddsFeed.Core.Web
+@using Fanex.OddsFeed.Core
+@using System.Web.Optimization
+@model Fanex.OddsFeed.Core.Criteria.Licensee.GetLicenseeByPageCriteria
+@{
+    ViewBag.Title = "Licensee List";
+    ViewBag.Nav = base.ViewBag.NavigationHome +
+                         "<span class='step'>" + ViewBag.Title + "</span>";
+}
+@section Breadcrumb {
+    @Html.Raw(ViewBag.Nav)
+}
+@section Styles
+{
+    <link rel="Stylesheet" type="text/css" href="@BundleTable.Bundles.ResolveBundleUrl("~/App_Themes/Default/Fanex.Grid/Fanex.GridCss")" />
+    <link rel="Stylesheet" type="text/css" href="@BundleTable.Bundles.ResolveBundleUrl("~/App_Themes/Default/Licensee/LicenseeEditCss")" />
+}
+@section Scripts
+{
+    <script src="@BundleTable.Bundles.ResolveBundleUrl("~/Scripts/Fanex.Grid/Fanex.GridJs")"></script>
+    <script src="@BundleTable.Bundles.ResolveBundleUrl("~/Scripts/Functions/ListLicensee/ListLicenseeJs")"></script>
+}
+<div class="infor">
+    <span class="infor-ic">&nbsp;</span><span class="infor-text">The list of licensees.</span></div>
+<div class="newline">
+    &nbsp;</div>
+<div class="result-message-box hidden">
+</div>
+<div>
+    <form id="myForm" method="get" action="/request/dailyview">
+    <div class="container_24 bunhat">
+        <div class="grid_3 gridlabel">
+            @Html.LabelFor(s => s.SystemName, "Licensee Name")
+        </div>
+        <div class="grid_8">
+            @Html.TextBoxFor(s => s.SystemName, new { @onkeyup = "StartAutoSuggesttion()" })
+        </div>
+        <div class="grid_2">
+            <input type="button" value="Search" onclick="Search()">
+        </div>
+    </div>
+    @Html.HiddenFor(s => s.PageSize)
+    @Html.HiddenFor(s => s.PageIndex)
+    @Html.HiddenFor(s => s.PageCount)
+    </form>
+</div>
+<br />
+<div id="SearchResult" class="freegrid  content-grid">
+</div>
+
+<!-- active confirmation dialog -->
+<div id="activeLicenseeDialog" title="LICENSEE ADMIN"  style="display: none">
+    <p>Do you want to activate this licensee ?</p>
+    <br />
+    <p>    
+        <input type="checkbox" id="isActiveAllAffiliate"/><label for="isActiveAllAffiliate" style="font-weight:normal">Activate all affiliates also</label>         
+    </p>
+</div>
+
+@*<div id="dialog-form" title="Create Licensee">
+    <p class="validateTips">
+        </p>
+    @Html.Partial("LicenseeCreate")
+</div>
+<div id="dialog-form-edit" title="Edit Licensee">
+    <p class="validateTips">
+        </p>
+    @Html.Partial("LicenseeEdit")
+</div>*@

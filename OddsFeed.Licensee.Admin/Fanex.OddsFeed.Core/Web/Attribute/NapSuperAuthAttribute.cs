@@ -1,0 +1,73 @@
+﻿// --------------------------------------------------------------------------
+// <copyright file="NapSuperAuthAttribute.cs" company="Nexcel Solutions Vietnam">
+// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
+// </copyright>
+// --------------------------------------------------------------------------
+// <history>
+//   <change who="Anders.Le" date="2012.8.2">Created</change>
+// </history>
+
+namespace Fanex.OddsFeed.Core.Web.Attribute
+{
+    using System.Diagnostics.CodeAnalysis;
+    using System.Web.Mvc;
+    using Fanex.OddsFeed.Core.Web.Session;
+
+    /// <summary>
+    /// Class NapSuperAUTHAttribute.
+    /// </summary>    
+    public class NapSuperAuthAttribute : AuthorizeAttribute
+    {
+        /// <summary>
+        /// Called when a process requests authorization.
+        /// </summary>
+        /// <param name="filterContext">The filter context, which encapsulates information for using <see cref="T:System.Web.Mvc.AuthorizeAttribute" />.</param>
+        public override void OnAuthorization(AuthorizationContext filterContext)
+        {
+            base.OnAuthorization(filterContext);
+
+            try
+            {
+                if (filterContext.HttpContext == null)
+                {
+                    return;
+                }
+
+                if (!CheckSessionAuthorization())
+                {
+                    var response = filterContext.HttpContext.Response;
+
+                    if (filterContext.HttpContext.Request.IsAjaxRequest())
+                    {
+                        response.Buffer = true;
+                        response.StatusCode = 403; // Unauthorized status code
+                        response.Write("<center><b>" + ViewResources.UnauthorizeMsg + "</b></center>");
+                        response.Flush();
+                        response.Close();
+                        response.End();
+                    }
+                    else
+                    {
+                        response.Redirect("~/userlogin/login");
+                    }
+                }
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        private bool CheckSessionAuthorization()
+        {
+            ICurrentSession session = new CurrentSession();
+
+            if (session == null || string.IsNullOrEmpty(session.Username))
+            {
+                return false;
+            }
+
+            return true;
+        }
+    }
+}
