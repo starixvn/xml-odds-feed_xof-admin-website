@@ -1,0 +1,36 @@
+*** Settings ***
+Suite Setup
+Suite Teardown
+Library           Selenium2Library
+Library           Process
+Library           OperatingSystem
+Library           Screenshot
+Library           Collections
+Library           String
+Library           Dialogs
+Resource          XML_Actions/common_xml_actions.txt
+
+*** Variables ***
+${Url}            http://feeds.12bet.com/feeds/12betaff286/odds.xml?zip=gzip
+
+*** Test Cases ***
+TM_Verify XML_Oddsfeed
+    Open Browser    ${Url}    ie
+    Maximize Browser Window
+    Sleep    3s
+    ${web_source}=    Get Source
+    Remove File    oddsfeed.xml
+    Append To File    oddsfeed.xml    ${web_source}
+    ${source}=    Get File    oddsfeed.xml
+    ${countmt}=    Get Count    ${source}    mt="
+    ${mtstring}=    String.Get Lines Containing String    ${source}    mt="
+    @{list}=    Split To Lines    ${mtstring}
+    ${total_lines}=    Get Length    ${list}
+    @{newlist}    Create List
+    : FOR    ${index}    IN RANGE    0    ${total_lines}
+    \    ${temp1}=    Fetch From Right    @{list}[${index}]    mt="
+    \    ${temp2}=    Fetch From Left    ${temp1}    gs="
+    \    log    ${temp2}
+    \    Append To List    ${newlist}    ${temp2}
+    \    compare date    @{newlist}[${index}]
+    [Teardown]    close browser

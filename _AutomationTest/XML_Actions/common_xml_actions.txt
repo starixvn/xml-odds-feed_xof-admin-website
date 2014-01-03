@@ -1,0 +1,21 @@
+*** Settings ***
+Library           Selenium2Library
+Library           String
+Library           OperatingSystem
+Library           Collections
+Library           String
+
+*** Keywords ***
+compare date
+    [Arguments]    ${verify_date}
+    ${cf_yyyy}    ${cf_mm}    ${cf_dd}=    Get Time    year,month,day    Now - 11h
+    ${mm}    ${dd}    ${yyyy}=    Split String    ${verify_date}    /
+    ${yyyy}=    Get Slice From List    ${yyyy}    0    4
+    log    ${cf_yyyy}
+    log    ${yyyy}
+    ${condition1}    Evaluate    '${cf_dd}'<='${dd}'
+    ${condition2}    Evaluate    '${cf_mm}'<='${mm}'
+    ${condition3}    Evaluate    '${cf_yyyy}'<='${yyyy}'
+    ${status_con}    Evaluate    '${condition1}'=='${condition2}'
+    ${status_con}=    Set Variable If    '${yyyy}'>'${cf_yyyy}'    ${condition3}    ${status_con}
+    Run Keyword And Continue On Failure    Should Be Equal    ${condition3}    ${status_con}
