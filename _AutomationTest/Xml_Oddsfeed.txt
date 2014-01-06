@@ -15,7 +15,7 @@ ${Url}            http://feeds.12bet.com/feeds/12betaff286/odds.xml?zip=gzip
 
 *** Test Cases ***
 TM_Verify XML_Oddsfeed
-    Open Browser    ${Url}    ie
+    Open Browser    ${Url}    ff
     Maximize Browser Window
     Sleep    3s
     ${web_source}=    Get Source
