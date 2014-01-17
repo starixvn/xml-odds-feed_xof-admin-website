@@ -25,12 +25,9 @@ TM_Verify XML_Oddsfeed
     ${countmt}=    Get Count    ${source}    mt="
     ${mtstring}=    String.Get Lines Containing String    ${source}    mt="
     @{list}=    Split To Lines    ${mtstring}
-    ${total_lines}=    Get Length    ${list}
-    @{newlist}    Create List
-    : FOR    ${index}    IN RANGE    0    ${total_lines}
-    \    ${temp1}=    Fetch From Right    @{list}[${index}]    mt="
-    \    ${temp2}=    Fetch From Left    ${temp1}    gs="
+    :FOR    ${index}    IN    @{list}
+    \    ${temp1}=    Fetch From Right    ${index}    mt="
+    \    ${temp2}=    Fetch From Left    ${temp1}    ${SPACE}
     \    log    ${temp2}
-    \    Append To List    ${newlist}    ${temp2}
-    \    compare date    @{newlist}[${index}]
+    \    compare date    ${temp2}
     [Teardown]    close browser
