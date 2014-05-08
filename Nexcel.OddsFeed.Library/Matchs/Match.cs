@@ -423,23 +423,23 @@ namespace Nexcel.OddsFeed.Library.Matchs
         private void BuildXmlNodeOdd_cs(XmlDocument xd, OddsProfile op, MatchOdd item, XmlNode odd)
         {
             var cs_c00 = xd.CreateAttribute("c00");
-            cs_c00.Value = Utilities.ConvertOdds(op.OddRegion, decimal.Parse(item.C00)).ToString(); ////item.C00;
+            cs_c00.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.C00)).ToString(); ////item.C00;
             odd.Attributes.Append(cs_c00);
 
             var cs_11 = xd.CreateAttribute("c11");
-            cs_11.Value = Utilities.ConvertOdds(op.OddRegion, decimal.Parse(item.C11)).ToString(); ////item.C11;
+            cs_11.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.C11)).ToString(); ////item.C11;
             odd.Attributes.Append(cs_11);
 
             var cs_22 = xd.CreateAttribute("c22");
-            cs_22.Value = Utilities.ConvertOdds(op.OddRegion, decimal.Parse(item.C22)).ToString(); ////item.C22;
+            cs_22.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.C22)).ToString(); ////item.C22;
             odd.Attributes.Append(cs_22);
 
             var cs_33 = xd.CreateAttribute("c33");
-            cs_33.Value = Utilities.ConvertOdds(op.OddRegion, decimal.Parse(item.C33)).ToString(); ////item.C33;
+            cs_33.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.C33)).ToString(); ////item.C33;
             odd.Attributes.Append(cs_33);
 
             var cs_44 = xd.CreateAttribute("c44");
-            cs_44.Value = Utilities.ConvertOdds(op.OddRegion, decimal.Parse(item.C44)).ToString(); ////item.C44;
+            cs_44.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.C44)).ToString(); ////item.C44;
             odd.Attributes.Append(cs_44);
 
             BuildXmlNodeOdd_cs_0x(xd, op, item, odd);
@@ -465,15 +465,15 @@ namespace Nexcel.OddsFeed.Library.Matchs
         private void BuildXmlNodeOdd_cs_4x(XmlDocument xd, OddsProfile op, MatchOdd item, XmlNode odd)
         {
             var cs_41 = xd.CreateAttribute("c41");
-            cs_41.Value = Utilities.ConvertOdds(op.OddRegion, decimal.Parse(item.C41)).ToString(); ////item.C41;
+            cs_41.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.C41)).ToString(); ////item.C41;
             odd.Attributes.Append(cs_41);
 
             var cs_42 = xd.CreateAttribute("c42");
-            cs_42.Value = Utilities.ConvertOdds(op.OddRegion, decimal.Parse(item.C42)).ToString(); ////item.C42;
+            cs_42.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.C42)).ToString(); ////item.C42;
             odd.Attributes.Append(cs_42);
 
             var cs_43 = xd.CreateAttribute("c43");
-            cs_43.Value = Utilities.ConvertOdds(op.OddRegion, decimal.Parse(item.C43)).ToString(); ////item.C43;
+            cs_43.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.C43)).ToString(); ////item.C43;
             odd.Attributes.Append(cs_43);
         }
 
@@ -487,15 +487,15 @@ namespace Nexcel.OddsFeed.Library.Matchs
         private void BuildXmlNodeOdd_cs_213(XmlDocument xd, OddsProfile op, MatchOdd item, XmlNode odd)
         {
             var cs_21 = xd.CreateAttribute("c21");
-            cs_21.Value = Utilities.ConvertOdds(op.OddRegion, decimal.Parse(item.C21)).ToString(); ////item.C21;
+            cs_21.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.C21)).ToString(); ////item.C21;
             odd.Attributes.Append(cs_21);
 
             var cs_31 = xd.CreateAttribute("c31");
-            cs_31.Value = Utilities.ConvertOdds(op.OddRegion, decimal.Parse(item.C31)).ToString(); ////item.C31;
+            cs_31.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.C31)).ToString(); ////item.C31;
             odd.Attributes.Append(cs_31);
 
             var cs_32 = xd.CreateAttribute("c32");
-            cs_32.Value = Utilities.ConvertOdds(op.OddRegion, decimal.Parse(item.C32)).ToString(); ////item.C32;
+            cs_32.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.C32)).ToString(); ////item.C32;
             odd.Attributes.Append(cs_32);
         }
 
@@ -509,15 +509,15 @@ namespace Nexcel.OddsFeed.Library.Matchs
         private void BuildXmlNodeOdd_cs_x4(XmlDocument xd, OddsProfile op, MatchOdd item, XmlNode odd)
         {
             var cs_14 = xd.CreateAttribute("c14");
-            cs_14.Value = Utilities.ConvertOdds(op.OddRegion, decimal.Parse(item.C14)).ToString(); ////item.C14;
+            cs_14.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.C14)).ToString(); ////item.C14;
             odd.Attributes.Append(cs_14);
 
             var cs_24 = xd.CreateAttribute("c24");
-            cs_24.Value = Utilities.ConvertOdds(op.OddRegion, decimal.Parse(item.C24)).ToString(); ////item.C24;
+            cs_24.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.C24)).ToString(); ////item.C24;
             odd.Attributes.Append(cs_24);
 
             var cs_34 = xd.CreateAttribute("c34");
-            cs_34.Value = Utilities.ConvertOdds(op.OddRegion, decimal.Parse(item.C34)).ToString(); ////item.C34;
+            cs_34.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.C34)).ToString(); ////item.C34;
             odd.Attributes.Append(cs_34);
         }
 
@@ -531,15 +531,15 @@ namespace Nexcel.OddsFeed.Library.Matchs
         private void BuildXmlNodeOdd_cs_123(XmlDocument xd, OddsProfile op, MatchOdd item, XmlNode odd)
         {
             var cs_12 = xd.CreateAttribute("c12");
-            cs_12.Value = Utilities.ConvertOdds(op.OddRegion, decimal.Parse(item.C12)).ToString(); ////item.C12;
+            cs_12.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.C12)).ToString(); ////item.C12;
             odd.Attributes.Append(cs_12);
 
             var cs_13 = xd.CreateAttribute("c13");
-            cs_13.Value = Utilities.ConvertOdds(op.OddRegion, decimal.Parse(item.C13)).ToString(); ////item.C13;
+            cs_13.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.C13)).ToString(); ////item.C13;
             odd.Attributes.Append(cs_13);
 
             var cs_23 = xd.CreateAttribute("c23");
-            cs_23.Value = Utilities.ConvertOdds(op.OddRegion, decimal.Parse(item.C23)).ToString(); ////item.C23;
+            cs_23.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.C23)).ToString(); ////item.C23;
             odd.Attributes.Append(cs_23);
         }
 
@@ -553,23 +553,23 @@ namespace Nexcel.OddsFeed.Library.Matchs
         private void BuildXmlNodeOdd_cs_x0(XmlDocument xd, OddsProfile op, MatchOdd item, XmlNode odd)
         {
             var cs_10 = xd.CreateAttribute("c10");
-            cs_10.Value = Utilities.ConvertOdds(op.OddRegion, decimal.Parse(item.C10)).ToString(); ////item.C10;
+            cs_10.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.C10)).ToString(); ////item.C10;
             odd.Attributes.Append(cs_10);
 
             var cs_20 = xd.CreateAttribute("c20");
-            cs_20.Value = Utilities.ConvertOdds(op.OddRegion, decimal.Parse(item.C20)).ToString(); ////item.C20;
+            cs_20.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.C20)).ToString(); ////item.C20;
             odd.Attributes.Append(cs_20);
 
             var cs_30 = xd.CreateAttribute("c30");
-            cs_30.Value = Utilities.ConvertOdds(op.OddRegion, decimal.Parse(item.C30)).ToString(); ////item.C30;
+            cs_30.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.C30)).ToString(); ////item.C30;
             odd.Attributes.Append(cs_30);
 
             var cs_40 = xd.CreateAttribute("c40");
-            cs_40.Value = Utilities.ConvertOdds(op.OddRegion, decimal.Parse(item.C40)).ToString(); ////item.C40;
+            cs_40.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.C40)).ToString(); ////item.C40;
             odd.Attributes.Append(cs_40);
 
             var cs_50 = xd.CreateAttribute("c50");
-            cs_50.Value = Utilities.ConvertOdds(op.OddRegion, decimal.Parse(item.C50)).ToString(); ////item.C50;
+            cs_50.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.C50)).ToString(); ////item.C50;
             odd.Attributes.Append(cs_50);
         }
 
@@ -583,23 +583,23 @@ namespace Nexcel.OddsFeed.Library.Matchs
         private void BuildXmlNodeOdd_cs_0x(XmlDocument xd, OddsProfile op, MatchOdd item, XmlNode odd)
         {
             var cs_01 = xd.CreateAttribute("c01");
-            cs_01.Value = Utilities.ConvertOdds(op.OddRegion, decimal.Parse(item.C01)).ToString(); ////item.C01;
+            cs_01.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.C01)).ToString(); ////item.C01;
             odd.Attributes.Append(cs_01);
 
             var cs_02 = xd.CreateAttribute("c02");
-            cs_02.Value = Utilities.ConvertOdds(op.OddRegion, decimal.Parse(item.C02)).ToString(); ////item.C02;
+            cs_02.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.C02)).ToString(); ////item.C02;
             odd.Attributes.Append(cs_02);
 
             var cs_03 = xd.CreateAttribute("c03");
-            cs_03.Value = Utilities.ConvertOdds(op.OddRegion, decimal.Parse(item.C03)).ToString(); ////item.C03;
+            cs_03.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.C03)).ToString(); ////item.C03;
             odd.Attributes.Append(cs_03);
 
             var cs_04 = xd.CreateAttribute("c04");
-            cs_04.Value = Utilities.ConvertOdds(op.OddRegion, decimal.Parse(item.C04)).ToString(); ////item.C04;
+            cs_04.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.C04)).ToString(); ////item.C04;
             odd.Attributes.Append(cs_04);
 
             var cs_05 = xd.CreateAttribute("c05");
-            cs_05.Value = Utilities.ConvertOdds(op.OddRegion, decimal.Parse(item.C05)).ToString(); ////item.C05;
+            cs_05.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.C05)).ToString(); ////item.C05;
             odd.Attributes.Append(cs_05);
         }
 
@@ -613,23 +613,23 @@ namespace Nexcel.OddsFeed.Library.Matchs
         private void BuildXmlNodeOdd_fl(XmlDocument xd, OddsProfile op, MatchOdd item, XmlNode odd)
         {
             var fl_hf = xd.CreateAttribute("hf");
-            fl_hf.Value = Utilities.ConvertOdds(op.OddRegion, decimal.Parse(item.HF)).ToString(); ////item.HF;
+            fl_hf.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.HF)).ToString(); ////item.HF;
             odd.Attributes.Append(fl_hf);
 
             var fl_hl = xd.CreateAttribute("hl");
-            fl_hl.Value = Utilities.ConvertOdds(op.OddRegion, decimal.Parse(item.HL)).ToString(); //// item.HL;
+            fl_hl.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.HL)).ToString(); //// item.HL;
             odd.Attributes.Append(fl_hl);
 
             var fl_af = xd.CreateAttribute("af");
-            fl_af.Value = Utilities.ConvertOdds(op.OddRegion, decimal.Parse(item.AF)).ToString(); ////item.AF;
+            fl_af.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.AF)).ToString(); ////item.AF;
             odd.Attributes.Append(fl_af);
 
             var fl_al = xd.CreateAttribute("al");
-            fl_al.Value = Utilities.ConvertOdds(op.OddRegion, decimal.Parse(item.AL)).ToString(); ////item.AL;
+            fl_al.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.AL)).ToString(); ////item.AL;
             odd.Attributes.Append(fl_al);
 
             var fl_ng = xd.CreateAttribute("ng");
-            fl_ng.Value = Utilities.ConvertOdds(op.OddRegion, decimal.Parse(item.NG)).ToString(); ////item.NG;
+            fl_ng.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.NG)).ToString(); ////item.NG;
             odd.Attributes.Append(fl_ng);
         }
 
@@ -643,39 +643,39 @@ namespace Nexcel.OddsFeed.Library.Matchs
         private void BuildXmlNodeOdd_htft(XmlDocument xd, OddsProfile op, MatchOdd item, XmlNode odd)
         {
             var htft_hh = xd.CreateAttribute("hh");
-            htft_hh.Value = Utilities.ConvertOdds(op.OddRegion, decimal.Parse(item.HH)).ToString(); //// item.HH;
+            htft_hh.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.HH)).ToString(); //// item.HH;
             odd.Attributes.Append(htft_hh);
 
             var htft_hd = xd.CreateAttribute("hd");
-            htft_hd.Value = Utilities.ConvertOdds(op.OddRegion, decimal.Parse(item.HD)).ToString(); ////item.HD;
+            htft_hd.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.HD)).ToString(); ////item.HD;
             odd.Attributes.Append(htft_hd);
 
             var htft_ha = xd.CreateAttribute("ha");
-            htft_ha.Value = Utilities.ConvertOdds(op.OddRegion, decimal.Parse(item.HA)).ToString(); ////item.HA;
+            htft_ha.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.HA)).ToString(); ////item.HA;
             odd.Attributes.Append(htft_ha);
 
             var htft_dh = xd.CreateAttribute("dh");
-            htft_dh.Value = Utilities.ConvertOdds(op.OddRegion, decimal.Parse(item.DH)).ToString(); ////item.DH;
+            htft_dh.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.DH)).ToString(); ////item.DH;
             odd.Attributes.Append(htft_dh);
 
             var htft_dd = xd.CreateAttribute("dd");
-            htft_dd.Value = Utilities.ConvertOdds(op.OddRegion, decimal.Parse(item.DD)).ToString(); ////item.DD;
+            htft_dd.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.DD)).ToString(); ////item.DD;
             odd.Attributes.Append(htft_dd);
 
             var htft_da = xd.CreateAttribute("da");
-            htft_da.Value = Utilities.ConvertOdds(op.OddRegion, decimal.Parse(item.DA)).ToString(); ////item.DA;
+            htft_da.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.DA)).ToString(); ////item.DA;
             odd.Attributes.Append(htft_da);
 
             var htft_ah = xd.CreateAttribute("ah");
-            htft_ah.Value = Utilities.ConvertOdds(op.OddRegion, decimal.Parse(item.AH)).ToString(); ////item.AH;
+            htft_ah.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.AH)).ToString(); ////item.AH;
             odd.Attributes.Append(htft_ah);
 
             var htft_ad = xd.CreateAttribute("ad");
-            htft_ad.Value = Utilities.ConvertOdds(op.OddRegion, decimal.Parse(item.AD)).ToString(); ////item.AD;
+            htft_ad.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.AD)).ToString(); ////item.AD;
             odd.Attributes.Append(htft_ad);
 
             var htft_aa = xd.CreateAttribute("aa");
-            htft_aa.Value = Utilities.ConvertOdds(op.OddRegion, decimal.Parse(item.AA)).ToString(); ////item.AA;
+            htft_aa.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.AA)).ToString(); ////item.AA;
             odd.Attributes.Append(htft_aa);
         }
 
@@ -689,19 +689,19 @@ namespace Nexcel.OddsFeed.Library.Matchs
         private void BuildXmlNodeOdd_tg(XmlDocument xd, OddsProfile op, MatchOdd item, XmlNode odd)
         {
             var o1234_o1 = xd.CreateAttribute("o1");
-            o1234_o1.Value = Utilities.ConvertOdds(op.OddRegion, decimal.Parse(item.O1)).ToString(); //// item.O1;
+            o1234_o1.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.O1)).ToString(); //// item.O1;
             odd.Attributes.Append(o1234_o1);
 
             var o1234_o2 = xd.CreateAttribute("o2");
-            o1234_o2.Value = Utilities.ConvertOdds(op.OddRegion, decimal.Parse(item.O2)).ToString(); //// item.O2;
+            o1234_o2.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.O2)).ToString(); //// item.O2;
             odd.Attributes.Append(o1234_o2);
 
             var o1234_o3 = xd.CreateAttribute("o3");
-            o1234_o3.Value = Utilities.ConvertOdds(op.OddRegion, decimal.Parse(item.O3)).ToString(); //// item.O3;
+            o1234_o3.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.O3)).ToString(); //// item.O3;
             odd.Attributes.Append(o1234_o3);
 
             var o1234_o4 = xd.CreateAttribute("o4");
-            o1234_o4.Value = Utilities.ConvertOdds(op.OddRegion, decimal.Parse(item.O4)).ToString(); //// item.O4;
+            o1234_o4.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.O4)).ToString(); //// item.O4;
             odd.Attributes.Append(o1234_o4);
         }
 
@@ -715,11 +715,11 @@ namespace Nexcel.OddsFeed.Library.Matchs
         private void BuildXmlNodeOdd_oe(XmlDocument xd, OddsProfile op, MatchOdd item, XmlNode odd)
         {
             var oe_o = xd.CreateAttribute("o");
-            oe_o.Value = Utilities.ConvertOdds(op.OddRegion, decimal.Parse(item.O)).ToString();
+            oe_o.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.O)).ToString();
             odd.Attributes.Append(oe_o);
 
             var oe_e = xd.CreateAttribute("e");
-            oe_e.Value = Utilities.ConvertOdds(op.OddRegion, decimal.Parse(item.E)).ToString();
+            oe_e.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.E)).ToString();
             odd.Attributes.Append(oe_e);
         }
 
@@ -733,15 +733,15 @@ namespace Nexcel.OddsFeed.Library.Matchs
         private void BuildXmlNodeOdd_st(XmlDocument xd, OddsProfile op, MatchOdd item, XmlNode odd)
         {
             var o123_o1 = xd.CreateAttribute("o1");
-            o123_o1.Value = Utilities.ConvertOdds(op.OddRegion, decimal.Parse(item.O1)).ToString(); //// item.O1;
+            o123_o1.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.O1)).ToString(); //// item.O1;
             odd.Attributes.Append(o123_o1);
 
             var o123_o2 = xd.CreateAttribute("o2");
-            o123_o2.Value = Utilities.ConvertOdds(op.OddRegion, decimal.Parse(item.O2)).ToString(); //// item.O2;
+            o123_o2.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.O2)).ToString(); //// item.O2;
             odd.Attributes.Append(o123_o2);
 
             var o123_o3 = xd.CreateAttribute("o3");
-            o123_o3.Value = Utilities.ConvertOdds(op.OddRegion, decimal.Parse(item.O3)).ToString(); //// item.O3;
+            o123_o3.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.O3)).ToString(); //// item.O3;
             odd.Attributes.Append(o123_o3);
         }
 
@@ -759,11 +759,11 @@ namespace Nexcel.OddsFeed.Library.Matchs
             odd.Attributes.Append(hou_h);
 
             var hou_o = xd.CreateAttribute("o");
-            hou_o.Value = Utilities.ConvertOdds(op.OddRegion, decimal.Parse(item.O)).ToString();
+            hou_o.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.O)).ToString();
             odd.Attributes.Append(hou_o);
-
+            
             var hou_u = xd.CreateAttribute("u");
-            hou_u.Value = Utilities.ConvertOdds(op.OddRegion, decimal.Parse(item.U)).ToString();
+            hou_u.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.U)).ToString();
             odd.Attributes.Append(hou_u);
         }
 

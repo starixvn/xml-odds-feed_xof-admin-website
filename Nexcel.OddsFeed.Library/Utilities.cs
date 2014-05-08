@@ -102,14 +102,9 @@ namespace Nexcel.OddsFeed.Library
         {
             return malayOdds >= 0
                        ? malayOdds
-                       : (decimal)Math.Abs(Math.Round(1 / malayOdds, 2));
+                       : Utilities.Floor(1 / Math.Abs(malayOdds));
         }
-   
-        public static decimal ToHkOdds(object malayOdds)
-        {
-            return ToHkOdds(decimal.Parse(malayOdds.ToString()));
-        }
-
+           
         public static decimal ToDecimalOddsFromHkOdds(decimal hongKongOdds)
         {
             return hongKongOdds + 1;
@@ -123,7 +118,7 @@ namespace Nexcel.OddsFeed.Library
                 return ToDecimalOddsFromHkOdds(ToHkOdds(malayOdds));
             }
 
-            return Convert.ToDecimal(malayOdds);
+            return malayOdds;
         }
      
         public static float ToIndoOdds(int malayOdds, float spread)
@@ -135,24 +130,24 @@ namespace Nexcel.OddsFeed.Library
         /// Converts the odds.
         /// </summary>
         /// <param name="oddsRegion">The odds region.</param>
-        /// <param name="malayOdds">The malay odds.</param>
+        /// <param name="decimalOdds">The malay odds.</param>
         /// <returns>System Decimal.</returns>
-        public static decimal ConvertOdds(int oddsRegion, decimal malayOdds)
+        public static decimal ConvertOdds(int oddsRegion, decimal decimalOdds)
         {
             switch (oddsRegion)
             {
                 case 1:
-                    return DecimalToMalay(malayOdds);  //// malayOdds;
+                    return DecimalToMalay(decimalOdds);  //// MalayOdds
                 case 2:
-                    return DecimalToHK(malayOdds); //// ToHkOdds(malayOdds);
+                    return DecimalToHK(decimalOdds); //// HongKongOdds
                 case 3:
-                    return malayOdds; ////ToDecimalOddsFromMalayOdds(malayOdds);
+                    return Utilities.Floor(decimalOdds); ////DecimalOdds
                 case 4:
-                    return DecimalToIndo(malayOdds);
+                    return DecimalToIndo(decimalOdds); ////IndoOdds
                 case 5:
-                    return DecimalToUS(malayOdds);
+                    return DecimalToUS(decimalOdds); ////USOdds
                 default:
-                    return malayOdds;
+                    return Utilities.Floor(decimalOdds);
             }
         }
    
@@ -266,8 +261,7 @@ namespace Nexcel.OddsFeed.Library
         /// <returns>System Decimal.</returns>
         public static decimal DecimalToUS(decimal dec)
         {
-            decimal usa;
-            dec = Converter.ToDecimal(dec);
+            decimal usa;            
             if (dec <= 1)
             {
                 usa = 0;
@@ -280,8 +274,8 @@ namespace Nexcel.OddsFeed.Library
             {
                 usa = (dec - 1) * 100;
             }
-
-            return Math.Round((usa * 100) / 100);
+            
+            return Utilities.Floor(usa);
         }
 
         /// <summary>
@@ -291,8 +285,7 @@ namespace Nexcel.OddsFeed.Library
         /// <returns>System Decimal.</returns>
         public static decimal DecimalToHK(decimal dec)
         {
-            decimal hongKong;
-            dec = Converter.ToDecimal(dec);
+            decimal hongKong;            
             if (dec <= 1)
             {
                 hongKong = 0;
@@ -301,8 +294,8 @@ namespace Nexcel.OddsFeed.Library
             {
                 hongKong = dec - 1;
             }
-
-            return Math.Round(hongKong, 2);
+            
+            return Utilities.Floor(hongKong);            
         }
 
         /// <summary>
@@ -312,8 +305,7 @@ namespace Nexcel.OddsFeed.Library
         /// <returns>System Decimal.</returns>
         public static decimal DecimalToIndo(decimal dec)
         {
-            decimal indo;
-            dec = Converter.ToDecimal(dec);
+            decimal indo;            
             if (dec <= 1)
             {
                 indo = 0;
@@ -326,8 +318,8 @@ namespace Nexcel.OddsFeed.Library
             {
                 indo = 1 / (1 - dec);
             }
-
-            return Math.Round(indo, 2);
+            
+            return Utilities.Floor(indo);
         }
 
         /// <summary>
@@ -337,8 +329,7 @@ namespace Nexcel.OddsFeed.Library
         /// <returns>System Decimal.</returns>
         public static decimal DecimalToMalay(decimal dec)
         {
-            decimal malay;
-            dec = Converter.ToDecimal(dec);
+            decimal malay;            
             if (dec <= 1)
             {
                 malay = 0;
@@ -351,10 +342,16 @@ namespace Nexcel.OddsFeed.Library
             {
                 malay = 1 / (1 - dec);
             }
-
-            return Math.Round(malay, 2);
+            
+            return Utilities.Floor(malay);
         }
 
         #endregion
+   
+        public static decimal Floor(decimal value, int decimalPlaces = 2)
+        {
+            decimal adjustment = (decimal)Math.Pow(10, decimalPlaces);
+            return Math.Floor(value * adjustment) / adjustment;
+        }
     }
 }
