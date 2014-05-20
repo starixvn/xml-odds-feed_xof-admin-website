@@ -6,8 +6,8 @@
     <Setting Key="SP.LiveOdds" SpName="Is_Odds_GetLiveOddsData" DbName="DBACC.bodb02.bodbAdminNet" />
     <Setting Key="SP.DeadballOdds" SpName="Is_Odds_GetDeadballOddsData" DbName="DBACC.bodb02.bodbAdminNet" />
     <Setting Key="SP.OutrightOdds" SpName="Is_Odds_GetOutrightOddsData" DbName="DBACC.bodb02.bodbAdminNet" />
-    <Setting Key="SP.GetProfile" SpName="Is_Odds_ProfileSel" DbName="DBMA.bodb_Maintenance.bodbAdminNet" />
-    <Setting Key="SP.GetProfileByName" SpName="Is_Odds_ProfileSelByName" DbName="DBMA.bodb_Maintenance.bodbAdminNet" />     
+    <!--<Setting Key="SP.GetProfile" SpName="Is_Odds_ProfileSel" DbName="DBMA.bodb_Maintenance.bodbAdminNet" />
+    <Setting Key="SP.GetProfileByName" SpName="Is_Odds_ProfileSelByName" DbName="DBMA.bodb_Maintenance.bodbAdminNet" />-->     
    
   </Function>
           
