@@ -89,11 +89,10 @@ namespace Fanex.OddsFeed.Admin.Controllers
         /// <returns>IList {SelectListItem}.</returns>
         private IList<SelectListItem> GenerateSystemList()
         {
-            var allSystemList = new AdministratorService().GetSelectList(new GetAllSystemCriteria
+            var allSystemList = new AdministratorService().GetSelectList(new GetAllSystemsByUserIdCriteria
                 {
                     UserRole = CurrentSession.UserRole,
-                    UserId = CurrentSession.UserId,
-                    SystemId = CurrentSession.SystemId
+                    UserId = CurrentSession.UserId                    
                 });
 
             var strSystemList = string.Empty;

@@ -113,7 +113,8 @@
     <Compile Include="Command\ICommand.cs" />
     <Compile Include="Configuration\NapSettings.cs" />
     <Compile Include="Criteria\Administrator\CheckExistAdministratorCriteria.cs" />
-    <Compile Include="Criteria\Administrator\GetAllSystemCriteria.cs" />
+    <Compile Include="Criteria\Administrator\GetAllSystemsCriteria.cs" />
+    <Compile Include="Criteria\Administrator\GetAllSystemsByUserIdCriteria.cs" />
     <Compile Include="Criteria\Administrator\GetTop10AdminCriteria.cs" />
     <Compile Include="Criteria\Administrator\AdminList_GetTop10Criteria.cs" />
     <Compile Include="Criteria\Administrator\UpdateAdminPasswordCriteria.cs" />
@@ -212,7 +213,6 @@
     <Compile Include="Criteria\SubAccount\EditPermissionSubAccCriteria.cs" />
     <Compile Include="Criteria\SubAccount\GetSubAccByNameCriteria.cs" />
     <Compile Include="Criteria\SubAccount\GetSubAccBySystemIDCriteria.cs" />
-    <Compile Include="Criteria\SubAccount\GetSystemCriteria.cs" />
     <Compile Include="Criteria\SubAccount\GetTop10SubAccCriteria.cs" />
     <Compile Include="Criteria\User\GetUserInfoCriteria.cs" />
     <Compile Include="Criteria\User\UserGetPermissionCriteria.cs">

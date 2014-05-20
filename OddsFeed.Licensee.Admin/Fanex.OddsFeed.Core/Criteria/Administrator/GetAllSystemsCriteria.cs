@@ -1,10 +1,10 @@
 ﻿// --------------------------------------------------------------------------
-// <copyright file="GetAllSystemCriteria.cs" company="Nexcel Solutions Vietnam">
+// <copyright file="GetAllSystemsCriteria.cs" company="Nexcel Solutions Vietnam">
 // Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------
 // <history>
-//   <change who="Louis.Nguyen" date="2013.03.06">Created</change>
+//   <change who="Thai.Tran" date="2014.05.20">Created</change>
 // </history>
 
 namespace Fanex.OddsFeed.Core.Criteria.Administrator
@@ -13,23 +13,17 @@ namespace Fanex.OddsFeed.Core.Criteria.Administrator
     using Framework.Data;
 
     /// <summary>
-    /// Class GetAllSystemCriteria.
-    /// </summary>    
-    public class GetAllSystemCriteria : CriteriaBase
-    {      
-        public GetAllSystemCriteria()
-        {
+    /// Class GetAllSystemsCriteria.
+    /// </summary>
+    public class GetAllSystemsCriteria : CriteriaBase
+    {
+        public GetAllSystemsCriteria()
+        {            
         }
-
-        public byte UserRole { get; set; }
-
-        public int UserId { get; set; }
-
-        public int SystemId { get; set; }     
         
         public override string GetSettingKey()
         {
-            return "Odds_AdminSystem_SelAll";
+            return "Odds_System_SelAll";
         }
 
         /// <summary>

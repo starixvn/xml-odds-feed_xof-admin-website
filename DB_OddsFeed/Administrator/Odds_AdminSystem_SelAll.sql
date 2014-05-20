@@ -13,19 +13,19 @@ GO
   
 CREATE PROCEDURE [dbo].[Odds_AdminSystem_SelAll]  
  @UserRole TINYINT,  
- @UserId int,  
- @SystemId int  
+ @UserId int 
 AS    
     
 /**      
  * Created : 20130306@Louis.Nguyen  
- * Task  : Get all system  
+ * Task  : Get all system  by user id
  * DB  : bodb_oddsfeed,bodb02    
  *      
  * Revisions:         
  * Param's Explanation:     
  * Modify:
 	- Thai@20131003: "s.IsActive = 1 and a.IsActive = 1" if UserId is not Account Manger.
+	- Thai@20140520: Remove "@SystemId"
  */    
 BEGIN    
  SET NOCOUNT ON;  
