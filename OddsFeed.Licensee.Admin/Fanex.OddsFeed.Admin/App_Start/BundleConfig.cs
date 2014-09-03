@@ -37,7 +37,7 @@ namespace Fanex.OddsFeed.Admin.App_Start
             commonJsBundle.AddDirectory("~/Scripts/libs", "*.js", false);
             commonJsBundle.AddFile("~/Scripts/views/date.visible.js");
             commonJsBundle.AddFile("~/Scripts/views/language.js");
-            commonJsBundle.AddFile("~/Scripts/views/list.js");
+            ////commonJsBundle.AddFile("~/Scripts/views/list.js");
             ////commonJsBundle.AddFile("~/Scripts/views/Core.js");
             commonJsBundle.AddFile("~/Scripts/views/Header.js");
             commonJsBundle.AddFile("~/Scripts/Libs/msgbox/msgbox-0.0.1.js");
