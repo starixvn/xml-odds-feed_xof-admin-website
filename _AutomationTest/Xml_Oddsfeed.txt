@@ -11,7 +11,7 @@ Library           Dialogs
 Resource          XML_Actions/common_xml_actions.txt
 
 *** Variables ***
-${Url}            http://feeds.12bet.com/feeds/12betaff286/odds.xml?zip=gzip
+${Url}            http://feeds.12ying.com/feedstest/12a12b/odds.xml
 
 *** Test Cases ***
 TM_Verify XML_Oddsfeed
