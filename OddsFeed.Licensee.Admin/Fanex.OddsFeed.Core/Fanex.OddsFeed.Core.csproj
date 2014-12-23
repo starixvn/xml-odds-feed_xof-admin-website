@@ -58,8 +58,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\_Dependencies\Fanex.NAP.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Caching">
-      <HintPath>..\..\_Dependencies\Microsoft.Practices.EnterpriseLibrary.Caching.dll</HintPath>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Caching, Version=3.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\_Dependencies\Entlib\Microsoft.Practices.EnterpriseLibrary.Caching.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -112,7 +113,8 @@
     <Compile Include="Command\ICommand.cs" />
     <Compile Include="Configuration\NapSettings.cs" />
     <Compile Include="Criteria\Administrator\CheckExistAdministratorCriteria.cs" />
-    <Compile Include="Criteria\Administrator\GetAllSystemCriteria.cs" />
+    <Compile Include="Criteria\Administrator\GetAllSystemsCriteria.cs" />
+    <Compile Include="Criteria\Administrator\GetAllSystemsByUserIdCriteria.cs" />
     <Compile Include="Criteria\Administrator\GetTop10AdminCriteria.cs" />
     <Compile Include="Criteria\Administrator\AdminList_GetTop10Criteria.cs" />
     <Compile Include="Criteria\Administrator\UpdateAdminPasswordCriteria.cs" />
@@ -211,7 +213,6 @@
     <Compile Include="Criteria\SubAccount\EditPermissionSubAccCriteria.cs" />
     <Compile Include="Criteria\SubAccount\GetSubAccByNameCriteria.cs" />
     <Compile Include="Criteria\SubAccount\GetSubAccBySystemIDCriteria.cs" />
-    <Compile Include="Criteria\SubAccount\GetSystemCriteria.cs" />
     <Compile Include="Criteria\SubAccount\GetTop10SubAccCriteria.cs" />
     <Compile Include="Criteria\User\GetUserInfoCriteria.cs" />
     <Compile Include="Criteria\User\UserGetPermissionCriteria.cs">

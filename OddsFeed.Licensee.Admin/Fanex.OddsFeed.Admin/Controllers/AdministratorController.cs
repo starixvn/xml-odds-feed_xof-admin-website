@@ -80,7 +80,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
             }
 
             ////System
-            ViewBag.SystemList = _adminService.GetSelectList(new GetSystemCriteria());
+            ViewBag.SystemList = _adminService.GetSelectList(new GetAllSystemsCriteria());
             return View();
         }
 

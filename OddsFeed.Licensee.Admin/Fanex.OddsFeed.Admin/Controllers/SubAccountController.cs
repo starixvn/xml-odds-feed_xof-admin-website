@@ -105,7 +105,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 actionResult.ResultMessage = result.Message;
             }
 
-            ViewBag.SystemList = _subAccService.GetSelectList(new Fanex.OddsFeed.Core.Criteria.Administrator.GetSystemCriteria());
+            ViewBag.SystemList = _subAccService.GetSelectList(new GetSystemCriteria());
             return Json(actionResult, JsonRequestBehavior.AllowGet);
         }
 

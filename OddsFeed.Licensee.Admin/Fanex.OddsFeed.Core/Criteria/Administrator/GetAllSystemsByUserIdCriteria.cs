@@ -1,29 +1,34 @@
 ﻿// --------------------------------------------------------------------------
-// <copyright file="GetSystemCriteria.cs" company="Nexcel Solutions Vietnam">
+// <copyright file="GetAllSystemsByUserIdCriteria.cs" company="Nexcel Solutions Vietnam">
 // Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------
 // <history>
-//   <change who="Louis.Nguyen" date="2012.12.07">Created</change>
+//   <change who="Louis.Nguyen" date="2013.03.06">Created</change>
+//   <change who="Thai.Tran" date="2014.05.20">Updated remove "SystemId"</change>
 // </history>
 
-namespace Fanex.OddsFeed.Core.Criteria.SubAccount
+namespace Fanex.OddsFeed.Core.Criteria.Administrator
 {
     using System.Diagnostics.CodeAnalysis;
     using Framework.Data;
 
     /// <summary>
-    /// Class GetSystemCriteria.
-    /// </summary>
-    public class GetSystemCriteria : CriteriaBase
+    /// Class GetAllSystemsByUserIdCriteria.
+    /// </summary>    
+    public class GetAllSystemsByUserIdCriteria : CriteriaBase
     {
-        public GetSystemCriteria()
+        public GetAllSystemsByUserIdCriteria()
         {
         }
+
+        public byte UserRole { get; set; }
+
+        public int UserId { get; set; }
         
         public override string GetSettingKey()
         {
-            return "Odds_System_Sel";
+            return "Odds_AdminSystem_SelAll";
         }
 
         /// <summary>

@@ -195,7 +195,7 @@ namespace Nexcel.OddsFeed.Library.Outrights
             }
 
             var oo = xd.CreateAttribute("o");
-            oo.Value = Utilities.ConvertOdds(op.OddRegion, decimal.Parse(item.Value)).ToString();  // item.Value;                
+            oo.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.Value)).ToString();  // item.Value;                
             odd.Attributes.Append(oo);
             return odd;
         }       

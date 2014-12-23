@@ -193,7 +193,7 @@
     <Content Include="App_Data\usermanual.htm" />
     <Content Include="Scripts\shBrushXml.js" />
     <Content Include="Scripts\shCore.js" />
-    <None Include="Views\OddsFeed\NewHelp.cshtml" />
+    <Content Include="Views\OddsFeed\NewHelp.cshtml" />
     <Content Include="stylesheets\Help\menu.css" />
     <Content Include="stylesheets\Help\content.css" />
     <Content Include="Web.config">
