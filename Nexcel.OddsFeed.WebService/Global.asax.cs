@@ -47,6 +47,8 @@ namespace Nexcel.OddsFeed.WebService
                 _feedUrlPath += "/";
             }
 
+            RegisterRoutesBetRadar(routes, _feedUrlPath);
+
             RegisterRoutesBedDaq(routes, _feedUrlPath);
 
             RegisterRoutesOddsFeed(routes, _feedUrlPath);
@@ -226,6 +228,19 @@ namespace Nexcel.OddsFeed.WebService
                 "BetDaqInsertBetdaqService",
                 _feedUrlPath + "{username}/en-lang/InsertBet.cmd",
                 new { controller = "InsertBetdaq", action = "Index" });
+        }
+
+        /// <summary>
+        /// Registers the routes bed Radar.
+        /// </summary>
+        /// <param name="routes">The routes.</param>
+        /// <param name="_feedUrlPath">The _feed URL path.</param>
+        private static void RegisterRoutesBetRadar(RouteCollection routes, string _feedUrlPath)
+        {
+            routes.MapRoute(
+                "BetRadarOddsFeedService", // Route name
+                _feedUrlPath + "{username}/oddsfeed.xml", // URL with parameters               
+               new { controller = "BetRadar", action = "Index" }); // Parameter defaults
         }
 
         #endregion

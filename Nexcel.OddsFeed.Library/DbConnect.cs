@@ -71,6 +71,11 @@ namespace Nexcel.OddsFeed.Library
             return result;
         }
 
+        public static DbResult GetBetRadar()
+        {
+            return DbHelper.ExecuteDbResult(Utilities.RealSp("SP.BetRadarOddsSel"));
+        }
+
         public static DbResult GetSportByUserName(string userName)
         {
             return DbHelper.ExecuteDbResult(Utilities.RealSp("SP.GetSportByUserName"), new Hashtable { { "username", userName } });      

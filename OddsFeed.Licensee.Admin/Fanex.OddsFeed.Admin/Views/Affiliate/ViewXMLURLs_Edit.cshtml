@@ -45,65 +45,68 @@
     <div class="form2" style="width: auto; height: 100%">
         <div id="doneId" style="text-align: left;">
             @{
-                if (domainSelList != null && domainSelList.Count() > 1)
-                {
-                    var domainSelListLength = domainSelList.Count();
+                var domainSelListLength = domainSelList.Count();
 
-                    var displayURL = affiliateController.GetXMLOddsFeedLink(domainSelList[0].Text, ViewBag.AffiliateName);
-                <div class="row">
-                    <div class="grid5">
-                        XML Odds Feed Main URL</div>
-                    <a href="@displayURL">@displayURL</a>
-                </div>
-                
+                if (domainSelList != null && domainSelList.Count() > 0)
+                {
+                    var displayURL = string.Empty;
+                    if (ViewBag.AffiliateName.ToLower() == "betradar")
+                    {
+                        displayURL = affiliateController.GetBetRadarLink(domainSelList[0].Text, ViewBag.AffiliateName);
+                        <div class="row">
+                            <div class="grid5">
+                                @ViewBag.AffiliateName URL</div>
+                            <a href="@displayURL">@displayURL</a>
+                        </div>
+
+                        for (var i = 1; i < domainSelListLength; i++)
+                        {
+                            displayURL = affiliateController.GetBetRadarLink(domainSelList[i].Text, ViewBag.AffiliateName);
+                            <div class="row">
+                                <div class="grid5">
+                                    @ViewBag.AffiliateName URL (Backup)</div>
+                                <a href="@displayURL">@displayURL</a>
+                            </div>
+                        }
+                    }
+
+                    displayURL = affiliateController.GetXMLOddsFeedLink(domainSelList[0].Text, ViewBag.AffiliateName);
+                    <div class="row">
+                        <div class="grid5">
+                            XML Odds Feed Main URL</div>
+                        <a href="@displayURL">@displayURL</a>
+                    </div>
+
                     for (var i = 1; i < domainSelListLength; i++)
                     {
                         displayURL = affiliateController.GetXMLOddsFeedLink(domainSelList[i].Text, ViewBag.AffiliateName);
-                <div class="row">
-                    <div class="grid5">
-                        XML Odds Feed URL (Backup)
-                    </div>
-                    <a href="@displayURL">@displayURL</a>
-                </div>
+                        <div class="row">
+                            <div class="grid5">
+                                XML Odds Feed URL (Backup)
+                            </div>
+                            <a href="@displayURL">@displayURL</a>
+                        </div>
                     }
 
                     displayURL = affiliateController.GetXMLOddsFeed_HelpLink(domainSelList[0].Text, ViewBag.AffiliateName);
-                <div class="row">
-                    <div class="grid5">
-                        How to implement</div>
-                    <a href="@displayURL">@displayURL</a>
-                </div>         
+                    <div class="row">
+                        <div class="grid5">
+                            How to implement</div>
+                        <a href="@displayURL">@displayURL</a>
+                    </div>         
                      
                     for (var i = 1; i < domainSelListLength; i++)
                     {
                         displayURL = affiliateController.GetXMLOddsFeed_HelpLink(domainSelList[i].Text, ViewBag.AffiliateName);
-                <div class="row">
-                    <div class="grid5">
-                        How to implement (Backup)
-                    </div>
-                    <a href="@displayURL">@displayURL</a>
-                </div>
+                        <div class="row">
+                            <div class="grid5">
+                                How to implement (Backup)
+                            </div>
+                            <a href="@displayURL">@displayURL</a>
+                        </div>
                     }
                 }
-                else if (domainSelList != null && domainSelList.Count() == 1)
-                {
-                    var domainSelListLength = domainSelList.Count();
-
-                    var displayURL = affiliateController.GetXMLOddsFeedLink(domainSelList[0].Text, ViewBag.AffiliateName);
-                <div class="row">
-                    <div class="grid5">
-                        XML Odds Feed Main URL</div>
-                    <a href="@displayURL">@displayURL</a>
-                </div>
-                
-                    displayURL = affiliateController.GetXMLOddsFeed_HelpLink(domainSelList[0].Text, ViewBag.AffiliateName);
-                <div class="row">
-                    <div class="grid5">
-                        How to implement</div>
-                    <a href="@displayURL">@displayURL</a>
-                </div>
                 }
-            }
             <div class="row">
                 <div class="grid2">
                     <a href="@Url.Action("list", "affiliate")" class="button">@ViewResources.Back</a>

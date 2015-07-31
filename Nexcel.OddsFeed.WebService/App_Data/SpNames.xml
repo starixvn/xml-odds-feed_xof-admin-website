@@ -25,6 +25,8 @@
     <Setting Key="SP.GetOddsFeed" SpName="Portal_BetDaq_Odds_V2" DbName="DBPRO.bodb02.portal" />
     <Setting Key="SP.GetOddsFeed_2" SpName="Portal_BetDaq_Odds_2_V2" DbName="DBPRO.bodb02.portal" />
 
+    <!-- BetRadar feed -->
+    <Setting Key="SP.BetRadarOddsSel" SpName="Portal_BetRadar_OddsSel" DbName="DBPRO.bodb02.portal" />
 
     <!-- OCS XML Feed -->
     <Setting Key="SP.Ocs_Ip" SpName="ocs_ips_sel" DbName="DBEXT.bodb02.bodbAdminNet" />
@@ -33,6 +35,7 @@
     <Setting Key="SP.Ocs_Team" SpName="ocs_teams_sel" DbName="DBEXT.bodb02.bodbAdminNet" />
     <Setting Key="SP.Ocs_League" SpName="ocs_leagues_sel" DbName="DBEXT.bodb02.bodbAdminNet" />
     <Setting Key="SP.Ocs_Event" SpName="ocs_events_sel" DbName="DBEXT.bodb02.bodbAdminNet" />
+    <Setting Key="SP.Ocs_Match" SpName="ocs_matches_sel" DbName="DBEXT.bodb02.bodbAdminNet" />
     <Setting Key="SP.Ocs_Match" SpName="ocs_matches_sel" DbName="DBEXT.bodb02.bodbAdminNet" />
     
   </Function>

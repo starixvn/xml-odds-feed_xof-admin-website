@@ -673,6 +673,19 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 "http://" + domainURL.Replace("http://", string.Empty) + "/" + GetVirtualPath() + affiliateName + "/help.htm";
         }
 
+        /// <summary>
+        /// Gets the XML odds feed link.
+        /// </summary>
+        /// <param name="domainURL">The domain URL.</param>
+        /// <param name="affiliateName">Name of the affiliate.</param>
+        /// <returns>The XML odds feed link. </returns>
+        public string GetBetRadarLink(string domainURL, string affiliateName)
+        {
+            return string.IsNullOrEmpty(domainURL) ?
+                string.Empty :
+                "http://" + domainURL.Replace("http://", string.Empty) + "/" + GetVirtualPath() + affiliateName + "/oddsfeed.xml";
+        }
+
         #endregion
 
         #region Delete
