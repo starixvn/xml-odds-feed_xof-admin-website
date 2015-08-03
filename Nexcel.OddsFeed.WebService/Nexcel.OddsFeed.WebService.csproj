@@ -225,6 +225,9 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
     <None Include="config.rb" />
+    <Content Include="Web.Production.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="sass\ie.scss">
       <Compile>True</Compile>
       <Minify>True</Minify>

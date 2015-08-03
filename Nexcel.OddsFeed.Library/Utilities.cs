@@ -24,6 +24,7 @@ namespace Nexcel.OddsFeed.Library
     /// </summary>
     public static class Utilities
     {
+        private static string _oddsFormat = "F";
         /// <summary>
         /// Reads the text file.
         /// </summary>
@@ -352,6 +353,17 @@ namespace Nexcel.OddsFeed.Library
         {
             decimal adjustment = (decimal)Math.Pow(10, decimalPlaces);
             return Math.Floor(value * adjustment) / adjustment;
+        }
+
+        public static string OddsFormat(object value)
+        {
+            decimal result = 0;
+            if (!decimal.TryParse(value.ToString(), out result))
+            {
+                result = 0;
+            }
+
+            return result.ToString(_oddsFormat);
         }
     }
 }

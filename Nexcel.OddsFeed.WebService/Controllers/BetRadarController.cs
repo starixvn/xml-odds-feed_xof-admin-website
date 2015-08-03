@@ -119,9 +119,9 @@
             var node = xd.CreateElement("OddsData");
             node.SetAttribute("type", "3w");
             node.AppendChild(CreateNode(xd, "AC", "3"));
-            node.AppendChild(CreateNode(xd, "HomeOdds", row["com1_5"].ToString()));
-            node.AppendChild(CreateNode(xd, "DrawOdds", row["comx_5"].ToString()));
-            node.AppendChild(CreateNode(xd, "AwayOdds", row["com2_5"].ToString()));
+            node.AppendChild(CreateNode(xd, "HomeOdds", Utilities.OddsFormat(row["com1_5"])));
+            node.AppendChild(CreateNode(xd, "DrawOdds", Utilities.OddsFormat(row["comx_5"])));
+            node.AppendChild(CreateNode(xd, "AwayOdds", Utilities.OddsFormat(row["com2_5"])));
             return node;
         }
 
@@ -130,9 +130,9 @@
             var node = xd.CreateElement("OddsData");
             node.SetAttribute("type", "handicap");
             node.AppendChild(CreateNode(xd, "AC", "1"));
-            node.AppendChild(CreateNode(xd, "Handicap", row["hdp1_1"].ToString()));
-            node.AppendChild(CreateNode(xd, "HomeOdds", row["odds1hka_1"].ToString()));
-            node.AppendChild(CreateNode(xd, "AwayOdds", row["odds2hka_1"].ToString()));
+            node.AppendChild(CreateNode(xd, "Handicap", Utilities.OddsFormat(row["hdp1_1"])));
+            node.AppendChild(CreateNode(xd, "HomeOdds", Utilities.OddsFormat(row["odds1hka_1"])));
+            node.AppendChild(CreateNode(xd, "AwayOdds", Utilities.OddsFormat(row["odds2hka_1"])));
             return node;
         }
 
@@ -141,9 +141,9 @@
             var node = xd.CreateElement("OddsData");
             node.SetAttribute("type", "total");
             node.AppendChild(CreateNode(xd, "AC", "1"));
-            node.AppendChild(CreateNode(xd, "Total", row["Hdp1_3"].ToString()));
-            node.AppendChild(CreateNode(xd, "UnderOdds", row["odds1hka_3"].ToString()));
-            node.AppendChild(CreateNode(xd, "OverOdds", row["odds2hka_3"].ToString()));
+            node.AppendChild(CreateNode(xd, "Total", Utilities.OddsFormat(row["Hdp1_3"])));
+            node.AppendChild(CreateNode(xd, "UnderOdds", Utilities.OddsFormat(row["odds1hka_3"])));
+            node.AppendChild(CreateNode(xd, "OverOdds", Utilities.OddsFormat(row["odds2hka_3"])));
             return node;
         }
         #endregion
