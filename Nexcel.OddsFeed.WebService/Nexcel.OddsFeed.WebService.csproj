@@ -225,7 +225,10 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
     <None Include="config.rb" />
-    <Content Include="Web.Production.config">
+    <Content Include="Web.PRO.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.UAT.config">
       <SubType>Designer</SubType>
     </Content>
     <None Include="sass\ie.scss">
