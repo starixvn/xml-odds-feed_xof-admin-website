@@ -15,6 +15,9 @@
     public class BetRadarController : Controller
     {
         #region Odds
+
+        private string _totalFormat = "#.##";
+
         /// <summary>
         /// Gets the odds.
         /// </summary>
@@ -141,7 +144,7 @@
             var node = xd.CreateElement("OddsData");
             node.SetAttribute("type", "total");
             node.AppendChild(CreateNode(xd, "AC", "1"));
-            node.AppendChild(CreateNode(xd, "Total", row["Hdp1_3"].ToString()));
+            node.AppendChild(CreateNode(xd, "Total", Convert.ToDecimal(row["Hdp1_3"]).ToString(Utilities.TotalFormat)));
             node.AppendChild(CreateNode(xd, "UnderOdds", Utilities.OddsFormat(row["odds1hka_3"])));
             node.AppendChild(CreateNode(xd, "OverOdds", Utilities.OddsFormat(row["odds2hka_3"])));
             return node;

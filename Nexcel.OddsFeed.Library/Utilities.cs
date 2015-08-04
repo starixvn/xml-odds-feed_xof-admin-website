@@ -25,6 +25,15 @@ namespace Nexcel.OddsFeed.Library
     public static class Utilities
     {
         private static string _oddsFormat = "F";
+
+        public static string TotalFormat
+        {
+            get
+            {
+                return "#.##";
+            }
+        }
+
         /// <summary>
         /// Reads the text file.
         /// </summary>
