@@ -16,8 +16,6 @@
     {
         #region Odds
 
-        private string _totalFormat = "#.##";
-
         /// <summary>
         /// Gets the odds.
         /// </summary>
@@ -74,14 +72,10 @@
 
             // Generate XML.
             var xd = new XmlDocument();
-            var xmlDeclaration = xd.CreateXmlDeclaration("1.0", "utf-8", null);
-            xd.InsertBefore(xmlDeclaration, xd.DocumentElement);
-
             var commentMain = xd.CreateComment(" Date is based on Malaysian time ");
             var list = xd.CreateElement("List");
-            xd.AppendChild(commentMain);
             xd.AppendChild(list);
-
+            list.AppendChild(commentMain);
             foreach (DataRow row in oddsFeed.Rows)
             {
                 var oddsObject = xd.CreateNode(XmlNodeType.Element, "OddsObject", null);
@@ -115,7 +109,7 @@
                 }
             }
 
-            return list;
+            return xd.DocumentElement;
         }
 
         private XmlElement CreateNode(XmlDocument xd, string nodeName, string value)
