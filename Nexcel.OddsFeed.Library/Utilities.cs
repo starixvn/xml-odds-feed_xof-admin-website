@@ -26,13 +26,7 @@ namespace Nexcel.OddsFeed.Library
     {
         private static string _oddsFormat = "F";
 
-        public static string TotalFormat
-        {
-            get
-            {
-                return "#.##";
-            }
-        }
+        private static string _totalFormat = "#.##";
 
         /// <summary>
         /// Reads the text file.
@@ -373,6 +367,17 @@ namespace Nexcel.OddsFeed.Library
             }
 
             return result.ToString(_oddsFormat);
+        }
+
+        public static string TotalFormat(object value)
+        {
+            decimal result = 0;
+            if (!decimal.TryParse(value.ToString(), out result))
+            {
+                result = 0;
+            }
+
+            return result.ToString(_totalFormat);
         }
     }
 }

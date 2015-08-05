@@ -77,7 +77,9 @@
             var xmlDeclaration = xd.CreateXmlDeclaration("1.0", "utf-8", null);
             xd.InsertBefore(xmlDeclaration, xd.DocumentElement);
 
+            var commentMain = xd.CreateComment(" Date is based on Malaysian time ");
             var list = xd.CreateElement("List");
+            xd.AppendChild(commentMain);
             xd.AppendChild(list);
 
             foreach (DataRow row in oddsFeed.Rows)
@@ -93,16 +95,22 @@
 
                 if (!row.IsNull("OddsID_5"))
                 {
+                    var comment = xd.CreateComment(" Threeway odds ");
+                    oddsObject.AppendChild(comment);
                     oddsObject.AppendChild(OddsDataThreeway(xd, row));
                 }
 
                 if (!row.IsNull("OddsID_1"))
                 {
+                    var comment = xd.CreateComment(" Handicap odds ");
+                    oddsObject.AppendChild(comment);
                     oddsObject.AppendChild(OddsDataHandicap(xd, row));
                 }
 
                 if (!row.IsNull("OddsID_3"))
                 {
+                    var comment = xd.CreateComment(" Total odds(over/under) ");
+                    oddsObject.AppendChild(comment);
                     oddsObject.AppendChild(OddsDataOverUnder(xd, row));
                 }
             }
@@ -133,7 +141,7 @@
             var node = xd.CreateElement("OddsData");
             node.SetAttribute("type", "handicap");
             node.AppendChild(CreateNode(xd, "AC", "1"));
-            node.AppendChild(CreateNode(xd, "Handicap", row["hdp1_1"].ToString()));
+            node.AppendChild(CreateNode(xd, "Handicap", row["hdp1_1"].ToString() + ":" + row["hdp2_1"].ToString()));
             node.AppendChild(CreateNode(xd, "HomeOdds", Utilities.OddsFormat(row["odds1hka_1"])));
             node.AppendChild(CreateNode(xd, "AwayOdds", Utilities.OddsFormat(row["odds2hka_1"])));
             return node;
@@ -144,7 +152,7 @@
             var node = xd.CreateElement("OddsData");
             node.SetAttribute("type", "total");
             node.AppendChild(CreateNode(xd, "AC", "1"));
-            node.AppendChild(CreateNode(xd, "Total", Convert.ToDecimal(row["Hdp1_3"]).ToString(Utilities.TotalFormat)));
+            node.AppendChild(CreateNode(xd, "Total", Utilities.TotalFormat(row["Hdp1_3"])));
             node.AppendChild(CreateNode(xd, "UnderOdds", Utilities.OddsFormat(row["odds1hka_3"])));
             node.AppendChild(CreateNode(xd, "OverOdds", Utilities.OddsFormat(row["odds2hka_3"])));
             return node;
