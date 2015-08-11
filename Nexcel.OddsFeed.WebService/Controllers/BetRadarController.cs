@@ -78,7 +78,9 @@
             list.AppendChild(commentMain);
             foreach (DataRow row in oddsFeed.Rows)
             {
-                var oddsObject = xd.CreateNode(XmlNodeType.Element, "OddsObject", null);
+                var oddsObject = xd.CreateElement("OddsObject");
+                oddsObject.SetAttribute("type", "regular");
+
                 list.AppendChild(oddsObject);
                 oddsObject.AppendChild(CreateNode(xd, "Sport", row["sporttypename"].ToString()));
                 oddsObject.AppendChild(CreateNode(xd, "Tournament", row["leaguename"].ToString()));
