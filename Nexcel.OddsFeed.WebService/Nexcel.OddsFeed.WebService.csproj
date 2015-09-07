@@ -69,6 +69,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\_Dependencies\Entlib\Microsoft.ServiceModel.Web.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="MvcContrib">
       <HintPath>..\_Dependencies\MvcContrib.dll</HintPath>
     </Reference>
@@ -83,7 +86,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="System.Web.Helpers, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -107,6 +110,9 @@
   <ItemGroup>
     <Compile Include="Controllers\AnalyticsController.cs" />
     <Compile Include="Controllers\BetDaqController.cs" />
+    <Compile Include="Controllers\BetRadarController.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Controllers\ErrorsController.cs" />
     <Compile Include="Controllers\FeedsController.cs" />
     <Compile Include="Controllers\InsertBetdaqController.cs" />
@@ -222,6 +228,14 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
     <None Include="config.rb" />
+    <Content Include="Web.PRO.config">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web.UAT.config">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="sass\ie.scss">
       <Compile>True</Compile>
       <Minify>True</Minify>

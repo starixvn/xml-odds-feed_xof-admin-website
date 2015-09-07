@@ -119,6 +119,12 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="App.UAT.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="App.PRO.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Nexcel.OddsFeed.Library\Nexcel.OddsFeed.Library.csproj">
