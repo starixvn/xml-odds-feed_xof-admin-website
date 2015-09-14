@@ -278,13 +278,33 @@ namespace Nexcel.OddsFeed.Library
                     return CreateMatchOddBettype15(item);                    
                 case 16:
                     ////HT/FT
-                    return CreateMatchOddBettype16(item);                    
+                    return CreateMatchOddBettype16(item);
+                case 20:
+                    ////HT/FT
+                    return CreateMatchOddBettype20(item);                   
                 default:
                     return null;                    
             }            
         }
 
         #region Match Odd Bettype
+
+        /// <summary>
+        /// Creates the match odd BETTYPE16.
+        /// </summary>
+        /// <param name="item">The data row.</param>
+        /// <returns>Object MatchOdd.</returns>
+        private static MatchOdd CreateMatchOddBettype20(DataRow item)
+        {
+            var odd = new MatchOdd
+            {
+                Type = "ml",
+                O1 = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["Odds1A"]))),
+                O2 = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["Odds2A"]))),
+                Time = DateTime.Parse(item["ChangeTime"].ToString())
+            };
+            return odd;
+        }
 
         /// <summary>
         /// Creates the match odd BETTYPE16.

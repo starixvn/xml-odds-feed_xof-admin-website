@@ -5,7 +5,7 @@
 // --------------------------------------------------------------------------
 // <history>
 //   <change who="Thai.Tran" date="2013.1.7">Created</change>
-// </history>
+// </history>k
 
 namespace Nexcel.OddsFeed.WindowsService
 {

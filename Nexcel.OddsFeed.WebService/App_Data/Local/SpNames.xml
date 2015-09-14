@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Functions>
+  
+  <Function Name="XmlWebService">
+
+    <Setting Key="SP.LiveOdds" SpName="Is_Odds_GetLiveOddsData_xtest" DbName="DBACC.bodb02.bodbAdminNet" />
+    <Setting Key="SP.DeadballOdds" SpName="Is_Odds_GetDeadballOddsData_xtest" DbName="DBACC.bodb02.bodbAdminNet" />
+    <Setting Key="SP.OutrightOdds" SpName="Is_Odds_GetOutrightOddsData" DbName="DBACC.bodb02.bodbAdminNet" />    
+    <Setting Key="SP.CheckPermission" SpName="Odds_PartnerCheckPermission" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+    <Setting Key="SP.GetSportByUserName" SpName="Odds_SportSelByUserName" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+    <Setting Key="SP.GetBetTypeByUserName" SpName="Odds_BetTypeSelByUserName_xtest" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+    <Setting Key="SP.GetCountryByUserName" SpName="Odds_CountrySelByUserName" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+    <Setting Key="SP.GetContactEmailByUserName" SpName="Odds_ContactEmailSelByUserName" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+    <Setting Key="SP.GetCountryList" SpName="Odds_GetCountryList" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+    
+    <!-- Betdaq schedule text feed -->
+    <Setting Key="Portal_BetDaq_Schedule" SpName="dbo.Portal_BetDaq_Schedule" DbName="DBPRO.bodb02.portal" />
+    <!--Insert betdaq for testing account (member10)-->
+    <!--<add key="SP.InsertBetDaq" value="Portal_BetDaq_InsertBet_V2"/>-->
+    <!--
+      Portal_BetDaq_InsertBet:    Insert betdaq for real account
+      Portal_BetDaq_InsertBet_V2: Insert betdaq for testing account (member10)
+    -->
+    <Setting Key="SP.InsertBetDaq" SpName="Portal_BetDaq_InsertBet" DbName="DBPRO.bodb02.portal" />
+    <Setting Key="SP.GetOddsFeed" SpName="Portal_BetDaq_Odds_V2" DbName="DBPRO.bodb02.portal" />
+    <Setting Key="SP.GetOddsFeed_2" SpName="Portal_BetDaq_Odds_2_V2" DbName="DBPRO.bodb02.portal" />
+
+    <!-- BetRadar feed -->
+    <Setting Key="SP.BetRadarOddsSel" SpName="Odds_BetRadar_OddsSel" DbName="DBACC.bodb02.bodbAdminNet" />
+
+    <!-- OCS XML Feed -->
+    <Setting Key="SP.Ocs_Ip" SpName="ocs_ips_sel" DbName="DBEXT.bodb02.bodbAdminNet" />
+    <Setting Key="SP.Ocs_Country" SpName="ocs_countries_sel" DbName="DBEXT.bodb02.bodbAdminNet" />
+    <Setting Key="SP.Ocs_Sport" SpName="ocs_sports_sel" DbName="DBEXT.bodb02.bodbAdminNet" />
+    <Setting Key="SP.Ocs_Team" SpName="ocs_teams_sel" DbName="DBEXT.bodb02.bodbAdminNet" />
+    <Setting Key="SP.Ocs_League" SpName="ocs_leagues_sel" DbName="DBEXT.bodb02.bodbAdminNet" />
+    <Setting Key="SP.Ocs_Event" SpName="ocs_events_sel" DbName="DBEXT.bodb02.bodbAdminNet" />
+    <Setting Key="SP.Ocs_Match" SpName="ocs_matches_sel" DbName="DBEXT.bodb02.bodbAdminNet" />
+    <Setting Key="SP.Ocs_Match" SpName="ocs_matches_sel" DbName="DBEXT.bodb02.bodbAdminNet" />
+    
+  </Function>
+          
+</Functions>

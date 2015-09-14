@@ -320,6 +320,15 @@
                                     </ul>
                                 </li>
                             }
+                            @if (Model.BetTypes == null || Model.BetTypes.Contains(20))
+                            { 
+                                <li>t="ml": Money Line bet type 
+                                    <ul>
+                                        <li>o1: Home team win price</li>
+                                        <li>o2: Away team win price</li>
+                                    </ul>
+                                </li>
+                            }
                         </ul>
                         <div style="height: 20px">
                         </div>
@@ -567,6 +576,14 @@
                                 </td>
                                 <td>
                                     Support filtering by sports, bet types, countries and leagues
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center">
+                                    16 - Sep - 2015
+                                </td>
+                                <td>
+                                    Add E-Sports into XML odds feed
                                 </td>
                             </tr>
                         </table>

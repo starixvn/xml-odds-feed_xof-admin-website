@@ -395,6 +395,9 @@ namespace Nexcel.OddsFeed.Library.Matchs
                 case "cs":
                     BuildXmlNodeOdd_cs(xd, op, item, odd);
                     break;
+                case "ml":
+                    BuildXmlNodeOdd_ml(xd, op, item, odd);
+                    break;
             }
 
             var otime = xd.CreateAttribute("time");
@@ -721,6 +724,24 @@ namespace Nexcel.OddsFeed.Library.Matchs
             var oe_e = xd.CreateAttribute("e");
             oe_e.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.E)).ToString();
             odd.Attributes.Append(oe_e);
+        }
+
+        /// <summary>
+        /// Builds the XML node Money line.
+        /// </summary>
+        /// <param name="xd">The XmlDocument.</param>
+        /// <param name="op">The odd profile.</param>
+        /// <param name="item">The match node.</param>
+        /// <param name="odd">The Xml Node.</param>
+        private void BuildXmlNodeOdd_ml(XmlDocument xd, OddsProfile op, MatchOdd item, XmlNode odd)
+        {
+            var o1 = xd.CreateAttribute("o1");
+            o1.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.O1)).ToString();
+            odd.Attributes.Append(o1);
+
+            var o2 = xd.CreateAttribute("o2");
+            o2.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.O2)).ToString();
+            odd.Attributes.Append(o2);
         }
 
         /// <summary>
