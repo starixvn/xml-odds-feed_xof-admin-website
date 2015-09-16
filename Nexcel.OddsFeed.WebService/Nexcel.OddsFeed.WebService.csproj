@@ -126,7 +126,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\SpNames.xml" />
+    <Content Include="App_Data\Pro\SpNames.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App_Data\UAT\SpNames.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App_Data\Local\SpNames.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="App_Themes\Default\Images\top-bg.png" />
     <Content Include="App_Themes\Default\Images\tp_404error.png" />
     <Content Include="App_Themes\Default\Images\tp_exclamation.png" />

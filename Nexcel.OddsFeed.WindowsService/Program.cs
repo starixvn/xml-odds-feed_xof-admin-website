@@ -14,6 +14,7 @@ namespace Nexcel.OddsFeed.WindowsService
     using System.Linq;
     using System.ServiceProcess;
     using System.Text;
+    using Nexcel.OddsFeed.Library;
 
     /// <summary>
     /// Class Program.
@@ -31,6 +32,8 @@ namespace Nexcel.OddsFeed.WindowsService
                 new OddsFeedWindowsService()
             };
             ServiceBase.Run(servicesToRun);
+            //// Fanex.Data.Configuration.DbSettingProviderManager.Current.Start();
+            //// UpdateOddsData.Update(10);
         }
     }
 }

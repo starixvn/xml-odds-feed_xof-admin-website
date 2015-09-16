@@ -344,6 +344,15 @@
                                         </ul>
                                     </li>
                                 }
+                                @if (Model.BetTypes == null || Model.BetTypes.Contains(20))
+                                {
+                                    <li>t="ml": Money Line bet type 
+                                        <ul>
+                                            <li>o1: Home team win price</li>
+                                            <li>o2: Away team win price</li>
+                                        </ul>
+                                    </li>
+                                }
                             </ul>
                         </div>
                     </div>
