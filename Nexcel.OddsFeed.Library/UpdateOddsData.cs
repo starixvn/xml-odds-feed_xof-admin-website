@@ -271,6 +271,9 @@ namespace Nexcel.OddsFeed.Library
                 case 12:
                     ////First-Half Odd/Even
                     return CreateMatchOddBettype12(item);                    
+                case 13: 
+                    ////Clean Sheet
+                    return CreateMatchOddBettype13(item);
                 case 14:
                     ////first-last
                     return CreateMatchOddBettype14(item);                    
@@ -559,6 +562,20 @@ namespace Nexcel.OddsFeed.Library
                 H = string.Format("{0:0.#########}", tmp),
                 O = string.Format("{0:0.#########}", tmp > 0 ? odds2A_1 : odds1A_1),
                 U = string.Format("{0:0.#########}", tmp > 0 ? odds1A_1 : odds2A_1),
+                Time = DateTime.Parse(item["ChangeTime"].ToString())
+            };
+            return odd;
+        }
+
+        private static MatchOdd CreateMatchOddBettype13(DataRow item)
+        {
+            var odd = new MatchOdd
+            {
+                Type = "so",
+                HY = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs11"]))),
+                HN = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs10"]))),
+                AY = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs21"]))),
+                AN = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs20"]))),
                 Time = DateTime.Parse(item["ChangeTime"].ToString())
             };
             return odd;

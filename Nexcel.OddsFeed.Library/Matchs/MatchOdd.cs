@@ -51,6 +51,10 @@ namespace Nexcel.OddsFeed.Library.Matches
 
         public string HH { get; set; }
 
+        public string HY { get; set; }
+
+        public string HN { get; set; }
+
         public string AA { get; set; }
 
         public string AD { get; set; }
@@ -60,6 +64,10 @@ namespace Nexcel.OddsFeed.Library.Matches
         public string AH { get; set; }
 
         public string AL { get; set; }
+
+        public string AY { get; set; }
+
+        public string AN { get; set; }
 
         public string NG { get; set; }
 

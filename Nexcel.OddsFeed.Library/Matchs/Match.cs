@@ -398,6 +398,9 @@ namespace Nexcel.OddsFeed.Library.Matchs
                 case "ml":
                     BuildXmlNodeOdd_ml(xd, op, item, odd);
                     break;
+                case "so":
+                    BuildXmlNodeOdd_so(xd, op, item, odd);
+                    break;
             }
 
             var otime = xd.CreateAttribute("time");
@@ -786,6 +789,25 @@ namespace Nexcel.OddsFeed.Library.Matchs
             var hou_u = xd.CreateAttribute("u");
             hou_u.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.U)).ToString();
             odd.Attributes.Append(hou_u);
+        }
+
+        private void BuildXmlNodeOdd_so(XmlDocument xd, OddsProfile op, MatchOdd item, XmlNode odd)
+        {
+            var hy = xd.CreateAttribute("hy");
+            hy.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.HY)).ToString();
+            odd.Attributes.Append(hy);
+
+            var hn = xd.CreateAttribute("hn");
+            hn.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.HN)).ToString();
+            odd.Attributes.Append(hn);
+
+            var ay = xd.CreateAttribute("ay");
+            ay.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.AY)).ToString();
+            odd.Attributes.Append(ay);
+
+            var an = xd.CreateAttribute("an");
+            an.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.AN)).ToString();
+            odd.Attributes.Append(an);
         }
 
         #endregion
