@@ -31,7 +31,7 @@ namespace Nexcel.OddsFeed.Library.Matches
 
         public string O3 { get; set; }
 
-        public string O4 { get; set; }
+        public string O4 { get; set; }        
 
         public string DA { get; set; }
 
@@ -132,5 +132,27 @@ namespace Nexcel.OddsFeed.Library.Matches
         public DateTime Time { get; set; }
 
         public int TimeStamp { get; set; }
+
+        public string N { get; set; }
+
+        public string OE { get; set; }
+
+        public string EO { get; set; }
+
+        public string OO { get; set; }
+
+        public string EE { get; set; }
+
+        public string Y { get; set; }
+
+        public string FirstH { get; set; }
+
+        public string SecondH { get; set; }
+
+        public string T { get; set; }
+
+        public string A { get; set; }
+
+        public string D { get; set; }
     }
 }

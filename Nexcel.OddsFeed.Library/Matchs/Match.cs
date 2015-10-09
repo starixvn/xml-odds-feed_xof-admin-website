@@ -401,6 +401,45 @@ namespace Nexcel.OddsFeed.Library.Matchs
                 case "so":
                     BuildXmlNodeOdd_so(xd, op, item, odd);
                     break;
+                case "cs_1":
+                    BuildXmlNodeOdd_cs_1(xd, op, item, odd);
+                    break;
+                case "hnb":
+                    BuildXmlNodeOdd_hnb(xd, op, item, odd);
+                    break;
+                case "anb":
+                    BuildXmlNodeOdd_anb(xd, op, item, odd);
+                    break;
+                case "dnd":
+                    BuildXmlNodeOdd_dnd(xd, op, item, odd);
+                    break;
+                case "tg_1":
+                    BuildXmlNodeOdd_tg_1(xd, op, item, odd);
+                    break;
+                case "fglg_1":
+                    BuildXmlNodeOdd_fglg_1(xd, op, item, odd);
+                    break;
+                case "oe_12":
+                    BuildXmlNodeOdd_oe_12(xd, op, item, odd);
+                    break;
+                case "h2h":
+                    BuildXmlNodeOdd_h2h(xd, op, item, odd);
+                    break;
+                case "a2h":
+                    BuildXmlNodeOdd_a2h(xd, op, item, odd);
+                    break;
+                case "pen":
+                    BuildXmlNodeOdd_pen(xd, op, item, odd);
+                    break;
+                case "high":
+                    BuildXmlNodeOdd_high(xd, op, item, odd);
+                    break;
+                case "hhigh":
+                    BuildXmlNodeOdd_hhigh(xd, op, item, odd);
+                    break;
+                case "ahigh":
+                    BuildXmlNodeOdd_ahigh(xd, op, item, odd);
+                    break;                
             }
 
             var otime = xd.CreateAttribute("time");
@@ -810,6 +849,253 @@ namespace Nexcel.OddsFeed.Library.Matchs
             odd.Attributes.Append(an);
         }
 
+        private void BuildXmlNodeOdd_cs_1(XmlDocument xd, OddsProfile op, MatchOdd item, XmlNode odd)
+        {
+            var hy = xd.CreateAttribute("c10");
+            hy.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.C10)).ToString();
+            odd.Attributes.Append(hy);
+
+            var c20 = xd.CreateAttribute("c20");
+            c20.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.C20)).ToString();
+            odd.Attributes.Append(c20);
+
+            var c21 = xd.CreateAttribute("c21");
+            c21.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.C21)).ToString();
+            odd.Attributes.Append(c21);
+
+            var c30 = xd.CreateAttribute("c30");
+            c30.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.C30)).ToString();
+            odd.Attributes.Append(c30);
+
+            var c31 = xd.CreateAttribute("c31");
+            c31.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.C31)).ToString();
+            odd.Attributes.Append(c31);
+
+            var c32 = xd.CreateAttribute("c32");
+            c32.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.C32)).ToString();
+            odd.Attributes.Append(c32);
+
+            var c40 = xd.CreateAttribute("c40");
+            c40.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.C40)).ToString();
+            odd.Attributes.Append(c40);
+
+            var c01 = xd.CreateAttribute("c01");
+            c01.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.C01)).ToString();
+            odd.Attributes.Append(c01);
+
+            var c02 = xd.CreateAttribute("c02");
+            c02.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.C02)).ToString();
+            odd.Attributes.Append(c02);
+
+            var c12 = xd.CreateAttribute("c12");
+            c12.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.C12)).ToString();
+            odd.Attributes.Append(c12);
+
+            var c03 = xd.CreateAttribute("c03");
+            c03.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.C03)).ToString();
+            odd.Attributes.Append(c03);
+
+            var c13 = xd.CreateAttribute("c13");
+            c13.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.C13)).ToString();
+            odd.Attributes.Append(c13);
+
+            var c23 = xd.CreateAttribute("c23");
+            c23.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.C23)).ToString();
+            odd.Attributes.Append(c23);
+
+            var c04 = xd.CreateAttribute("c04");
+            c04.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.C04)).ToString();
+            odd.Attributes.Append(c04);
+
+            var c00 = xd.CreateAttribute("c00");
+            c00.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.C00)).ToString();
+            odd.Attributes.Append(c00);
+
+            var c11 = xd.CreateAttribute("c11");
+            c11.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.C11)).ToString();
+            odd.Attributes.Append(c11);
+
+            var c22 = xd.CreateAttribute("c22");
+            c22.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.C22)).ToString();
+            odd.Attributes.Append(c22);
+
+            var c33 = xd.CreateAttribute("c33");
+            c33.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.C33)).ToString();
+            odd.Attributes.Append(c33);
+        }
+
+        private void BuildXmlNodeOdd_hnb(XmlDocument xd, OddsProfile op, MatchOdd item, XmlNode odd)
+        {
+            var a = xd.CreateAttribute("a");
+            a.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.A)).ToString();
+            odd.Attributes.Append(a);
+
+            var d = xd.CreateAttribute("d");
+            d.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.D)).ToString();
+            odd.Attributes.Append(d);            
+        }
+
+        private void BuildXmlNodeOdd_anb(XmlDocument xd, OddsProfile op, MatchOdd item, XmlNode odd)
+        {
+            var h = xd.CreateAttribute("h");
+            h.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.H)).ToString();
+            odd.Attributes.Append(h);
+
+            var d = xd.CreateAttribute("d");
+            d.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.D)).ToString();
+            odd.Attributes.Append(d);
+        }
+
+        private void BuildXmlNodeOdd_dnd(XmlDocument xd, OddsProfile op, MatchOdd item, XmlNode odd)
+        {
+            var d = xd.CreateAttribute("d");
+            d.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.D)).ToString();
+            odd.Attributes.Append(d);
+
+            var n = xd.CreateAttribute("n");
+            n.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.N)).ToString();
+            odd.Attributes.Append(n);
+        }
+
+        private void BuildXmlNodeOdd_tg_1(XmlDocument xd, OddsProfile op, MatchOdd item, XmlNode odd)
+        {
+            var o1 = xd.CreateAttribute("o1");
+            o1.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.O1)).ToString();
+            odd.Attributes.Append(o1);
+
+            var o2 = xd.CreateAttribute("o2");
+            o2.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.O2)).ToString();
+            odd.Attributes.Append(o2);
+
+            var o3 = xd.CreateAttribute("o3");
+            o3.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.O3)).ToString();
+            odd.Attributes.Append(o3);
+        }
+
+        private void BuildXmlNodeOdd_fglg_1(XmlDocument xd, OddsProfile op, MatchOdd item, XmlNode odd)
+        {
+            var hf = xd.CreateAttribute("hf");
+            hf.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.HF)).ToString();
+            odd.Attributes.Append(hf);
+
+            var hl = xd.CreateAttribute("hl");
+            hl.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.HL)).ToString();
+            odd.Attributes.Append(hl);
+
+            var af = xd.CreateAttribute("af");
+            af.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.AF)).ToString();
+            odd.Attributes.Append(af);
+
+            var al = xd.CreateAttribute("al");
+            al.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.AL)).ToString();
+            odd.Attributes.Append(al);
+
+            var ng = xd.CreateAttribute("ng");
+            ng.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.NG)).ToString();
+            odd.Attributes.Append(ng);
+        }
+
+        private void BuildXmlNodeOdd_oe_12(XmlDocument xd, OddsProfile op, MatchOdd item, XmlNode odd)
+        {
+            var oe = xd.CreateAttribute("oe");
+            oe.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.OE)).ToString();
+            odd.Attributes.Append(oe);
+
+            var eo = xd.CreateAttribute("eo");
+            eo.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.EO)).ToString();
+            odd.Attributes.Append(eo);
+
+            var oo = xd.CreateAttribute("oo");
+            oo.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.OO)).ToString();
+            odd.Attributes.Append(oo);
+
+            var ee = xd.CreateAttribute("ee");
+            ee.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.EE)).ToString();
+            odd.Attributes.Append(ee);
+
+        }
+
+        private void BuildXmlNodeOdd_h2h(XmlDocument xd, OddsProfile op, MatchOdd item, XmlNode odd)
+        {
+            var y = xd.CreateAttribute("y");
+            y.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.Y)).ToString();
+            odd.Attributes.Append(y);
+
+            var n = xd.CreateAttribute("n");
+            n.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.N)).ToString();
+            odd.Attributes.Append(n);
+        }
+
+
+        private void BuildXmlNodeOdd_a2h(XmlDocument xd, OddsProfile op, MatchOdd item, XmlNode odd)
+        {
+            var y = xd.CreateAttribute("y");
+            y.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.Y)).ToString();
+            odd.Attributes.Append(y);
+
+            var n = xd.CreateAttribute("n");
+            n.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.N)).ToString();
+            odd.Attributes.Append(n);
+        }
+
+        private void BuildXmlNodeOdd_pen(XmlDocument xd, OddsProfile op, MatchOdd item, XmlNode odd)
+        {
+            var y = xd.CreateAttribute("y");
+            y.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.Y)).ToString();
+            odd.Attributes.Append(y);
+
+            var n = xd.CreateAttribute("n");
+            n.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.N)).ToString();
+            odd.Attributes.Append(n);
+        }
+
+        private void BuildXmlNodeOdd_high(XmlDocument xd, OddsProfile op, MatchOdd item, XmlNode odd)
+        {
+            var firstH = xd.CreateAttribute("1h");
+            firstH.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.FirstH)).ToString();
+            odd.Attributes.Append(firstH);
+
+            var secondH = xd.CreateAttribute("2n");
+            secondH.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.SecondH)).ToString();
+            odd.Attributes.Append(secondH);
+
+            var t = xd.CreateAttribute("t");
+            t.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.T)).ToString();
+            odd.Attributes.Append(t);
+
+        }
+
+        private void BuildXmlNodeOdd_hhigh(XmlDocument xd, OddsProfile op, MatchOdd item, XmlNode odd)
+        {
+            var firstH = xd.CreateAttribute("1h");
+            firstH.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.FirstH)).ToString();
+            odd.Attributes.Append(firstH);
+
+            var secondH = xd.CreateAttribute("2n");
+            secondH.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.SecondH)).ToString();
+            odd.Attributes.Append(secondH);
+
+            var t = xd.CreateAttribute("t");
+            t.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.T)).ToString();
+            odd.Attributes.Append(t);
+
+        }
+
+        private void BuildXmlNodeOdd_ahigh(XmlDocument xd, OddsProfile op, MatchOdd item, XmlNode odd)
+        {
+            var firstH = xd.CreateAttribute("1h");
+            firstH.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.FirstH)).ToString();
+            odd.Attributes.Append(firstH);
+
+            var secondH = xd.CreateAttribute("2n");
+            secondH.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.SecondH)).ToString();
+            odd.Attributes.Append(secondH);
+
+            var t = xd.CreateAttribute("t");
+            t.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.T)).ToString();
+            odd.Attributes.Append(t);
+
+        }
         #endregion
     }
 }

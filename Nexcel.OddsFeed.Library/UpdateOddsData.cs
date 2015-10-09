@@ -284,7 +284,34 @@ namespace Nexcel.OddsFeed.Library
                     return CreateMatchOddBettype16(item);
                 case 20:
                     ////HT/FT
-                    return CreateMatchOddBettype20(item);                   
+                    return CreateMatchOddBettype20(item);
+                case 30:                    
+                    return CreateMatchOddBettype30(item);
+                case 121:                    
+                    return CreateMatchOddBettype121(item);
+                case 122:                    
+                    return CreateMatchOddBettype122(item);
+                case 123:                    
+                    return CreateMatchOddBettype123(item);
+                case 126:                    
+                    return CreateMatchOddBettype126(item);
+                case 127:                    
+                    return CreateMatchOddBettype127(item);
+                case 128:                    
+                    return CreateMatchOddBettype128(item);
+                case 133:                    
+                    return CreateMatchOddBettype133(item);
+                case 134:                    
+                    return CreateMatchOddBettype134(item);
+                case 135:                    
+                    return CreateMatchOddBettype135(item);
+                case 140:                    
+                    return CreateMatchOddBettype140(item);
+                case 141:                    
+                    return CreateMatchOddBettype141(item);
+                case 142:
+                    return CreateMatchOddBettype142(item);
+
                 default:
                     return null;                    
             }            
@@ -581,6 +608,182 @@ namespace Nexcel.OddsFeed.Library
             return odd;
         }
 
+        private static MatchOdd CreateMatchOddBettype30(DataRow item)
+        {
+            var odd = new MatchOdd
+            {
+                Type = "cs_1",
+                C10 = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs10"]))),
+                C20 = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs20"]))),
+                C21 = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs21"]))),
+                C30 = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs30"]))),
+                C31 = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs31"]))),
+                C32 = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs32"]))),
+                C40 = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs40"]))),
+                C01 = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs01"]))),
+                C02 = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs02"]))),
+                C12 = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs12"]))),
+                C03 = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs03"]))),
+                C13 = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs13"]))),
+                C23 = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs23"]))),
+                C04 = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs04"]))),
+                C00 = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs00"]))),
+                Time = DateTime.Parse(item["ChangeTime"].ToString())
+            };
+            return odd;
+        }
+
+        private static MatchOdd CreateMatchOddBettype121(DataRow item)
+        {
+            var odd = new MatchOdd
+            {
+                Type = "hnb",
+                A = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["odds2a"]))),
+                D = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["odds1a"]))),                
+                Time = DateTime.Parse(item["ChangeTime"].ToString())
+            };
+            return odd;
+        }
+
+        private static MatchOdd CreateMatchOddBettype122(DataRow item)
+        {
+            var odd = new MatchOdd
+            {
+                Type = "anb",
+                H = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["odds2a"]))),
+                D = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["odds1a"]))),
+                Time = DateTime.Parse(item["ChangeTime"].ToString())
+            };
+            return odd;
+        }
+
+        private static MatchOdd CreateMatchOddBettype123(DataRow item)
+        {
+            var odd = new MatchOdd
+            {
+                Type = "dnd",
+                D = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["odds2a"]))),
+                N = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["odds1a"]))),
+                Time = DateTime.Parse(item["ChangeTime"].ToString())
+            };
+            return odd;
+        }
+
+        private static MatchOdd CreateMatchOddBettype126(DataRow item)
+        {
+            var odd = new MatchOdd
+            {
+                Type = "tg_1",
+                O1 = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs00"]))),
+                O2 = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs01"]))),
+                O3 = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs10"]))),
+                Time = DateTime.Parse(item["ChangeTime"].ToString())
+            };
+            return odd;
+        }
+
+        private static MatchOdd CreateMatchOddBettype127(DataRow item)
+        {
+            var odd = new MatchOdd
+            {
+                Type = "fglg_1",
+                HF = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs11"]))),
+                HL = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs12"]))),
+                AF = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs21"]))),
+                AL = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs22"]))),
+                NG = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs00"]))),                
+                Time = DateTime.Parse(item["ChangeTime"].ToString())
+            };
+            return odd;
+        }
+
+        private static MatchOdd CreateMatchOddBettype128(DataRow item)
+        {
+            var odd = new MatchOdd
+            {
+                Type = "oe_12",
+                OE = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs12"]))),
+                EO = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs21"]))),
+                OO = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs11"]))),
+                EE = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs22"]))),                
+                Time = DateTime.Parse(item["ChangeTime"].ToString())
+            };
+            return odd;
+        }
+
+        private static MatchOdd CreateMatchOddBettype133(DataRow item)
+        {
+            var odd = new MatchOdd
+            {
+                Type = "h2h",
+                Y = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["com1"]))),
+                N = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["com2"]))),                
+                Time = DateTime.Parse(item["ChangeTime"].ToString())
+            };
+            return odd;
+        }
+
+        private static MatchOdd CreateMatchOddBettype134(DataRow item)
+        {
+            var odd = new MatchOdd
+            {
+                Type = "a2h",
+                Y = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["com1"]))),
+                N = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["com2"]))),
+                Time = DateTime.Parse(item["ChangeTime"].ToString())
+            };
+            return odd;
+        }
+
+        private static MatchOdd CreateMatchOddBettype135(DataRow item)
+        {
+            var odd = new MatchOdd
+            {
+                Type = "pen",
+                Y = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["com1"]))),
+                N = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["com2"]))),
+                Time = DateTime.Parse(item["ChangeTime"].ToString())
+            };
+            return odd;
+        }
+
+        private static MatchOdd CreateMatchOddBettype140(DataRow item)
+        {
+            var odd = new MatchOdd
+            {
+                Type = "high",
+                FirstH = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs10"]))),
+                SecondH = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs20"]))),
+                Time = DateTime.Parse(item["ChangeTime"].ToString())
+            };
+            return odd;
+        }
+
+        private static MatchOdd CreateMatchOddBettype141(DataRow item)
+        {
+            var odd = new MatchOdd
+            {
+                Type = "hhigh",
+                FirstH = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs10"]))),
+                SecondH = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs20"]))),
+                T = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs00"]))),
+                Time = DateTime.Parse(item["ChangeTime"].ToString())
+            };
+            return odd;
+        }
+
+        private static MatchOdd CreateMatchOddBettype142(DataRow item)
+        {
+            var odd = new MatchOdd
+            {
+                Type = "ahigh",
+                FirstH = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs10"]))),
+                SecondH = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs20"]))),
+                T = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs00"]))),
+                Time = DateTime.Parse(item["ChangeTime"].ToString())
+            };
+            return odd;
+        }
         #endregion
 
         /// <summary>
