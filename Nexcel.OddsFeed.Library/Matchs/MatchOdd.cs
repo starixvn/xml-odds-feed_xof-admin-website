@@ -227,5 +227,84 @@ namespace Nexcel.OddsFeed.Library.Matches
         public string O10 { get; set; }
 
         public string B { get; set; }
+
+        public string HDP { get; set; }
+
+        // OddFlex       
+        public string O08 { get; set; }
+
+        public string O09 { get; set; }   
+     
+        public string O11 { get; set; }
+
+        public string O12 { get; set; }
+
+        public string O13 { get; set; }
+
+        public string O14 { get; set; }
+
+        public string O15 { get; set; }
+
+        public string O16 { get; set; }
+
+        public string O17 { get; set; }
+
+        public string O18 { get; set; }
+
+        public string O19 { get; set; }
+
+        public string O20 { get; set; }
+
+        public string O21 { get; set; }
+
+        public string O22 { get; set; }
+
+        public string O23 { get; set; }
+
+        public string O24 { get; set; }
+
+        public string O25 { get; set; }
+
+        public string O26 { get; set; }
+
+        public string O27 { get; set; }
+
+        public string O28 { get; set; }
+
+        public string O29 { get; set; }
+
+        public string O30 { get; set; }
+
+        public string O31 { get; set; }
+
+        public string O32 { get; set; }
+
+        public string O33 { get; set; }
+
+        public string O34 { get; set; }
+
+        public string O35 { get; set; }
+
+        public string O36 { get; set; }
+
+        public string O37 { get; set; }
+
+        public string O38 { get; set; }
+
+        public string O39 { get; set; }
+
+        public string O40 { get; set; }
+
+        public string O41 { get; set; }
+
+        public string O42 { get; set; }
+
+        public string O43 { get; set; }
+
+        public string O44 { get; set; }
+
+        public string O45 { get; set; }
+
+        public string O46 { get; set; }     
     }
 }
