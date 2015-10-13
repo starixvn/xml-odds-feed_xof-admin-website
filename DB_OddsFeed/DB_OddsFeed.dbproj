@@ -705,6 +705,9 @@
     <NotInBuild Include="LicensseAdmin\Odds_GetCountryList.sql">
       <SubType>NotInBuild</SubType>
     </NotInBuild>
+    <NotInBuild Include="Script\#44751-Update_Sport_Bet_Types.sql">
+      <SubType>NotInBuild</SubType>
+    </NotInBuild>
   </ItemGroup>
   <ItemGroup>
     <NotInBuild Include="Odds Profile Management\Odds_ProfileSelByName.proc.sql">
