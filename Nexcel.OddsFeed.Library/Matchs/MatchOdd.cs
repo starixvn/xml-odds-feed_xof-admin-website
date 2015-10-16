@@ -305,6 +305,8 @@ namespace Nexcel.OddsFeed.Library.Matches
 
         public string O45 { get; set; }
 
-        public string O46 { get; set; }     
+        public string O46 { get; set; }
+
+        public string X { get; set; }
     }
 }

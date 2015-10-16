@@ -41,15 +41,7 @@ namespace Nexcel.OddsFeed.WindowsService
         {
             try
             {
-                Reset();
-                
-                string startTime = string.Empty;
-                string endTime = string.Empty;
-
-                if (!Utilities.GetDownTime(out startTime, out endTime))
-                {
-                    _updateSuccessful = UpdateOddsData.Update(_currentVersion);
-                }                
+                Reset();      
               
                 _timer = new System.Timers.Timer
                 {
@@ -122,8 +114,14 @@ namespace Nexcel.OddsFeed.WindowsService
         {
             string startTime = string.Empty;
             string endTime = string.Empty;
+
+            if (!Utilities.GetDownTime(out startTime, out endTime))
+            {
+                _updateSuccessful = UpdateOddsData.Update(_currentVersion);
+            }  
+           
             try
-            {                
+            {
                 _currentVersion = _updateSuccessful == true ? _currentVersion + 1 : _currentVersion;
 
                 if (_currentVersion == _totalVersion)

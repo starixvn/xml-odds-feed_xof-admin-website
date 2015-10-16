@@ -1020,11 +1020,15 @@ namespace Nexcel.OddsFeed.Library
 
         private static MatchOdd CreateMatchOddBettype153(DataRow item)
         {
+            var h = Converter.ToDecimal(item["hdp2"]) - Converter.ToDecimal(item["hdp1"]);
+            var o = h > 0 ? Converter.ToDecimal(item["odds2a"]) : Converter.ToDecimal(item["odds1a"]);
+            var u = h > 0 ? Converter.ToDecimal(item["odds1a"]) : Converter.ToDecimal(item["odds2a"]);
             var odd = new MatchOdd
             {
                 Type = "tah",
-                H = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["odds1a"]))),
-                A = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["odds2a"]))),
+                O = string.Format("{0:0.#########}", o),
+                U = string.Format("{0:0.#########}", u),
+                H = string.Format("{0:0.#########}", h),
                 Time = DateTime.Parse(item["ChangeTime"].ToString())
             };
             return odd;
@@ -1037,6 +1041,7 @@ namespace Nexcel.OddsFeed.Library
                 Type = "sw",
                 H = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["odds1a"]))),
                 A = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["odds2a"]))),
+                X = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["resourceID"]))),
                 Time = DateTime.Parse(item["ChangeTime"].ToString())
             };
             return odd;
@@ -1044,12 +1049,17 @@ namespace Nexcel.OddsFeed.Library
 
         private static MatchOdd CreateMatchOddBettype155(DataRow item)
         {
+            var h = Converter.ToDecimal(item["hdp2"]) - Converter.ToDecimal(item["hdp1"]);
+            var o = h > 0 ? Converter.ToDecimal(item["odds2a"]) : Converter.ToDecimal(item["odds1a"]);
+            var u = h > 0 ? Converter.ToDecimal(item["odds1a"]) : Converter.ToDecimal(item["odds2a"]);
+
             var odd = new MatchOdd
             {
                 Type = "gh",
-                H = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["odds1a"]))),
-                A = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["odds2a"]))),
-                HDP = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["hdp2"]) - Converter.ToDecimal(item["hdp1"]))),
+                O = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(o)),
+                U = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(u)),
+                H = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(h)),
+                X = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["resourceID"]))),
                 Time = DateTime.Parse(item["ChangeTime"].ToString())
             };
             return odd;
@@ -1063,6 +1073,7 @@ namespace Nexcel.OddsFeed.Library
                 O = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["odds1a"]))),
                 U = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["odds2a"]))),
                 H = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["hdp1"]))),
+                X = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["resourceID"]))),
                 Time = DateTime.Parse(item["ChangeTime"].ToString())
             };
             return odd;
@@ -1431,12 +1442,16 @@ namespace Nexcel.OddsFeed.Library
 
         private static MatchOdd CreateMatchOddBettype183(DataRow item)
         {
+            var h = Converter.ToDecimal(item["hdp2"]) - Converter.ToDecimal(item["hdp1"]);
+            var o = h > 0 ? Converter.ToDecimal(item["odds2a"]) : Converter.ToDecimal(item["odds1a"]);
+            var u = h > 0 ? Converter.ToDecimal(item["odds1a"]) : Converter.ToDecimal(item["odds2a"]);
+
             var odd = new MatchOdd
             {
                 Type = "hdp_2",
-                H = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["odds1a"]))),
-                A = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["odds2a"]))),
-                HDP = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["hdp2"]) - Converter.ToDecimal(item["hdp1"]))),
+                O = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(o)),
+                U = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(u)),
+                H = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(h)),
                 Time = DateTime.Parse(item["ChangeTime"].ToString())
             };
             return odd;
