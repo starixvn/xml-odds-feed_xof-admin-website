@@ -1,6 +1,8 @@
 ﻿@model Nexcel.OddsFeed.Library.OddsProfile
 @{
     Layout = null;
+    var highlightSportType = (string[])ViewBag.HighlightSportType;
+    var highlightBetType = (string[])ViewBag.HighlightBetType;
 }
 <!DOCTYPE html>
 <html>
@@ -1624,6 +1626,14 @@
                                     Add E-Sports into XML odds feed
                                 </td>
                             </tr>
+                            <tr>
+                                <td style="text-align: center">
+                                    30 - Oct - 2015
+                                </td>
+                                <td>
+                                    Add more sports and markets. Please refer to Appendix for more details
+                                </td>
+                            </tr>
                         </table>
                     </div>
                     <div style="height: 550px">
@@ -1649,16 +1659,24 @@
                                             Sports Name
                                         </th>
                                     </tr>
+                                    
                                     @foreach (System.Data.DataRow row in ViewBag.SportsCol1)
                                     {
-                                        <tr>
+                                        var css1 = "";
+                                        if (highlightSportType.Any(i => i == row["SportID"].ToString()))
+                                        {
+                                            css1 = "style=color:Red";
+                                        }                                           
+                                        
+                                        <tr @css1>
                                             <td class="center">
                                                 @row["SportID"].ToString()
                                             </td>
                                             <td>
                                                 @row["SportName"].ToString()
                                             </td>
-                                        </tr>                        
+                                        </tr>  
+                                        
                                     }
                                 </table>
                             </div>
@@ -1666,7 +1684,13 @@
                                 <table style="width: 270px">
                                     @foreach (System.Data.DataRow row in ViewBag.SportsCol2)
                                     {
-                                        <tr>
+                                        var css2 = "";
+                                        if (highlightSportType.Any(i => i == row["SportID"].ToString()))
+                                        {
+                                            css2 = "style=color:Red";
+                                        }                                           
+                                        
+                                        <tr @css2>
                                             <td style="width: 30%" class="center">
                                                 @row["SportID"].ToString()
                                             </td>
@@ -1681,7 +1705,13 @@
                                 <table style="width: 270px;">
                                     @foreach (System.Data.DataRow row in ViewBag.SportsCol3)
                                     {
-                                        <tr>
+                                        var css3 = "";
+                                        if (highlightSportType.Any(i => i == row["SportID"].ToString()))
+                                        {
+                                            css3 = "style=color:Red";
+                                        }                                           
+                                        
+                                        <tr @css3>
                                             <td style="width: 30%" class="center">
                                                 @row["SportID"].ToString()
                                             </td>
@@ -1715,7 +1745,13 @@
                                     </tr>
                                     @foreach (System.Data.DataRow row in ViewBag.BetTypesCol1)
                                     {
-                                        <tr>
+                                        var css4 = "";
+                                        if (highlightBetType.Any(i => i == row["BetTypeID"].ToString()))
+                                        {
+                                            css4 = "style=color:Red";
+                                        }                                           
+                                        
+                                        <tr @css4>
                                             <td class="center">
                                                 @row["BetTypeID"].ToString()
                                             </td>
@@ -1730,7 +1766,13 @@
                                 <table style="width: 270px">
                                     @foreach (System.Data.DataRow row in ViewBag.BetTypesCol2)
                                     {
-                                        <tr>
+                                        var css5 = "";
+                                        if (highlightBetType.Any(i => i == row["BetTypeID"].ToString()))
+                                        {
+                                            css5 = "style=color:Red";
+                                        }                                           
+                                        
+                                        <tr @css5>
                                             <td style="width: 30%" class="center">
                                                 @row["BetTypeID"].ToString()
                                             </td>
@@ -1745,7 +1787,14 @@
                                 <table style="width: 270px;">
                                     @foreach (System.Data.DataRow row in ViewBag.BetTypesCol3)
                                     {
-                                        <tr>
+                                        var css6 = "";
+                                        if (highlightBetType.Any(i => i == row["BetTypeID"].ToString()))
+                                        {
+                                            css6 = "style=color:Red";
+                                        }                                          
+                                        
+                                        
+                                        <tr @css6>
                                             <td style="width: 30%" class="center">
                                                 @row["BetTypeID"].ToString()
                                             </td>

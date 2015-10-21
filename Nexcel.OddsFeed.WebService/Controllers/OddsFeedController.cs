@@ -39,7 +39,7 @@ namespace Nexcel.OddsFeed.WebService.Controllers
             {
                 return new XmlResult(ErrorCollection.UMDownTime(endTime));
             }
-            
+
             OddsFeedFilter filter = Helper.GetFilter(Request);
             if (Helper.IsOverLimitedOptions(filter))
             {
@@ -50,7 +50,7 @@ namespace Nexcel.OddsFeed.WebService.Controllers
             OddsProfile oddProfile = null;
             var domain = Helper.DomainName(Request.ServerVariables);
             var data = GetOddsFeed(ref oddProfile, username, HttpContext.Request["t"], domain, filter);
-            return new XmlResult(data);                
+            return new XmlResult(data);
         }
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace Nexcel.OddsFeed.WebService.Controllers
             ViewBag.Bettypes = DbConnect.GetBetTypeByUserName(username).ResultSet.Tables[0].Select();
 
             if (oddProfile != null)
-            {                
+            {
                 return View("Help", oddProfile);
             }
             else
@@ -158,7 +158,7 @@ namespace Nexcel.OddsFeed.WebService.Controllers
 
             if (oddProfile != null)
             {
-                return View("NewHelp", oddProfile);                
+                return View("NewHelp", oddProfile);
             }
             else
             {
@@ -173,7 +173,7 @@ namespace Nexcel.OddsFeed.WebService.Controllers
         private void GenerateAppendixData(string username)
         {
             //// Generate supported sports
-            DataTable sportsTable = DbConnect.GetSportByUserName(username).ResultSet.Tables[0];            
+            DataTable sportsTable = DbConnect.GetSportByUserName(username).ResultSet.Tables[0];
             DataTable sportsCol1 = new DataTable();
             DataTable sportsCol2 = new DataTable();
             DataTable sportsCol3 = new DataTable();
@@ -183,7 +183,7 @@ namespace Nexcel.OddsFeed.WebService.Controllers
             ViewBag.SportsCol3 = sportsCol3.Select();
 
             //// Generate supported bettypes
-            DataTable bettypesTable = DbConnect.GetBetTypeByUserName(username).ResultSet.Tables[0];            
+            DataTable bettypesTable = DbConnect.GetBetTypeByUserName(username).ResultSet.Tables[0];
             if (bettypesTable.Rows.Count == 0)
             {
                 //// Show Outright bettype (It's an exception)
@@ -210,8 +210,10 @@ namespace Nexcel.OddsFeed.WebService.Controllers
             ViewBag.CountriesCol1 = countriesCol1.Select();
             ViewBag.CountriesCol2 = countriesCol2.Select();
             ViewBag.CountriesCol3 = countriesCol3.Select();
+            ViewBag.HighlightSportType = ConfigurationManager.AppSettings["HighlightSportType"].Split(',');
+            ViewBag.HighlightBetType = ConfigurationManager.AppSettings["HighlightBetType"].Split(',');
         }
-      
+
         /// <summary>
         /// Generate supported sports, bet types, countries.
         /// </summary>
@@ -222,10 +224,10 @@ namespace Nexcel.OddsFeed.WebService.Controllers
         /// <param name="columnID">The column ID.</param>
         /// <param name="columnName">The column name.</param>
         private void GenerateData(DataTable dt, DataTable column1Data, DataTable column2Data, DataTable column3Data, string columnID, string columnName)
-        {                        
+        {
             int sum = dt.Rows.Count;
             //// Just render one column if rowcount< =5
-            if (sum <= 5) 
+            if (sum <= 5)
             {
                 GenerateColumnData(dt, column1Data, column2Data, column3Data, columnID, columnName, sum, 0, 0);
             }
@@ -258,7 +260,7 @@ namespace Nexcel.OddsFeed.WebService.Controllers
                 GenerateColumnData(dt, column1Data, column2Data, column3Data, columnID, columnName, sumCol1, sumCol2, sumCol3);
             }
         }
-        
+
         /// <summary>
         /// Generate data for columns.
         /// </summary>
@@ -332,14 +334,14 @@ namespace Nexcel.OddsFeed.WebService.Controllers
         /// <param name="outrights">If set to <c>true</c> [outrights].</param>
         /// <returns>Xml Element.</returns>
         private XmlElement GetOddsFeed(
-                                                            ref OddsProfile oddProfile, 
-                                                            string username, 
-                                                            string timestamp, 
+                                                            ref OddsProfile oddProfile,
+                                                            string username,
+                                                            string timestamp,
                                                             string domain,
                                                             OddsFeedFilter filter,
-                                                            bool isSample = false, 
+                                                            bool isSample = false,
                                                             bool outrights = true)
-        {           
+        {
             // ignore port number if it presents
             var domainName = domain;
 
@@ -351,7 +353,7 @@ namespace Nexcel.OddsFeed.WebService.Controllers
             var ip = Utilities.GetIpAddressOfClient();
             var partner = new Partner(username, domainName, ip, timestamp);
             var err = partner.IsAuthenticated();
-            
+
             if (partner.OddsProfile != null && (err.Id == 0 || isSample))
             {
                 oddProfile = partner.OddsProfile;
@@ -383,6 +385,6 @@ namespace Nexcel.OddsFeed.WebService.Controllers
             }
 
             return virtualPathWebService + feedUrlPath;
-        }       
+        }
     }
 }
