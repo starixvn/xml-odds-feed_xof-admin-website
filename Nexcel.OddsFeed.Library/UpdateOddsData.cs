@@ -546,7 +546,7 @@ namespace Nexcel.OddsFeed.Library
         {
             var odd = new MatchOdd
             {
-                Type = "fl",
+                Type = "fglg",
                 HF = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs11"]))),
                 HL = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs12"]))),
                 AF = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs21"]))),
@@ -785,7 +785,7 @@ namespace Nexcel.OddsFeed.Library
             {
                 Type = "dnb",
                 H = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["odds1a"]))),
-                A = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["dds2a"]))),
+                A = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["odds2a"]))),
                 Time = DateTime.Parse(item["ChangeTime"].ToString())
             };
             return odd;

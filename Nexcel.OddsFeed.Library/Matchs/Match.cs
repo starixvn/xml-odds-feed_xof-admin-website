@@ -389,8 +389,8 @@ namespace Nexcel.OddsFeed.Library.Matchs
                 case "htft":
                     BuildXmlNodeOdd_htft(xd, op, item, odd);
                     break;
-                case "fl":
-                    BuildXmlNodeOdd_fl(xd, op, item, odd);
+                case "fglg":
+                    BuildXmlNodeOdd_fglg(xd, op, item, odd);
                     break;
                 case "cs":
                     BuildXmlNodeOdd_cs(xd, op, item, odd);
@@ -884,7 +884,7 @@ namespace Nexcel.OddsFeed.Library.Matchs
         /// <param name="op">The odd profile.</param>
         /// <param name="item">The match node.</param>
         /// <param name="odd">The Xml Node.</param>
-        private void BuildXmlNodeOdd_fl(XmlDocument xd, OddsProfile op, MatchOdd item, XmlNode odd)
+        private void BuildXmlNodeOdd_fglg(XmlDocument xd, OddsProfile op, MatchOdd item, XmlNode odd)
         {
             var fl_hf = xd.CreateAttribute("hf");
             fl_hf.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.HF)).ToString(); ////item.HF;
