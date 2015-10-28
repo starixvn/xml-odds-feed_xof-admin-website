@@ -2314,6 +2314,7 @@ namespace Nexcel.OddsFeed.Library.Matchs
             n.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.N)).ToString();
             odd.Attributes.Append(n);
         }
+
         private void BuildXmlNodeOdd_x2(XmlDocument xd, OddsProfile op, MatchOdd item, XmlNode odd)
         {
             var hd = xd.CreateAttribute("hd");
@@ -2372,6 +2373,7 @@ namespace Nexcel.OddsFeed.Library.Matchs
             a.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.A)).ToString();
             odd.Attributes.Append(a);
         }
+
         private void BuildXmlNodeOdd_ah_2(XmlDocument xd, OddsProfile op, MatchOdd item, XmlNode odd)
         {
             var o = xd.CreateAttribute("o");

@@ -765,6 +765,7 @@ namespace Nexcel.OddsFeed.Library
             };
             return odd;
         }
+
         private static MatchOdd CreateMatchOddBettype24(DataRow item)
         {
             var odd = new MatchOdd
@@ -827,6 +828,7 @@ namespace Nexcel.OddsFeed.Library
             };
             return odd;
         }
+
         private static MatchOdd CreateMatchOddBettype13(DataRow item)
         {
             var odd = new MatchOdd
