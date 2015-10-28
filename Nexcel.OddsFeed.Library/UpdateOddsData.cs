@@ -1260,7 +1260,7 @@ namespace Nexcel.OddsFeed.Library
             var odd = new MatchOdd
             {
                 Type = "nxtg",
-                O1 = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["odds,cs01"]))),
+                O1 = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs01"]))),
                 O2 = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs02"]))),
                 O3 = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs03"]))),
                 O4 = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs04"]))),

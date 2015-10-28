@@ -1275,47 +1275,47 @@ namespace Nexcel.OddsFeed.Library.Matchs
 
         private void BuildXmlNodeOdd_high(XmlDocument xd, OddsProfile op, MatchOdd item, XmlNode odd)
         {
-            var firstH = xd.CreateAttribute("1h");
+            var firstH = xd.CreateAttribute("h1");
             firstH.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.FirstH)).ToString();
             odd.Attributes.Append(firstH);
 
-            var secondH = xd.CreateAttribute("2n");
+            var secondH = xd.CreateAttribute("h2");
             secondH.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.SecondH)).ToString();
             odd.Attributes.Append(secondH);
 
-            var t = xd.CreateAttribute("t");
-            t.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.T)).ToString();
-            odd.Attributes.Append(t);
+            var tie = xd.CreateAttribute("tie");
+            tie.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.T)).ToString();
+            odd.Attributes.Append(tie);
         }
 
         private void BuildXmlNodeOdd_hhigh(XmlDocument xd, OddsProfile op, MatchOdd item, XmlNode odd)
         {
-            var firstH = xd.CreateAttribute("1h");
+            var firstH = xd.CreateAttribute("h1");
             firstH.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.FirstH)).ToString();
             odd.Attributes.Append(firstH);
 
-            var secondH = xd.CreateAttribute("2n");
+            var secondH = xd.CreateAttribute("h2");
             secondH.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.SecondH)).ToString();
             odd.Attributes.Append(secondH);
 
-            var t = xd.CreateAttribute("t");
-            t.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.T)).ToString();
-            odd.Attributes.Append(t);
+            var tie = xd.CreateAttribute("tie");
+            tie.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.T)).ToString();
+            odd.Attributes.Append(tie);
         }
 
         private void BuildXmlNodeOdd_ahigh(XmlDocument xd, OddsProfile op, MatchOdd item, XmlNode odd)
         {
-            var firstH = xd.CreateAttribute("1h");
+            var firstH = xd.CreateAttribute("h1");
             firstH.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.FirstH)).ToString();
             odd.Attributes.Append(firstH);
 
-            var secondH = xd.CreateAttribute("2n");
+            var secondH = xd.CreateAttribute("h2");
             secondH.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.SecondH)).ToString();
             odd.Attributes.Append(secondH);
 
-            var t = xd.CreateAttribute("t");
-            t.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.T)).ToString();
-            odd.Attributes.Append(t);
+            var tie = xd.CreateAttribute("tie");
+            tie.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.T)).ToString();
+            odd.Attributes.Append(tie);
         }
 
         private void BuildXmlNodeOdd_bs(XmlDocument xd, OddsProfile op, MatchOdd item, XmlNode odd)
@@ -1989,7 +1989,7 @@ namespace Nexcel.OddsFeed.Library.Matchs
             var o8 = xd.CreateAttribute("o8");
             o8.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.O8)).ToString();
             odd.Attributes.Append(o8);
-            var o9 = xd.CreateAttribute("09");
+            var o9 = xd.CreateAttribute("o9");
             o9.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.O9)).ToString();
             odd.Attributes.Append(o9);
             var o10 = xd.CreateAttribute("o10");
