@@ -2409,12 +2409,12 @@ namespace Nexcel.OddsFeed.Library.Matchs
             odd.Attributes.Append(o1);
 
             var o2 = xd.CreateAttribute("o02");
-            o1.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.O02)).ToString();
-            odd.Attributes.Append(o1);
+            o2.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.O02)).ToString();
+            odd.Attributes.Append(o2);
 
             var o3 = xd.CreateAttribute("o03");
-            o1.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.O03)).ToString();
-            odd.Attributes.Append(o1);
+            o3.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.O03)).ToString();
+            odd.Attributes.Append(o3);
 
             var oO4 = xd.CreateAttribute("o04");
             oO4.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.O04)).ToString();
