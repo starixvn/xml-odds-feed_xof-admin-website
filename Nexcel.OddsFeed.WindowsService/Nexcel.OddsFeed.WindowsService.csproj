@@ -119,17 +119,14 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config">
-      <SubType>Designer</SubType>
+    <None Include="Nexcel.OddsFeed.WindowsService.PRO.exe.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="App.UAT.config">
-      <SubType>Designer</SubType>
+    <None Include="Nexcel.OddsFeed.WindowsService.UAT.exe.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="App.PRO.config">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="App.Local.config">
-      <SubType>Designer</SubType>
+    <None Include="Nexcel.OddsFeed.WindowsService.exe.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
