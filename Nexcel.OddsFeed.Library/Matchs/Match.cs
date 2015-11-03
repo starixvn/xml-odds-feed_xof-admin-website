@@ -1509,21 +1509,27 @@ namespace Nexcel.OddsFeed.Library.Matchs
             var ho = xd.CreateAttribute("ho");
             ho.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.HO)).ToString();
             odd.Attributes.Append(ho);
+
             var hu = xd.CreateAttribute("hu");
             hu.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.HU)).ToString();
             odd.Attributes.Append(hu);
+
             var ao = xd.CreateAttribute("ao");
             ao.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.AO)).ToString();
             odd.Attributes.Append(ao);
+
             var au = xd.CreateAttribute("au");
             au.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.AU)).ToString();
             odd.Attributes.Append(au);
+
             var @do = xd.CreateAttribute("do");
             @do.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.DO)).ToString();
             odd.Attributes.Append(@do);
+
             var du = xd.CreateAttribute("du");
             du.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.DU)).ToString();
             odd.Attributes.Append(du);
+
             var h = xd.CreateAttribute("h");
             h.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.H)).ToString();
             odd.Attributes.Append(h);
