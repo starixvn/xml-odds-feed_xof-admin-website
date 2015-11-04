@@ -1381,7 +1381,7 @@ namespace Nexcel.OddsFeed.Library.Matchs
             u.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.U)).ToString();
             odd.Attributes.Append(u);
             var h = xd.CreateAttribute("h");
-            h.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.H)).ToString();
+            h.Value = Convert.ToDecimal(item.H).ToString();
             odd.Attributes.Append(h);
         }
 
@@ -1394,7 +1394,7 @@ namespace Nexcel.OddsFeed.Library.Matchs
             a.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.A)).ToString();
             odd.Attributes.Append(a);
             var x = xd.CreateAttribute("x");
-            x.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.X)).ToString();
+            x.Value = item.X;
             odd.Attributes.Append(x);
         }
 
@@ -1408,11 +1408,11 @@ namespace Nexcel.OddsFeed.Library.Matchs
             odd.Attributes.Append(u);
 
             var h = xd.CreateAttribute("h");
-            h.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.H)).ToString();
+            h.Value = Convert.ToDecimal(item.H).ToString();
             odd.Attributes.Append(h);
 
             var x = xd.CreateAttribute("x");
-            x.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.X)).ToString();
+            x.Value = item.X;
             odd.Attributes.Append(x);
         }
 
@@ -1426,11 +1426,11 @@ namespace Nexcel.OddsFeed.Library.Matchs
             odd.Attributes.Append(u);
 
             var h = xd.CreateAttribute("h");
-            h.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.H)).ToString();
+            h.Value = Convert.ToDecimal(item.H).ToString();
             odd.Attributes.Append(h);
 
             var x = xd.CreateAttribute("x");
-            x.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.X)).ToString();
+            x.Value = item.X;
             odd.Attributes.Append(x);
         }
 
@@ -1531,7 +1531,7 @@ namespace Nexcel.OddsFeed.Library.Matchs
             odd.Attributes.Append(du);
 
             var h = xd.CreateAttribute("h");
-            h.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.H)).ToString();
+            h.Value = Convert.ToDecimal(item.H).ToString();
             odd.Attributes.Append(h);
         }
 
@@ -1860,7 +1860,7 @@ namespace Nexcel.OddsFeed.Library.Matchs
             odd.Attributes.Append(u);
 
             var h = xd.CreateAttribute("h");
-            h.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.H)).ToString();
+            h.Value = Convert.ToDecimal(item.H).ToString();
             odd.Attributes.Append(h);
         }
 
@@ -2061,7 +2061,7 @@ namespace Nexcel.OddsFeed.Library.Matchs
             odd.Attributes.Append(u);
 
             var h = xd.CreateAttribute("h");
-            h.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.H)).ToString();
+            h.Value = Convert.ToDecimal(item.H).ToString();
             odd.Attributes.Append(h);
         }
 
@@ -2075,7 +2075,7 @@ namespace Nexcel.OddsFeed.Library.Matchs
             odd.Attributes.Append(u);
 
             var h = xd.CreateAttribute("h");
-            h.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.H)).ToString();
+            h.Value = Convert.ToDecimal(item.H).ToString();
             odd.Attributes.Append(h);
         }
 
@@ -2157,7 +2157,7 @@ namespace Nexcel.OddsFeed.Library.Matchs
             odd.Attributes.Append(u);
 
             var h = xd.CreateAttribute("h");
-            h.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.H)).ToString();
+            h.Value =Convert.ToDecimal(item.H).ToString();
             odd.Attributes.Append(h);
         }
 
@@ -2171,7 +2171,7 @@ namespace Nexcel.OddsFeed.Library.Matchs
             odd.Attributes.Append(u);
 
             var h = xd.CreateAttribute("h");
-            h.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.H)).ToString();
+            h.Value = Convert.ToDecimal(item.H).ToString();
             odd.Attributes.Append(h);
         }
 
@@ -2356,7 +2356,7 @@ namespace Nexcel.OddsFeed.Library.Matchs
             odd.Attributes.Append(u);
 
             var h = xd.CreateAttribute("h");
-            h.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.H)).ToString();
+            h.Value = Convert.ToDecimal(item.H).ToString();
             odd.Attributes.Append(h);
         }
 
@@ -2370,7 +2370,7 @@ namespace Nexcel.OddsFeed.Library.Matchs
             odd.Attributes.Append(u);
 
             var h = xd.CreateAttribute("h");
-            h.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.H)).ToString();
+            h.Value = Convert.ToDecimal(item.H).ToString();
             odd.Attributes.Append(h);
         }
 
