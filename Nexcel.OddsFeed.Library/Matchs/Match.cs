@@ -2157,7 +2157,7 @@ namespace Nexcel.OddsFeed.Library.Matchs
             odd.Attributes.Append(u);
 
             var h = xd.CreateAttribute("h");
-            h.Value =Convert.ToDecimal(item.H).ToString();
+            h.Value = Convert.ToDecimal(item.H).ToString();
             odd.Attributes.Append(h);
         }
 
