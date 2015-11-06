@@ -112,6 +112,7 @@ namespace Nexcel.OddsFeed.WindowsService
         /// <param name="e">The <see cref="System.Timers.ElapsedEventArgs"/> instance containing the event data.</param>
         private void BackgroundTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
+            _timer.Stop();
             string startTime = string.Empty;
             string endTime = string.Empty;
 
@@ -165,6 +166,8 @@ namespace Nexcel.OddsFeed.WindowsService
                     LogService.Error("BackgroundTimerElapsed -- " + string.Join(Environment.NewLine, message));
                 }
             }
+
+            _timer.Start();
         }
 
         /// <summary>
