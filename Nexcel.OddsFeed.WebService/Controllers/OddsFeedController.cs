@@ -8,12 +8,14 @@
 // </history>
 namespace Nexcel.OddsFeed.WebService.Controllers
 {
+    using System;
     using System.Configuration;
     using System.Data;
     using System.Text;
     using System.Web;
     using System.Web.Mvc;
     using System.Xml;
+    using log4net;
     using MvcContrib.ActionResults;
     using Nexcel.OddsFeed.Library;
     using Nexcel.OddsFeed.Library.Attributes;
@@ -24,6 +26,8 @@ namespace Nexcel.OddsFeed.WebService.Controllers
     /// </summary>    
     public class OddsFeedController : Controller
     {
+        private static readonly ILog Log = LogManager.GetLogger("LogService");
+
         /// <summary>
         /// Indexes the specified username.
         /// </summary>
@@ -32,6 +36,8 @@ namespace Nexcel.OddsFeed.WebService.Controllers
         [Compress]
         public XmlResult Index(string username)
         {
+            Log.Info("1. Starting Index action:" + username + "-----" + DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss.fff"));
+
             // check UM Time
             string startTime = string.Empty;
             string endTime = string.Empty;
@@ -50,6 +56,9 @@ namespace Nexcel.OddsFeed.WebService.Controllers
             OddsProfile oddProfile = null;
             var domain = Helper.DomainName(Request.ServerVariables);
             var data = GetOddsFeed(ref oddProfile, username, HttpContext.Request["t"], domain, filter);
+
+            Log.Info("4. Finishing Index action:" + username + "------" + DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss.fff"));
+            Log.Info("-------------------------------");
             return new XmlResult(data);
         }
 
@@ -359,8 +368,12 @@ namespace Nexcel.OddsFeed.WebService.Controllers
                 oddProfile = partner.OddsProfile;
                 oddProfile.Domain = domainName;
 
+                Log.Info("2. Get Odds from Cache of " + username + "---" + DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss.fff"));
                 var of = new Nexcel.OddsFeed.Library.OddsFeed(partner.OddsProfile, partner.SystemName, domainName, ip, timestamp);
-                return of.BuildXmlDocument(partner.Timestamp, filter, isSample, outrights);
+                Log.Info("3. Build XML Document " + username + "---" + DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss.fff"));
+                var xmlDocument = of.BuildXmlDocument(partner.Timestamp, filter, isSample, outrights);
+
+                return xmlDocument;
             }
 
             return err.ToXmlElement();

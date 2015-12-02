@@ -15,6 +15,7 @@ namespace Nexcel.OddsFeed.WebService
     using System.Web.Mvc;
     using System.Web.Routing;
     using Fanex.Logging;
+    using log4net.Config;
     using Nexcel.OddsFeed.Library;
     using Nexcel.OddsFeed.Library.Attributes;
     using Nexcel.OddsFeed.WebService.Controllers;
@@ -79,6 +80,8 @@ namespace Nexcel.OddsFeed.WebService
             RegisterRoutes(RouteTable.Routes);
 
             Fanex.Data.Configuration.DbSettingProviderManager.Current.Start();
+            
+            XmlConfigurator.Configure();
         }
 
         /// <summary>
