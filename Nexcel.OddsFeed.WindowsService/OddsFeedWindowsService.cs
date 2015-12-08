@@ -13,7 +13,7 @@ namespace Nexcel.OddsFeed.WindowsService
     using System.Configuration;
     using System.ServiceProcess;
     using Fanex.Logging;
-    using Nexcel.OddsFeed.Library;    
+    using Nexcel.OddsFeed.Library;
 
     /// <summary>
     /// OddsFeed WindowsService.
@@ -21,15 +21,15 @@ namespace Nexcel.OddsFeed.WindowsService
     public partial class OddsFeedWindowsService : ServiceBase
     {
         private System.Timers.Timer _timer;
-        private int _currentVersion;        
+        private int _currentVersion;
         private int _totalVersion;
         private bool _updateSuccessful;
-        
+
         public OddsFeedWindowsService()
-        {            
+        {
             InitializeComponent();
             Fanex.Data.Configuration.DbSettingProviderManager.Current.Start();
-            _totalVersion = int.Parse(ConfigurationManager.AppSettings["TotalVersion"]);            
+            _totalVersion = int.Parse(ConfigurationManager.AppSettings["TotalVersion"]);
         }
 
         /// <summary>
@@ -41,8 +41,8 @@ namespace Nexcel.OddsFeed.WindowsService
         {
             try
             {
-                Reset();      
-              
+                Reset();
+
                 _timer = new System.Timers.Timer
                 {
                     Interval = int.Parse(ConfigurationManager.AppSettings["Interval"]),
@@ -81,9 +81,9 @@ namespace Nexcel.OddsFeed.WindowsService
             try
             {
                 _timer.Enabled = false;
-                
+
                 Reset();
-                
+
                 _timer.Stop();
             }
             catch (Exception ex)
@@ -100,7 +100,7 @@ namespace Nexcel.OddsFeed.WindowsService
                         "TARGETSITE: " + ex.TargetSite,
                         "STACKTRACE: " + ex.StackTrace
                     };
-                    LogService.Error("OnStop -- " + string.Join(Environment.NewLine, message));                    
+                    LogService.Error("OnStop -- " + string.Join(Environment.NewLine, message));
                 }
             }
         }
@@ -116,18 +116,17 @@ namespace Nexcel.OddsFeed.WindowsService
             string startTime = string.Empty;
             string endTime = string.Empty;
 
-            if (!Utilities.GetDownTime(out startTime, out endTime))
-            {
-                _updateSuccessful = UpdateOddsData.Update(_currentVersion);
-            }  
-           
             try
             {
-                _currentVersion = _updateSuccessful == true ? _currentVersion + 1 : _currentVersion;
+                if (!Utilities.GetDownTime(out startTime, out endTime))
+                {
+                    _updateSuccessful = UpdateOddsData.Update(_currentVersion);
+                }
 
+                _currentVersion = _updateSuccessful == true ? _currentVersion + 1 : _currentVersion;
                 if (_currentVersion == _totalVersion)
                 {
-                    _currentVersion = 0;                    
+                    _currentVersion = 0;
 
                     if (!Utilities.GetDownTime(out startTime, out endTime))
                     {
@@ -143,16 +142,16 @@ namespace Nexcel.OddsFeed.WindowsService
                     }
 
                     if (_updateSuccessful == false)
-                    {                        
+                    {
                         LogService.Error("IP address seems to have changed OR Cache on CouchBase is full. Please restart OddsFeedWindowService ! ");
 
                         CouchbaseManager.Instance.FlushAll();
-                        CouchbaseManager.Instance.Dispose();                        
+                        CouchbaseManager.Instance.Dispose();
                     }
-                }                
+                }
             }
             catch (Exception ex)
-            {                
+            {
                 if (!Utilities.GetDownTime(out startTime, out endTime))
                 {
                     string[] message = new string[]
@@ -179,14 +178,14 @@ namespace Nexcel.OddsFeed.WindowsService
             {
                 _updateSuccessful = false;
                 _currentVersion = 0;
-                
+
                 string startTime = string.Empty;
                 string endTime = string.Empty;
 
                 if (!Utilities.GetDownTime(out startTime, out endTime))
-                {                    
-                    UpdateOddsData.Reset();                
-                }                
+                {
+                    UpdateOddsData.Reset();
+                }
             }
             catch (Exception ex)
             {
@@ -205,6 +204,6 @@ namespace Nexcel.OddsFeed.WindowsService
                     LogService.Error("Reset -- " + string.Join(Environment.NewLine, message));
                 }
             }
-        }    
+        }
     }
 }

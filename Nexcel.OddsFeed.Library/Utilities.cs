@@ -47,7 +47,7 @@ namespace Nexcel.OddsFeed.Library
                 return string.Empty;
             }
         }
-       
+
         /// <summary>
         /// Get IP address.
         /// </summary>
@@ -81,34 +81,34 @@ namespace Nexcel.OddsFeed.Library
 
             ////return ip;
         }
-     
+
         public static IList<int> GetIntList(string stringArray)
         {
             string[] separator = { "," };
             var items = stringArray.Split(separator, StringSplitOptions.RemoveEmptyEntries);
             return items.Select(item => int.Parse(item)).ToList();
         }
-     
+
         public static IList<string> GetStringIList(string stringArray, string sep)
         {
             string[] separator = { sep };
             return stringArray.Split(separator, StringSplitOptions.None).ToList();
         }
-    
+
         public static IList<string> GetStringIList(string stringArray, bool trim = false)
         {
             string[] separator = { "," };
             var items = stringArray.Split(separator, StringSplitOptions.RemoveEmptyEntries);
-            return trim == true ? items.Select(item => item.Trim()).ToList() : items.ToList();          
+            return trim == true ? items.Select(item => item.Trim()).ToList() : items.ToList();
         }
-    
+
         public static decimal ToHkOdds(decimal malayOdds)
         {
             return malayOdds >= 0
                        ? malayOdds
                        : Utilities.Floor(1 / Math.Abs(malayOdds));
         }
-           
+
         public static decimal ToDecimalOddsFromHkOdds(decimal hongKongOdds)
         {
             return hongKongOdds + 1;
@@ -117,14 +117,14 @@ namespace Nexcel.OddsFeed.Library
         public static decimal ToDecimalOddsFromMalayOdds(decimal malayOdds)
         {
             ////as malayOdd always <= 1
-            if (malayOdds <= 1) 
+            if (malayOdds <= 1)
             {
                 return ToDecimalOddsFromHkOdds(ToHkOdds(malayOdds));
             }
 
             return malayOdds;
         }
-     
+
         public static float ToIndoOdds(int malayOdds, float spread)
         {
             return malayOdds > 0 ? -1 / Math.Abs(malayOdds) : 1 / Math.Abs(malayOdds);
@@ -154,7 +154,7 @@ namespace Nexcel.OddsFeed.Library
                     return Utilities.Floor(decimalOdds);
             }
         }
-   
+
         public static string RealSp(string sp)
         {
             return bool.Parse(ConfigurationManager.AppSettings["SP.Live"])
@@ -220,9 +220,8 @@ namespace Nexcel.OddsFeed.Library
 
             var underMaintainStartTime = Converter.ToDateTime(ConfigurationManager.AppSettings["UM_StartTime"]);
             var underMaintainEndTime = Converter.ToDateTime(ConfigurationManager.AppSettings["UM_EndTime"]);
-            int timeCacheUM = 10; ////second
 
-            string urlDownTime = Converter.ToString2(ConfigurationManager.AppSettings["LBUrl"]);
+            string urlDownTime = Convert.ToString(ConfigurationManager.AppSettings["LBUrl"]);
             if (now >= underMaintainStartTime && now <= underMaintainEndTime)
             {
                 startTime = underMaintainStartTime.ToString("hh:mm tt");
@@ -235,23 +234,8 @@ namespace Nexcel.OddsFeed.Library
                 return false;
             }
 
-            bool isUM = false;
-            if (HttpContext.Current.Cache["IsUM"] == null)
-            {
-                var underMaitainCtrl = new UMBusiness();
-                isUM = underMaitainCtrl.isUnderMaintainence(Sites.OddsFeed, urlDownTime, ref startTime, ref endTime);
-
-                ////Cache Information which is gotten from Service
-                HttpContext.Current.Cache.Insert("IsUM", isUM, null, DateTime.Now.AddSeconds(timeCacheUM), TimeSpan.Zero);
-                HttpContext.Current.Cache.Insert("StartTime", startTime, null, DateTime.Now.AddSeconds(timeCacheUM), TimeSpan.Zero);
-                HttpContext.Current.Cache.Insert("EndTime", endTime, null, DateTime.Now.AddSeconds(timeCacheUM), TimeSpan.Zero);
-            }
-            else
-            {
-                isUM = Converter.ToBool(HttpContext.Current.Cache["IsUM"]);
-                startTime = Converter.ToString2(HttpContext.Current.Cache["StartTime"]);
-                endTime = Converter.ToString2(HttpContext.Current.Cache["EndTime"]);
-            }
+            var underMaitainCtrl = new UMBusiness();
+            var isUM = underMaitainCtrl.isUnderMaintainence(Sites.OddsFeed, urlDownTime, ref startTime, ref endTime);
 
             return isUM;
         }
@@ -265,7 +249,7 @@ namespace Nexcel.OddsFeed.Library
         /// <returns>System Decimal.</returns>
         public static decimal DecimalToUS(decimal dec)
         {
-            decimal usa;            
+            decimal usa;
             if (dec <= 1)
             {
                 usa = 0;
@@ -278,7 +262,7 @@ namespace Nexcel.OddsFeed.Library
             {
                 usa = (dec - 1) * 100;
             }
-            
+
             return Utilities.Floor(usa);
         }
 
@@ -289,7 +273,7 @@ namespace Nexcel.OddsFeed.Library
         /// <returns>System Decimal.</returns>
         public static decimal DecimalToHK(decimal dec)
         {
-            decimal hongKong;            
+            decimal hongKong;
             if (dec <= 1)
             {
                 hongKong = 0;
@@ -298,8 +282,8 @@ namespace Nexcel.OddsFeed.Library
             {
                 hongKong = dec - 1;
             }
-            
-            return Utilities.Floor(hongKong);            
+
+            return Utilities.Floor(hongKong);
         }
 
         /// <summary>
@@ -309,7 +293,7 @@ namespace Nexcel.OddsFeed.Library
         /// <returns>System Decimal.</returns>
         public static decimal DecimalToIndo(decimal dec)
         {
-            decimal indo;            
+            decimal indo;
             if (dec <= 1)
             {
                 indo = 0;
@@ -322,7 +306,7 @@ namespace Nexcel.OddsFeed.Library
             {
                 indo = 1 / (1 - dec);
             }
-            
+
             return Utilities.Floor(indo);
         }
 
@@ -333,7 +317,7 @@ namespace Nexcel.OddsFeed.Library
         /// <returns>System Decimal.</returns>
         public static decimal DecimalToMalay(decimal dec)
         {
-            decimal malay;            
+            decimal malay;
             if (dec <= 1)
             {
                 malay = 0;
@@ -346,12 +330,12 @@ namespace Nexcel.OddsFeed.Library
             {
                 malay = 1 / (1 - dec);
             }
-            
+
             return Utilities.Floor(malay);
         }
 
         #endregion
-   
+
         public static decimal Floor(decimal value, int decimalPlaces = 2)
         {
             decimal adjustment = (decimal)Math.Pow(10, decimalPlaces);
