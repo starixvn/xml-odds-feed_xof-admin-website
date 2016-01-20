@@ -1,5 +1,5 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
+Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2010
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "XMLOddsFeed", "XMLOddsFeed", "{DD04EE9A-E9E0-4096-B872-A695B72F4869}"
 EndProject
@@ -7,7 +7,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OddsFeed_Licensee", "OddsFe
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_DB", "_DB", "{46274100-8954-49AD-BFAD-319890ED9CBC}"
 EndProject
-Project("{C8D11400-126E-41CD-887F-60BD40844F9E}") = "DB_OddsFeed", "DB_OddsFeed\DB_OddsFeed.dbproj", "{67CBC824-A49E-4E9B-A947-360F3DFE65C3}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Dependencies", "_Dependencies", "{D00E7A2A-85E3-41AA-88F7-BD91DCAA3063}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Nexcel.OddsFeed.WindowsService", "Nexcel.OddsFeed.WindowsService", "{ABD11DEF-A40F-41D9-BE36-77106BC7A996}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5F5AE872-FBC1-493A-9D3F-1C4A49A52CE7}"
+	ProjectSection(SolutionItems) = preProject
+		OddsFeed.Licensee.Admin\Fanex.OddsFeed.Admin\Settings.StyleCop = OddsFeed.Licensee.Admin\Fanex.OddsFeed.Admin\Settings.StyleCop
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fanex.OddsFeed.Admin", "OddsFeed.Licensee.Admin\Fanex.OddsFeed.Admin\Fanex.OddsFeed.Admin.csproj", "{45398518-B314-471B-8A26-F01757EBD4FD}"
 EndProject
@@ -15,19 +22,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fanex.OddsFeed.Core", "Odds
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fanex.OddsFeed.Framework", "OddsFeed.Licensee.Admin\Fanex.OddsFeed.Framework\Fanex.OddsFeed.Framework.csproj", "{6046E641-13FC-4C11-8173-0DB394F3E878}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Dependencies", "_Dependencies", "{D00E7A2A-85E3-41AA-88F7-BD91DCAA3063}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Nexcel.OddsFeed.WindowsService", "Nexcel.OddsFeed.WindowsService", "{ABD11DEF-A40F-41D9-BE36-77106BC7A996}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nexcel.OddsFeed.WindowsService", "Nexcel.OddsFeed.WindowsService\Nexcel.OddsFeed.WindowsService.csproj", "{C9E4969C-37BA-4447-B9C5-BA64F198D9A1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nexcel.OddsFeed.Library", "Nexcel.OddsFeed.Library\Nexcel.OddsFeed.Library.csproj", "{4FDD9795-91D9-490C-BBB8-C70EF27F7FA6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nexcel.OddsFeed.WebService", "Nexcel.OddsFeed.WebService\Nexcel.OddsFeed.WebService.csproj", "{C9F4599D-DFB0-4252-8A7B-572B0C1E7E83}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5F5AE872-FBC1-493A-9D3F-1C4A49A52CE7}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{82056316-CF54-4814-A325-DEBE03065261}"
 	ProjectSection(SolutionItems) = preProject
-		OddsFeed.Licensee.Admin\Fanex.OddsFeed.Admin\Settings.StyleCop = OddsFeed.Licensee.Admin\Fanex.OddsFeed.Admin\Settings.StyleCop
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
 Global
@@ -40,16 +45,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{67CBC824-A49E-4E9B-A947-360F3DFE65C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{67CBC824-A49E-4E9B-A947-360F3DFE65C3}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{67CBC824-A49E-4E9B-A947-360F3DFE65C3}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{67CBC824-A49E-4E9B-A947-360F3DFE65C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{67CBC824-A49E-4E9B-A947-360F3DFE65C3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{67CBC824-A49E-4E9B-A947-360F3DFE65C3}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{67CBC824-A49E-4E9B-A947-360F3DFE65C3}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{67CBC824-A49E-4E9B-A947-360F3DFE65C3}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{67CBC824-A49E-4E9B-A947-360F3DFE65C3}.Release|Mixed Platforms.Deploy.0 = Release|Any CPU
-		{67CBC824-A49E-4E9B-A947-360F3DFE65C3}.Release|x86.ActiveCfg = Release|Any CPU
 		{45398518-B314-471B-8A26-F01757EBD4FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{45398518-B314-471B-8A26-F01757EBD4FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{45398518-B314-471B-8A26-F01757EBD4FD}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -120,7 +115,6 @@ Global
 		{45398518-B314-471B-8A26-F01757EBD4FD} = {B2DBB333-7992-409B-9658-424A6F05A685}
 		{2136E1D1-DB76-4365-9B4F-C1DDCFF376A8} = {B2DBB333-7992-409B-9658-424A6F05A685}
 		{6046E641-13FC-4C11-8173-0DB394F3E878} = {B2DBB333-7992-409B-9658-424A6F05A685}
-		{67CBC824-A49E-4E9B-A947-360F3DFE65C3} = {46274100-8954-49AD-BFAD-319890ED9CBC}
 		{C9E4969C-37BA-4447-B9C5-BA64F198D9A1} = {ABD11DEF-A40F-41D9-BE36-77106BC7A996}
 	EndGlobalSection
 EndGlobal
