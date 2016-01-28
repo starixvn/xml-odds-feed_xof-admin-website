@@ -5,8 +5,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "XMLOddsFeed", "XMLOddsFeed"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OddsFeed_Licensee", "OddsFeed_Licensee", "{B2DBB333-7992-409B-9658-424A6F05A685}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_DB", "_DB", "{46274100-8954-49AD-BFAD-319890ED9CBC}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Dependencies", "_Dependencies", "{D00E7A2A-85E3-41AA-88F7-BD91DCAA3063}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Nexcel.OddsFeed.WindowsService", "Nexcel.OddsFeed.WindowsService", "{ABD11DEF-A40F-41D9-BE36-77106BC7A996}"
