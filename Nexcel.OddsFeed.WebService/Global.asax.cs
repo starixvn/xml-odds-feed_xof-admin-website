@@ -9,16 +9,16 @@
 
 namespace Nexcel.OddsFeed.WebService
 {
-    using System;
-    using System.Configuration;
-    using System.Web;
-    using System.Web.Mvc;
-    using System.Web.Routing;
     using Fanex.Logging;
     using log4net.Config;
     using Nexcel.OddsFeed.Library;
     using Nexcel.OddsFeed.Library.Attributes;
     using Nexcel.OddsFeed.WebService.Controllers;
+    using System;
+    using System.Configuration;
+    using System.Web;
+    using System.Web.Mvc;
+    using System.Web.Routing;
 
     //// Note: For instructions on enabling IIS6 or IIS7 classic mode, 
     //// visit http://go.microsoft.com/?LinkId=9394801
@@ -41,7 +41,7 @@ namespace Nexcel.OddsFeed.WebService
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-                    
+
             string _feedUrlPath = ConfigurationManager.AppSettings["FeedUrlPath"].ToString();
             if (!string.IsNullOrEmpty(_feedUrlPath))
             {
@@ -54,15 +54,17 @@ namespace Nexcel.OddsFeed.WebService
 
             RegisterRoutesOddsFeed(routes, _feedUrlPath);
 
+            RegisterRoutesSportsBetTypesLeaguesFeed(routes, _feedUrlPath);
+
             RegisterRoutesEvent(routes, _feedUrlPath);
 
-            RegisterRoutesFeeds(routes, _feedUrlPath);        
+            RegisterRoutesFeeds(routes, _feedUrlPath);
 
             routes.MapRoute(
                 "OddsFeedWindowService",
                 _feedUrlPath + "{username}/analytics/cache",
                 new { controller = "Analytics", action = "Cache" });
-            
+
             routes.MapRoute(
                 "Default", // Route name
                 _feedUrlPath + "{controller}/{action}/{id}", // URL with parameters               
@@ -80,7 +82,7 @@ namespace Nexcel.OddsFeed.WebService
             RegisterRoutes(RouteTable.Routes);
 
             Fanex.Data.Configuration.DbSettingProviderManager.Current.Start();
-            
+
             XmlConfigurator.Configure();
         }
 
@@ -90,7 +92,7 @@ namespace Nexcel.OddsFeed.WebService
         /// <param name="sender">Object sender.</param>
         /// <param name="e">Event args.</param>
         protected void Application_Error(object sender, EventArgs e)
-        {                        
+        {
             Exception ex = Server.GetLastError();
             Response.Clear();
             Server.ClearError();
@@ -106,7 +108,7 @@ namespace Nexcel.OddsFeed.WebService
                     string[] message = new string[]
                         {
                             "ENVIRONMENT: " + ConfigurationManager.AppSettings["Environment"].ToString(),
-                            "ERROR: " + ex.Message, 
+                            "ERROR: " + ex.Message,
                             "SOURCE: " + ex.Source,
                             "TARGETSITE: " + ex.TargetSite,
                             "STACKTRACE: " + ex.StackTrace
@@ -117,11 +119,11 @@ namespace Nexcel.OddsFeed.WebService
 
             ////Show friendly errors
             if (ex is HttpException || ex is FormatException)
-            {                
-                Response.Redirect("~/PageNotFound.html");                                
+            {
+                Response.Redirect("~/PageNotFound.html");
             }
             else
-            {                
+            {
                 Exception err = new Exception("Sorry for the inconvenience! We are not able to process your request this time. Please try again later");
                 var routeData = new RouteData();
                 routeData.Values["controller"] = "Errors";
@@ -216,7 +218,7 @@ namespace Nexcel.OddsFeed.WebService
                 "CommonInsertBetdaqService",
                 _feedUrlPath + "{username}/InsertBet.cmd",
                 new { controller = "InsertBetdaq", action = "Index" });
-            
+
             routes.MapRoute(
                 "BetDaqOddsFeedService", // Route name
                 _feedUrlPath + "{username}/en-lang/odds.txt", // URL with parameters               
@@ -244,6 +246,22 @@ namespace Nexcel.OddsFeed.WebService
                 "BetRadarOddsFeedService", // Route name
                 _feedUrlPath + "{username}/oddsfeed.xml", // URL with parameters               
                new { controller = "BetRadar", action = "Index" }); // Parameter defaults
+        }
+
+        private static void RegisterRoutesSportsBetTypesLeaguesFeed(RouteCollection routes, string _feedUrlPath)
+        {
+            routes.MapRoute(
+                "SportService",
+                _feedUrlPath + "{username}/sports.xml",
+                new { controller = "Sport", action = "Index" });
+            routes.MapRoute(
+                "BetTypeService",
+                _feedUrlPath + "{username}/bettypes.xml",
+                new { controller = "BetType", action = "Index" });
+            routes.MapRoute(
+                "LeagueService",
+                _feedUrlPath + "{username}/leagues.xml",
+                new { controller = "League", action = "Index" });
         }
 
         #endregion

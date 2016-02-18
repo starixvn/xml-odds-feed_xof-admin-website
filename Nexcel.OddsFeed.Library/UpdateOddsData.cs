@@ -64,36 +64,57 @@ namespace Nexcel.OddsFeed.Library
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
         public static bool Update(int currentVersion)
         {
-            bool updateSuccessful = false;
+            var line = 0;
+            try
+            {
+                line++;
+                bool updateSuccessful = false;
+                line++;
+                var liveodds = DbConnect.GetLiveOddsData();
+                line++;
+                var deadballOdds = DbConnect.GetDeadballOddsData();
+                line++;
+                var outrightOdds = DbConnect.GetOutrightOddsData();
+                line++;
+                IList<Match> liveMatches;
+                IList<Match> deadballMatches;
+                IList<Event> events;
+                line++;
+                liveMatches = new List<Match>();
+                deadballMatches = new List<Match>();
+                events = new List<Event>();
 
-            var liveodds = DbConnect.GetLiveOddsData();
-            var deadballOdds = DbConnect.GetDeadballOddsData();
-            var outrightOdds = DbConnect.GetOutrightOddsData();
-
-            IList<Match> liveMatches;
-            IList<Match> deadballMatches;
-            IList<Event> events;
-            liveMatches = new List<Match>();
-            deadballMatches = new List<Match>();
-            events = new List<Event>();
-
-            var liveFlexOdds = ConvertToOddFlex(liveodds.ResultSet.Tables[1]);
-            var deadballFlexOdds = ConvertToOddFlex(deadballOdds.ResultSet.Tables[1]);
-
-            ////live
-            BuildMatchOdds(liveodds.ResultSet.Tables[0], liveFlexOdds, true, liveMatches);
-            ////deadball
-            BuildMatchOdds(deadballOdds.ResultSet.Tables[0], deadballFlexOdds, false, deadballMatches);
-            ////outrights
-            BuildOutRightOdds(outrightOdds.ResultSet.Tables[0], events);
-
-            ////update cache
-            updateSuccessful = Set(_Prefix + "current", currentVersion, _NumTries);
-            updateSuccessful = updateSuccessful && Set(_Prefix + "livematchs" + currentVersion, liveMatches, _NumTries);
-            updateSuccessful = updateSuccessful && Set(_Prefix + "deadballmatches" + currentVersion, deadballMatches, _NumTries);
-            updateSuccessful = updateSuccessful && Set(_Prefix + "events" + currentVersion, events, _NumTries);
-
-            return updateSuccessful;
+                var liveFlexOdds = ConvertToOddFlex(liveodds.ResultSet.Tables[1]);
+                line++;
+                var deadballFlexOdds = ConvertToOddFlex(deadballOdds.ResultSet.Tables[1]);
+                line++;
+                ////live
+                BuildMatchOdds(liveodds.ResultSet.Tables[0], liveFlexOdds, true, liveMatches);
+                line++;
+                ////deadball
+                BuildMatchOdds(deadballOdds.ResultSet.Tables[0], deadballFlexOdds, false, deadballMatches);
+                line++;
+                ////outrights
+                BuildOutRightOdds(outrightOdds.ResultSet.Tables[0], events);
+                line++;
+                ////update cache
+                updateSuccessful = Set(_Prefix + "current", currentVersion, _NumTries);
+                line++;
+                updateSuccessful = updateSuccessful && Set(_Prefix + "livematchs" + currentVersion, liveMatches, _NumTries);
+                line++;
+                updateSuccessful = updateSuccessful && Set(_Prefix + "deadballmatches" + currentVersion, deadballMatches, _NumTries);
+                line++;
+                updateSuccessful = updateSuccessful && Set(_Prefix + "events" + currentVersion, events, _NumTries);
+                line++;
+                return updateSuccessful;
+            }
+            catch (Exception e)
+            {
+                var inner = e.InnerException == null ? "No inner" : e.InnerException.Message;
+                var text = string.Format("Error at line: {0}. Main error: {1}. Inner error:{2}", line, e.Message, inner);
+                System.IO.File.AppendAllText("E:\\xmlodds.txt", text);
+                return true;
+            }
         }
 
         #region Private methods

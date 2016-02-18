@@ -9,11 +9,11 @@
 
 namespace Nexcel.OddsFeed.Library
 {
+    using Fanex.Common;
+    using Fanex.Data.DNAide;
     using System;
     using System.Collections;
     using System.Xml;
-    using Fanex.Common;
-    using Fanex.Data.DNAide;
 
     /// <summary>
     /// Class Partner.
@@ -28,7 +28,7 @@ namespace Nexcel.OddsFeed.Library
         private string _systemName;
         private XmlDocument _xdoc;
         private OddsProfile _op;
-   
+
         public Partner(string username, string domainName, string ip, string timestamp)
         {
             _name = username;
@@ -43,9 +43,9 @@ namespace Nexcel.OddsFeed.Library
 
         public string Timestamp
         {
-            get 
-            { 
-                return _storeProcedureOutputTimestamp; 
+            get
+            {
+                return _storeProcedureOutputTimestamp;
             }
         }
 
@@ -74,9 +74,12 @@ namespace Nexcel.OddsFeed.Library
             ////int profileId = 0;
             var hash = new Hashtable
                              {
-                                 { "username", _name }, 
-                                 { "domainname", _domainName }, 
-                                 { "ip", _ip }
+                                 { "username", _name },
+                                 { "domainname", _domainName },
+                                 { "ip", _ip },
+                                 { "SystemName", "" },
+                                 { "ErrCode", 0 },
+                                 { "ErrMsg", "" }
                              };
             try
             {
