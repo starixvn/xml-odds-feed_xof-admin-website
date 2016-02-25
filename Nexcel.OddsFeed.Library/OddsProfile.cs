@@ -9,15 +9,19 @@
 
 namespace Nexcel.OddsFeed.Library
 {
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using Fanex.Data.DNAide;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Class OddsProfile.
     /// </summary>
     public class OddsProfile
-    {                
+    {
+        public OddsProfile()
+        {
+
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="OddsProfile"/> class.
         /// </summary>
@@ -33,13 +37,13 @@ namespace Nexcel.OddsFeed.Library
 
             Sports = data["SportIDList"].ToString().Equals("all") ? null : Utilities.GetIntList(data["SportIDList"].ToString());
             Countries = data["CountryCodeList"].ToString().Equals("all") ? null : Utilities.GetStringIList(data["CountryCodeList"].ToString().ToLower());
-            
+
             ////leagues
             Leagues = data["LeagueIDList"].ToString().Equals("all") ? null : Utilities.GetIntList(data["LeagueIDList"].ToString());
-            
+
             ////outrights
             Outrights = data["OutrightIDList"].ToString().Equals("all") ? null : Utilities.GetIntList(data["OutrightIDList"].ToString());
-            
+
             BetTypes = data["BetTypeIDList"].ToString().Equals("all") ? null : Utilities.GetIntList(data["BetTypeIDList"].ToString());
 
             LeagueKeyword = data["LeagueKeyword"].ToString().ToLower();
