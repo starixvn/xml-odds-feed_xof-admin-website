@@ -13,11 +13,11 @@ namespace Fanex.OddsFeed.Core.Criteria.Administrator
     using System.ComponentModel.DataAnnotations;
     using Core.Web;
     using Framework.Data;
-
+    using Data.Repository;
     /// <summary>
     /// Class GetAdminCriteria.
     /// </summary>
-    public class GetAdminCriteria : CriteriaBase
+    public class GetAdminCriteria : Framework.Data.CriteriaBase
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GetAdminCriteria"/> class.

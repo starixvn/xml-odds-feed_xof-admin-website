@@ -12,11 +12,11 @@ namespace Fanex.OddsFeed.Core.Criteria.Licensee
     using System.ComponentModel.DataAnnotations;
     using Fanex.OddsFeed.Core.Web;
     using Fanex.OddsFeed.Framework.Data;
-
+    using Data.Repository;
     /// <summary>
     /// Class CreateLicenseeCriteria.
     /// </summary>
-    public class CreateLicenseeCriteria : CriteriaBase
+    public class CreateLicenseeCriteria : Framework.Data.CriteriaBase
     {
         public CreateLicenseeCriteria()
         {

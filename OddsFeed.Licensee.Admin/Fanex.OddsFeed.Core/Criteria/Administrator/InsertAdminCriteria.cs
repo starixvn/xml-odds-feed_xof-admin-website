@@ -12,11 +12,11 @@ namespace Fanex.OddsFeed.Core.Criteria.Administrator
     using System.ComponentModel.DataAnnotations;
     using Core.Web;
     using Framework.Data;
-
+    using Data.Repository;
     /// <summary>
     /// Class InsertAdminCriteria.
     /// </summary>
-    public class InsertAdminCriteria : CriteriaBase
+    public class InsertAdminCriteria : Framework.Data.CriteriaBase
     {        
         public InsertAdminCriteria()
         {

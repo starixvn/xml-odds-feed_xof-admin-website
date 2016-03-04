@@ -24,7 +24,7 @@ namespace Fanex.OddsFeed.Core.Service.Impl
     using Fanex.OddsFeed.Core.Repository.Impl;
     using Fanex.OddsFeed.Core.Service.Interface;
     using Fanex.OddsFeed.Framework.Data;
-
+    using Data.Repository;
     /// <summary>
     /// Class BaseService.
     /// </summary>    

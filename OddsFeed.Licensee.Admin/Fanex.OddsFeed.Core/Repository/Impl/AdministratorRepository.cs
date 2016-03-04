@@ -10,7 +10,7 @@
 namespace Fanex.OddsFeed.Core.Repository.Impl
 {
     using System;
-    using System.Collections;    
+    using System.Collections;
     using System.Data;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
@@ -20,10 +20,9 @@ namespace Fanex.OddsFeed.Core.Repository.Impl
     using Fanex.OddsFeed.Core.Model;
     using Fanex.OddsFeed.Core.Repository.Interface;
     using Fanex.OddsFeed.Framework.Data;
-
-    /// <summary>
-    /// Class AdministratorRepository.
-    /// </summary>
+    using Fanex.Data.Repository;    /// <summary>
+                              /// Class AdministratorRepository.
+                              /// </summary>
     public class AdministratorRepository : RepositoryBase<IAdministrator>, IAdministratorRepository
     {
         /// <summary>

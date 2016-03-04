@@ -14,11 +14,11 @@ namespace Fanex.OddsFeed.Core.Criteria.Affiliate
     using System.Diagnostics.CodeAnalysis;
     using Fanex.OddsFeed.Core.Model;
     using Fanex.OddsFeed.Framework.Data;
-
+    using Data.Repository;
     /// <summary>
     /// Class RequestStatisticCriteria.
     /// </summary>
-    public class RequestStatisticCriteria : CriteriaBase
+    public class RequestStatisticCriteria : Framework.Data.CriteriaBase
     {        
         private DateTime _dateStart;
      

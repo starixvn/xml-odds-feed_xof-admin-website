@@ -14,7 +14,7 @@ namespace Fanex.OddsFeed.Core.Repository.Interface
     using System.Diagnostics.CodeAnalysis;
     using Fanex.OddsFeed.Core.Domain;
     using Fanex.OddsFeed.Framework.Data;
-
+    using Data.Repository;
     [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Reviewed")]
     public interface IAdministratorRepository : IRepository<IAdministrator>, IBaseRepository
     {

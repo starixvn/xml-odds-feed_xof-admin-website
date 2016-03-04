@@ -12,11 +12,11 @@ namespace Fanex.OddsFeed.Core.Criteria.SubAccount
     using System;
     using System.Diagnostics.CodeAnalysis;
     using Fanex.OddsFeed.Framework.Data;
-
+    using Data.Repository;
     /// <summary>
     /// Class AssignLicensee_SubACCCriteria.
     /// </summary>
-    public class AssignLicensee_SubAccCriteria : CriteriaBase
+    public class AssignLicensee_SubAccCriteria : Framework.Data.CriteriaBase
     {
         public AssignLicensee_SubAccCriteria()
         {

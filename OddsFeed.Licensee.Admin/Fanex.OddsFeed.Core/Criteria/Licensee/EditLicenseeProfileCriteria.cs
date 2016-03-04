@@ -11,11 +11,11 @@ namespace Fanex.OddsFeed.Core.Criteria.Licensee
 {
     using System;
     using Fanex.OddsFeed.Framework.Data;
-
+    using Data.Repository;
     /// <summary>
     /// Class EditLicenseeProfileCriteria.
     /// </summary>
-    public class EditLicenseeProfileCriteria : CriteriaBase
+    public class EditLicenseeProfileCriteria : Framework.Data.CriteriaBase
     {
         public EditLicenseeProfileCriteria()
         {

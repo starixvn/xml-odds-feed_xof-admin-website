@@ -11,13 +11,13 @@ namespace Fanex.OddsFeed.Core.Criteria.Affiliate
 {
     using System.ComponentModel.DataAnnotations;
     using System.Diagnostics.CodeAnalysis;
-    using Fanex.OddsFeed.Core.Web;    
+    using Fanex.OddsFeed.Core.Web;
     using Fanex.OddsFeed.Framework.Data;
-
+    using Data.Repository;
     /// <summary>
     /// Class EditPermissionSubACCCriteria.
     /// </summary>
-    public class EditPermissionSubAccCriteria : CriteriaBase
+    public class EditPermissionSubAccCriteria : Framework.Data.CriteriaBase
     {
         public EditPermissionSubAccCriteria()
         {            

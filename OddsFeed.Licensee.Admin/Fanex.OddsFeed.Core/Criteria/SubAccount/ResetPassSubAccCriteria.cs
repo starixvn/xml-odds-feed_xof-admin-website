@@ -11,14 +11,14 @@ namespace Fanex.OddsFeed.Core.Criteria.Affiliate
 {
     using System.ComponentModel.DataAnnotations;
     using System.Diagnostics.CodeAnalysis;
-    using System.Web.Mvc;   
+    using System.Web.Mvc;
     using Fanex.OddsFeed.Core.Web;
     using Fanex.OddsFeed.Framework.Data;
-
+    using Data.Repository;
     /// <summary>
     /// Class ResetPassSubACCCriteria.
     /// </summary>
-    public class ResetPassSubAccCriteria : CriteriaBase
+    public class ResetPassSubAccCriteria : Framework.Data.CriteriaBase
     {
         public ResetPassSubAccCriteria()
         {

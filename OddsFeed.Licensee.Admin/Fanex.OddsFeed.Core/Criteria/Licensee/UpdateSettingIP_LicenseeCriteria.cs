@@ -10,13 +10,13 @@
 namespace Fanex.OddsFeed.Core.Criteria.Licensee
 {
     using System.ComponentModel.DataAnnotations;
-    using System.Diagnostics.CodeAnalysis;    
+    using System.Diagnostics.CodeAnalysis;
     using Fanex.OddsFeed.Framework.Data;
-
+    using Data.Repository;
     /// <summary>
     /// Class UpdateSettingIP_LicenseeCriteria.
     /// </summary>
-    public class UpdateSettingIP_LicenseeCriteria : CriteriaBase
+    public class UpdateSettingIP_LicenseeCriteria : Framework.Data.CriteriaBase
     {
         public UpdateSettingIP_LicenseeCriteria()
         {

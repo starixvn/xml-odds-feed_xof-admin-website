@@ -71,7 +71,7 @@ namespace Fanex.OddsFeed.Core.Service.Impl
 
                 if (criteria.IsValid() && logCriteria.IsValid())
                 {
-                    return _dashboardRepository.ReturnDataSet(criteria, logCriteria);
+                    return _dashboardRepository.ReturnDataSet(criteria);
                 }
             }
             catch (Exception ex)
@@ -95,7 +95,7 @@ namespace Fanex.OddsFeed.Core.Service.Impl
 
                 if (criteria.IsValid() && logCriteria.IsValid())
                 {
-                    return _dashboardRepository.ReturnDataSet(criteria, logCriteria);
+                    return _dashboardRepository.ReturnDataSet(criteria);
                 }
             }
             catch (Exception ex)
@@ -119,7 +119,7 @@ namespace Fanex.OddsFeed.Core.Service.Impl
 
                 if (criteria.IsValid() && logCriteria.IsValid())
                 {
-                    return _dashboardRepository.ReturnDataCollection(criteria, logCriteria);
+                    return _dashboardRepository.ReturnDataCollection(criteria);
                 }
             }
             catch (Exception ex)
@@ -143,7 +143,7 @@ namespace Fanex.OddsFeed.Core.Service.Impl
 
                 if (criteria.IsValid() && logCriteria.IsValid())
                 {
-                    return _dashboardRepository.ReturnDataCollection(criteria, logCriteria);
+                    return _dashboardRepository.ReturnDataCollection(criteria);
                 }
             }
             catch (Exception ex)

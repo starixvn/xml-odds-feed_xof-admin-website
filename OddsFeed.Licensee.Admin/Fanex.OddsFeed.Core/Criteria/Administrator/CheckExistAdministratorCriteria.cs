@@ -13,11 +13,11 @@ namespace Fanex.OddsFeed.Core.Criteria.Administrator
     using System.ComponentModel.DataAnnotations;
     using System.Diagnostics.CodeAnalysis;
     using Fanex.OddsFeed.Framework.Data;
-
+    using Data.Repository;
     /// <summary>
     /// Class CheckExistAdministratorCriteria.
     /// </summary>
-    public class CheckExistAdministratorCriteria : CriteriaBase
+    public class CheckExistAdministratorCriteria : Framework.Data.CriteriaBase
     {
         public int UserID { get; set; }
 

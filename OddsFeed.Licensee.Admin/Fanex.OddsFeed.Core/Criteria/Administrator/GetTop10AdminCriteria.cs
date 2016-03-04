@@ -9,12 +9,13 @@
 
 namespace Fanex.OddsFeed.Core.Criteria.Administrator
 {
+    using Data.Repository;
     using Framework.Data;
 
     /// <summary>
     /// Class GetTop10AdminCriteria.
     /// </summary>
-    public class GetTop10AdminCriteria : CriteriaBase
+    public class GetTop10AdminCriteria : Framework.Data.CriteriaBase
     {
         public GetTop10AdminCriteria()
         {

@@ -11,13 +11,13 @@ namespace Fanex.OddsFeed.Core.Criteria.Affiliate
 {
     using System.ComponentModel.DataAnnotations;
     using System.Diagnostics.CodeAnalysis;
-    using Fanex.OddsFeed.Core.Web;    
+    using Fanex.OddsFeed.Core.Web;
     using Fanex.OddsFeed.Framework.Data;
-
+    using Data.Repository;
     /// <summary>
     /// Class InsertAffiliateCriteria.
     /// </summary>
-    public class InsertAffiliateCriteria : CriteriaBase
+    public class InsertAffiliateCriteria : Framework.Data.CriteriaBase
     {
         public InsertAffiliateCriteria()
         {

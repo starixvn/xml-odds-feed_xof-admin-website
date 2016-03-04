@@ -13,11 +13,11 @@ namespace Fanex.OddsFeed.Core.Criteria.Administrator
     using System.Web.Mvc;
     using Core.Web;
     using Framework.Data;
-
+    using Data.Repository;
     /// <summary>
     /// Class UpdateAdminPasswordCriteria.
     /// </summary>
-    public class UpdateAdminPasswordCriteria : CriteriaBase
+    public class UpdateAdminPasswordCriteria : Framework.Data.CriteriaBase
     {  
         public UpdateAdminPasswordCriteria()
         {

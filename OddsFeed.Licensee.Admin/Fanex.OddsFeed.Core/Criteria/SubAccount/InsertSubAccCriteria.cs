@@ -14,11 +14,11 @@ namespace Fanex.OddsFeed.Core.Criteria.Affiliate
     using System.Diagnostics.CodeAnalysis;
     using Fanex.OddsFeed.Core.Web;
     using Fanex.OddsFeed.Framework.Data;
-
+    using Data.Repository;
     /// <summary>
     /// Class InsertSubACCCriteria.
     /// </summary>
-    public class InsertSubAccCriteria : CriteriaBase
+    public class InsertSubAccCriteria : Framework.Data.CriteriaBase
     {
         public InsertSubAccCriteria()
         {

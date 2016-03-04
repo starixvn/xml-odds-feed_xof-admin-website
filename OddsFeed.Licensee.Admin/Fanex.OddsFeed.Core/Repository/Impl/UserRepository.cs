@@ -22,7 +22,7 @@ namespace Fanex.OddsFeed.Core.Repository.Impl
     using Fanex.OddsFeed.Core.Model;
     using Fanex.OddsFeed.Core.Model.ValueObject;
     using Fanex.OddsFeed.Core.Repository.Interface;
-    using Fanex.OddsFeed.Framework.Data;
+    using Data.Repository;    //using Fanex.OddsFeed.Framework.Data;
 
     /// <summary>
     /// Class UserRepository.

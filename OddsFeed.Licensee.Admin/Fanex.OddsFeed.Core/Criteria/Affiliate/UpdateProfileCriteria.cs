@@ -11,11 +11,11 @@ namespace Fanex.OddsFeed.Core.Criteria.Affiliate
 {
     using System.Diagnostics.CodeAnalysis;
     using Fanex.OddsFeed.Framework.Data;
-
+    using Data.Repository;
     /// <summary>
     /// Class UpdateProfileCriteria.
     /// </summary>    
-    public class UpdateProfileCriteria : CriteriaBase
+    public class UpdateProfileCriteria : Framework.Data.CriteriaBase
     {
         public UpdateProfileCriteria()
         {            

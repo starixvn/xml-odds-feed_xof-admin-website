@@ -22,7 +22,7 @@ namespace Fanex.OddsFeed.Core.Repository.Impl
     using Fanex.OddsFeed.Core.Model.ValueObject;
     using Fanex.OddsFeed.Core.Repository.Interface;
     using Fanex.OddsFeed.Framework.Data;
-
+    using Data.Repository;
     /// <summary>
     /// Class AffiliateRepository.
     /// </summary>

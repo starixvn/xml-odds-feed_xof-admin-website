@@ -23,7 +23,13 @@ namespace Fanex.OddsFeed.Core.Criteria.Dashboard
 
         [Required]
         public int UserID { get; set; }
-         
+
+        public int PageIndex { get; set; }
+
+        public int PageCount { get; set; }
+
+        public int RowCount { get; set; }
+
         public override string GetSettingKey()
         {
             return "Odds_Dashboard_LastLogin";

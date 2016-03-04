@@ -11,11 +11,11 @@ namespace Fanex.OddsFeed.Core.Criteria.Licensee
 {
     using System;
     using Fanex.OddsFeed.Framework.Data;
-
+    using Data.Repository;
     /// <summary>
     /// Class EditLicenseeInfoCriteria.
     /// </summary>
-    public class EditLicenseeInfoCriteria : CriteriaBase
+    public class EditLicenseeInfoCriteria : Framework.Data.CriteriaBase
     {
         public short SystemID { get; set; }
 

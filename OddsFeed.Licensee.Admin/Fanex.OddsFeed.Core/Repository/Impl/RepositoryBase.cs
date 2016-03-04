@@ -18,7 +18,7 @@ namespace Fanex.OddsFeed.Core.Repository.Impl
     using Fanex.OddsFeed.Core.Helpers;
     using Fanex.OddsFeed.Core.Repository.Interface;
     using Fanex.OddsFeed.Framework.Data;
-
+    using Data.Repository;
     /// <summary>
     /// Class RepositoryBase.
     /// </summary>
@@ -119,6 +119,22 @@ namespace Fanex.OddsFeed.Core.Repository.Impl
         }
 
         /// <summary>
+        /// Returns the data set.
+        /// </summary>
+        /// <param name="criteria">The criteria.</param>
+        /// <param name="logCriteria">The log criteria.</param>
+        /// <returns>The DataSet.</returns>
+        public DataSet ReturnDataSet(ICriteria criteria)
+        {
+            // prepare SP parameters
+            Hashtable hash = criteria.GetSpParams();
+
+            var db = new ObjectDb(criteria.GetSettingKey());
+            db.AssignParamValues(hash);
+            return db.ExecuteDataSet();
+        }
+
+        /// <summary>
         /// Returns the data collection.
         /// </summary>
         /// <param name="criteria">The criteria.</param>
@@ -131,6 +147,29 @@ namespace Fanex.OddsFeed.Core.Repository.Impl
 
             hash = logCriteria.AddSpParams(hash);
             hash = (new ResultCriteria()).AddSpParams(hash);
+
+            var res = new DataCollection();
+
+            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            {
+                db.AssignParamValues(hash);
+                res.Data = db.ExecuteDataSet();
+                res.TotalItem = (int)db.GetOuputParams()["rowcount"];
+
+                return res;
+            }
+        }
+
+        /// <summary>
+        /// Returns the data collection.
+        /// </summary>
+        /// <param name="criteria">The criteria.</param>
+        /// <param name="logCriteria">The log criteria.</param>
+        /// <returns>Data Collection.</returns>
+        public DataCollection ReturnDataCollection(ICriteria criteria)
+        {
+            // prepare SP parameters
+            Hashtable hash = criteria.GetSpParams();
 
             var res = new DataCollection();
 
