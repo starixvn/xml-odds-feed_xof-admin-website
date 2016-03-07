@@ -51,7 +51,6 @@ namespace Fanex.OddsFeed.Core.Repository.Impl
         {
             // prepare SP parameters
             Hashtable hash = criteria.GetSpParams();
-            hash = (new ResultCriteria()).AddSpParams(hash);
 
             var db = new ObjectDb(criteria.GetSettingKey());
             db.AssignParamValues(hash);
@@ -81,6 +80,25 @@ namespace Fanex.OddsFeed.Core.Repository.Impl
         }
 
         /// <summary>
+        /// Returns the i command result.
+        /// </summary>
+        /// <param name="criteria">The criteria.</param>
+        /// <param name="logCriteria">The log criteria.</param>
+        /// <returns>ICommand Result.</returns>
+        public ICommandResult ReturnICommandResult(ICriteria criteria)
+        {
+            // prepare SP parameters
+            Hashtable hash = criteria.GetSpParams();
+
+            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            {
+                db.ExecuteNonQuery(hash);
+
+                return GetCommandResult(hash);
+            }
+        }
+
+        /// <summary>
         /// Returns the data reader.
         /// </summary>
         /// <param name="criteria">The criteria.</param>
@@ -93,6 +111,22 @@ namespace Fanex.OddsFeed.Core.Repository.Impl
 
             hash = logCriteria.AddSpParams(hash);
             hash = (new ResultCriteria()).AddSpParams(hash);
+
+            var db = new ObjectDb(criteria.GetSettingKey());
+            db.AssignParamValues(hash);
+            return db.ExecuteReader();
+        }
+
+        /// <summary>
+        /// Returns the data reader.
+        /// </summary>
+        /// <param name="criteria">The criteria.</param>
+        /// <param name="logCriteria">The log criteria.</param>
+        /// <returns>IData Reader.</returns>
+        public IDataReader ReturnDataReader(ICriteria criteria)
+        {
+            // prepare SP parameters
+            Hashtable hash = criteria.GetSpParams();
 
             var db = new ObjectDb(criteria.GetSettingKey());
             db.AssignParamValues(hash);
@@ -206,6 +240,25 @@ namespace Fanex.OddsFeed.Core.Repository.Impl
         }
 
         /// <summary>
+        /// Updates the specified criteria.
+        /// </summary>
+        /// <param name="criteria">The criteria.</param>
+        /// <param name="logCriteria">The log criteria.</param>
+        /// <returns>ICommand Result.</returns>
+        public ICommandResult Update(ICriteria criteria)
+        {
+            // prepare SP parameters
+            Hashtable hash = criteria.GetSpParams();
+
+            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            {
+                db.ExecuteNonQuery(hash);
+
+                return GetCommandResult(hash);
+            }
+        }
+
+        /// <summary>
         /// Deletes the specified criteria.
         /// </summary>
         /// <param name="criteria">The criteria.</param>
@@ -226,7 +279,26 @@ namespace Fanex.OddsFeed.Core.Repository.Impl
                 return GetCommandResult(hash);
             }
         }
-      
+
+        /// <summary>
+        /// Deletes the specified criteria.
+        /// </summary>
+        /// <param name="criteria">The criteria.</param>
+        /// <param name="logCriteria">The log criteria.</param>
+        /// <returns>ICommand Result.</returns>
+        public ICommandResult Delete(ICriteria criteria)
+        {
+            // prepare SP parameters
+            Hashtable hash = criteria.GetSpParams();
+
+            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            {
+                db.ExecuteNonQuery(hash);
+
+                return GetCommandResult(hash);
+            }
+        }
+
         public ICommandResult Insert(T entity)
         {
             throw new NotImplementedException();

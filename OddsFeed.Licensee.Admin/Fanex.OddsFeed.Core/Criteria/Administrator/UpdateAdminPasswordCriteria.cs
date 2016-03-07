@@ -28,12 +28,7 @@ namespace Fanex.OddsFeed.Core.Criteria.Administrator
 
         [Display(Name = "Password", ResourceType = typeof(ViewResources))]
         [SpParam(SqlParamName = "Password")]
-        public string Password { get; set; }
-
-        [Display(Name = "Confirm_Password", ResourceType = typeof(ViewResources))]
-        [DataType(DataType.Password)]
-        [Compare("Password")]
-        public string ConfirmPassword { get; set; }
+        public string Password { get; set; }        
 
         public int Creator { get; set; }
 
@@ -42,6 +37,14 @@ namespace Fanex.OddsFeed.Core.Criteria.Administrator
         public int ErrCode { get; set; }
 
         public string ErrMsg { get; set; }
+
+
+        // Ignored
+        [SpParam(Ignored = true)]
+        [Display(Name = "Confirm_Password", ResourceType = typeof(ViewResources))]
+        [DataType(DataType.Password)]
+        [Compare("Password")]
+        public string ConfirmPassword { get; set; }
 
         public override string GetSettingKey()
         {

@@ -18,41 +18,55 @@ namespace Fanex.OddsFeed.Core.Criteria.Administrator
     /// Class CheckExistAdministratorCriteria.
     /// </summary>
     public class CheckExistAdministratorCriteria : Framework.Data.CriteriaBase
-    {
-        public int UserID { get; set; }
-
+    {        
         [Required]
         public int SystemID { get; set; }
-
-        [Required]
-        [SpParam(SqlParamName = "Username")]
-        public string Username { get; set; }
 
         [SpParam(SqlParamName = "RoleID")]
         public int RoleID { get; set; }
 
-        [SpParam(SqlParamName = "RoleName")]
-        public int RoleName { get; set; }
+        [Required]
+        [SpParam(SqlParamName = "Username")]
+        public string Username { get; set; }               
 
-        [SpParam(SqlParamName = "FirstName")]
-        public string FirstName { get; set; }
+        public int PageSize { get; set; }
 
-        [SpParam(SqlParamName = "LastName")]
-        public string LastName { get; set; }
+        public int PageIndex { get; set; }
 
-        [SpParam(SqlParamName = "Email")]
-        public string Email { get; set; }
+        public int PageCount { get; set; }
 
-        public string Creator { get; set; }
-
-        public bool IsActive { get; set; }
-
-        public DateTime CreateDate { get; set; }
+        public int RowCount { get; set; }
 
         public int ErrCode { get; set; }
 
         public string ErrMsg { get; set; }
-        
+
+
+        // Ignored 
+        [SpParam(Ignored = true)]
+        public int UserID { get; set; }
+
+        [SpParam(Ignored = true)]
+        public int RoleName { get; set; }
+
+        [SpParam(Ignored = true)]
+        public string FirstName { get; set; }
+
+        [SpParam(Ignored = true)]
+        public string LastName { get; set; }
+
+        [SpParam(Ignored = true)]
+        public string Email { get; set; }
+
+        [SpParam(Ignored = true)]
+        public string Creator { get; set; }
+
+        [SpParam(Ignored = true)]
+        public bool IsActive { get; set; }
+
+        [SpParam(Ignored = true)]
+        public DateTime CreateDate { get; set; }     
+
         public override string GetSettingKey()
         {
             return "Odds_Admin_CheckExist";

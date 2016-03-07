@@ -22,8 +22,10 @@ namespace Fanex.OddsFeed.Core.Repository.Interface
         CommandResult GetCommandResult(Hashtable hash);
 
         ICommandResult ReturnICommandResult(ICriteria criteria, ICriteria logCriteria);
+        ICommandResult ReturnICommandResult(ICriteria criteria);
 
         IDataReader ReturnDataReader(ICriteria criteria, ICriteria logCriteria);
+        IDataReader ReturnDataReader(ICriteria criteria);
 
         DataSet ReturnDataSet(ICriteria criteria, ICriteria logCriteria);
 
@@ -35,6 +37,9 @@ namespace Fanex.OddsFeed.Core.Repository.Interface
 
         ICommandResult Update(ICriteria criteria, ICriteria logCriteria);
 
+        ICommandResult Update(ICriteria criteria);
+
         ICommandResult Delete(ICriteria criteria, ICriteria logCriteria);
+        ICommandResult Delete(ICriteria criteria);
     }
 }

@@ -70,11 +70,9 @@ namespace Fanex.OddsFeed.Core.Service.Impl
         {
             try
             {
-                LogExecSpCriteria logCriteria = GetLogExecSpCriteria();
-
-                if (criteria.IsValid() && logCriteria.IsValid())
+                if (criteria.IsValid())
                 {
-                    return _adminRepository.ReturnDataCollection(criteria, logCriteria);
+                    return _adminRepository.ReturnDataCollection(criteria);
                 }
             }
             catch (Exception ex)
@@ -94,10 +92,9 @@ namespace Fanex.OddsFeed.Core.Service.Impl
         {
             try
             {
-                LogExecSpCriteria logCriteria = GetLogExecSpCriteria();
-                if (criteria.IsValid() && logCriteria.IsValid())
+                if (criteria.IsValid())
                 {
-                    return _adminRepository.ReturnDataCollection(criteria, logCriteria);
+                    return _adminRepository.ReturnDataCollection(criteria);
                 }
             }
             catch (Exception ex)
@@ -117,11 +114,9 @@ namespace Fanex.OddsFeed.Core.Service.Impl
         {
             try
             {
-                LogExecSpCriteria logCriteria = GetLogExecSpCriteria();
-
-                if (criteria.IsValid() && logCriteria.IsValid())
+                if (criteria.IsValid())
                 {
-                    return _adminRepository.ReturnDataSet(criteria, logCriteria);
+                    return _adminRepository.ReturnDataSet(criteria);
                 }
             }
             catch (Exception ex)
@@ -141,11 +136,9 @@ namespace Fanex.OddsFeed.Core.Service.Impl
         {
             try
             {
-                LogExecSpCriteria logCriteria = GetLogExecSpCriteria();
-
-                if (criteria.IsValid() && logCriteria.IsValid())
+                if (criteria.IsValid())
                 {
-                    return _adminRepository.ReturnDataSet(criteria, logCriteria);
+                    return _adminRepository.ReturnDataSet(criteria);
                 }
             }
             catch (Exception ex)
@@ -168,11 +161,9 @@ namespace Fanex.OddsFeed.Core.Service.Impl
 
             try
             {
-                LogExecSpCriteria logCriteria = GetLogExecSpCriteria();
-
-                if (criteria.IsValid() && logCriteria.IsValid())
+                if (criteria.IsValid())
                 {
-                    return _adminRepository.Update(criteria, logCriteria);
+                    return _adminRepository.Update(criteria);
                 }
             }
             catch (Exception ex)
@@ -195,11 +186,9 @@ namespace Fanex.OddsFeed.Core.Service.Impl
 
             try
             {
-                LogExecSpCriteria logCriteria = GetLogExecSpCriteria();
-
-                if (criteria.IsValid() && logCriteria.IsValid())
+                if (criteria.IsValid())
                 {
-                    return _adminRepository.Update(criteria, logCriteria);
+                    return _adminRepository.Update(criteria);
                 }
             }
             catch (Exception ex)
@@ -222,11 +211,9 @@ namespace Fanex.OddsFeed.Core.Service.Impl
 
             try
             {
-                LogExecSpCriteria logCriteria = GetLogExecSpCriteria();
-
-                if (criteria.IsValid() && logCriteria.IsValid())
+                if (criteria.IsValid())
                 {
-                    return _adminRepository.Update(criteria, logCriteria);
+                    return _adminRepository.Update(criteria);
                 }
             }
             catch (Exception ex)
@@ -249,11 +236,9 @@ namespace Fanex.OddsFeed.Core.Service.Impl
 
             try
             {
-                LogExecSpCriteria logCriteria = GetLogExecSpCriteria();
-
-                if (criteria.IsValid() && logCriteria.IsValid())
+                if (criteria.IsValid())
                 {
-                    return _adminRepository.Update(criteria, logCriteria);
+                    return _adminRepository.Update(criteria);
                 }
             }
             catch (Exception ex)
@@ -273,10 +258,9 @@ namespace Fanex.OddsFeed.Core.Service.Impl
         {
             try
             {
-                LogExecSpCriteria logCriteria = GetLogExecSpCriteria();
-                if (criteria.IsValid() && logCriteria.IsValid())
+                if (criteria.IsValid())
                 {
-                    return _adminRepository.ReturnDataSet(criteria, logCriteria);
+                    return _adminRepository.ReturnDataSet(criteria);
                 }
             }
             catch (Exception ex)

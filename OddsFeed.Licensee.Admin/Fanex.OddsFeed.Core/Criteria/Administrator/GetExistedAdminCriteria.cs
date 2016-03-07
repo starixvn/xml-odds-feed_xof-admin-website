@@ -23,26 +23,26 @@ namespace Fanex.OddsFeed.Core.Criteria.Administrator
 
         [SpParam(SqlParamName = "Username")]
         public string Username { get; set; }
+        public int ErrCode { get; set; }
+        public string ErrMsg { get; set; }
 
-        [SpParam(SqlParamName = "RoleID")]
+
+        // Ignored
+        [SpParam(Ignored = true)]
         public int RoleID { get; set; }
 
-        [SpParam(SqlParamName = "FirstName")]
+        [SpParam(Ignored = true)]
         public string FirstName { get; set; }
 
-        [SpParam(SqlParamName = "LastName")]
+        [SpParam(Ignored = true)]
         public string LastName { get; set; }
 
-        [SpParam(SqlParamName = "Email")]
+        [SpParam(Ignored = true)]
         public string Email { get; set; }
 
-        [SpParam(SqlParamName = "Password")]
+        [SpParam(Ignored = true)]
         public string Password { get; set; }
-
-        public int ErrCode { get; set; }
-
-        public string ErrMsg { get; set; }
-                
+                        
         public override string GetSettingKey()
         {
             return "Odds_ExistedAdmin_Sel";

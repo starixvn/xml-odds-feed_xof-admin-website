@@ -26,11 +26,24 @@ namespace Fanex.OddsFeed.Core.Criteria.Administrator
         [SpParam(SqlParamName = "AdminID")]
         public int UserID { get; set; }
 
-        public string UserName { get; set; }
-
         [SpParam(SqlParamName = "ListSystemId")]
         public string ListSystemId { get; set; }
 
+        public int Creator { get; set; }
+
+        public string IP { get; set; }
+
+        public int ErrCode { get; set; }
+
+        public string ErrMsg { get; set; }
+
+
+        // Ignored
+        [SpParam(Ignored = true)]
+        public string UserName { get; set; }
+
+
+        [SpParam(Ignored = true)]
         public string[] SystemList
         {
             get
@@ -48,15 +61,7 @@ namespace Fanex.OddsFeed.Core.Criteria.Administrator
                 ListSystemId = Utilities.StringArrayToString(value);
             }
         }
-
-        public int Creator { get; set; }
-
-        public string IP { get; set; }
-        
-        public int ErrCode { get; set; }
-
-        public string ErrMsg { get; set; }
-     
+           
         public override string GetSettingKey()
         {
             return "Odds_Admin_UpdSystem";

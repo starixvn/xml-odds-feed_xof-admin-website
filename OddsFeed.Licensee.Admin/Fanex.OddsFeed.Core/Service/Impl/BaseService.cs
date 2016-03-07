@@ -85,32 +85,27 @@ namespace Fanex.OddsFeed.Core.Service.Impl
 
         public DataCollection GetData(ICriteria criteria)
         {
-            var logExecSPCriteria = GetLogExecSpCriteria();
-            return this._baseRepository.ReturnDataCollection(criteria, logExecSPCriteria);
+            return this._baseRepository.ReturnDataCollection(criteria);
         }
 
         public IDataReader GetDataReader(ICriteria criteria)
         {
-            var logExecSPCriteria = GetLogExecSpCriteria();
-            return this._baseRepository.ReturnDataReader(criteria, logExecSPCriteria);
+            return this._baseRepository.ReturnDataReader(criteria);
         }
 
         public DataSet GetDataSet(ICriteria criteria)
         {
-            var logExecSPCriteria = GetLogExecSpCriteria();
-            return this._baseRepository.ReturnDataSet(criteria, logExecSPCriteria);
+            return this._baseRepository.ReturnDataSet(criteria);
         }
 
         public ICommandResult UpdateData(ICriteria criteria)
         { 
-            var logExecSPCriteria = GetLogExecSpCriteria();
-            return this._baseRepository.Update(criteria, logExecSPCriteria);
+            return this._baseRepository.Update(criteria);
         }
 
         public ICommandResult DeleteData(ICriteria criteria)
         {
-            var logExecSPCriteria = GetLogExecSpCriteria();
-            return this._baseRepository.Delete(criteria, logExecSPCriteria);
+            return this._baseRepository.Delete(criteria);
         }
     }
 }
