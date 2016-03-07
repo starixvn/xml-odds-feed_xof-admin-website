@@ -93,13 +93,13 @@ BEGIN
 		, l.leaguename
 		, l.leaguenamecn AS leaguenameCh
 		, l.[leaguenamec_uni] AS leaguenameCs
-		--, l.sporttype
-		--, l.CountryCode
+		, l.sporttype
+		, s.SportName
 	FROM bodb02.dbo.league l WITH (NOLOCK)
 	INNER JOIN CTE_League cl ON l.leagueid = cl.leagueid
+	INNER JOIN bodb02.dbo.Sports s WITH (NOLOCK) ON s.SportType = l.sporttype
 	ORDER BY l.leaguename
 	
-	--select @countryCodes, @sporttypes
 
 	RETURN
 END  

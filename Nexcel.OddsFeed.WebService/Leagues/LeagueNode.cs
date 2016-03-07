@@ -7,6 +7,12 @@ namespace Nexcel.OddsFeed.WebService.Leagues
         [XmlAttribute("id")]
         public string LeagueId { get; set; }
 
+        [XmlAttribute("sportid")]
+        public int SportId { get; set; }
+
+        [XmlAttribute("sportname")]
+        public string SportName { get; set; }
+
         [XmlAttribute("ge")]
         public string NameEnglish { get; set; }
 

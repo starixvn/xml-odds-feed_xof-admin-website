@@ -7,6 +7,9 @@ namespace Nexcel.OddsFeed.WebService.BetTypes
         [XmlAttribute("id")]
         public string Id { get; set; }
 
+        [XmlAttribute("t")]
+        public string Type { get; set; }
+
         [XmlAttribute("te")]
         public string NameEnglish { get; set; }
 

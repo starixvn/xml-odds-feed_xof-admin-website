@@ -858,7 +858,7 @@
                             @if (Model.BetTypes == null || Model.BetTypes.Contains(157))
                             {
                                 <li>
-                                    t="oe" : Odd/Even (3rd)
+                                    t="oe" : Odd/Even 
                                     <ul>
                                         <li>o: Price for Odd</li>
                                         <li>e: Price for Even</li>
@@ -883,7 +883,7 @@
                             @if (Model.BetTypes == null || Model.BetTypes.Contains(160))
                             {
                                 <li>
-                                    t="ng" : Next Goal (3rd)
+                                    t="ng" : Next Goal 
                                     <ul>
                                         <li>h: Price for Home</li>
                                         <li>n: Price for None</li>
@@ -918,7 +918,7 @@
                             @if (Model.BetTypes == null || Model.BetTypes.Contains(163))
                             {
                                 <li>
-                                    t="sttg" : Result/Total Goals (3rd)
+                                    t="sttg" : Result/Total Goals 
                                     <ul>
                                         <li>ho: Price for Home/Over  </li>
                                         <li>hu: Price for Home/Under  </li>
@@ -1110,7 +1110,7 @@
                             @if (Model.BetTypes == null || Model.BetTypes.Contains(178))
                             {
                                 <li>
-                                    t="ou_2" : 2H Over/Under (3rd)
+                                    t="ou_2" : 2H Over/Under 
                                     <ul>
                                         <li>o: Price for Over</li>
                                         <li>u: Price for Under</li>
@@ -1169,7 +1169,7 @@
                             @if (Model.BetTypes == null || Model.BetTypes.Contains(183))
                             {
                                 <li>
-                                    t="hdp_2" : 2H Handicap (3rd)
+                                    t="hdp_2" : 2H Handicap 
                                     <ul>
                                         <li>o: Price for favorite team</li>
                                         <li>u: Price for underdog team</li>
@@ -1358,7 +1358,7 @@
                             @if (Model.BetTypes == null || Model.BetTypes.Contains(199))
                             {
                                 <li>
-                                    t="tc" : Total Corners (3rd)
+                                    t="tc" : Total Corners 
                                     <ul>
                                         <li>o1: Price for 0-8  </li>
                                         <li>o2: Price for 9-11  </li>
@@ -1974,6 +1974,9 @@
                                             BettypeID
                                         </th>
                                         <th>
+                                            T
+                                        </th>
+                                        <th>
                                             Bet Type
                                         </th>
                                     </tr>
@@ -1990,6 +1993,9 @@
                                                 @row["BetTypeID"].ToString()
                                             </td>
                                             <td>
+                                                @Nexcel.OddsFeed.WebService.Common.BetTypeDefinition.BetTypeNameFromId(Convert.ToInt32(@row["BetTypeID"]))
+                                            </td>
+                                            <td>
                                                 @row["BetTypeName"].ToString()
                                             </td>
                                         </tr>
@@ -2000,15 +2006,18 @@
                                 <table style="width: 270px">
                                     @foreach (System.Data.DataRow row in ViewBag.BetTypesCol2)
                                     {
-                                        var css5 = "";
-                                        if (highlightBetType.Any(i => i == row["BetTypeID"].ToString()))
-                                        {
-                                            css5 = "style=color:Red";
-                                        }
+                                                                var css5 = "";
+                                                                if (highlightBetType.Any(i => i == row["BetTypeID"].ToString()))
+                                                                {
+                                                                    css5 = "style=color:Red";
+                                                                }
 
                                         <tr @css5>
                                             <td style="width: 30%" class="center">
                                                 @row["BetTypeID"].ToString()
+                                            </td>
+                                            <td>
+                                                @Nexcel.OddsFeed.WebService.Common.BetTypeDefinition.BetTypeNameFromId(Convert.ToInt32(@row["BetTypeID"]))
                                             </td>
                                             <td>
                                                 @row["BetTypeName"].ToString()
@@ -2020,17 +2029,20 @@
                             <div style="float: left;">
                                 <table style="width: 270px;">
                                     @foreach (System.Data.DataRow row in ViewBag.BetTypesCol3)
-                                    {
-                                        var css6 = "";
-                                        if (highlightBetType.Any(i => i == row["BetTypeID"].ToString()))
-                                        {
-                                            css6 = "style=color:Red";
-                                        }
+                                                    {
+                                                        var css6 = "";
+                                                        if (highlightBetType.Any(i => i == row["BetTypeID"].ToString()))
+                                                        {
+                                                            css6 = "style=color:Red";
+                                                        }
 
 
                                         <tr @css6>
                                             <td style="width: 30%" class="center">
                                                 @row["BetTypeID"].ToString()
+                                            </td>
+                                            <td>
+                                                @Nexcel.OddsFeed.WebService.Common.BetTypeDefinition.BetTypeNameFromId(Convert.ToInt32(@row["BetTypeID"]))
                                             </td>
                                             <td>
                                                 @row["BetTypeName"].ToString()
@@ -2082,7 +2094,7 @@
                                         </th>
                                     </tr>
                                     @foreach (System.Data.DataRow row in ViewBag.CountriesCol1)
-                                    {
+                                                {
                                         <tr>
                                             <td class="center">
                                                 @row["CountryID"].ToString()
@@ -2097,7 +2109,7 @@
                             <div style="float: left; margin-right: 26px;">
                                 <table style="width: 270px">
                                     @foreach (System.Data.DataRow row in ViewBag.CountriesCol2)
-                                    {
+                                                {
                                         <tr>
                                             <td style="width: 30%" class="center">
                                                 @row["CountryID"].ToString()
@@ -2112,7 +2124,7 @@
                             <div style="float: left;">
                                 <table style="width: 270px;">
                                     @foreach (System.Data.DataRow row in ViewBag.CountriesCol3)
-                                    {
+                                                {
                                         <tr>
                                             <td style="width: 30%" class="center">
                                                 @row["CountryID"].ToString()
@@ -2154,7 +2166,8 @@
                         <div style="height: 20px;">
                         </div>
                     </div>
-                    
+
+
                 </div>
             </section>
         </div>
