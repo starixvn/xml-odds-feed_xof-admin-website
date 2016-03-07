@@ -16,7 +16,9 @@ AS
  * Task  : Get sport type for partner
  * DB  : DBODDSFEED.bodb_oddsfeed
  *    
- * Revisions:       
+ * Revisions: 
+ *	- 20160307@Bobby: #53539 - Correct country code when value is all
+ *
  * Param's Explanation:   
  */  
 BEGIN  
@@ -58,11 +60,6 @@ BEGIN
 		
 	END
 	
-	-- replace country all to world
-	SET @countryCodes = REPLACE(@countryCodes, 'all', 'World')
-
-	
-	
 	-- final result
 	;WITH CTE_League AS
 	(
@@ -74,7 +71,7 @@ BEGIN
 			AND l.isTest	= 0 
 			AND l.IsActive	= 1
 			AND m.sporttype IN (SELECT val FROM dbo.strSplit(@sporttypes,',')) 
-			AND l.CountryCode IN  (SELECT val FROM dbo.strSplit(@countryCodes,','))  
+			AND ( @countryCodes = 'All' OR l.CountryCode IN  (SELECT val FROM dbo.strSplit(@countryCodes,',')) )
 				
         UNION ALL
 		SELECT l.leagueid
@@ -85,7 +82,7 @@ BEGIN
 			AND l.isTest	= 0 
 			AND l.IsActive	= 1
 			AND l.sporttype IN (SELECT val FROM dbo.strSplit(@sporttypes,',') )
-			AND l.CountryCode IN  (SELECT val FROM dbo.strSplit(@countryCodes,','))  
+			AND ( @countryCodes = 'All' OR l.CountryCode IN  (SELECT val FROM dbo.strSplit(@countryCodes,',')) )
 		
 		
 	) 

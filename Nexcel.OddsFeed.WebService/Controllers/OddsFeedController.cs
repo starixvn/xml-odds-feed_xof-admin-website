@@ -192,7 +192,8 @@ namespace Nexcel.OddsFeed.WebService.Controllers
             ViewBag.SportsCol3 = sportsCol3.Select();
 
             //// Generate supported bettypes
-            DataTable bettypesTable = DbConnect.GetBetTypeByUserName(username).ResultSet.Tables[0];
+            DataTable rawBettypesTable = DbConnect.GetBetTypeByUserName(username).ResultSet.Tables[0];
+            var bettypesTable = SortDataTable(rawBettypesTable, "BetTypeID", "ASC");
             if (bettypesTable.Rows.Count == 0)
             {
                 //// Show Outright bettype (It's an exception)
@@ -221,6 +222,14 @@ namespace Nexcel.OddsFeed.WebService.Controllers
             ViewBag.CountriesCol3 = countriesCol3.Select();
             ViewBag.HighlightSportType = ConfigurationManager.AppSettings["HighlightSportType"].Split(',');
             ViewBag.HighlightBetType = ConfigurationManager.AppSettings["HighlightBetType"].Split(',');
+        }
+
+        public static DataTable SortDataTable(DataTable dt, string colName, string direction)
+        {
+            DataTable dtOut = null;
+            dt.DefaultView.Sort = colName + " " + direction;
+            dtOut = dt.DefaultView.ToTable();
+            return dtOut;
         }
 
         /// <summary>
