@@ -43,27 +43,11 @@ namespace Fanex.OddsFeed.Core.Criteria.Affiliate
         
         public int SystemId { get; set; }
 
-        public string SystemName { get; set; }
-
         public string PartnerName { get; set; }
 
         public string DomainName { get; set; }
 
-        [SpParam(Ignored = true)]
-        public PeriodType PeriodOption { get; set; }
         
-        [SpParam(Ignored = true)]
-        public string Week { get; set; }
-        
-        [SpParam(Ignored = true)]
-        public string ToWeek { get; set; }
-
-        [SpParam(Ignored = true)]
-        public int Month { get; set; }
-
-        [SpParam(Ignored = true)]
-        public int Year { get; set; }
-
         [Required]
         public DateTime DateStart
         {
@@ -112,6 +96,33 @@ namespace Fanex.OddsFeed.Core.Criteria.Affiliate
                 this._dateEnd = value;
             }
         }
+
+        public int PageSize { get; set; }
+
+        public int PageIndex { get; set; }
+
+        public int PageCount { get; set; }
+
+        public int RowCount { get; set; }
+
+        // Ignored
+        [SpParam(Ignored = true)]
+        public PeriodType PeriodOption { get; set; }
+
+        [SpParam(Ignored = true)]
+        public string Week { get; set; }
+
+        [SpParam(Ignored = true)]
+        public string ToWeek { get; set; }
+
+        [SpParam(Ignored = true)]
+        public int Month { get; set; }
+
+        [SpParam(Ignored = true)]
+        public int Year { get; set; }
+
+        [SpParam(Ignored = true)]
+        public string SystemName { get; set; }
 
         public override string GetSettingKey()
         {

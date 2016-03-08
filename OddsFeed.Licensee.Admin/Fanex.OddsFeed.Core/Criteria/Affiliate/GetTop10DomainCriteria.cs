@@ -21,9 +21,9 @@ namespace Fanex.OddsFeed.Core.Criteria.Affiliate
         {
         }
 
-        public string DomainName { get; set; }
-
         public byte SystemId { get; set; }
+
+        public string DomainName { get; set; }        
                 
         public override string GetSettingKey()
         {

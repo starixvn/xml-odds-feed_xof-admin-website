@@ -25,6 +25,14 @@ namespace Fanex.OddsFeed.Core.Criteria.Affiliate
 
         public string UserName { get; set; }
 
+        public int PageSize { get; set; }
+
+        public int PageIndex { get; set; }
+
+        public int PageCount { get; set; }
+
+        public int RowCount { get; set; }
+
         public override string GetSettingKey()
         {
             return "Odds_Partner_CheckExist";

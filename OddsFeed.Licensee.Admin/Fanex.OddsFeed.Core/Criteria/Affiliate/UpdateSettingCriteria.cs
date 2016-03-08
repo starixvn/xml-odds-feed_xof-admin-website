@@ -18,7 +18,9 @@ namespace Fanex.OddsFeed.Core.Criteria.Affiliate
     public class UpdateSettingCriteria : Framework.Data.CriteriaBase
     {
         public UpdateSettingCriteria()
-        {            
+        {
+            ErrCode = 0;
+            ErrMsg = string.Empty;
         }
 
         public int PartnerID { get; set; }
@@ -30,8 +32,12 @@ namespace Fanex.OddsFeed.Core.Criteria.Affiliate
         public string IpsFrom { get; set; }
 
         [SpParam(SqlParamName = "ListIPTo")]
-        public string IpsTo { get; set; }      
-      
+        public string IpsTo { get; set; }
+
+        public int ErrCode { get; set; }
+
+        public string ErrMsg { get; set; }
+
         public override string GetSettingKey()
         {
             return "Odds_Partner_Upd_Setting";

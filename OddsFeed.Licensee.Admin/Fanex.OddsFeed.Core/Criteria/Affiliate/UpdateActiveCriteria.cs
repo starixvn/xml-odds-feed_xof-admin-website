@@ -18,7 +18,9 @@ namespace Fanex.OddsFeed.Core.Criteria.Affiliate
     public class UpdateActiveCriteria : CriteriaBase
     {
         public UpdateActiveCriteria()
-        {            
+        {
+            ErrCode = 0;
+            ErrMsg = string.Empty;
         }
 
         public int PartnerID { get; set; }
@@ -26,7 +28,11 @@ namespace Fanex.OddsFeed.Core.Criteria.Affiliate
         public bool IsAllowed { get; set; }
 
         public int Creator { get; set; }
-       
+
+        public int ErrCode { get; set; }
+
+        public string ErrMsg { get; set; }
+
         public override string GetSettingKey()
         {
             return "Odds_Partner_Upd_Active";

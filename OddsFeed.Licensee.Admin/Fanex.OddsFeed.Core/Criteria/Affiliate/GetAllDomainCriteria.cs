@@ -11,21 +11,24 @@ namespace Fanex.OddsFeed.Core.Criteria.Affiliate
 {
     using System.Diagnostics.CodeAnalysis;
     using Fanex.OddsFeed.Framework.Data;
-
+    using Data.Repository;
     /// <summary>
     /// Class GetAllDomainCriteria.
     /// </summary>
-    public class GetAllDomainCriteria : CriteriaBase
+    public class GetAllDomainCriteria : Framework.Data.CriteriaBase
     {
         public GetAllDomainCriteria()
         {            
-        }
-
-        public byte SystemID { get; set; }
+        }        
 
         public bool? IsActive { get; set; }
 
         public bool? IsOddsDomain { get; set; }
+
+
+        // Ignored
+        [SpParam(Ignored = true)]
+        public byte SystemID { get; set; }
 
         public override string GetSettingKey()
         {
