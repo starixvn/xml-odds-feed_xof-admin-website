@@ -84,11 +84,9 @@ namespace Fanex.OddsFeed.Core.Service.Impl
 
             try
             {
-                LogExecSpCriteria logCriteria = GetLogExecSpCriteria();
-
-                if (criteria.IsValid() && logCriteria.IsValid())
+                if (criteria.IsValid())
                 {
-                    return this._licenseeRepository.Update(criteria, logCriteria);
+                    return this._licenseeRepository.Update(criteria);
                 }
             }
             catch (Exception ex)

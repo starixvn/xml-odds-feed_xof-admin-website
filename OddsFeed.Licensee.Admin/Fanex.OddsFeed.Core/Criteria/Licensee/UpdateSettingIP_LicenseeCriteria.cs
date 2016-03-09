@@ -20,6 +20,8 @@ namespace Fanex.OddsFeed.Core.Criteria.Licensee
     {
         public UpdateSettingIP_LicenseeCriteria()
         {
+            ErrCode = 0;
+            ErrMsg = string.Empty;
         }
 
         [Required]
@@ -39,7 +41,11 @@ namespace Fanex.OddsFeed.Core.Criteria.Licensee
 
         [SpParam(SqlParamName = "IPToOld")]
         public string IpToOld { get; set; }
-       
+
+        public int ErrCode { get; set; }
+
+        public string ErrMsg { get; set; }
+
         public override string GetSettingKey()
         {
             return "Odds_Upd_Setting_IP_Licensee";

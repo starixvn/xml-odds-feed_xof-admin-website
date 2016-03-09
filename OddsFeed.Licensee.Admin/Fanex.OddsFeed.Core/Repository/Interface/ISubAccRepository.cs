@@ -20,6 +20,6 @@ namespace Fanex.OddsFeed.Core.Repository.Interface
     [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Reviewed")]
     public interface ISubAccRepository : IRepository<IUser>, IBaseRepository
     {                
-        ICommandResult Insert(ref InsertSubAccCriteria criteria, ICriteria logCriteria);               
+        ICommandResult Insert(ref InsertSubAccCriteria criteria);               
     }
 }

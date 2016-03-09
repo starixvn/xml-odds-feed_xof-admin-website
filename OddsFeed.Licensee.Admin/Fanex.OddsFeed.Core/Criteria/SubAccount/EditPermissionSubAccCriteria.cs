@@ -20,15 +20,13 @@ namespace Fanex.OddsFeed.Core.Criteria.Affiliate
     public class EditPermissionSubAccCriteria : Framework.Data.CriteriaBase
     {
         public EditPermissionSubAccCriteria()
-        {            
+        {
+            ErrCode = 0;
+            ErrMsg = string.Empty;
         }
 
         [SpParam(SqlParamName = "UserID")]
         public int SubAccountID { get; set; }
-
-        public string SubAccountName { get; set; }
-
-        public int UpdatedBy { get; set; }
 
         [Display(Name = "Odds_type", ResourceType = typeof(ViewResources))]
         public bool OddsTypeFlag
@@ -71,7 +69,17 @@ namespace Fanex.OddsFeed.Core.Criteria.Affiliate
             get;
             set;
         }
-        
+
+        public int UpdatedBy { get; set; }
+
+        public int ErrCode { get; set; }
+
+        public string ErrMsg { get; set; }
+
+        // Ignored
+        [SpParam(Ignored = true)]
+        public string SubAccountName { get; set; }
+
         public override string GetSettingKey()
         {
             return "Odds_User_EditPermission";

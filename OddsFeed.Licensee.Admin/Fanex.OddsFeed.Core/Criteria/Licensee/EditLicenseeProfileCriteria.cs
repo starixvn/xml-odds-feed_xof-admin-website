@@ -48,12 +48,10 @@ namespace Fanex.OddsFeed.Core.Criteria.Licensee
             this.DelayTimesFlag = true;
         }
         
-        public bool IsForceUpdate { get; set; }
+        
         
         public short SystemID { get; set; }
-
-        public string SystemName { get; set; }
-
+        
         public bool Editable { get; set; }
 
         public string OddsType { get; set; }
@@ -66,33 +64,13 @@ namespace Fanex.OddsFeed.Core.Criteria.Licensee
 
         public string BetTypeIDList { get; set; }
 
-        [SpParam(Ignored = true)]
-        public string LeagueIDOutRightIDList
-        {
-            get
-            {
-                return string.Join(";", this.LeagueIDList, this.OutRightIDList);
-            }
-        }
-        
         public string LeagueIDList { get; set; }        
-
-        public string OutRightIDList { get; set; }
-
+        
         public string CountryCodeList { get; set; }
 
         public string LeagueKeyword { get; set; }
 
         public string LeagueKeyword_O { get; set; }
-
-        [SpParam(Ignored = true)]
-        public string DeadballDelayTimes { get; set; }
-
-        [SpParam(Ignored = true)]
-        public string LiveDelayTimes { get; set; }
-
-        [SpParam(Ignored = true)]
-        public string OutrightDelayTimes { get; set; }
 
         public string DelayTimes
         {
@@ -101,6 +79,8 @@ namespace Fanex.OddsFeed.Core.Criteria.Licensee
                 return string.Join(",", this.DeadballDelayTimes, this.LiveDelayTimes, this.OutrightDelayTimes);
             }
         }
+
+        public string OutRightIDList { get; set; }
 
         public short NumberOfIPs { get; set; }
 
@@ -130,9 +110,34 @@ namespace Fanex.OddsFeed.Core.Criteria.Licensee
 
         public bool ApplyAllCurrentAffiliates { get; set; }
 
+        public bool IsForceUpdate { get; set; }
+
         public int ErrCode { get; set; }
 
         public string ErrMsg { get; set; }
+
+
+        // Ignored
+        [SpParam(Ignored = true)]
+        public string LeagueIDOutRightIDList
+        {
+            get
+            {
+                return string.Join(";", this.LeagueIDList, this.OutRightIDList);
+            }
+        }
+
+        [SpParam(Ignored = true)]
+        public string DeadballDelayTimes { get; set; }
+
+        [SpParam(Ignored = true)]
+        public string LiveDelayTimes { get; set; }
+
+        [SpParam(Ignored = true)]
+        public string OutrightDelayTimes { get; set; }
+
+        [SpParam(Ignored = true)]
+        public string SystemName { get; set; }
 
         public override string GetSettingKey()
         {

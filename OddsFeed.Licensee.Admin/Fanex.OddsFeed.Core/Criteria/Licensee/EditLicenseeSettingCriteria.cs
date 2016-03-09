@@ -11,16 +11,14 @@ namespace Fanex.OddsFeed.Core.Criteria.Licensee
 {
     using System;
     using Fanex.OddsFeed.Framework.Data;
-
+    using Data.Repository;
     /// <summary>
     /// Class EditLicenseeSettingCriteria.
     /// </summary>
-    public class EditLicenseeSettingCriteria : CriteriaBase
+    public class EditLicenseeSettingCriteria : Framework.Data.CriteriaBase
     {
         public short SystemID { get; set; }
-
-        public string SystemName { get; set; }
-
+        
         public string DomainList { get; set; }
 
         public string ListIPFrom { get; set; }
@@ -34,6 +32,11 @@ namespace Fanex.OddsFeed.Core.Criteria.Licensee
         public int ErrCode { get; set; }
 
         public string ErrMsg { get; set; }
+
+
+        // Ignored
+        [SpParam(Ignored = true)]
+        public string SystemName { get; set; }
 
         public override string GetSettingKey()
         {

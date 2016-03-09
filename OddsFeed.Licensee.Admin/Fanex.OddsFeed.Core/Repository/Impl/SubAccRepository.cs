@@ -55,13 +55,10 @@ namespace Fanex.OddsFeed.Core.Repository.Impl
         /// <param name="criteria">The criteria.</param>
         /// <param name="logCriteria">The log criteria.</param>
         /// <returns>ICommand Result.</returns>
-        public ICommandResult Insert(ref InsertSubAccCriteria criteria, ICriteria logCriteria)
+        public ICommandResult Insert(ref InsertSubAccCriteria criteria)
         {
             // prepare SP parameters
             Hashtable hash = criteria.GetSpParams();
-
-            hash = logCriteria.AddSpParams(hash);
-            hash = (new ResultCriteria()).AddSpParams(hash);
 
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {

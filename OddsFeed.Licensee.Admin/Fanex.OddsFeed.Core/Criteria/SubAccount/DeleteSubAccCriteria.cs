@@ -18,12 +18,18 @@ namespace Fanex.OddsFeed.Core.Criteria.Affiliate
     public class DeleteSubAccCriteria : Framework.Data.CriteriaBase
     {
         public DeleteSubAccCriteria()
-        {            
+        {
+            ErrCode = 0;
+            ErrMsg = string.Empty;
         }
 
         [SpParam(SqlParamName = "UserID")]
         public int SubAccountID { get; set; }
-               
+
+        public int ErrCode { get; set; }
+
+        public string ErrMsg { get; set; }
+
         public override string GetSettingKey()
         {
             return "Odds_User_Del";

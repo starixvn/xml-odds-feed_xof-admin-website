@@ -21,13 +21,13 @@ namespace Fanex.OddsFeed.Core.Criteria.CompanyIP
         {
         }
 
-        public string IPFromOld { get; set; }
-
-        public string IPToOld { get; set; }
+        public int Creator { get; set; }
 
         public string IP { get; set; }
 
-        public int Creator { get; set; }
+        public string IPFromOld { get; set; }
+
+        public string IPToOld { get; set; }                
 
         public int ErrCode { get; set; }
 

@@ -20,22 +20,13 @@ namespace Fanex.OddsFeed.Core.Criteria.Affiliate
     public class UpdateSubAccCriteria : Framework.Data.CriteriaBase
     {
         public UpdateSubAccCriteria()
-        {            
+        {
+            ErrCode = 0;
+            ErrMsg = string.Empty;
         }
 
         [SpParam(SqlParamName = "UserID")]
         public int SubAccountID { get; set; }
-
-        [Required]
-        [Display(Name = "Name", ResourceType = typeof(ViewResources))]
-        ////[StringLength(50, MinimumLength = 2,
-        ////    ErrorMessageResourceName = "InputLengthValidationMsg",
-        ////    ErrorMessageResourceType = typeof(ViewResources))]
-        [RegularExpression(@"^[\w\s]{1,}$",
-            ErrorMessageResourceName = "InvalidNameValidationMsg",
-            ErrorMessageResourceType = typeof(ViewResources))]
-        [SpParam(Ignored = true)]
-        public string UserName { get; set; }        
         
         [Display(Name = "First_Name", ResourceType = typeof(ViewResources))]
         ////[StringLength(50, MinimumLength = 2,
@@ -61,7 +52,24 @@ namespace Fanex.OddsFeed.Core.Criteria.Affiliate
         public bool IsActive { get; set; }
         
         public string Ip { get; set; }
-              
+
+        public int ErrCode { get; set; }
+
+        public string ErrMsg { get; set; }
+
+
+        // Ignored
+        [Required]
+        [Display(Name = "Name", ResourceType = typeof(ViewResources))]
+        ////[StringLength(50, MinimumLength = 2,
+        ////    ErrorMessageResourceName = "InputLengthValidationMsg",
+        ////    ErrorMessageResourceType = typeof(ViewResources))]
+        [RegularExpression(@"^[\w\s]{1,}$",
+            ErrorMessageResourceName = "InvalidNameValidationMsg",
+            ErrorMessageResourceType = typeof(ViewResources))]
+        [SpParam(Ignored = true)]
+        public string UserName { get; set; }
+
         public override string GetSettingKey()
         {
             return "Odds_User_Upd";

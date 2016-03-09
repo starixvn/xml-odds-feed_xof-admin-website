@@ -22,10 +22,10 @@ namespace Fanex.OddsFeed.Core.Criteria.Affiliate
     {
         public InsertSubAccCriteria()
         {
+            ErrCode = 0;
+            ErrMsg = string.Empty;
         }
-
-        public int SubAccountID { get; set; }
-
+        
         public int SystemID { get; set; }
 
         public byte RoleID { get; set; }
@@ -83,25 +83,7 @@ namespace Fanex.OddsFeed.Core.Criteria.Affiliate
         [Required]
         [SpParam(SqlParamName = "SystemIDList")]
         public string Systems { get; set; }
-
-        public string[] SystemArray
-        {
-            get
-            {
-                if (string.IsNullOrWhiteSpace(Systems))
-                {
-                    return null;
-                }
-
-                return Systems.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-            }
-
-            set
-            {
-                Systems = Utilities.StringArrayToString(value);
-            }
-        }
-
+        
         #endregion
 
         #region step3
@@ -149,7 +131,35 @@ namespace Fanex.OddsFeed.Core.Criteria.Affiliate
         }
 
         #endregion
-        
+
+        public int ErrCode { get; set; }
+
+        public string ErrMsg { get; set; }
+
+
+        // Ignored
+        [SpParam(Ignored = true)]
+        public int SubAccountID { get; set; }
+
+        [SpParam(Ignored = true)]
+        public string[] SystemArray
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(Systems))
+                {
+                    return null;
+                }
+
+                return Systems.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            }
+
+            set
+            {
+                Systems = Utilities.StringArrayToString(value);
+            }
+        }
+
         public override string GetSettingKey()
         {
             return "Odds_User_Ins";

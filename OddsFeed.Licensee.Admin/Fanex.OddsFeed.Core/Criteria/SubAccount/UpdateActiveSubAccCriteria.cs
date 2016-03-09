@@ -18,14 +18,20 @@ namespace Fanex.OddsFeed.Core.Criteria.Affiliate
     public class UpdateActiveSubAccCriteria : Framework.Data.CriteriaBase
     {
         public UpdateActiveSubAccCriteria()
-        {            
+        {
+            ErrCode = 0;
+            ErrMsg = string.Empty;
         }
 
         [SpParam(SqlParamName = "UserID")]
         public int SubAccountID { get; set; }
 
         public bool IsActive { get; set; }
-               
+
+        public int ErrCode { get; set; }
+
+        public string ErrMsg { get; set; }
+
         public override string GetSettingKey()
         {
             return "Odds_User_Upd_Active";

@@ -13,11 +13,11 @@ namespace Fanex.OddsFeed.Core.Criteria.User
     using System.Diagnostics.CodeAnalysis;
     using Core.Web;
     using Framework.Data;
-
+    using Data.Repository;
     /// <summary>
     /// Class UpdatePasswordUserCriteria.
     /// </summary>
-    public class UpdatePasswordUserCriteria : CriteriaBase
+    public class UpdatePasswordUserCriteria : Framework.Data.CriteriaBase
     {
         public int UserID { get; set; }
        
@@ -29,11 +29,7 @@ namespace Fanex.OddsFeed.Core.Criteria.User
         
         [Display(Name = "Confirm_Password", ResourceType = typeof(ViewResources))]      
         public string ConfirmPassword { get; set; }
-
-        public string PreController { get; set; }
-
-        public string PreAction { get; set; }
-
+        
         public int Creator { get; set; }
 
         public string IP { get; set; }
@@ -41,6 +37,14 @@ namespace Fanex.OddsFeed.Core.Criteria.User
         public int ErrCode { get; set; }
 
         public string ErrMsg { get; set; }
+
+
+        // Ignored
+        [SpParam(Ignored = true)]
+        public string PreController { get; set; }
+
+        [SpParam(Ignored = true)]
+        public string PreAction { get; set; }
 
         public override string GetSettingKey()
         {

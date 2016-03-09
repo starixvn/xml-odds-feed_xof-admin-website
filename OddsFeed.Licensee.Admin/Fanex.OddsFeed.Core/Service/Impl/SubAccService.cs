@@ -122,11 +122,9 @@ namespace Fanex.OddsFeed.Core.Service.Impl
         {
             try
             {
-                LogExecSpCriteria logCriteria = GetLogExecSpCriteria();
-
-                if (criteria.IsValid() && logCriteria.IsValid())
+                if (criteria.IsValid())
                 {
-                    return _subAccRepository.ReturnDataCollection(criteria, logCriteria);
+                    return _subAccRepository.ReturnDataCollection(criteria);
                 }
             }
             catch (Exception ex)
@@ -146,11 +144,9 @@ namespace Fanex.OddsFeed.Core.Service.Impl
         {
             try
             {
-                LogExecSpCriteria logCriteria = GetLogExecSpCriteria();
-
-                if (criteria.IsValid() && logCriteria.IsValid())
+                if (criteria.IsValid())
                 {
-                    return _subAccRepository.ReturnDataCollection(criteria, logCriteria);
+                    return _subAccRepository.ReturnDataCollection(criteria);
                 }
             }
             catch (Exception ex)
@@ -173,11 +169,9 @@ namespace Fanex.OddsFeed.Core.Service.Impl
                 // check parameters
                 Check.Argument.IsNotNull(criteria, "criteria");
 
-                LogExecSpCriteria logCriteria = GetLogExecSpCriteria();
-
-                if (criteria.IsValid() && logCriteria.IsValid())
+                if (criteria.IsValid())
                 {
-                    return _subAccRepository.ReturnDataSet(criteria, logCriteria);
+                    return _subAccRepository.ReturnDataSet(criteria);
                 }
             }
             catch (Exception ex)
@@ -247,9 +241,7 @@ namespace Fanex.OddsFeed.Core.Service.Impl
                     SystemID = systemId
                 };
 
-                LogExecSpCriteria logCriteria = GetLogExecSpCriteria();
-
-                if (criteria.IsValid() && logCriteria.IsValid())
+                if (criteria.IsValid())
                 {
                     return _userRepository.GetPermissionFlags(ref criteria);
                 }
@@ -278,11 +270,9 @@ namespace Fanex.OddsFeed.Core.Service.Impl
 
             try
             {
-                LogExecSpCriteria logCriteria = GetLogExecSpCriteria();
-
-                if (criteria.IsValid() && logCriteria.IsValid())
+                if (criteria.IsValid())
                 {
-                    return _subAccRepository.Insert(ref criteria, logCriteria);
+                    return _subAccRepository.Insert(ref criteria);
                 }
             }
             catch (Exception ex)
@@ -305,11 +295,9 @@ namespace Fanex.OddsFeed.Core.Service.Impl
 
             try
             {
-                LogExecSpCriteria logCriteria = GetLogExecSpCriteria();
-
-                if (criteria.IsValid() && logCriteria.IsValid())
+                if (criteria.IsValid())
                 {
-                    return _subAccRepository.Update(criteria, logCriteria);
+                    return _subAccRepository.Update(criteria);
                 }
             }
             catch (Exception ex)
@@ -332,11 +320,9 @@ namespace Fanex.OddsFeed.Core.Service.Impl
 
             try
             {
-                LogExecSpCriteria logCriteria = GetLogExecSpCriteria();
-
-                if (criteria.IsValid() && logCriteria.IsValid())
+                if (criteria.IsValid())
                 {
-                    return _subAccRepository.Delete(criteria, logCriteria);
+                    return _subAccRepository.Delete(criteria);
                 }
             }
             catch (Exception ex)
@@ -357,10 +343,9 @@ namespace Fanex.OddsFeed.Core.Service.Impl
             Check.Argument.IsNotNull(criteria, "criteria");
             try
             {
-                LogExecSpCriteria logCriteria = GetLogExecSpCriteria();
-                if (criteria.IsValid() && logCriteria.IsValid())
+                if (criteria.IsValid())
                 {
-                    return this._subAccRepository.Update(criteria, logCriteria);
+                    return this._subAccRepository.Update(criteria);
                 }
             }
             catch (Exception ex)

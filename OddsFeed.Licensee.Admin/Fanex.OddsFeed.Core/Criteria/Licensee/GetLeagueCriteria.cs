@@ -12,24 +12,31 @@ namespace Fanex.OddsFeed.Core.Criteria.Licensee
     using System.Collections.Generic;
     using System.Web.Mvc;
     using Fanex.OddsFeed.Framework.Data;
-
+    using Data.Repository;
     /// <summary>
     /// Class GetLeagueCriteria.
     /// </summary>
-    public class GetLeagueCriteria : CriteriaBase
+    public class GetLeagueCriteria : Framework.Data.CriteriaBase
     {
         public string SportIDList { get; set; }
 
         public string CountryCodeList { get; set; }
 
+
+        // Ignored
+        [SpParam(Ignored = true)]
         public string LeagueIDList { get; set; }
 
+        [SpParam(Ignored = true)]
         public string LeagueKeyword { get; set; }
 
+        [SpParam(Ignored = true)]
         public bool LeagueKeywordFlag { get; set; }
 
+        [SpParam(Ignored = true)]
         public bool LeagueIDListFlag { get; set; }
 
+        [SpParam(Ignored = true)]
         public List<SelectListItem> ViewBagLeagueList { get; set; }
 
         public override string GetSettingKey()

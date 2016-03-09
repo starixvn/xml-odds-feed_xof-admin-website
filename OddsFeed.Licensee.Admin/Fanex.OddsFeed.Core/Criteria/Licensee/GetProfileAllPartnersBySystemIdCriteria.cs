@@ -18,10 +18,16 @@ namespace Fanex.OddsFeed.Core.Criteria.Licensee
     public class GetProfileAllPartnersBySystemIdCriteria : CriteriaBase
     {
         public GetProfileAllPartnersBySystemIdCriteria()
-        {            
+        {
+            ErrCode = 0;
+            ErrMsg = string.Empty;
         }
         
-        public int SystemID { get; set; }        
+        public int SystemID { get; set; }
+
+        public int ErrCode { get; set; }
+
+        public string ErrMsg { get; set; }
 
         /// <summary>
         /// Get the reference SP's Name which is specified in Config file.

@@ -47,22 +47,6 @@ namespace Fanex.OddsFeed.Core.Criteria.Licensee
 
         public PeriodType PeriodOption { get; set; }
         
-        [SpParam(Ignored = true)]
-        public string Week { get; set; }
-
-        [SpParam(Ignored = true)]
-        public string ToWeek { get; set; }
-      
-        [SpParam(Ignored = true)]
-        public int Month { get; set; }
-
-        /// <summary>
-        /// Gets or sets Year.
-        /// </summary>
-        /// <value>Return Year.</value>
-        [SpParam(Ignored = true)]
-        public int Year { get; set; }
-
         /// <summary>
         /// Gets or sets DateStart.
         /// </summary>
@@ -119,6 +103,32 @@ namespace Fanex.OddsFeed.Core.Criteria.Licensee
                 this._dateEnd = value;
             }
         }
+
+        public int PageSize { get; set; }
+
+        public int PageIndex { get; set; }
+
+        public int PageCount { get; set; }
+
+        public int RowCount { get; set; }
+
+
+        // Ignored
+        [SpParam(Ignored = true)]
+        public string Week { get; set; }
+
+        [SpParam(Ignored = true)]
+        public string ToWeek { get; set; }
+
+        [SpParam(Ignored = true)]
+        public int Month { get; set; }
+
+        /// <summary>
+        /// Gets or sets Year.
+        /// </summary>
+        /// <value>Return Year.</value>
+        [SpParam(Ignored = true)]
+        public int Year { get; set; }
 
         public override string GetSettingKey()
         {
