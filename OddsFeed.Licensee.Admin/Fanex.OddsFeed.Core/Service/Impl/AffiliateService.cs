@@ -154,11 +154,9 @@ namespace Fanex.OddsFeed.Core.Service.Impl
                     UserName = name
                 };
 
-                LogExecSpCriteria logCriteria = GetLogExecSpCriteria();
-
-                if (criteria.IsValid() && logCriteria.IsValid())
+                if (criteria.IsValid())
                 {
-                    return _affilliateRepository.ReturnDataReader(criteria, logCriteria);
+                    return _affilliateRepository.ReturnDataReader(criteria);
                 }
             }
             catch (Exception ex)
@@ -181,11 +179,9 @@ namespace Fanex.OddsFeed.Core.Service.Impl
                 // check parameters
                 Check.Argument.IsNotNull(criteria, "criteria");
 
-                LogExecSpCriteria logCriteria = GetLogExecSpCriteria();
-
-                if (criteria.IsValid() && logCriteria.IsValid())
+                if (criteria.IsValid())
                 {
-                    return _affilliateRepository.ReturnDataCollection(criteria, logCriteria);
+                    return _affilliateRepository.ReturnDataCollection(criteria);
                 }
             }
             catch (Exception ex)
@@ -207,11 +203,10 @@ namespace Fanex.OddsFeed.Core.Service.Impl
             {
                 // check parameters
                 Check.Argument.IsNotNull(criteria, "criteria");
-                LogExecSpCriteria logCriteria = GetLogExecSpCriteria();
-
-                if (criteria.IsValid() && logCriteria.IsValid())
+                
+                if (criteria.IsValid())
                 {
-                    return _affilliateRepository.ReturnDataCollection(criteria, logCriteria);
+                    return _affilliateRepository.ReturnDataCollection(criteria);
                 }
             }
             catch (Exception ex)
@@ -382,11 +377,9 @@ namespace Fanex.OddsFeed.Core.Service.Impl
                 // check parameters
                 Check.Argument.IsNotNull(criteria, "criteria");
 
-                LogExecSpCriteria logCriteria = GetLogExecSpCriteria();
-
-                if (criteria.IsValid() && logCriteria.IsValid())
+                if (criteria.IsValid())
                 {
-                    return _partnerStatisticRepository.ReturnDataReader(criteria, logCriteria);
+                    return _partnerStatisticRepository.ReturnDataReader(criteria);
                 }
             }
             catch (Exception ex)
@@ -409,11 +402,9 @@ namespace Fanex.OddsFeed.Core.Service.Impl
                 // check parameters
                 Check.Argument.IsNotNull(criteria, "criteria");
 
-                LogExecSpCriteria logCriteria = GetLogExecSpCriteria();
-
-                if (criteria.IsValid() && logCriteria.IsValid())
+                if (criteria.IsValid())
                 {
-                    return _affilliateRepository.ReturnDataCollection(criteria, logCriteria);
+                    return _affilliateRepository.ReturnDataCollection(criteria);
                 }
             }
             catch (Exception ex)
@@ -848,11 +839,9 @@ namespace Fanex.OddsFeed.Core.Service.Impl
                 // check parameters
                 Check.Argument.IsNotNull(criteria, "criteria");
 
-                LogExecSpCriteria logCriteria = GetLogExecSpCriteria();
-
-                if (criteria.IsValid() && logCriteria.IsValid())
+                if (criteria.IsValid())
                 {
-                    return _affilliateRepository.ReturnDataSet(criteria, logCriteria);
+                    return _affilliateRepository.ReturnDataSet(criteria);
                 }
             }
             catch (Exception ex)
@@ -879,11 +868,9 @@ namespace Fanex.OddsFeed.Core.Service.Impl
 
             try
             {
-                LogExecSpCriteria logCriteria = GetLogExecSpCriteria();
-
-                if (criteria.IsValid() && logCriteria.IsValid())
+                if (criteria.IsValid())
                 {
-                    return _affilliateRepository.Insert(ref criteria, logCriteria);
+                    return _affilliateRepository.Insert(ref criteria);
                 }
             }
             catch (Exception ex)
@@ -906,11 +893,9 @@ namespace Fanex.OddsFeed.Core.Service.Impl
 
             try
             {
-                LogExecSpCriteria logCriteria = GetLogExecSpCriteria();
-
-                if (criteria.IsValid() && logCriteria.IsValid())
+                if (criteria.IsValid())
                 {
-                    return _affilliateRepository.Update(criteria, logCriteria);
+                    return _affilliateRepository.Update(criteria);
                 }
             }
             catch (Exception ex)
@@ -937,11 +922,9 @@ namespace Fanex.OddsFeed.Core.Service.Impl
 
             try
             {
-                LogExecSpCriteria logCriteria = GetLogExecSpCriteria();
-
-                if (criteria.IsValid() && logCriteria.IsValid())
+                if (criteria.IsValid())
                 {
-                    return _affilliateRepository.Delete(criteria, logCriteria);
+                    return _affilliateRepository.Delete(criteria);
                 }
             }
             catch (Exception ex)

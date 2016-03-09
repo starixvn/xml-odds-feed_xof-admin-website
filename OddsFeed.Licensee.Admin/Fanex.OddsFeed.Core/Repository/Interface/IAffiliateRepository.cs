@@ -19,6 +19,6 @@ namespace Fanex.OddsFeed.Core.Repository.Interface
     [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Reviewed")]    
     public interface IAffiliateRepository : IRepository<IAffiliate>, IBaseRepository
     {        
-        ICommandResult Insert(ref InsertAffiliateCriteria criteria, ICriteria logCriteria);        
+        ICommandResult Insert(ref InsertAffiliateCriteria criteria);        
     }
 }
