@@ -15,7 +15,7 @@ namespace Fanex.OddsFeed.Core.Criteria.Administrator
     /// <summary>
     /// Class GetExistedAdminCriteria.
     /// </summary>
-    public class GetExistedAdminCriteria : Framework.Data.CriteriaBase
+    public class GetExistedAdminCriteria : CriteriaBase
     {
         public GetExistedAdminCriteria()
         {

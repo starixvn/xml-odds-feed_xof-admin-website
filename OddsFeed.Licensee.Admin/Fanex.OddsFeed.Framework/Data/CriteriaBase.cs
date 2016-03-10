@@ -20,7 +20,7 @@ namespace Fanex.OddsFeed.Framework.Data
     /// <summary>
     /// Class CriteriaBase.
     /// </summary>
-    public abstract class CriteriaBase : Fanex.Data.Repository.ICriteria
+    public abstract class PageCriteriaBase : Fanex.Data.Repository.ICriteria
     {
         [SpParam(Ignored = true)]
         public int PageSize { get; set; }

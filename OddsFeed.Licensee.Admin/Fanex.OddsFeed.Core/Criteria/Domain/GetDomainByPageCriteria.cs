@@ -15,7 +15,7 @@ namespace Fanex.OddsFeed.Core.Criteria.Domain
     /// <summary>
     /// Class GetDomainByPageCriteria.
     /// </summary>
-    public class GetDomainByPageCriteria : Framework.Data.CriteriaBase
+    public class GetDomainByPageCriteria : CriteriaBase
     {
         public int PageSize { get; set; }
 

@@ -17,7 +17,7 @@ namespace Fanex.OddsFeed.Core.Criteria.User
     /// <summary>
     /// Class UpdatePasswordUserCriteria.
     /// </summary>
-    public class UpdatePasswordUserCriteria : Framework.Data.CriteriaBase
+    public class UpdatePasswordUserCriteria : CriteriaBase
     {
         public int UserID { get; set; }
        

@@ -8,10 +8,10 @@
 // </history>
 
 namespace Fanex.OddsFeed.Core.Criteria.User
-{    
+{
     using System.Diagnostics.CodeAnalysis;
     using Fanex.OddsFeed.Framework.Data;
-
+    using Data.Repository;
     /// <summary>
     /// Class UserGetPermissionCriteria.
     /// </summary>

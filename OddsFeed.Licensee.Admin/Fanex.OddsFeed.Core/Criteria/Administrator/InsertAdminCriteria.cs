@@ -16,7 +16,7 @@ namespace Fanex.OddsFeed.Core.Criteria.Administrator
     /// <summary>
     /// Class InsertAdminCriteria.
     /// </summary>
-    public class InsertAdminCriteria : Framework.Data.CriteriaBase
+    public class InsertAdminCriteria : CriteriaBase
     {        
         public InsertAdminCriteria()
         {

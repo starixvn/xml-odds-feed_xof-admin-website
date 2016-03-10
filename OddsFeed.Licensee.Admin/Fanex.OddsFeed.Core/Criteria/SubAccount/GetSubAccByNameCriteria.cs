@@ -12,7 +12,7 @@ namespace Fanex.OddsFeed.Core.Criteria.SubAccount
     using System.Diagnostics.CodeAnalysis;
     using Core.Business;
     using Framework.Data;
-
+    using Data.Repository;
     /// <summary>
     /// Class GetSubACCByNameCriteria.
     /// </summary>

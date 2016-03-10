@@ -18,7 +18,7 @@ namespace Fanex.OddsFeed.Core.Criteria.Affiliate
     /// <summary>
     /// Class RequestStatisticCriteria.
     /// </summary>
-    public class RequestStatisticCriteria : Framework.Data.CriteriaBase
+    public class RequestStatisticCriteria : CriteriaBase
     {        
         private DateTime _dateStart;
      

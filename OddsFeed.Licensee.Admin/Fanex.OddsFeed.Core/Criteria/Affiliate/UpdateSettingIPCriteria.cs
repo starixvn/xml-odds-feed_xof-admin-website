@@ -15,7 +15,7 @@ namespace Fanex.OddsFeed.Core.Criteria.Affiliate
     /// <summary>
     /// Class UpdateSettingIPCriteria.
     /// </summary>
-    public class UpdateSettingIPCriteria : Framework.Data.CriteriaBase
+    public class UpdateSettingIPCriteria : CriteriaBase
     {
         public UpdateSettingIPCriteria()
         {

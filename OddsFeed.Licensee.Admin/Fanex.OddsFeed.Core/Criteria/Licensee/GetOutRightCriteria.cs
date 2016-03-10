@@ -16,7 +16,7 @@ namespace Fanex.OddsFeed.Core.Criteria.Licensee
     /// <summary>
     /// Class GetOutRightCriteria.
     /// </summary>
-    public class GetOutRightCriteria : Framework.Data.CriteriaBase
+    public class GetOutRightCriteria : CriteriaBase
     {
         public string SportIDList { get; set; }
 

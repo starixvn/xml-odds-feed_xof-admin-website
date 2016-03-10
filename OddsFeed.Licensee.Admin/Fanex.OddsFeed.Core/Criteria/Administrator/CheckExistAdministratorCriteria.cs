@@ -17,7 +17,7 @@ namespace Fanex.OddsFeed.Core.Criteria.Administrator
     /// <summary>
     /// Class CheckExistAdministratorCriteria.
     /// </summary>
-    public class CheckExistAdministratorCriteria : Framework.Data.CriteriaBase
+    public class CheckExistAdministratorCriteria : CriteriaBase
     {        
         [Required]
         public int SystemID { get; set; }

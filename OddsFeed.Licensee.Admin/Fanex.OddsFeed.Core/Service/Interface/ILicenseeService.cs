@@ -11,8 +11,8 @@ namespace Fanex.OddsFeed.Core.Service.Interface
 {
     using System.Diagnostics.CodeAnalysis;
     using Fanex.OddsFeed.Core.Model;
-    using Fanex.OddsFeed.Framework.Data;    
-
+    using Fanex.OddsFeed.Framework.Data;
+    using Data.Repository;
     [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Reviewed")]
     public interface ILicenseeService : IBaseService
     {

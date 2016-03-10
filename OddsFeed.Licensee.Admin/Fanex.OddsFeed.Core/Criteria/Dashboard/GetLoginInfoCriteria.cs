@@ -11,7 +11,7 @@ namespace Fanex.OddsFeed.Core.Criteria.Dashboard
 {
     using System.ComponentModel.DataAnnotations;
     using Framework.Data;
-
+    using Data.Repository;
     /// <summary>
     /// Class GetLoginInfoCriteria.
     /// </summary>

@@ -17,7 +17,7 @@ namespace Fanex.OddsFeed.Core.Criteria.Affiliate
     /// <summary>
     /// Class EditPermissionSubACCCriteria.
     /// </summary>
-    public class EditPermissionSubAccCriteria : Framework.Data.CriteriaBase
+    public class EditPermissionSubAccCriteria : CriteriaBase
     {
         public EditPermissionSubAccCriteria()
         {

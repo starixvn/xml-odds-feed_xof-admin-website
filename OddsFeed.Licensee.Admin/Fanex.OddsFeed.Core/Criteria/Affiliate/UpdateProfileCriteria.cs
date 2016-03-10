@@ -15,7 +15,7 @@ namespace Fanex.OddsFeed.Core.Criteria.Affiliate
     /// <summary>
     /// Class UpdateProfileCriteria.
     /// </summary>    
-    public class UpdateProfileCriteria : Framework.Data.CriteriaBase
+    public class UpdateProfileCriteria : CriteriaBase
     {
         public UpdateProfileCriteria()
         {

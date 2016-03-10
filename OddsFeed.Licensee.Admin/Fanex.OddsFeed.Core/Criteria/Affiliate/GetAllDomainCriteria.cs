@@ -15,7 +15,7 @@ namespace Fanex.OddsFeed.Core.Criteria.Affiliate
     /// <summary>
     /// Class GetAllDomainCriteria.
     /// </summary>
-    public class GetAllDomainCriteria : Framework.Data.CriteriaBase
+    public class GetAllDomainCriteria : CriteriaBase
     {
         public GetAllDomainCriteria()
         {            

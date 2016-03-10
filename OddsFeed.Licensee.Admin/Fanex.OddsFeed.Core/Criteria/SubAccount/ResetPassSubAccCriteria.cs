@@ -18,7 +18,7 @@ namespace Fanex.OddsFeed.Core.Criteria.Affiliate
     /// <summary>
     /// Class ResetPassSubACCCriteria.
     /// </summary>
-    public class ResetPassSubAccCriteria : Framework.Data.CriteriaBase
+    public class ResetPassSubAccCriteria : CriteriaBase
     {
         public ResetPassSubAccCriteria()
         {

@@ -20,7 +20,7 @@ namespace Fanex.OddsFeed.Core.Service.Impl
     using Fanex.Databank.Repositories;
     using Fanex.Logging;
     using Fanex.OddsFeed.Core.Business;
-    using Fanex.OddsFeed.Core.Criteria.Affiliate;    
+    using Fanex.OddsFeed.Core.Criteria.Affiliate;
     using Fanex.OddsFeed.Core.Criteria.Misc;
     using Fanex.OddsFeed.Core.Domain;
     using Fanex.OddsFeed.Core.Helpers;
@@ -28,9 +28,9 @@ namespace Fanex.OddsFeed.Core.Service.Impl
     using Fanex.OddsFeed.Core.Model.ValueObject;
     using Fanex.OddsFeed.Core.Repository.Impl;
     using Fanex.OddsFeed.Core.Repository.Interface;
-    using Fanex.OddsFeed.Core.Service.Interface;            
+    using Fanex.OddsFeed.Core.Service.Interface;
     using Fanex.OddsFeed.Framework.Data;
-
+    using Data.Repository;
     /// <summary>
     /// Class AffiliateService.
     /// </summary>    

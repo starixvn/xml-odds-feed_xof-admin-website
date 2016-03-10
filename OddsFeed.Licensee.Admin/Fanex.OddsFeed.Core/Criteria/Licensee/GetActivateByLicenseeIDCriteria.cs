@@ -11,7 +11,7 @@ namespace Fanex.OddsFeed.Core.Criteria.Licensee
 {
     using System.Diagnostics.CodeAnalysis;
     using Framework.Data;
-
+    using Data.Repository;
     /// <summary>
     /// Class GetActivateByLicenseeIDCriteria.
     /// </summary>

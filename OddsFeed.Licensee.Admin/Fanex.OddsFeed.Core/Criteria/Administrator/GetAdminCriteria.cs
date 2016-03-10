@@ -17,7 +17,7 @@ namespace Fanex.OddsFeed.Core.Criteria.Administrator
     /// <summary>
     /// Class GetAdminCriteria.
     /// </summary>
-    public class GetAdminCriteria : Framework.Data.CriteriaBase
+    public class GetAdminCriteria : CriteriaBase
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GetAdminCriteria"/> class.

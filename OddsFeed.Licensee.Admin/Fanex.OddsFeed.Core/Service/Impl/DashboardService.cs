@@ -67,9 +67,7 @@ namespace Fanex.OddsFeed.Core.Service.Impl
         {
             try
             {
-                LogExecSpCriteria logCriteria = GetLogExecSpCriteria();
-
-                if (criteria.IsValid() && logCriteria.IsValid())
+                if (criteria.IsValid())
                 {
                     return _dashboardRepository.ReturnDataSet(criteria);
                 }
@@ -91,9 +89,7 @@ namespace Fanex.OddsFeed.Core.Service.Impl
         {
             try
             {
-                LogExecSpCriteria logCriteria = GetLogExecSpCriteria();
-
-                if (criteria.IsValid() && logCriteria.IsValid())
+                if (criteria.IsValid())
                 {
                     return _dashboardRepository.ReturnDataSet(criteria);
                 }
@@ -115,9 +111,7 @@ namespace Fanex.OddsFeed.Core.Service.Impl
         {
             try
             {
-                LogExecSpCriteria logCriteria = GetLogExecSpCriteria();
-
-                if (criteria.IsValid() && logCriteria.IsValid())
+                if (criteria.IsValid())
                 {
                     return _dashboardRepository.ReturnDataCollection(criteria);
                 }
@@ -139,9 +133,7 @@ namespace Fanex.OddsFeed.Core.Service.Impl
         {
             try
             {
-                LogExecSpCriteria logCriteria = GetLogExecSpCriteria();
-
-                if (criteria.IsValid() && logCriteria.IsValid())
+                if (criteria.IsValid())
                 {
                     return _dashboardRepository.ReturnDataCollection(criteria);
                 }

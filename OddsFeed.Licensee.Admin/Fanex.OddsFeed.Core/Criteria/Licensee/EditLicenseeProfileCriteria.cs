@@ -15,7 +15,7 @@ namespace Fanex.OddsFeed.Core.Criteria.Licensee
     /// <summary>
     /// Class EditLicenseeProfileCriteria.
     /// </summary>
-    public class EditLicenseeProfileCriteria : Framework.Data.CriteriaBase
+    public class EditLicenseeProfileCriteria : CriteriaBase
     {
         public EditLicenseeProfileCriteria()
         {

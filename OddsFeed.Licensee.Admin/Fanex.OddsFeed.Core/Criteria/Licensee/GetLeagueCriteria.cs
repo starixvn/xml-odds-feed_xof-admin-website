@@ -16,7 +16,7 @@ namespace Fanex.OddsFeed.Core.Criteria.Licensee
     /// <summary>
     /// Class GetLeagueCriteria.
     /// </summary>
-    public class GetLeagueCriteria : Framework.Data.CriteriaBase
+    public class GetLeagueCriteria : CriteriaBase
     {
         public string SportIDList { get; set; }
 

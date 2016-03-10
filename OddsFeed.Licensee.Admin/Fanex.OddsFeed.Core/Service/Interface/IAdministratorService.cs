@@ -14,10 +14,10 @@ namespace Fanex.OddsFeed.Core.Service.Interface
     using System.Diagnostics.CodeAnalysis;
     using System.Web.Mvc;
     using Fanex.OddsFeed.Core.Criteria.Administrator;
-    using Fanex.OddsFeed.Core.Domain;        
+    using Fanex.OddsFeed.Core.Domain;
     using Fanex.OddsFeed.Core.Helpers;
     using Fanex.OddsFeed.Framework.Data;
-
+    using Data.Repository;
     [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Reviewed")]
     public interface IAdministratorService : IBaseService
     {

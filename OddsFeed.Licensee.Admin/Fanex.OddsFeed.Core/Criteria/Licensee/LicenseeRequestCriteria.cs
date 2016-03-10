@@ -18,7 +18,7 @@ namespace Fanex.OddsFeed.Core.Criteria.Licensee
     /// <summary>
     /// Class LicenseeRequestCriteria.
     /// </summary>
-    public class LicenseeRequestCriteria : Framework.Data.CriteriaBase
+    public class LicenseeRequestCriteria : CriteriaBase
     {        
         private DateTime _dateStart;
         

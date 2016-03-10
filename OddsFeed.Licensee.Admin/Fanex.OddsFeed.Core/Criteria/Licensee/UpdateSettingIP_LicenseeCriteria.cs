@@ -16,7 +16,7 @@ namespace Fanex.OddsFeed.Core.Criteria.Licensee
     /// <summary>
     /// Class UpdateSettingIP_LicenseeCriteria.
     /// </summary>
-    public class UpdateSettingIP_LicenseeCriteria : Framework.Data.CriteriaBase
+    public class UpdateSettingIP_LicenseeCriteria : CriteriaBase
     {
         public UpdateSettingIP_LicenseeCriteria()
         {

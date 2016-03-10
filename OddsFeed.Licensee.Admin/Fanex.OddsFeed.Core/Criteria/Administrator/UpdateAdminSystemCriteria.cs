@@ -16,7 +16,7 @@ namespace Fanex.OddsFeed.Core.Criteria.Administrator
     /// <summary>
     /// Class UpdateAdminSystemCriteria.
     /// </summary>
-    public class UpdateAdminSystemCriteria : Framework.Data.CriteriaBase
+    public class UpdateAdminSystemCriteria : CriteriaBase
     {
         public UpdateAdminSystemCriteria()
         {

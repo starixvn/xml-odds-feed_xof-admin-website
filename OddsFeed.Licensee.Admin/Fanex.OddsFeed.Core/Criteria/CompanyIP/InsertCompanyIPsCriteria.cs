@@ -9,6 +9,7 @@
 
 namespace Fanex.OddsFeed.Core.Criteria.CompanyIP
 {
+    using Data.Repository;
     using Fanex.OddsFeed.Framework.Data;
 
     /// <summary>

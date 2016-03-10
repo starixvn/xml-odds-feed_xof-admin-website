@@ -11,7 +11,7 @@ namespace Fanex.OddsFeed.Core.Criteria.Domain
 {
     using System;
     using Fanex.OddsFeed.Framework.Data;
-
+    using Data.Repository;
     /// <summary>
     /// Class GetDomainSettingByPageCriteria.
     /// </summary>

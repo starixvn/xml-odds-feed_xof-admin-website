@@ -15,7 +15,7 @@ namespace Fanex.OddsFeed.Core.Criteria.Licensee
     /// <summary>
     /// Class EditLicenseeSettingCriteria.
     /// </summary>
-    public class EditLicenseeSettingCriteria : Framework.Data.CriteriaBase
+    public class EditLicenseeSettingCriteria : CriteriaBase
     {
         public short SystemID { get; set; }
         

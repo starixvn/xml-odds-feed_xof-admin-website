@@ -15,7 +15,7 @@ namespace Fanex.OddsFeed.Core.Criteria.Affiliate
     /// <summary>
     /// Class DeleteSubACCCriteria.
     /// </summary>
-    public class DeleteSubAccCriteria : Framework.Data.CriteriaBase
+    public class DeleteSubAccCriteria : CriteriaBase
     {
         public DeleteSubAccCriteria()
         {

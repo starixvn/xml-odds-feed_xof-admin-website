@@ -16,7 +16,7 @@ namespace Fanex.OddsFeed.Core.Criteria.SubAccount
     /// <summary>
     /// Class AssignLicensee_SubACCCriteria.
     /// </summary>
-    public class AssignLicensee_SubAccCriteria : Framework.Data.CriteriaBase
+    public class AssignLicensee_SubAccCriteria : CriteriaBase
     {
         public AssignLicensee_SubAccCriteria()
         {

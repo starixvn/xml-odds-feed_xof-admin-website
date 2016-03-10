@@ -16,7 +16,7 @@ namespace Fanex.OddsFeed.Core.Criteria.Licensee
     /// <summary>
     /// Class CreateLicenseeCriteria.
     /// </summary>
-    public class CreateLicenseeCriteria : Framework.Data.CriteriaBase
+    public class CreateLicenseeCriteria : CriteriaBase
     {
         public CreateLicenseeCriteria()
         {

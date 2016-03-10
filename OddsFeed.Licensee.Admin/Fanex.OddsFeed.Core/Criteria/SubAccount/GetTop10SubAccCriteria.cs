@@ -8,11 +8,11 @@
 // </history>
 
 namespace Fanex.OddsFeed.Core.Criteria.SubAccount
-{    
+{
     using System;
     using System.Diagnostics.CodeAnalysis;
     using Fanex.OddsFeed.Framework.Data;
-
+    using Data.Repository;
     /// <summary>
     /// Class GetTop10SubACCCriteria.
     /// </summary>

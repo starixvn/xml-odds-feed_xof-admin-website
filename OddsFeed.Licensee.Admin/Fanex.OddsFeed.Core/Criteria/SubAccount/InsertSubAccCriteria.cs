@@ -18,7 +18,7 @@ namespace Fanex.OddsFeed.Core.Criteria.Affiliate
     /// <summary>
     /// Class InsertSubACCCriteria.
     /// </summary>
-    public class InsertSubAccCriteria : Framework.Data.CriteriaBase
+    public class InsertSubAccCriteria : CriteriaBase
     {
         public InsertSubAccCriteria()
         {

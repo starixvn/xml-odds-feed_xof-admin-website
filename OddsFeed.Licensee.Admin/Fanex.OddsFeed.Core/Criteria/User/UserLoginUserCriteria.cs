@@ -17,7 +17,7 @@ namespace Fanex.OddsFeed.Core.Criteria.User
     /// <summary>
     /// Class UserLoginUserCriteria.
     /// </summary>
-    public class UserLoginUserCriteria : Framework.Data.CriteriaBase
+    public class UserLoginUserCriteria : CriteriaBase
     {
         public string UserName { get; set; }
 

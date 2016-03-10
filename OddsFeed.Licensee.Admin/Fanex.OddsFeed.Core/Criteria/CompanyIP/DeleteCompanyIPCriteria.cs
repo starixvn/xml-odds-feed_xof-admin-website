@@ -11,7 +11,7 @@ namespace Fanex.OddsFeed.Core.Criteria.CompanyIP
 {
     using System.Diagnostics.CodeAnalysis;
     using Fanex.OddsFeed.Framework.Data;
-
+    using Data.Repository;
     /// <summary>
     /// Class DeleteCompanyIPCriteria.
     /// </summary>    
