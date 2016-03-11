@@ -25,7 +25,9 @@ namespace Fanex.OddsFeed.Core.Criteria.Affiliate
             ErrCode = 0;
             ErrMsg = string.Empty;
         }
-        
+
+        public int UserID { get; set; }
+
         public int SystemID { get; set; }
 
         public byte RoleID { get; set; }

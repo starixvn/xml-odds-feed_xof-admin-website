@@ -34,8 +34,7 @@ namespace Fanex.OddsFeed.Core.Repository.Impl
         {
             // prepare SP parameters
             Hashtable hash = criteria.GetSpParams();
-            hash = (new ResultCriteria()).AddSpParams(hash);
-
+            
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
                 db.ExecuteNonQuery(hash);

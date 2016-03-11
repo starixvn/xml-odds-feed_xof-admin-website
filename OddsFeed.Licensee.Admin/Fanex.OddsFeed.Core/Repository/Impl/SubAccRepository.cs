@@ -63,7 +63,7 @@ namespace Fanex.OddsFeed.Core.Repository.Impl
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
                 db.ExecuteNonQuery(hash);
-
+                
                 criteria.SubAccountID = Convert.ToInt32(db.GetParameterValue("UserID"));
 
                 return GetCommandResult(hash);
