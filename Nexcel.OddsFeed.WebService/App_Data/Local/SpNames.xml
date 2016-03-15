@@ -41,6 +41,7 @@
   </Function>
   <Function Name="BetTypeSportType">
     <Setting Key="SP.SportType" SpName="Odds_Partner_SportTypeSel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" >
+      <Mapping DataField="SportType" ObjectProperty="Id" />
       <Mapping DataField="SportName" ObjectProperty="NameEnglish" />
       <Mapping DataField="SportNameCh" ObjectProperty="NameTraditionalChinese" />
       <Mapping DataField="SportNameCs" ObjectProperty="NameSimplifiedChinese" />
@@ -55,6 +56,8 @@
       <Mapping DataField="leaguename" ObjectProperty="NameEnglish" />
       <Mapping DataField="leaguenameCh" ObjectProperty="NameTraditionalChinese" />
       <Mapping DataField="leaguenameCs" ObjectProperty="NameSimplifiedChinese" />
+      <Mapping DataField="SportType" ObjectProperty="SportId" />
+      <Mapping DataField="SportName" ObjectProperty="SportName" />
     </Setting>
     
   </Function>

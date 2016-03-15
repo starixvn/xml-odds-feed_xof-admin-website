@@ -40,18 +40,12 @@ namespace Nexcel.OddsFeed.WebService.BetTypes
         {
             return new BetTypeNode
             {
-                Id = BetTypeNameFromId(raw.Id),
+                Id = raw.Id.ToString(),
+                Type = BetTypeDefinition.BetTypeNameFromId(raw.Id),
                 NameEnglish = raw.NameEnglish,
                 NameSimplifiedChinese = raw.NameSimplifiedChinese,
                 NameTraditionalChinese = raw.NameTraditionalChinese
             };
-        }
-
-        private string BetTypeNameFromId(int id)
-        {
-            return BetTypeDefinition.BetTypeIdMap.ContainsKey(id)
-                ? BetTypeDefinition.BetTypeIdMap[id]
-                : "b" + id;
         }
 
         private void LimitLanguage(BetTypesNode nodes, OddsProfile oddsProfile)

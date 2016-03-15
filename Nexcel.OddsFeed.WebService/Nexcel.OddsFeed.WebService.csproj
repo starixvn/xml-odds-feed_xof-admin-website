@@ -160,7 +160,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BetTypes\BetTypeDefinition.cs" />
+    <Compile Include="Common\BetTypeDefinition.cs" />
     <Compile Include="BetTypes\RawBetType.cs" />
     <Compile Include="Common\OddsFeedSerializer.cs" />
     <Compile Include="Common\PartnerPermission.cs" />

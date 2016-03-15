@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Nexcel.OddsFeed.WebService.BetTypes
+namespace Nexcel.OddsFeed.WebService.Common
 {
     public class BetTypeDefinition
     {
@@ -130,5 +130,12 @@ namespace Nexcel.OddsFeed.WebService.BetTypes
             { 216, "gsa" },
             { 217, "gs1" }
         };
+
+        public static string BetTypeNameFromId(int id)
+        {
+            return BetTypeIdMap.ContainsKey(id)
+                ? BetTypeIdMap[id]
+                : "b" + id;
+        }
     }
 }

@@ -4,6 +4,9 @@ namespace Nexcel.OddsFeed.WebService.Sports
 {
     public class SportNode
     {
+        [XmlAttribute("id")]
+        public int Id { get; set; }
+
         [XmlAttribute("se")]
         public string NameEnglish { get; set; }
 
