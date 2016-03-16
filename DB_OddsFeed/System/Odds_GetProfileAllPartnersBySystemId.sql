@@ -32,6 +32,8 @@ AS
 			If user removes some selections that some affiliates under this licensee have the number of selections greater than the current licensee's profile, we must display a warning message
 			 " You are removing some selections that affiliates under this licensee are available. Are you sure to remove these selections for all affiliates' odds profile also?"
  *	Revisions:
+ *	- 20160315@bobby.nguyen: #54093 - Update for showing only parent bet types and update parent - child bet types
+ * 
  *  Modify: 
 */		
 SET NOCOUNT ON
@@ -72,6 +74,9 @@ select @AffsOutrightIDList = @AffsOutrightIDList + ',' + OutrightIDList from dbo
 -- Bettype
 select @AffsBettypeIDList = @AffsBettypeIDList + ',' + BetTypeIDList from dbo.PartnerProfile
 							where PartnerID in (select PartnerID from dbo.Partner where IsDeleted = 0 and SystemID = @SystemID)							
+							
+							
+SET @AffsBettypeIDList = [dbo].[f_Odds_GroupBettype_Format] (@AffsBettypeIDList, 0)
 
 	
 GO
