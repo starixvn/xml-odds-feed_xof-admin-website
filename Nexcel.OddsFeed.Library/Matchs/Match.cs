@@ -669,6 +669,9 @@ namespace Nexcel.OddsFeed.Library.Matchs
                 case "cs_12":
                     BuildXmlNodeOdd_cs_12(xd, op, item, odd);
                     break;
+                default:
+                    MatchOddNodeBuilder.BuildXmlOddNodeAttributes(xd, op, item, odd, item.Type);
+                    break;
             }
 
             var otime = xd.CreateAttribute("time");

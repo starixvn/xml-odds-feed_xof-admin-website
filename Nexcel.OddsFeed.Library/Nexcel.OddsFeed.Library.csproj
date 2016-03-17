@@ -112,6 +112,7 @@
     <Compile Include="DbConnect.cs" />
     <Compile Include="Error.cs" />
     <Compile Include="ErrorCollection.cs" />
+    <Compile Include="Matchs\MatchOddNodeBuilder.cs" />
     <Compile Include="Model\OddFlex.cs" />
     <Compile Include="OddsFeedFilter.cs" />
     <Compile Include="Language.cs" />
