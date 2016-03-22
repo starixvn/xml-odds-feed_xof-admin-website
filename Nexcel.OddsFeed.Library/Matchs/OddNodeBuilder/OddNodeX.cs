@@ -1,0 +1,17 @@
+﻿namespace Nexcel.OddsFeed.Library.Matchs.OddNodeBuilder
+{
+    using System.Xml;
+    using Nexcel.OddsFeed.Library.Matches;
+
+    class OddNodeX : OddNodeBase
+    {
+        public override void UpdateAttributeForXmlNode(XmlDocument xd, OddsProfile op, MatchOdd item, XmlNode odd)
+        {
+            var xmlAttribute = xd.CreateAttribute(XmlAttribute);
+            var value = item.GetType().GetProperty(MatchOddAttribute).GetValue(item, null);
+            xmlAttribute.Value = value.ToString();
+
+            odd.Attributes.Append(xmlAttribute);
+        }
+    }
+}
