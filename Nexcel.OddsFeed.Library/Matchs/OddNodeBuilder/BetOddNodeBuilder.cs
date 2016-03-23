@@ -1,5 +1,6 @@
 ﻿namespace Nexcel.OddsFeed.Library.Matchs.OddNodeBuilder
 {
+    using Fanex.Logging;
     using Nexcel.OddsFeed.Library.Matches;
     using System;
     using System.Collections.Generic;
@@ -11,26 +12,55 @@
     {
         public static void BuildXmlOddNodeAttributes(XmlDocument xd, OddsProfile op, MatchOdd item, XmlNode odd, string betType)
         {
-            var betTypeNode = BetTypeMapping.BetTypes.Find(bt => bt.Tag.Equals(betType));
-            betTypeNode.UpdateAttributesForXmlNode(xd, op, item, odd);
+            try {
+                var betTypeNode = BetOddNodeMapping.BetTypes.Find(bt => bt.Tag.Equals(betType));
+                if(betTypeNode != null)
+                {
+                    betTypeNode.UpdateAttributesForXmlNode(xd, op, item, odd);
+                }                
+            }
+            catch(Exception ex)
+            {
+                LogService.Error("BetOddNodeBuilder.BuildXmlOddNodeAttributes errors.  Exception: " + ex.Message);
+            }
         }
 
         public static MatchOdd CreateMatchOddBettype(DataRow item, int betTypeId)
         {
-            var betTypeNode = BetTypeMapping.BetTypes.Find(bt => bt.ID.Equals(betTypeId));
-            var odd = betTypeNode.CreateMatchOddBettype(item);
+            MatchOdd odd = null;
+            try
+            {
+                var betTypeNode = BetOddNodeMapping.BetTypes.Find(bt => bt.ID.Equals(betTypeId));
+                if(betTypeNode != null)
+                {
+                    odd = betTypeNode.CreateMatchOddBettype(item);
+                }                
+            }
+            catch(Exception ex)
+            {
+                LogService.Error("BetOddNodeBuilder.CreateMatchOddBettype errors.  Exception: " + ex.Message);
+            }
 
             return odd;
         }
 
         public static MatchOdd CreateMatchOddBettype(DataRow item, int betTypeId, List<Model.OddFlex> flexOdds)
         {
-            var odds = flexOdds.Where(i => i.OddId == Convert.ToInt32(item["oddsid"]));
-
-            var betTypeNode = BetTypeMapping.BetTypes.Find(bt => bt.ID.Equals(betTypeId));
-            var odd = ((BetTypeNodeFlex)betTypeNode).CreateMatchOddBettype(item, flexOdds);
+            MatchOdd odd = null;
+            try {
+                var odds = flexOdds.Where(i => i.OddId == Convert.ToInt32(item["oddsid"]));
+                var betTypeNode = BetOddNodeMapping.BetTypes.Find(bt => bt.ID.Equals(betTypeId));
+                if (betTypeNode != null)
+                {
+                    odd = ((OddNodeFlex)betTypeNode).CreateMatchOddBettype(item, odds);
+                }
+            }
+            catch(Exception ex)
+            {
+                LogService.Error("BetOddNodeBuilder.CreateMatchOddBettype errors.  Exception: " + ex.Message);
+            }
 
             return odd;
-        }
+        }        
     }
 }

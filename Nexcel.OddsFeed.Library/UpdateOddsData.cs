@@ -23,7 +23,7 @@ namespace Nexcel.OddsFeed.Library
     using Nexcel.OddsFeed.Library.Matches;
     using Nexcel.OddsFeed.Library.Matchs;
     using Nexcel.OddsFeed.Library.Outrights;
-
+    using Matchs.OddNodeBuilder;
     /// <summary>
     /// Class UpdateOddsData.
     /// </summary>
@@ -271,7 +271,8 @@ namespace Nexcel.OddsFeed.Library
         /// <returns>Object MatchOdd.</returns>
         private static MatchOdd CreateMatchOdd(DataRow item, List<Model.OddFlex> flexOdds)
         {
-            switch (int.Parse(item["BetType"].ToString()))
+            int betTypeId = int.Parse(item["BetType"].ToString());
+            switch (betTypeId)
             {
                 case 1:
                     return CreateMatchOddBettype1(item);
@@ -493,7 +494,7 @@ namespace Nexcel.OddsFeed.Library
                 case 215:
                     return CreateMatchOddBettype215(item);
                 default:
-                    return null;
+                    return BetOddNodeBuilder.CreateMatchOddBettype(item, betTypeId);
             }
         }
 

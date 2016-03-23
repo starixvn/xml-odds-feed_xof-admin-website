@@ -1,6 +1,5 @@
 ﻿namespace Nexcel.OddsFeed.Library.Matchs.OddNodeBuilder
 {
-    using Fanex.Common;
     using Nexcel.OddsFeed.Library.Matches;
     using System;
     using System.Data;
@@ -8,24 +7,34 @@
 
     public class OddNodeBase
     {
-        public string XmlAttribute { get; set; }
-        public string DBAttribute { get; set; }
-        public string MatchOddAttribute { get; set; }
-        public string Description { get; set; }
+        public int ID { get; set; }
+        public string Tag { get; set; }
+        public OddNodeAttrBase[] Odds { get; set; }
 
-        public virtual void UpdateAttributeForXmlNode(XmlDocument xd, OddsProfile op, MatchOdd item, XmlNode odd)
+        public void UpdateAttributesForXmlNode(XmlDocument xd, OddsProfile op, MatchOdd item, XmlNode odd)
         {
-            var xmlAttribute = xd.CreateAttribute(XmlAttribute);
-            var value = item.GetType().GetProperty(MatchOddAttribute).GetValue(item, null);
-            xmlAttribute.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(value)).ToString();
-
-            odd.Attributes.Append(xmlAttribute);
+            foreach (OddNodeAttrBase oddNode in Odds)
+            {
+                oddNode.UpdateAttributeForXmlNode(xd, op, item, odd);
+            }
         }
 
-        public virtual void  UpdateAttributeForMatchOdd(DataRow item, MatchOdd odd)
+        public virtual MatchOdd CreateMatchOddBettype(DataRow item)
         {
-            var value = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item[DBAttribute])));
-            odd.GetType().GetProperty(MatchOddAttribute).SetValue(this, value, null);
-        }       
+            var odd = new MatchOdd
+            {
+                Type = Tag,
+                Time = DateTime.Parse(item["ChangeTime"].ToString())
+            };
+
+            foreach (OddNodeAttrBase oddNode in Odds)
+            {
+                oddNode.UpdateAttributeForMatchOdd(item, odd);
+            }
+
+            return odd;
+        }
+
+       
     }
 }

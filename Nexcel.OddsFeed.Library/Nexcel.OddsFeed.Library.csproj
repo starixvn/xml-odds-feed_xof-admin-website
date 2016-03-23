@@ -112,7 +112,15 @@
     <Compile Include="DbConnect.cs" />
     <Compile Include="Error.cs" />
     <Compile Include="ErrorCollection.cs" />
-    <Compile Include="Matchs\MatchOddNodeBuilder.cs" />
+    <Compile Include="Matchs\OddNodeBuilder\BetOddNodeBuilder.cs" />
+    <Compile Include="Matchs\OddNodeBuilder\BetOddNodeMapping.cs" />
+    <Compile Include="Matchs\OddNodeBuilder\OddNodeBase.cs" />
+    <Compile Include="Matchs\OddNodeBuilder\OddNodeFlex.cs" />
+    <Compile Include="Matchs\OddNodeBuilder\OddNodeHandicap.cs" />
+    <Compile Include="Matchs\OddNodeBuilder\OddNodeAttrBase.cs" />
+    <Compile Include="Matchs\OddNodeBuilder\OddNodeAttrFlex.cs" />
+    <Compile Include="Matchs\OddNodeBuilder\OddNodeAttrHandicap.cs" />
+    <Compile Include="Matchs\OddNodeBuilder\OddNodeAttrX.cs" />
     <Compile Include="Model\OddFlex.cs" />
     <Compile Include="OddsFeedFilter.cs" />
     <Compile Include="Language.cs" />

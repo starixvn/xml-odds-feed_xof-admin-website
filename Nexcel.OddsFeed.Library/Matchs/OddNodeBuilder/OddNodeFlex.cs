@@ -1,20 +1,28 @@
 ﻿namespace Nexcel.OddsFeed.Library.Matchs.OddNodeBuilder
 {
+    using Nexcel.OddsFeed.Library.Matches;
+    using System;
     using System.Collections.Generic;
     using System.Data;
-    using System.Linq;
-    using Nexcel.OddsFeed.Library.Matches;
-    using Nexcel.OddsFeed.Library.Model;
-    using Fanex.Common;
 
     class OddNodeFlex : OddNodeBase
     {
-        public string OddFlexBetChoice { get; set; }
+        public new OddNodeAttrFlex[] Odds { get; set; }
 
-        public void UpdateAttributeForMatchOdd(DataRow item, MatchOdd odd, List<OddFlex> flexOdds)
+        public virtual MatchOdd CreateMatchOddBettype(DataRow item, IEnumerable<Model.OddFlex> flexOdds)
         {
-            var value = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(flexOdds.Where(i => i.BetChoice == OddFlexBetChoice).Select(i => i.Odds).SingleOrDefault())));
-            odd.GetType().GetProperty(MatchOddAttribute).SetValue(this, value, null);
+            var odd = new MatchOdd
+            {
+                Type = Tag,
+                Time = DateTime.Parse(item["ChangeTime"].ToString())
+            };
+
+            foreach (OddNodeAttrFlex oddNode in Odds)
+            {
+                oddNode.UpdateAttributeForMatchOdd(item, odd, flexOdds);
+            }
+
+            return odd;
         }
     }
 }

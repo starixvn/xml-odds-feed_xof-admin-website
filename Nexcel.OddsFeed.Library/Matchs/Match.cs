@@ -14,7 +14,7 @@ namespace Nexcel.OddsFeed.Library.Matchs
     using System.Linq;
     using System.Xml;
     using Nexcel.OddsFeed.Library.Matches;
-
+    using OddNodeBuilder;
     /// <summary>
     /// Class Match.
     /// </summary>
@@ -670,7 +670,7 @@ namespace Nexcel.OddsFeed.Library.Matchs
                     BuildXmlNodeOdd_cs_12(xd, op, item, odd);
                     break;
                 default:
-                    MatchOddNodeBuilder.BuildXmlOddNodeAttributes(xd, op, item, odd, item.Type);
+                    BetOddNodeBuilder.BuildXmlOddNodeAttributes(xd, op, item, odd, item.Type);
                     break;
             }
 

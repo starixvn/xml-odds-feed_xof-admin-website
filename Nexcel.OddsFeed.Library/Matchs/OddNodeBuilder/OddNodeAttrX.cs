@@ -3,7 +3,7 @@
     using System.Xml;
     using Nexcel.OddsFeed.Library.Matches;
 
-    class OddNodeX : OddNodeBase
+    class OddNodeAttrX : OddNodeAttrBase
     {
         public override void UpdateAttributeForXmlNode(XmlDocument xd, OddsProfile op, MatchOdd item, XmlNode odd)
         {
