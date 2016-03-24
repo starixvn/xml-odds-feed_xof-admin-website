@@ -419,8 +419,6 @@ namespace Nexcel.OddsFeed.Library
                     return CreateMatchOddBettype177(item);
                 case 178:
                     return CreateMatchOddBettype178(item);
-                case 179:
-                    return CreateMatchOddBettype179(item);
                 case 180:
                     return CreateMatchOddBettype180(item);
                 case 181:
@@ -1492,21 +1490,6 @@ namespace Nexcel.OddsFeed.Library
                 O = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["odds1a"]))),
                 U = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["odds2a"]))),
                 H = string.Format("{0:0.#########}", Converter.ToDecimal(item["hdp1"])),
-                Time = DateTime.Parse(item["ChangeTime"].ToString())
-            };
-            return odd;
-        }
-
-        private static MatchOdd CreateMatchOddBettype179(DataRow item)
-        {
-            var odd = new MatchOdd
-            {
-                Type = "egs_1",
-                O1 = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs00"]))),
-                O2 = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs11"]))),
-                O3 = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs12"]))),
-                O4 = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs21"]))),
-                O5 = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs22"]))),
                 Time = DateTime.Parse(item["ChangeTime"].ToString())
             };
             return odd;

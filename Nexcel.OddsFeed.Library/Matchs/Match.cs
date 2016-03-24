@@ -555,9 +555,6 @@ namespace Nexcel.OddsFeed.Library.Matchs
                 case "ou_2":
                     BuildXmlNodeOdd_ou_2(xd, op, item, odd);
                     break;
-                case "egs_1":
-                    BuildXmlNodeOdd_egs_1(xd, op, item, odd);
-                    break;
                 case "ng_1":
                     BuildXmlNodeOdd_ng_1(xd, op, item, odd);
                     break;
@@ -1787,25 +1784,6 @@ namespace Nexcel.OddsFeed.Library.Matchs
             var a = xd.CreateAttribute("a");
             a.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.A)).ToString();
             odd.Attributes.Append(a);
-        }
-
-        private void BuildXmlNodeOdd_egs_1(XmlDocument xd, OddsProfile op, MatchOdd item, XmlNode odd)
-        {
-            var o1 = xd.CreateAttribute("o1");
-            o1.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.O1)).ToString();
-            odd.Attributes.Append(o1);
-            var o2 = xd.CreateAttribute("o2");
-            o2.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.O2)).ToString();
-            odd.Attributes.Append(o2);
-            var o3 = xd.CreateAttribute("o3");
-            o3.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.O3)).ToString();
-            odd.Attributes.Append(o3);
-            var o4 = xd.CreateAttribute("o4");
-            o4.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.O4)).ToString();
-            odd.Attributes.Append(o4);
-            var o5 = xd.CreateAttribute("o5");
-            o5.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.O5)).ToString();
-            odd.Attributes.Append(o5);
         }
 
         private void BuildXmlNodeOdd_ng_1(XmlDocument xd, OddsProfile op, MatchOdd item, XmlNode odd)
