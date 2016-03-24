@@ -216,6 +216,8 @@ namespace Nexcel.OddsFeed.Library.Matches
 
         public string CS23 { get; set; }
 
+        public string CS22 { get; set; }
+
         public string CS33 { get; set; }
 
         public string CS04 { get; set; }
@@ -227,6 +229,12 @@ namespace Nexcel.OddsFeed.Library.Matches
         public string CS42 { get; set; }
         public string CS43 { get; set; }
         public string CS44 { get; set; }
+
+        public string CSOAS { get; set; }
+
+        public string CS05 { get; set; }
+
+        public string CS50 { get; set; }
 
         public string CS99 { get; set; }
 

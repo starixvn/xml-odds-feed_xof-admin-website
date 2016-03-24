@@ -19,8 +19,11 @@
 
         public override void UpdateAttributeForMatchOdd(DataRow item, MatchOdd odd)
         {
-            var value = string.Format("{0:0.#########}", Converter.ToDecimal(item[DBAttribute]));
-            odd.GetType().GetProperty(MatchOddAttribute).SetValue(odd, value, null);
+            if (!NotToBuildData)
+            {
+                var value = string.Format("{0:0.#########}", Converter.ToDecimal(item[DBAttribute]));
+                odd.GetType().GetProperty(MatchOddAttribute).SetValue(odd, value, null);
+            }
         }
     }
 }

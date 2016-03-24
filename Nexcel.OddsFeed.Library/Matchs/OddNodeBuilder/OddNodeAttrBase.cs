@@ -12,6 +12,7 @@
         public string DBAttribute { get; set; }
         public string MatchOddAttribute { get; set; }
         public string Description { get; set; }
+        public bool NotToBuildData { get; set; }
 
         public virtual void UpdateAttributeForXmlNode(XmlDocument xd, OddsProfile op, MatchOdd item, XmlNode odd)
         {
@@ -24,8 +25,11 @@
 
         public virtual void  UpdateAttributeForMatchOdd(DataRow item, MatchOdd odd)
         {
-            string value = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item[DBAttribute])));
-            odd.GetType().GetProperty(MatchOddAttribute).SetValue(odd, value, null);
+            if (!NotToBuildData)
+            {
+                string value = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item[DBAttribute])));
+                odd.GetType().GetProperty(MatchOddAttribute).SetValue(odd, value, null);
+            }
         }       
     }
 }

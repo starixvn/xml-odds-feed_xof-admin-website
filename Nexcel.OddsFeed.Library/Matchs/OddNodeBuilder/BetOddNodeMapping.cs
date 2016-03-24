@@ -4,7 +4,19 @@
 
     class BetOddNodeMapping
     {
+        // Notes:
+        // When adding a new bettype here, remember to check if the Tag is already in old bettypes yet
+        // The idea to build xml based on Tag is not ok anymore, need to change to use bettype ID instead
         public static readonly List<OddNodeBase> BetTypes = new List<OddNodeBase> {
+            new OddNodeBase
+            {
+                ID = 2,
+                Tag = "oe",
+                Odds = new OddNodeAttrBase[2] {
+                    new OddNodeAttrBase { XmlAttribute = "o", DBAttribute = "odds1a", MatchOddAttribute = "O", Description = "Odd"},
+                    new OddNodeAttrBase { XmlAttribute = "e", DBAttribute = "odds2a", MatchOddAttribute = "E", Description = "Even"}
+                }
+            },
             new OddNodeBase
             {
                 ID = 401,
@@ -154,7 +166,7 @@
             {
                 ID = 413,
                 Tag = "cs",
-                Odds = new OddNodeAttrBase[26] {
+                Odds = new OddNodeAttrBase[28] {
                     new OddNodeAttrBase { XmlAttribute = "cs10", MatchOddAttribute = "CS10", Description = "1-0", DBAttribute = "cs10"},
                     new OddNodeAttrBase { XmlAttribute = "cs20", MatchOddAttribute = "CS20", Description = "2-0", DBAttribute = "cs20"},
                     new OddNodeAttrBase { XmlAttribute = "cs21", MatchOddAttribute = "CS21", Description = "2-1", DBAttribute = "cs21"},
@@ -180,14 +192,17 @@
                     new OddNodeAttrBase { XmlAttribute = "cs22", MatchOddAttribute = "CS22", Description = "2-2", DBAttribute = "cs22"},
                     new OddNodeAttrBase { XmlAttribute = "cs33", MatchOddAttribute = "CS33", Description = "3-3", DBAttribute = "cs33"},
                     new OddNodeAttrBase { XmlAttribute = "cs44", MatchOddAttribute = "CS44", Description = "4-4", DBAttribute = "cs44"},
-                    new OddNodeAttrBase { XmlAttribute = "csoas", MatchOddAttribute = "CSOAS", Description = "AOS", DBAttribute = "cs99"}
+                    new OddNodeAttrBase { XmlAttribute = "csoas", MatchOddAttribute = "CSOAS", Description = "AOS", DBAttribute = "cs99"},
+                    // for bettype 4
+                    new OddNodeAttrBase { NotToBuildData = true, XmlAttribute = "cs05", MatchOddAttribute = "CS05", Description = "0-5 UP", DBAttribute = ""},
+                    new OddNodeAttrBase { NotToBuildData = true, XmlAttribute = "cs50", MatchOddAttribute = "CS50", Description = "5-0 UP", DBAttribute = ""}
                 }
             },
             new OddNodeBase
             {
                 ID = 414,
                 Tag = "cs_1",
-                Odds = new OddNodeAttrBase[17] {
+                Odds = new OddNodeAttrBase[19] {
                     new OddNodeAttrBase { XmlAttribute = "cs10", MatchOddAttribute = "CS10", Description = "1-0", DBAttribute = "cs10"},
                     new OddNodeAttrBase { XmlAttribute = "cs20", MatchOddAttribute = "CS20", Description = "2-0", DBAttribute = "cs20"},
                     new OddNodeAttrBase { XmlAttribute = "cs21", MatchOddAttribute = "CS21", Description = "2-1", DBAttribute = "cs21"},
@@ -204,7 +219,10 @@
                     new OddNodeAttrBase { XmlAttribute = "cs11", MatchOddAttribute = "CS11", Description = "1-1", DBAttribute = "cs11"},
                     new OddNodeAttrBase { XmlAttribute = "cs22", MatchOddAttribute = "CS22", Description = "2-2", DBAttribute = "cs22"},
                     new OddNodeAttrBase { XmlAttribute = "cs33", MatchOddAttribute = "CS33", Description = "3-3", DBAttribute = "cs33"},
-                    new OddNodeAttrBase { XmlAttribute = "csoas", MatchOddAttribute = "CSOAS", Description = "AOS", DBAttribute = "cs99"}
+                    new OddNodeAttrBase { XmlAttribute = "csoas", MatchOddAttribute = "CSOAS", Description = "AOS", DBAttribute = "cs99"},
+                    // for bettype 30
+                    new OddNodeAttrBase { NotToBuildData = true, XmlAttribute = "cs04", MatchOddAttribute = "CS04", Description = "0-4 UP", DBAttribute = ""},
+                    new OddNodeAttrBase { NotToBuildData = true,  XmlAttribute = "cs40", MatchOddAttribute = "CS40", Description = "4-0 UP", DBAttribute = ""}
                 }
             }
         };

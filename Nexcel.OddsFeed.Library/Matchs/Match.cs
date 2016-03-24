@@ -392,9 +392,6 @@ namespace Nexcel.OddsFeed.Library.Matchs
                 case "fglg":
                     BuildXmlNodeOdd_fglg(xd, op, item, odd);
                     break;
-                case "cs":
-                    BuildXmlNodeOdd_cs(xd, op, item, odd);
-                    break;
                 case "ml":
                     BuildXmlNodeOdd_ml(xd, op, item, odd);
                     break;
@@ -422,9 +419,6 @@ namespace Nexcel.OddsFeed.Library.Matchs
                     break;
                 case "so":
                     BuildXmlNodeOdd_so(xd, op, item, odd);
-                    break;
-                case "cs_1":
-                    BuildXmlNodeOdd_cs_1(xd, op, item, odd);
                     break;
                 case "hnb":
                     BuildXmlNodeOdd_hnb(xd, op, item, odd);
