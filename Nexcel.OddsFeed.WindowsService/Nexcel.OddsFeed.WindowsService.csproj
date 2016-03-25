@@ -173,9 +173,6 @@
     <None Include="Nexcel.OddsFeed.WindowsService.UAT.exe.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Nexcel.OddsFeed.WindowsService.exe.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
