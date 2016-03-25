@@ -1,17 +1,7 @@
 USE [bodb_oddsfeed]
 GO
-IF EXISTS (SELECT * FROM sysobjects WHERE type = 'P' AND name = 'Odds_GetProfileAllPartnersBySystemId')
-	BEGIN
-		DROP  PROCEDURE  [dbo].Odds_GetProfileAllPartnersBySystemId
-	END
 
-GO
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-
-CREATE PROCEDURE [dbo].[Odds_GetProfileAllPartnersBySystemId]
+ALTER PROCEDURE [dbo].[Odds_GetProfileAllPartnersBySystemId]
 	@SystemID SMALLINT,	
 	@AffsOddsType varchar(max)= '' OUTPUT,
 	--@AffsOddsRegion varchar(max) OUTPUT,
@@ -36,49 +26,47 @@ AS
  * 
  *  Modify: 
 */		
-SET NOCOUNT ON
-Declare @temp varchar(50)
-
---Check Licensee name
-IF NOT EXISTS(SELECT 1 FROM [dbo].[System] WITH(NOLOCK) WHERE [SystemID] = @SystemID)
 BEGIN
-	SELECT @ErrCode = 10501, @ErrMsg = 'Error! The licensee name was not existed.'
-	RETURN
+	SET NOCOUNT ON
+	Declare @temp varchar(50)
+
+	--Check Licensee name
+	IF NOT EXISTS(SELECT 1 FROM [dbo].[System] WITH(NOLOCK) WHERE [SystemID] = @SystemID)
+	BEGIN
+		SELECT @ErrCode = 10501, @ErrMsg = 'Error! The licensee name was not existed.'
+		RETURN
+	END
+
+	-- Get the profiles of the licensee's affiliates
+
+	-- Odds Type
+	select @AffsOddsType = @AffsOddsType + ',' + OddsType from dbo.PartnerProfile
+								where PartnerID in (select PartnerID from dbo.Partner where IsDeleted = 0 and SystemID = @SystemID)
+							
+	-- Language
+	select @AffsLanguageList = @AffsLanguageList + ',' + LanguageList from dbo.PartnerProfile
+								where PartnerID in (select PartnerID from dbo.Partner where IsDeleted = 0 and SystemID = @SystemID)
+
+	-- Sport
+	select @AffsSportIDList = @AffsSportIDList + ',' + SportIDList from dbo.PartnerProfile
+								where PartnerID in (select PartnerID from dbo.Partner where IsDeleted = 0 and SystemID = @SystemID)							
+
+	-- Country
+	select @AffsCountryCodeList = @AffsCountryCodeList + ',' + CountryCodeList from dbo.PartnerProfile
+								where PartnerID in (select PartnerID from dbo.Partner where IsDeleted = 0 and SystemID = @SystemID)							
+
+	select @AffsLeagueIDList = @AffsLeagueIDList + ',' + LeagueIDList from dbo.PartnerProfile
+								where PartnerID in (select PartnerID from dbo.Partner where IsDeleted = 0 and SystemID = @SystemID)							
+
+	-- Outright
+	select @AffsOutrightIDList = @AffsOutrightIDList + ',' + OutrightIDList from dbo.PartnerProfile
+								where PartnerID in (select PartnerID from dbo.Partner where IsDeleted = 0 and SystemID = @SystemID)							
+
+	-- Bettype
+	select @AffsBettypeIDList = @AffsBettypeIDList + ',' + [dbo].[f_Odds_GroupBettype_Format] (BetTypeIDList, 0) from dbo.PartnerProfile
+								where PartnerID in (select PartnerID from dbo.Partner where IsDeleted = 0 and SystemID = @SystemID)							
+					
 END
-
--- Get the profiles of the licensee's affiliates
-
--- Odds Type
-select @AffsOddsType = @AffsOddsType + ',' + OddsType from dbo.PartnerProfile
-							where PartnerID in (select PartnerID from dbo.Partner where IsDeleted = 0 and SystemID = @SystemID)
-							
--- Language
-select @AffsLanguageList = @AffsLanguageList + ',' + LanguageList from dbo.PartnerProfile
-							where PartnerID in (select PartnerID from dbo.Partner where IsDeleted = 0 and SystemID = @SystemID)
-
--- Sport
-select @AffsSportIDList = @AffsSportIDList + ',' + SportIDList from dbo.PartnerProfile
-							where PartnerID in (select PartnerID from dbo.Partner where IsDeleted = 0 and SystemID = @SystemID)							
-
--- Country
-select @AffsCountryCodeList = @AffsCountryCodeList + ',' + CountryCodeList from dbo.PartnerProfile
-							where PartnerID in (select PartnerID from dbo.Partner where IsDeleted = 0 and SystemID = @SystemID)							
-
-select @AffsLeagueIDList = @AffsLeagueIDList + ',' + LeagueIDList from dbo.PartnerProfile
-							where PartnerID in (select PartnerID from dbo.Partner where IsDeleted = 0 and SystemID = @SystemID)							
-
--- Outright
-select @AffsOutrightIDList = @AffsOutrightIDList + ',' + OutrightIDList from dbo.PartnerProfile
-							where PartnerID in (select PartnerID from dbo.Partner where IsDeleted = 0 and SystemID = @SystemID)							
-
--- Bettype
-select @AffsBettypeIDList = @AffsBettypeIDList + ',' + BetTypeIDList from dbo.PartnerProfile
-							where PartnerID in (select PartnerID from dbo.Partner where IsDeleted = 0 and SystemID = @SystemID)							
-							
-							
-SET @AffsBettypeIDList = [dbo].[f_Odds_GroupBettype_Format] (@AffsBettypeIDList, 0)
-
-	
 GO
 GRANT EXECUTE ON [dbo].Odds_GetProfileAllPartnersBySystemId TO [bodbAdminNet]
 GO
