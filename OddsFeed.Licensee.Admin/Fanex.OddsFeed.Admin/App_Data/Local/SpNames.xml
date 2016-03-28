@@ -86,7 +86,7 @@
       <Mapping DataField="Code" ObjectProperty="Id" />
       <Mapping DataField="Name_EN" ObjectProperty="Name" />
     </Setting>
-    <Setting Key="Odds_Partner_Ins" SpName="Odds_Partner_Ins" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
+    <Setting Key="Odds_Partner_Ins" SpName="Odds_Partner_Ins_xtest" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
     </Setting>
     <Setting Key="Odds_Partner_Upd_Info" SpName="Odds_Partner_Upd_Info" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
     </Setting>
@@ -94,7 +94,7 @@
     </Setting>
     <Setting Key="Odds_Partner_Upd_Setting_IP" SpName="Odds_Partner_Upd_Setting_IP" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
     </Setting>
-    <Setting Key="Odds_Partner_Upd_Profile" SpName="Odds_Partner_Upd_Profile" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
+    <Setting Key="Odds_Partner_Upd_Profile" SpName="Odds_Partner_Upd_Profile_xtest" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
     </Setting>
     <Setting Key="Odds_Partner_Upd_Active" SpName="Odds_Partner_Upd_Active" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
     </Setting>
