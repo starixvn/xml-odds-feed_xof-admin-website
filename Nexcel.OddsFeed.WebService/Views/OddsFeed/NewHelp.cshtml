@@ -359,17 +359,17 @@
                                 </li>
                             }
                             @*@if (Model.BetTypes == null || Model.BetTypes.Contains(14))
-                        {
-                            <li>t="fl": First Goal/Last Goal bet type
-                                <ul>
-                                    <li>hf: Home scores the first goal price</li>
-                                    <li>hl: Home scores the last goal price</li>
-                                    <li>af: Away scores the first goal price</li>
-                                    <li>al: Away scores the last goal price</li>
-                                    <li>ng: No goals being scored price</li>
-                                </ul>
-                            </li>
-                        }*@
+            {
+                <li>t="fl": First Goal/Last Goal bet type
+                    <ul>
+                        <li>hf: Home scores the first goal price</li>
+                        <li>hl: Home scores the last goal price</li>
+                        <li>af: Away scores the first goal price</li>
+                        <li>al: Away scores the last goal price</li>
+                        <li>ng: No goals being scored price</li>
+                    </ul>
+                </li>
+            }*@
                             @if (Model.BetTypes == null || Model.BetTypes.Contains(16))
                             {
                                 <li>
@@ -855,16 +855,6 @@
                                     </ul>
                                 </li>
                             }
-                            @if (Model.BetTypes == null || Model.BetTypes.Contains(157))
-                            {
-                                <li>
-                                    t="oe" : Odd/Even 
-                                    <ul>
-                                        <li>o: Price for Odd</li>
-                                        <li>e: Price for Even</li>
-                                    </ul>
-                                </li>
-                            }
                             @if (Model.BetTypes == null || Model.BetTypes.Contains(159))
                             {
                                 <li>
@@ -877,17 +867,6 @@
                                         <li>o05: Price for 4  </li>
                                         <li>o06: Price for 5  </li>
                                         <li>o07: Price for 6&Over</li>
-                                    </ul>
-                                </li>
-                            }
-                            @if (Model.BetTypes == null || Model.BetTypes.Contains(160))
-                            {
-                                <li>
-                                    t="ng" : Next Goal 
-                                    <ul>
-                                        <li>h: Price for Home</li>
-                                        <li>n: Price for None</li>
-                                        <li>a: Price for Away</li>
                                     </ul>
                                 </li>
                             }
@@ -912,21 +891,6 @@
                                         <li>o2: Price for 1 </li>
                                         <li>o3: Price for 2  </li>
                                         <li>o4: Price for 3 Goals &Over</li>
-                                    </ul>
-                                </li>
-                            }
-                            @if (Model.BetTypes == null || Model.BetTypes.Contains(163))
-                            {
-                                <li>
-                                    t="sttg" : Result/Total Goals 
-                                    <ul>
-                                        <li>ho: Price for Home/Over  </li>
-                                        <li>hu: Price for Home/Under  </li>
-                                        <li>ao: Price for Away/Over  </li>
-                                        <li>au: Price for Away/Under  </li>
-                                        <li>do: Price for Draw/Over  </li>
-                                        <li>du: Price for Draw/Under</li>
-                                        <li>h: Price for Over/Under value</li>
                                     </ul>
                                 </li>
                             }
@@ -1107,17 +1071,6 @@
                                     </ul>
                                 </li>
                             }
-                            @if (Model.BetTypes == null || Model.BetTypes.Contains(178))
-                            {
-                                <li>
-                                    t="ou_2" : 2H Over/Under 
-                                    <ul>
-                                        <li>o: Price for Over</li>
-                                        <li>u: Price for Under</li>
-                                        <li>h: Over/Under line</li>
-                                    </ul>
-                                </li>
-                            }
                             @if (Model.BetTypes == null || Model.BetTypes.Contains(179))
                             {
                                 <li>
@@ -1165,24 +1118,6 @@
                                         <li>o4: Price for 3 Goals &Over</li>
                                     </ul>
                                 </li>
-                            }
-                            @if (Model.BetTypes == null || Model.BetTypes.Contains(183))
-                            {
-                                <li>
-                                    t="hdp_2" : 2H Handicap 
-                                    <ul>
-                                        <li>o: Price for favorite team</li>
-                                        <li>u: Price for underdog team</li>
-                                        <li>h: Handicap line</li>
-                                        <li>For indication of handicap “h”, please show the handicap for the home team, use “+” or “-” to indicate the home team is the favorite or underdog i.e.</li>
-                                    </ul>
-                                </li>
-                                <div style="text-indent: 70px;">
-                                    + When h<=0, the home team is the favorite.<br />
-                                </div>
-                                <div style="text-indent: 70px;">
-                                    + When h>0, the away team is the favorite.
-                                </div>
                             }
                             @if (Model.BetTypes == null || Model.BetTypes.Contains(184))
                             {
@@ -1352,17 +1287,6 @@
                                         <li>o: Price for Over</li>
                                         <li>u: Price for Under</li>
                                         <li>h: Price for Over/Under value</li>
-                                    </ul>
-                                </li>
-                            }
-                            @if (Model.BetTypes == null || Model.BetTypes.Contains(199))
-                            {
-                                <li>
-                                    t="tc" : Total Corners 
-                                    <ul>
-                                        <li>o1: Price for 0-8  </li>
-                                        <li>o2: Price for 9-11  </li>
-                                        <li>o3: Price for 12&Over</li>
                                     </ul>
                                 </li>
                             }
@@ -1537,6 +1461,23 @@
                                         <li>n: Price for No</li>
                                     </ul>
                                 </li>
+                            }
+
+
+                            @foreach (Nexcel.OddsFeed.Library.Matchs.OddNodeBuilder.OddNodeBase betType in ViewBag.BetOddNodeMapping)
+                            {
+                                if (!betType.IsChildBettype && ((Model.BetTypes == null || Model.BetTypes.Contains(betType.ID))))
+                                {
+                                    <li>
+                                        t="@betType.Tag" : @betType.Desc
+                                        <ul>
+                                            @foreach(Nexcel.OddsFeed.Library.Matchs.OddNodeBuilder.OddNodeAttrBase betTypeOdd in betType.Odds)
+                                            {
+                                                <li>@betTypeOdd.XmlAttribute: @betTypeOdd.Description</li>
+                                            }
+                                        </ul>
+                                    </li>
+                                }
                             }
                         </ul>
                         <div style="height: 20px">

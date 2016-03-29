@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
 
-    class BetOddNodeMapping
+    public class BetOddNodeMapping
     {
         // Notes:
         // When adding a new bettype here, remember to check if the Tag is already in old bettypes yet
@@ -10,17 +10,9 @@
         public static readonly List<OddNodeBase> BetTypes = new List<OddNodeBase> {
             new OddNodeBase
             {
-                ID = 2,
-                Tag = "oe",
-                Odds = new OddNodeAttrBase[2] {
-                    new OddNodeAttrBase { XmlAttribute = "o", DBAttribute = "odds1a", MatchOddAttribute = "O", Description = "Odd"},
-                    new OddNodeAttrBase { XmlAttribute = "e", DBAttribute = "odds2a", MatchOddAttribute = "E", Description = "Even"}
-                }
-            },
-            new OddNodeBase
-            {
                 ID = 401,
                 Tag = "ou_h",
+                Desc = "Home Team Over/Under",
                 Odds = new OddNodeAttrBase[3] {
                     new OddNodeAttrBase { XmlAttribute = "o", DBAttribute = "odds1a", MatchOddAttribute = "O", Description = "Over"},
                     new OddNodeAttrBase { XmlAttribute = "u", DBAttribute = "odds2a", MatchOddAttribute = "U", Description = "Under"},
@@ -31,6 +23,7 @@
             {
                 ID = 402,
                 Tag = "ou_a",
+                Desc = "Away Team Over/Under",
                 Odds = new OddNodeAttrBase[3] {
                     new OddNodeAttrBase { XmlAttribute = "o", DBAttribute = "odds1a", MatchOddAttribute = "O", Description = "Over"},
                     new OddNodeAttrBase { XmlAttribute = "u", DBAttribute = "odds2a", MatchOddAttribute = "U", Description = "Under"},
@@ -41,6 +34,7 @@
             {
                 ID = 403,
                 Tag = "ou_h1",
+                Desc = "1H Home Team Over/Under",
                 Odds = new OddNodeAttrBase[3] {
                     new OddNodeAttrBase { XmlAttribute = "o", DBAttribute = "odds1a", MatchOddAttribute = "O", Description = "Over"},
                     new OddNodeAttrBase { XmlAttribute = "u", DBAttribute = "odds2a", MatchOddAttribute = "U", Description = "Under"},
@@ -51,6 +45,7 @@
             {
                 ID = 404,
                 Tag = "ou_a1",
+                Desc = "1H Away Team Over/Under",
                 Odds = new OddNodeAttrBase[3] {
                     new OddNodeAttrBase { XmlAttribute = "o", DBAttribute = "odds1a", MatchOddAttribute = "O", Description = "Over"},
                     new OddNodeAttrBase { XmlAttribute = "u", DBAttribute = "odds2a", MatchOddAttribute = "U", Description = "Under"},
@@ -61,6 +56,7 @@
             {
                 ID = 405,
                 Tag = "cs_2",
+                Desc = "2H Correct Score",
                 Odds = new OddNodeAttrBase[17] {
                     new OddNodeAttrBase { XmlAttribute = "cs10", MatchOddAttribute = "CS10", Description = "1-0", DBAttribute = "cs10"},
                     new OddNodeAttrBase { XmlAttribute = "cs20", MatchOddAttribute = "CS20", Description = "2-0", DBAttribute = "cs20"},
@@ -85,6 +81,8 @@
             {
                 ID = 406,
                 Tag = "etg",
+                Desc = "Exact Total Goals",
+                IsChildBettype = true,
                 Odds = new OddNodeAttrBase[7] {
                     new OddNodeAttrBase { XmlAttribute = "o0", MatchOddAttribute = "O0", Description = "0", DBAttribute = "cs01"},
                     new OddNodeAttrBase { XmlAttribute = "o1", MatchOddAttribute = "O1", Description = "1", DBAttribute = "cs02"},
@@ -99,6 +97,8 @@
             {
                 ID = 407,
                 Tag = "heg",
+                Desc = "Exact Home Team Goals",
+                IsChildBettype = true,
                 Odds = new OddNodeAttrBase[4] {
                     new OddNodeAttrBase { XmlAttribute = "o0", MatchOddAttribute = "O0", Description = "0", DBAttribute = "cs00"},
                     new OddNodeAttrBase { XmlAttribute = "o1", MatchOddAttribute = "O1", Description = "1", DBAttribute = "cs01"},
@@ -110,6 +110,8 @@
             {
                 ID = 408,
                 Tag = "win",
+                Desc = "Winning Margin",
+                IsChildBettype = true,
                 Odds = new OddNodeAttrBase[8] {
                     new OddNodeAttrBase { XmlAttribute = "h1", MatchOddAttribute = "H1", Description = "Home & 1 Goal", DBAttribute = "cs01"},
                     new OddNodeAttrBase { XmlAttribute = "h2", MatchOddAttribute = "H2", Description = "Home & 2 Goals", DBAttribute = "cs02"},
@@ -125,6 +127,8 @@
             {
                 ID = 409,
                 Tag = "aeg",
+                Desc = "Exact Away Team Goals",
+                IsChildBettype = true,
                 Odds = new OddNodeAttrBase[4] {
                     new OddNodeAttrBase { XmlAttribute = "o0", MatchOddAttribute = "O0", Description = "0", DBAttribute = "cs00"},
                     new OddNodeAttrBase { XmlAttribute = "o1", MatchOddAttribute = "O1", Description = "1", DBAttribute = "cs01"},
@@ -136,6 +140,8 @@
             {
                 ID = 410,
                 Tag = "x2_1",
+                Desc = "1H Double Chance",
+                IsChildBettype = true,
                 Odds = new OddNodeAttrBase[3] {
                     new OddNodeAttrBase { XmlAttribute = "hd", MatchOddAttribute = "HD", Description = "Home or Draw", DBAttribute = "cs10"},
                     new OddNodeAttrBase { XmlAttribute = "ha", MatchOddAttribute = "HA", Description = "Home or Away", DBAttribute = "cs00"},
@@ -146,6 +152,8 @@
             {
                 ID = 411,
                 Tag = "dnb_1",
+                Desc = "1H Draw No Bet",
+                IsChildBettype = true,
                 Odds = new OddNodeAttrBase[2] {
                     new OddNodeAttrBase { XmlAttribute = "h", MatchOddAttribute = "H", Description = "Home", DBAttribute = "odds1a"},
                     new OddNodeAttrBase { XmlAttribute = "a", MatchOddAttribute = "A", Description = "Away", DBAttribute = "odds2a"}
@@ -155,6 +163,7 @@
             {
                 ID = 412,
                 Tag = "egs_1st",
+                Desc = "Exact 1st Half Goal",
                 Odds = new OddNodeAttrBase[4] {
                     new OddNodeAttrBase { XmlAttribute = "o0", MatchOddAttribute = "O0", Description = "0", DBAttribute = "cs00"},
                     new OddNodeAttrBase { XmlAttribute = "o1", MatchOddAttribute = "O1", Description = "1", DBAttribute = "cs01"},
@@ -166,6 +175,8 @@
             {
                 ID = 413,
                 Tag = "cs",
+                Desc = "Correct Score (aos)",
+                IsChildBettype = true,
                 Odds = new OddNodeAttrBase[28] {
                     new OddNodeAttrBase { XmlAttribute = "cs10", MatchOddAttribute = "C10", Description = "1-0", DBAttribute = "cs10"},
                     new OddNodeAttrBase { XmlAttribute = "cs20", MatchOddAttribute = "C20", Description = "2-0", DBAttribute = "cs20"},
@@ -202,6 +213,8 @@
             {
                 ID = 414,
                 Tag = "cs_1",
+                Desc = "1H Correct Score (aos)",
+                IsChildBettype = true,
                 Odds = new OddNodeAttrBase[19] {
                     new OddNodeAttrBase { XmlAttribute = "cs10", MatchOddAttribute = "C10", Description = "1-0", DBAttribute = "cs10"},
                     new OddNodeAttrBase { XmlAttribute = "cs20", MatchOddAttribute = "C20", Description = "2-0", DBAttribute = "cs20"},

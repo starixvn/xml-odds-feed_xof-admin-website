@@ -10,6 +10,8 @@
         public int ID { get; set; }
         public string Tag { get; set; }
         public OddNodeAttrBase[] Odds { get; set; }
+        public string Desc { get; set; }
+        public bool IsChildBettype { get; set; }
 
         public void UpdateAttributesForXmlNode(XmlDocument xd, OddsProfile op, MatchOdd item, XmlNode odd)
         {

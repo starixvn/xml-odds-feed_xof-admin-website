@@ -202,6 +202,7 @@
     </Content>
     <Content Include="App_Data\Local\SpNames.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="App_Themes\Default\Images\top-bg.png" />
     <Content Include="App_Themes\Default\Images\tp_404error.png" />

@@ -163,6 +163,8 @@ namespace Nexcel.OddsFeed.WebService.Controllers
 
             ViewBag.ContactEmail = DbConnect.GetContactEmailByUserName(username);
 
+            ViewBag.BetOddNodeMapping = Nexcel.OddsFeed.Library.Matchs.OddNodeBuilder.BetOddNodeMapping.BetTypes;
+
             GenerateAppendixData(username);
 
             if (oddProfile != null)
