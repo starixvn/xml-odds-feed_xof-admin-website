@@ -870,6 +870,19 @@
                                     </ul>
                                 </li>
                             }
+
+                            <!-- parent id -->
+                            @if (Model.BetTypes == null || Model.BetTypes.Contains(22))
+                            {
+                                <li>
+                                    t="ng" : Next Goal
+                                    <ul>
+                                        <li>h: Price for Home</li>
+                                        <li>n: Price for None</li>
+                                        <li>a: Price for Away</li>
+                                    </ul>
+                                </li>
+                            }
                             @if (Model.BetTypes == null || Model.BetTypes.Contains(161))
                             {
                                 <li>
@@ -891,6 +904,23 @@
                                         <li>o2: Price for 1 </li>
                                         <li>o3: Price for 2  </li>
                                         <li>o4: Price for 3 Goals &Over</li>
+                                    </ul>
+                                </li>
+                            }
+
+                            <!-- parent id -->
+                            @if (Model.BetTypes == null || Model.BetTypes.Contains(144))
+                            {
+                                <li>
+                                    t="sttg" : Result/Total Goals
+                                    <ul>
+                                        <li>ho: Price for Home/Over  </li>
+                                        <li>hu: Price for Home/Under  </li>
+                                        <li>ao: Price for Away/Over  </li>
+                                        <li>au: Price for Away/Under  </li>
+                                        <li>do: Price for Draw/Over  </li>
+                                        <li>du: Price for Draw/Under</li>
+                                        <li>h: Price for Over/Under value</li>
                                     </ul>
                                 </li>
                             }
@@ -1287,6 +1317,19 @@
                                         <li>o: Price for Over</li>
                                         <li>u: Price for Under</li>
                                         <li>h: Price for Over/Under value</li>
+                                    </ul>
+                                </li>
+                            }
+
+                            <!-- parent id -->
+                            @if (Model.BetTypes == null || Model.BetTypes.Contains(11))
+                            {
+                                <li>
+                                    t="tc" : Total Corners
+                                    <ul>
+                                        <li>o1: Price for 0-8  </li>
+                                        <li>o2: Price for 9-11  </li>
+                                        <li>o3: Price for 12&Over</li>
                                     </ul>
                                 </li>
                             }
