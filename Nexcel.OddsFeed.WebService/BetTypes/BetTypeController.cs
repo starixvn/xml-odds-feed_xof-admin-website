@@ -41,7 +41,7 @@ namespace Nexcel.OddsFeed.WebService.BetTypes
             return new BetTypeNode
             {
                 Id = raw.Id.ToString(),
-                Type = BetTypeDefinition.BetTypeNameFromId(raw.Id),
+                Type = Library.Matchs.OddNodeBuilder.BetOddNodeBuilder.BetTypeNameFromId(raw.Id),
                 NameEnglish = raw.NameEnglish,
                 NameSimplifiedChinese = raw.NameSimplifiedChinese,
                 NameTraditionalChinese = raw.NameTraditionalChinese

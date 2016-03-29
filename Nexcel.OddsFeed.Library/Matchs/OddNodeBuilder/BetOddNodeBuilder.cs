@@ -8,8 +8,15 @@
     using System.Linq;
     using System.Xml;
 
-    class BetOddNodeBuilder
+    public class BetOddNodeBuilder
     {
+        public static string BetTypeNameFromId(int id)
+        {
+            return BetOddNodeMapping.BetTypeIdMap.ContainsKey(id)
+                ? BetOddNodeMapping.BetTypeIdMap[id]
+                : "b" + id;
+        }
+
         public static void BuildXmlOddNodeAttributes(XmlDocument xd, OddsProfile op, MatchOdd item, XmlNode odd, string betType)
         {
             try {
