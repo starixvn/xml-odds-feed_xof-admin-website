@@ -25,7 +25,7 @@
 
         public virtual void  UpdateAttributeForMatchOdd(DataRow item, MatchOdd odd)
         {
-            if (!NotToBuildData)
+            if (!NotToBuildData && !(item[DBAttribute] == null) && !(item[DBAttribute].GetType() == typeof(System.DBNull)))
             {
                 string value = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item[DBAttribute])));
                 odd.GetType().GetProperty(MatchOddAttribute).SetValue(odd, value, null);
