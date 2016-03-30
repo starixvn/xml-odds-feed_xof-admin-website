@@ -326,7 +326,7 @@ namespace Nexcel.OddsFeed.Library.Matchs
         /// <param name="bookie">The Xml Node.</param>
         private void BuildXmlNodeOdd(XmlDocument xd, OddsProfile op, string bookiename, OddsFeedFilter filter, ref XmlNode bookie)
         {
-            ////odds
+                        ////odds
             foreach (var item in Bookie.Odds)
             {
                 if (op.BetTypes != null)
@@ -363,9 +363,7 @@ namespace Nexcel.OddsFeed.Library.Matchs
         {
             var odd = xd.CreateNode(XmlNodeType.Element, "odd", null);
 
-            var ot = xd.CreateAttribute("t");
-            ot.Value = item.Type;
-            odd.Attributes.Append(ot);
+            BuildXmlNodeOddType(xd, item, odd);
             ////for bet types: 1,2,3,7,8,12 -> convert by region
             switch (item.Type)
             {
@@ -677,6 +675,13 @@ namespace Nexcel.OddsFeed.Library.Matchs
             }
 
             return odd;
+        }
+
+        private void BuildXmlNodeOddType(XmlDocument xd, MatchOdd item, XmlNode odd)
+        {
+            var ot = xd.CreateAttribute("t");
+            ot.Value = BetOddNodeBuilder.GetBetTypeForXml(item.Type);
+            odd.Attributes.Append(ot);
         }
 
         #region Build Xml Node

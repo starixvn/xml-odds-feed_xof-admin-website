@@ -17,6 +17,17 @@
                 : "b" + id;
         }
 
+        public static string GetBetTypeForXml(string originType)
+        {
+            var result = originType;
+            if (BetOddNodeMapping.specialChildBetTags.Keys.Contains(originType))
+            {
+                result = BetOddNodeMapping.specialChildBetTags[originType];
+            }
+
+            return result;
+        }
+
         public static void BuildXmlOddNodeAttributes(XmlDocument xd, OddsProfile op, MatchOdd item, XmlNode odd, string betType)
         {
             try {

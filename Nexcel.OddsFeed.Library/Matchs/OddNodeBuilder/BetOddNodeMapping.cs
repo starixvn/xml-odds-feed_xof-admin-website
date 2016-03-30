@@ -6,6 +6,14 @@
     {
         public static readonly string HighlightBetType = "401,402,403,404,405,406,407,408,409,410,411,412,413,414";
 
+        // Here are children bet type Tags which are not the same as their parent Tags
+        // So we use their parent Tags instead of themselves
+        public static readonly Dictionary<string, string> specialChildBetTags = new Dictionary<string, string>
+        {
+            // Child Tag, Parent Tag
+            {"hdp_2", "ah_2"}
+        };
+
         public static readonly Dictionary<int, string> BetTypeIdMap = new Dictionary<int, string>
         {
             { 1, "ah" },
@@ -217,7 +225,7 @@
                     new OddNodeAttrBase { XmlAttribute = "cs11", MatchOddAttribute = "CS11", Description = "1-1", DBAttribute = "cs11"},
                     new OddNodeAttrBase { XmlAttribute = "cs22", MatchOddAttribute = "CS22", Description = "2-2", DBAttribute = "cs22"},
                     new OddNodeAttrBase { XmlAttribute = "cs33", MatchOddAttribute = "CS33", Description = "3-3", DBAttribute = "cs33"},
-                    new OddNodeAttrBase { XmlAttribute = "csoas", MatchOddAttribute = "CSOAS", Description = "AOS", DBAttribute = "cs99"}
+                    new OddNodeAttrBase { XmlAttribute = "csaos", MatchOddAttribute = "CSOAS", Description = "AOS", DBAttribute = "cs99"}
                 }
             },
             new OddNodeBase
@@ -346,7 +354,7 @@
                     new OddNodeAttrBase { XmlAttribute = "cs22", MatchOddAttribute = "C22", Description = "2-2", DBAttribute = "cs22"},
                     new OddNodeAttrBase { XmlAttribute = "cs33", MatchOddAttribute = "C33", Description = "3-3", DBAttribute = "cs33"},
                     new OddNodeAttrBase { XmlAttribute = "cs44", MatchOddAttribute = "C44", Description = "4-4", DBAttribute = "cs44"},
-                    new OddNodeAttrBase { XmlAttribute = "csoas", MatchOddAttribute = "CSOAS", Description = "AOS", DBAttribute = "cs99"},
+                    new OddNodeAttrBase { XmlAttribute = "csaos", MatchOddAttribute = "CSOAS", Description = "AOS", DBAttribute = "cs99"},
                     // for bettype 4
                     new OddNodeAttrBase { NotToBuildData = true, XmlAttribute = "cs05", MatchOddAttribute = "C05", Description = "0-5 UP", DBAttribute = ""},
                     new OddNodeAttrBase { NotToBuildData = true, XmlAttribute = "cs50", MatchOddAttribute = "C50", Description = "5-0 UP", DBAttribute = ""}
@@ -375,7 +383,7 @@
                     new OddNodeAttrBase { XmlAttribute = "cs11", MatchOddAttribute = "C11", Description = "1-1", DBAttribute = "cs11"},
                     new OddNodeAttrBase { XmlAttribute = "cs22", MatchOddAttribute = "C22", Description = "2-2", DBAttribute = "cs22"},
                     new OddNodeAttrBase { XmlAttribute = "cs33", MatchOddAttribute = "C33", Description = "3-3", DBAttribute = "cs33"},
-                    new OddNodeAttrBase { XmlAttribute = "csoas", MatchOddAttribute = "CSOAS", Description = "AOS", DBAttribute = "cs99"},
+                    new OddNodeAttrBase { XmlAttribute = "csaos", MatchOddAttribute = "CSOAS", Description = "AOS", DBAttribute = "cs99"},
                     // for bettype 30
                     new OddNodeAttrBase { NotToBuildData = true, XmlAttribute = "cs04", MatchOddAttribute = "C04", Description = "0-4 UP", DBAttribute = ""},
                     new OddNodeAttrBase { NotToBuildData = true,  XmlAttribute = "cs40", MatchOddAttribute = "C40", Description = "4-0 UP", DBAttribute = ""}
