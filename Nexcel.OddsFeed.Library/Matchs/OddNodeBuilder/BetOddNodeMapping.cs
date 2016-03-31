@@ -235,13 +235,13 @@
                 Desc = "Exact Total Goals",
                 IsChildBettype = true,
                 Odds = new OddNodeAttrBase[7] {
-                    new OddNodeAttrBase { XmlAttribute = "o0", MatchOddAttribute = "O0", Description = "0", DBAttribute = "cs01"},
-                    new OddNodeAttrBase { XmlAttribute = "o1", MatchOddAttribute = "O1", Description = "1", DBAttribute = "cs02"},
-                    new OddNodeAttrBase { XmlAttribute = "o2", MatchOddAttribute = "O2", Description = "2", DBAttribute = "cs03"},
-                    new OddNodeAttrBase { XmlAttribute = "o3", MatchOddAttribute = "O3", Description = "3", DBAttribute = "cs04"},
-                    new OddNodeAttrBase { XmlAttribute = "o4", MatchOddAttribute = "O4", Description = "4", DBAttribute = "cs10"},
-                    new OddNodeAttrBase { XmlAttribute = "o5", MatchOddAttribute = "O5", Description = "5", DBAttribute = "cs20"},
-                    new OddNodeAttrBase { XmlAttribute = "o6", MatchOddAttribute = "O6", Description = "6&Over", DBAttribute = "cs30"}
+                    new OddNodeAttrBase { XmlAttribute = "o01", MatchOddAttribute = "O01", Description = "0", DBAttribute = "cs01"},
+                    new OddNodeAttrBase { XmlAttribute = "o02", MatchOddAttribute = "O02", Description = "1", DBAttribute = "cs02"},
+                    new OddNodeAttrBase { XmlAttribute = "o03", MatchOddAttribute = "O03", Description = "2", DBAttribute = "cs03"},
+                    new OddNodeAttrBase { XmlAttribute = "o04", MatchOddAttribute = "O04", Description = "3", DBAttribute = "cs04"},
+                    new OddNodeAttrBase { XmlAttribute = "o05", MatchOddAttribute = "O05", Description = "4", DBAttribute = "cs10"},
+                    new OddNodeAttrBase { XmlAttribute = "o06", MatchOddAttribute = "O06", Description = "5", DBAttribute = "cs20"},
+                    new OddNodeAttrBase { XmlAttribute = "o07", MatchOddAttribute = "O07", Description = "6&Over", DBAttribute = "cs30"}
                 }
             },
             new OddNodeBase
