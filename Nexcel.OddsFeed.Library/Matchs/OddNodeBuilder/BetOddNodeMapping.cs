@@ -356,8 +356,8 @@
                     new OddNodeAttrBase { XmlAttribute = "cs44", MatchOddAttribute = "C44", Description = "4-4", DBAttribute = "cs44"},
                     new OddNodeAttrBase { XmlAttribute = "csaos", MatchOddAttribute = "CSOAS", Description = "AOS", DBAttribute = "cs99"},
                     // for bettype 4
-                    new OddNodeAttrBase { NotToBuildData = true, XmlAttribute = "cs05", MatchOddAttribute = "C05", Description = "0-5 UP", DBAttribute = ""},
-                    new OddNodeAttrBase { NotToBuildData = true, XmlAttribute = "cs50", MatchOddAttribute = "C50", Description = "5-0 UP", DBAttribute = ""}
+                    new OddNodeAttrBase { XmlAttribute = "cs05", MatchOddAttribute = "C05", Description = "0-5 UP", DBAttribute = ""},
+                    new OddNodeAttrBase { XmlAttribute = "cs50", MatchOddAttribute = "C50", Description = "5-0 UP", DBAttribute = ""}
                 }
             },
             new OddNodeBase
@@ -385,8 +385,8 @@
                     new OddNodeAttrBase { XmlAttribute = "cs33", MatchOddAttribute = "C33", Description = "3-3", DBAttribute = "cs33"},
                     new OddNodeAttrBase { XmlAttribute = "csaos", MatchOddAttribute = "CSOAS", Description = "AOS", DBAttribute = "cs99"},
                     // for bettype 30
-                    new OddNodeAttrBase { NotToBuildData = true, XmlAttribute = "cs04", MatchOddAttribute = "C04", Description = "0-4 UP", DBAttribute = ""},
-                    new OddNodeAttrBase { NotToBuildData = true,  XmlAttribute = "cs40", MatchOddAttribute = "C40", Description = "4-0 UP", DBAttribute = ""}
+                    new OddNodeAttrBase { XmlAttribute = "cs04", MatchOddAttribute = "C04", Description = "0-4 UP", DBAttribute = ""},
+                    new OddNodeAttrBase { XmlAttribute = "cs40", MatchOddAttribute = "C40", Description = "4-0 UP", DBAttribute = ""}
                 }
             }
         };

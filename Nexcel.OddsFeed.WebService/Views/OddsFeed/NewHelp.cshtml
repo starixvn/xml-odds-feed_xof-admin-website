@@ -321,6 +321,7 @@
                                         <li>c41: Price for the score 4-1 </li>
                                         <li>c42: Price for the score 4-2 </li>
                                         <li>c43: Price for the score 4-3 </li>
+                                        <li>csaos: Price for AOS</li>
                                     </ul>
                                 </li>
                             }
@@ -538,6 +539,7 @@
                                         <li>c11: Price for 1-1</li>
                                         <li>c22: Price for 2-2</li>
                                         <li>c33: Price for 3-3</li>
+                                        <li>csaos: Price for AOS</li>
                                     </ul>
                                 </li>
                             }
@@ -1516,7 +1518,7 @@
                                         <ul>
                                             @foreach(Nexcel.OddsFeed.Library.Matchs.OddNodeBuilder.OddNodeAttrBase betTypeOdd in betType.Odds)
                                             {
-                                                <li>@betTypeOdd.XmlAttribute: @betTypeOdd.Description</li>
+                                                <li>@betTypeOdd.XmlAttribute: Price for @betTypeOdd.Description</li>
                                             }
                                         </ul>
                                     </li>

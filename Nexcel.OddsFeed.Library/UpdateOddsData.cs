@@ -496,6 +496,18 @@ namespace Nexcel.OddsFeed.Library
             }
         }
 
+        private static string GetFormattedValue(DataRow item, string column)
+        {
+            var value = "0";
+
+            if (!(item[column] == null) && !(item[column].GetType() == typeof(System.DBNull)))
+            {
+                value = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item[column])));
+            }
+
+            return value;
+        }
+
         #region Match Odd Bettype
 
         /// <summary>
@@ -712,6 +724,8 @@ namespace Nexcel.OddsFeed.Library
                 C42 = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs42"]))),
                 C43 = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs43"]))),
 
+                CSOAS = GetFormattedValue(item, "cs99"),
+
                 Time = DateTime.Parse(item["ChangeTime"].ToString())
             };
             return odd;
@@ -886,6 +900,7 @@ namespace Nexcel.OddsFeed.Library
                 C11 = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs11"]))),
                 C22 = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs22"]))),
                 C33 = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs33"]))),
+                CSOAS = GetFormattedValue(item, "cs99"),
                 Time = DateTime.Parse(item["ChangeTime"].ToString())
             };
             return odd;
