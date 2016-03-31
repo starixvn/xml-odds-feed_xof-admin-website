@@ -1409,6 +1409,7 @@ namespace Nexcel.OddsFeed.Library
                 A1 = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs10"]))),
                 A2 = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs20"]))),
                 A3 = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs30"]))),
+                NG = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item["cs00"]))),
                 Time = DateTime.Parse(item["ChangeTime"].ToString())
             };
             return odd;

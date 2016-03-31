@@ -523,9 +523,6 @@ namespace Nexcel.OddsFeed.Library.Matchs
                 case "ts":
                     BuildXmlNodeOdd_ts(xd, op, item, odd);
                     break;
-                case "win":
-                    BuildXmlNodeOdd_win(xd, op, item, odd);
-                    break;
                 case "stts":
                     BuildXmlNodeOdd_stts(xd, op, item, odd);
                     break;
@@ -1665,31 +1662,6 @@ namespace Nexcel.OddsFeed.Library.Matchs
             var n = xd.CreateAttribute("n");
             n.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.N)).ToString();
             odd.Attributes.Append(n);
-        }
-
-        private void BuildXmlNodeOdd_win(XmlDocument xd, OddsProfile op, MatchOdd item, XmlNode odd)
-        {
-            var h1 = xd.CreateAttribute("h1");
-            h1.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.H1)).ToString();
-            odd.Attributes.Append(h1);
-            var h2 = xd.CreateAttribute("h2");
-            h2.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.H2)).ToString();
-            odd.Attributes.Append(h2);
-            var h3 = xd.CreateAttribute("h3");
-            h3.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.H3)).ToString();
-            odd.Attributes.Append(h3);
-            var d = xd.CreateAttribute("d");
-            d.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.D)).ToString();
-            odd.Attributes.Append(d);
-            var a1 = xd.CreateAttribute("a1");
-            a1.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.A1)).ToString();
-            odd.Attributes.Append(a1);
-            var a2 = xd.CreateAttribute("a2");
-            a2.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.A2)).ToString();
-            odd.Attributes.Append(a2);
-            var a3 = xd.CreateAttribute("a3");
-            a3.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.A3)).ToString();
-            odd.Attributes.Append(a3);
         }
 
         private void BuildXmlNodeOdd_stts(XmlDocument xd, OddsProfile op, MatchOdd item, XmlNode odd)

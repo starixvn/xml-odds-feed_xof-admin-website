@@ -251,10 +251,10 @@
                 Desc = "Exact Home Team Goals",
                 IsChildBettype = true,
                 Odds = new OddNodeAttrBase[4] {
-                    new OddNodeAttrBase { XmlAttribute = "o0", MatchOddAttribute = "O0", Description = "0", DBAttribute = "cs00"},
-                    new OddNodeAttrBase { XmlAttribute = "o1", MatchOddAttribute = "O1", Description = "1", DBAttribute = "cs01"},
-                    new OddNodeAttrBase { XmlAttribute = "o2", MatchOddAttribute = "O2", Description = "2", DBAttribute = "cs02"},
-                    new OddNodeAttrBase { XmlAttribute = "o3", MatchOddAttribute = "O3", Description = "3&Over", DBAttribute = "cs03"}
+                    new OddNodeAttrBase { XmlAttribute = "o1", MatchOddAttribute = "O1", Description = "0", DBAttribute = "cs00"},
+                    new OddNodeAttrBase { XmlAttribute = "o2", MatchOddAttribute = "O2", Description = "1", DBAttribute = "cs01"},
+                    new OddNodeAttrBase { XmlAttribute = "o3", MatchOddAttribute = "O3", Description = "2", DBAttribute = "cs02"},
+                    new OddNodeAttrBase { XmlAttribute = "o4", MatchOddAttribute = "O4", Description = "3&Over", DBAttribute = "cs03"}
                 }
             },
             new OddNodeBase
@@ -281,10 +281,10 @@
                 Desc = "Exact Away Team Goals",
                 IsChildBettype = true,
                 Odds = new OddNodeAttrBase[4] {
-                    new OddNodeAttrBase { XmlAttribute = "o0", MatchOddAttribute = "O0", Description = "0", DBAttribute = "cs00"},
-                    new OddNodeAttrBase { XmlAttribute = "o1", MatchOddAttribute = "O1", Description = "1", DBAttribute = "cs01"},
-                    new OddNodeAttrBase { XmlAttribute = "o2", MatchOddAttribute = "O2", Description = "2", DBAttribute = "cs02"},
-                    new OddNodeAttrBase { XmlAttribute = "o3", MatchOddAttribute = "O3", Description = "3 Goals & Over", DBAttribute = "cs03"}
+                    new OddNodeAttrBase { XmlAttribute = "o1", MatchOddAttribute = "O1", Description = "0", DBAttribute = "cs00"},
+                    new OddNodeAttrBase { XmlAttribute = "o2", MatchOddAttribute = "O2", Description = "1", DBAttribute = "cs01"},
+                    new OddNodeAttrBase { XmlAttribute = "o3", MatchOddAttribute = "O3", Description = "2", DBAttribute = "cs02"},
+                    new OddNodeAttrBase { XmlAttribute = "o4", MatchOddAttribute = "O4", Description = "3 Goals & Over", DBAttribute = "cs03"}
                 }
             },
             new OddNodeBase
