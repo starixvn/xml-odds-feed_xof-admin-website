@@ -10,6 +10,7 @@ AS
 		- 20150909@bobby.nguyen: Re-format code and add more bettype[20]
 		- 20151002@bobby.nguyen: Support all sporttype & bettype of sportbook product
 		- 20160202@Don: Convert some information from Decimal to Float (data type)
+		- 20160329@bobby: #54093 support new bettype PH AIO
 		
 	**Bettypes: All sporttypes & bettypes of sportbook product
 */
@@ -25,14 +26,7 @@ BEGIN
 		FROM dbo.SportBettypeMatrix bt WITH(NOLOCK)
 		WHERE bt.ProductID 		= 1 
 			AND bt.EventType 	= 1
-			AND bt.bettype NOT IN (
-				11,19
-				,22
-				,124,125,129
-				,130,131,132,136,137,138,139
-				,143,144
-				,216,217
-			)
+			
 	), OddsData 
 	AS (
 		SELECT m.matchid
@@ -83,6 +77,7 @@ BEGIN
 			, cs41
 			, cs42
 			, cs43
+			, cs99
 			, ISNULL(resourceID, '') resourceID
 		FROM dbo.odds o WITH (NOLOCK)
 			INNER JOIN dbo.match m WITH (NOLOCK) 
@@ -153,6 +148,7 @@ BEGIN
 		, cs41
 		, cs42
 		, cs43
+		, cs99
 		, r.[Timestamp]
 		, r.ChangeTime
 		, @date AS [VersionDate]
