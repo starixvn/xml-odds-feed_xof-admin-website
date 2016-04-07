@@ -9,15 +9,27 @@
 
 namespace Fanex.OddsFeed.Core.Criteria.Domain
 {
+    using Data.Repository;
     using Fanex.OddsFeed.Framework.Data;
 
     /// <summary>
     /// Class GetDomainByPageCriteria.
     /// </summary>
     public class GetDomainByPageCriteria : CriteriaBase
-    {        
+    {
+        public int PageSize { get; set; }
+
+        public int PageIndex { get; set; }
+
+        public int PageCount { get; set; }
+
+        public int RowCount { get; set; }
+
         public string DomainName { get; set; }
 
+
+        // Ignored
+        [SpParam(Ignored = true)]
         public int DomainId { get; set; }
 
         public override string GetSettingKey()

@@ -12,7 +12,7 @@ namespace Fanex.OddsFeed.Core.Criteria.Administrator
     using System.ComponentModel.DataAnnotations;
     using Core.Web;
     using Framework.Data;
-
+    using Data.Repository;
     /// <summary>
     /// Class UpdateAdminInfoCriteria.
     /// </summary>
@@ -25,7 +25,7 @@ namespace Fanex.OddsFeed.Core.Criteria.Administrator
         [Required]
         [SpParam(SqlParamName = "AdminID")]
         public int UserID { get; set; }
-        
+
         [Required]
         [Display(Name = "Username", ResourceType = typeof(ViewResources))]
         [StringLength(50, MinimumLength = 2,
@@ -36,10 +36,6 @@ namespace Fanex.OddsFeed.Core.Criteria.Administrator
             ErrorMessageResourceType = typeof(ViewResources))]
         [SpParam(SqlParamName = "Username")]
         public string Username { get; set; }
-
-        [Required]
-        [SpParam(SqlParamName = "RoleID")]
-        public int RoleID { get; set; }
 
         [StringLength(50, MinimumLength = 2,
             ErrorMessageResourceName = "InputLengthValidationMsg",
@@ -53,6 +49,10 @@ namespace Fanex.OddsFeed.Core.Criteria.Administrator
         [SpParam(SqlParamName = "LastName")]
         public string LastName { get; set; }
 
+        [Required]
+        [SpParam(SqlParamName = "RoleID")]
+        public int RoleID { get; set; }
+        
         [Required]
         [Display(Name = "Email", ResourceType = typeof(ViewResources))]
         [StringLength(50, MinimumLength = 4,
@@ -73,7 +73,8 @@ namespace Fanex.OddsFeed.Core.Criteria.Administrator
         public int ErrCode { get; set; }
 
         public string ErrMsg { get; set; }
-   
+
+
         public override string GetSettingKey()
         {
             return "Odds_Admin_UpdInfo";

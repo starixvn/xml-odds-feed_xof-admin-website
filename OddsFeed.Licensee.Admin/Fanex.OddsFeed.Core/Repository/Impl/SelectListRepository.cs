@@ -8,15 +8,15 @@
 // </history>
 
 namespace Fanex.Databank.Repositories
-{    
+{
     using System;
     using System.Collections.Generic;
     using System.Data;
     using System.Web.Mvc;
     using Fanex.Common;
-    using Fanex.Data;    
+    using Fanex.Data;
     using Fanex.OddsFeed.Framework.Data;
-
+    using Data.Repository;
     /// <summary>
     /// Class Convert data reader to SelectList.
     /// </summary>    

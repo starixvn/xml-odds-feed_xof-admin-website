@@ -9,6 +9,7 @@
 
 namespace Fanex.OddsFeed.Core.Criteria.Administrator
 {
+    using Data.Repository;
     using Framework.Data;
 
     /// <summary>

@@ -12,7 +12,7 @@ namespace Fanex.OddsFeed.Core.Criteria.Administrator
     using System.ComponentModel.DataAnnotations;
     using Core.Web;
     using Framework.Data;
-
+    using Data.Repository;
     /// <summary>
     /// Class InsertAdminCriteria.
     /// </summary>
@@ -43,13 +43,9 @@ namespace Fanex.OddsFeed.Core.Criteria.Administrator
         [SpParam(SqlParamName = "Password")]
         public string Password { get; set; }
 
-        [Required]
-        [SpParam(SqlParamName = "RoleID")]
-        public int RoleID { get; set; }
-
         [StringLength(50,
-            ErrorMessageResourceName = "InputLengthValidationMsg",
-            ErrorMessageResourceType = typeof(ViewResources))]
+           ErrorMessageResourceName = "InputLengthValidationMsg",
+           ErrorMessageResourceType = typeof(ViewResources))]
         [SpParam(SqlParamName = "FirstName")]
         public string FirstName { get; set; }
 
@@ -60,6 +56,10 @@ namespace Fanex.OddsFeed.Core.Criteria.Administrator
         public string LastName { get; set; }
 
         [Required]
+        [SpParam(SqlParamName = "RoleID")]
+        public int RoleID { get; set; }               
+
+        [Required]
         [Display(Name = "Email", ResourceType = typeof(ViewResources))]
         [RegularExpression(@"\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*",
             ErrorMessageResourceName = "EmailFormatValidationMsg",
@@ -68,13 +68,13 @@ namespace Fanex.OddsFeed.Core.Criteria.Administrator
         public string Email { get; set; }
 
         [Required]
-        [SpParam(SqlParamName = "ListSystemId")]
-        public string System { get; set; }
-
-        [Required]
         [SpParam(SqlParamName = "IsImport")]
         public bool IsImport { get; set; }
 
+        [Required]
+        [SpParam(SqlParamName = "ListSystemId")]
+        public string System { get; set; }
+        
         [Required]
         public int Creator { get; set; }
 

@@ -12,8 +12,8 @@
     <Setting Key="Odds_LicenseeSel" SpName="Odds_LicenseeSel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
     <Setting Key="Odds_LeagueSel" SpName="Odds_LeagueSel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
     <Setting Key="Odds_OutRightsSel" SpName="Odds_OutRightsSel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
-    <Setting Key="Odds_LicenseeIns" SpName="Odds_LicenseeIns" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
-    <Setting Key="Odds_LicenseeProfileUpd" SpName="Odds_LicenseeProfileUpd" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+    <Setting Key="Odds_LicenseeIns" SpName="Odds_LicenseeIns_xtest" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+    <Setting Key="Odds_LicenseeProfileUpd" SpName="Odds_LicenseeProfileUpd_xtest" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
     <Setting Key="Odds_LicenseeSettingUpd" SpName="Odds_LicenseeSettingUpd" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
     <Setting Key="Odds_LicenseeInfoUpd" SpName="Odds_LicenseeInfoUpd" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
     <Setting Key="Odds_LicenseeSelByPage" SpName="Odds_LicenseeSelByPage" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
@@ -31,7 +31,7 @@
     <Setting Key="Odds_Licensee_GetActivate" SpName="Odds_Licensee_GetActivate" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
     <Setting Key="Odds_System_SelAll" SpName="Odds_System_SelAll" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
 
-    <Setting Key="Odds_GetProfileAllPartnersBySystemId" SpName="Odds_GetProfileAllPartnersBySystemId" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+    <Setting Key="Odds_GetProfileAllPartnersBySystemId" SpName="Odds_GetProfileAllPartnersBySystemId_xtest" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
 
     <Setting Key="Odds_System_SelByUserIDAndSubAccountID" SpName="Odds_System_SelByUserIDAndSubAccountID" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />    
 

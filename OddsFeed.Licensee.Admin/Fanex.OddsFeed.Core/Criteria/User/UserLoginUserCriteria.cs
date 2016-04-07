@@ -8,10 +8,11 @@
 // </history>
 
 namespace Fanex.OddsFeed.Core.Criteria.User
-{    
+{
     using System;
     using System.Diagnostics.CodeAnalysis;
     using Framework.Data;
+    using Data.Repository;    //using Fanex.Data.Repository;
 
     /// <summary>
     /// Class UserLoginUserCriteria.
@@ -22,24 +23,30 @@ namespace Fanex.OddsFeed.Core.Criteria.User
 
         public string UserPwd { get; set; }
 
-        public string Validate { get; set; }
-
         public string LoginDomain { get; set; }
 
         public string LoginIP { get; set; }
 
-        public string NetSessionID { get; set; }
-
-        public byte UserRole { get; set; }        
-
         public string SystemIdNameList { get; set; }
-
-        public DateTime LoginDate { get; set; }
 
         public int ErrCode { get; set; }
 
         public string ErrMsg { get; set; }
-        
+
+
+        // Ignored
+        [SpParam(Ignored = true)]
+        public DateTime LoginDate { get; set; }
+
+        [SpParam(Ignored = true)]
+        public byte UserRole { get; set; }
+
+        [SpParam(Ignored = true)]
+        public string NetSessionID { get; set; }
+
+        [SpParam(Ignored = true)]
+        public string Validate { get; set; }
+
         [SpParam(Ignored = true)]
         public string Doing { get; set; }
 

@@ -12,7 +12,7 @@ namespace Fanex.OddsFeed.Core.Criteria.Administrator
     using System.ComponentModel.DataAnnotations;
     using System.Diagnostics.CodeAnalysis;
     using Framework.Data;
-
+    using Data.Repository;
     /// <summary>
     /// Class DeleteAdminCriteria.
     /// </summary>

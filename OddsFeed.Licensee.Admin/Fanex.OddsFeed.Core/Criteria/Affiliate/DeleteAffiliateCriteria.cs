@@ -11,20 +11,26 @@ namespace Fanex.OddsFeed.Core.Criteria.Affiliate
 {
     using System.Diagnostics.CodeAnalysis;
     using Fanex.OddsFeed.Framework.Data;
-
+    using Data.Repository;
     /// <summary>
     /// Class DeleteAffiliateCriteria.
     /// </summary>
     public class DeleteAffiliateCriteria : CriteriaBase
     {
         public DeleteAffiliateCriteria()
-        {            
+        {
+            ErrCode = 0;
+            ErrMsg = string.Empty;
         }
 
-        public int Creator { get; set; }
-
         public int PartnerID { get; set; }
-       
+
+        public int Creator { get; set; }        
+
+        public int ErrCode { get; set; }
+
+        public string ErrMsg { get; set; }
+
         /// <summary>
         /// Get the reference SP's Name which is specified in Config file.
         /// </summary>

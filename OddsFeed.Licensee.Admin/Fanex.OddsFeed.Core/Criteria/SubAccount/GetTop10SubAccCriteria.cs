@@ -8,11 +8,11 @@
 // </history>
 
 namespace Fanex.OddsFeed.Core.Criteria.SubAccount
-{    
+{
     using System;
     using System.Diagnostics.CodeAnalysis;
     using Fanex.OddsFeed.Framework.Data;
-
+    using Data.Repository;
     /// <summary>
     /// Class GetTop10SubACCCriteria.
     /// </summary>
@@ -24,10 +24,10 @@ namespace Fanex.OddsFeed.Core.Criteria.SubAccount
 
         public byte SystemId { get; set; }
 
+        public int RoleId { get; set; }
+
         public string Username { get; set; }
 
-        public int RoleId { get; set; }
-                
         public override string GetSettingKey()
         {
             return "Odds_Top10SubAccount_Sel";

@@ -15,18 +15,23 @@ namespace Fanex.OddsFeed.Framework.Data
     using System;
     using System.Collections;
     using System.Reflection;
+    using Fanex.Data.Repository;
 
     /// <summary>
     /// Class CriteriaBase.
     /// </summary>
-    public abstract class CriteriaBase : ICriteria
+    public abstract class PageCriteriaBase : Fanex.Data.Repository.ICriteria
     {
+        [SpParam(Ignored = true)]
         public int PageSize { get; set; }
 
+        [SpParam(Ignored = true)]
         public int PageIndex { get; set; }
 
+        [SpParam(Ignored = true)]
         public int PageCount { get; set; }
 
+        [SpParam(Ignored = true)]
         public int RowCount { get; set; }
 
         /// <summary>

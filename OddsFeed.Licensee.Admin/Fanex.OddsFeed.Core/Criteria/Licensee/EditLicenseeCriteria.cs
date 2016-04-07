@@ -14,7 +14,7 @@ namespace Fanex.OddsFeed.Core.Criteria.Licensee
     using System.Linq;
     using System.Text;
     using Fanex.OddsFeed.Framework.Data;
-
+    using Data.Repository;
     /// <summary>
     /// Class EditLicenseeCriteria.
     /// </summary>

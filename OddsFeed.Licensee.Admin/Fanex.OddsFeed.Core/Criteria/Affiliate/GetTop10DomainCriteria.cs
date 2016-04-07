@@ -11,7 +11,7 @@ namespace Fanex.OddsFeed.Core.Criteria.Affiliate
 {
     using System.Diagnostics.CodeAnalysis;
     using Fanex.OddsFeed.Framework.Data;
-
+    using Data.Repository;
     /// <summary>
     /// Class GetTop10DomainCriteria.
     /// </summary>
@@ -21,9 +21,9 @@ namespace Fanex.OddsFeed.Core.Criteria.Affiliate
         {
         }
 
-        public string DomainName { get; set; }
-
         public byte SystemId { get; set; }
+
+        public string DomainName { get; set; }        
                 
         public override string GetSettingKey()
         {

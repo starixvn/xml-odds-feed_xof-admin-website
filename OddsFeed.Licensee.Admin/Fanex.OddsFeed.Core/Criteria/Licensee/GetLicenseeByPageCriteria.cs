@@ -9,6 +9,7 @@
 
 namespace Fanex.OddsFeed.Core.Criteria.Licensee
 {
+    using Data.Repository;
     using Fanex.OddsFeed.Framework.Data;
 
     /// <summary>
@@ -17,6 +18,14 @@ namespace Fanex.OddsFeed.Core.Criteria.Licensee
     public class GetLicenseeByPageCriteria : CriteriaBase
     {
         public string SystemName { get; set; }
+
+        public int PageSize { get; set; }
+
+        public int PageIndex { get; set; }
+
+        public int PageCount { get; set; }
+
+        public int RowCount { get; set; }
 
         public override string GetSettingKey()
         {

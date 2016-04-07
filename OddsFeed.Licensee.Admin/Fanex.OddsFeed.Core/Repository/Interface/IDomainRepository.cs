@@ -15,7 +15,7 @@ namespace Fanex.OddsFeed.Core.Repository.Interface
     using Fanex.OddsFeed.Core.Domain;
     using Fanex.OddsFeed.Core.Helpers;
     using Fanex.OddsFeed.Framework.Data;
-        
+    using Data.Repository;
     [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Reviewed")]
     public interface IDomainRepository
     {

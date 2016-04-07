@@ -11,14 +11,16 @@ namespace Fanex.OddsFeed.Core.Criteria.Affiliate
 {
     using System.Diagnostics.CodeAnalysis;
     using Fanex.OddsFeed.Framework.Data;
-
+    using Data.Repository;
     /// <summary>
     /// Class UpdateSettingIPCriteria.
     /// </summary>
     public class UpdateSettingIPCriteria : CriteriaBase
     {
         public UpdateSettingIPCriteria()
-        {            
+        {
+            ErrCode = 0;
+            ErrMsg = string.Empty;
         }
 
         public int PartnerID { get; set; }
@@ -33,8 +35,12 @@ namespace Fanex.OddsFeed.Core.Criteria.Affiliate
         public string IpFromOld { get; set; }
 
         [SpParam(SqlParamName = "IPToOld")]
-        public string IpToOld { get; set; }      
-      
+        public string IpToOld { get; set; }
+
+        public int ErrCode { get; set; }
+
+        public string ErrMsg { get; set; }
+
         public override string GetSettingKey()
         {
             return "Odds_Partner_Upd_Setting_IP";

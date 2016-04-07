@@ -163,6 +163,8 @@ namespace Nexcel.OddsFeed.WebService.Controllers
 
             ViewBag.ContactEmail = DbConnect.GetContactEmailByUserName(username);
 
+            ViewBag.BetOddNodeMapping = Nexcel.OddsFeed.Library.Matchs.OddNodeBuilder.BetOddNodeMapping.BetTypes;
+
             GenerateAppendixData(username);
 
             if (oddProfile != null)
@@ -221,7 +223,7 @@ namespace Nexcel.OddsFeed.WebService.Controllers
             ViewBag.CountriesCol2 = countriesCol2.Select();
             ViewBag.CountriesCol3 = countriesCol3.Select();
             ViewBag.HighlightSportType = ConfigurationManager.AppSettings["HighlightSportType"].Split(',');
-            ViewBag.HighlightBetType = ConfigurationManager.AppSettings["HighlightBetType"].Split(',');
+            ViewBag.HighlightBetType = Library.Matchs.OddNodeBuilder.BetOddNodeMapping.HighlightBetType.Split(',');
         }
 
         public static DataTable SortDataTable(DataTable dt, string colName, string direction)

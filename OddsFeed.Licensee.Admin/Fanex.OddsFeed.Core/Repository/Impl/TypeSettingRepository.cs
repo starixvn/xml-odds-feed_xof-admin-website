@@ -11,17 +11,17 @@ namespace Fanex.OddsFeed.Core.Repository.Impl
 {
     using System;
     using System.Collections;
-    using System.Collections.Generic;    
+    using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using Fanex.Data;
-    using Fanex.OddsFeed.Core.Criteria.Misc;    
+    using Fanex.OddsFeed.Core.Criteria.Misc;
     using Fanex.OddsFeed.Core.Domain;
     using Fanex.OddsFeed.Core.Model;
     using Fanex.OddsFeed.Core.Model.ValueObject;
     using Fanex.OddsFeed.Core.Repository.Interface;
     using Fanex.OddsFeed.Framework.Data;
-
+    using Data.Repository;
     /// <summary>
     /// Class TypeSettingRepository.
     /// </summary>

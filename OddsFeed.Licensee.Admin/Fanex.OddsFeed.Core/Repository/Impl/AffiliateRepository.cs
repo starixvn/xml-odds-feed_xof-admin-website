@@ -22,7 +22,7 @@ namespace Fanex.OddsFeed.Core.Repository.Impl
     using Fanex.OddsFeed.Core.Model.ValueObject;
     using Fanex.OddsFeed.Core.Repository.Interface;
     using Fanex.OddsFeed.Framework.Data;
-
+    using Data.Repository;
     /// <summary>
     /// Class AffiliateRepository.
     /// </summary>
@@ -47,13 +47,10 @@ namespace Fanex.OddsFeed.Core.Repository.Impl
         /// <param name="criteria">The criteria.</param>
         /// <param name="logCriteria">The log criteria.</param>
         /// <returns>ICommand Result.</returns>
-        public ICommandResult Insert(ref InsertAffiliateCriteria criteria, ICriteria logCriteria)
+        public ICommandResult Insert(ref InsertAffiliateCriteria criteria)
         {
             // prepare SP parameters
             Hashtable hash = criteria.GetSpParams();
-
-            hash = logCriteria.AddSpParams(hash);
-            hash = (new ResultCriteria()).AddSpParams(hash);
 
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {

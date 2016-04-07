@@ -11,7 +11,7 @@ namespace Fanex.OddsFeed.Core.Criteria.Licensee
 {
     using System.Diagnostics.CodeAnalysis;
     using Fanex.OddsFeed.Framework.Data;
-
+    using Data.Repository;
     /// <summary>
     /// Class DeleteSettingIP_LicenseeCriteria.
     /// </summary>
@@ -23,13 +23,13 @@ namespace Fanex.OddsFeed.Core.Criteria.Licensee
 
         public int SystemId { get; set; }
 
-        public string IPFromOld { get; set; }
-
-        public string IPToOld { get; set; }
+        public int Creator { get; set; }
 
         public string IP { get; set; }
 
-        public int Creator { get; set; }
+        public string IPFromOld { get; set; }
+
+        public string IPToOld { get; set; }
 
         public int ErrCode { get; set; }
 

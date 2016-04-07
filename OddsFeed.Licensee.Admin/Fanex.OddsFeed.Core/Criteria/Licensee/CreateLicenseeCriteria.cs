@@ -12,7 +12,7 @@ namespace Fanex.OddsFeed.Core.Criteria.Licensee
     using System.ComponentModel.DataAnnotations;
     using Fanex.OddsFeed.Core.Web;
     using Fanex.OddsFeed.Framework.Data;
-
+    using Data.Repository;
     /// <summary>
     /// Class CreateLicenseeCriteria.
     /// </summary>
@@ -66,9 +66,6 @@ namespace Fanex.OddsFeed.Core.Criteria.Licensee
 
         public bool IsActive { get; set; }
 
-        [SpParam(Ignored = true)]
-        public bool AddExistingLicensee { get; set; }
-
         public string DomainList { get; set; }
 
         public string ListIPFrom { get; set; }
@@ -89,22 +86,11 @@ namespace Fanex.OddsFeed.Core.Criteria.Licensee
         
         public string LeagueIDList { get; set; }
 
-        public string OutRightIDList { get; set; }
-
         public string CountryCodeList { get; set; }
 
         public string LeagueKeyword { get; set; }
 
         public string LeagueKeyword_O { get; set; }
-
-        [SpParam(Ignored = true)]
-        public string DeadballDelayTimes { get; set; }
-
-        [SpParam(Ignored = true)]
-        public string LiveDelayTimes { get; set; }
-
-        [SpParam(Ignored = true)]
-        public string OutrightDelayTimes { get; set; }
 
         public string DelayTimes
         {
@@ -136,6 +122,8 @@ namespace Fanex.OddsFeed.Core.Criteria.Licensee
 
         public bool DelayTimesFlag { get; set; }
 
+        public string OutRightIDList { get; set; }
+
         public int Creator { get; set; }
 
         public string IP { get; set; }
@@ -149,6 +137,20 @@ namespace Fanex.OddsFeed.Core.Criteria.Licensee
         public int ErrCode { get; set; }
 
         public string ErrMsg { get; set; }
+
+
+        // Ignored
+        [SpParam(Ignored = true)]
+        public bool AddExistingLicensee { get; set; }
+
+        [SpParam(Ignored = true)]
+        public string DeadballDelayTimes { get; set; }
+
+        [SpParam(Ignored = true)]
+        public string LiveDelayTimes { get; set; }
+
+        [SpParam(Ignored = true)]
+        public string OutrightDelayTimes { get; set; }
 
         public override string GetSettingKey()
         {

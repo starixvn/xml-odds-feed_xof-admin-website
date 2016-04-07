@@ -321,6 +321,7 @@
                                         <li>c41: Price for the score 4-1 </li>
                                         <li>c42: Price for the score 4-2 </li>
                                         <li>c43: Price for the score 4-3 </li>
+                                        <li>csaos: Price for AOS</li>
                                     </ul>
                                 </li>
                             }
@@ -359,17 +360,17 @@
                                 </li>
                             }
                             @*@if (Model.BetTypes == null || Model.BetTypes.Contains(14))
-                        {
-                            <li>t="fl": First Goal/Last Goal bet type
-                                <ul>
-                                    <li>hf: Home scores the first goal price</li>
-                                    <li>hl: Home scores the last goal price</li>
-                                    <li>af: Away scores the first goal price</li>
-                                    <li>al: Away scores the last goal price</li>
-                                    <li>ng: No goals being scored price</li>
-                                </ul>
-                            </li>
-                        }*@
+            {
+                <li>t="fl": First Goal/Last Goal bet type
+                    <ul>
+                        <li>hf: Home scores the first goal price</li>
+                        <li>hl: Home scores the last goal price</li>
+                        <li>af: Away scores the first goal price</li>
+                        <li>al: Away scores the last goal price</li>
+                        <li>ng: No goals being scored price</li>
+                    </ul>
+                </li>
+            }*@
                             @if (Model.BetTypes == null || Model.BetTypes.Contains(16))
                             {
                                 <li>
@@ -538,6 +539,7 @@
                                         <li>c11: Price for 1-1</li>
                                         <li>c22: Price for 2-2</li>
                                         <li>c33: Price for 3-3</li>
+                                        <li>csaos: Price for AOS</li>
                                     </ul>
                                 </li>
                             }
@@ -855,16 +857,6 @@
                                     </ul>
                                 </li>
                             }
-                            @if (Model.BetTypes == null || Model.BetTypes.Contains(157))
-                            {
-                                <li>
-                                    t="oe" : Odd/Even 
-                                    <ul>
-                                        <li>o: Price for Odd</li>
-                                        <li>e: Price for Even</li>
-                                    </ul>
-                                </li>
-                            }
                             @if (Model.BetTypes == null || Model.BetTypes.Contains(159))
                             {
                                 <li>
@@ -880,10 +872,12 @@
                                     </ul>
                                 </li>
                             }
-                            @if (Model.BetTypes == null || Model.BetTypes.Contains(160))
+
+                            <!-- parent id -->
+                            @if (Model.BetTypes == null || Model.BetTypes.Contains(22))
                             {
                                 <li>
-                                    t="ng" : Next Goal 
+                                    t="ng" : Next Goal
                                     <ul>
                                         <li>h: Price for Home</li>
                                         <li>n: Price for None</li>
@@ -915,10 +909,12 @@
                                     </ul>
                                 </li>
                             }
-                            @if (Model.BetTypes == null || Model.BetTypes.Contains(163))
+
+                            <!-- parent id -->
+                            @if (Model.BetTypes == null || Model.BetTypes.Contains(144))
                             {
                                 <li>
-                                    t="sttg" : Result/Total Goals 
+                                    t="sttg" : Result/Total Goals
                                     <ul>
                                         <li>ho: Price for Home/Over  </li>
                                         <li>hu: Price for Home/Under  </li>
@@ -1033,6 +1029,7 @@
                                         <li>a1: Price for Away 1  </li>
                                         <li>a2: Price for Away 2  </li>
                                         <li>a3: Price for Away 3up</li>
+                                        <li>ng: Price for No Goal</li>
                                     </ul>
                                 </li>
                             }
@@ -1107,17 +1104,6 @@
                                     </ul>
                                 </li>
                             }
-                            @if (Model.BetTypes == null || Model.BetTypes.Contains(178))
-                            {
-                                <li>
-                                    t="ou_2" : 2H Over/Under 
-                                    <ul>
-                                        <li>o: Price for Over</li>
-                                        <li>u: Price for Under</li>
-                                        <li>h: Over/Under line</li>
-                                    </ul>
-                                </li>
-                            }
                             @if (Model.BetTypes == null || Model.BetTypes.Contains(179))
                             {
                                 <li>
@@ -1165,24 +1151,6 @@
                                         <li>o4: Price for 3 Goals &Over</li>
                                     </ul>
                                 </li>
-                            }
-                            @if (Model.BetTypes == null || Model.BetTypes.Contains(183))
-                            {
-                                <li>
-                                    t="hdp_2" : 2H Handicap 
-                                    <ul>
-                                        <li>o: Price for favorite team</li>
-                                        <li>u: Price for underdog team</li>
-                                        <li>h: Handicap line</li>
-                                        <li>For indication of handicap “h”, please show the handicap for the home team, use “+” or “-” to indicate the home team is the favorite or underdog i.e.</li>
-                                    </ul>
-                                </li>
-                                <div style="text-indent: 70px;">
-                                    + When h<=0, the home team is the favorite.<br />
-                                </div>
-                                <div style="text-indent: 70px;">
-                                    + When h>0, the away team is the favorite.
-                                </div>
                             }
                             @if (Model.BetTypes == null || Model.BetTypes.Contains(184))
                             {
@@ -1355,10 +1323,12 @@
                                     </ul>
                                 </li>
                             }
-                            @if (Model.BetTypes == null || Model.BetTypes.Contains(199))
+
+                            <!-- parent id -->
+                            @if (Model.BetTypes == null || Model.BetTypes.Contains(11))
                             {
                                 <li>
-                                    t="tc" : Total Corners 
+                                    t="tc" : Total Corners
                                     <ul>
                                         <li>o1: Price for 0-8  </li>
                                         <li>o2: Price for 9-11  </li>
@@ -1537,6 +1507,23 @@
                                         <li>n: Price for No</li>
                                     </ul>
                                 </li>
+                            }
+
+
+                            @foreach (Nexcel.OddsFeed.Library.Matchs.OddNodeBuilder.OddNodeBase betType in ViewBag.BetOddNodeMapping)
+                            {
+                                if (!betType.IsChildBettype && ((Model.BetTypes == null || Model.BetTypes.Contains(betType.ID))))
+                                {
+                                    <li>
+                                        t="@betType.Tag" : @betType.Desc
+                                        <ul>
+                                            @foreach(Nexcel.OddsFeed.Library.Matchs.OddNodeBuilder.OddNodeAttrBase betTypeOdd in betType.Odds)
+                                            {
+                                                <li>@betTypeOdd.XmlAttribute: Price for @betTypeOdd.Description</li>
+                                            }
+                                        </ul>
+                                    </li>
+                                }
                             }
                         </ul>
                         <div style="height: 20px">
@@ -1844,6 +1831,14 @@
                                     Provide XML links to get sport types, bet types, leagues. Please refer to Appendix section.
                                 </td>
                             </tr>
+                            <tr>
+                                <td style="text-align: center">
+                                    12 - Apr - 2016
+                                </td>
+                                <td>
+                                    Add more sports. Please refer to Appendix for more details.
+                                </td>
+                            </tr>
                         </table>
                     </div>
                     <div style="height: 550px">
@@ -1998,7 +1993,7 @@
                                                 @row["BetTypeName"].ToString()
                                             </td>
                                             <td>
-                                                @Nexcel.OddsFeed.WebService.Common.BetTypeDefinition.BetTypeNameFromId(Convert.ToInt32(@row["BetTypeID"]))
+                                                @Nexcel.OddsFeed.Library.Matchs.OddNodeBuilder.BetOddNodeBuilder.BetTypeNameFromId(Convert.ToInt32(@row["BetTypeID"]))
                                             </td>
                                         </tr>
                                     }
@@ -2022,7 +2017,7 @@
                                                 @row["BetTypeName"].ToString()
                                             </td>
                                             <td>
-                                                @Nexcel.OddsFeed.WebService.Common.BetTypeDefinition.BetTypeNameFromId(Convert.ToInt32(@row["BetTypeID"]))
+                                                @Nexcel.OddsFeed.Library.Matchs.OddNodeBuilder.BetOddNodeBuilder.BetTypeNameFromId(Convert.ToInt32(@row["BetTypeID"]))
                                             </td>
                                         </tr>
                                     }
@@ -2047,7 +2042,7 @@
                                                 @row["BetTypeName"].ToString()
                                             </td>
                                             <td>
-                                                @Nexcel.OddsFeed.WebService.Common.BetTypeDefinition.BetTypeNameFromId(Convert.ToInt32(@row["BetTypeID"]))
+                                                @Nexcel.OddsFeed.Library.Matchs.OddNodeBuilder.BetOddNodeBuilder.BetTypeNameFromId(Convert.ToInt32(@row["BetTypeID"]))
                                             </td>
                                         </tr>
                                     }

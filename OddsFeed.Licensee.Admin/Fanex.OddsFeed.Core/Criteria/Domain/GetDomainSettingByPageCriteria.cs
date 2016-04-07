@@ -11,13 +11,21 @@ namespace Fanex.OddsFeed.Core.Criteria.Domain
 {
     using System;
     using Fanex.OddsFeed.Framework.Data;
-
+    using Data.Repository;
     /// <summary>
     /// Class GetDomainSettingByPageCriteria.
     /// </summary>
     public class GetDomainSettingByPageCriteria : CriteriaBase
     {
         public short DomainID { get; set; }
+
+        public int PageSize { get; set; }
+
+        public int PageIndex { get; set; }
+
+        public int PageCount { get; set; }
+
+        public int RowCount { get; set; }
 
         public override string GetSettingKey()
         {

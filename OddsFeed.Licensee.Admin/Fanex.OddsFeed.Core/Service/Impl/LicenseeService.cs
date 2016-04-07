@@ -17,9 +17,9 @@ namespace Fanex.OddsFeed.Core.Service.Impl
     using Fanex.OddsFeed.Core.Model;
     using Fanex.OddsFeed.Core.Repository.Impl;
     using Fanex.OddsFeed.Core.Repository.Interface;
-    using Fanex.OddsFeed.Core.Service.Interface;            
+    using Fanex.OddsFeed.Core.Service.Interface;
     using Fanex.OddsFeed.Framework.Data;
-
+    using Data.Repository;
     /// <summary>
     /// Class LicenseeService.
     /// </summary>    
@@ -84,11 +84,9 @@ namespace Fanex.OddsFeed.Core.Service.Impl
 
             try
             {
-                LogExecSpCriteria logCriteria = GetLogExecSpCriteria();
-
-                if (criteria.IsValid() && logCriteria.IsValid())
+                if (criteria.IsValid())
                 {
-                    return this._licenseeRepository.Update(criteria, logCriteria);
+                    return this._licenseeRepository.Update(criteria);
                 }
             }
             catch (Exception ex)

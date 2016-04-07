@@ -12,7 +12,7 @@ namespace Fanex.OddsFeed.Core.Criteria.Misc
     using System;
     using System.Diagnostics.CodeAnalysis;
     using Framework.Data;
-
+    using Data.Repository;
     /// <summary>
     /// Class LogExecSPCriteria.
     /// </summary>

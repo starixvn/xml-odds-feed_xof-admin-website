@@ -9,6 +9,7 @@
 
 namespace Fanex.OddsFeed.Core.Criteria.CompanyIP
 {
+    using Data.Repository;
     using Fanex.OddsFeed.Framework.Data;
 
     /// <summary>
@@ -16,6 +17,8 @@ namespace Fanex.OddsFeed.Core.Criteria.CompanyIP
     /// </summary>
     public class UpdateCompanyIPCriteria : CriteriaBase
     {
+        public int Creator { get; set; }
+
         public string IPFrom { get; set; }
 
         public string IPTo { get; set; }        
@@ -25,9 +28,7 @@ namespace Fanex.OddsFeed.Core.Criteria.CompanyIP
         public string IPToOld { get; set; }
 
         public string Description { get; set; }
-
-        public int Creator { get; set; }
-
+        
         public string IP { get; set; }
 
         public int ErrCode { get; set; }

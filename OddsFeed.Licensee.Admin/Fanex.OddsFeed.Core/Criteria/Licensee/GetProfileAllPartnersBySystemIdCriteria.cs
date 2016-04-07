@@ -11,17 +11,31 @@ namespace Fanex.OddsFeed.Core.Criteria.Licensee
 {
     using System.Diagnostics.CodeAnalysis;
     using Framework.Data;
-
+    using Data.Repository;
     /// <summary>
     /// Class GetProfileAllPartnersBySystemIdCriteria.
     /// </summary>
     public class GetProfileAllPartnersBySystemIdCriteria : CriteriaBase
     {
         public GetProfileAllPartnersBySystemIdCriteria()
-        {            
+        {
+            ErrCode = 0;
+            ErrMsg = string.Empty;
         }
         
-        public int SystemID { get; set; }        
+        public int SystemID { get; set; }
+
+        public string AffsOddsType { get; set; }
+        public string AffsLanguageList { get; set; }
+        public string AffsSportIDList { get; set; }
+        public string AffsCountryCodeList { get; set; }
+        public string AffsLeagueIDList { get; set; }
+        public string AffsOutrightIDList { get; set; }
+        public string AffsBettypeIDList { get; set; }
+
+        public int ErrCode { get; set; }
+
+        public string ErrMsg { get; set; }
 
         /// <summary>
         /// Get the reference SP's Name which is specified in Config file.

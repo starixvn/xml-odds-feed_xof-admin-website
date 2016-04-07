@@ -13,13 +13,13 @@ namespace Fanex.OddsFeed.Core.Repository.Interface
     using System.Diagnostics.CodeAnalysis;
     using Fanex.OddsFeed.Core.Criteria.Affiliate;
     using Fanex.OddsFeed.Core.Domain;
-    using Fanex.OddsFeed.Core.Model;    
-    using Fanex.OddsFeed.Core.Model.ValueObject;            
+    using Fanex.OddsFeed.Core.Model;
+    using Fanex.OddsFeed.Core.Model.ValueObject;
     using Fanex.OddsFeed.Framework.Data;
-    
+    using Data.Repository;
     [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Reviewed")]
     public interface ISubAccRepository : IRepository<IUser>, IBaseRepository
     {                
-        ICommandResult Insert(ref InsertSubAccCriteria criteria, ICriteria logCriteria);               
+        ICommandResult Insert(ref InsertSubAccCriteria criteria);               
     }
 }

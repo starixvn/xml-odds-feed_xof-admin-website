@@ -9,6 +9,7 @@
 
 namespace Fanex.OddsFeed.Core.Criteria.Affiliate
 {
+    using Data.Repository;
     using Framework.Data;
 
     /// <summary>

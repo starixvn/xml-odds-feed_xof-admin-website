@@ -11,7 +11,7 @@ namespace Fanex.OddsFeed.Core.Criteria.Affiliate
 {
     using System.Diagnostics.CodeAnalysis;
     using Fanex.OddsFeed.Framework.Data;
-
+    using Data.Repository;
     /// <summary>
     /// Class GetAffiliateByNameCriteria.
     /// </summary>
@@ -24,6 +24,14 @@ namespace Fanex.OddsFeed.Core.Criteria.Affiliate
         public byte SystemId { get; set; }
 
         public string UserName { get; set; }
+
+        public int PageSize { get; set; }
+
+        public int PageIndex { get; set; }
+
+        public int PageCount { get; set; }
+
+        public int RowCount { get; set; }
 
         /// <summary>
         /// Get the reference SP's Name which is specified in Config file.

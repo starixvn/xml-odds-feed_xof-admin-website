@@ -11,9 +11,9 @@ namespace Fanex.OddsFeed.Core.Criteria.Affiliate
 {
     using System.ComponentModel.DataAnnotations;
     using System.Diagnostics.CodeAnalysis;
-    using Fanex.OddsFeed.Core.Web;    
+    using Fanex.OddsFeed.Core.Web;
     using Fanex.OddsFeed.Framework.Data;
-
+    using Data.Repository;
     /// <summary>
     /// Class UpdateAffiliateCriteria.
     /// </summary>
@@ -21,12 +21,37 @@ namespace Fanex.OddsFeed.Core.Criteria.Affiliate
     {
         public UpdateAffiliateCriteria()
         {
+            ErrCode = 0;
+            ErrMsg = string.Empty;
         }
 
         public int PartnerID { get; set; }
 
+        [Required]
+        [Display(Name = "Website", ResourceType = typeof(ViewResources))]
+        [SpParam(SqlParamName = "Site")]
+        public string Website { get; set; }
+
+        [Display(Name = "Note", ResourceType = typeof(ViewResources))]
+        [SpParam(SqlParamName = "Remark")]
+        public string Note { get; set; }
+
         public int UpdatedBy { get; set; }
 
+        [Required]
+        [Display(Name = "Email", ResourceType = typeof(ViewResources))]
+        [RegularExpression(@"\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*",
+           ErrorMessageResourceName = "EmailFormatValidationMsg",
+           ErrorMessageResourceType = typeof(ViewResources))]
+        [SpParam(SqlParamName = "ContactEmail")]
+        public string Email { get; set; }
+
+        public int ErrCode { get; set; }
+
+        public string ErrMsg { get; set; }
+
+
+        // Ignored
         [Required]
         [Display(Name = "Name", ResourceType = typeof(ViewResources))]
         [StringLength(50, MinimumLength = 2,
@@ -38,23 +63,7 @@ namespace Fanex.OddsFeed.Core.Criteria.Affiliate
         [SpParam(Ignored = true)]
         public string UserName { get; set; }
 
-        [Required]
-        [Display(Name = "Email", ResourceType = typeof(ViewResources))]
-        [RegularExpression(@"\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*",
-            ErrorMessageResourceName = "EmailFormatValidationMsg",
-            ErrorMessageResourceType = typeof(ViewResources))]
-        [SpParam(SqlParamName = "ContactEmail")]
-        public string Email { get; set; }
-
-        [Required]
-        [Display(Name = "Website", ResourceType = typeof(ViewResources))]
-        [SpParam(SqlParamName = "Site")]
-        public string Website { get; set; }
-
-        [Display(Name = "Note", ResourceType = typeof(ViewResources))]
-        [SpParam(SqlParamName = "Remark")]
-        public string Note { get; set; }
-
+        
         ////[Display(Name = "Request_mail_content", ResourceType = typeof(ViewResources))]        
         ////public string Content { get; set; }
 

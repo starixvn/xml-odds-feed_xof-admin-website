@@ -67,11 +67,9 @@ namespace Fanex.OddsFeed.Core.Service.Impl
         {
             try
             {
-                LogExecSpCriteria logCriteria = GetLogExecSpCriteria();
-
-                if (criteria.IsValid() && logCriteria.IsValid())
+                if (criteria.IsValid())
                 {
-                    return _dashboardRepository.ReturnDataSet(criteria, logCriteria);
+                    return _dashboardRepository.ReturnDataSet(criteria);
                 }
             }
             catch (Exception ex)
@@ -91,11 +89,9 @@ namespace Fanex.OddsFeed.Core.Service.Impl
         {
             try
             {
-                LogExecSpCriteria logCriteria = GetLogExecSpCriteria();
-
-                if (criteria.IsValid() && logCriteria.IsValid())
+                if (criteria.IsValid())
                 {
-                    return _dashboardRepository.ReturnDataSet(criteria, logCriteria);
+                    return _dashboardRepository.ReturnDataSet(criteria);
                 }
             }
             catch (Exception ex)
@@ -115,11 +111,9 @@ namespace Fanex.OddsFeed.Core.Service.Impl
         {
             try
             {
-                LogExecSpCriteria logCriteria = GetLogExecSpCriteria();
-
-                if (criteria.IsValid() && logCriteria.IsValid())
+                if (criteria.IsValid())
                 {
-                    return _dashboardRepository.ReturnDataCollection(criteria, logCriteria);
+                    return _dashboardRepository.ReturnDataCollection(criteria);
                 }
             }
             catch (Exception ex)
@@ -139,11 +133,9 @@ namespace Fanex.OddsFeed.Core.Service.Impl
         {
             try
             {
-                LogExecSpCriteria logCriteria = GetLogExecSpCriteria();
-
-                if (criteria.IsValid() && logCriteria.IsValid())
+                if (criteria.IsValid())
                 {
-                    return _dashboardRepository.ReturnDataCollection(criteria, logCriteria);
+                    return _dashboardRepository.ReturnDataCollection(criteria);
                 }
             }
             catch (Exception ex)

@@ -9,6 +9,7 @@
 
 namespace Fanex.OddsFeed.Core.Criteria.Licensee
 {
+    using Data.Repository;
     using Fanex.OddsFeed.Framework.Data;
 
     /// <summary>

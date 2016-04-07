@@ -11,7 +11,7 @@ namespace Fanex.OddsFeed.Core.Criteria.Misc
 {
     using System.Diagnostics.CodeAnalysis;
     using Framework.Data;
-
+    using Data.Repository;
     /// <summary>
     /// Class ResultCriteria.
     /// </summary>

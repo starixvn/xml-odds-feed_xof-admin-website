@@ -11,7 +11,7 @@ namespace Fanex.OddsFeed.Core.Criteria.Licensee
 {
     using System;
     using Fanex.OddsFeed.Framework.Data;
-
+    using Data.Repository;
     /// <summary>
     /// Class EditLicenseeInfoCriteria.
     /// </summary>
@@ -19,17 +19,12 @@ namespace Fanex.OddsFeed.Core.Criteria.Licensee
     {
         public short SystemID { get; set; }
 
-        [SpParam(Ignored = true)]
-        public string SystemName { get; set; }        
-
         public int LicenseeID { get; set; }
 
         public bool IsActive { get; set; }
 
-        public bool AddExistingLicensee { get; set; }
-
         public int Creator { get; set; }
-
+        
         public string IP { get; set; }
 
         public string ContactEmail { get; set; }
@@ -37,6 +32,14 @@ namespace Fanex.OddsFeed.Core.Criteria.Licensee
         public int ErrCode { get; set; }
 
         public string ErrMsg { get; set; }
+
+
+        // Ignored
+        [SpParam(Ignored = true)]
+        public string SystemName { get; set; }
+
+        [SpParam(Ignored = true)]
+        public bool AddExistingLicensee { get; set; }
 
         public override string GetSettingKey()
         {

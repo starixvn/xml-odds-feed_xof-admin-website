@@ -8,17 +8,19 @@
 // </history>
 
 namespace Fanex.OddsFeed.Core.Criteria.User
-{    
+{
     using System.Diagnostics.CodeAnalysis;
     using Fanex.OddsFeed.Framework.Data;
-
+    using Data.Repository;
     /// <summary>
     /// Class UserGetPermissionCriteria.
     /// </summary>
     public class UserGetPermissionCriteria : CriteriaBase
     {
         public UserGetPermissionCriteria()
-        {            
+        {
+            ErrCode = 0;
+            ErrMsg = string.Empty;
         }
         
         public int UserID { get; set; }
@@ -26,7 +28,11 @@ namespace Fanex.OddsFeed.Core.Criteria.User
         public byte SystemID { get; set; }
 
         public string IP { get; set; }
-             
+
+        public int ErrCode { get; set; }
+
+        public string ErrMsg { get; set; }
+
         public override string GetSettingKey()
         {
             return "Odds_User_GetPermission";

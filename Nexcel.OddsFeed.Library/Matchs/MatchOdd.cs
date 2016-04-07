@@ -206,7 +206,37 @@ namespace Nexcel.OddsFeed.Library.Matches
 
         public string CS30 { get; set; }
 
+        public string CS31 { get; set; }
+
+        public string CS32 { get; set; }
+
         public string CS03 { get; set; }
+
+        public string CS13 { get; set; }
+
+        public string CS23 { get; set; }
+
+        public string CS22 { get; set; }
+
+        public string CS33 { get; set; }
+
+        public string CS04 { get; set; }
+        public string CS14 { get; set; }
+        public string CS24 { get; set; }
+        public string CS34 { get; set; }
+        public string CS40 { get; set; }
+        public string CS41 { get; set; }
+        public string CS42 { get; set; }
+        public string CS43 { get; set; }
+        public string CS44 { get; set; }
+
+        public string CSOAS { get; set; }
+
+        public string CS05 { get; set; }
+
+        public string CS50 { get; set; }
+
+        public string CS99 { get; set; }
 
         public string A1 { get; set; }
 
@@ -308,5 +338,7 @@ namespace Nexcel.OddsFeed.Library.Matches
         public string O46 { get; set; }
 
         public string X { get; set; }
+
+        public string O0 { get; set; }
     }
 }
