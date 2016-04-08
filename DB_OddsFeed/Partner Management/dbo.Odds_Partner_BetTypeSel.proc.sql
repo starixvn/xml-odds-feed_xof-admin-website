@@ -46,6 +46,8 @@ BEGIN
 		END
 	END
 	
+	SET @bettypes = [dbo].[f_Odds_GroupBettype_Format](@bettypes, 0)
+	
 	-- final result
 	SELECT bt.typeid
 		, bt.typenamee 

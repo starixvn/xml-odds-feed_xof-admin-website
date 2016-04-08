@@ -9,7 +9,8 @@ Task : Select list of bettypes
 DB: bodb_oddsfeed, bodb02    
 Revisions:    
 	- 20150909@bobby.nguyen: Re-format code and change setting key Type[Bettypes] to SName[SupportedBettypes]
-    
+    - 20160315@bobby.nguyen: #54093 - Update for showing only parent bet types and update parent - child bet types
+	
 Param's Explanation:    
  -     
 */
@@ -18,10 +19,18 @@ BEGIN
 
 	DECLARE @BetTypeIDList VARCHAR(MAX)
 
-	SELECT @BetTypeIDList = BetTypeIDList
+	SELECT @BetTypeIDList = [dbo].[f_Odds_GroupBettype_Format](BetTypeIDList, 0)
 	FROM dbo.PartnerProfile a WITH (NOLOCK)
 	INNER JOIN dbo.Partner b WITH (NOLOCK) ON a.PartnerID = b.PartnerID
 	WHERE b.UserName = @UserName
+
+	IF @BetTypeIDList = 'all'
+	BEGIN
+		SELECT @BetTypeIDList = [dbo].[f_Odds_GroupBettype_Format](SValue, 0)
+		FROM SystemSetting WITH (NOLOCK)
+		WHERE SName = 'SupportedBettypes'
+	END
+
 
 	IF @BetTypeIDList <> 'all'
 	BEGIN
@@ -34,21 +43,7 @@ BEGIN
 				)
 		ORDER BY bt.typenamee
 	END
-	ELSE
-	BEGIN
-		SELECT bt.typeid AS BetTypeID
-			, bt.typenamee AS BetTypeName
-		FROM bodb02.dbo.bettype bt WITH (NOLOCK)
-		WHERE bt.typeid IN (
-				SELECT val
-				FROM dbo.strSplit((
-							SELECT SValue
-							FROM SystemSetting WITH (NOLOCK)
-							WHERE SName = 'SupportedBettypes'
-							), ',')
-				)
-		ORDER BY bt.typenamee
-	END
+	
 END
 GO
 
@@ -58,3 +53,5 @@ GRANT EXECUTE
 GO
 
 
+
+execute Odds_BetTypeSelByUserName_xtest 'candytest'
