@@ -9,7 +9,8 @@ Task : Select list of bettypes
 DB: bodb_oddsfeed, bodb02    
 Revisions:    
 	- 20150909@bobby.nguyen: Re-format code and change setting key Type[Bettypes] to SName[SupportedBettypes]
-    
+    - 20160315@bobby.nguyen: #54093 - Update for showing only parent bet types and update parent - child bet types
+	
 Param's Explanation:    
  -     
 */
