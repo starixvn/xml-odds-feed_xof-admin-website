@@ -4,7 +4,7 @@
 
     public class BetOddNodeMapping
     {
-        public static readonly string HighlightBetType = "401,402,403,404,405,406,407,408,409,410,411,412,413,414";
+        public static readonly string HighlightBetType = "221,222,223,224";
 
         // Here are children bet type Tags which are not the same as their parent Tags
         // So we use their parent Tags instead of themselves
@@ -139,6 +139,10 @@
             { 144, "sttg" },
             { 216, "gsa" },
             { 217, "gs1" },
+            { 221, "nxt1" },
+            { 222, "nxt5" },
+            { 223, "1nxt1" },
+            { 224, "1nxt5" },
             { 401, "ou_h" },
             { 402, "ou_a" },
             { 403, "ou_h1" },
@@ -154,11 +158,65 @@
             { 413, "cs" },
             { 414, "cs_1" }
        };
-      
+
         // Notes:
         // When adding a new bettype here, remember to check if the Tag is already in old bettypes yet
         // The idea to build xml based on Tag is not ok anymore, need to change to use bettype ID instead
         public static readonly List<OddNodeBase> BetTypes = new List<OddNodeBase> {
+            new OddNodeBase
+            {
+                ID = 221,
+                Tag = "nxt1",
+                Desc = "Next 1 minutes",
+                Odds = new OddNodeAttrBase[5] {
+                    new OddNodeAttrBase { XmlAttribute = "g", DBAttribute = "cs01", MatchOddAttribute = "G", Description = "Goal"},
+                    new OddNodeAttrBase { XmlAttribute = "c", DBAttribute = "cs02", MatchOddAttribute = "C", Description = "Corner"},
+                    new OddNodeAttrBase { XmlAttribute = "fk", DBAttribute = "cs03", MatchOddAttribute = "FK", Description = "Free Kick"},
+                    new OddNodeAttrBase { XmlAttribute = "gk", DBAttribute = "cs04", MatchOddAttribute = "GK", Description = "Goal Kick"},
+                    new OddNodeAttrBase { XmlAttribute = "ti", DBAttribute = "cs05", MatchOddAttribute = "TI", Description = "Thow In"}
+                }
+            },
+            new OddNodeBase
+            {
+                ID = 222,
+                Tag = "nxt5",
+                Desc = "Next 5 minutes",
+                Odds = new OddNodeAttrBase[6] {
+                    new OddNodeAttrBase { XmlAttribute = "gy", DBAttribute = "cs01", MatchOddAttribute = "GY", Description = "Goal Yes"},
+                    new OddNodeAttrBase { XmlAttribute = "gn", DBAttribute = "cs10", MatchOddAttribute = "GN", Description = "Goal No"},
+                    new OddNodeAttrBase { XmlAttribute = "cy", DBAttribute = "cs02", MatchOddAttribute = "CY", Description = "Corner Yes"},
+                    new OddNodeAttrBase { XmlAttribute = "cn", DBAttribute = "cs20", MatchOddAttribute = "CN", Description = "Corner No"},
+                    new OddNodeAttrBase { XmlAttribute = "py", DBAttribute = "cs13", MatchOddAttribute = "PY", Description = "Penalty Yes"},
+                    new OddNodeAttrBase { XmlAttribute = "pn", DBAttribute = "cs31", MatchOddAttribute = "PN", Description = "Penalty No"}
+                }
+            },
+            new OddNodeBase
+            {
+                ID = 223,
+                Tag = "1nxt1",
+                Desc = "What will happen first in next 1 minutes",
+                Odds = new OddNodeAttrBase[6] {
+                    new OddNodeAttrBase { XmlAttribute = "n", DBAttribute = "cs00", MatchOddAttribute = "N", Description = "None"},
+                    new OddNodeAttrBase { XmlAttribute = "g", DBAttribute = "cs01", MatchOddAttribute = "G", Description = "Goal"},
+                    new OddNodeAttrBase { XmlAttribute = "c", DBAttribute = "cs02", MatchOddAttribute = "C", Description = "Corner"},
+                    new OddNodeAttrBase { XmlAttribute = "fk", DBAttribute = "cs03", MatchOddAttribute = "FK", Description = "Free Kick"},
+                    new OddNodeAttrBase { XmlAttribute = "gk", DBAttribute = "cs04", MatchOddAttribute = "GK", Description = "Goal Kick"},
+                    new OddNodeAttrBase { XmlAttribute = "ti", DBAttribute = "cs05", MatchOddAttribute = "TI", Description = "Throw In"}
+                }
+            },
+            new OddNodeBase
+            {
+                ID = 224,
+                Tag = "1nxt5",
+                Desc = "What will happen first in next 5 minutes",
+                Odds = new OddNodeAttrBase[5] {
+                    new OddNodeAttrBase { XmlAttribute = "n", DBAttribute = "cs00", MatchOddAttribute = "N", Description = "None"},
+                    new OddNodeAttrBase { XmlAttribute = "g", DBAttribute = "cs01", MatchOddAttribute = "G", Description = "Goal"},
+                    new OddNodeAttrBase { XmlAttribute = "c", DBAttribute = "cs02", MatchOddAttribute = "C", Description = "Corner"},
+                    new OddNodeAttrBase { XmlAttribute = "b", DBAttribute = "cs12", MatchOddAttribute = "B", Description = "Booking"},
+                    new OddNodeAttrBase { XmlAttribute = "p", DBAttribute = "cs13", MatchOddAttribute = "P", Description = "Penalty"}
+                }
+            },
             new OddNodeBase
             {
                 ID = 401,
