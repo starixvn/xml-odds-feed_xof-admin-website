@@ -8,18 +8,19 @@
 // </history>
 namespace Fanex.OddsFeed.Admin.Controllers
 {
-    using System.Web.Mvc;
     using Fanex.OddsFeed.Core.Criteria.Domain;
     using Fanex.OddsFeed.Core.Service.Impl;
     using Fanex.OddsFeed.Core.Service.Interface;
-    using Fanex.OddsFeed.Core.Web;    
+    using Fanex.OddsFeed.Core.Web;
     using Fanex.OddsFeed.Core.Web.Attribute;
+    using ONEbook.UM.Filters;
+    using System.Web.Mvc;
 
     /// <summary>
     /// Class DomainController.
     /// </summary>
     [IsAuthorize]
-    [IsUnderMaintainance]    
+    [CheckUMFilter]
     public class DomainController : BaseController
     {
         #region Members
@@ -61,12 +62,12 @@ namespace Fanex.OddsFeed.Admin.Controllers
             ViewBag.listLicensees = _domainService.GetSelectList("Odds_SystemSel");
             return View();
         }
-        
+
         public JsonResult GetAllDomain(GetDomainByPageCriteria criteria)
         {
             criteria.DomainName = criteria.DomainName == ViewResources.Domain_Name ? string.Empty : criteria.DomainName;
             criteria.PageIndex++;
-            var dr = _domainService.GetAllDomain(criteria);            
+            var dr = _domainService.GetAllDomain(criteria);
             var result = FanexGridHelper.DataForFanexGrid_PreventContainQuote(dr);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
@@ -74,7 +75,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
         public string GetDomainSetting(GetDomainSettingByPageCriteria criteria)
         {
             criteria.PageIndex++;
-            var dr = _domainService.GetDomainSetting(criteria);        
+            var dr = _domainService.GetDomainSetting(criteria);
             return FanexGridHelper.DataForFanexGrid(dr);
         }
 
@@ -86,7 +87,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
             var res = _domainService.CreateDomain(criteria);
             return Json(res, JsonRequestBehavior.AllowGet);
         }
-        
+
         [HttpPost]
         public JsonResult UpdateDomain(UpdateDomainCriteria criteria)
         {
@@ -97,7 +98,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
             var res = _domainService.UpdateDomain(criteria);
             return Json(res, JsonRequestBehavior.AllowGet);
         }
-        
+
         public int DeleteDomain(DeleteDomainCriteria criteria)
         {
             criteria.Creator = CurrentSession.UserId;
@@ -105,7 +106,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
             var res = _domainService.DeleteDomain(criteria);
             return res;
         }
-        
+
         public JsonResult DomainList_GetTop10(GetTop10DomainCriteria criteria)
         {
             var top10DomainList = this._domainService.GetDataSet(criteria).Tables[0];

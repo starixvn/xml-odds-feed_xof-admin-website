@@ -9,12 +9,9 @@
 
 namespace Fanex.OddsFeed.Core.Web.Attribute
 {
-    using System.Diagnostics.CodeAnalysis;
-    using System.Web.Configuration;
-    using System.Web.Mvc;
-    using System.Web.Routing;    
     using Fanex.OddsFeed.Core;
-    using Sunplus.UMControllerLibrary;
+    using System.Web.Mvc;
+    using System.Web.Routing;
 
     /// <summary>
     /// Class IsUnderMaintenanceAttribute.
@@ -22,7 +19,7 @@ namespace Fanex.OddsFeed.Core.Web.Attribute
     public class IsUnderMaintainanceAttribute : ActionFilterAttribute
     {
         public IsUnderMaintainanceAttribute()
-        {     
+        {
         }
 
         /// <summary>
@@ -30,7 +27,7 @@ namespace Fanex.OddsFeed.Core.Web.Attribute
         /// </summary>
         /// <param name="filterContext">The filter context.</param>
         public override void OnActionExecuting(ActionExecutingContext filterContext)
-        {            
+        {
             string startTime = string.Empty;
             string endTime = string.Empty;
 
@@ -42,7 +39,7 @@ namespace Fanex.OddsFeed.Core.Web.Attribute
                                                                                                                         action = "UnderMaintainance",
                                                                                                                         controller = "Tolerance",
                                                                                                                         timeFrom = startTime,
-                                                                                                                        timeTo = endTime 
+                                                                                                                        timeTo = endTime
                                                                                                                     }));
             }
         }

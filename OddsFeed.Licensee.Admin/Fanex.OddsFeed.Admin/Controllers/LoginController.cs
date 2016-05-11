@@ -8,24 +8,23 @@
 // </history>
 namespace Fanex.OddsFeed.Admin.Controllers
 {
-    using System;
-    using System.Web;
-    using System.Web.Mvc;
     using Fanex.Common;
     using Fanex.Common.Extensions;
-    using Fanex.OddsFeed.Admin.Utility;  
+    using Fanex.OddsFeed.Admin.Utility;
     using Fanex.OddsFeed.Core.Criteria.User;
     using Fanex.OddsFeed.Core.Model;
     using Fanex.OddsFeed.Core.Service.Impl;
     using Fanex.OddsFeed.Core.Service.Interface;
     using Fanex.OddsFeed.Core.Web;
-    using Fanex.OddsFeed.Core.Web.Attribute;
     using Fanex.OddsFeed.Core.Web.Session;
+    using ONEbook.UM.Filters;
+    using System;
+    using System.Web;
+    using System.Web.Mvc;
 
     /// <summary>
     /// Class LoginController.
     /// </summary>
-    [IsUnderMaintainance]    
     public class LoginController : BaseController
     {
         #region members
@@ -33,7 +32,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
         /// <summary>
         /// The _user service.
         /// </summary>
-        private IUserService _userService;        
+        private IUserService _userService;
 
         #endregion
 
@@ -56,40 +55,9 @@ namespace Fanex.OddsFeed.Admin.Controllers
             IUserService userService,
             ICurrentSession currentSession)
         {
-            _userService = userService ?? new UserService();            
+            _userService = userService ?? new UserService();
         }
 
-        #endregion
-
-        #region helpers
-        /*
-        private void CreateAuthInfo(User user)
-        {
-            var authInfo = new AuthInfo();
-
-            authInfo.UserId = user.Id;
-            authInfo.OnUserId = this._currentSession.OnUserId;
-
-            var authTicket = new FormsAuthenticationTicket(
-                 1,
-                user.Username,
-                DateTime.Now,
-                DateTime.Now.AddMinutes(20000),
-                false,
-                authInfo.ToXml(),
-                FormsAuthentication.FormsCookiePath);
-
-            string encryptedTicket = FormsAuthentication.Encrypt(authTicket);
-            var authCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket)
-            {
-                HttpOnly = true,
-                Path = FormsAuthentication.FormsCookiePath,
-                Name = FormsAuthentication.FormsCookieName
-            };
-
-            Response.Cookies.Add(authCookie);
-        }
-        */
         #endregion
 
         #region sign in
@@ -100,6 +68,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
         }
 
         [HttpGet]
+        [UMBackdoorFilter]
         public ActionResult Index()
         {
             ViewBag.FullDomainName = CurrentContext.FullDomainName;
@@ -113,6 +82,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
         /// <param name="criteria">The criteria.</param>
         /// <returns>Represents a JSON-formatted content of logging.</returns>
         [HttpPost]
+        [UMBackdoorFilter]
         public JsonResult Index(UserLoginUserCriteria criteria)
         {
             var actionResult = new OddsFeedActionResult();
@@ -155,13 +125,15 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
         #region sign out
 
+        [CheckUMFilter]
         public ActionResult LogOut()
         {
             DoSignOut();
 
             return RedirectToAction("Index");
         }
-        
+
+        [CheckUMFilter]
         public void DoSignOut()
         {
             _userService.UserLogOut(new LogOutUserCriteria
@@ -178,6 +150,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
         #region re check in
 
         [HttpPost]
+        [CheckUMFilter]
         public ActionResult ReCheckLogin()
         {
             UserReCheckInUserCriteria criteria = new UserReCheckInUserCriteria();
@@ -195,6 +168,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
         /// </summary>
         /// <returns>The user password updating page.</returns>
         [HttpGet]
+        [CheckUMFilter]
         public ActionResult UpdateUserPassword()
         {
             ModelState.Clear();
@@ -222,6 +196,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
         /// <param name="criteria">The user's criteria.</param>
         /// <returns>Represents a JSON-formatted content of updating.</returns>
         [HttpPost]
+        [CheckUMFilter]
         public JsonResult UpdateUserPasswordPost(UpdatePasswordUserCriteria criteria)
         {
             var actionResult = new OddsFeedActionResult();
@@ -279,7 +254,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
         /// <param name="user">The login user.</param>
         /// <param name="actionResult">The action result.</param>
         private void CustomizeDataAfterLogin(UserLoginUserCriteria criteria, User user, ref OddsFeedActionResult actionResult)
-        {            
+        {
             switch (criteria.ErrCode)
             {
                 case 100:
@@ -299,7 +274,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
                     break;
                 default: ////login successfully
                     actionResult.IsSuccess = true;
-                    SaveUserSession(criteria, user);                 
+                    SaveUserSession(criteria, user);
                     break;
             }
         }
@@ -326,7 +301,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
             };
 
             var flags = _userService.UserGetProfile(ref criteriaProfile);
-            
+
             ////Save user session
             CurrentSession.UserId = user.Id;
             CurrentSession.UserRole = user.RoleID;

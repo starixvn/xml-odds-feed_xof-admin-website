@@ -8,18 +8,17 @@
 // </history>
 namespace Fanex.OddsFeed.Admin.Controllers
 {
-    using System.Collections.Generic;
-    using System.Web.Mvc;
     using Fanex.Caching;
     using Fanex.OddsFeed.Core.Criteria.Administrator;
-    using Fanex.OddsFeed.Core.Service.Impl;    
-    using Fanex.OddsFeed.Core.Web.Attribute;
-    
+    using Fanex.OddsFeed.Core.Service.Impl;
+    using ONEbook.UM.Filters;
+    using System.Collections.Generic;
+    using System.Web.Mvc;
     /// <summary>
     /// Class UIController.
     /// </summary>
     ////[Authorize]
-    [IsUnderMaintainance]    
+    [CheckUMFilter]
     public class UIController : BaseController
     {
         /// <summary>
@@ -49,14 +48,14 @@ namespace Fanex.OddsFeed.Admin.Controllers
         }
 
         ////[ChildActionOnly]
-        
+
         public ActionResult Header()
         {
             ////return PartialView(this.CurrentUser);
             ViewBag.SystemList = GenerateSystemList();
             return PartialView();
         }
-        
+
         [ChildActionOnly]
         public ActionResult GlobalScript()
         {
@@ -90,10 +89,10 @@ namespace Fanex.OddsFeed.Admin.Controllers
         private IList<SelectListItem> GenerateSystemList()
         {
             var allSystemList = new AdministratorService().GetSelectList(new GetAllSystemsByUserIdCriteria
-                {
-                    UserRole = CurrentSession.UserRole,
-                    UserId = CurrentSession.UserId                    
-                });
+            {
+                UserRole = CurrentSession.UserRole,
+                UserId = CurrentSession.UserId
+            });
 
             var strSystemList = string.Empty;
             foreach (var system in allSystemList)

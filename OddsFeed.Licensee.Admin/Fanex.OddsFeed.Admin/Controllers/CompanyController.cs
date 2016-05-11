@@ -12,20 +12,21 @@
 /// </summary>
 namespace Fanex.OddsFeed.Admin.Controllers
 {
-    using System.Data;
-    using System.Web.Mvc;
     using Fanex.OddsFeed.Core.Criteria.CompanyIP;
     using Fanex.OddsFeed.Core.Model;
     using Fanex.OddsFeed.Core.Service.Impl;
     using Fanex.OddsFeed.Core.Service.Interface;
-    using Fanex.OddsFeed.Core.Web;    
+    using Fanex.OddsFeed.Core.Web;
     using Fanex.OddsFeed.Core.Web.Attribute;
+    using ONEbook.UM.Filters;
+    using System.Data;
+    using System.Web.Mvc;
 
     /// <summary>
     /// Class CompanyController.
     /// </summary>
     [IsAuthorize]
-    [IsUnderMaintainance]    
+    [CheckUMFilter]
     public class CompanyController : BaseController
     {
         #region Members
@@ -104,7 +105,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
             criteria.Creator = CurrentSession.UserId;
             criteria.Description = string.IsNullOrEmpty(criteria.Description) ? string.Empty : criteria.Description;
             var result = _service.UpdateData(criteria);
-            return (int)result.Code;        
+            return (int)result.Code;
         }
 
         /// <summary>

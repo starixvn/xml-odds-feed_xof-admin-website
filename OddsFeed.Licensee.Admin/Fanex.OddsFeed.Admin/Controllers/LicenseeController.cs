@@ -23,14 +23,14 @@ namespace Fanex.OddsFeed.Admin.Controllers
     using Fanex.OddsFeed.Core.Model;
     using Fanex.OddsFeed.Core.Service.Impl;
     using Fanex.OddsFeed.Core.Service.Interface;
-    using Fanex.OddsFeed.Core.Web;        
+    using Fanex.OddsFeed.Core.Web;
     using Fanex.OddsFeed.Core.Web.Attribute;
-
+    using ONEbook.UM.Filters;
     /// <summary>
     /// Class LicenseeController.
     /// </summary>
     [IsAuthorize]
-    [IsUnderMaintainance]    
+    [CheckUMFilter]    
     public class LicenseeController : BaseController
     {
         #region Members

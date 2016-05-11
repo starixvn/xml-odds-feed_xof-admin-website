@@ -24,12 +24,12 @@ namespace Fanex.OddsFeed.Admin.Controllers
     using Fanex.OddsFeed.Core.Service.Interface;
     using Fanex.OddsFeed.Core.Web;
     using Fanex.OddsFeed.Core.Web.Attribute;
-
+    using ONEbook.UM.Filters;
     /// <summary>
     /// Class SubAccountController.
     /// </summary>
     [IsAuthorize]
-    [IsUnderMaintainance]    
+    [CheckUMFilter]    
     public class SubAccountController : BaseController
     {
         #region Members
