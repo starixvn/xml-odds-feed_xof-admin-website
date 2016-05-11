@@ -82,7 +82,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
         /// <param name="criteria">The criteria.</param>
         /// <returns>Represents a JSON-formatted content of logging.</returns>
         [HttpPost]
-        [UMBackdoorFilter]
+        [CheckUMFilter]
         public JsonResult Index(UserLoginUserCriteria criteria)
         {
             var actionResult = new OddsFeedActionResult();
