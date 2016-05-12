@@ -56,6 +56,10 @@ var Recheckin = function ($) {
                     }
                 },
                 error: function (request, status, error) {
+                    var result = $.parseJSON(request.responseText);
+                    if (result.code == 999999) {
+                        location.href = "/Tolerance/UnderMaintainance";
+                    }
                 }
             });
         },
