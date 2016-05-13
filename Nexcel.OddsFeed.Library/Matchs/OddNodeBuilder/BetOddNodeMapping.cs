@@ -168,12 +168,20 @@
                 ID = 221,
                 Tag = "nxt1",
                 Desc = "Next 1 minutes",
-                Odds = new OddNodeAttrBase[5] {
-                    new OddNodeAttrBase { XmlAttribute = "g", DBAttribute = "cs01", MatchOddAttribute = "G", Description = "Goal"},
-                    new OddNodeAttrBase { XmlAttribute = "c", DBAttribute = "cs02", MatchOddAttribute = "C", Description = "Corner"},
-                    new OddNodeAttrBase { XmlAttribute = "fk", DBAttribute = "cs03", MatchOddAttribute = "FK", Description = "Free Kick"},
-                    new OddNodeAttrBase { XmlAttribute = "gk", DBAttribute = "cs04", MatchOddAttribute = "GK", Description = "Goal Kick"},
-                    new OddNodeAttrBase { XmlAttribute = "ti", DBAttribute = "cs05", MatchOddAttribute = "TI", Description = "Thow In"}
+                Odds = new OddNodeAttrBase[6] {
+                    new OddNodeAttrBase { XmlAttribute = "g", DBAttribute = "cs01", MatchOddAttribute = "G", Description = "Price for Goal"},
+                    new OddNodeAttrBase { XmlAttribute = "c", DBAttribute = "cs02", MatchOddAttribute = "C", Description = "Price for Corner"},
+                    new OddNodeAttrBase { XmlAttribute = "fk", DBAttribute = "cs03", MatchOddAttribute = "FK", Description = "Price for Free Kick"},
+                    new OddNodeAttrBase { XmlAttribute = "gk", DBAttribute = "cs04", MatchOddAttribute = "GK", Description = "Price for Goal Kick"},
+                    new OddNodeAttrBase { XmlAttribute = "ti", DBAttribute = "cs05", MatchOddAttribute = "TI", Description = "Price for Thow In"},
+                    new OddNodeAttrBase {
+                        XmlAttribute = "time",
+                        DBAttribute = "hdp1",
+                        MatchOddAttribute = "TIME_INTERVAL",
+                        Description = @"Indicates offered intervals. For example: 
+                            <br>&nbsp;&nbsp;&nbsp; time = 1 for 00:00 - 00:59 
+                            <br>&nbsp;&nbsp;&nbsp; time = 2 for 01:00 - 01:59
+                            <br>&nbsp;&nbsp;&nbsp; time = 90 for 89:00 - 89:59"}
                 }
             },
             new OddNodeBase
@@ -181,13 +189,21 @@
                 ID = 222,
                 Tag = "nxt5",
                 Desc = "Next 5 minutes",
-                Odds = new OddNodeAttrBase[6] {
-                    new OddNodeAttrBase { XmlAttribute = "gy", DBAttribute = "cs01", MatchOddAttribute = "GY", Description = "Goal Yes"},
-                    new OddNodeAttrBase { XmlAttribute = "gn", DBAttribute = "cs10", MatchOddAttribute = "GN", Description = "Goal No"},
-                    new OddNodeAttrBase { XmlAttribute = "cy", DBAttribute = "cs02", MatchOddAttribute = "CY", Description = "Corner Yes"},
-                    new OddNodeAttrBase { XmlAttribute = "cn", DBAttribute = "cs20", MatchOddAttribute = "CN", Description = "Corner No"},
-                    new OddNodeAttrBase { XmlAttribute = "py", DBAttribute = "cs13", MatchOddAttribute = "PY", Description = "Penalty Yes"},
-                    new OddNodeAttrBase { XmlAttribute = "pn", DBAttribute = "cs31", MatchOddAttribute = "PN", Description = "Penalty No"}
+                Odds = new OddNodeAttrBase[7] {
+                    new OddNodeAttrBase { XmlAttribute = "gy", DBAttribute = "cs01", MatchOddAttribute = "GY", Description = "Price for Goal Yes"},
+                    new OddNodeAttrBase { XmlAttribute = "gn", DBAttribute = "cs10", MatchOddAttribute = "GN", Description = "Price for Goal No"},
+                    new OddNodeAttrBase { XmlAttribute = "cy", DBAttribute = "cs02", MatchOddAttribute = "CY", Description = "Price for Corner Yes"},
+                    new OddNodeAttrBase { XmlAttribute = "cn", DBAttribute = "cs20", MatchOddAttribute = "CN", Description = "Price for Corner No"},
+                    new OddNodeAttrBase { XmlAttribute = "py", DBAttribute = "cs13", MatchOddAttribute = "PY", Description = "Price for Penalty Yes"},
+                    new OddNodeAttrBase { XmlAttribute = "pn", DBAttribute = "cs31", MatchOddAttribute = "PN", Description = "Price for Penalty No"},
+                    new OddNodeAttrBase {
+                        XmlAttribute = "time",
+                        DBAttribute = "hdp1",
+                        MatchOddAttribute = "TIME_INTERVAL",
+                        Description = @"Indicates offered intervals. For example: 
+                            <br>&nbsp;&nbsp;&nbsp; time = 1 for 00:00 - 00:59 
+                            <br>&nbsp;&nbsp;&nbsp; time = 2 for 01:00 - 01:59
+                            <br>&nbsp;&nbsp;&nbsp; time = 90 for 89:00 - 89:59"}
                 }
             },
             new OddNodeBase
@@ -195,13 +211,21 @@
                 ID = 223,
                 Tag = "1nxt1",
                 Desc = "What will happen first in next 1 minutes",
-                Odds = new OddNodeAttrBase[6] {
-                    new OddNodeAttrBase { XmlAttribute = "n", DBAttribute = "cs00", MatchOddAttribute = "N", Description = "None"},
-                    new OddNodeAttrBase { XmlAttribute = "g", DBAttribute = "cs01", MatchOddAttribute = "G", Description = "Goal"},
-                    new OddNodeAttrBase { XmlAttribute = "c", DBAttribute = "cs02", MatchOddAttribute = "C", Description = "Corner"},
-                    new OddNodeAttrBase { XmlAttribute = "fk", DBAttribute = "cs03", MatchOddAttribute = "FK", Description = "Free Kick"},
-                    new OddNodeAttrBase { XmlAttribute = "gk", DBAttribute = "cs04", MatchOddAttribute = "GK", Description = "Goal Kick"},
-                    new OddNodeAttrBase { XmlAttribute = "ti", DBAttribute = "cs05", MatchOddAttribute = "TI", Description = "Throw In"}
+                Odds = new OddNodeAttrBase[7] {
+                    new OddNodeAttrBase { XmlAttribute = "n", DBAttribute = "cs00", MatchOddAttribute = "N", Description = "Price for None"},
+                    new OddNodeAttrBase { XmlAttribute = "g", DBAttribute = "cs01", MatchOddAttribute = "G", Description = "Price for Goal"},
+                    new OddNodeAttrBase { XmlAttribute = "c", DBAttribute = "cs02", MatchOddAttribute = "C", Description = "Price for Corner"},
+                    new OddNodeAttrBase { XmlAttribute = "fk", DBAttribute = "cs03", MatchOddAttribute = "FK", Description = "Price for Free Kick"},
+                    new OddNodeAttrBase { XmlAttribute = "gk", DBAttribute = "cs04", MatchOddAttribute = "GK", Description = "Price for Goal Kick"},
+                    new OddNodeAttrBase { XmlAttribute = "ti", DBAttribute = "cs05", MatchOddAttribute = "TI", Description = "Price for Throw In"},
+                    new OddNodeAttrBase {
+                        XmlAttribute = "time",
+                        DBAttribute = "hdp1",
+                        MatchOddAttribute = "TIME_INTERVAL",
+                        Description = @"Indicates offered intervals. For example: 
+                            <br>&nbsp;&nbsp;&nbsp; time = 1 for 00:00 - 00:59 
+                            <br>&nbsp;&nbsp;&nbsp; time = 2 for 01:00 - 01:59
+                            <br>&nbsp;&nbsp;&nbsp; time = 90 for 89:00 - 89:59"}
                 }
             },
             new OddNodeBase
@@ -209,12 +233,20 @@
                 ID = 224,
                 Tag = "1nxt5",
                 Desc = "What will happen first in next 5 minutes",
-                Odds = new OddNodeAttrBase[5] {
-                    new OddNodeAttrBase { XmlAttribute = "n", DBAttribute = "cs00", MatchOddAttribute = "N", Description = "None"},
-                    new OddNodeAttrBase { XmlAttribute = "g", DBAttribute = "cs01", MatchOddAttribute = "G", Description = "Goal"},
-                    new OddNodeAttrBase { XmlAttribute = "c", DBAttribute = "cs02", MatchOddAttribute = "C", Description = "Corner"},
-                    new OddNodeAttrBase { XmlAttribute = "b", DBAttribute = "cs12", MatchOddAttribute = "B", Description = "Booking"},
-                    new OddNodeAttrBase { XmlAttribute = "p", DBAttribute = "cs13", MatchOddAttribute = "P", Description = "Penalty"}
+                Odds = new OddNodeAttrBase[6] {
+                    new OddNodeAttrBase { XmlAttribute = "n", DBAttribute = "cs00", MatchOddAttribute = "N", Description = "Price for None"},
+                    new OddNodeAttrBase { XmlAttribute = "g", DBAttribute = "cs01", MatchOddAttribute = "G", Description = "Price for Goal"},
+                    new OddNodeAttrBase { XmlAttribute = "c", DBAttribute = "cs02", MatchOddAttribute = "C", Description = "Price for Corner"},
+                    new OddNodeAttrBase { XmlAttribute = "b", DBAttribute = "cs12", MatchOddAttribute = "B", Description = "Price for Booking"},
+                    new OddNodeAttrBase { XmlAttribute = "p", DBAttribute = "cs13", MatchOddAttribute = "P", Description = "Price for Penalty"},
+                    new OddNodeAttrBase {
+                        XmlAttribute = "time",
+                        DBAttribute = "hdp1",
+                        MatchOddAttribute = "TIME_INTERVAL",
+                        Description = @"Indicates offered intervals. For example: 
+                            <br>&nbsp;&nbsp;&nbsp; time = 1 for 00:00 - 00:59 
+                            <br>&nbsp;&nbsp;&nbsp; time = 2 for 01:00 - 01:59
+                            <br>&nbsp;&nbsp;&nbsp; time = 90 for 89:00 - 89:59"}
                 }
             },
             new OddNodeBase
@@ -223,9 +255,9 @@
                 Tag = "ou_h",
                 Desc = "Home Team Over/Under",
                 Odds = new OddNodeAttrBase[3] {
-                    new OddNodeAttrBase { XmlAttribute = "o", DBAttribute = "odds1a", MatchOddAttribute = "O", Description = "Over"},
-                    new OddNodeAttrBase { XmlAttribute = "u", DBAttribute = "odds2a", MatchOddAttribute = "U", Description = "Under"},
-                    new OddNodeAttrHandicap { XmlAttribute = "h", DBAttribute = "hdp1", MatchOddAttribute = "H", Description = "Over/Under value"}
+                    new OddNodeAttrBase { XmlAttribute = "o", DBAttribute = "odds1a", MatchOddAttribute = "O", Description = "Price for Over"},
+                    new OddNodeAttrBase { XmlAttribute = "u", DBAttribute = "odds2a", MatchOddAttribute = "U", Description = "Price for Under"},
+                    new OddNodeAttrHandicap { XmlAttribute = "h", DBAttribute = "hdp1", MatchOddAttribute = "H", Description = "Price for Over/Under value"}
                 }
             },
             new OddNodeBase
@@ -234,9 +266,9 @@
                 Tag = "ou_a",
                 Desc = "Away Team Over/Under",
                 Odds = new OddNodeAttrBase[3] {
-                    new OddNodeAttrBase { XmlAttribute = "o", DBAttribute = "odds1a", MatchOddAttribute = "O", Description = "Over"},
-                    new OddNodeAttrBase { XmlAttribute = "u", DBAttribute = "odds2a", MatchOddAttribute = "U", Description = "Under"},
-                    new OddNodeAttrHandicap { XmlAttribute = "h", DBAttribute = "hdp1", MatchOddAttribute = "H", Description = "Over/Under value"}
+                    new OddNodeAttrBase { XmlAttribute = "o", DBAttribute = "odds1a", MatchOddAttribute = "O", Description = "Price for Over"},
+                    new OddNodeAttrBase { XmlAttribute = "u", DBAttribute = "odds2a", MatchOddAttribute = "U", Description = "Price for Under"},
+                    new OddNodeAttrHandicap { XmlAttribute = "h", DBAttribute = "hdp1", MatchOddAttribute = "H", Description = "Price for Over/Under value"}
                 }
             },
             new OddNodeBase
@@ -245,9 +277,9 @@
                 Tag = "ou_h1",
                 Desc = "1H Home Team Over/Under",
                 Odds = new OddNodeAttrBase[3] {
-                    new OddNodeAttrBase { XmlAttribute = "o", DBAttribute = "odds1a", MatchOddAttribute = "O", Description = "Over"},
-                    new OddNodeAttrBase { XmlAttribute = "u", DBAttribute = "odds2a", MatchOddAttribute = "U", Description = "Under"},
-                    new OddNodeAttrHandicap { XmlAttribute = "h", DBAttribute = "hdp1", MatchOddAttribute = "H", Description = "Over/Under value"}
+                    new OddNodeAttrBase { XmlAttribute = "o", DBAttribute = "odds1a", MatchOddAttribute = "O", Description = "Price for Over"},
+                    new OddNodeAttrBase { XmlAttribute = "u", DBAttribute = "odds2a", MatchOddAttribute = "U", Description = "Price for Under"},
+                    new OddNodeAttrHandicap { XmlAttribute = "h", DBAttribute = "hdp1", MatchOddAttribute = "H", Description = "Price for Over/Under value"}
                 }
             },
             new OddNodeBase
@@ -256,9 +288,9 @@
                 Tag = "ou_a1",
                 Desc = "1H Away Team Over/Under",
                 Odds = new OddNodeAttrBase[3] {
-                    new OddNodeAttrBase { XmlAttribute = "o", DBAttribute = "odds1a", MatchOddAttribute = "O", Description = "Over"},
-                    new OddNodeAttrBase { XmlAttribute = "u", DBAttribute = "odds2a", MatchOddAttribute = "U", Description = "Under"},
-                    new OddNodeAttrHandicap { XmlAttribute = "h", DBAttribute = "hdp1", MatchOddAttribute = "H", Description = "Over/Under value"}
+                    new OddNodeAttrBase { XmlAttribute = "o", DBAttribute = "odds1a", MatchOddAttribute = "O", Description = "Price for Over"},
+                    new OddNodeAttrBase { XmlAttribute = "u", DBAttribute = "odds2a", MatchOddAttribute = "U", Description = "Price for Under"},
+                    new OddNodeAttrHandicap { XmlAttribute = "h", DBAttribute = "hdp1", MatchOddAttribute = "H", Description = "Price for Over/Under value"}
                 }
             },
             new OddNodeBase
@@ -267,23 +299,23 @@
                 Tag = "cs_2",
                 Desc = "2H Correct Score",
                 Odds = new OddNodeAttrBase[17] {
-                    new OddNodeAttrBase { XmlAttribute = "cs10", MatchOddAttribute = "CS10", Description = "1-0", DBAttribute = "cs10"},
-                    new OddNodeAttrBase { XmlAttribute = "cs20", MatchOddAttribute = "CS20", Description = "2-0", DBAttribute = "cs20"},
-                    new OddNodeAttrBase { XmlAttribute = "cs21", MatchOddAttribute = "CS21", Description = "2-1", DBAttribute = "cs21"},
-                    new OddNodeAttrBase { XmlAttribute = "cs30", MatchOddAttribute = "CS30", Description = "3-0", DBAttribute = "cs30"},
-                    new OddNodeAttrBase { XmlAttribute = "cs31", MatchOddAttribute = "CS31", Description = "3-1", DBAttribute = "cs31"},
-                    new OddNodeAttrBase { XmlAttribute = "cs32", MatchOddAttribute = "CS32", Description = "3-2", DBAttribute = "cs32"},
-                    new OddNodeAttrBase { XmlAttribute = "cs01", MatchOddAttribute = "CS01", Description = "0-1", DBAttribute = "cs01"},
-                    new OddNodeAttrBase { XmlAttribute = "cs02", MatchOddAttribute = "CS02", Description = "0-2", DBAttribute = "cs02"},
-                    new OddNodeAttrBase { XmlAttribute = "cs12", MatchOddAttribute = "CS12", Description = "1-2", DBAttribute = "cs12"},
-                    new OddNodeAttrBase { XmlAttribute = "cs03", MatchOddAttribute = "CS03", Description = "0-3", DBAttribute = "cs03"},
-                    new OddNodeAttrBase { XmlAttribute = "cs13", MatchOddAttribute = "CS13", Description = "1-3", DBAttribute = "cs13"},
-                    new OddNodeAttrBase { XmlAttribute = "cs23", MatchOddAttribute = "CS23", Description = "2-3", DBAttribute = "cs23"},
-                    new OddNodeAttrBase { XmlAttribute = "cs00", MatchOddAttribute = "CS00", Description = "0-0", DBAttribute = "cs00"},
-                    new OddNodeAttrBase { XmlAttribute = "cs11", MatchOddAttribute = "CS11", Description = "1-1", DBAttribute = "cs11"},
-                    new OddNodeAttrBase { XmlAttribute = "cs22", MatchOddAttribute = "CS22", Description = "2-2", DBAttribute = "cs22"},
-                    new OddNodeAttrBase { XmlAttribute = "cs33", MatchOddAttribute = "CS33", Description = "3-3", DBAttribute = "cs33"},
-                    new OddNodeAttrBase { XmlAttribute = "csaos", MatchOddAttribute = "CSOAS", Description = "AOS", DBAttribute = "cs99"}
+                    new OddNodeAttrBase { XmlAttribute = "cs10", MatchOddAttribute = "CS10", Description = "Price for 1-0", DBAttribute = "cs10"},
+                    new OddNodeAttrBase { XmlAttribute = "cs20", MatchOddAttribute = "CS20", Description = "Price for 2-0", DBAttribute = "cs20"},
+                    new OddNodeAttrBase { XmlAttribute = "cs21", MatchOddAttribute = "CS21", Description = "Price for 2-1", DBAttribute = "cs21"},
+                    new OddNodeAttrBase { XmlAttribute = "cs30", MatchOddAttribute = "CS30", Description = "Price for 3-0", DBAttribute = "cs30"},
+                    new OddNodeAttrBase { XmlAttribute = "cs31", MatchOddAttribute = "CS31", Description = "Price for 3-1", DBAttribute = "cs31"},
+                    new OddNodeAttrBase { XmlAttribute = "cs32", MatchOddAttribute = "CS32", Description = "Price for 3-2", DBAttribute = "cs32"},
+                    new OddNodeAttrBase { XmlAttribute = "cs01", MatchOddAttribute = "CS01", Description = "Price for 0-1", DBAttribute = "cs01"},
+                    new OddNodeAttrBase { XmlAttribute = "cs02", MatchOddAttribute = "CS02", Description = "Price for 0-2", DBAttribute = "cs02"},
+                    new OddNodeAttrBase { XmlAttribute = "cs12", MatchOddAttribute = "CS12", Description = "Price for 1-2", DBAttribute = "cs12"},
+                    new OddNodeAttrBase { XmlAttribute = "cs03", MatchOddAttribute = "CS03", Description = "Price for 0-3", DBAttribute = "cs03"},
+                    new OddNodeAttrBase { XmlAttribute = "cs13", MatchOddAttribute = "CS13", Description = "Price for 1-3", DBAttribute = "cs13"},
+                    new OddNodeAttrBase { XmlAttribute = "cs23", MatchOddAttribute = "CS23", Description = "Price for 2-3", DBAttribute = "cs23"},
+                    new OddNodeAttrBase { XmlAttribute = "cs00", MatchOddAttribute = "CS00", Description = "Price for 0-0", DBAttribute = "cs00"},
+                    new OddNodeAttrBase { XmlAttribute = "cs11", MatchOddAttribute = "CS11", Description = "Price for 1-1", DBAttribute = "cs11"},
+                    new OddNodeAttrBase { XmlAttribute = "cs22", MatchOddAttribute = "CS22", Description = "Price for 2-2", DBAttribute = "cs22"},
+                    new OddNodeAttrBase { XmlAttribute = "cs33", MatchOddAttribute = "CS33", Description = "Price for 3-3", DBAttribute = "cs33"},
+                    new OddNodeAttrBase { XmlAttribute = "csaos", MatchOddAttribute = "CSOAS", Description = "Price for AOS", DBAttribute = "cs99"}
                 }
             },
             new OddNodeBase
@@ -293,13 +325,13 @@
                 Desc = "Exact Total Goals",
                 IsChildBettype = true,
                 Odds = new OddNodeAttrBase[7] {
-                    new OddNodeAttrBase { XmlAttribute = "o01", MatchOddAttribute = "O01", Description = "0", DBAttribute = "cs01"},
-                    new OddNodeAttrBase { XmlAttribute = "o02", MatchOddAttribute = "O02", Description = "1", DBAttribute = "cs02"},
-                    new OddNodeAttrBase { XmlAttribute = "o03", MatchOddAttribute = "O03", Description = "2", DBAttribute = "cs03"},
-                    new OddNodeAttrBase { XmlAttribute = "o04", MatchOddAttribute = "O04", Description = "3", DBAttribute = "cs04"},
-                    new OddNodeAttrBase { XmlAttribute = "o05", MatchOddAttribute = "O05", Description = "4", DBAttribute = "cs10"},
-                    new OddNodeAttrBase { XmlAttribute = "o06", MatchOddAttribute = "O06", Description = "5", DBAttribute = "cs20"},
-                    new OddNodeAttrBase { XmlAttribute = "o07", MatchOddAttribute = "O07", Description = "6&Over", DBAttribute = "cs30"}
+                    new OddNodeAttrBase { XmlAttribute = "o01", MatchOddAttribute = "O01", Description = "Price for 0", DBAttribute = "cs01"},
+                    new OddNodeAttrBase { XmlAttribute = "o02", MatchOddAttribute = "O02", Description = "Price for 1", DBAttribute = "cs02"},
+                    new OddNodeAttrBase { XmlAttribute = "o03", MatchOddAttribute = "O03", Description = "Price for 2", DBAttribute = "cs03"},
+                    new OddNodeAttrBase { XmlAttribute = "o04", MatchOddAttribute = "O04", Description = "Price for 3", DBAttribute = "cs04"},
+                    new OddNodeAttrBase { XmlAttribute = "o05", MatchOddAttribute = "O05", Description = "Price for 4", DBAttribute = "cs10"},
+                    new OddNodeAttrBase { XmlAttribute = "o06", MatchOddAttribute = "O06", Description = "Price for 5", DBAttribute = "cs20"},
+                    new OddNodeAttrBase { XmlAttribute = "o07", MatchOddAttribute = "O07", Description = "Price for 6&Over", DBAttribute = "cs30"}
                 }
             },
             new OddNodeBase
@@ -309,10 +341,10 @@
                 Desc = "Exact Home Team Goals",
                 IsChildBettype = true,
                 Odds = new OddNodeAttrBase[4] {
-                    new OddNodeAttrBase { XmlAttribute = "o1", MatchOddAttribute = "O1", Description = "0", DBAttribute = "cs00"},
-                    new OddNodeAttrBase { XmlAttribute = "o2", MatchOddAttribute = "O2", Description = "1", DBAttribute = "cs01"},
-                    new OddNodeAttrBase { XmlAttribute = "o3", MatchOddAttribute = "O3", Description = "2", DBAttribute = "cs02"},
-                    new OddNodeAttrBase { XmlAttribute = "o4", MatchOddAttribute = "O4", Description = "3&Over", DBAttribute = "cs03"}
+                    new OddNodeAttrBase { XmlAttribute = "o1", MatchOddAttribute = "O1", Description = "Price for 0", DBAttribute = "cs00"},
+                    new OddNodeAttrBase { XmlAttribute = "o2", MatchOddAttribute = "O2", Description = "Price for 1", DBAttribute = "cs01"},
+                    new OddNodeAttrBase { XmlAttribute = "o3", MatchOddAttribute = "O3", Description = "Price for 2", DBAttribute = "cs02"},
+                    new OddNodeAttrBase { XmlAttribute = "o4", MatchOddAttribute = "O4", Description = "Price for 3&Over", DBAttribute = "cs03"}
                 }
             },
             new OddNodeBase
@@ -322,14 +354,14 @@
                 Desc = "Winning Margin",
                 IsChildBettype = true,
                 Odds = new OddNodeAttrBase[8] {
-                    new OddNodeAttrBase { XmlAttribute = "h1", MatchOddAttribute = "H1", Description = "Home & 1 Goal", DBAttribute = "cs01"},
-                    new OddNodeAttrBase { XmlAttribute = "h2", MatchOddAttribute = "H2", Description = "Home & 2 Goals", DBAttribute = "cs02"},
-                    new OddNodeAttrBase { XmlAttribute = "h3", MatchOddAttribute = "H3", Description = "Home & 3 Goals up", DBAttribute = "cs03"},
-                    new OddNodeAttrBase { XmlAttribute = "d", MatchOddAttribute = "D", Description = "S.Draw", DBAttribute = "cs04"},
-                    new OddNodeAttrBase { XmlAttribute = "a1", MatchOddAttribute = "A1", Description = "Away & 1 Goal", DBAttribute = "cs10"},
-                    new OddNodeAttrBase { XmlAttribute = "a2", MatchOddAttribute = "A2", Description = "Away & 2 Goals", DBAttribute = "cs20"},
-                    new OddNodeAttrBase { XmlAttribute = "a3", MatchOddAttribute = "A3", Description = "Away & 3 Goals up", DBAttribute = "cs30"},
-                    new OddNodeAttrBase { XmlAttribute = "ng", MatchOddAttribute = "NG", Description = "No Goal", DBAttribute = "cs00" }
+                    new OddNodeAttrBase { XmlAttribute = "h1", MatchOddAttribute = "H1", Description = "Price for Home & 1 Goal", DBAttribute = "cs01"},
+                    new OddNodeAttrBase { XmlAttribute = "h2", MatchOddAttribute = "H2", Description = "Price for Home & 2 Goals", DBAttribute = "cs02"},
+                    new OddNodeAttrBase { XmlAttribute = "h3", MatchOddAttribute = "H3", Description = "Price for Home & 3 Goals up", DBAttribute = "cs03"},
+                    new OddNodeAttrBase { XmlAttribute = "d", MatchOddAttribute = "D", Description = "Price for S.Draw", DBAttribute = "cs04"},
+                    new OddNodeAttrBase { XmlAttribute = "a1", MatchOddAttribute = "A1", Description = "Price for Away & 1 Goal", DBAttribute = "cs10"},
+                    new OddNodeAttrBase { XmlAttribute = "a2", MatchOddAttribute = "A2", Description = "Price for Away & 2 Goals", DBAttribute = "cs20"},
+                    new OddNodeAttrBase { XmlAttribute = "a3", MatchOddAttribute = "A3", Description = "Price for Away & 3 Goals up", DBAttribute = "cs30"},
+                    new OddNodeAttrBase { XmlAttribute = "ng", MatchOddAttribute = "NG", Description = "Price for No Goal", DBAttribute = "cs00" }
                 }
             },
             new OddNodeBase
@@ -339,10 +371,10 @@
                 Desc = "Exact Away Team Goals",
                 IsChildBettype = true,
                 Odds = new OddNodeAttrBase[4] {
-                    new OddNodeAttrBase { XmlAttribute = "o1", MatchOddAttribute = "O1", Description = "0", DBAttribute = "cs00"},
-                    new OddNodeAttrBase { XmlAttribute = "o2", MatchOddAttribute = "O2", Description = "1", DBAttribute = "cs01"},
-                    new OddNodeAttrBase { XmlAttribute = "o3", MatchOddAttribute = "O3", Description = "2", DBAttribute = "cs02"},
-                    new OddNodeAttrBase { XmlAttribute = "o4", MatchOddAttribute = "O4", Description = "3 Goals & Over", DBAttribute = "cs03"}
+                    new OddNodeAttrBase { XmlAttribute = "o1", MatchOddAttribute = "O1", Description = "Price for 0", DBAttribute = "cs00"},
+                    new OddNodeAttrBase { XmlAttribute = "o2", MatchOddAttribute = "O2", Description = "Price for 1", DBAttribute = "cs01"},
+                    new OddNodeAttrBase { XmlAttribute = "o3", MatchOddAttribute = "O3", Description = "Price for 2", DBAttribute = "cs02"},
+                    new OddNodeAttrBase { XmlAttribute = "o4", MatchOddAttribute = "O4", Description = "Price for 3 Goals & Over", DBAttribute = "cs03"}
                 }
             },
             new OddNodeBase
@@ -352,9 +384,9 @@
                 Desc = "1H Double Chance",
                 IsChildBettype = true,
                 Odds = new OddNodeAttrBase[3] {
-                    new OddNodeAttrBase { XmlAttribute = "hd", MatchOddAttribute = "HD", Description = "Home or Draw", DBAttribute = "cs10"},
-                    new OddNodeAttrBase { XmlAttribute = "ha", MatchOddAttribute = "HA", Description = "Home or Away", DBAttribute = "cs00"},
-                    new OddNodeAttrBase { XmlAttribute = "ad", MatchOddAttribute = "AD", Description = "Away or Draw", DBAttribute = "cs20"}
+                    new OddNodeAttrBase { XmlAttribute = "hd", MatchOddAttribute = "HD", Description = "Price for Home or Draw", DBAttribute = "cs10"},
+                    new OddNodeAttrBase { XmlAttribute = "ha", MatchOddAttribute = "HA", Description = "Price for Home or Away", DBAttribute = "cs00"},
+                    new OddNodeAttrBase { XmlAttribute = "ad", MatchOddAttribute = "AD", Description = "Price for Away or Draw", DBAttribute = "cs20"}
                 }
             },
             new OddNodeBase
@@ -364,8 +396,8 @@
                 Desc = "1H Draw No Bet",
                 IsChildBettype = true,
                 Odds = new OddNodeAttrBase[2] {
-                    new OddNodeAttrBase { XmlAttribute = "h", MatchOddAttribute = "H", Description = "Home", DBAttribute = "odds1a"},
-                    new OddNodeAttrBase { XmlAttribute = "a", MatchOddAttribute = "A", Description = "Away", DBAttribute = "odds2a"}
+                    new OddNodeAttrBase { XmlAttribute = "h", MatchOddAttribute = "H", Description = "Price for Home", DBAttribute = "odds1a"},
+                    new OddNodeAttrBase { XmlAttribute = "a", MatchOddAttribute = "A", Description = "Price for Away", DBAttribute = "odds2a"}
                 }
             },
             new OddNodeBase
@@ -374,10 +406,10 @@
                 Tag = "egs_1st",
                 Desc = "Exact 1st Half Goal",
                 Odds = new OddNodeAttrBase[4] {
-                    new OddNodeAttrBase { XmlAttribute = "o0", MatchOddAttribute = "O0", Description = "0", DBAttribute = "cs00"},
-                    new OddNodeAttrBase { XmlAttribute = "o1", MatchOddAttribute = "O1", Description = "1", DBAttribute = "cs01"},
-                    new OddNodeAttrBase { XmlAttribute = "o2", MatchOddAttribute = "O2", Description = "2", DBAttribute = "cs10"},
-                    new OddNodeAttrBase { XmlAttribute = "o3", MatchOddAttribute = "O3", Description = "3 Goals & Over", DBAttribute = "cs11"}
+                    new OddNodeAttrBase { XmlAttribute = "o0", MatchOddAttribute = "O0", Description = "Price for 0", DBAttribute = "cs00"},
+                    new OddNodeAttrBase { XmlAttribute = "o1", MatchOddAttribute = "O1", Description = "Price for 1", DBAttribute = "cs01"},
+                    new OddNodeAttrBase { XmlAttribute = "o2", MatchOddAttribute = "O2", Description = "Price for 2", DBAttribute = "cs10"},
+                    new OddNodeAttrBase { XmlAttribute = "o3", MatchOddAttribute = "O3", Description = "Price for 3 Goals & Over", DBAttribute = "cs11"}
                 }
             },
             new OddNodeBase
@@ -387,35 +419,35 @@
                 Desc = "Correct Score (aos)",
                 IsChildBettype = true,
                 Odds = new OddNodeAttrBase[28] {
-                    new OddNodeAttrBase { XmlAttribute = "cs10", MatchOddAttribute = "C10", Description = "1-0", DBAttribute = "cs10"},
-                    new OddNodeAttrBase { XmlAttribute = "cs20", MatchOddAttribute = "C20", Description = "2-0", DBAttribute = "cs20"},
-                    new OddNodeAttrBase { XmlAttribute = "cs21", MatchOddAttribute = "C21", Description = "2-1", DBAttribute = "cs21"},
-                    new OddNodeAttrBase { XmlAttribute = "cs30", MatchOddAttribute = "C30", Description = "3-0", DBAttribute = "cs30"},
-                    new OddNodeAttrBase { XmlAttribute = "cs31", MatchOddAttribute = "C31", Description = "3-1", DBAttribute = "cs31"},
-                    new OddNodeAttrBase { XmlAttribute = "cs32", MatchOddAttribute = "C32", Description = "3-2", DBAttribute = "cs32"},
-                    new OddNodeAttrBase { XmlAttribute = "cs40", MatchOddAttribute = "C40", Description = "4-0", DBAttribute = "cs40"},
-                    new OddNodeAttrBase { XmlAttribute = "cs41", MatchOddAttribute = "C41", Description = "4-1", DBAttribute = "cs41"},
-                    new OddNodeAttrBase { XmlAttribute = "cs42", MatchOddAttribute = "C42", Description = "4-2", DBAttribute = "cs42"},
-                    new OddNodeAttrBase { XmlAttribute = "cs43", MatchOddAttribute = "C43", Description = "4-3", DBAttribute = "cs43"},
-                    new OddNodeAttrBase { XmlAttribute = "cs01", MatchOddAttribute = "C01", Description = "0-1", DBAttribute = "cs01"},
-                    new OddNodeAttrBase { XmlAttribute = "cs02", MatchOddAttribute = "C02", Description = "0-2", DBAttribute = "cs02"},
-                    new OddNodeAttrBase { XmlAttribute = "cs12", MatchOddAttribute = "C12", Description = "1-2", DBAttribute = "cs12"},
-                    new OddNodeAttrBase { XmlAttribute = "cs03", MatchOddAttribute = "C03", Description = "0-3", DBAttribute = "cs03"},
-                    new OddNodeAttrBase { XmlAttribute = "cs13", MatchOddAttribute = "C13", Description = "1-3", DBAttribute = "cs13"},
-                    new OddNodeAttrBase { XmlAttribute = "cs23", MatchOddAttribute = "C23", Description = "2-3", DBAttribute = "cs23"},
-                    new OddNodeAttrBase { XmlAttribute = "cs04", MatchOddAttribute = "C04", Description = "0-4", DBAttribute = "cs04"},
-                    new OddNodeAttrBase { XmlAttribute = "cs14", MatchOddAttribute = "C14", Description = "1-4", DBAttribute = "cs14"},
-                    new OddNodeAttrBase { XmlAttribute = "cs24", MatchOddAttribute = "C24", Description = "2-4", DBAttribute = "cs24"},
-                    new OddNodeAttrBase { XmlAttribute = "cs34", MatchOddAttribute = "C34", Description = "3-4", DBAttribute = "cs34"},
-                    new OddNodeAttrBase { XmlAttribute = "cs00", MatchOddAttribute = "C00", Description = "0-0", DBAttribute = "cs00"},
-                    new OddNodeAttrBase { XmlAttribute = "cs11", MatchOddAttribute = "C11", Description = "1-1", DBAttribute = "cs11"},
-                    new OddNodeAttrBase { XmlAttribute = "cs22", MatchOddAttribute = "C22", Description = "2-2", DBAttribute = "cs22"},
-                    new OddNodeAttrBase { XmlAttribute = "cs33", MatchOddAttribute = "C33", Description = "3-3", DBAttribute = "cs33"},
-                    new OddNodeAttrBase { XmlAttribute = "cs44", MatchOddAttribute = "C44", Description = "4-4", DBAttribute = "cs44"},
-                    new OddNodeAttrBase { XmlAttribute = "csaos", MatchOddAttribute = "CSOAS", Description = "AOS", DBAttribute = "cs99"},
+                    new OddNodeAttrBase { XmlAttribute = "cs10", MatchOddAttribute = "C10", Description = "Price for 1-0", DBAttribute = "cs10"},
+                    new OddNodeAttrBase { XmlAttribute = "cs20", MatchOddAttribute = "C20", Description = "Price for 2-0", DBAttribute = "cs20"},
+                    new OddNodeAttrBase { XmlAttribute = "cs21", MatchOddAttribute = "C21", Description = "Price for 2-1", DBAttribute = "cs21"},
+                    new OddNodeAttrBase { XmlAttribute = "cs30", MatchOddAttribute = "C30", Description = "Price for 3-0", DBAttribute = "cs30"},
+                    new OddNodeAttrBase { XmlAttribute = "cs31", MatchOddAttribute = "C31", Description = "Price for 3-1", DBAttribute = "cs31"},
+                    new OddNodeAttrBase { XmlAttribute = "cs32", MatchOddAttribute = "C32", Description = "Price for 3-2", DBAttribute = "cs32"},
+                    new OddNodeAttrBase { XmlAttribute = "cs40", MatchOddAttribute = "C40", Description = "Price for 4-0", DBAttribute = "cs40"},
+                    new OddNodeAttrBase { XmlAttribute = "cs41", MatchOddAttribute = "C41", Description = "Price for 4-1", DBAttribute = "cs41"},
+                    new OddNodeAttrBase { XmlAttribute = "cs42", MatchOddAttribute = "C42", Description = "Price for 4-2", DBAttribute = "cs42"},
+                    new OddNodeAttrBase { XmlAttribute = "cs43", MatchOddAttribute = "C43", Description = "Price for 4-3", DBAttribute = "cs43"},
+                    new OddNodeAttrBase { XmlAttribute = "cs01", MatchOddAttribute = "C01", Description = "Price for 0-1", DBAttribute = "cs01"},
+                    new OddNodeAttrBase { XmlAttribute = "cs02", MatchOddAttribute = "C02", Description = "Price for 0-2", DBAttribute = "cs02"},
+                    new OddNodeAttrBase { XmlAttribute = "cs12", MatchOddAttribute = "C12", Description = "Price for 1-2", DBAttribute = "cs12"},
+                    new OddNodeAttrBase { XmlAttribute = "cs03", MatchOddAttribute = "C03", Description = "Price for 0-3", DBAttribute = "cs03"},
+                    new OddNodeAttrBase { XmlAttribute = "cs13", MatchOddAttribute = "C13", Description = "Price for 1-3", DBAttribute = "cs13"},
+                    new OddNodeAttrBase { XmlAttribute = "cs23", MatchOddAttribute = "C23", Description = "Price for 2-3", DBAttribute = "cs23"},
+                    new OddNodeAttrBase { XmlAttribute = "cs04", MatchOddAttribute = "C04", Description = "Price for 0-4", DBAttribute = "cs04"},
+                    new OddNodeAttrBase { XmlAttribute = "cs14", MatchOddAttribute = "C14", Description = "Price for 1-4", DBAttribute = "cs14"},
+                    new OddNodeAttrBase { XmlAttribute = "cs24", MatchOddAttribute = "C24", Description = "Price for 2-4", DBAttribute = "cs24"},
+                    new OddNodeAttrBase { XmlAttribute = "cs34", MatchOddAttribute = "C34", Description = "Price for 3-4", DBAttribute = "cs34"},
+                    new OddNodeAttrBase { XmlAttribute = "cs00", MatchOddAttribute = "C00", Description = "Price for 0-0", DBAttribute = "cs00"},
+                    new OddNodeAttrBase { XmlAttribute = "cs11", MatchOddAttribute = "C11", Description = "Price for 1-1", DBAttribute = "cs11"},
+                    new OddNodeAttrBase { XmlAttribute = "cs22", MatchOddAttribute = "C22", Description = "Price for 2-2", DBAttribute = "cs22"},
+                    new OddNodeAttrBase { XmlAttribute = "cs33", MatchOddAttribute = "C33", Description = "Price for 3-3", DBAttribute = "cs33"},
+                    new OddNodeAttrBase { XmlAttribute = "cs44", MatchOddAttribute = "C44", Description = "Price for 4-4", DBAttribute = "cs44"},
+                    new OddNodeAttrBase { XmlAttribute = "csaos", MatchOddAttribute = "CSOAS", Description = "Price for AOS", DBAttribute = "cs99"},
                     // for bettype 4
-                    new OddNodeAttrBase { XmlAttribute = "cs05", MatchOddAttribute = "C05", Description = "0-5 UP", DBAttribute = "cs05"},
-                    new OddNodeAttrBase { XmlAttribute = "cs50", MatchOddAttribute = "C50", Description = "5-0 UP", DBAttribute = "cs50"}
+                    new OddNodeAttrBase { XmlAttribute = "cs05", MatchOddAttribute = "C05", Description = "Price for 0-5 UP", DBAttribute = "cs05"},
+                    new OddNodeAttrBase { XmlAttribute = "cs50", MatchOddAttribute = "C50", Description = "Price for 5-0 UP", DBAttribute = "cs50"}
                 }
             },
             new OddNodeBase
@@ -425,26 +457,26 @@
                 Desc = "1H Correct Score (aos)",
                 IsChildBettype = true,
                 Odds = new OddNodeAttrBase[19] {
-                    new OddNodeAttrBase { XmlAttribute = "cs10", MatchOddAttribute = "C10", Description = "1-0", DBAttribute = "cs10"},
-                    new OddNodeAttrBase { XmlAttribute = "cs20", MatchOddAttribute = "C20", Description = "2-0", DBAttribute = "cs20"},
-                    new OddNodeAttrBase { XmlAttribute = "cs21", MatchOddAttribute = "C21", Description = "2-1", DBAttribute = "cs21"},
-                    new OddNodeAttrBase { XmlAttribute = "cs30", MatchOddAttribute = "C30", Description = "3-0", DBAttribute = "cs30"},
-                    new OddNodeAttrBase { XmlAttribute = "cs31", MatchOddAttribute = "C31", Description = "3-1", DBAttribute = "cs31"},
-                    new OddNodeAttrBase { XmlAttribute = "cs32", MatchOddAttribute = "C32", Description = "3-2", DBAttribute = "cs32"},
-                    new OddNodeAttrBase { XmlAttribute = "cs01", MatchOddAttribute = "C01", Description = "0-1", DBAttribute = "cs01"},
-                    new OddNodeAttrBase { XmlAttribute = "cs02", MatchOddAttribute = "C02", Description = "0-2", DBAttribute = "cs02"},
-                    new OddNodeAttrBase { XmlAttribute = "cs12", MatchOddAttribute = "C12", Description = "1-2", DBAttribute = "cs12"},
-                    new OddNodeAttrBase { XmlAttribute = "cs03", MatchOddAttribute = "C03", Description = "0-3", DBAttribute = "cs03"},
-                    new OddNodeAttrBase { XmlAttribute = "cs13", MatchOddAttribute = "C13", Description = "1-3", DBAttribute = "cs13"},
-                    new OddNodeAttrBase { XmlAttribute = "cs23", MatchOddAttribute = "C23", Description = "2-3", DBAttribute = "cs23"},
-                    new OddNodeAttrBase { XmlAttribute = "cs00", MatchOddAttribute = "C00", Description = "0-0", DBAttribute = "cs00"},
-                    new OddNodeAttrBase { XmlAttribute = "cs11", MatchOddAttribute = "C11", Description = "1-1", DBAttribute = "cs11"},
-                    new OddNodeAttrBase { XmlAttribute = "cs22", MatchOddAttribute = "C22", Description = "2-2", DBAttribute = "cs22"},
-                    new OddNodeAttrBase { XmlAttribute = "cs33", MatchOddAttribute = "C33", Description = "3-3", DBAttribute = "cs33"},
-                    new OddNodeAttrBase { XmlAttribute = "csaos", MatchOddAttribute = "CSOAS", Description = "AOS", DBAttribute = "cs99"},
+                    new OddNodeAttrBase { XmlAttribute = "cs10", MatchOddAttribute = "C10", Description = "Price for 1-0", DBAttribute = "cs10"},
+                    new OddNodeAttrBase { XmlAttribute = "cs20", MatchOddAttribute = "C20", Description = "Price for 2-0", DBAttribute = "cs20"},
+                    new OddNodeAttrBase { XmlAttribute = "cs21", MatchOddAttribute = "C21", Description = "Price for 2-1", DBAttribute = "cs21"},
+                    new OddNodeAttrBase { XmlAttribute = "cs30", MatchOddAttribute = "C30", Description = "Price for 3-0", DBAttribute = "cs30"},
+                    new OddNodeAttrBase { XmlAttribute = "cs31", MatchOddAttribute = "C31", Description = "Price for 3-1", DBAttribute = "cs31"},
+                    new OddNodeAttrBase { XmlAttribute = "cs32", MatchOddAttribute = "C32", Description = "Price for 3-2", DBAttribute = "cs32"},
+                    new OddNodeAttrBase { XmlAttribute = "cs01", MatchOddAttribute = "C01", Description = "Price for 0-1", DBAttribute = "cs01"},
+                    new OddNodeAttrBase { XmlAttribute = "cs02", MatchOddAttribute = "C02", Description = "Price for 0-2", DBAttribute = "cs02"},
+                    new OddNodeAttrBase { XmlAttribute = "cs12", MatchOddAttribute = "C12", Description = "Price for 1-2", DBAttribute = "cs12"},
+                    new OddNodeAttrBase { XmlAttribute = "cs03", MatchOddAttribute = "C03", Description = "Price for 0-3", DBAttribute = "cs03"},
+                    new OddNodeAttrBase { XmlAttribute = "cs13", MatchOddAttribute = "C13", Description = "Price for 1-3", DBAttribute = "cs13"},
+                    new OddNodeAttrBase { XmlAttribute = "cs23", MatchOddAttribute = "C23", Description = "Price for 2-3", DBAttribute = "cs23"},
+                    new OddNodeAttrBase { XmlAttribute = "cs00", MatchOddAttribute = "C00", Description = "Price for 0-0", DBAttribute = "cs00"},
+                    new OddNodeAttrBase { XmlAttribute = "cs11", MatchOddAttribute = "C11", Description = "Price for 1-1", DBAttribute = "cs11"},
+                    new OddNodeAttrBase { XmlAttribute = "cs22", MatchOddAttribute = "C22", Description = "Price for 2-2", DBAttribute = "cs22"},
+                    new OddNodeAttrBase { XmlAttribute = "cs33", MatchOddAttribute = "C33", Description = "Price for 3-3", DBAttribute = "cs33"},
+                    new OddNodeAttrBase { XmlAttribute = "csaos", MatchOddAttribute = "CSOAS", Description = "Price for AOS", DBAttribute = "cs99"},
                     // for bettype 30
-                    new OddNodeAttrBase { XmlAttribute = "cs04", MatchOddAttribute = "C04", Description = "0-4 UP", DBAttribute = "cs04"},
-                    new OddNodeAttrBase { XmlAttribute = "cs40", MatchOddAttribute = "C40", Description = "4-0 UP", DBAttribute = "cs40"}
+                    new OddNodeAttrBase { XmlAttribute = "cs04", MatchOddAttribute = "C04", Description = "Price for 0-4 UP", DBAttribute = "cs04"},
+                    new OddNodeAttrBase { XmlAttribute = "cs40", MatchOddAttribute = "C40", Description = "Price for 4-0 UP", DBAttribute = "cs40"}
                 }
             }
         };

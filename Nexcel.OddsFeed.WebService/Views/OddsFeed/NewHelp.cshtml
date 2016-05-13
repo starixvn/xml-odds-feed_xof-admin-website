@@ -1519,7 +1519,7 @@
                                         <ul>
                                             @foreach(Nexcel.OddsFeed.Library.Matchs.OddNodeBuilder.OddNodeAttrBase betTypeOdd in betType.Odds)
                                             {
-                                                <li>@betTypeOdd.XmlAttribute: Price for @betTypeOdd.Description</li>
+                                                <li>@betTypeOdd.XmlAttribute: @Html.Raw(@betTypeOdd.Description)</li>
                                             }
                                         </ul>
                                     </li>
