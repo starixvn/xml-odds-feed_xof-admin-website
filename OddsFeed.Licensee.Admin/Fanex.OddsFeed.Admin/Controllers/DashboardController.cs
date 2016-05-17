@@ -14,7 +14,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
     using Fanex.OddsFeed.Core.Service.Interface;
     using Fanex.OddsFeed.Core.Web;
     using Fanex.OddsFeed.Core.Web.Attribute;
-    using ONEbook.UM.Filters;
     using System;
     using System.Data;
     using System.Web.Mvc;
@@ -23,7 +22,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
     /// Class DashboardController.
     /// </summary>
     [IsAuthorize]
-    [CheckUMFilter]
     public class DashboardController : BaseController
     {
         #region Members

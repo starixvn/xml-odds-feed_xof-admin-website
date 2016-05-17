@@ -11,14 +11,12 @@
 namespace Fanex.OddsFeed.Admin.Controllers
 {
     using Fanex.OddsFeed.Core.Web.Attribute;
-    using ONEbook.UM.Filters;
     using System.Web.Mvc;
 
     /// <summary>
     /// Class HomeController.
     /// </summary>
     [IsAuthorize]
-    [CheckUMFilter]
     public class HomeController : Controller
     {
         public ActionResult Index()

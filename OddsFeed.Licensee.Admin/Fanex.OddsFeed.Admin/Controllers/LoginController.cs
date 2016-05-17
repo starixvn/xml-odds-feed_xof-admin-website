@@ -17,7 +17,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
     using Fanex.OddsFeed.Core.Service.Interface;
     using Fanex.OddsFeed.Core.Web;
     using Fanex.OddsFeed.Core.Web.Session;
-    using ONEbook.UM.Filters;
     using System;
     using System.Web;
     using System.Web.Mvc;
@@ -68,7 +67,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
         }
 
         [HttpGet]
-        [UMBackdoorFilter]
         public ActionResult Index()
         {
             ViewBag.FullDomainName = CurrentContext.FullDomainName;
@@ -82,7 +80,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
         /// <param name="criteria">The criteria.</param>
         /// <returns>Represents a JSON-formatted content of logging.</returns>
         [HttpPost]
-        [CheckUMFilter]
         public JsonResult Index(UserLoginUserCriteria criteria)
         {
             var actionResult = new OddsFeedActionResult();
@@ -125,7 +122,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
         #region sign out
 
-        [CheckUMFilter]
         public ActionResult LogOut()
         {
             DoSignOut();
@@ -133,7 +129,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-        [CheckUMFilter]
         public void DoSignOut()
         {
             _userService.UserLogOut(new LogOutUserCriteria
@@ -150,7 +145,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
         #region re check in
 
         [HttpPost]
-        [CheckUMFilter]
         public ActionResult ReCheckLogin()
         {
             UserReCheckInUserCriteria criteria = new UserReCheckInUserCriteria();
@@ -168,7 +162,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
         /// </summary>
         /// <returns>The user password updating page.</returns>
         [HttpGet]
-        [CheckUMFilter]
         public ActionResult UpdateUserPassword()
         {
             ModelState.Clear();
@@ -196,7 +189,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
         /// <param name="criteria">The user's criteria.</param>
         /// <returns>Represents a JSON-formatted content of updating.</returns>
         [HttpPost]
-        [CheckUMFilter]
         public JsonResult UpdateUserPasswordPost(UpdatePasswordUserCriteria criteria)
         {
             var actionResult = new OddsFeedActionResult();

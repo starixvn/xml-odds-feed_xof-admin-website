@@ -8,11 +8,6 @@
 // </history>
 namespace Fanex.OddsFeed.Admin.Controllers
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Web;
-    using System.Web.Mvc;
-    using System.Web.Script.Serialization;
     using Fanex.Common;
     using Fanex.OddsFeed.Core.Business;
     using Fanex.OddsFeed.Core.Criteria.Administrator;
@@ -24,12 +19,15 @@ namespace Fanex.OddsFeed.Admin.Controllers
     using Fanex.OddsFeed.Core.Service.Interface;
     using Fanex.OddsFeed.Core.Web;
     using Fanex.OddsFeed.Core.Web.Attribute;
-    using ONEbook.UM.Filters;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Web;
+    using System.Web.Mvc;
+    using System.Web.Script.Serialization;
     /// <summary>
     /// Class SubAccountController.
     /// </summary>
     [IsAuthorize]
-    [CheckUMFilter]    
     public class SubAccountController : BaseController
     {
         #region Members
@@ -122,7 +120,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
             {
                 Username = string.IsNullOrEmpty(criteria.UserName) ? string.Empty : criteria.UserName,
                 PageIndex = 1,
-                PageSize = 1,                
+                PageSize = 1,
                 RoleId = 3
             });
 
@@ -166,7 +164,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
             var result = FanexGridHelper.DataForFanexGrid_PreventContainQuote(dr);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-        
+
         /// <summary>
         /// List existed sub account.
         /// </summary>
@@ -250,7 +248,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
                     {
                         actionResult.ResultMessage = result.Message;
                     }
-                }        
+                }
             }
 
             return Json(actionResult, JsonRequestBehavior.AllowGet);
@@ -368,7 +366,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
             ViewBag.CurrentUser = " of \"" + userName + "\"";
             byte systemId = CurrentSession.SystemId;
-            
+
             var result = _subAccService.GetUserPermission(id, systemId) as PermissionFlag;
             if (result == null)
             {
@@ -510,7 +508,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
             }
 
             ////System
-            IEnumerable<SelectListItem> systemList = new List<SelectListItem>();            
+            IEnumerable<SelectListItem> systemList = new List<SelectListItem>();
             systemList = _subAccService.GetSelectList(new GetOptionalSystemBySubAccountIDCriteria() { UserID = CurrentSession.UserId, SubAccountID = criteria.UserID });
             ViewBag.SystemListID = systemList;
 
@@ -530,7 +528,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
             ViewBag.CurrentUser = " \"" + criteria.UserName + "\"";
             return View(criteria);
         }
-        
+
         private bool HasEditPermission(int userRole)
         {
             return !(userRole == (int)Constant.UserRole.LicenseeSubAccount);

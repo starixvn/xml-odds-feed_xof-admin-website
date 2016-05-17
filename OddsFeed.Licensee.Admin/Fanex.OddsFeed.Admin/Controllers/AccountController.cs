@@ -9,13 +9,11 @@
 
 namespace Fanex.OddsFeed.Admin.Controllers
 {
-    using ONEbook.UM.Filters;
     using System.Web.Mvc;
 
     /// <summary>
     /// Account Controller class.
     /// </summary>
-    [CheckUMFilter]
     public class AccountController : Controller
     {
         //// GET: /Account/

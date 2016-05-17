@@ -18,7 +18,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
     using Fanex.OddsFeed.Core.Service.Interface;
     using Fanex.OddsFeed.Core.Web;
     using Fanex.OddsFeed.Core.Web.Attribute;
-    using ONEbook.UM.Filters;
     using System.Data;
     using System.Web.Mvc;
 
@@ -26,7 +25,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
     /// Class CompanyController.
     /// </summary>
     [IsAuthorize]
-    [CheckUMFilter]
     public class CompanyController : BaseController
     {
         #region Members
