@@ -33,8 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Couchbase">
-      <HintPath>..\_Dependencies\Caching\Couchbase-Net-Client-1.2.3\Couchbase.dll</HintPath>
+    <Reference Include="Couchbase, Version=1.2.2.1, Culture=neutral, PublicKeyToken=05e9c6b5a9ec94c2, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\_Dependencies\Caching\Couchbase-1.2.6.0\Couchbase.dll</HintPath>
     </Reference>
     <Reference Include="Enyim.Caching">
       <HintPath>..\_Dependencies\Caching\Couchbase-Net-Client-1.2.3\Enyim.Caching.dll</HintPath>
