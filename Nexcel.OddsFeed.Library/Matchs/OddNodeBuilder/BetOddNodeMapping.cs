@@ -261,7 +261,12 @@
                 Odds = new OddNodeAttrBase[3] {
                     new OddNodeAttrBase { XmlAttribute = "o", DBAttribute = "odds1a", MatchOddAttribute = "O", Description = "Price for Over"},
                     new OddNodeAttrBase { XmlAttribute = "u", DBAttribute = "odds2a", MatchOddAttribute = "U", Description = "Price for Under"},
-                    new OddNodeAttrHandicap { XmlAttribute = "h", DBAttribute = "hdp1", MatchOddAttribute = "H", Description = "Price for Over/Under value"}
+                    new OddNodeAttrHandicap {
+                        NotToConvertOdd = true,
+                        XmlAttribute = "h",
+                        DBAttribute = "hdp1",
+                        MatchOddAttribute = "H",
+                        Description = "Price for Over/Under value"}
                 }
             },
             new OddNodeBase
@@ -272,7 +277,12 @@
                 Odds = new OddNodeAttrBase[3] {
                     new OddNodeAttrBase { XmlAttribute = "o", DBAttribute = "odds1a", MatchOddAttribute = "O", Description = "Price for Over"},
                     new OddNodeAttrBase { XmlAttribute = "u", DBAttribute = "odds2a", MatchOddAttribute = "U", Description = "Price for Under"},
-                    new OddNodeAttrHandicap { XmlAttribute = "h", DBAttribute = "hdp1", MatchOddAttribute = "H", Description = "Price for Over/Under value"}
+                    new OddNodeAttrHandicap {
+                        NotToConvertOdd = true,
+                        XmlAttribute = "h",
+                        DBAttribute = "hdp1",
+                        MatchOddAttribute = "H",
+                        Description = "Price for Over/Under value"}
                 }
             },
             new OddNodeBase
@@ -283,7 +293,12 @@
                 Odds = new OddNodeAttrBase[3] {
                     new OddNodeAttrBase { XmlAttribute = "o", DBAttribute = "odds1a", MatchOddAttribute = "O", Description = "Price for Over"},
                     new OddNodeAttrBase { XmlAttribute = "u", DBAttribute = "odds2a", MatchOddAttribute = "U", Description = "Price for Under"},
-                    new OddNodeAttrHandicap { XmlAttribute = "h", DBAttribute = "hdp1", MatchOddAttribute = "H", Description = "Price for Over/Under value"}
+                    new OddNodeAttrHandicap {
+                        NotToConvertOdd = true,
+                        XmlAttribute = "h",
+                        DBAttribute = "hdp1",
+                        MatchOddAttribute = "H",
+                        Description = "Price for Over/Under value"}
                 }
             },
             new OddNodeBase
@@ -294,7 +309,12 @@
                 Odds = new OddNodeAttrBase[3] {
                     new OddNodeAttrBase { XmlAttribute = "o", DBAttribute = "odds1a", MatchOddAttribute = "O", Description = "Price for Over"},
                     new OddNodeAttrBase { XmlAttribute = "u", DBAttribute = "odds2a", MatchOddAttribute = "U", Description = "Price for Under"},
-                    new OddNodeAttrHandicap { XmlAttribute = "h", DBAttribute = "hdp1", MatchOddAttribute = "H", Description = "Price for Over/Under value"}
+                    new OddNodeAttrHandicap {
+                        NotToConvertOdd = true,
+                        XmlAttribute = "h",
+                        DBAttribute = "hdp1",
+                        MatchOddAttribute = "H",
+                        Description = "Price for Over/Under value"}
                 }
             },
             new OddNodeBase
