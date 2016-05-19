@@ -173,15 +173,15 @@
                     new OddNodeAttrBase { XmlAttribute = "c", DBAttribute = "cs02", MatchOddAttribute = "C", Description = "Price for Corner"},
                     new OddNodeAttrBase { XmlAttribute = "fk", DBAttribute = "cs03", MatchOddAttribute = "FK", Description = "Price for Free Kick"},
                     new OddNodeAttrBase { XmlAttribute = "gk", DBAttribute = "cs04", MatchOddAttribute = "GK", Description = "Price for Goal Kick"},
-                    new OddNodeAttrBase { XmlAttribute = "ti", DBAttribute = "cs05", MatchOddAttribute = "TI", Description = "Price for Thow In"},
+                    new OddNodeAttrBase { XmlAttribute = "ti", DBAttribute = "cs05", MatchOddAttribute = "TI", Description = "Price for Throw In"},
                     new OddNodeAttrBase {
-                        XmlAttribute = "time",
+                        XmlAttribute = "intervals",
                         DBAttribute = "hdp1",
                         MatchOddAttribute = "TIME_INTERVAL",
                         Description = @"Indicates offered intervals. For example: 
-                            <br>&nbsp;&nbsp;&nbsp; time = 1 for 00:00 - 00:59 
-                            <br>&nbsp;&nbsp;&nbsp; time = 2 for 01:00 - 01:59
-                            <br>&nbsp;&nbsp;&nbsp; time = 90 for 89:00 - 89:59"}
+                            <br>&nbsp;&nbsp;&nbsp; intervals = 1 for 00:00 - 00:59 
+                            <br>&nbsp;&nbsp;&nbsp; intervals = 2 for 01:00 - 01:59
+                            <br>&nbsp;&nbsp;&nbsp; intervals = 90 for 89:00 - 89:59"}
                 }
             },
             new OddNodeBase
@@ -197,13 +197,13 @@
                     new OddNodeAttrBase { XmlAttribute = "py", DBAttribute = "cs13", MatchOddAttribute = "PY", Description = "Price for Penalty Yes"},
                     new OddNodeAttrBase { XmlAttribute = "pn", DBAttribute = "cs31", MatchOddAttribute = "PN", Description = "Price for Penalty No"},
                     new OddNodeAttrBase {
-                        XmlAttribute = "time",
+                        XmlAttribute = "intervals",
                         DBAttribute = "hdp1",
                         MatchOddAttribute = "TIME_INTERVAL",
                         Description = @"Indicates offered intervals. For example: 
-                            <br>&nbsp;&nbsp;&nbsp; time = 1 for 00:00 - 00:59 
-                            <br>&nbsp;&nbsp;&nbsp; time = 2 for 01:00 - 01:59
-                            <br>&nbsp;&nbsp;&nbsp; time = 90 for 89:00 - 89:59"}
+                            <br>&nbsp;&nbsp;&nbsp; intervals = 1 for 00:00 - 00:59 
+                            <br>&nbsp;&nbsp;&nbsp; intervals = 2 for 01:00 - 01:59
+                            <br>&nbsp;&nbsp;&nbsp; intervals = 90 for 89:00 - 89:59"}
                 }
             },
             new OddNodeBase
@@ -219,13 +219,13 @@
                     new OddNodeAttrBase { XmlAttribute = "gk", DBAttribute = "cs04", MatchOddAttribute = "GK", Description = "Price for Goal Kick"},
                     new OddNodeAttrBase { XmlAttribute = "ti", DBAttribute = "cs05", MatchOddAttribute = "TI", Description = "Price for Throw In"},
                     new OddNodeAttrBase {
-                        XmlAttribute = "time",
+                        XmlAttribute = "intervals",
                         DBAttribute = "hdp1",
                         MatchOddAttribute = "TIME_INTERVAL",
                         Description = @"Indicates offered intervals. For example: 
-                            <br>&nbsp;&nbsp;&nbsp; time = 1 for 00:00 - 00:59 
-                            <br>&nbsp;&nbsp;&nbsp; time = 2 for 01:00 - 01:59
-                            <br>&nbsp;&nbsp;&nbsp; time = 90 for 89:00 - 89:59"}
+                            <br>&nbsp;&nbsp;&nbsp; intervals = 1 for 00:00 - 00:59 
+                            <br>&nbsp;&nbsp;&nbsp; intervals = 2 for 01:00 - 01:59
+                            <br>&nbsp;&nbsp;&nbsp; intervals = 90 for 89:00 - 89:59"}
                 }
             },
             new OddNodeBase
@@ -240,13 +240,13 @@
                     new OddNodeAttrBase { XmlAttribute = "b", DBAttribute = "cs12", MatchOddAttribute = "B", Description = "Price for Booking"},
                     new OddNodeAttrBase { XmlAttribute = "p", DBAttribute = "cs13", MatchOddAttribute = "P", Description = "Price for Penalty"},
                     new OddNodeAttrBase {
-                        XmlAttribute = "time",
+                        XmlAttribute = "intervals",
                         DBAttribute = "hdp1",
                         MatchOddAttribute = "TIME_INTERVAL",
                         Description = @"Indicates offered intervals. For example: 
-                            <br>&nbsp;&nbsp;&nbsp; time = 1 for 00:00 - 00:59 
-                            <br>&nbsp;&nbsp;&nbsp; time = 2 for 01:00 - 01:59
-                            <br>&nbsp;&nbsp;&nbsp; time = 90 for 89:00 - 89:59"}
+                            <br>&nbsp;&nbsp;&nbsp; intervals = 1 for 00:00 - 00:59 
+                            <br>&nbsp;&nbsp;&nbsp; intervals = 2 for 01:00 - 01:59
+                            <br>&nbsp;&nbsp;&nbsp; intervals = 90 for 89:00 - 89:59"}
                 }
             },
             new OddNodeBase
