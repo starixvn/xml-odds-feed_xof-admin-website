@@ -178,6 +178,7 @@
                         XmlAttribute = "intervals",
                         DBAttribute = "hdp1",
                         MatchOddAttribute = "TIME_INTERVAL",
+                        NotToConvertOdd = true,
                         Description = @"Indicates offered intervals. For example: 
                             <br>&nbsp;&nbsp;&nbsp; intervals = 1 for 00:00 - 00:59 
                             <br>&nbsp;&nbsp;&nbsp; intervals = 2 for 01:00 - 01:59
@@ -200,6 +201,7 @@
                         XmlAttribute = "intervals",
                         DBAttribute = "hdp1",
                         MatchOddAttribute = "TIME_INTERVAL",
+                        NotToConvertOdd = true,
                         Description = @"Indicates offered intervals. For example: 
                             <br>&nbsp;&nbsp;&nbsp; intervals = 1 for 00:00 - 00:59 
                             <br>&nbsp;&nbsp;&nbsp; intervals = 2 for 01:00 - 01:59
@@ -222,6 +224,7 @@
                         XmlAttribute = "intervals",
                         DBAttribute = "hdp1",
                         MatchOddAttribute = "TIME_INTERVAL",
+                        NotToConvertOdd = true,
                         Description = @"Indicates offered intervals. For example: 
                             <br>&nbsp;&nbsp;&nbsp; intervals = 1 for 00:00 - 00:59 
                             <br>&nbsp;&nbsp;&nbsp; intervals = 2 for 01:00 - 01:59
@@ -243,6 +246,7 @@
                         XmlAttribute = "intervals",
                         DBAttribute = "hdp1",
                         MatchOddAttribute = "TIME_INTERVAL",
+                        NotToConvertOdd = true,
                         Description = @"Indicates offered intervals. For example: 
                             <br>&nbsp;&nbsp;&nbsp; intervals = 1 for 00:00 - 00:59 
                             <br>&nbsp;&nbsp;&nbsp; intervals = 2 for 01:00 - 01:59
