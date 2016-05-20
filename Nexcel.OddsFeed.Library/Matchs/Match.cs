@@ -8,13 +8,12 @@
 // </history>
 namespace Nexcel.OddsFeed.Library.Matchs
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Linq;
-    using System.Xml;
     using Nexcel.OddsFeed.Library.Matches;
     using OddNodeBuilder;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Xml;
     /// <summary>
     /// Class Match.
     /// </summary>
@@ -127,9 +126,9 @@ namespace Nexcel.OddsFeed.Library.Matchs
         /// <param name="bookiename">Bookie name.</param>
         /// <param name="filter">Odds feed filter.</param>
         /// <returns>The XmlNode.</returns>
-        public XmlNode BuildXmlNodeMatch(XmlDocument xd, OddsProfile op, string bookiename, OddsFeedFilter filter)
+        public XmlNode BuildXmlNodeMatch(XmlDocument xd, OddsProfile op, string bookiename, OddsFeedFilter filter, bool isSample = false)
         {
-            var bookie = BuildXmlNodeBookie(xd, op, bookiename, filter);
+            var bookie = BuildXmlNodeBookie(xd, op, bookiename, filter, isSample);
             if (bookie == null)
             {
                 return null;
@@ -290,12 +289,12 @@ namespace Nexcel.OddsFeed.Library.Matchs
         /// <param name="bookiename">Bookie name.</param>
         /// <param name="filter">Odds Feed Filter.</param>        
         /// <returns>The xml node.</returns>
-        private XmlNode BuildXmlNodeBookie(XmlDocument xd, OddsProfile op, string bookiename, OddsFeedFilter filter)
+        private XmlNode BuildXmlNodeBookie(XmlDocument xd, OddsProfile op, string bookiename, OddsFeedFilter filter, bool isSample = false)
         {
             ////bookie
             var bookie = xd.CreateNode(XmlNodeType.Element, "bookie", null);
 
-            BuildXmlNodeOdd(xd, op, bookiename, filter, ref bookie);
+            BuildXmlNodeOdd(xd, op, bookiename, filter, ref bookie, isSample);
             if (bookie.ChildNodes.Count == 0)
             {
                 return null;
@@ -324,12 +323,12 @@ namespace Nexcel.OddsFeed.Library.Matchs
         /// <param name="bookiename">Bookie name.</param>
         /// <param name="filter">Odds Feed Filter.</param>
         /// <param name="bookie">The Xml Node.</param>
-        private void BuildXmlNodeOdd(XmlDocument xd, OddsProfile op, string bookiename, OddsFeedFilter filter, ref XmlNode bookie)
+        private void BuildXmlNodeOdd(XmlDocument xd, OddsProfile op, string bookiename, OddsFeedFilter filter, ref XmlNode bookie, bool isSample = false)
         {
-                        ////odds
+            ////odds
             foreach (var item in Bookie.Odds)
             {
-                if (op.BetTypes != null)
+                if (op.BetTypes != null && !isSample)
                 {
                     if (!op.BetTypes.Contains(item.BetTypeId))
                     {
