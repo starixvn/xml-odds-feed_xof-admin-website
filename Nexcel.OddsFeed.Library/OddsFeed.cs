@@ -8,24 +8,23 @@
 // </history>
 namespace Nexcel.OddsFeed.Library
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Linq;
-    using System.Xml;
     using Nexcel.OddsFeed.Library.Matchs;
     using Nexcel.OddsFeed.Library.Outrights;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Xml;
 
     /// <summary>
     /// Class OddsFeed.
     /// </summary>
     public class OddsFeed
-    {        
-        private string _bookiename;     
-        private IList<Match> _liveMatches;        
-        private IList<Match> _deadballMatches;        
-        private IList<Event> _events;        
-        private OddsProfile _op;                        
+    {
+        private string _bookiename;
+        private IList<Match> _liveMatches;
+        private IList<Match> _deadballMatches;
+        private IList<Event> _events;
+        private OddsProfile _op;
         private string _timestamp;
 
         /// <summary>
@@ -86,7 +85,7 @@ namespace Nexcel.OddsFeed.Library
 
                 root.AppendChild(matchs);
             }
-        
+
             return root;
         }
 
@@ -105,7 +104,7 @@ namespace Nexcel.OddsFeed.Library
             xd.InsertBefore(xmlDeclaration, xd.DocumentElement);
 
             var root = xd.CreateElement("eventfeed");
-            
+
             ////build outrights
             var outrights = BuildOutRightEvent(xd, filter, isOutrights, isSample);
             if (outrights != null)
@@ -140,19 +139,19 @@ namespace Nexcel.OddsFeed.Library
         {
             IList<Match> filteredMatches = null;
             filteredMatches = (from i in source
-                                       where (changeTime ? i.TimeStamp > ts : true) &&                                         
-                                                  ////filter by sports
-                                                 (_op.Sports == null ? true : (_op.Sports.Count != 0 ? _op.Sports.Contains(i.SportId) : false)) &&                                                 
-                                                 (filter.Sports == null || filter.Sports.Count == 0 ? true : filter.Sports.Contains(i.SportId)) &&
-                                                  ////filter by leagues
-                                                 (_op.Leagues == null ? true : (_op.Leagues.Count != 0 ? _op.Leagues.Contains(i.LeagueId) : false))  &&
-                                                 (filter.Leagues == null || filter.Leagues.Count == 0 ? true : FilterByLeague(filter.Leagues, i.League[0].Content.ToLower())) &&
-                                                 ////filter by countries
-                                                 (_op.Countries == null ? true : (_op.Countries.Count != 0 ? _op.Countries.Contains(i.CountryCode.ToLower()) : false)) &&
-                                                 (filter.Countries == null || filter.Countries.Count == 0 ? true : filter.Countries.Contains(i.CountryCode.ToLower())) &&
-                                                 ////filter by keyword
-                                                 (string.IsNullOrEmpty(_op.LeagueKeyword) ? true : i.League[0].Content.ToLower().Contains(_op.LeagueKeyword.ToLower()))                                                 
-                                       select i).ToList();
+                               where (changeTime ? i.TimeStamp > ts : true) &&
+                                         ////filter by sports
+                                         (_op.Sports == null ? true : (_op.Sports.Count != 0 ? _op.Sports.Contains(i.SportId) : false)) &&
+                                         (filter.Sports == null || filter.Sports.Count == 0 ? true : filter.Sports.Contains(i.SportId)) &&
+                                         ////filter by leagues
+                                         (_op.Leagues == null ? true : (_op.Leagues.Count != 0 ? _op.Leagues.Contains(i.LeagueId) : false)) &&
+                                         (filter.Leagues == null || filter.Leagues.Count == 0 ? true : FilterByLeague(filter.Leagues, i.League[0].Content.ToLower())) &&
+                                         ////filter by countries
+                                         (_op.Countries == null ? true : (_op.Countries.Count != 0 ? _op.Countries.Contains(i.CountryCode.ToLower()) : false)) &&
+                                         (filter.Countries == null || filter.Countries.Count == 0 ? true : filter.Countries.Contains(i.CountryCode.ToLower())) &&
+                                         ////filter by keyword
+                                         (string.IsNullOrEmpty(_op.LeagueKeyword) ? true : i.League[0].Content.ToLower().Contains(_op.LeagueKeyword.ToLower()))
+                               select i).ToList();
             return filteredMatches;
         }
 
@@ -175,17 +174,17 @@ namespace Nexcel.OddsFeed.Library
                 var outrights = xd.CreateNode(XmlNodeType.Element, "outrights", null);
                 var filteredOutrights = (from i in _events
                                          where
-                                             ////filter by sports                                            
+                                         ////filter by sports                                            
                                          (_op.Sports == null ? true : (_op.Sports.Count != 0 ? _op.Sports.Contains(i.SportId) : false)) &&
                                          (filter.Sports == null || filter.Sports.Count == 0 ? true : filter.Sports.Contains(i.SportId)) &&
-                                             ////filter by outrights
+                                         ////filter by outrights
                                          (_op.Outrights == null ? true : (_op.Outrights.Count != 0 ? _op.Outrights.Contains(i.Id) : false)) &&
-                                            ////filter by leagues
+                                         ////filter by leagues
                                          (filter.Leagues == null || filter.Leagues.Count == 0 ? true : FilterByLeague(filter.Leagues, i.Content[0].Content.ToLower())) &&
-                                             ////filter by countries                                            
+                                         ////filter by countries                                            
                                          (_op.Countries == null ? true : (_op.Countries.Count != 0 ? _op.Countries.Contains(i.CountryCode.ToLower()) : false)) &&
                                          (filter.Countries == null || filter.Countries.Count == 0 ? true : filter.Countries.Contains(i.CountryCode.ToLower())) &&
-                                             ////filter by keyword
+                                         ////filter by keyword
                                          (string.IsNullOrEmpty(_op.OutrightsKeyword) ? true : i.Content[0].Content.ToLower().Contains(_op.OutrightsKeyword.ToLower()))
                                          select i).ToList();
 
@@ -205,7 +204,7 @@ namespace Nexcel.OddsFeed.Library
                     }
                 }
 
-                return outrights;                
+                return outrights;
             }
 
             return null;
@@ -222,7 +221,7 @@ namespace Nexcel.OddsFeed.Library
         private XmlNode BuildMatch(XmlElement root, XmlDocument xd, OddsFeedFilter filter, bool isSample = false)
         {
             var changetime = !string.IsNullOrEmpty(_timestamp); //// && (op.SpParams == "timestamp");
-            int ts = changetime ? int.Parse(_timestamp) : 0;            
+            int ts = changetime ? int.Parse(_timestamp) : 0;
 
             IList<Match> filteredDeadballMatches = null;
             IList<Match> filteredLiveMatches = null;
@@ -241,7 +240,7 @@ namespace Nexcel.OddsFeed.Library
             if (filteredLiveMatches != null || filteredDeadballMatches != null)
             {
                 var ms = xd.CreateNode(XmlNodeType.Element, "matches", null);
-                
+
                 var sampleMatch = false;
                 BuildDeadBallMatch(ref ms, xd, filteredDeadballMatches, filter, isSample, ref sampleMatch);
                 BuildLiveMatch(ref ms, xd, filteredLiveMatches, filter, isSample, sampleMatch);
@@ -257,7 +256,7 @@ namespace Nexcel.OddsFeed.Library
                     BuildOddsType(ref ms, xd);
                 }
 
-                return ms;            
+                return ms;
             }
 
             return null;
@@ -365,7 +364,7 @@ namespace Nexcel.OddsFeed.Library
             {
                 if (isSample && filteredDeadballMatches.Count > 0)
                 {
-                    var matchNode = filteredDeadballMatches[0].BuildXmlNodeMatch(xd, _op, _bookiename, filter);
+                    var matchNode = filteredDeadballMatches[0].BuildXmlNodeMatch(xd, _op, _bookiename, filter, isSample);
                     if (matchNode != null)
                     {
                         ms.AppendChild(matchNode);
@@ -403,8 +402,8 @@ namespace Nexcel.OddsFeed.Library
                 if (isSample && filteredLiveMatches.Count > 0)
                 {
                     if (!sampleMatch)
-                    {                        
-                        var matchNode = filteredLiveMatches[0].BuildXmlNodeMatch(xd, _op, _bookiename, filter);
+                    {
+                        var matchNode = filteredLiveMatches[0].BuildXmlNodeMatch(xd, _op, _bookiename, filter, isSample);
                         if (matchNode != null)
                         {
                             ms.AppendChild(matchNode);
@@ -464,20 +463,20 @@ namespace Nexcel.OddsFeed.Library
             {
                 var filteredOutrights = (from i in _events
                                          where
-                                             ////filter by sports                                            
+                                         ////filter by sports                                            
                                          (_op.Sports == null ? true : (_op.Sports.Count != 0 ? _op.Sports.Contains(i.SportId) : false)) &&
                                          (filter.Sports == null || filter.Sports.Count == 0 ? true : filter.Sports.Contains(i.SportId)) &&
-                                             ////filter by outrights
+                                         ////filter by outrights
                                          (_op.Outrights == null ? true : (_op.Outrights.Count != 0 ? _op.Outrights.Contains(i.Id) : false)) &&
-                                             ////filter by leagues
+                                         ////filter by leagues
                                          (filter.Leagues == null || filter.Leagues.Count == 0 ? true : FilterByLeague(filter.Leagues, i.Content[0].Content.ToLower())) &&
-                                             ////filter by countries                                            
+                                         ////filter by countries                                            
                                          (_op.Countries == null ? true : (_op.Countries.Count != 0 ? _op.Countries.Contains(i.CountryCode.ToLower()) : false)) &&
                                          (filter.Countries == null || filter.Countries.Count == 0 ? true : filter.Countries.Contains(i.CountryCode.ToLower())) &&
-                                             ////filter by keyword
+                                         ////filter by keyword
                                          (string.IsNullOrEmpty(_op.OutrightsKeyword) ? true : i.Content[0].Content.ToLower().Contains(_op.OutrightsKeyword.ToLower()))
                                          select i).ToList();
-                
+
                 if (isSample && isOutrights && filteredOutrights.Count > 0)
                 {
                     outrights.AppendChild(filteredOutrights[0].BuildXmlNodeOutRightEvent(xd, _op));
@@ -504,7 +503,7 @@ namespace Nexcel.OddsFeed.Library
         private XmlNode BuildMatchEvent(XmlDocument xd, OddsFeedFilter filter, bool isSample)
         {
             var changetime = !string.IsNullOrEmpty(_timestamp); ////&& (op.SpParams == "timestamp");
-            int ts = changetime ? int.Parse(_timestamp) : 0;      
+            int ts = changetime ? int.Parse(_timestamp) : 0;
 
             IList<Match> filteredDeadballMatches = null;
             IList<Match> filteredLiveMatches = null;
@@ -523,7 +522,7 @@ namespace Nexcel.OddsFeed.Library
             var fullMatches = FilterMatchEvent(filteredDeadballMatches, filteredLiveMatches, isSample);
 
             if (fullMatches.Count > 0)
-            {                
+            {
                 var ms = xd.CreateNode(XmlNodeType.Element, "matches", null);
 
                 if (isSample)
@@ -532,10 +531,10 @@ namespace Nexcel.OddsFeed.Library
                 }
                 else
                 {
-                    BuildLeague(ms, xd, fullMatches);                 
+                    BuildLeague(ms, xd, fullMatches);
                 }
 
-                return ms;                
+                return ms;
             }
 
             return null;
@@ -611,7 +610,7 @@ namespace Nexcel.OddsFeed.Library
         /// <param name="xd">The XmlDocument.</param>
         /// <param name="leagues">The leagues.</param>
         private void BuildLeagueNode(XmlNode ms, XmlDocument xd, List<League> leagues)
-        {     
+        {
             foreach (var lg in leagues)
             {
                 var leagueNode = xd.CreateNode(XmlNodeType.Element, "league", null);

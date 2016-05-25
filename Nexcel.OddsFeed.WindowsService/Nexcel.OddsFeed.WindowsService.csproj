@@ -55,9 +55,9 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Couchbase, Version=1.2.3.0, Culture=neutral, PublicKeyToken=05e9c6b5a9ec94c2, processorArchitecture=MSIL">
+    <Reference Include="Couchbase, Version=1.2.2.1, Culture=neutral, PublicKeyToken=05e9c6b5a9ec94c2, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\_Dependencies\Caching\Couchbase-Net-Client-1.2.3\Couchbase.dll</HintPath>
+      <HintPath>..\_Dependencies\Caching\Couchbase-1.2.6.0\Couchbase.dll</HintPath>
     </Reference>
     <Reference Include="Enyim.Caching">
       <HintPath>..\_Dependencies\Caching\Couchbase-Net-Client-1.2.3\Enyim.Caching.dll</HintPath>
@@ -116,6 +116,22 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ONEbook.UM, Version=2.0.2.6, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ONEbook.UM.2.0.2.6\lib\net40\ONEbook.UM.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ONELab.UMService.Common, Version=1.0.16130.935, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ONELab.UMService.1.0.16130.935\lib\net40\ONELab.UMService.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ONELab.UMService.UMClient, Version=1.0.16130.935, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ONELab.UMService.1.0.16130.935\lib\net40\ONELab.UMService.UMClient.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.105.2.3\lib\net4\RestSharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="SPSRemoting, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">

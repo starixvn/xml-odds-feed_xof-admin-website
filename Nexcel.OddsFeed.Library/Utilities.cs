@@ -8,6 +8,8 @@
 // </history>
 namespace Nexcel.OddsFeed.Library
 {
+    using ONEbook.UM.Services;
+    using ONEbook.UM.Services.Impl;
     using System;
     using System.Collections.Generic;
     using System.Configuration;
@@ -16,8 +18,6 @@ namespace Nexcel.OddsFeed.Library
     using System.Net;
     using System.Net.Mail;
     using System.Web;
-    using Fanex.Common;
-    using Sunplus.UMControllerLibrary;
 
     /// <summary>
     /// Class Utilities.
@@ -27,6 +27,8 @@ namespace Nexcel.OddsFeed.Library
         private static string _oddsFormat = "F";
 
         private static string _totalFormat = "#.##";
+
+        private static readonly IMaintenanceService _maintenanceService = new MaintenanceService();
 
         /// <summary>
         /// Reads the text file.
@@ -215,29 +217,11 @@ namespace Nexcel.OddsFeed.Library
         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
         public static bool GetDownTime(out string startTime, out string endTime)
         {
-            startTime = endTime = null;
-            DateTime now = DateTime.Now;
+            var umTime = _maintenanceService.GetUnderMaintenanceTime();
+            startTime = umTime.From;
+            endTime = umTime.To;
 
-            var underMaintainStartTime = Converter.ToDateTime(ConfigurationManager.AppSettings["UM_StartTime"]);
-            var underMaintainEndTime = Converter.ToDateTime(ConfigurationManager.AppSettings["UM_EndTime"]);
-
-            string urlDownTime = Convert.ToString(ConfigurationManager.AppSettings["LBUrl"]);
-            if (now >= underMaintainStartTime && now <= underMaintainEndTime)
-            {
-                startTime = underMaintainStartTime.ToString("hh:mm tt");
-                endTime = underMaintainEndTime.ToString("hh:mm tt");
-                return true;
-            }
-
-            if (string.IsNullOrEmpty(urlDownTime))
-            {
-                return false;
-            }
-
-            var underMaitainCtrl = new UMBusiness();
-            var isUM = underMaitainCtrl.isUnderMaintainence(Sites.OddsFeed, urlDownTime, ref startTime, ref endTime);
-
-            return isUM;
+            return umTime.IsUnderMaintenanceTime; ;
         }
 
         #region Convert Odds From Decimal

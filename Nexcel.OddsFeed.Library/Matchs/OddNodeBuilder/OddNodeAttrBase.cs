@@ -13,23 +13,42 @@
         public string MatchOddAttribute { get; set; }
         public string Description { get; set; }
         public bool NotToBuildData { get; set; }
+        public bool NotToConvertOdd { get; set; }
 
         public virtual void UpdateAttributeForXmlNode(XmlDocument xd, OddsProfile op, MatchOdd item, XmlNode odd)
         {
             var xmlAttribute = xd.CreateAttribute(XmlAttribute);
             var value = item.GetType().GetProperty(MatchOddAttribute).GetValue(item, null);
-            xmlAttribute.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(value)).ToString();
+
+            if (NotToConvertOdd)
+            {
+                xmlAttribute.Value = Convert.ToString(value);
+            }
+            else
+            {
+                xmlAttribute.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(value)).ToString();
+            }
+
 
             odd.Attributes.Append(xmlAttribute);
         }
 
-        public virtual void  UpdateAttributeForMatchOdd(DataRow item, MatchOdd odd)
+        public virtual void UpdateAttributeForMatchOdd(DataRow item, MatchOdd odd)
         {
             if (!NotToBuildData && !(item[DBAttribute] == null) && !(item[DBAttribute].GetType() == typeof(System.DBNull)))
             {
-                string value = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item[DBAttribute])));
+                string value;
+                if (NotToConvertOdd)
+                {
+                    value = string.Format("{0:0.#########}", Converter.ToDecimal(item[DBAttribute]));
+                }
+                else
+                {
+                    value = string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Converter.ToDecimal(item[DBAttribute])));
+                }
+
                 odd.GetType().GetProperty(MatchOddAttribute).SetValue(odd, value, null);
             }
-        }       
+        }
     }
 }

@@ -53,8 +53,8 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Couchbase, Version=1.0.0.0, Culture=neutral, PublicKeyToken=81137140da4e57ef, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Fanex.Caching.1.0.404.97\lib\net40\Couchbase.dll</HintPath>
-      <Private>True</Private>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\_Dependencies\Caching\Couchbase-1.2.6.0\Couchbase.dll</HintPath>
     </Reference>
     <Reference Include="dotless.Core, Version=1.4.0.0, Culture=neutral, PublicKeyToken=96b446c9e63eae34, processorArchitecture=MSIL">
       <HintPath>..\..\packages\dotless.1.4.0.0\lib\dotless.Core.dll</HintPath>
@@ -150,6 +150,22 @@
     </Reference>
     <Reference Include="NuGet.Core, Version=1.6.30117.9648, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\NuGet.Core.1.6.2\lib\net40\NuGet.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ONEbook.UM, Version=2.0.2.6, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\ONEbook.UM.2.0.2.6\lib\net40\ONEbook.UM.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ONELab.UMService.Common, Version=1.0.16130.935, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\ONELab.UMService.1.0.16130.935\lib\net40\ONELab.UMService.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ONELab.UMService.UMClient, Version=1.0.16130.935, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\ONELab.UMService.1.0.16130.935\lib\net40\ONELab.UMService.UMClient.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\RestSharp.105.2.3\lib\net4\RestSharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="SPSRemoting, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">

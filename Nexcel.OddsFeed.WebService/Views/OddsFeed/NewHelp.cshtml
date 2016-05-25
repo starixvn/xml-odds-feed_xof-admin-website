@@ -1519,7 +1519,7 @@
                                         <ul>
                                             @foreach(Nexcel.OddsFeed.Library.Matchs.OddNodeBuilder.OddNodeAttrBase betTypeOdd in betType.Odds)
                                             {
-                                                <li>@betTypeOdd.XmlAttribute: Price for @betTypeOdd.Description</li>
+                                                <li>@betTypeOdd.XmlAttribute: @Html.Raw(@betTypeOdd.Description)</li>
                                             }
                                         </ul>
                                     </li>
@@ -1757,7 +1757,7 @@
                         <br />
                         <strong>What time zone is used for the feed?</strong>
                         <br />
-                        All times displayed in the feed are in GMT-4.
+                        All times displayed in the feed are in GMT+8.
                         <br />
                         <br />
                         <strong>Other Questions?</strong>
@@ -1986,8 +1986,10 @@
                                         }
 
                                         <tr @css4>
-                                            <td class="center">
-                                                @row["BetTypeID"].ToString()
+                                            <td class="center" valign="middle">
+                                                <div class="bettype-inner-div">
+                                                    @row["BetTypeID"].ToString()
+                                                </div>
                                             </td>
                                             <td>
                                                 @row["BetTypeName"].ToString()
@@ -2010,8 +2012,10 @@
                                                                 }
 
                                         <tr @css5>
-                                            <td style="width: 30%" class="center">
-                                                @row["BetTypeID"].ToString()
+                                            <td style="width: 30%" class="center" valign="middle">
+                                                <div class="bettype-inner-div">
+                                                    @row["BetTypeID"].ToString()
+                                                </div>
                                             </td>
                                             <td>
                                                 @row["BetTypeName"].ToString()
@@ -2035,8 +2039,10 @@
 
 
                                         <tr @css6>
-                                            <td style="width: 30%" class="center">
-                                                @row["BetTypeID"].ToString()
+                                            <td style="width: 30%" class="center" valign="middle">
+                                                <div class="bettype-inner-div">
+                                                    @row["BetTypeID"].ToString()
+                                                </div>
                                             </td>                                            
                                             <td>
                                                 @row["BetTypeName"].ToString()

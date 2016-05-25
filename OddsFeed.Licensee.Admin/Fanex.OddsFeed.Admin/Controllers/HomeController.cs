@@ -10,14 +10,13 @@
 
 namespace Fanex.OddsFeed.Admin.Controllers
 {
-    using System.Web.Mvc;    
     using Fanex.OddsFeed.Core.Web.Attribute;
+    using System.Web.Mvc;
 
     /// <summary>
     /// Class HomeController.
     /// </summary>
     [IsAuthorize]
-    [IsUnderMaintainance]    
     public class HomeController : Controller
     {
         public ActionResult Index()

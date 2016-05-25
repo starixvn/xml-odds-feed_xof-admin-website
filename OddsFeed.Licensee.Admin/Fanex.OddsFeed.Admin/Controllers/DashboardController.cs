@@ -9,20 +9,19 @@
 
 namespace Fanex.OddsFeed.Admin.Controllers
 {
-    using System;
-    using System.Data;
-    using System.Web.Mvc;
     using Fanex.OddsFeed.Core.Criteria.Dashboard;
     using Fanex.OddsFeed.Core.Service.Impl;
     using Fanex.OddsFeed.Core.Service.Interface;
     using Fanex.OddsFeed.Core.Web;
     using Fanex.OddsFeed.Core.Web.Attribute;
+    using System;
+    using System.Data;
+    using System.Web.Mvc;
 
     /// <summary>
     /// Class DashboardController.
     /// </summary>
     [IsAuthorize]
-    [IsUnderMaintainance]    
     public class DashboardController : BaseController
     {
         #region Members
@@ -54,7 +53,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
         }
 
         #endregion
-        
+
         //// GET: /Dashboard/
         public ActionResult ShowDashboard()
         {
@@ -109,7 +108,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
             DataSet ds = _dashboardService.GetLoginInfoReturnDataSet(criteria);
             return GenerateLogInInfoTable(ds);
         }
-    
+
         #endregion
 
         #region Current Online User List
@@ -177,7 +176,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
             else
             {
                 DataTable dt = ds.Tables[0];
-                int rowCounter = dt.Rows.Count;                
+                int rowCounter = dt.Rows.Count;
 
                 for (int i = 0; i < rowCounter; i++)
                 {

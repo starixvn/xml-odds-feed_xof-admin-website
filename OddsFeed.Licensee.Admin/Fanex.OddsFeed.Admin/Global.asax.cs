@@ -9,18 +9,17 @@
 
 namespace Fanex.OddsFeed.Admin
 {
+    using Fanex.Data.Configuration;
+    using Fanex.Logging;
+    using Fanex.OddsFeed.Admin.App_Start;
+    using Fanex.OddsFeed.Core.Web.Context;
+    using ONEbook.UM.Filters;
     using System;
     using System.Configuration;
-    using System.Diagnostics.CodeAnalysis;
     using System.Web;
     using System.Web.Mvc;
     using System.Web.Optimization;
     using System.Web.Routing;
-    using Fanex.Data.Configuration;
-    using Fanex.Logging;
-    using Fanex.OddsFeed.Admin.App_Start;
-    using Fanex.OddsFeed.Core;
-    using Fanex.OddsFeed.Core.Web.Context;
 
     /// <summary>
     /// Class MVCApplication.
@@ -33,6 +32,7 @@ namespace Fanex.OddsFeed.Admin
         {
             AreaRegistration.RegisterAllAreas();
 
+            GlobalFilters.Filters.Add(new CheckUMFilter());
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);

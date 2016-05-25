@@ -9,13 +9,7 @@
 
 namespace Fanex.OddsFeed.Admin.Controllers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Web;
-    using System.Web.Mvc;
     using Fanex.Common;
-    using Fanex.Logging;
     using Fanex.OddsFeed.Core.Business;
     using Fanex.OddsFeed.Core.Criteria.Administrator;
     using Fanex.OddsFeed.Core.Criteria.Licensee;
@@ -25,12 +19,14 @@ namespace Fanex.OddsFeed.Admin.Controllers
     using Fanex.OddsFeed.Core.Service.Interface;
     using Fanex.OddsFeed.Core.Web;
     using Fanex.OddsFeed.Core.Web.Attribute;
-
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Web;
+    using System.Web.Mvc;
     /// <summary>
     /// Administrator controller class.
     /// </summary>
     [IsAuthorize]
-    [IsUnderMaintainance]
     public class AdministratorController : BaseController
     {
         #region Members

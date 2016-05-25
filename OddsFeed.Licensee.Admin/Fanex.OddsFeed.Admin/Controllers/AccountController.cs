@@ -9,15 +9,13 @@
 
 namespace Fanex.OddsFeed.Admin.Controllers
 {
-    using System.Web.Mvc;        
-    using Fanex.OddsFeed.Core.Web.Attribute;
+    using System.Web.Mvc;
 
     /// <summary>
     /// Account Controller class.
     /// </summary>
-    [IsUnderMaintainance]    
     public class AccountController : Controller
-    {        
+    {
         //// GET: /Account/
 
         public ActionResult Index()

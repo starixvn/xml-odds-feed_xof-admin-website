@@ -9,10 +9,11 @@
 
 namespace Fanex.OddsFeed.Core
 {
+    using Fanex.Logging;
+    using ONEbook.UM.Services;
+    using ONEbook.UM.Services.Impl;
     using System;
     using System.Collections.Generic;
-    using System.Configuration;
-    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.IO;
     using System.Linq;
@@ -21,14 +22,14 @@ namespace Fanex.OddsFeed.Core
     using System.Text.RegularExpressions;
     using System.Web;
     using System.Web.Mvc;
-    using Fanex.Logging;
-    using Sunplus.UMControllerLibrary;
 
     /// <summary>
     /// Class Utilities.
     /// </summary>
     public static class Utilities
     {
+        private static readonly IMaintenanceService _maintenanceService = new MaintenanceService();
+
         #region Property
 
         public static IList<SelectListItem> DropListStatus
@@ -243,7 +244,7 @@ namespace Fanex.OddsFeed.Core
                 return string.Empty;
             }
 
-            return string.Join(",", array);          
+            return string.Join(",", array);
         }
 
         public static bool IsValidEmail(string email)
@@ -276,7 +277,7 @@ namespace Fanex.OddsFeed.Core
             int hour = value / 60;
             int minute = value - (hour * 60);
             return hour > 0 ? ZeroPrefix(hour) + "h" + ZeroPrefix(minute) + "'" : ZeroPrefix(minute) + "'";
-        }      
+        }
 
         #region IP
         /// <summary>
@@ -327,14 +328,14 @@ namespace Fanex.OddsFeed.Core
         /// <param name="str2">Example STR2 is "2,3,4".</param>
         /// <returns>The result is "1,5".</returns>
         public static string ProducesDifferenceTwoString(string str1, string str2)
-        {            
+        {
             string[] arrayStr1 = str1.Split(',');
             string[] arrayStr2 = str2.Split(',');
 
             IEnumerable<string> arrayDiff = arrayStr1.Except(arrayStr2).Where(item => !string.IsNullOrEmpty(item));
             if (arrayDiff.Any())
-            {                
-                return string.Join(",", arrayDiff);          
+            {
+                return string.Join(",", arrayDiff);
             }
 
             return string.Empty;
@@ -375,36 +376,20 @@ namespace Fanex.OddsFeed.Core
         /// <param name="startTime">The start time.</param>
         /// <param name="endTime">The end time.</param>
         /// <returns><c>True</c> if down time, <c>false</c> otherwise.</returns>
-         public static bool GetDownTime(out string startTime, out string endTime)
+        public static bool GetDownTime(out string startTime, out string endTime)
         {
             startTime = endTime = null;
-            DateTime now = DateTime.Now;
-
-            var underMaintainStartTime = Convert.ToDateTime(ConfigurationManager.AppSettings["UM_StartTime"]);
-            var underMaintainEndTime = Convert.ToDateTime(ConfigurationManager.AppSettings["UM_EndTime"]);
             int timeCacheUM = 10; ////second
-
-            string urlDownTime = Convert.ToString(ConfigurationManager.AppSettings["LBUrl"]);
-            if (now >= underMaintainStartTime && now <= underMaintainEndTime)
-            {
-                startTime = underMaintainStartTime.ToString("hh:mm tt");
-                endTime = underMaintainEndTime.ToString("hh:mm tt");
-                return true;
-            }
-
-            if (string.IsNullOrEmpty(urlDownTime))
-            {
-                return false;
-            }
-
             bool isUM = false;
             if (HttpContext.Current.Cache["IsUM"] == null)
-            {             
+            {
                 try
                 {
-                    var underMaintainCtrl = new UMBusiness();
-                    isUM = underMaintainCtrl.isUnderMaintainence(Sites.OddsFeed, urlDownTime, ref startTime, ref endTime);
-                 
+                    var umTime = _maintenanceService.GetUnderMaintenanceTime();
+                    startTime = umTime.From;
+                    endTime = umTime.To;
+                    isUM = umTime.IsUnderMaintenanceTime;
+
                     ////Cache Information which is gotten from Service
                     HttpContext.Current.Cache.Insert("IsUM", isUM, null, DateTime.Now.AddSeconds(timeCacheUM), TimeSpan.Zero);
                     HttpContext.Current.Cache.Insert("StartTime", startTime, null, DateTime.Now.AddSeconds(timeCacheUM), TimeSpan.Zero);
@@ -412,7 +397,7 @@ namespace Fanex.OddsFeed.Core
                 }
                 catch (Exception ex)
                 {
-                    LogService.Error(ex.Message, ex);                    
+                    LogService.Error(ex.Message, ex);
                     ////DNAide.Web.DNAideLog.Write("LoadBalancerLibrary Error : " + ex.Message);
                 }
             }
