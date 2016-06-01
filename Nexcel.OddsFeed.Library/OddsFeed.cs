@@ -8,6 +8,7 @@
 // </history>
 namespace Nexcel.OddsFeed.Library
 {
+    using Matchs.OddNodeBuilder;
     using Nexcel.OddsFeed.Library.Matchs;
     using Nexcel.OddsFeed.Library.Outrights;
     using System;
@@ -621,21 +622,21 @@ namespace Nexcel.OddsFeed.Library
                 if (_op.Languages.Contains("en-US"))
                 {
                     var ge = xd.CreateAttribute("ge");
-                    ge.Value = lg.Matches.First().League.Where(l => l.Code == "en-US").SingleOrDefault().Content;
+                    ge.Value = BetOddNodeBuilder.EscapeXML(lg.Matches.First().League.Where(l => l.Code == "en-US").SingleOrDefault().Content);
                     leagueNode.Attributes.Append(ge);
                 }
 
                 if (_op.Languages.Contains("zh-TW"))
                 {
                     var gs = xd.CreateAttribute("gs");
-                    gs.Value = lg.Matches.First().League.Where(l => l.Code == "zh-TW").SingleOrDefault().Content;
+                    gs.Value = BetOddNodeBuilder.EscapeXML(lg.Matches.First().League.Where(l => l.Code == "zh-TW").SingleOrDefault().Content);
                     leagueNode.Attributes.Append(gs);
                 }
 
                 if (_op.Languages.Contains("zh-CN"))
                 {
                     var gt = xd.CreateAttribute("gt");
-                    gt.Value = lg.Matches.First().League.Where(l => l.Code == "zh-CN").SingleOrDefault().Content;
+                    gt.Value = BetOddNodeBuilder.EscapeXML(lg.Matches.First().League.Where(l => l.Code == "zh-CN").SingleOrDefault().Content);
                     leagueNode.Attributes.Append(gt);
                 }
 

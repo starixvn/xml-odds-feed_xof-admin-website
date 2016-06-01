@@ -137,21 +137,21 @@ namespace Nexcel.OddsFeed.Library.Outrights
             if (op.Languages.Contains("en-US"))
             {
                 var ge = xd.CreateAttribute("ge");
-                ge.Value = Content.Where(i => i.Code == "en-US").SingleOrDefault().Content;
+                ge.Value = BetOddNodeBuilder.EscapeXML(Content.Where(i => i.Code == "en-US").SingleOrDefault().Content);
                 e.Attributes.Append(ge);
             }
 
             if (op.Languages.Contains("zh-TW"))
             {
                 var gs = xd.CreateAttribute("gt");
-                gs.Value = Content.Where(i => i.Code == "zh-TW").SingleOrDefault().Content;
+                gs.Value = BetOddNodeBuilder.EscapeXML(Content.Where(i => i.Code == "zh-TW").SingleOrDefault().Content);
                 e.Attributes.Append(gs);
             }
 
             if (op.Languages.Contains("zh-CN"))
             {
                 var gt = xd.CreateAttribute("gs");
-                gt.Value = Content.Where(i => i.Code == "zh-CN").SingleOrDefault().Content;
+                gt.Value = BetOddNodeBuilder.EscapeXML(Content.Where(i => i.Code == "zh-CN").SingleOrDefault().Content);
                 e.Attributes.Append(gt);
             }
 
@@ -214,21 +214,21 @@ namespace Nexcel.OddsFeed.Library.Outrights
             if (op.Languages.Contains("en-US"))
             {
                 var ote = xd.CreateAttribute("te");
-                ote.Value = item.Team.Where(i => i.Code == "en-US").SingleOrDefault().Content;
+                ote.Value = BetOddNodeBuilder.EscapeXML(item.Team.Where(i => i.Code == "en-US").SingleOrDefault().Content);
                 odd.Attributes.Append(ote);
             }
 
             if (op.Languages.Contains("zh-TW"))
             {
                 var ots = xd.CreateAttribute("tt");
-                ots.Value = item.Team.Where(i => i.Code == "zh-TW").SingleOrDefault().Content;
+                ots.Value = BetOddNodeBuilder.EscapeXML(item.Team.Where(i => i.Code == "zh-TW").SingleOrDefault().Content);
                 odd.Attributes.Append(ots);
             }
 
             if (op.Languages.Contains("zh-CN"))
             {
                 var ott = xd.CreateAttribute("ts");
-                ott.Value = item.Team.Where(i => i.Code == "zh-CN").SingleOrDefault().Content;
+                ott.Value = BetOddNodeBuilder.EscapeXML(item.Team.Where(i => i.Code == "zh-CN").SingleOrDefault().Content);
                 odd.Attributes.Append(ott);
             }
 
