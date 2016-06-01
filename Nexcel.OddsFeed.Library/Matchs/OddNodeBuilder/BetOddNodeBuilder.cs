@@ -10,6 +10,11 @@
 
     public class BetOddNodeBuilder
     {
+        public static string EscapeXML(string content)
+        {
+            return System.Security.SecurityElement.Escape(content);
+        }
+
         public static string BetTypeNameFromId(int id)
         {
             return BetOddNodeMapping.BetTypeIdMap.ContainsKey(id)
@@ -30,14 +35,15 @@
 
         public static void BuildXmlOddNodeAttributes(XmlDocument xd, OddsProfile op, MatchOdd item, XmlNode odd, string betType)
         {
-            try {
+            try
+            {
                 var betTypeNode = BetOddNodeMapping.BetTypes.Find(bt => bt.Tag.Equals(betType));
-                if(betTypeNode != null)
+                if (betTypeNode != null)
                 {
                     betTypeNode.UpdateAttributesForXmlNode(xd, op, item, odd);
-                }                
+                }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 LogService.Error("BetOddNodeBuilder.BuildXmlOddNodeAttributes errors.  Exception: " + ex.Message);
             }
@@ -49,12 +55,12 @@
             try
             {
                 var betTypeNode = BetOddNodeMapping.BetTypes.Find(bt => bt.ID.Equals(betTypeId));
-                if(betTypeNode != null)
+                if (betTypeNode != null)
                 {
                     odd = betTypeNode.CreateMatchOddBettype(item);
-                }                
+                }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 LogService.Error("BetOddNodeBuilder.CreateMatchOddBettype errors.  Exception: " + ex.Message);
             }
@@ -65,7 +71,8 @@
         public static MatchOdd CreateMatchOddBettype(DataRow item, int betTypeId, List<Model.OddFlex> flexOdds)
         {
             MatchOdd odd = null;
-            try {
+            try
+            {
                 var odds = flexOdds.Where(i => i.OddId == Convert.ToInt32(item["oddsid"]));
                 var betTypeNode = BetOddNodeMapping.BetTypes.Find(bt => bt.ID.Equals(betTypeId));
                 if (betTypeNode != null)
@@ -73,12 +80,12 @@
                     odd = ((OddNodeFlex)betTypeNode).CreateMatchOddBettype(item, odds);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 LogService.Error("BetOddNodeBuilder.CreateMatchOddBettype errors.  Exception: " + ex.Message);
             }
 
             return odd;
-        }        
+        }
     }
 }

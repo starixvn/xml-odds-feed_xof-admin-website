@@ -9,9 +9,9 @@
 
 namespace Nexcel.OddsFeed.Library.Outrights
 {
+    using Matchs.OddNodeBuilder;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Xml;
 
@@ -20,7 +20,7 @@ namespace Nexcel.OddsFeed.Library.Outrights
     /// </summary>    
     [Serializable]
     public class Event
-    {      
+    {
         public Event()
         {
             Content = new List<Language>();
@@ -70,7 +70,7 @@ namespace Nexcel.OddsFeed.Library.Outrights
                 {
                     if (!op.Outrights.Contains(item.Id))
                     {
-                        continue; 
+                        continue;
                     }
                 }
 
@@ -90,7 +90,7 @@ namespace Nexcel.OddsFeed.Library.Outrights
         public XmlNode BuildXmlNodeOutRightEvent(XmlDocument xd, OddsProfile op)
         {
             var e = CreateNode(xd, op, "event");
-           
+
             var mt = xd.CreateAttribute("mt");
             mt.Value = Time.ToString();
             e.Attributes.Append(mt);
@@ -110,13 +110,13 @@ namespace Nexcel.OddsFeed.Library.Outrights
                     }
                 }
 
-                var odd = CreateTeamNode(xd, op, item);               
+                var odd = CreateTeamNode(xd, op, item);
                 e.AppendChild(odd);
             }
 
             return e;
         }
-        
+
         #region Private methods
 
         /// <summary>
@@ -176,21 +176,21 @@ namespace Nexcel.OddsFeed.Library.Outrights
             if (op.Languages.Contains("en-US"))
             {
                 var ote = xd.CreateAttribute("te");
-                ote.Value = item.Team.Where(i => i.Code == "en-US").SingleOrDefault().Content;
+                ote.Value = BetOddNodeBuilder.EscapeXML(item.Team.Where(i => i.Code == "en-US").SingleOrDefault().Content);
                 odd.Attributes.Append(ote);
             }
 
             if (op.Languages.Contains("zh-TW"))
             {
                 var ots = xd.CreateAttribute("tt");
-                ots.Value = item.Team.Where(i => i.Code == "zh-TW").SingleOrDefault().Content;
+                ots.Value = BetOddNodeBuilder.EscapeXML(item.Team.Where(i => i.Code == "zh-TW").SingleOrDefault().Content);
                 odd.Attributes.Append(ots);
             }
 
             if (op.Languages.Contains("zh-CN"))
             {
                 var ott = xd.CreateAttribute("ts");
-                ott.Value = item.Team.Where(i => i.Code == "zh-CN").SingleOrDefault().Content;
+                ott.Value = BetOddNodeBuilder.EscapeXML(item.Team.Where(i => i.Code == "zh-CN").SingleOrDefault().Content);
                 odd.Attributes.Append(ott);
             }
 
@@ -198,8 +198,8 @@ namespace Nexcel.OddsFeed.Library.Outrights
             oo.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(item.Value)).ToString();  // item.Value;                
             odd.Attributes.Append(oo);
             return odd;
-        }       
-        
+        }
+
         /// <summary>
         /// Creates the team node.
         /// </summary>

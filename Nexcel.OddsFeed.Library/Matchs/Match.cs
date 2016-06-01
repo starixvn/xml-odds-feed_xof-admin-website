@@ -200,21 +200,21 @@ namespace Nexcel.OddsFeed.Library.Matchs
             if (op.Languages.Contains("en-US"))
             {
                 var ge = xd.CreateAttribute("ge");
-                ge.Value = League.Where(i => i.Code == "en-US").SingleOrDefault().Content;
+                ge.Value = BetOddNodeBuilder.EscapeXML(League.Where(i => i.Code == "en-US").SingleOrDefault().Content);
                 match.Attributes.Append(ge);
             }
 
             if (op.Languages.Contains("zh-TW"))
             {
                 var gs = xd.CreateAttribute("gt");
-                gs.Value = League.Where(i => i.Code == "zh-TW").SingleOrDefault().Content;
+                gs.Value = BetOddNodeBuilder.EscapeXML(League.Where(i => i.Code == "zh-TW").SingleOrDefault().Content);
                 match.Attributes.Append(gs);
             }
 
             if (op.Languages.Contains("zh-CN"))
             {
                 var gt = xd.CreateAttribute("gs");
-                gt.Value = League.Where(i => i.Code == "zh-CN").SingleOrDefault().Content;
+                gt.Value = BetOddNodeBuilder.EscapeXML(League.Where(i => i.Code == "zh-CN").SingleOrDefault().Content);
                 match.Attributes.Append(gt);
             }
         }
@@ -231,21 +231,21 @@ namespace Nexcel.OddsFeed.Library.Matchs
             if (op.Languages.Contains("en-US"))
             {
                 var he = xd.CreateAttribute("he");
-                he.Value = Home.Where(i => i.Code == "en-US").SingleOrDefault().Content;
+                he.Value = BetOddNodeBuilder.EscapeXML(Home.Where(i => i.Code == "en-US").SingleOrDefault().Content);
                 match.Attributes.Append(he);
             }
 
             if (op.Languages.Contains("zh-TW"))
             {
                 var hs = xd.CreateAttribute("ht");
-                hs.Value = Home.Where(i => i.Code == "zh-TW").SingleOrDefault().Content;
+                hs.Value = BetOddNodeBuilder.EscapeXML(Home.Where(i => i.Code == "zh-TW").SingleOrDefault().Content);
                 match.Attributes.Append(hs);
             }
 
             if (op.Languages.Contains("zh-CN"))
             {
                 var ht = xd.CreateAttribute("hs");
-                ht.Value = Home.Where(i => i.Code == "zh-CN").SingleOrDefault().Content;
+                ht.Value = BetOddNodeBuilder.EscapeXML(Home.Where(i => i.Code == "zh-CN").SingleOrDefault().Content);
                 match.Attributes.Append(ht);
             }
         }
@@ -262,21 +262,21 @@ namespace Nexcel.OddsFeed.Library.Matchs
             if (op.Languages.Contains("en-US"))
             {
                 var ae = xd.CreateAttribute("ae");
-                ae.Value = Away.Where(i => i.Code == "en-US").SingleOrDefault().Content;
+                ae.Value = BetOddNodeBuilder.EscapeXML(Away.Where(i => i.Code == "en-US").SingleOrDefault().Content);
                 match.Attributes.Append(ae);
             }
 
             if (op.Languages.Contains("zh-TW"))
             {
                 var tas = xd.CreateAttribute("at");
-                tas.Value = Away.Where(i => i.Code == "zh-TW").SingleOrDefault().Content;
+                tas.Value = BetOddNodeBuilder.EscapeXML(Away.Where(i => i.Code == "zh-TW").SingleOrDefault().Content);
                 match.Attributes.Append(tas);
             }
 
             if (op.Languages.Contains("zh-CN"))
             {
                 var at = xd.CreateAttribute("as");
-                at.Value = Away.Where(i => i.Code == "zh-CN").SingleOrDefault().Content;
+                at.Value = BetOddNodeBuilder.EscapeXML(Away.Where(i => i.Code == "zh-CN").SingleOrDefault().Content);
                 match.Attributes.Append(at);
             }
         }
