@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------
-// <copyright file="HtmlHelperExtensions.cs" company="Nexcel Solutions Vietnam">
-// Copyright (c) Nexcel Solutions Vietnam. All rights reserved.
+// <copyright file="HtmlHelperExtensions.cs" company=" Solutions Vietnam">
+// Copyright (c)  Solutions Vietnam. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------
 // <history>
@@ -22,7 +22,7 @@ namespace Fanex.OddsFeed.Framework.Mvc
         "SA1632:DocumentationTextMustMeetMinimumCharacterLength",
         Justification = "Reviewed.")]
     [SuppressMessage(
-         "StyleCop.CSharp.Nexcel.NexcelCustomRules",
+         "StyleCop.CSharp.StylecopPlus.Rules",
          "SP2101:MethodMustNotContainMoreLinesThan",
          Justification = "Reviewed. Suppression is OK here.")]
 
