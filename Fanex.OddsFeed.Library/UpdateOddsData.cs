@@ -9,12 +9,6 @@
 
 namespace Fanex.OddsFeed.Library
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Configuration;
-    using System.Data;
-    using System.Linq;
-    using System.Threading;
     using Couchbase;
     using Enyim.Caching.Memcached;
     using Enyim.Caching.Memcached.Results;
@@ -24,6 +18,12 @@ namespace Fanex.OddsFeed.Library
     using Fanex.OddsFeed.Library.Matchs;
     using Fanex.OddsFeed.Library.Outrights;
     using Matchs.OddNodeBuilder;
+    using System;
+    using System.Collections.Generic;
+    using System.Configuration;
+    using System.Data;
+    using System.Linq;
+    using System.Threading;
     /// <summary>
     /// Class UpdateOddsData.
     /// </summary>
@@ -491,6 +491,8 @@ namespace Fanex.OddsFeed.Library
                     return CreateMatchOddBettype214(item);
                 case 215:
                     return CreateMatchOddBettype215(item);
+                case 416:
+                    return BetOddNodeBuilder.CreateMatchOddBettype(item, betTypeId, flexOdds);
                 default:
                     return BetOddNodeBuilder.CreateMatchOddBettype(item, betTypeId);
             }

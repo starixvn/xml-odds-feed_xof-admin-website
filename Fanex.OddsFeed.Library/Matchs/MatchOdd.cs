@@ -366,5 +366,7 @@ namespace Fanex.OddsFeed.Library.Matches
         public string X { get; set; }
 
         public string O0 { get; set; }
+
+        public string TIE { get; set; }
     }
 }

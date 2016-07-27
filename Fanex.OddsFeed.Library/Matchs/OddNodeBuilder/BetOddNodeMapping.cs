@@ -4,7 +4,7 @@
 
     public class BetOddNodeMapping
     {
-        public static readonly string HighlightBetType = "221,222,223,224";
+        public static readonly string HighlightBetType = "415,416,427,428,430,431,432,433,434,435,436,437,438,439,440,441,442,443,444";
 
         // Here are children bet type Tags which are not the same as their parent Tags
         // So we use their parent Tags instead of themselves
@@ -156,7 +156,26 @@
             { 411, "dnb_1" },
             { 412, "egs_1st" },
             { 413, "cs" },
-            { 414, "cs_1" }
+            { 414, "cs_1" },
+            {415, "stts"},
+            {416, "cs_12"},
+            {427, "b_1"},
+            {428, "oe_2"},
+            {430, "st_2"},
+            {431, "x2_2"},
+            {432, "dnb_2"},
+            {433, "bs_2"},
+            {434, "oyn"},
+            {435, "uyn"},
+            {436, "hs"},
+            {437, "as"},
+            {438, "h2h"},
+            {439, "a2h"},
+            {440, "hw"},
+            {441, "aw"},
+            {442, "high"},
+            {443, "hhigh"},
+            {444, "ahigh"}
        };
 
         // Notes:
@@ -502,6 +521,269 @@
                     new OddNodeAttrBase { XmlAttribute = "cs04", MatchOddAttribute = "C04", Description = "Price for 0-4 UP", DBAttribute = "cs04"},
                     new OddNodeAttrBase { XmlAttribute = "cs40", MatchOddAttribute = "C40", Description = "Price for 4-0 UP", DBAttribute = "cs40"}
                 }
+            },
+            new OddNodeBase
+            {
+                ID = 415,
+                Tag = "stts",
+                Desc = "Result And First Team To Score (own)",
+                IsChildBettype = true,
+                Odds = new OddNodeAttrBase[7] {
+                                new OddNodeAttrBase { XmlAttribute = "hh", DBAttribute = "odds.cs01", MatchOddAttribute = "HH", Description = "Price for Home Home"},
+                                new OddNodeAttrBase { XmlAttribute = "dh", DBAttribute = "odds.cs02", MatchOddAttribute = "DH", Description = "Price for Draw Home"},
+                                new OddNodeAttrBase { XmlAttribute = "ah", DBAttribute = "odds.cs03", MatchOddAttribute = "AH", Description = "Price for Away Home"},
+                                new OddNodeAttrBase { XmlAttribute = "ha", DBAttribute = "odds.cs04", MatchOddAttribute = "HA", Description = "Price for Home Away"},
+                                new OddNodeAttrBase { XmlAttribute = "da", DBAttribute = "odds.cs10", MatchOddAttribute = "DA", Description = "Price for Draw Away"},
+                                new OddNodeAttrBase { XmlAttribute = "aa", DBAttribute = "odds.cs20", MatchOddAttribute = "AA", Description = "Price for Away Away"},
+                                new OddNodeAttrBase { XmlAttribute = "n", DBAttribute = "odds.cs30", MatchOddAttribute = "N", Description = "Price for None"}
+                     }
+            },
+            new OddNodeFlex
+            {
+                ID = 416,
+                Tag = "cs_12",
+                Desc = "Half Time/Full Time Correct Score (own)",
+                IsChildBettype = true,
+                Odds = new OddNodeAttrFlex[46] {
+                                new OddNodeAttrFlex { XmlAttribute = "o01", DBAttribute = "", OddFlexBetChoice = "0:0/0:0", MatchOddAttribute = "O01", Description = "Price for 0:0/0:0"},
+                                new OddNodeAttrFlex { XmlAttribute = "o02", DBAttribute = "", OddFlexBetChoice = "0:0/1:0", MatchOddAttribute = "O02", Description = "Price for 0:0/1:0"},
+                                new OddNodeAttrFlex { XmlAttribute = "o03", DBAttribute = "", OddFlexBetChoice = "0:0/0:1", MatchOddAttribute = "O03", Description = "Price for 0:0/0:1"},
+                                new OddNodeAttrFlex { XmlAttribute = "o04", DBAttribute = "", OddFlexBetChoice = "0:0/2:0", MatchOddAttribute = "O04", Description = "Price for 0:0/2:0"},
+                                new OddNodeAttrFlex { XmlAttribute = "o05", DBAttribute = "", OddFlexBetChoice = "0:0/1:1", MatchOddAttribute = "O05", Description = "Price for 0:0/1:1"},
+                                new OddNodeAttrFlex { XmlAttribute = "o06", DBAttribute = "", OddFlexBetChoice = "0:0/0:2", MatchOddAttribute = "O06", Description = "Price for 0:0/0:2"},
+                                new OddNodeAttrFlex { XmlAttribute = "o07", DBAttribute = "", OddFlexBetChoice = "0:0/3:0", MatchOddAttribute = "O07", Description = "Price for 0:0/3:0"},
+                                new OddNodeAttrFlex { XmlAttribute = "o08", DBAttribute = "", OddFlexBetChoice = "0:0/2:1", MatchOddAttribute = "O08", Description = "Price for 0:0/2:1"},
+                                new OddNodeAttrFlex { XmlAttribute = "o09", DBAttribute = "", OddFlexBetChoice = "0:0/1:2", MatchOddAttribute = "O09", Description = "Price for 0:0/1:2"},
+                                new OddNodeAttrFlex { XmlAttribute = "o10", DBAttribute = "", OddFlexBetChoice = "0:0/0:3", MatchOddAttribute = "O10", Description = "Price for 0:0/0:3"},
+                                new OddNodeAttrFlex { XmlAttribute = "o11", DBAttribute = "", OddFlexBetChoice = "0:0/4+", MatchOddAttribute = "O11", Description = "Price for 0:0/4+"},
+                                new OddNodeAttrFlex { XmlAttribute = "o12", DBAttribute = "", OddFlexBetChoice = "1:0/1:0", MatchOddAttribute = "O12", Description = "Price for 1:0/1:0"},
+                                new OddNodeAttrFlex { XmlAttribute = "o13", DBAttribute = "", OddFlexBetChoice = "1:0/2:0", MatchOddAttribute = "O13", Description = "Price for 1:0/2:0"},
+                                new OddNodeAttrFlex { XmlAttribute = "o14", DBAttribute = "", OddFlexBetChoice = "1:0/1:1", MatchOddAttribute = "O14", Description = "Price for 1:0/1:1"},
+                                new OddNodeAttrFlex { XmlAttribute = "o15", DBAttribute = "", OddFlexBetChoice = "1:0/3:0", MatchOddAttribute = "O15", Description = "Price for 1:0/3:0"},
+                                new OddNodeAttrFlex { XmlAttribute = "o16", DBAttribute = "", OddFlexBetChoice = "1:0/2:1", MatchOddAttribute = "O16", Description = "Price for 1:0/2:1"},
+                                new OddNodeAttrFlex { XmlAttribute = "o17", DBAttribute = "", OddFlexBetChoice = "1:0/1:2", MatchOddAttribute = "O17", Description = "Price for 1:0/1:2"},
+                                new OddNodeAttrFlex { XmlAttribute = "o18", DBAttribute = "", OddFlexBetChoice = "1:0/4+", MatchOddAttribute = "O18", Description = "Price for 1:0/4+"},
+                                new OddNodeAttrFlex { XmlAttribute = "o19", DBAttribute = "", OddFlexBetChoice = "0:1/0:1", MatchOddAttribute = "O19", Description = "Price for 0:1/0:1"},
+                                new OddNodeAttrFlex { XmlAttribute = "o20", DBAttribute = "", OddFlexBetChoice = "0:1/1:1", MatchOddAttribute = "O20", Description = "Price for 0:1/1:1"},
+                                new OddNodeAttrFlex { XmlAttribute = "o21", DBAttribute = "", OddFlexBetChoice = "0:1/0:2", MatchOddAttribute = "O21", Description = "Price for 0:1/0:2"},
+                                new OddNodeAttrFlex { XmlAttribute = "o22", DBAttribute = "", OddFlexBetChoice = "0:1/2:1", MatchOddAttribute = "O22", Description = "Price for 0:1/2:1"},
+                                new OddNodeAttrFlex { XmlAttribute = "o23", DBAttribute = "", OddFlexBetChoice = "0:1/1:2", MatchOddAttribute = "O23", Description = "Price for 0:1/1:2"},
+                                new OddNodeAttrFlex { XmlAttribute = "o24", DBAttribute = "", OddFlexBetChoice = "0:1/0:3", MatchOddAttribute = "O24", Description = "Price for 0:1/0:3"},
+                                new OddNodeAttrFlex { XmlAttribute = "o25", DBAttribute = "", OddFlexBetChoice = "0:1/4+", MatchOddAttribute = "O25", Description = "Price for 0:1/4+"},
+                                new OddNodeAttrFlex { XmlAttribute = "o26", DBAttribute = "", OddFlexBetChoice = "1:1/1:1", MatchOddAttribute = "O26", Description = "Price for 1:1/1:1"},
+                                new OddNodeAttrFlex { XmlAttribute = "o27", DBAttribute = "", OddFlexBetChoice = "1:1/2:1", MatchOddAttribute = "O27", Description = "Price for 1:1/2:1"},
+                                new OddNodeAttrFlex { XmlAttribute = "o28", DBAttribute = "", OddFlexBetChoice = "1:1/1:2", MatchOddAttribute = "O28", Description = "Price for 1:1/1:2"},
+                                new OddNodeAttrFlex { XmlAttribute = "o29", DBAttribute = "", OddFlexBetChoice = "1:1/4+", MatchOddAttribute = "O29", Description = "Price for 1:1/4+"},
+                                new OddNodeAttrFlex { XmlAttribute = "o30", DBAttribute = "", OddFlexBetChoice = "2:0/2:0", MatchOddAttribute = "O30", Description = "Price for 2:0/2:0"},
+                                new OddNodeAttrFlex { XmlAttribute = "o31", DBAttribute = "", OddFlexBetChoice = "2:0/3:0", MatchOddAttribute = "O31", Description = "Price for 2:0/3:0"},
+                                new OddNodeAttrFlex { XmlAttribute = "o32", DBAttribute = "", OddFlexBetChoice = "2:0/2:1", MatchOddAttribute = "O32", Description = "Price for 2:0/2:1"},
+                                new OddNodeAttrFlex { XmlAttribute = "o33", DBAttribute = "", OddFlexBetChoice = "2:0/4+", MatchOddAttribute = "O33", Description = "Price for 2:0/4+"},
+                                new OddNodeAttrFlex { XmlAttribute = "o34", DBAttribute = "", OddFlexBetChoice = "0:2/0:2", MatchOddAttribute = "O34", Description = "Price for 0:2/0:2"},
+                                new OddNodeAttrFlex { XmlAttribute = "o35", DBAttribute = "", OddFlexBetChoice = "0:2/1:2", MatchOddAttribute = "O35", Description = "Price for 0:2/1:2"},
+                                new OddNodeAttrFlex { XmlAttribute = "o36", DBAttribute = "", OddFlexBetChoice = "0:2/0:3", MatchOddAttribute = "O36", Description = "Price for 0:2/0:3"},
+                                new OddNodeAttrFlex { XmlAttribute = "o37", DBAttribute = "", OddFlexBetChoice = "0:2/4+", MatchOddAttribute = "O37", Description = "Price for 0:2/4+"},
+                                new OddNodeAttrFlex { XmlAttribute = "o38", DBAttribute = "", OddFlexBetChoice = "2:1/2:1", MatchOddAttribute = "O38", Description = "Price for 2:1/2:1"},
+                                new OddNodeAttrFlex { XmlAttribute = "o39", DBAttribute = "", OddFlexBetChoice = "2:1/4+", MatchOddAttribute = "O39", Description = "Price for 2:1/4+"},
+                                new OddNodeAttrFlex { XmlAttribute = "o40", DBAttribute = "", OddFlexBetChoice = "1:2/1:2", MatchOddAttribute = "O40", Description = "Price for 1:2/1:2"},
+                                new OddNodeAttrFlex { XmlAttribute = "o41", DBAttribute = "", OddFlexBetChoice = "1:2/4+", MatchOddAttribute = "O41", Description = "Price for 1:2/4+"},
+                                new OddNodeAttrFlex { XmlAttribute = "o42", DBAttribute = "", OddFlexBetChoice = "3:0/3:0", MatchOddAttribute = "O42", Description = "Price for 3:0/3:0"},
+                                new OddNodeAttrFlex { XmlAttribute = "o43", DBAttribute = "", OddFlexBetChoice = "3:0/4+", MatchOddAttribute = "O43", Description = "Price for 3:0/4+"},
+                                new OddNodeAttrFlex { XmlAttribute = "o44", DBAttribute = "", OddFlexBetChoice = "0:3/0:3", MatchOddAttribute = "O44", Description = "Price for 0:3/0:3"},
+                                new OddNodeAttrFlex { XmlAttribute = "o45", DBAttribute = "", OddFlexBetChoice = "0:3/4+", MatchOddAttribute = "O45", Description = "Price for 0:3/4+"},
+                                new OddNodeAttrFlex { XmlAttribute = "o46", DBAttribute = "", OddFlexBetChoice = "4+/4+", MatchOddAttribute = "O46", Description = "Price for 4+/4+"}
+                     }
+            },
+            new OddNodeBase
+            {
+                ID = 427,
+                Tag = "b_1",
+                Desc = "1H Both Teams To Score (own)",
+                IsChildBettype = true,
+                Odds = new OddNodeAttrBase[2] {
+                                new OddNodeAttrBase { XmlAttribute = "y", DBAttribute = "odds.odds1a", MatchOddAttribute = "Y", Description = "Price for Yes"},
+                                new OddNodeAttrBase { XmlAttribute = "n", DBAttribute = "odds.odds2a", MatchOddAttribute = "N", Description = "Price for No"}
+                     }
+            },
+            new OddNodeBase
+            {
+                ID = 428,
+                Tag = "oe_2",
+                Desc = "2H Odd/Even (own)",
+                IsChildBettype = true,
+                Odds = new OddNodeAttrBase[2] {
+                                new OddNodeAttrBase { XmlAttribute = "o", DBAttribute = "odds.odds1a", MatchOddAttribute = "O", Description = "Price for Odd"},
+                                new OddNodeAttrBase { XmlAttribute = "e", DBAttribute = "odds.odds2a", MatchOddAttribute = "E", Description = "Price for Even"}
+                     }
+            },
+            new OddNodeBase
+            {
+                ID = 430,
+                Tag = "st_2",
+                Desc = "2H 1X2 (own)",
+                IsChildBettype = true,
+                Odds = new OddNodeAttrBase[3] {
+                                new OddNodeAttrBase { XmlAttribute = "h", DBAttribute = "odds.com1", MatchOddAttribute = "H", Description = "Price for Home"},
+                                new OddNodeAttrBase { XmlAttribute = "n", DBAttribute = "odds.comx", MatchOddAttribute = "N", Description = "Price for None"},
+                                new OddNodeAttrBase { XmlAttribute = "a", DBAttribute = "odds.com2", MatchOddAttribute = "A", Description = "Price for Away"}
+                     }
+            },
+            new OddNodeBase
+            {
+                ID = 431,
+                Tag = "x2_2",
+                Desc = "2H Double Chance (own)",
+                IsChildBettype = true,
+                Odds = new OddNodeAttrBase[3] {
+                                new OddNodeAttrBase { XmlAttribute = "hd", DBAttribute = "odds.cs10", MatchOddAttribute = "HD", Description = "Price for Home Draw"},
+                                new OddNodeAttrBase { XmlAttribute = "ha", DBAttribute = "odds.cs20", MatchOddAttribute = "HA", Description = "Price for Home Away"},
+                                new OddNodeAttrBase { XmlAttribute = "ad", DBAttribute = "odds.cs00", MatchOddAttribute = "AD", Description = "Price for Away Draw"}
+                     }
+            },
+            new OddNodeBase
+            {
+                ID = 432,
+                Tag = "dnb_2",
+                Desc = "2H Draw No Bet (own)",
+                IsChildBettype = true,
+                Odds = new OddNodeAttrBase[2] {
+                                new OddNodeAttrBase { XmlAttribute = "h", DBAttribute = "odds.odds1a", MatchOddAttribute = "H", Description = "Price for Home"},
+                                new OddNodeAttrBase { XmlAttribute = "a", DBAttribute = "odds.odds2a", MatchOddAttribute = "A", Description = "Price for Away"}
+                     }
+            },
+            new OddNodeBase
+            {
+                ID = 433,
+                Tag = "bs_2",
+                Desc = "2H Both Teams To Score (own)",
+                IsChildBettype = true,
+                Odds = new OddNodeAttrBase[2] {
+                                new OddNodeAttrBase { XmlAttribute = "y", DBAttribute = "odds.com1", MatchOddAttribute = "Y", Description = "Price for Yes"},
+                                new OddNodeAttrBase { XmlAttribute = "n", DBAttribute = "odds.com2", MatchOddAttribute = "N", Description = "Price for No"}
+                     }
+            },
+            new OddNodeBase
+            {
+                ID = 434,
+                Tag = "oyn",
+                Desc = "Both Halves Over 1.5 Yes/No (own)",
+                IsChildBettype = true,
+                Odds = new OddNodeAttrBase[2] {
+                                new OddNodeAttrBase { XmlAttribute = "y", DBAttribute = "odds.odds1a", MatchOddAttribute = "Y", Description = "Price for Yes"},
+                                new OddNodeAttrBase { XmlAttribute = "n", DBAttribute = "odds.odds2a", MatchOddAttribute = "N", Description = "Price for No"}
+                     }
+            },
+            new OddNodeBase
+            {
+                ID = 435,
+                Tag = "uyn",
+                Desc = "Both Halves Under 1.5 Yes/No (own)",
+                IsChildBettype = true,
+                Odds = new OddNodeAttrBase[2] {
+                                new OddNodeAttrBase { XmlAttribute = "y", DBAttribute = "odds.odds1a", MatchOddAttribute = "Y", Description = "Price for Yes"},
+                                new OddNodeAttrBase { XmlAttribute = "n", DBAttribute = "odds.odds2a", MatchOddAttribute = "N", Description = "Price for No"}
+                     }
+            },
+            new OddNodeBase
+            {
+                ID = 436,
+                Tag = "hs",
+                Desc = "Home To Score In Both Halves (own)",
+                IsChildBettype = true,
+                Odds = new OddNodeAttrBase[2] {
+                                new OddNodeAttrBase { XmlAttribute = "y", DBAttribute = "odds.com1", MatchOddAttribute = "Y", Description = "Price for Yes"},
+                                new OddNodeAttrBase { XmlAttribute = "n", DBAttribute = "odds.com2", MatchOddAttribute = "N", Description = "Price for No"}
+                     }
+            },
+            new OddNodeBase
+            {
+                ID = 437,
+                Tag = "as",
+                Desc = "Away To Score In Both Halves (own)",
+                IsChildBettype = true,
+                Odds = new OddNodeAttrBase[2] {
+                                new OddNodeAttrBase { XmlAttribute = "y", DBAttribute = "odds.com1", MatchOddAttribute = "Y", Description = "Price for Yes"},
+                                new OddNodeAttrBase { XmlAttribute = "n", DBAttribute = "odds.com2", MatchOddAttribute = "N", Description = "Price for No"}
+                     }
+            },
+            new OddNodeBase
+            {
+                ID = 438,
+                Tag = "h2h",
+                Desc = "Home To Win Both Halves (own)",
+                IsChildBettype = true,
+                Odds = new OddNodeAttrBase[2] {
+                                new OddNodeAttrBase { XmlAttribute = "y", DBAttribute = "odds.com1", MatchOddAttribute = "Y", Description = "Price for Yes"},
+                                new OddNodeAttrBase { XmlAttribute = "n", DBAttribute = "odds.com2", MatchOddAttribute = "N", Description = "Price for No"}
+                     }
+            },
+            new OddNodeBase
+            {
+                ID = 439,
+                Tag = "a2h",
+                Desc = "Away To Win Both Halves (own)",
+                IsChildBettype = true,
+                Odds = new OddNodeAttrBase[2] {
+                                new OddNodeAttrBase { XmlAttribute = "y", DBAttribute = "odds.com1", MatchOddAttribute = "Y", Description = "Price for Yes"},
+                                new OddNodeAttrBase { XmlAttribute = "n", DBAttribute = "odds.com2", MatchOddAttribute = "N", Description = "Price for No"}
+                     }
+            },
+            new OddNodeBase
+            {
+                ID = 440,
+                Tag = "hw",
+                Desc = "Home To Win Either Half (own)",
+                IsChildBettype = true,
+                Odds = new OddNodeAttrBase[2] {
+                                new OddNodeAttrBase { XmlAttribute = "y", DBAttribute = "odds.com1", MatchOddAttribute = "Y", Description = "Price for Yes"},
+                                new OddNodeAttrBase { XmlAttribute = "n", DBAttribute = "odds.com2", MatchOddAttribute = "N", Description = "Price for No"}
+                     }
+            },
+            new OddNodeBase
+            {
+                ID = 441,
+                Tag = "aw",
+                Desc = "Away To Win Either Half (own)",
+                IsChildBettype = true,
+                Odds = new OddNodeAttrBase[2] {
+                                new OddNodeAttrBase { XmlAttribute = "y", DBAttribute = "odds.com1", MatchOddAttribute = "Y", Description = "Price for Yes"},
+                                new OddNodeAttrBase { XmlAttribute = "n", DBAttribute = "odds.com2", MatchOddAttribute = "N", Description = "Price for No"}
+                     }
+            },
+            new OddNodeBase
+            {
+                ID = 442,
+                Tag = "high",
+                Desc = "Highest Scoring Half (own)",
+                IsChildBettype = true,
+                Odds = new OddNodeAttrBase[3] {
+                                new OddNodeAttrBase { XmlAttribute = "h1", DBAttribute = "odds.cs10", MatchOddAttribute = "H1", Description = "Price for First half"},
+                                new OddNodeAttrBase { XmlAttribute = "h2", DBAttribute = "odds.cs20", MatchOddAttribute = "H2", Description = "Price for Second half"},
+                                new OddNodeAttrBase { XmlAttribute = "tie", DBAttribute = "odds.cs00", MatchOddAttribute = "TIE", Description = "Price for Tie"}
+                     }
+            },
+            new OddNodeBase
+            {
+                ID = 443,
+                Tag = "hhigh",
+                Desc = "Highest Scoring Half Home Team (own)",
+                IsChildBettype = true,
+                Odds = new OddNodeAttrBase[3] {
+                                new OddNodeAttrBase { XmlAttribute = "h1", DBAttribute = "odds.cs10", MatchOddAttribute = "H1", Description = "Price for First half"},
+                                new OddNodeAttrBase { XmlAttribute = "h2", DBAttribute = "odds.cs20", MatchOddAttribute = "H2", Description = "Price for Second half"},
+                                new OddNodeAttrBase { XmlAttribute = "tie", DBAttribute = "odds.cs00", MatchOddAttribute = "TIE", Description = "Price for Tie"}
+                     }
+            },
+            new OddNodeBase
+            {
+                ID = 444,
+                Tag = "ahigh",
+                Desc = "Highest Scoring Half Away Team (own)",
+                IsChildBettype = true,
+                Odds = new OddNodeAttrBase[3] {
+                                new OddNodeAttrBase { XmlAttribute = "h1", DBAttribute = "odds.cs10", MatchOddAttribute = "H1", Description = "Price for First half"},
+                                new OddNodeAttrBase { XmlAttribute = "h2", DBAttribute = "odds.cs20", MatchOddAttribute = "H2", Description = "Price for Second half"},
+                                new OddNodeAttrBase { XmlAttribute = "tie", DBAttribute = "odds.cs00", MatchOddAttribute = "TIE", Description = "Price for Tie"}
+                     }
             }
         };
     }
