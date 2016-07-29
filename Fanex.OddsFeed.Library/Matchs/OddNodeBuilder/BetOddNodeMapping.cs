@@ -756,9 +756,9 @@
                 Desc = "Highest Scoring Half (own)",
                 IsChildBettype = true,
                 Odds = new OddNodeAttrBase[3] {
-                                new OddNodeAttrBase { XmlAttribute = "h1", DBAttribute = "cs10", MatchOddAttribute = "H1", Description = "Price for First half"},
-                                new OddNodeAttrBase { XmlAttribute = "h2", DBAttribute = "cs20", MatchOddAttribute = "H2", Description = "Price for Second half"},
-                                new OddNodeAttrBase { XmlAttribute = "tie", DBAttribute = "cs00", MatchOddAttribute = "TIE", Description = "Price for Tie"}
+                                new OddNodeAttrBase { XmlAttribute = "h1", DBAttribute = "cs10", MatchOddAttribute = "FirstH", Description = "Price for First half"},
+                                new OddNodeAttrBase { XmlAttribute = "h2", DBAttribute = "cs20", MatchOddAttribute = "SecondH", Description = "Price for Second half"},
+                                new OddNodeAttrBase { XmlAttribute = "tie", DBAttribute = "cs00", MatchOddAttribute = "T", Description = "Price for Tie"}
                      }
             },
             new OddNodeBase
@@ -768,9 +768,9 @@
                 Desc = "Highest Scoring Half Home Team (own)",
                 IsChildBettype = true,
                 Odds = new OddNodeAttrBase[3] {
-                                new OddNodeAttrBase { XmlAttribute = "h1", DBAttribute = "cs10", MatchOddAttribute = "H1", Description = "Price for First half"},
-                                new OddNodeAttrBase { XmlAttribute = "h2", DBAttribute = "cs20", MatchOddAttribute = "H2", Description = "Price for Second half"},
-                                new OddNodeAttrBase { XmlAttribute = "tie", DBAttribute = "cs00", MatchOddAttribute = "TIE", Description = "Price for Tie"}
+                                new OddNodeAttrBase { XmlAttribute = "h1", DBAttribute = "cs10", MatchOddAttribute = "FirstH", Description = "Price for First half"},
+                                new OddNodeAttrBase { XmlAttribute = "h2", DBAttribute = "cs20", MatchOddAttribute = "SecondH", Description = "Price for Second half"},
+                                new OddNodeAttrBase { XmlAttribute = "tie", DBAttribute = "cs00", MatchOddAttribute = "T", Description = "Price for Tie"}
                      }
             },
             new OddNodeBase
@@ -780,9 +780,9 @@
                 Desc = "Highest Scoring Half Away Team (own)",
                 IsChildBettype = true,
                 Odds = new OddNodeAttrBase[3] {
-                                new OddNodeAttrBase { XmlAttribute = "h1", DBAttribute = "cs10", MatchOddAttribute = "H1", Description = "Price for First half"},
-                                new OddNodeAttrBase { XmlAttribute = "h2", DBAttribute = "cs20", MatchOddAttribute = "H2", Description = "Price for Second half"},
-                                new OddNodeAttrBase { XmlAttribute = "tie", DBAttribute = "cs00", MatchOddAttribute = "TIE", Description = "Price for Tie"}
+                                new OddNodeAttrBase { XmlAttribute = "h1", DBAttribute = "cs10", MatchOddAttribute = "FirstH", Description = "Price for First half"},
+                                new OddNodeAttrBase { XmlAttribute = "h2", DBAttribute = "cs20", MatchOddAttribute = "SecondH", Description = "Price for Second half"},
+                                new OddNodeAttrBase { XmlAttribute = "tie", DBAttribute = "cs00", MatchOddAttribute = "T", Description = "Price for Tie"}
                      }
             }
         };
