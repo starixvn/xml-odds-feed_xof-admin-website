@@ -12,8 +12,6 @@ AS
 		- 20151002@bobby.nguyen: Support all sporttype & bettype of sportbook product
 		- 20160202@Don: Convert some information from Decimal to Float (data type)
 		- 20160329@bobby: #54093 support new bettype PH AIO
-		- 20160801@bobby: #61422 support new bettype PH AIO phase 2. Bet type 416
-		
 		
 	**Bettypes: All sporttypes & bettypes of sportbook product
 */
@@ -178,12 +176,12 @@ BEGIN
 		, r.bettype
 		, r.oddsid
 	
-	--extra odds - bettype (152,416)
+	--extra odds - bettype (152	)
 	;WITH ExtraOdds AS (
 		SELECT oddsid
 			, bettype
 		FROM #OddsDataMix r
-		WHERE r.bettype IN (152,416)
+		WHERE r.bettype IN (152)
 	)
 	SELECT r.[oddsid]
 		,ex.bettype
