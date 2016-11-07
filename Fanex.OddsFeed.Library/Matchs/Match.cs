@@ -1,28 +1,18 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="Match.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Thai.Tran" date="2013.1.7">Created</change>
-// </history>
-namespace Fanex.OddsFeed.Library.Matchs
+﻿namespace Fanex.OddsFeed.Library.Matchs
 {
-    using Fanex.OddsFeed.Library.Matches;
-    using OddNodeBuilder;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Xml;
+    using Matches;
+    using OddNodeBuilder;
+
     /// <summary>
     /// Class Match.
     /// </summary>
     [Serializable]
     public class Match
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Match"/> class.
-        /// </summary>
         public Match()
         {
             League = new List<Language>();
@@ -30,102 +20,34 @@ namespace Fanex.OddsFeed.Library.Matchs
             Away = new List<Language>();
         }
 
-        #region Properties
-
-        /// <summary>
-        /// Gets or sets the identifier.
-        /// </summary>
-        /// <value>The identifier.</value>
         public int Id { get; set; }
 
-        /// <summary>
-        /// Gets or sets the league identifier.
-        /// </summary>
-        /// <value>The league identifier.</value>
         public int LeagueId { get; set; }
 
-        /// <summary>
-        /// Gets or sets the country code.
-        /// </summary>
-        /// <value>The country code.</value>
         public string CountryCode { get; set; }
 
-        /// <summary>
-        /// Gets or sets the league.
-        /// </summary>
-        /// <value>The league.</value>
         public IList<Language> League { get; set; }
 
-        /// <summary>
-        /// Gets or sets the home.
-        /// </summary>
-        /// <value>The home team.</value>
         public IList<Language> Home { get; set; }
 
-        /// <summary>
-        /// Gets or sets the away.
-        /// </summary>
-        /// <value>The away team.</value>
         public IList<Language> Away { get; set; }
 
-        /// <summary>
-        /// Gets or sets the sport.
-        /// </summary>
-        /// <value>The sport.</value>
-        public string Sport { get; set; }
+        public string SportName { get; set; }
 
-        /// <summary>
-        /// Gets or sets the sport identifier.
-        /// </summary>
-        /// <value>The sport identifier.</value>
         public int SportId { get; set; }
 
-        /// <summary>
-        /// Gets or sets the time.
-        /// </summary>
-        /// <value>The date time.</value>
-        public DateTime Time { get; set; }
+        public DateTime KickOfTime { get; set; }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="Match"/> is running.
-        /// </summary>
-        /// <value><c>true</c> if running; otherwise, <c>false</c>.</value>
         public bool Running { get; set; }
 
-        /// <summary>
-        /// Gets or sets the bookie.
-        /// </summary>
-        /// <value>The bookie.</value>
         public Bookie Bookie { get; set; }
 
-        /// <summary>
-        /// Gets or sets the type of the bet.
-        /// </summary>
-        /// <value>The type of the bet.</value>
         public int BetType { get; set; }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether this instance is live.
-        /// </summary>
-        /// <value><c>true</c> if this instance is live; otherwise, <c>false</c>.</value>
         public bool IsLive { get; set; }
 
-        /// <summary>
-        /// Gets or sets the time stamp.
-        /// </summary>
-        /// <value>The time stamp.</value>
         public int TimeStamp { get; set; }
 
-        #endregion
-
-        /// <summary>
-        /// Build Xml Node.
-        /// </summary>
-        /// <param name="xd">The XmlDocument.</param>
-        /// <param name="op">The odd profile.</param>
-        /// <param name="bookiename">Bookie name.</param>
-        /// <param name="filter">Odds feed filter.</param>
-        /// <returns>The XmlNode.</returns>
         public XmlNode BuildXmlNodeMatch(XmlDocument xd, OddsProfile op, string bookiename, OddsFeedFilter filter, bool isSample = false)
         {
             var bookie = BuildXmlNodeBookie(xd, op, bookiename, filter, isSample);
@@ -145,11 +67,11 @@ namespace Fanex.OddsFeed.Library.Matchs
             BuildXmlNodeAwayTeam(xd, op, ref match);
 
             var mt = xd.CreateAttribute("mt");
-            mt.Value = Time.ToString();
+            mt.Value = KickOfTime.ToString();
             match.Attributes.Append(mt);
 
             var sport = xd.CreateAttribute("sport");
-            sport.Value = Sport;
+            sport.Value = SportName;
             match.Attributes.Append(sport);
 
             var running = xd.CreateAttribute("running");
@@ -160,13 +82,6 @@ namespace Fanex.OddsFeed.Library.Matchs
             return match;
         }
 
-        /// <summary>
-        /// Build Xml Node Event.
-        /// </summary>
-        /// <param name="xd">The XmlDocument.</param>
-        /// <param name="op">The odd profile.</param>
-        /// <param name="bookiename">Bookie name.</param>
-        /// <returns>The XmlNode.</returns>
         public XmlNode BuildXmlNodeEvent(XmlDocument xd, OddsProfile op, string bookiename)
         {
             var match = xd.CreateNode(XmlNodeType.Element, "match", null);
@@ -179,7 +94,7 @@ namespace Fanex.OddsFeed.Library.Matchs
             BuildXmlNodeAwayTeam(xd, op, ref match);
 
             var mt = xd.CreateAttribute("mt");
-            mt.Value = Time.ToString();
+            mt.Value = KickOfTime.ToString();
             match.Attributes.Append(mt);
 
             var running = xd.CreateAttribute("running");
@@ -301,15 +216,15 @@ namespace Fanex.OddsFeed.Library.Matchs
             }
 
             var bname = xd.CreateAttribute("name");
-            bname.Value = bookiename; ////this.Bookie.Name.Where(i => i.Code == "en-US").SingleOrDefault().Content;
+            bname.Value = bookiename;
             bookie.Attributes.Append(bname);
 
             var bsimp = xd.CreateAttribute("simp");
-            bsimp.Value = bookiename; ////this.Bookie.Name.Where(i => i.Code == "zh-TW").SingleOrDefault().Content;
+            bsimp.Value = bookiename;
             bookie.Attributes.Append(bsimp);
 
             var btrad = xd.CreateAttribute("trad");
-            btrad.Value = bookiename; ////this.Bookie.Name.Where(i => i.Code == "zh-CN").SingleOrDefault().Content;
+            btrad.Value = bookiename;
             bookie.Attributes.Append(btrad);
 
             return bookie;

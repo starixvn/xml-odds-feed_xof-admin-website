@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="UpdateOddsData.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Thai.Tran" date="2013.1.7">Created</change>
-// </history>
-
-namespace Fanex.OddsFeed.Library
+﻿namespace Fanex.OddsFeed.Library
 {
     using Couchbase;
     using Enyim.Caching.Memcached;
@@ -24,6 +15,7 @@ namespace Fanex.OddsFeed.Library
     using System.Data;
     using System.Linq;
     using System.Threading;
+
     /// <summary>
     /// Class UpdateOddsData.
     /// </summary>
@@ -57,11 +49,6 @@ namespace Fanex.OddsFeed.Library
             return Set(_Prefix + "fullchain", true, _NumTries);
         }
 
-        /// <summary>
-        /// Updates the specified current version.
-        /// </summary>
-        /// <param name="currentVersion">The current version.</param>
-        /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
         public static bool Update(int currentVersion)
         {
             var line = 0;
@@ -70,26 +57,22 @@ namespace Fanex.OddsFeed.Library
                 line++;
                 bool updateSuccessful = false;
                 line++;
-                var liveodds = DbConnect.GetLiveOddsData();
+                var liveOdds = DbConnect.GetLiveOddsData();
                 line++;
                 var deadballOdds = DbConnect.GetDeadballOddsData();
                 line++;
                 var outrightOdds = DbConnect.GetOutrightOddsData();
                 line++;
-                IList<Match> liveMatches;
-                IList<Match> deadballMatches;
-                IList<Event> events;
-                line++;
-                liveMatches = new List<Match>();
-                deadballMatches = new List<Match>();
-                events = new List<Event>();
+                var liveMatches = new List<Match>();
+                var deadballMatches = new List<Match>();
+                var events = new List<Event>();
 
-                var liveFlexOdds = ConvertToOddFlex(liveodds.ResultSet.Tables[1]);
+                var liveFlexOdds = ConvertToOddFlex(liveOdds.ResultSet.Tables[1]);
                 line++;
                 var deadballFlexOdds = ConvertToOddFlex(deadballOdds.ResultSet.Tables[1]);
                 line++;
                 ////live
-                BuildMatchOdds(liveodds.ResultSet.Tables[0], liveFlexOdds, true, liveMatches);
+                BuildMatchOdds(liveOdds.ResultSet.Tables[0], liveFlexOdds, true, liveMatches);
                 line++;
                 ////deadball
                 BuildMatchOdds(deadballOdds.ResultSet.Tables[0], deadballFlexOdds, false, deadballMatches);
@@ -106,6 +89,7 @@ namespace Fanex.OddsFeed.Library
                 line++;
                 updateSuccessful = updateSuccessful && Set(_Prefix + "events" + currentVersion, events, _NumTries);
                 line++;
+
                 return updateSuccessful;
             }
             catch (Exception e)
@@ -131,11 +115,7 @@ namespace Fanex.OddsFeed.Library
             var matchId = 0;
             foreach (DataRow item in dataTable.Rows)
             {
-                ////bookies
-                var bookie = new Bookie();
-                var bookieName = CreateBookieName();
-                bookie.Name = bookieName;
-                ////odds                
+                var bookie = new Bookie { Name = CreateBookieName() };
                 var odd = CreateMatchOdd(item, flexOdds);
 
                 if (odd != null)
@@ -233,14 +213,13 @@ namespace Fanex.OddsFeed.Library
                     League = league,
                     Home = home,
                     Away = away,
-                    Sport = item["SportTypeName"].ToString(),
+                    SportName = item["SportTypeName"].ToString(),
                     SportId = int.Parse(item["SportType"].ToString()),
-                    Time = DateTime.Parse(item["KickOffTime"].ToString()),
+                    KickOfTime = DateTime.Parse(item["KickOffTime"].ToString()),
                     Running = isLive
                                     ? true
                                     : matches.Where(i => i.IsLive && i.Id == int.Parse(item["MatchID"].ToString()))
                                     .FirstOrDefault() != null,
-                    ////item["EventStatus"].ToString() == "running" ? true : false,
                     Bookie = bookie,
                     BetType = int.Parse(item["BetType"].ToString()),
                     IsLive = isLive,

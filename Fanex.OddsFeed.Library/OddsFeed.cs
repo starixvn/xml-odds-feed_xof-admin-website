@@ -1,48 +1,30 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="OddsFeed.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Thai.Tran" date="2013.1.7">Created</change>
-// </history>
-namespace Fanex.OddsFeed.Library
+﻿namespace Fanex.OddsFeed.Library
 {
-    using Matchs.OddNodeBuilder;
-    using Fanex.OddsFeed.Library.Matchs;
-    using Fanex.OddsFeed.Library.Outrights;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Xml;
+    using Fanex.OddsFeed.Library.Matchs;
+    using Fanex.OddsFeed.Library.Outrights;
+    using Matchs.OddNodeBuilder;
 
     /// <summary>
     /// Class OddsFeed.
     /// </summary>
     public class OddsFeed
     {
-        private string _bookiename;
+        private string _bookieName;
+        private string _timeStamp;
         private IList<Match> _liveMatches;
         private IList<Match> _deadballMatches;
         private IList<Event> _events;
-        private OddsProfile _op;
-        private string _timestamp;
+        private OddsProfile _oddsProfile;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="OddsFeed"/> class.
-        /// </summary>
-        /// <param name="profile">The profile.</param>
-        /// <param name="system">The system.</param>
-        /// <param name="domainName">Name of the domain.</param>
-        /// <param name="ip">The login IP.</param>
-        /// <param name="timestamp">The timestamp.</param>
         public OddsFeed(OddsProfile profile, string system, string domainName, string ip, string timestamp)
         {
-            _bookiename = system;
-            ////get profile
-            //// op = new OddsProfile(DbConnect.GetProfile(profileId));
-            _op = profile;
-            this._timestamp = timestamp;
+            _bookieName = system;
+            _oddsProfile = profile;
+            _timeStamp = timestamp;
 
             var oddsdata = Caching.GetData(profile.DelayTimes);
 
@@ -52,146 +34,134 @@ namespace Fanex.OddsFeed.Library
             _events = oddsdata.Events;
         }
 
-        /// <summary>
-        /// Builds the XML document.
-        /// </summary>
-        /// <param name="timestamp">The timestamp.</param>
-        /// <param name="filter">The filter.</param>
-        /// <param name="isSample">If set to <c>true</c> [is sample].</param>
-        /// <param name="isOutrights">If set to <c>true</c> [is outrights].</param>
-        /// <returns>Xml Element.</returns>
         public XmlElement BuildXmlDocument(string timestamp, OddsFeedFilter filter, bool isSample = false, bool isOutrights = true)
         {
-            var xd = new XmlDocument();
-            var xmlDeclaration = xd.CreateXmlDeclaration("1.0", "utf-8", null);
-            xd.InsertBefore(xmlDeclaration, xd.DocumentElement);
+            var xmlDocument = CreateXmlDocument();
+            var nodeRoot = xmlDocument.CreateElement("oddsfeed");
 
-            var root = xd.CreateElement("oddsfeed");
-
-            ////build outrights
-            var outrights = BuildOutRight(root, xd, filter, isOutrights, isSample);
-            if (outrights != null)
+            if (IsShownOutright(isSample, isOutrights))
             {
-                root.AppendChild(outrights);
+                AddOutRight(nodeRoot, xmlDocument, filter, isSample, isOutrights);
             }
 
-            ////build match
-            var matchs = BuildMatch(root, xd, filter, isSample);
-            if (matchs != null)
-            {
-                if ((isSample && !isOutrights) || !_op.OddsType.Contains(8))
-                {
-                    return (XmlElement)matchs;
-                }
+            AddMatch(nodeRoot, xmlDocument, filter, isSample, isOutrights);
 
-                root.AppendChild(matchs);
-            }
-
-            return root;
+            return nodeRoot;
         }
 
-        /// <summary>
-        /// Builds the XML event.
-        /// </summary>
-        /// <param name="timestamp">The timestamp.</param>
-        /// <param name="filter">The filter.</param>
-        /// <param name="isSample">If set to <c>true</c> [is sample].</param>
-        /// <param name="isOutrights">If set to <c>true</c> [is outrights].</param>
-        /// <returns>Xml Element.</returns>
+        private XmlDocument CreateXmlDocument()
+        {
+            var xmlDocument = new XmlDocument();
+            var xmlDeclaration = xmlDocument.CreateXmlDeclaration("1.0", "utf-8", null);
+
+            xmlDocument.InsertBefore(xmlDeclaration, xmlDocument.DocumentElement);
+
+            return xmlDocument;
+        }
+
+        private void AddOutRight(XmlElement nodeRoot, XmlDocument xmlDocument, OddsFeedFilter filter, bool isSample, bool isOutrights)
+        {
+            var outrights = BuildOutRight(nodeRoot, xmlDocument, filter, isOutrights, isSample);
+
+            if (outrights != null)
+            {
+                nodeRoot.AppendChild(outrights);
+            }
+        }
+
+        private void AddMatch(XmlElement nodeRoot, XmlDocument xmlDocument, OddsFeedFilter filter, bool isSample, bool isOutrights)
+        {
+            var matches = BuildMatch(nodeRoot, xmlDocument, filter, isSample);
+
+            if (matches != null)
+            {
+                nodeRoot.AppendChild(matches);
+            }
+        }
+
+        private bool IsShownOutright(bool isSample, bool isOutrights)
+        {
+            return _oddsProfile.OddsType.Contains(8) && (!isSample || isOutrights);
+        }
+
         public XmlElement BuildXmlEvent(string timestamp, OddsFeedFilter filter, bool isSample = false, bool isOutrights = true)
         {
-            var xd = new XmlDocument();
-            var xmlDeclaration = xd.CreateXmlDeclaration("1.0", "utf-8", null);
-            xd.InsertBefore(xmlDeclaration, xd.DocumentElement);
+            var xmlDocument = CreateXmlDocument();
+            var nodeRoot = xmlDocument.CreateElement("eventfeed");
 
-            var root = xd.CreateElement("eventfeed");
-
-            ////build outrights
-            var outrights = BuildOutRightEvent(xd, filter, isOutrights, isSample);
-            if (outrights != null)
+            if (IsShownOutRightEvent(isSample, isOutrights))
             {
-                root.AppendChild(outrights);
+                AddOutRightEvent(nodeRoot, xmlDocument, filter, isOutrights, isSample);
             }
 
-            ////build match            
-            var matchs = BuildMatchEvent(xd, filter, isSample);
-            if (matchs != null)
-            {
-                if (isSample && !isOutrights)
-                {
-                    return (XmlElement)matchs;
-                }
+            AddMatchEvent(nodeRoot, xmlDocument, filter, isOutrights, isSample);
 
-                root.AppendChild(matchs);
-            }
-
-            return root;
+            return nodeRoot;
         }
 
-        /// <summary>
-        /// Queries the matches.
-        /// </summary>
-        /// <param name="source">The source.</param>
-        /// <param name="changeTime">If set to <c>true</c> [change time].</param>
-        /// <param name="ts">The change time.</param>
-        /// <param name="filter">The filter.</param>
-        /// <returns>IList Match.</returns>
-        private IList<Match> QueryMatches(IList<Match> source, bool changeTime, int ts, OddsFeedFilter filter)
+        private void AddOutRightEvent(XmlElement nodeRoot, XmlDocument xmlDocument, OddsFeedFilter filter, bool isSample, bool isOutrights)
         {
-            IList<Match> filteredMatches = null;
-            filteredMatches = (from i in source
-                               where (changeTime ? i.TimeStamp > ts : true) &&
-                                         ////filter by sports
-                                         (_op.Sports == null ? true : (_op.Sports.Count != 0 ? _op.Sports.Contains(i.SportId) : false)) &&
-                                         (filter.Sports == null || filter.Sports.Count == 0 ? true : filter.Sports.Contains(i.SportId)) &&
-                                         ////filter by leagues
-                                         (_op.Leagues == null ? true : (_op.Leagues.Count != 0 ? _op.Leagues.Contains(i.LeagueId) : false)) &&
-                                         (filter.Leagues == null || filter.Leagues.Count == 0 ? true : FilterByLeague(filter.Leagues, i.League[0].Content.ToLower())) &&
-                                         ////filter by countries
-                                         (_op.Countries == null ? true : (_op.Countries.Count != 0 ? _op.Countries.Contains(i.CountryCode.ToLower()) : false)) &&
-                                         (filter.Countries == null || filter.Countries.Count == 0 ? true : filter.Countries.Contains(i.CountryCode.ToLower())) &&
-                                         ////filter by keyword
-                                         (string.IsNullOrEmpty(_op.LeagueKeyword) ? true : i.League[0].Content.ToLower().Contains(_op.LeagueKeyword.ToLower()))
-                               select i).ToList();
-            return filteredMatches;
+            var outrights = BuildOutRightEvent(xmlDocument, filter, isOutrights, isSample);
+
+            if (outrights != null)
+            {
+                nodeRoot.AppendChild(outrights);
+            }
+        }
+
+        private void AddMatchEvent(XmlElement nodeRoot, XmlDocument xmlDocument, OddsFeedFilter filter, bool isSample, bool isOutrights)
+        {
+            var matches = BuildMatchEvent(xmlDocument, filter, isSample);
+
+            if (matches != null)
+            {
+                nodeRoot.AppendChild(matches);
+            }
+        }
+
+        private bool IsShownOutRightEvent(bool isSample, bool isOutrights)
+        {
+            return !isSample || isOutrights;
+        }
+
+        private IList<Match> QueryMatches(IList<Match> matches, bool changeTime, int timeStamp, OddsFeedFilter filter)
+        {
+            return (from match in matches
+                    where (changeTime ? match.TimeStamp > timeStamp : true) &&
+                                FilterSports(match, filter) &&
+                                FilterLeagues(match, filter) &&
+                                FilterCountries(match, filter) &&
+                                FilterKeywords(match)
+                    select match).ToList();
         }
 
         #region XmlDocument
 
-        /// <summary>
-        /// Builds the out right.
-        /// </summary>
-        /// <param name="root">The XmlElement.</param>
-        /// <param name="xd">The XmlDocument.</param>
-        /// <param name="filter">The filter.</param>
-        /// <param name="isOutrights">If set to <c>true</c> [is outrights].</param>
-        /// <param name="isSample">If set to <c>true</c> [is sample].</param>
-        /// <returns>The Xml Node.</returns>
         private XmlNode BuildOutRight(XmlElement root, XmlDocument xd, OddsFeedFilter filter, bool isOutrights = true, bool isSample = false)
         {
             ////build outrights
-            if (_op.OddsType.Contains(8) && _events != null)
+            if (_oddsProfile.OddsType.Contains(8) && _events != null)
             {
                 var outrights = xd.CreateNode(XmlNodeType.Element, "outrights", null);
                 var filteredOutrights = (from i in _events
                                          where
                                          ////filter by sports                                            
-                                         (_op.Sports == null ? true : (_op.Sports.Count != 0 ? _op.Sports.Contains(i.SportId) : false)) &&
+                                         (_oddsProfile.Sports == null ? true : (_oddsProfile.Sports.Count != 0 ? _oddsProfile.Sports.Contains(i.SportId) : false)) &&
                                          (filter.Sports == null || filter.Sports.Count == 0 ? true : filter.Sports.Contains(i.SportId)) &&
                                          ////filter by outrights
-                                         (_op.Outrights == null ? true : (_op.Outrights.Count != 0 ? _op.Outrights.Contains(i.Id) : false)) &&
+                                         (_oddsProfile.Outrights == null ? true : (_oddsProfile.Outrights.Count != 0 ? _oddsProfile.Outrights.Contains(i.Id) : false)) &&
                                          ////filter by leagues
                                          (filter.Leagues == null || filter.Leagues.Count == 0 ? true : FilterByLeague(filter.Leagues, i.Content[0].Content.ToLower())) &&
                                          ////filter by countries                                            
-                                         (_op.Countries == null ? true : (_op.Countries.Count != 0 ? _op.Countries.Contains(i.CountryCode.ToLower()) : false)) &&
+                                         (_oddsProfile.Countries == null ? true : (_oddsProfile.Countries.Count != 0 ? _oddsProfile.Countries.Contains(i.CountryCode.ToLower()) : false)) &&
                                          (filter.Countries == null || filter.Countries.Count == 0 ? true : filter.Countries.Contains(i.CountryCode.ToLower())) &&
                                          ////filter by keyword
-                                         (string.IsNullOrEmpty(_op.OutrightsKeyword) ? true : i.Content[0].Content.ToLower().Contains(_op.OutrightsKeyword.ToLower()))
+                                         (string.IsNullOrEmpty(_oddsProfile.OutrightsKeyword) ? true : i.Content[0].Content.ToLower().Contains(_oddsProfile.OutrightsKeyword.ToLower()))
                                          select i).ToList();
 
                 if (isSample && isOutrights && filteredOutrights.Count > 0)
                 {
-                    outrights.AppendChild(filteredOutrights[0].BuildXmlNodeOutRight(xd, _op));
+                    outrights.AppendChild(filteredOutrights[0].BuildXmlNodeOutRight(xd, _oddsProfile));
                 }
                 else if (!isSample)
                 {
@@ -200,7 +170,7 @@ namespace Fanex.OddsFeed.Library
                     {
                         foreach (var item in filteredOutrights)
                         {
-                            outrights.AppendChild(item.BuildXmlNodeOutRight(xd, _op));
+                            outrights.AppendChild(item.BuildXmlNodeOutRight(xd, _oddsProfile));
                         }
                     }
                 }
@@ -211,115 +181,94 @@ namespace Fanex.OddsFeed.Library
             return null;
         }
 
-        /// <summary>
-        /// Builds the match.
-        /// </summary>
-        /// <param name="root">The XmlElement.</param>
-        /// <param name="xd">The XmlDocument.</param>
-        /// <param name="filter">The filter.</param>
-        /// <param name="isSample">If set to <c>true</c> [is sample].</param>
-        /// <returns>The Xml Node.</returns>
-        private XmlNode BuildMatch(XmlElement root, XmlDocument xd, OddsFeedFilter filter, bool isSample = false)
+        private XmlNode BuildMatch(XmlElement nodeRoot, XmlDocument xmlDocument, OddsFeedFilter filter, bool isSample = false)
         {
-            var changetime = !string.IsNullOrEmpty(_timestamp); //// && (op.SpParams == "timestamp");
-            int ts = changetime ? int.Parse(_timestamp) : 0;
+            var changetime = !string.IsNullOrEmpty(_timeStamp);
+            int timeStamp = changetime ? int.Parse(_timeStamp) : 0;
 
-            IList<Match> filteredDeadballMatches = null;
-            IList<Match> filteredLiveMatches = null;
-            ////filter by deadball
-            if (_op.OddsType.Contains(2) && _deadballMatches != null)
-            {
-                filteredDeadballMatches = QueryMatches(_deadballMatches, changetime, ts, filter);
-            }
+            var deadballMatches = GetDeadMatches(_deadballMatches, changetime, timeStamp, filter);
+            var liveMatches = GetLiveMatches(_liveMatches, changetime, timeStamp, filter);
 
-            ////filter by Live
-            if (_op.OddsType.Contains(4) && _liveMatches != null)
+            if (liveMatches != null || deadballMatches != null)
             {
-                filteredLiveMatches = QueryMatches(_liveMatches, changetime, ts, filter);
-            }
-
-            if (filteredLiveMatches != null || filteredDeadballMatches != null)
-            {
-                var ms = xd.CreateNode(XmlNodeType.Element, "matches", null);
+                var matchNode = xmlDocument.CreateNode(XmlNodeType.Element, "matches", null);
 
                 var sampleMatch = false;
-                BuildDeadBallMatch(ref ms, xd, filteredDeadballMatches, filter, isSample, ref sampleMatch);
-                BuildLiveMatch(ref ms, xd, filteredLiveMatches, filter, isSample, sampleMatch);
+                BuildDeadBallMatchNode(matchNode, xmlDocument, deadballMatches, filter, isSample);
+                BuildLiveMatchNode(matchNode, xmlDocument, liveMatches, filter, isSample, sampleMatch);
 
-                if (ms.ChildNodes.Count > 0)
+                if (matchNode.ChildNodes.Count > 0)
                 {
-                    var lastUpdate = xd.CreateAttribute("lastupdate");
+                    var lastUpdate = xmlDocument.CreateAttribute("lastupdate");
                     lastUpdate.Value = DateTime.Now.AddHours(12).ToString();
-                    ms.Attributes.Append(lastUpdate);
+                    matchNode.Attributes.Append(lastUpdate);
 
-                    BuildTimeStamp(ref ms, xd, filteredDeadballMatches, filteredLiveMatches);
-
-                    BuildOddsType(ref ms, xd);
+                    BuildTimeStamp(matchNode, xmlDocument, deadballMatches, liveMatches);
+                    BuildOddsType(matchNode, xmlDocument);
                 }
 
-                return ms;
+                return matchNode;
             }
 
             return null;
         }
 
-        /// <summary>
-        /// Builds the time stamp.
-        /// </summary>
-        /// <param name="ms">The XmlNode.</param>
-        /// <param name="xd">The XmlDocument.</param>
-        /// <param name="filteredDeadballMatches">The filtered dead ball matches.</param>
-        /// <param name="filteredLiveMatches">The filtered live matches.</param>
-        private void BuildTimeStamp(ref XmlNode ms, XmlDocument xd, IList<Match> filteredDeadballMatches, IList<Match> filteredLiveMatches)
+        private IList<Match> GetDeadMatches(IList<Match> deadMatches, bool changeTime, int timeStamp, OddsFeedFilter filter)
         {
-            ////timestamp                
-            ////if (!string.IsNullOrEmpty(timestamp))
-            ////{
-            ////    var mTimestamp = xd.CreateAttribute("timestamp");
-            ////    mTimestamp.Value = timestamp;
-            ////    ms.Attributes.Append(mTimestamp);
-            ////}
-
-            ////timestamp
-            ////get maxTimeStamp of matches of bookies                
-            int maxTimeStamp = 0;
-            if (filteredLiveMatches != null)
-            {
-                foreach (var match in filteredLiveMatches)
-                {
-                    if (match.TimeStamp > maxTimeStamp)
-                    {
-                        maxTimeStamp = match.TimeStamp;
-                    }
-                }
-            }
-
-            if (filteredDeadballMatches != null)
-            {
-                foreach (var match in filteredDeadballMatches)
-                {
-                    if (match.TimeStamp > maxTimeStamp)
-                    {
-                        maxTimeStamp = match.TimeStamp;
-                    }
-                }
-            }
-
-            var tmpTimestamp = xd.CreateAttribute("timestamp");
-            tmpTimestamp.Value = maxTimeStamp.ToString();
-            ms.Attributes.Append(tmpTimestamp);
+            return HaveDeadBallMatches()
+                ? QueryMatches(deadMatches, changeTime, timeStamp, filter)
+                : new List<Match>();
         }
 
-        /// <summary>
-        /// Builds the type of the odds.
-        /// </summary>
-        /// <param name="ms">The XmlNode.</param>
-        /// <param name="xd">The XmlDocument.</param>
-        private void BuildOddsType(ref XmlNode ms, XmlDocument xd)
+        private bool HaveDeadBallMatches()
         {
-            ////oddstype
-            var oddstype = xd.CreateAttribute("oddstype");
-            switch (_op.OddRegion)
+            return _oddsProfile.OddsType.Contains(2) && _deadballMatches != null;
+        }
+
+        private IList<Match> GetLiveMatches(IList<Match> liveMatches, bool changeTime, int timeStamp, OddsFeedFilter filter)
+        {
+            return HaveLiveBallMatches()
+                ? QueryMatches(liveMatches, changeTime, timeStamp, filter)
+                : new List<Match>();
+        }
+
+        private bool HaveLiveBallMatches()
+        {
+            return _oddsProfile.OddsType.Contains(4) && _liveMatches != null;
+        }
+
+        private void BuildTimeStamp(
+            XmlNode matchNode, 
+            XmlDocument xmlDocument, 
+            IList<Match> deadBallMatches, 
+            IList<Match> liveMatches)
+        {                     
+            int deadBallTimeStamp = 0;
+            int liveTimeStamp = 0;
+
+            if (deadBallMatches.Any())
+            {
+                deadBallTimeStamp = deadBallMatches.Max(match => match.TimeStamp);
+            }
+
+            if (liveMatches.Any())
+            {
+                liveTimeStamp = liveMatches.Max(match => match.TimeStamp);
+            }
+
+            var maxTimeStamp = deadBallTimeStamp > liveTimeStamp ? deadBallTimeStamp : liveTimeStamp;
+            var timeStampAttribute = xmlDocument.CreateAttribute("timestamp");
+
+            timeStampAttribute.Value = maxTimeStamp.ToString();
+
+            matchNode.Attributes.Append(timeStampAttribute);
+        }
+
+        private void BuildOddsType(XmlNode matchNode, XmlDocument xmlDocument)
+        {
+            var oddstype = xmlDocument.CreateAttribute("oddstype");
+
+            switch (_oddsProfile.OddRegion)
             {
                 case 1:
                     oddstype.Value = "Malay";
@@ -341,96 +290,89 @@ namespace Fanex.OddsFeed.Library
                     break;
             }
 
-            ms.Attributes.Append(oddstype);
+            matchNode.Attributes.Append(oddstype);
         }
 
-        /// <summary>
-        /// Builds the dead ball match.
-        /// </summary>
-        /// <param name="ms">The XmlNode.</param>
-        /// <param name="xd">The XmlDocument.</param>
-        /// <param name="filteredDeadballMatches">The filtered dead ball matches.</param>
-        /// <param name="filter">The filter.</param>
-        /// <param name="isSample">If set to <c>true</c> [is sample].</param>
-        /// <param name="sampleMatch">If set to <c>true</c> [sample match].</param>
-        private void BuildDeadBallMatch(
-            ref XmlNode ms,
-            XmlDocument xd,
-            IList<Match> filteredDeadballMatches,
+        private void BuildDeadBallMatchNode(
+            XmlNode deadBallMatchNode,
+            XmlDocument xmlDocument,
+            IList<Match> deadBallMatches,
+            OddsFeedFilter filter,
+            bool isSample)
+        {
+            if (!deadBallMatches.Any())
+            {
+                return;
+            }
+
+            if (isSample)
+            {
+                AddSampleMatch(deadBallMatchNode, xmlDocument, deadBallMatches, filter, isSample);
+            }
+            else
+            {
+                AddAllMatches(deadBallMatchNode, xmlDocument, deadBallMatches, filter);
+            }
+        }
+
+        private void BuildLiveMatchNode(
+            XmlNode liveMatchNode,
+            XmlDocument xmlDocument,
+            IList<Match> liveMatches,
             OddsFeedFilter filter,
             bool isSample,
-            ref bool sampleMatch)
+            bool sampleMatch)
         {
-            if (filteredDeadballMatches != null)
+            if (!liveMatches.Any())
             {
-                if (isSample && filteredDeadballMatches.Count > 0)
-                {
-                    var matchNode = filteredDeadballMatches[0].BuildXmlNodeMatch(xd, _op, _bookiename, filter, isSample);
-                    if (matchNode != null)
-                    {
-                        ms.AppendChild(matchNode);
-                    }
+                return;
+            }
 
-                    sampleMatch = true;
-                }
-                else
+            if (isSample)
+            {
+                if (!sampleMatch)
                 {
-                    foreach (var item in filteredDeadballMatches)
-                    {
-                        var matchNode = item.BuildXmlNodeMatch(xd, _op, _bookiename, filter);
-                        if (matchNode != null)
-                        {
-                            ms.AppendChild(matchNode);
-                        }
-                    }
+                    AddSampleMatch(liveMatchNode, xmlDocument, liveMatches, filter, isSample);
+                }
+            }
+            else
+            {
+                AddAllMatches(liveMatchNode, xmlDocument, liveMatches, filter);
+            }
+        }
+
+        private void AddSampleMatch(
+            XmlNode matchNode,
+            XmlDocument xmlDocument,
+            IList<Match> matches,
+            OddsFeedFilter filter,
+            bool isSample)
+        {
+            var node = matches[0].BuildXmlNodeMatch(xmlDocument, _oddsProfile, _bookieName, filter, isSample);
+
+            if (node != null)
+            {
+                matchNode.AppendChild(node);
+            }
+        }
+
+        private void AddAllMatches(
+            XmlNode matchNode,
+            XmlDocument xmlDocument,
+            IList<Match> matches,
+            OddsFeedFilter filter)
+        {
+            foreach (var item in matches)
+            {
+                var node = item.BuildXmlNodeMatch(xmlDocument, _oddsProfile, _bookieName, filter);
+
+                if (node != null)
+                {
+                    matchNode.AppendChild(node);
                 }
             }
         }
 
-        /// <summary>
-        /// Builds the live match.
-        /// </summary>
-        /// <param name="ms">The XmlNode.</param>
-        /// <param name="xd">The XmlDocument.</param>
-        /// <param name="filteredLiveMatches">The filtered live matches.</param>
-        /// <param name="filter">The filter.</param>
-        /// <param name="isSample">If set to <c>true</c> [is sample].</param>
-        /// <param name="sampleMatch">If set to <c>true</c> [sample match].</param>
-        private void BuildLiveMatch(ref XmlNode ms, XmlDocument xd, IList<Match> filteredLiveMatches, OddsFeedFilter filter, bool isSample, bool sampleMatch)
-        {
-            if (filteredLiveMatches != null)
-            {
-                if (isSample && filteredLiveMatches.Count > 0)
-                {
-                    if (!sampleMatch)
-                    {
-                        var matchNode = filteredLiveMatches[0].BuildXmlNodeMatch(xd, _op, _bookiename, filter, isSample);
-                        if (matchNode != null)
-                        {
-                            ms.AppendChild(matchNode);
-                        }
-                    }
-                }
-                else
-                {
-                    foreach (var item in filteredLiveMatches)
-                    {
-                        var matchNode = item.BuildXmlNodeMatch(xd, _op, _bookiename, filter);
-                        if (matchNode != null)
-                        {
-                            ms.AppendChild(matchNode);
-                        }
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Check a league exists in list.
-        /// </summary>
-        /// <param name="searchLeagues">The list of leagues.</param>
-        /// <param name="league">The league.</param>
-        /// <returns>Return true if exists else return false.</returns>
         private bool FilterByLeague(IList<string> searchLeagues, string league)
         {
             foreach (string item in searchLeagues)
@@ -447,46 +389,37 @@ namespace Fanex.OddsFeed.Library
         #endregion
 
         #region XmlEvent
-
-        /// <summary>
-        /// Builds the out right event.
-        /// </summary>
-        /// <param name="xd">The XmlDocument.</param>
-        /// <param name="filter">The filter.</param>
-        /// <param name="isOutrights">If set to <c>true</c> [is outrights].</param>
-        /// <param name="isSample">If set to <c>true</c> [is sample].</param>
-        /// <returns>The Xml Node.</returns>
         private XmlNode BuildOutRightEvent(XmlDocument xd, OddsFeedFilter filter, bool isOutrights, bool isSample)
         {
             var outrights = xd.CreateNode(XmlNodeType.Element, "outrights", null);
 
-            if (_op.OddsType.Contains(8) && _events != null)
+            if (_oddsProfile.OddsType.Contains(8) && _events != null)
             {
                 var filteredOutrights = (from i in _events
                                          where
                                          ////filter by sports                                            
-                                         (_op.Sports == null ? true : (_op.Sports.Count != 0 ? _op.Sports.Contains(i.SportId) : false)) &&
+                                         (_oddsProfile.Sports == null ? true : (_oddsProfile.Sports.Count != 0 ? _oddsProfile.Sports.Contains(i.SportId) : false)) &&
                                          (filter.Sports == null || filter.Sports.Count == 0 ? true : filter.Sports.Contains(i.SportId)) &&
                                          ////filter by outrights
-                                         (_op.Outrights == null ? true : (_op.Outrights.Count != 0 ? _op.Outrights.Contains(i.Id) : false)) &&
+                                         (_oddsProfile.Outrights == null ? true : (_oddsProfile.Outrights.Count != 0 ? _oddsProfile.Outrights.Contains(i.Id) : false)) &&
                                          ////filter by leagues
                                          (filter.Leagues == null || filter.Leagues.Count == 0 ? true : FilterByLeague(filter.Leagues, i.Content[0].Content.ToLower())) &&
                                          ////filter by countries                                            
-                                         (_op.Countries == null ? true : (_op.Countries.Count != 0 ? _op.Countries.Contains(i.CountryCode.ToLower()) : false)) &&
+                                         (_oddsProfile.Countries == null ? true : (_oddsProfile.Countries.Count != 0 ? _oddsProfile.Countries.Contains(i.CountryCode.ToLower()) : false)) &&
                                          (filter.Countries == null || filter.Countries.Count == 0 ? true : filter.Countries.Contains(i.CountryCode.ToLower())) &&
                                          ////filter by keyword
-                                         (string.IsNullOrEmpty(_op.OutrightsKeyword) ? true : i.Content[0].Content.ToLower().Contains(_op.OutrightsKeyword.ToLower()))
+                                         (string.IsNullOrEmpty(_oddsProfile.OutrightsKeyword) ? true : i.Content[0].Content.ToLower().Contains(_oddsProfile.OutrightsKeyword.ToLower()))
                                          select i).ToList();
 
                 if (isSample && isOutrights && filteredOutrights.Count > 0)
                 {
-                    outrights.AppendChild(filteredOutrights[0].BuildXmlNodeOutRightEvent(xd, _op));
+                    outrights.AppendChild(filteredOutrights[0].BuildXmlNodeOutRightEvent(xd, _oddsProfile));
                 }
                 else if (!isSample)
                 {
                     foreach (var item in filteredOutrights)
                     {
-                        outrights.AppendChild(item.BuildXmlNodeOutRightEvent(xd, _op));
+                        outrights.AppendChild(item.BuildXmlNodeOutRightEvent(xd, _oddsProfile));
                     }
                 }
             }
@@ -494,93 +427,63 @@ namespace Fanex.OddsFeed.Library
             return outrights;
         }
 
-        /// <summary>
-        /// Builds the match event.
-        /// </summary>
-        /// <param name="xd">The XmlDocument.</param>
-        /// <param name="filter">The filter.</param>
-        /// <param name="isSample">If set to <c>true</c> [is sample].</param>
-        /// <returns>The Xml Node.</returns>
-        private XmlNode BuildMatchEvent(XmlDocument xd, OddsFeedFilter filter, bool isSample)
+        private XmlNode BuildMatchEvent(XmlDocument xmlDocument, OddsFeedFilter filter, bool isSample)
         {
-            var changetime = !string.IsNullOrEmpty(_timestamp); ////&& (op.SpParams == "timestamp");
-            int ts = changetime ? int.Parse(_timestamp) : 0;
+            var changetime = !string.IsNullOrEmpty(_timeStamp);
+            int timeStamp = changetime ? int.Parse(_timeStamp) : 0;
 
-            IList<Match> filteredDeadballMatches = null;
-            IList<Match> filteredLiveMatches = null;
-            ////filter by deadball
-            if (_op.OddsType.Contains(2) && _deadballMatches != null)
-            {
-                filteredDeadballMatches = QueryMatches(_deadballMatches, changetime, ts, filter);
-            }
+            var deadBallMatches = GetDeadMatches(_deadballMatches, changetime, timeStamp, filter);
+            var liveMatches = GetLiveMatches(_liveMatches, changetime, timeStamp, filter);
 
-            ////filter by Live
-            if (_op.OddsType.Contains(4) && _liveMatches != null)
-            {
-                filteredLiveMatches = QueryMatches(_liveMatches, changetime, ts, filter);
-            }
-
-            var fullMatches = FilterMatchEvent(filteredDeadballMatches, filteredLiveMatches, isSample);
+            var fullMatches = GetMatchEvent(deadBallMatches, liveMatches, isSample);
 
             if (fullMatches.Count > 0)
             {
-                var ms = xd.CreateNode(XmlNodeType.Element, "matches", null);
+                var matchNode = xmlDocument.CreateNode(XmlNodeType.Element, "matches", null);
 
                 if (isSample)
                 {
-                    ms.AppendChild(fullMatches[0].BuildXmlNodeEvent(xd, _op, _bookiename));
+                    matchNode.AppendChild(fullMatches[0].BuildXmlNodeEvent(xmlDocument, _oddsProfile, _bookieName));
                 }
                 else
                 {
-                    BuildLeague(ms, xd, fullMatches);
+                    BuildLeague(matchNode, xmlDocument, fullMatches);
                 }
 
-                return ms;
+                return matchNode;
             }
 
             return null;
         }
 
-        /// <summary>
-        /// Filters the match event.
-        /// </summary>
-        /// <param name="filteredDeadballMatches">The filtered dead ball matches.</param>
-        /// <param name="filteredLiveMatches">The filtered live matches.</param>
-        /// <param name="isSample">If set to <c>true</c> [is sample].</param>
-        /// <returns>List Match.</returns>
-        private List<Match> FilterMatchEvent(IList<Match> filteredDeadballMatches, IList<Match> filteredLiveMatches, bool isSample)
+        private List<Match> GetMatchEvent(IList<Match> deadballMatches, IList<Match> liveMatches, bool isSample)
         {
             var fullMatches = new List<Match>();
-            if (filteredDeadballMatches != null)
+
+            if (deadballMatches.Any())
             {
-                fullMatches.AddRange(filteredDeadballMatches);
+                fullMatches.AddRange(deadballMatches);
             }
 
-            if (filteredLiveMatches != null)
+            if (liveMatches.Any())
             {
                 if (isSample)
                 {
                     if (fullMatches.Count > 0)
                     {
-                        fullMatches.AddRange(filteredLiveMatches);
+                        fullMatches.AddRange(liveMatches);
                     }
                 }
                 else
                 {
-                    fullMatches.AddRange(filteredLiveMatches);
+                    fullMatches.AddRange(liveMatches);
                 }
             }
 
             return fullMatches;
         }
 
-        /// <summary>
-        /// Builds the league.
-        /// </summary>
-        /// <param name="ms">The XmlNode.</param>
-        /// <param name="xd">The XmlDocument.</param>
-        /// <param name="fullMatches">The full matches.</param>
-        private void BuildLeague(XmlNode ms, XmlDocument xd, List<Match> fullMatches)
+        private void BuildLeague(XmlNode matchNode, XmlDocument xmlDocument, List<Match> fullMatches)
         {
             var leagues = new List<League>();
 
@@ -601,15 +504,9 @@ namespace Fanex.OddsFeed.Library
                 }
             }
 
-            BuildLeagueNode(ms, xd, leagues);
+            BuildLeagueNode(matchNode, xmlDocument, leagues);
         }
 
-        /// <summary>
-        /// Builds the league node.
-        /// </summary>
-        /// <param name="ms">The XmlNode.</param>
-        /// <param name="xd">The XmlDocument.</param>
-        /// <param name="leagues">The leagues.</param>
         private void BuildLeagueNode(XmlNode ms, XmlDocument xd, List<League> leagues)
         {
             foreach (var lg in leagues)
@@ -619,21 +516,21 @@ namespace Fanex.OddsFeed.Library
                 leagueAttId.Value = lg.LeagueId.ToString();
                 leagueNode.Attributes.Append(leagueAttId);
 
-                if (_op.Languages.Contains("en-US"))
+                if (_oddsProfile.Languages.Contains("en-US"))
                 {
                     var ge = xd.CreateAttribute("ge");
                     ge.Value = BetOddNodeBuilder.EscapeXML(lg.Matches.First().League.Where(l => l.Code == "en-US").SingleOrDefault().Content);
                     leagueNode.Attributes.Append(ge);
                 }
 
-                if (_op.Languages.Contains("zh-TW"))
+                if (_oddsProfile.Languages.Contains("zh-TW"))
                 {
                     var gs = xd.CreateAttribute("gs");
                     gs.Value = BetOddNodeBuilder.EscapeXML(lg.Matches.First().League.Where(l => l.Code == "zh-TW").SingleOrDefault().Content);
                     leagueNode.Attributes.Append(gs);
                 }
 
-                if (_op.Languages.Contains("zh-CN"))
+                if (_oddsProfile.Languages.Contains("zh-CN"))
                 {
                     var gt = xd.CreateAttribute("gt");
                     gt.Value = BetOddNodeBuilder.EscapeXML(lg.Matches.First().League.Where(l => l.Code == "zh-CN").SingleOrDefault().Content);
@@ -641,12 +538,12 @@ namespace Fanex.OddsFeed.Library
                 }
 
                 var leagueAttSport = xd.CreateAttribute("sport");
-                leagueAttSport.Value = lg.Matches.First().Sport;
+                leagueAttSport.Value = lg.Matches.First().SportName;
                 leagueNode.Attributes.Append(leagueAttSport);
 
                 foreach (var item in lg.Matches)
                 {
-                    leagueNode.AppendChild(item.BuildXmlNodeEvent(xd, _op, _bookiename));
+                    leagueNode.AppendChild(item.BuildXmlNodeEvent(xd, _oddsProfile, _bookieName));
                 }
 
                 ms.AppendChild(leagueNode);
@@ -654,5 +551,28 @@ namespace Fanex.OddsFeed.Library
         }
 
         #endregion
+
+        private bool FilterSports(Match match, OddsFeedFilter filter)
+        {
+            return (_oddsProfile.Sports == null ? true : (_oddsProfile.Sports.Count != 0 ? _oddsProfile.Sports.Contains(match.SportId) : false)) &&
+                    (filter.Sports == null || filter.Sports.Count == 0 ? true : filter.Sports.Contains(match.SportId));
+        }
+
+        private bool FilterLeagues(Match match, OddsFeedFilter filter)
+        {
+            return (_oddsProfile.Leagues == null ? true : (_oddsProfile.Leagues.Count != 0 ? _oddsProfile.Leagues.Contains(match.LeagueId) : false)) &&
+                                         (filter.Leagues == null || filter.Leagues.Count == 0 ? true : FilterByLeague(filter.Leagues, match.League[0].Content.ToLower()));
+        }
+
+        private bool FilterCountries(Match match, OddsFeedFilter filter)
+        {
+            return (_oddsProfile.Countries == null ? true : (_oddsProfile.Countries.Count != 0 ? _oddsProfile.Countries.Contains(match.CountryCode.ToLower()) : false)) &&
+                                         (filter.Countries == null || filter.Countries.Count == 0 ? true : filter.Countries.Contains(match.CountryCode.ToLower()));
+        }
+
+        private bool FilterKeywords(Match match)
+        {
+            return (string.IsNullOrEmpty(_oddsProfile.LeagueKeyword) ? true : match.League[0].Content.ToLower().Contains(_oddsProfile.LeagueKeyword.ToLower()));
+        }
     }
 }

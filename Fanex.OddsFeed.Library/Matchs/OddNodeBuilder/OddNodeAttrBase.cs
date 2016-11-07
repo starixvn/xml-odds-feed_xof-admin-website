@@ -9,10 +9,15 @@
     public class OddNodeAttrBase
     {
         public string XmlAttribute { get; set; }
+
         public string DBAttribute { get; set; }
+
         public string MatchOddAttribute { get; set; }
+
         public string Description { get; set; }
+
         public bool NotToBuildData { get; set; }
+
         public bool NotToConvertOdd { get; set; }
 
         public virtual void UpdateAttributeForXmlNode(XmlDocument xd, OddsProfile op, MatchOdd item, XmlNode odd)
@@ -28,7 +33,6 @@
             {
                 xmlAttribute.Value = Utilities.ConvertOdds(op.OddRegion, Convert.ToDecimal(value)).ToString();
             }
-
 
             odd.Attributes.Append(xmlAttribute);
         }

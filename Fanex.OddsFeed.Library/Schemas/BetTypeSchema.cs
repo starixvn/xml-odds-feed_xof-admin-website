@@ -1,0 +1,17 @@
+﻿namespace Fanex.OddsFeed.Library.Schemas
+{
+    using System.Collections.Generic;
+
+    public class BetTypeSchema
+    {
+        public int BetTypeId { get; set; }
+
+        public string Tag { get; set; }
+
+        public decimal Value { get; set; }
+
+        public ReserveSchema Reserve { get; set; }
+
+        public IEnumerable<BetChoiceSchema> BetChoices { get; set; }
+    }
+}

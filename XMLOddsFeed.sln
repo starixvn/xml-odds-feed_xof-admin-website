@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "XMLOddsFeed", "XMLOddsFeed", "{DD04EE9A-E9E0-4096-B872-A695B72F4869}"
 EndProject
@@ -34,6 +34,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fanex.OddsFeed.WebService", "Fanex.OddsFeed.WebService\Fanex.OddsFeed.WebService.csproj", "{C9F4599D-DFB0-4252-8A7B-572B0C1E7E83}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fanex.OddsFeed.WindowsService", "Fanex.OddsFeed.WindowsService\Fanex.OddsFeed.WindowsService.csproj", "{C9E4969C-37BA-4447-B9C5-BA64F198D9A1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{71014D02-92FD-4819-821A-AFDF0828F168}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fanex.OddsFeed.Library.UnitTests", "UnitTests\Fanex.OddsFeed.Library.UnitTests\Fanex.OddsFeed.Library.UnitTests.csproj", "{9E4D2AC5-A9F4-4758-AE46-DBDC3628C398}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -109,6 +113,18 @@ Global
 		{C9E4969C-37BA-4447-B9C5-BA64F198D9A1}.Release|Mixed Platforms.Build.0 = Release|x86
 		{C9E4969C-37BA-4447-B9C5-BA64F198D9A1}.Release|x86.ActiveCfg = Release|x86
 		{C9E4969C-37BA-4447-B9C5-BA64F198D9A1}.Release|x86.Build.0 = Release|x86
+		{9E4D2AC5-A9F4-4758-AE46-DBDC3628C398}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E4D2AC5-A9F4-4758-AE46-DBDC3628C398}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E4D2AC5-A9F4-4758-AE46-DBDC3628C398}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{9E4D2AC5-A9F4-4758-AE46-DBDC3628C398}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{9E4D2AC5-A9F4-4758-AE46-DBDC3628C398}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9E4D2AC5-A9F4-4758-AE46-DBDC3628C398}.Debug|x86.Build.0 = Debug|Any CPU
+		{9E4D2AC5-A9F4-4758-AE46-DBDC3628C398}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E4D2AC5-A9F4-4758-AE46-DBDC3628C398}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E4D2AC5-A9F4-4758-AE46-DBDC3628C398}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{9E4D2AC5-A9F4-4758-AE46-DBDC3628C398}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{9E4D2AC5-A9F4-4758-AE46-DBDC3628C398}.Release|x86.ActiveCfg = Release|Any CPU
+		{9E4D2AC5-A9F4-4758-AE46-DBDC3628C398}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -120,5 +136,6 @@ Global
 		{4FDD9795-91D9-490C-BBB8-C70EF27F7FA6} = {DD04EE9A-E9E0-4096-B872-A695B72F4869}
 		{C9F4599D-DFB0-4252-8A7B-572B0C1E7E83} = {DD04EE9A-E9E0-4096-B872-A695B72F4869}
 		{C9E4969C-37BA-4447-B9C5-BA64F198D9A1} = {ABD11DEF-A40F-41D9-BE36-77106BC7A996}
+		{9E4D2AC5-A9F4-4758-AE46-DBDC3628C398} = {71014D02-92FD-4819-821A-AFDF0828F168}
 	EndGlobalSection
 EndGlobal

@@ -1,0 +1,9 @@
+﻿namespace Fanex.OddsFeed.Library.Nodes
+{
+    public class BetChoice
+    {
+        public string Code { get; set; }
+
+        public string Value { get; set; }
+    }
+}
