@@ -4,12 +4,8 @@
 
     public class BookieNode
     {
-        public string EnglishName { get; set; }
+        public IEnumerable<Language> BookieNames { get; set; }
 
-        public string SimplifiedChineseName { get; set; }
-
-        public string TraditionalChineseName { get; set; }
-
-        public IEnumerable<MatchOddsNode> OddsNodes { get; set; }
+        public IList<MatchOddsNode> OddsNodes { get; set; }
     }
 }

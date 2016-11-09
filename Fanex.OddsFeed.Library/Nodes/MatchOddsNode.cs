@@ -7,7 +7,7 @@
     {
         public int BetTypeId { get; set; }
 
-        public string Type { get; set; }
+        public string Tag { get; set; }
 
         public int TimeStamp { get; set; }
 

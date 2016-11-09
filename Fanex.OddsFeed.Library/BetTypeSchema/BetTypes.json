@@ -1574,7 +1574,7 @@
   },
   {
     "BetTypeId": 183,
-    "Tag": "hdp_2",
+    "Tag": "ah_2",
     "Reserve": {
       "FirstHdp": "hdp1",
       "SecondHdp": "hdp2"
@@ -2203,6 +2203,7 @@
   {
     "BetTypeId": 152,
     "Tag": "cs_12",
+    "IsOddsFlex": true,
     "BetChoices": [
       {
         "MatchAttribute": "O01",
@@ -2393,6 +2394,7 @@
   {
     "BetTypeId": 416,
     "Tag": "cs_12",
+    "IsOddsFlex": true,
     "BetChoices": [
       {
         "MatchAttribute": "cs001",

@@ -12,6 +12,8 @@
 
         public ReserveSchema Reserve { get; set; }
 
+        public bool IsOddsFlex { get; set; }
+
         public IEnumerable<BetChoiceSchema> BetChoices { get; set; }
     }
 }

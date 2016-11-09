@@ -6,6 +6,6 @@
 
     public interface IOutrightMapping
     {
-        IEnumerable<EventNode> GetEventNodes(DataTable dataTable);
+        IEnumerable<OutrightNode> GetEventNodes(DataTable dataTable);
     }
 }

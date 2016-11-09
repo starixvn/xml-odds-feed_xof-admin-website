@@ -8,8 +8,10 @@
 
     public interface IMatchMapping
     {
-        MatchOddsNode GetMatchOdds(IEnumerable<BetTypeSchema> schemas, DataRow row);
-
-        MatchOddsNode GetMatchOddsByOddsFlex(IEnumerable<BetTypeSchema> schemas, DataRow row, IEnumerable<OddFlex> oddsFlexs);
+        IEnumerable<MatchNode> GetMatchNodes(
+            DataTable dataTable,
+            IEnumerable<BetTypeSchema> schemas,
+            bool isLive,
+            IEnumerable<OddFlex> oddsFlexs);
     }
 }

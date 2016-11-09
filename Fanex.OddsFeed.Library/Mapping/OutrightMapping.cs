@@ -8,9 +8,9 @@
 
     public class OutrightMapping : IOutrightMapping
     {
-        public IEnumerable<EventNode> GetEventNodes(DataTable dataTable)
+        public IEnumerable<OutrightNode> GetEventNodes(DataTable dataTable)
         {
-            var eventNodes = new List<EventNode>();
+            var eventNodes = new List<OutrightNode>();
             int leagueId = 0;
 
             foreach (DataRow row in dataTable.Rows)
@@ -26,33 +26,33 @@
                 }
                 else
                 {
-                    eventNodes.Last().EventOddsNodes.Add(eventOdds);
+                    eventNodes.Last().OutrightOddsNodes.Add(eventOdds);
                 }
             }
 
             return eventNodes;
         }
 
-        private EventNode GetEventNode(DataRow row, int leagueId, EventOddsNode eventOddsNode)
+        private OutrightNode GetEventNode(DataRow row, int leagueId, OutrightOddsNode eventOddsNode)
         {
-            return new EventNode
+            return new OutrightNode
             {
                 EventId = leagueId,
                 EventNames = GetEventNames(row),
                 SportId = Convert.ToInt32(row["SportID"]),
                 SportName = row["LeagueNameTC"].ToString(),
                 Time = Convert.ToDateTime(row["EventDate"].ToString()),
-                EventOddsNodes = new[] { eventOddsNode }
+                OutrightOddsNodes = new[] { eventOddsNode }
             };
         }
 
-        private EventOddsNode GetEventOdds(DataRow row)
+        private OutrightOddsNode GetEventOdds(DataRow row)
         {
-            return new EventOddsNode
+            return new OutrightOddsNode
             {
                 OddsId = Convert.ToInt32(row["OrID"]),
                 Names = GetTeams(row),
-                Value = row["Odds"].ToString()
+                Value = Convert.ToDecimal(row["Odds"])
             };
         }
 

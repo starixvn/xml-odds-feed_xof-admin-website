@@ -147,13 +147,13 @@ namespace Fanex.OddsFeed.Library
                 case 2:
                     return DecimalToHK(decimalOdds); //// HongKongOdds
                 case 3:
-                    return Utilities.Floor(decimalOdds); ////DecimalOdds
+                    return Floor(decimalOdds); ////DecimalOdds
                 case 4:
                     return DecimalToIndo(decimalOdds); ////IndoOdds
                 case 5:
                     return DecimalToUS(decimalOdds); ////USOdds
                 default:
-                    return Utilities.Floor(decimalOdds);
+                    return Floor(decimalOdds);
             }
         }
 

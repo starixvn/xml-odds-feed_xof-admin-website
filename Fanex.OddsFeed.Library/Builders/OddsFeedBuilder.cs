@@ -1,0 +1,57 @@
+﻿namespace Fanex.OddsFeed.Library.Builders
+{
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Security;
+    using System.Xml;
+
+    public class OddsFeedBuilder
+    {
+        protected IDictionary<string, string> _leagueAttributes = new Dictionary<string, string>
+        {
+            { "ge", "en-US" },
+            { "gt", "zh-TW" },
+            { "gs", "zh-CN" }
+        };
+
+        protected IDictionary<string, string> _homeAttributes = new Dictionary<string, string>
+        {
+            { "he", "en-US" },
+            { "ht", "zh-TW" },
+            { "hs", "zh-CN" }
+        };
+
+        protected IDictionary<string, string> _awayAttibutes = new Dictionary<string, string>
+        {
+            { "ae", "en-US" },
+            { "at", "zh-TW" },
+            { "as", "zh-CN" }
+        };
+
+        protected IDictionary<string, string> _teamAttributes = new Dictionary<string, string>
+        {
+            { "te", "en-US" },
+            { "tt", "zh-TW" },
+            { "ts", "zh-CN" }
+        };
+
+        protected string EscapeXML(string content)
+        {
+            return SecurityElement.Escape(content);
+        }
+
+        protected void AssignNames(XmlDocument xmlDocument, XmlNode node, IEnumerable<Language> names, IDictionary<string, string> tagAttributes)
+        {
+            foreach (var tagAttribute in tagAttributes)
+            {
+                var attribute = xmlDocument.CreateAttribute(tagAttribute.Key);
+                var value = names
+                    .Where(name => string.Equals(name.Code, tagAttribute.Value))
+                    .Select(name => name.Content).First();
+
+                attribute.Value = EscapeXML(value);
+                node.Attributes.Append(attribute);
+            }
+        }
+    }
+}

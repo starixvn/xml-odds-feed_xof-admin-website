@@ -2,7 +2,6 @@
 {
     using Couchbase;
     using Enyim.Caching.Memcached;
-    using Enyim.Caching.Memcached.Results;
     using Fanex.Common;
     using Fanex.Logging;
     using Fanex.OddsFeed.Library.Matches;
@@ -2220,7 +2219,7 @@
         {
             var backoffExp = 0;
             var tryAgain = false;
-            IStoreOperationResult result = null;
+            bool result = false;
 
             try
             {
@@ -2231,8 +2230,8 @@
                         throw new ApplicationException("Could not perform a set after " + tries + " tries.");
                     }
 
-                    result = _Cache.ExecuteStore(StoreMode.Set, key, value);
-                    if (result.Success)
+                    result = _Cache.Store(StoreMode.Set, key, value);
+                    if (result)
                     {
                         break;
                     }
@@ -2247,15 +2246,15 @@
 
                     backoffExp++;
 
-                    if (!result.Success)
+                    if (!result)
                     {
-                        var message = result.InnerResult != null ? result.InnerResult.Message : result.Message;
-                        LogService.Error("Couchbase error! --- Failed with status: " + message);
+                        //var message = result.InnerResult != null ? result.InnerResult.Message : result.Message;
+                        //LogService.Error("Couchbase error! --- Failed with status: " + message);
                     }
 
                     ////Future versions of the .NET client will flatten the results and make checking for InnerResult objects unnecessary
-                    tryAgain = (result.Message != null && result.Message.Contains("Temporary failure")) ||
-                                    (result.InnerResult != null && result.InnerResult.Message.Contains("Temporary failure"));
+                    //tryAgain = (result.Message != null && result.Message.Contains("Temporary failure")) ||
+                                    //(result.InnerResult != null && result.InnerResult.Message.Contains("Temporary failure"));
                 }
                 while (tryAgain);
             }
@@ -2265,7 +2264,7 @@
             }
             //// note that other failure cases fall through.  status.isSuccess() can be
             //// checked for success or failure or the message can be retrieved.
-            return result.Success;
+            return result;
         }
         #endregion
     }

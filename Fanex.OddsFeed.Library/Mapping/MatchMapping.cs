@@ -10,14 +10,65 @@
 
     public class MatchMapping : IMatchMapping
     {
-        public IEnumerable<MatchNode> GetMatchNodes()
+        public IEnumerable<MatchNode> GetMatchNodes(
+            DataTable dataTable, 
+            IEnumerable<BetTypeSchema> schemas, 
+            bool isLive, 
+            IEnumerable<OddFlex> oddsFlexs)
         {
+            int matchId = 0;
+            var matchNodes = new List<MatchNode>();
 
+            foreach (DataRow row in dataTable.Rows)
+            {
+                var currentMatchId = Convert.ToInt32(row["MatchID"]);
+                var matchOdds = GetMatchOdds(schemas, row, oddsFlexs);
+                var matchNode = CreateMatchNode(row, isLive);
+
+                if (matchId != currentMatchId)
+                {
+                    matchNode.BookieNode = new BookieNode { BookieNames = GetBookieNames() };
+                    matchNode.MatchId = currentMatchId;
+
+                    matchNodes.Add(matchNode);
+
+                    matchId = currentMatchId;
+                }
+                else
+                {
+                    if (matchOdds.TimeStamp > matchNode.TimeStamp)
+                    {
+                        matchNode.TimeStamp = matchOdds.TimeStamp;
+                    }
+
+                    matchNodes.Last().BookieNode.OddsNodes.Add(matchOdds);
+                }
+            }
+
+            return matchNodes;
         }
 
-        public MatchOddsNode GetMatchOdds(IEnumerable<BetTypeSchema> schemas, DataRow row)
+        private MatchNode CreateMatchNode(DataRow row, bool isLive)
         {
-            var schema = FindBetTypeSchema(Convert.ToInt32(row["BetTypeID"]), schemas);
+            return new MatchNode
+            {
+                SportName = row["SportTypeName"].ToString(),
+                SportId = Convert.ToInt32(row["SportType"]),
+                KickOfTime = Convert.ToDateTime(row["KickOffTime"].ToString()),
+                HomeNames = GetHomeTeams(row),
+                AwayNames = GetAwayTeams(row),
+                LeagueId = Convert.ToInt32(row["LeagueID"]),
+                LeagueNames = GetLeagues(row),
+                CountryCode = row["CountryCode"].ToString(),
+                BetTypeId = Convert.ToInt32(row["BetType"]),
+                IsLive = isLive,
+                TimeStamp = Convert.ToInt32(row["TimeStamp"])
+            };
+        }
+
+        private MatchOddsNode GetMatchOdds(IEnumerable<BetTypeSchema> schemas, DataRow row, IEnumerable<OddFlex> oddsFlexs)
+        {
+            var schema = FindBetTypeSchema(Convert.ToInt32(row["BetType"]), schemas);
 
             if (schema == null)
             {
@@ -26,40 +77,42 @@
 
             var matchOddsNode = CreateMatchOddsNode(schema, row);
 
-            if (schema.Reserve == null)
+            if (schema.IsOddsFlex)
             {
-                matchOddsNode.BetChoices = MapBetChoices(schema.BetChoices, row);
+                matchOddsNode.BetChoices = GetOddsFlexBetChoices(schema, row, oddsFlexs);
             }
             else
             {
-                matchOddsNode.BetChoices = MapBetChoicesReserve(schema, row);
+                matchOddsNode.BetChoices = GetNormalBetChoices(schema, row);
             }
 
             return matchOddsNode;
         }
 
-        public MatchOddsNode GetMatchOddsByOddsFlex(IEnumerable<BetTypeSchema> schemas, DataRow row, IEnumerable<OddFlex> oddsFlexs)
+        private IEnumerable<BetChoice> GetNormalBetChoices(BetTypeSchema schema, DataRow row)
         {
-            var schema = FindBetTypeSchema(Convert.ToInt32(row["BetTypeID"]), schemas);
-
-            if (schema == null)
+            if (schema.Reserve == null)
             {
-                return null;
+                return MapBetChoices(schema.BetChoices, row);
             }
+            else
+            {
+                return MapBetChoicesReserve(schema, row);
+            }
+        }
 
-            var matchOddsNode = CreateMatchOddsNode(schema, row);
+        private IEnumerable<BetChoice> GetOddsFlexBetChoices(BetTypeSchema schema, DataRow row, IEnumerable<OddFlex> oddsFlexs)
+        {
             var filterOddsFlexs = oddsFlexs.Where(odds => odds.OddId == Convert.ToInt32(row["oddsid"]));
-
-            matchOddsNode.BetChoices = MapBetChoicesOddsFlex(schema.BetChoices, filterOddsFlexs);
-
-            return matchOddsNode;
+            
+            return MapBetChoicesOddsFlex(schema.BetChoices, filterOddsFlexs); ;
         }
 
         private MatchOddsNode CreateMatchOddsNode(BetTypeSchema schema, DataRow row)
         {
             return new MatchOddsNode
             {
-                Type = schema.Tag,
+                Tag = schema.Tag,
                 Time = Convert.ToDateTime(row["ChangeTime"]),
                 TimeStamp = Convert.ToInt32(row["TimeStamp"]),
                 BetTypeId = Convert.ToInt32(row["BetType"])
@@ -100,6 +153,7 @@
                     {
                         Code = betChoiceSchema.MatchAttribute,
                         Value = Convert.ToString(row[dataAttribute]),
+                        NotConvert = true
                     });
                 }
                 else
@@ -108,6 +162,7 @@
                     {
                         Code = betChoiceSchema.MatchAttribute,
                         Value = GetOddsValue(betChoiceSchema, row[dataAttribute]),
+                        NotConvert = betChoiceSchema.NotConvert
                     });
                 }
             }
@@ -130,7 +185,8 @@
             betChoices.Add(new BetChoice
             {
                 Code = betTypeSchema.BetChoices.ElementAt(0).MatchAttribute,
-                Value = ConvertOddToString(hdp2 - hdp1)
+                Value = ConvertOddToString(hdp2 - hdp1),
+                NotConvert = true
             });
 
             if (hdp1 > hdp2)
@@ -206,6 +262,94 @@
         private string ConvertToMalayOddsString(decimal odds)
         {
             return string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Convert.ToDecimal(odds)));
+        }
+
+        private IList<Language> GetBookieNames()
+        {
+            return new List<Language>
+            {
+                new Language
+                    {
+                        Code = "en-US",
+                        Content = string.Empty
+                    },
+                new Language
+                    {
+                        Code = "zh-TW",
+                        Content = string.Empty
+                    },
+                new Language
+                    {
+                        Code = "zh-CN",
+                        Content = string.Empty
+                    }
+            };
+        }
+
+        private IList<Language> GetAwayTeams(DataRow row)
+        {
+            return new List<Language>
+            {
+                new Language
+                    {
+                        Code = "en-US",
+                        Content = row["Away"].ToString()
+                    },
+                new Language
+                    {
+                        Code = "zh-TW",
+                        Content = row["AwayCN"].ToString()
+                    },
+                new Language
+                    {
+                        Code = "zh-CN",
+                        Content = row["AwayC_UNI"].ToString()
+                    }
+            };
+        }
+
+        private IList<Language> GetHomeTeams(DataRow row)
+        {
+            return new List<Language>
+            {
+                new Language
+                    {
+                        Code = "en-US",
+                        Content = row["Home"].ToString()
+                    },
+                new Language
+                    {
+                        Code = "zh-TW",
+                        Content = row["HomeCN"].ToString()
+                    },
+                new Language
+                    {
+                        Code = "zh-CN",
+                        Content = row["HomeC_UNI"].ToString()
+                    }
+            };
+        }
+
+        private IList<Language> GetLeagues(DataRow row)
+        {
+            return new List<Language>
+            {
+                new Language
+                    {
+                        Code = "en-US",
+                        Content = row["LeagueName"].ToString()
+                    },
+                new Language
+                    {
+                        Code = "zh-TW",
+                        Content = row["LeagueNameCN"].ToString()
+                    },
+                new Language
+                    {
+                        Code = "zh-CN",
+                        Content = row["LeagueNameC_UNI"].ToString()
+                    }
+            };
         }
     }
 }
