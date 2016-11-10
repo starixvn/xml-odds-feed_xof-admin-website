@@ -36,14 +36,14 @@
             var result = _target.CreateOutrightsNode(xmlDocument, oddsProfile, outrights);
 
             // Assert
-            Assert.AreEqual(outrightXmlNode, result.InnerXml);
+            Assert.AreEqual(outrightXmlNode, result.OuterXml);
         }
 
         private string GetOutrightXmlNode()
         {
             return "<outrights>"
-                + "<event id=\"9966\" ge=\"*UEFA EUROPA LEAGUE - GROUP A WINNER\" gt=\"*UEFA EUROPA LEAGUE - GROUP A WINNER\" gs=\"*UEFA EUROPA LEAGUE - GROUP A WINNER\" mt=\"12/8/2016 12:00:00\" sport=\"Soccer\">"
-                + "<odd id=\"7207912\" te=\"Manchester United\" tt=\"Manchester United\" ts=\"Manchester United\" o=\"0.3\"/>"
+                + "<event id=\"9966\" ge=\"*UEFA EUROPA LEAGUE - GROUP A WINNER\" gt=\"*UEFA EUROPA LEAGUE - GROUP A WINNER\" gs=\"*UEFA EUROPA LEAGUE - GROUP A WINNER\" mt=\"12/8/2016 12:00:00 AM\" sport=\"Soccer\">"
+                + "<odd id=\"7207912\" te=\"Manchester United\" tt=\"Manchester United\" ts=\"Manchester United\" o=\"0.3\" />"
                 + "</event>"
                 + "</outrights>";
         }

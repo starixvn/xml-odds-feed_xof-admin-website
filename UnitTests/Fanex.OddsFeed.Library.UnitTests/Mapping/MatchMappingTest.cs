@@ -33,8 +33,8 @@
             // Assert
             Assert.AreEqual(normalDataTable.Rows[0]["MatchId"], result.MatchId);
             Assert.AreEqual(normalDataTable.Rows[0]["BetType"], result.BetTypeId);
-            Assert.AreEqual(normalDataTable.Rows[0]["Odds1A"], result.BookieNode.OddsNodes[0].BetChoices.ElementAt(0).Code);
-            Assert.AreEqual(normalDataTable.Rows[0]["Odds2A"], result.BookieNode.OddsNodes[0].BetChoices.ElementAt(1).Code);
+            Assert.AreEqual(ConvertToDecimalOdds(normalDataTable.Rows[0]["Odds1A"]), result.BookieNode.OddsNodes[0].BetChoices.ElementAt(0).Value);
+            Assert.AreEqual(ConvertToDecimalOdds(normalDataTable.Rows[0]["Odds2A"]), result.BookieNode.OddsNodes[0].BetChoices.ElementAt(1).Value);
         }
 
         [Test]
@@ -50,8 +50,8 @@
             // Assert
             Assert.AreEqual(handicapDataTable.Rows[0]["MatchId"], result.MatchId);
             Assert.AreEqual(handicapDataTable.Rows[0]["BetType"], result.BetTypeId);
-            Assert.AreEqual(handicapDataTable.Rows[0]["Odds1A"], result.BookieNode.OddsNodes[0].BetChoices.ElementAt(1).Code);
-            Assert.AreEqual(handicapDataTable.Rows[0]["Odds2A"], result.BookieNode.OddsNodes[0].BetChoices.ElementAt(2).Code);
+            Assert.AreEqual(ConvertToDecimalOdds(handicapDataTable.Rows[0]["Odds1A"]), result.BookieNode.OddsNodes[0].BetChoices.ElementAt(1).Value);
+            Assert.AreEqual(ConvertToDecimalOdds(handicapDataTable.Rows[0]["Odds2A"]), result.BookieNode.OddsNodes[0].BetChoices.ElementAt(2).Value);
         }
 
         [Test]
@@ -63,13 +63,18 @@
             var schemas = GetSchemas();
 
             // Action
-            var result = _target.GetMatchNodes(oddsFlexDataTable, schemas, false, null).First();
+            var result = _target.GetMatchNodes(oddsFlexDataTable, schemas, false, flexOdds).First();
 
             // Assert
             Assert.AreEqual(oddsFlexDataTable.Rows[0]["MatchId"], result.MatchId);
             Assert.AreEqual(oddsFlexDataTable.Rows[0]["BetType"], result.BetTypeId);
-            Assert.AreEqual(flexOdds.ElementAt(0).Odds, result.BookieNode.OddsNodes[0].BetChoices.ElementAt(0).Code);
-            Assert.AreEqual(flexOdds.ElementAt(1).Odds, result.BookieNode.OddsNodes[0].BetChoices.ElementAt(1).Code);
+            Assert.AreEqual(ConvertToDecimalOdds(flexOdds.ElementAt(0).Odds), result.BookieNode.OddsNodes[0].BetChoices.ElementAt(0).Value);
+            Assert.AreEqual(ConvertToDecimalOdds(flexOdds.ElementAt(1).Odds), result.BookieNode.OddsNodes[0].BetChoices.ElementAt(1).Value);
+        }
+
+        private string ConvertToDecimalOdds(object odds)
+        {
+            return string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Convert.ToDecimal(odds)));
         }
 
         private IEnumerable<BetTypeSchema> GetSchemas()
@@ -189,15 +194,101 @@
                 ColumnName = "TimeStamp"
             });
 
+            dataTable.Columns.Add(new DataColumn
+            {
+                DataType = typeof(string),
+                ColumnName = "SportTypeName"
+            });
+            dataTable.Columns.Add(new DataColumn
+            {
+                DataType = typeof(int),
+                ColumnName = "SportType"
+            });
+            dataTable.Columns.Add(new DataColumn
+            {
+                DataType = typeof(DateTime),
+                ColumnName = "KickOffTime"
+            });
+            dataTable.Columns.Add(new DataColumn
+            {
+                DataType = typeof(int),
+                ColumnName = "LeagueID"
+            });
+            dataTable.Columns.Add(new DataColumn
+            {
+                DataType = typeof(string),
+                ColumnName = "CountryCode"
+            });
+            dataTable.Columns.Add(new DataColumn
+            {
+                DataType = typeof(string),
+                ColumnName = "Home"
+            });
+            dataTable.Columns.Add(new DataColumn
+            {
+                DataType = typeof(string),
+                ColumnName = "HomeCN"
+            });
+            dataTable.Columns.Add(new DataColumn
+            {
+                DataType = typeof(string),
+                ColumnName = "HomeC_UNI"
+            });
+            dataTable.Columns.Add(new DataColumn
+            {
+                DataType = typeof(string),
+                ColumnName = "Away"
+            });
+            dataTable.Columns.Add(new DataColumn
+            {
+                DataType = typeof(string),
+                ColumnName = "AwayCN"
+            });
+            dataTable.Columns.Add(new DataColumn
+            {
+                DataType = typeof(string),
+                ColumnName = "AwayC_UNI"
+            });
+            dataTable.Columns.Add(new DataColumn
+            {
+                DataType = typeof(string),
+                ColumnName = "LeagueName"
+            });
+            dataTable.Columns.Add(new DataColumn
+            {
+                DataType = typeof(string),
+                ColumnName = "LeagueNameCN"
+            });
+            dataTable.Columns.Add(new DataColumn
+            {
+                DataType = typeof(string),
+                ColumnName = "LeagueNameC_UNI"
+            });
+
             var row = dataTable.NewRow();
             row["MatchID"] = 1;
             row["BetType"] = 1;
             row["Hdp1"] = 1;
-            row["Hdp2"] = 1.5;
+            row["Hdp2"] = 0.5;
             row["Odds1A"] = 0.8;
             row["Odds2A"] = 0.9;
             row["ChangeTime"] = "11/01/2016 6:11:32 AM";
             row["TimeStamp"] = 123456;
+
+            row["SportTypeName"] = "Test";
+            row["SportType"] = 1;
+            row["KickOffTime"] = "11/01/2016 6:11:32 AM";
+            row["LeagueID"] = 1;
+            row["CountryCode"] = "Test";
+            row["Home"] = "Test";
+            row["HomeCN"] = "Test";
+            row["HomeC_UNI"] = "Test";
+            row["Away"] = "Test";
+            row["AwayCN"] = "Test";
+            row["AwayC_UNI"] = "Test";
+            row["LeagueName"] = "Test";
+            row["LeagueNameCN"] = "Test";
+            row["LeagueNameC_UNI"] = "Test";
 
             dataTable.Rows.Add(row);
 
@@ -238,6 +329,76 @@
                 DataType = typeof(int),
                 ColumnName = "TimeStamp"
             });
+            dataTable.Columns.Add(new DataColumn
+            {
+                DataType = typeof(string),
+                ColumnName = "SportTypeName"
+            });
+            dataTable.Columns.Add(new DataColumn
+            {
+                DataType = typeof(int),
+                ColumnName = "SportType"
+            });
+            dataTable.Columns.Add(new DataColumn
+            {
+                DataType = typeof(DateTime),
+                ColumnName = "KickOffTime"
+            });
+            dataTable.Columns.Add(new DataColumn
+            {
+                DataType = typeof(int),
+                ColumnName = "LeagueID"
+            });
+            dataTable.Columns.Add(new DataColumn
+            {
+                DataType = typeof(string),
+                ColumnName = "CountryCode"
+            });
+            dataTable.Columns.Add(new DataColumn
+            {
+                DataType = typeof(string),
+                ColumnName = "Home"
+            });
+            dataTable.Columns.Add(new DataColumn
+            {
+                DataType = typeof(string),
+                ColumnName = "HomeCN"
+            });
+            dataTable.Columns.Add(new DataColumn
+            {
+                DataType = typeof(string),
+                ColumnName = "HomeC_UNI"
+            });
+            dataTable.Columns.Add(new DataColumn
+            {
+                DataType = typeof(string),
+                ColumnName = "Away"
+            });
+            dataTable.Columns.Add(new DataColumn
+            {
+                DataType = typeof(string),
+                ColumnName = "AwayCN"
+            });
+            dataTable.Columns.Add(new DataColumn
+            {
+                DataType = typeof(string),
+                ColumnName = "AwayC_UNI"
+            });
+            dataTable.Columns.Add(new DataColumn
+            {
+                DataType = typeof(string),
+                ColumnName = "LeagueName"
+            });
+            dataTable.Columns.Add(new DataColumn
+            {
+                DataType = typeof(string),
+                ColumnName = "LeagueNameCN"
+            });
+            dataTable.Columns.Add(new DataColumn
+            {
+                DataType = typeof(string),
+                ColumnName = "LeagueNameC_UNI"
+            });
 
             var row = dataTable.NewRow();
             row["MatchID"] = 1;
@@ -246,6 +407,20 @@
             row["Odds2A"] = 0.9;
             row["ChangeTime"] = "11/01/2016 6:11:32 AM";
             row["TimeStamp"] = 123456;
+            row["SportTypeName"] = "Test";
+            row["SportType"] = 1;
+            row["KickOffTime"] = "11/01/2016 6:11:32 AM";
+            row["LeagueID"] = 1;
+            row["CountryCode"] = "Test";
+            row["Home"] = "Test";
+            row["HomeCN"] = "Test";
+            row["HomeC_UNI"] = "Test";
+            row["Away"] = "Test";
+            row["AwayCN"] = "Test";
+            row["AwayC_UNI"] = "Test";
+            row["LeagueName"] = "Test";
+            row["LeagueNameCN"] = "Test";
+            row["LeagueNameC_UNI"] = "Test";
 
             dataTable.Rows.Add(row);
 
@@ -255,6 +430,38 @@
         private DataTable GetOddsFlexDataTable()
         {
             var dataTable = new DataTable();
+
+            AssignOddsFlexHeader(dataTable);
+
+            var row = dataTable.NewRow();
+
+            row["MatchID"] = 3;
+            row["BetType"] = 3;
+            row["ChangeTime"] = "11/01/2016 6:11:32 AM";
+            row["oddsid"] = 1;
+            row["TimeStamp"] = 123456;
+            row["SportTypeName"] = "Test";
+            row["SportType"] = 1;
+            row["KickOffTime"] = "11/01/2016 6:11:32 AM";
+            row["LeagueID"] = 1;
+            row["CountryCode"] = "Test";
+            row["Home"] = "Test";
+            row["HomeCN"] = "Test";
+            row["HomeC_UNI"] = "Test";
+            row["Away"] = "Test";
+            row["AwayCN"] = "Test";
+            row["AwayC_UNI"] = "Test";
+            row["LeagueName"] = "Test";
+            row["LeagueNameCN"] = "Test";
+            row["LeagueNameC_UNI"] = "Test";
+
+            dataTable.Rows.Add(row);
+
+            return dataTable;
+        }
+
+        private void AssignOddsFlexHeader(DataTable dataTable)
+        {
             dataTable.Columns.Add(new DataColumn
             {
                 DataType = typeof(int),
@@ -275,16 +482,81 @@
                 DataType = typeof(int),
                 ColumnName = "TimeStamp"
             });
-
-            var row = dataTable.NewRow();
-            row["MatchID"] = 3;
-            row["BetType"] = 3;
-            row["ChangeTime"] = "11/01/2016 6:11:32 AM";
-            row["TimeStamp"] = 123456;
-
-            dataTable.Rows.Add(row);
-
-            return dataTable;
+            dataTable.Columns.Add(new DataColumn
+            {
+                DataType = typeof(int),
+                ColumnName = "oddsid"
+            });
+            dataTable.Columns.Add(new DataColumn
+            {
+                DataType = typeof(string),
+                ColumnName = "SportTypeName"
+            });
+            dataTable.Columns.Add(new DataColumn
+            {
+                DataType = typeof(int),
+                ColumnName = "SportType"
+            });
+            dataTable.Columns.Add(new DataColumn
+            {
+                DataType = typeof(DateTime),
+                ColumnName = "KickOffTime"
+            });
+            dataTable.Columns.Add(new DataColumn
+            {
+                DataType = typeof(int),
+                ColumnName = "LeagueID"
+            });
+            dataTable.Columns.Add(new DataColumn
+            {
+                DataType = typeof(string),
+                ColumnName = "CountryCode"
+            });
+            dataTable.Columns.Add(new DataColumn
+            {
+                DataType = typeof(string),
+                ColumnName = "Home"
+            });
+            dataTable.Columns.Add(new DataColumn
+            {
+                DataType = typeof(string),
+                ColumnName = "HomeCN"
+            });
+            dataTable.Columns.Add(new DataColumn
+            {
+                DataType = typeof(string),
+                ColumnName = "HomeC_UNI"
+            });
+            dataTable.Columns.Add(new DataColumn
+            {
+                DataType = typeof(string),
+                ColumnName = "Away"
+            });
+            dataTable.Columns.Add(new DataColumn
+            {
+                DataType = typeof(string),
+                ColumnName = "AwayCN"
+            });
+            dataTable.Columns.Add(new DataColumn
+            {
+                DataType = typeof(string),
+                ColumnName = "AwayC_UNI"
+            });
+            dataTable.Columns.Add(new DataColumn
+            {
+                DataType = typeof(string),
+                ColumnName = "LeagueName"
+            });
+            dataTable.Columns.Add(new DataColumn
+            {
+                DataType = typeof(string),
+                ColumnName = "LeagueNameCN"
+            });
+            dataTable.Columns.Add(new DataColumn
+            {
+                DataType = typeof(string),
+                ColumnName = "LeagueNameC_UNI"
+            });
         }
 
         private IEnumerable<OddFlex> GetOddsFlex()
@@ -292,7 +564,7 @@
             return new[]
             {
                 new OddFlex { OddId = 1, Odds = 1, BetType = 3, BetChoice = "0:0" },
-                new OddFlex { OddId = 2, Odds = 4, BetType = 3, BetChoice = "0:1" }
+                new OddFlex { OddId = 1, Odds = 4, BetType = 3, BetChoice = "0:1" }
             };
         }
     }

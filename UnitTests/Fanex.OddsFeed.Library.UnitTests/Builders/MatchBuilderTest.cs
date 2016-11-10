@@ -40,15 +40,15 @@
             var result = _target.CreateMatchesNode(xmlDocument, oddsProfile, matchNodes, bookieName, lastUpdate, timeStamp, oddsType);
 
             // Assert
-            Assert.AreEqual(matchXmlNode, result.InnerXml);
+            Assert.AreEqual(matchXmlNode, result.OuterXml);
         }
 
         private string GetMatchXmlNode()
         {
-            return "<matches lastupdate=\"11/2/2016 15:51:07\" timestamp=\"1477878874\" oddstype=\"Malay\">"
-                + "<match id=\"20485706\" ge=\"UEFA EUROPA LEAGUE\" gt=\"UEFA EUROPA LEAGUE\" gs =\"UEFA EUROPA LEAGUE\" he=\"FC Astana\" ht=\"FC Astana\" hs=\"FC Astana\" ae=\"Olympiakos\" at=\"Olympiakos\" as=\"Olympiakos\" mt=\"11/3/2016 11:59:59\" sport=\"Soccer\" running=\"0\">"
+            return "<matches lastupdate=\"11/2/2016 3:51:07 PM\" timestamp=\"1477878874\" oddstype=\"Malay\">"
+                + "<match id=\"20485706\" ge=\"UEFA EUROPA LEAGUE\" gt=\"UEFA EUROPA LEAGUE\" gs=\"UEFA EUROPA LEAGUE\" he=\"FC Astana\" ht=\"FC Astana\" hs=\"FC Astana\" ae=\"Olympiakos\" at=\"Olympiakos\" as=\"Olympiakos\" mt=\"11/3/2016 11:59:59 AM\" sport=\"Soccer\" running=\"0\">"
                 + "<bookie name=\"111candy\" simp=\"111candy\" trad=\"111candy\">"
-                + "<odd t=\"oe\" o=\"1\" e=\"0.9\" time=\"11/2/2016 15:51:07\" timestamp=\"1477332693\"/>"
+                + "<odd t=\"oe\" o=\"1\" e=\"0.9\" time=\"11/2/2016 3:51:07 PM\" timestamp=\"1477332693\" />"
                 + "</bookie>"
                 + "</match>"
                 + "</matches>";
@@ -79,7 +79,7 @@
                         new Language { Code = "zh-TW", Content = "Olympiakos" },
                         new Language { Code = "zh-CN", Content = "Olympiakos" }
                     },
-                    KickOfTime = new DateTime(2013, 11, 3, 11, 59, 00),
+                    KickOfTime = new DateTime(2016, 11, 3, 11, 59, 59),
                     SportName = "Soccer",
                     BookieNode = new BookieNode
                     {

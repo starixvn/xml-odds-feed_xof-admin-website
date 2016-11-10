@@ -16,7 +16,7 @@
             int timeStamp,
             string oddsType)
         {
-            var matchNode = xmlDocument.CreateNode(XmlNodeType.Element, "matches ", null);
+            var matchNode = xmlDocument.CreateNode(XmlNodeType.Element, "matches", null);
 
             AssignLastUpdate(xmlDocument, matchNode, lastUpdate);
             AssignMatchTimeStamp(xmlDocument, matchNode, timeStamp);
@@ -54,7 +54,7 @@
         private XmlNode CreateMatchNode(XmlDocument xmlDocument, OddsProfile oddsProfile, MatchNode match, string bookieName)
         {
             var matchNode = xmlDocument.CreateNode(XmlNodeType.Element, "match", null);
-
+            AssignMatchId(xmlDocument, matchNode, match.MatchId);
             AssignNames(xmlDocument, matchNode, match.LeagueNames, _leagueAttributes);
             AssignNames(xmlDocument, matchNode, match.HomeNames, _homeAttributes);
             AssignNames(xmlDocument, matchNode, match.AwayNames, _awayAttibutes);
@@ -65,6 +65,13 @@
             matchNode.AppendChild(CreateBookieNode(xmlDocument, oddsProfile, match.BookieNode, bookieName));
 
             return matchNode;
+        }
+
+        private void AssignMatchId(XmlDocument xmlDocument, XmlNode matchNode, int matchId)
+        {
+            var matchIdAttribute = xmlDocument.CreateAttribute("id");
+            matchIdAttribute.Value = matchId.ToString();
+            matchNode.Attributes.Append(matchIdAttribute);
         }
 
         private void AssignMatchKickOff(XmlDocument xmlDocument, XmlNode matchNode, DateTime kickOffTime)
@@ -83,7 +90,7 @@
 
         private void AssignMatchStatus(XmlDocument xmlDocument, XmlNode matchNode, bool isLive)
         {
-            var runningAttribute = xmlDocument.CreateAttribute("sport");
+            var runningAttribute = xmlDocument.CreateAttribute("running");
             runningAttribute.Value = isLive ? "1" : "0";
             matchNode.Attributes.Append(runningAttribute);
         }

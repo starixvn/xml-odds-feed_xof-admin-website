@@ -27,7 +27,12 @@
 
                 if (matchId != currentMatchId)
                 {
-                    matchNode.BookieNode = new BookieNode { BookieNames = GetBookieNames() };
+                    matchNode.BookieNode = new BookieNode
+                    {
+                        BookieNames = GetBookieNames(),
+                        OddsNodes = new[] { matchOdds }
+                    };
+
                     matchNode.MatchId = currentMatchId;
 
                     matchNodes.Add(matchNode);
@@ -132,7 +137,7 @@
                 betChoices.Add(new BetChoice
                 {
                     Code = betChoiceSchema.MatchAttribute,
-                    Value = ConvertToMalayOddsString(Convert.ToDecimal(value))
+                    Value = ConvertMalayToDecimalOddsString(Convert.ToDecimal(value))
                 });
             }
 
@@ -179,13 +184,13 @@
             var hdp1 = Convert.ToDecimal(row[betTypeSchema.Reserve.FirstHdp]);
             var hdp2 = Convert.ToDecimal(row[betTypeSchema.Reserve.SecondHdp]);
 
-            var value1 = ConvertToMalayOddsString(Convert.ToDecimal(row[GetDataAttribute(betChoice1)]));
-            var value2 = ConvertToMalayOddsString(Convert.ToDecimal(row[GetDataAttribute(betChoice2)]));
+            var value1 = ConvertMalayToDecimalOddsString(Convert.ToDecimal(row[GetDataAttribute(betChoice1)]));
+            var value2 = ConvertMalayToDecimalOddsString(Convert.ToDecimal(row[GetDataAttribute(betChoice2)]));
 
             betChoices.Add(new BetChoice
             {
                 Code = betTypeSchema.BetChoices.ElementAt(0).MatchAttribute,
-                Value = ConvertOddToString(hdp2 - hdp1),
+                Value = ConvertOddsToString(hdp2 - hdp1),
                 NotConvert = true
             });
 
@@ -230,10 +235,10 @@
         {
             if (betChoiceSchema.NotConvert)
             {
-                return ConvertOddToString(Convert.ToDecimal(value));
+                return ConvertOddsToString(Convert.ToDecimal(value));
             }
 
-            return ConvertToMalayOddsString(Convert.ToDecimal(value));
+            return ConvertMalayToDecimalOddsString(Convert.ToDecimal(value));
         }
 
         private BetTypeSchema FindBetTypeSchema(int betTypeId, IEnumerable<BetTypeSchema> schemas)
@@ -254,12 +259,12 @@
             return null;
         }
 
-        private string ConvertOddToString(decimal odds)
+        private string ConvertOddsToString(decimal odds)
         {
             return string.Format("{0:0.#########}", odds);
         }
 
-        private string ConvertToMalayOddsString(decimal odds)
+        private string ConvertMalayToDecimalOddsString(decimal odds)
         {
             return string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Convert.ToDecimal(odds)));
         }

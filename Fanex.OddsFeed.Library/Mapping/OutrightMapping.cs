@@ -8,7 +8,7 @@
 
     public class OutrightMapping : IOutrightMapping
     {
-        public IEnumerable<OutrightNode> GetEventNodes(DataTable dataTable)
+        public IEnumerable<OutrightNode> GetOutrightNodes(DataTable dataTable)
         {
             var eventNodes = new List<OutrightNode>();
             int leagueId = 0;
