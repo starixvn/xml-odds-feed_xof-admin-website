@@ -5,8 +5,7 @@ using System.Text;
 
 namespace Fanex.OddsFeed.Library.Services
 {
-    public class OddsFeedService
+    public interface IWebOddsFeedService
     {
-
     }
 }

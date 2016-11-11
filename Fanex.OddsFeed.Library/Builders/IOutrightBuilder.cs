@@ -7,8 +7,11 @@
     public interface IOutrightBuilder
     {
         XmlNode CreateOutrightsNode(
-           XmlDocument xmlDocument,
-           OddsProfile oddsProfile,
-           IEnumerable<OutrightNode> outrightNodes);
+            XmlDocument xmlDocument,
+            OddsProfile oddsProfile,
+            OddsFeedFilter oddsFeedFilter,
+            IEnumerable<OutrightNode> outrightNodes,
+            bool isOutright,
+            bool isSample);
     }
 }

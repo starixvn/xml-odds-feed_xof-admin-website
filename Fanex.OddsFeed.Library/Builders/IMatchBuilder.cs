@@ -10,10 +10,12 @@
         XmlNode CreateMatchesNode(
             XmlDocument xmlDocument,
             OddsProfile oddsProfile,
-            IEnumerable<MatchNode> matches,
+            OddsFeedFilter filter,
+            IEnumerable<MatchNode> deadMatches,
+            IEnumerable<MatchNode> liveMatches,
             string bookieName,
             DateTime lastUpdate,
             int timeStamp,
-            string oddsType);
+            bool isSample);
     }
 }

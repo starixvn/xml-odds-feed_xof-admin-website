@@ -102,12 +102,6 @@
 
         #region Private methods
 
-        /// <summary>
-        /// Builds the match odds.
-        /// </summary>
-        /// <param name="dataTable">The data table.</param>
-        /// <param name="isLive">If set to <c>true</c> [is live].</param>
-        /// <param name="matches">The matches.</param>
         private static void BuildMatchOdds(DataTable dataTable, List<Model.OddFlex> flexOdds, bool isLive, IList<Match> matches)
         {
             var match = new Match();
@@ -128,11 +122,6 @@
             }
         }
 
-        /// <summary>
-        /// Builds the out right odds.
-        /// </summary>
-        /// <param name="dataTable">The data table.</param>
-        /// <param name="events">The events.</param>
         private static void BuildOutRightOdds(DataTable dataTable, IList<Event> events)
         {
             ////event
@@ -183,16 +172,6 @@
             }
         }
 
-        /// <summary>
-        /// Creates the match.
-        /// </summary>
-        /// <param name="isLive">If set to <c>true</c> [is live].</param>
-        /// <param name="matches">The matches.</param>
-        /// <param name="match">The match.</param>
-        /// <param name="matchId">The match identifier.</param>
-        /// <param name="item">The data row.</param>
-        /// <param name="bookie">The bookie.</param>
-        /// <param name="odd">The MatchOdd.</param>
         private static void CreateMatch(bool isLive, IList<Match> matches, ref Match match, ref int matchId, DataRow item, Bookie bookie, MatchOdd odd)
         {
             if (matchId != int.Parse(item["MatchID"].ToString()))
@@ -242,11 +221,6 @@
             }
         }
 
-        /// <summary>
-        /// Creates the match odd.
-        /// </summary>
-        /// <param name="item">The data row.</param>
-        /// <returns>Object MatchOdd.</returns>
         private static MatchOdd CreateMatchOdd(DataRow item, List<Model.OddFlex> flexOdds)
         {
             int betTypeId = int.Parse(item["BetType"].ToString());
@@ -490,11 +464,6 @@
 
         #region Match Odd Bettype
 
-        /// <summary>
-        /// Creates the match odd BETTYPE16.
-        /// </summary>
-        /// <param name="item">The data row.</param>
-        /// <returns>Object MatchOdd.</returns>
         private static MatchOdd CreateMatchOddBettype20(DataRow item)
         {
             var odd = new MatchOdd
@@ -507,11 +476,6 @@
             return odd;
         }
 
-        /// <summary>
-        /// Creates the match odd BETTYPE16.
-        /// </summary>
-        /// <param name="item">The data row.</param>
-        /// <returns>Object MatchOdd.</returns>
         private static MatchOdd CreateMatchOddBettype16(DataRow item)
         {
             var odd = new MatchOdd
@@ -531,11 +495,6 @@
             return odd;
         }
 
-        /// <summary>
-        /// Creates the match odd BETTYPE15.
-        /// </summary>
-        /// <param name="item">The data row.</param>
-        /// <returns>Object MatchOdd.</returns>
         private static MatchOdd CreateMatchOddBettype15(DataRow item)
         {
             var odd = new MatchOdd
@@ -549,11 +508,6 @@
             return odd;
         }
 
-        /// <summary>
-        /// Creates the match odd BETTYPE14.
-        /// </summary>
-        /// <param name="item">The data row.</param>
-        /// <returns>Object MatchOdd.</returns>
         private static MatchOdd CreateMatchOddBettype14(DataRow item)
         {
             var odd = new MatchOdd
@@ -569,11 +523,6 @@
             return odd;
         }
 
-        /// <summary>
-        /// Creates the match odd BETTYPE12.
-        /// </summary>
-        /// <param name="item">The data row.</param>
-        /// <returns>Object MatchOdd.</returns>
         private static MatchOdd CreateMatchOddBettype12(DataRow item)
         {
             var odd = new MatchOdd
@@ -586,11 +535,6 @@
             return odd;
         }
 
-        /// <summary>
-        /// Creates the match odd BETTYPE8.
-        /// </summary>
-        /// <param name="item">The data row.</param>
-        /// <returns>Object MatchOdd.</returns>
         private static MatchOdd CreateMatchOddBettype8(DataRow item)
         {
             var odd = new MatchOdd
@@ -604,11 +548,6 @@
             return odd;
         }
 
-        /// <summary>
-        /// Creates the match odd BETTYPE7.
-        /// </summary>
-        /// <param name="item">The data row.</param>
-        /// <returns>Object MatchOdd.</returns>
         private static MatchOdd CreateMatchOddBettype7(DataRow item)
         {
             var h = Converter.ToDecimal(item["Hdp2"]) - Converter.ToDecimal(item["Hdp1"]);
@@ -625,11 +564,6 @@
             return odd;
         }
 
-        /// <summary>
-        /// Creates the match odd BETTYPE6.
-        /// </summary>
-        /// <param name="item">The data row.</param>
-        /// <returns>Object MatchOdd.</returns>
         private static MatchOdd CreateMatchOddBettype6(DataRow item)
         {
             var odd = new MatchOdd
@@ -644,11 +578,6 @@
             return odd;
         }
 
-        /// <summary>
-        /// Creates the match odd BETTYPE5.
-        /// </summary>
-        /// <param name="item">The data row.</param>
-        /// <returns>Object MatchOdd.</returns>
         private static MatchOdd CreateMatchOddBettype5(DataRow item)
         {
             var odd = new MatchOdd
@@ -662,11 +591,6 @@
             return odd;
         }
 
-        /// <summary>
-        /// Creates the match odd BETTYPE4.
-        /// </summary>
-        /// <param name="item">The data row.</param>
-        /// <returns>Object MatchOdd.</returns>
         private static MatchOdd CreateMatchOddBettype4(DataRow item)
         {
             var odd = new MatchOdd
@@ -711,11 +635,6 @@
             return odd;
         }
 
-        /// <summary>
-        /// Creates the match odd BETTYPE3.
-        /// </summary>
-        /// <param name="item">The data row.</param>
-        /// <returns>Object MatchOdd.</returns>
         private static MatchOdd CreateMatchOddBettype3(DataRow item)
         {
             var odd = new MatchOdd
@@ -729,11 +648,6 @@
             return odd;
         }
 
-        /// <summary>
-        /// Creates the match odd BETTYPE2.
-        /// </summary>
-        /// <param name="item">The data row.</param>
-        /// <returns>Object MatchOdd.</returns>
         private static MatchOdd CreateMatchOddBettype2(DataRow item)
         {
             var odd = new MatchOdd
@@ -746,11 +660,6 @@
             return odd;
         }
 
-        /// <summary>
-        /// Creates the match odd BETTYPE1.
-        /// </summary>
-        /// <param name="item">The data row.</param>
-        /// <returns>Object MatchOdd.</returns>
         private static MatchOdd CreateMatchOddBettype1(DataRow item)
         {
             var tmp = Converter.ToDecimal(item["Hdp2"]) - Converter.ToDecimal(item["Hdp1"]);
@@ -2068,11 +1977,6 @@
                 }).ToList();
         }
 
-        /// <summary>
-        /// Creates the away.
-        /// </summary>
-        /// <param name="item">The data row.</param>
-        /// <returns>List of object Language.</returns>
         private static List<Language> CreateAway(DataRow item)
         {
             var away = new List<Language>
@@ -2096,11 +2000,6 @@
             return away;
         }
 
-        /// <summary>
-        /// Creates the home.
-        /// </summary>
-        /// <param name="item">The data row.</param>
-        /// <returns>List of object Language.</returns>
         private static List<Language> CreateHome(DataRow item)
         {
             var home = new List<Language>
@@ -2124,10 +2023,6 @@
             return home;
         }
 
-        /// <summary>
-        /// Creates the name of the bookie.
-        /// </summary>
-        /// <returns>List of object Language.</returns>
         private static List<Language> CreateBookieName()
         {
             var bookieName = new List<Language>
@@ -2151,11 +2046,6 @@
             return bookieName;
         }
 
-        /// <summary>
-        /// Creates the league.
-        /// </summary>
-        /// <param name="item">The data row.</param>
-        /// <returns>IList of object Language.</returns>
         private static IList<Language> CreateLeague(DataRow item)
         {
             IList<Language> content = new List<Language>
@@ -2179,11 +2069,6 @@
             return content;
         }
 
-        /// <summary>
-        /// Creates the team.
-        /// </summary>
-        /// <param name="item">The data row.</param>
-        /// <returns>List of object Language.</returns>
         private static List<Language> CreateTeam(DataRow item)
         {
             var team = new List<Language>
@@ -2207,14 +2092,6 @@
             return team;
         }
 
-        /// <summary>
-        /// Continuously try a set with exponential back-off until number of tries or
-        /// successful.  The exponential back-off will wait a maximum of 1 second, or whatever.
-        /// </summary>
-        /// <param name="key"> Key to set.</param>
-        /// <param name="value"> Value to set.</param>
-        /// <param name="tries"> Number of tries before giving up.</param>
-        /// <returns>True if success or False.</returns>
         private static bool Set(string key, object value, int tries)
         {
             var backoffExp = 0;

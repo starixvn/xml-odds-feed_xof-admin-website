@@ -41,6 +41,7 @@
                 EventNames = GetEventNames(row),
                 SportId = Convert.ToInt32(row["SportID"]),
                 SportName = row["LeagueNameTC"].ToString(),
+                CountryCode = row["CountryCode"].ToString(),
                 Time = Convert.ToDateTime(row["EventDate"].ToString()),
                 OutrightOddsNodes = new[] { eventOddsNode }
             };

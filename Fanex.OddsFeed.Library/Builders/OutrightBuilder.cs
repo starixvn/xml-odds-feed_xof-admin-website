@@ -2,24 +2,58 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Xml;
+    using Filters;
     using Nodes;
 
     public class OutrightBuilder : OddsFeedBuilder, IOutrightBuilder
     {
+        private OutrightFilter _outrightFilter;
+
+        public OutrightBuilder()
+        {
+            _outrightFilter = new OutrightFilter();
+        }
+
         public XmlNode CreateOutrightsNode(
             XmlDocument xmlDocument,
             OddsProfile oddsProfile,
-            IEnumerable<OutrightNode> outrightNodes)
+            OddsFeedFilter oddsFeedFilter,
+            IEnumerable<OutrightNode> outrightNodes,
+            bool isOutright,
+            bool isSample)
         {
             var outrightsNode = xmlDocument.CreateNode(XmlNodeType.Element, "outrights", null);
 
-            foreach (var outrightNode in outrightNodes)
+            if (IsSampleOutright(isOutright, isSample, outrightNodes.Count()))
             {
-                outrightsNode.AppendChild(CreateEventNode(xmlDocument, oddsProfile, outrightNode));
+                outrightsNode.AppendChild(CreateEventNode(xmlDocument, oddsProfile, outrightNodes.ElementAt(0)));
+            }
+
+            if (FilterBetType(oddsFeedFilter, isSample))
+            {
+                foreach (var outrightNode in outrightNodes)
+                {
+                    outrightsNode.AppendChild(CreateEventNode(xmlDocument, oddsProfile, outrightNode));
+                }
             }
 
             return outrightsNode;
+        }
+
+        private bool IsSampleOutright(bool isOutright, bool isSample, int numberOutright)
+        {
+            return isSample && isOutright && numberOutright > 0;
+        }
+
+        public bool FilterBetType(OddsFeedFilter oddsFeedFilter, bool isSample)
+        {
+            return !isSample 
+                && (oddsFeedFilter.BetTypes == null
+                || oddsFeedFilter.BetTypes.Count == 0
+                || (oddsFeedFilter.BetTypes != null
+                && oddsFeedFilter.BetTypes.Contains(10)));
         }
 
         private XmlNode CreateEventNode(XmlDocument xmlDocument, OddsProfile oddsProfile, OutrightNode outrightNode)

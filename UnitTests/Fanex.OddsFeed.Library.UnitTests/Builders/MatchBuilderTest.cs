@@ -2,15 +2,10 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Data;
-    using System.Linq;
     using System.Xml;
     using Library.Builders;
-    using Library.Mapping;
-    using Model;
     using Nodes;
     using NUnit.Framework;
-    using Schemas;
 
     [TestFixture]
     public class MatchBuilderTest
@@ -24,26 +19,44 @@
         }
 
         [Test]
-        public void CreateMatchNodeList_MatchNodeList_ReturnXmlNode()
+        public void CreateMatchNodeList_DeadballMatchNodeList_ReturnDeadballMatchNodes()
         {
             // Arrange
-            var matchXmlNode = GetMatchXmlNode();
+            var matchXmlNode = GetDeadballMatchXmlNode();
             var xmlDocument = new XmlDocument();
-            var oddsProfile = new OddsProfile();
-            var matchNodes = GetMatchNodes();
+            var oddsProfile = new OddsProfile {  OddRegion = 1 };
+            var matchNodes = GetMatchNodes(false);
             var bookieName = "111candy";
             var lastUpdate = new DateTime(2016, 11, 2, 15, 51, 07);
             var timeStamp = 1477878874;
-            var oddsType = "Malay";
 
             // Action
-            var result = _target.CreateMatchesNode(xmlDocument, oddsProfile, matchNodes, bookieName, lastUpdate, timeStamp, oddsType);
+            var result = _target.CreateMatchesNode(xmlDocument, oddsProfile, matchNodes, null, bookieName, lastUpdate, timeStamp);
 
             // Assert
             Assert.AreEqual(matchXmlNode, result.OuterXml);
         }
 
-        private string GetMatchXmlNode()
+        [Test]
+        public void CreateMatchNodeList_LiveMatchNodeList_ReturnLiveMatchNodes()
+        {
+            // Arrange
+            var matchXmlNode = GetLiveMatchXmlNode();
+            var xmlDocument = new XmlDocument();
+            var oddsProfile = new OddsProfile { OddRegion = 1 };
+            var matchNodes = GetMatchNodes(true);
+            var bookieName = "111candy";
+            var lastUpdate = new DateTime(2016, 11, 2, 15, 51, 07);
+            var timeStamp = 1477878874;
+
+            // Action
+            var result = _target.CreateMatchesNode(xmlDocument, oddsProfile, matchNodes, null, bookieName, lastUpdate, timeStamp);
+
+            // Assert
+            Assert.AreEqual(matchXmlNode, result.OuterXml);
+        }
+
+        private string GetDeadballMatchXmlNode()
         {
             return "<matches lastupdate=\"11/2/2016 3:51:07 PM\" timestamp=\"1477878874\" oddstype=\"Malay\">"
                 + "<match id=\"20485706\" ge=\"UEFA EUROPA LEAGUE\" gt=\"UEFA EUROPA LEAGUE\" gs=\"UEFA EUROPA LEAGUE\" he=\"FC Astana\" ht=\"FC Astana\" hs=\"FC Astana\" ae=\"Olympiakos\" at=\"Olympiakos\" as=\"Olympiakos\" mt=\"11/3/2016 11:59:59 AM\" sport=\"Soccer\" running=\"0\">"
@@ -54,13 +67,25 @@
                 + "</matches>";
         }
 
-        private IEnumerable<MatchNode> GetMatchNodes()
+        private string GetLiveMatchXmlNode()
+        {
+            return "<matches lastupdate=\"11/2/2016 3:51:07 PM\" timestamp=\"1477878874\" oddstype=\"Malay\">"
+                + "<match id=\"20485706\" ge=\"UEFA EUROPA LEAGUE\" gt=\"UEFA EUROPA LEAGUE\" gs=\"UEFA EUROPA LEAGUE\" he=\"FC Astana\" ht=\"FC Astana\" hs=\"FC Astana\" ae=\"Olympiakos\" at=\"Olympiakos\" as=\"Olympiakos\" mt=\"11/3/2016 11:59:59 AM\" sport=\"Soccer\" running=\"1\">"
+                + "<bookie name=\"111candy\" simp=\"111candy\" trad=\"111candy\">"
+                + "<odd t=\"oe\" o=\"1\" e=\"0.9\" time=\"11/2/2016 3:51:07 PM\" timestamp=\"1477332693\" />"
+                + "</bookie>"
+                + "</match>"
+                + "</matches>";
+        }
+
+        private IEnumerable<MatchNode> GetMatchNodes(bool isLive)
         {
             return new[]
             {
                 new MatchNode
                 {
                     MatchId = 20485706,
+                    IsLive = isLive,
                     LeagueNames = new[]
                     {
                         new Language { Code = "en-US", Content = "UEFA EUROPA LEAGUE" },

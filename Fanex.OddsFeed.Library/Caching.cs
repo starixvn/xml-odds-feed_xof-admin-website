@@ -14,7 +14,8 @@ namespace Fanex.OddsFeed.Library
     using Couchbase;
     using Fanex.OddsFeed.Library.Matchs;
     using Fanex.OddsFeed.Library.Outrights;
-
+    using Model;
+    using Nodes;
     /// <summary>
     /// Class Caching.
     /// </summary>
@@ -68,7 +69,45 @@ namespace Fanex.OddsFeed.Library
             rightVersion = GetRightVersion(delayTimeOutright, currentVersion, fullChain);
             result.Events = rightVersion == -1
                 ? null
-                : _Cache.Get<IList<Event>>(prefix + "events" + rightVersion);
+                : _Cache.Get<IList<Outrights.Event>>(prefix + "events" + rightVersion);
+
+            return result;
+        }
+
+        public static OddsData GetOddsData(IList<int> delayTimes)
+        {
+            var currentVersion = GetCurrentVersion();
+            var fullChain = IsFullChain();
+
+            var interval = int.Parse(ConfigurationManager.AppSettings.Get("Interval")) / 1000;
+            OddsData result = new OddsData();
+            int delayTimeDeadball = 0, delayTimeLive = 0, delayTimeOutright = 0;
+            if (delayTimes.Count >= 3)
+            {
+                delayTimeDeadball = delayTimes[0];
+                delayTimeLive = delayTimes[1];
+                delayTimeOutright = delayTimes[2];
+            }
+
+            int rightVersion;
+            var prefix = ConfigurationManager.AppSettings["Cache.Prefix"];
+            ////Get Deadball
+            rightVersion = GetRightVersion(delayTimeDeadball, currentVersion, fullChain);
+            result.DeadballMatches = rightVersion == -1
+                ? null
+                : _Cache.Get<IList<MatchNode>>(prefix + "deadballmatches" + rightVersion);
+
+            ////Get Live
+            rightVersion = GetRightVersion(delayTimeLive, currentVersion, fullChain);
+            result.LiveMatches = rightVersion == -1
+                ? null
+                : _Cache.Get<IList<MatchNode>>(prefix + "livematchs" + rightVersion);
+
+            ////Get Outright
+            rightVersion = GetRightVersion(delayTimeOutright, currentVersion, fullChain);
+            result.Outrights = rightVersion == -1
+                ? null
+                : _Cache.Get<IList<OutrightNode>>(prefix + "events" + rightVersion);
 
             return result;
         }

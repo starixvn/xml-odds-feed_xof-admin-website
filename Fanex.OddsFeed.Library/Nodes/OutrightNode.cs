@@ -15,6 +15,8 @@
 
         public string SportName { get; set; }
 
+        public string CountryCode { get; set; }
+
         public IList<OutrightOddsNode> OutrightOddsNodes { get; set; }
     }
 }

@@ -160,10 +160,6 @@
       {
         "MatchAttribute": "c43",
         "DbAttribute": "cs43"
-      },
-      {
-        "MatchAttribute": "csoas",
-        "DbAttribute": "cs99"
       }
     ]
   },
@@ -573,7 +569,6 @@
         "MatchAttribute": "c13",
         "DbAttribute": "cs13"
       },
-
       {
         "MatchAttribute": "c23",
         "DbAttribute": "cs23"
