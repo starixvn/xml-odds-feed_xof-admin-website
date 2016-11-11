@@ -13,11 +13,11 @@
       },
       {
         "MatchAttribute": "o",
-        "DbAttribute": "Odds1A"
+        "DataAttribute": "Odds1A"
       },
       {
         "MatchAttribute": "u",
-        "DbAttribute": "Odds2A"
+        "DataAttribute": "Odds2A"
       }
     ]
   },
@@ -27,11 +27,11 @@
     "BetChoices": [
       {
         "MatchAttribute": "o",
-        "DbAttribute": "Odds1A"
+        "DataAttribute": "Odds1A"
       },
       {
         "MatchAttribute": "e",
-        "DbAttribute": "Odds2A"
+        "DataAttribute": "Odds2A"
       }
     ]
   },
@@ -41,11 +41,11 @@
     "BetChoices": [
       {
         "MatchAttribute": "o1",
-        "DbAttribute": "Odds1A"
+        "DataAttribute": "Odds1A"
       },
       {
         "MatchAttribute": "o2",
-        "DbAttribute": "Odds2A"
+        "DataAttribute": "Odds2A"
       }
     ]
   },
@@ -55,111 +55,111 @@
     "BetChoices": [
       {
         "MatchAttribute": "c00",
-        "DbAttribute": "cs00"
+        "DataAttribute": "cs00"
       },
       {
         "MatchAttribute": "c11",
-        "DbAttribute": "cs11"
+        "DataAttribute": "cs11"
       },
       {
         "MatchAttribute": "c22",
-        "DbAttribute": "cs22"
+        "DataAttribute": "cs22"
       },
       {
         "MatchAttribute": "c33",
-        "DbAttribute": "cs33"
+        "DataAttribute": "cs33"
       },
       {
         "MatchAttribute": "c44",
-        "DbAttribute": "cs44"
+        "DataAttribute": "cs44"
       },
       {
         "MatchAttribute": "c01",
-        "DbAttribute": "cs01"
+        "DataAttribute": "cs01"
       },
       {
         "MatchAttribute": "c02",
-        "DbAttribute": "cs02"
+        "DataAttribute": "cs02"
       },
       {
         "MatchAttribute": "c03",
-        "DbAttribute": "cs03"
+        "DataAttribute": "cs03"
       },
       {
         "MatchAttribute": "c04",
-        "DbAttribute": "cs04"
+        "DataAttribute": "cs04"
       },
       {
         "MatchAttribute": "c05",
-        "DbAttribute": "cs05"
+        "DataAttribute": "cs05"
       },
       {
         "MatchAttribute": "c10",
-        "DbAttribute": "cs10"
+        "DataAttribute": "cs10"
       },
       {
         "MatchAttribute": "c20",
-        "DbAttribute": "cs20"
+        "DataAttribute": "cs20"
       },
       {
         "MatchAttribute": "c30",
-        "DbAttribute": "cs30"
+        "DataAttribute": "cs30"
       },
       {
         "MatchAttribute": "c40",
-        "DbAttribute": "cs40"
+        "DataAttribute": "cs40"
       },
       {
         "MatchAttribute": "c50",
-        "DbAttribute": "cs50"
+        "DataAttribute": "cs50"
       },
       {
         "MatchAttribute": "c12",
-        "DbAttribute": "cs12"
+        "DataAttribute": "cs12"
       },
       {
         "MatchAttribute": "c13",
-        "DbAttribute": "cs13"
+        "DataAttribute": "cs13"
       },
       {
         "MatchAttribute": "c23",
-        "DbAttribute": "cs23"
+        "DataAttribute": "cs23"
       },
       {
         "MatchAttribute": "c14",
-        "DbAttribute": "cs14"
+        "DataAttribute": "cs14"
       },
       {
         "MatchAttribute": "c24",
-        "DbAttribute": "cs24"
+        "DataAttribute": "cs24"
       },
       {
         "MatchAttribute": "c34",
-        "DbAttribute": "cs34"
+        "DataAttribute": "cs34"
       },
       {
         "MatchAttribute": "c21",
-        "DbAttribute": "cs21"
+        "DataAttribute": "cs21"
       },
       {
         "MatchAttribute": "c31",
-        "DbAttribute": "cs31"
+        "DataAttribute": "cs31"
       },
       {
         "MatchAttribute": "c32",
-        "DbAttribute": "cs32"
+        "DataAttribute": "cs32"
       },
       {
         "MatchAttribute": "c41",
-        "DbAttribute": "cs41"
+        "DataAttribute": "cs41"
       },
       {
         "MatchAttribute": "c42",
-        "DbAttribute": "cs42"
+        "DataAttribute": "cs42"
       },
       {
         "MatchAttribute": "c43",
-        "DbAttribute": "cs43"
+        "DataAttribute": "cs43"
       }
     ]
   },
@@ -169,15 +169,15 @@
     "BetChoices": [
       {
         "MatchAttribute": "o1",
-        "DbAttribute": "Com1"
+        "DataAttribute": "Com1"
       },
       {
         "MatchAttribute": "o2",
-        "DbAttribute": "ComX"
+        "DataAttribute": "ComX"
       },
       {
         "MatchAttribute": "o3",
-        "DbAttribute": "Com2"
+        "DataAttribute": "Com2"
       }
     ]
   },
@@ -187,19 +187,19 @@
     "BetChoices": [
       {
         "MatchAttribute": "o1",
-        "DbAttribute": "cs00"
+        "DataAttribute": "cs00"
       },
       {
         "MatchAttribute": "o2",
-        "DbAttribute": "cs01"
+        "DataAttribute": "cs01"
       },
       {
         "MatchAttribute": "o3",
-        "DbAttribute": "cs10"
+        "DataAttribute": "cs10"
       },
       {
         "MatchAttribute": "o4",
-        "DbAttribute": "cs11"
+        "DataAttribute": "cs11"
       }
     ]
   },
@@ -217,11 +217,11 @@
       },
       {
         "MatchAttribute": "o",
-        "DbAttribute": "Odds1A"
+        "DataAttribute": "Odds1A"
       },
       {
         "MatchAttribute": "u",
-        "DbAttribute": "Odds2A"
+        "DataAttribute": "Odds2A"
       }
     ]
   },
@@ -231,16 +231,16 @@
     "BetChoices": [
       {
         "MatchAttribute": "h",
-        "DbAttribute": "Hdp1",
+        "DataAttribute": "Hdp1",
         "NotConvert": true
       },
       {
         "MatchAttribute": "o",
-        "DbAttribute": "Odds1A"
+        "DataAttribute": "Odds1A"
       },
       {
         "MatchAttribute": "u",
-        "DbAttribute": "Odds2A"
+        "DataAttribute": "Odds2A"
       }
     ]
   },
@@ -250,11 +250,11 @@
     "BetChoices": [
       {
         "MatchAttribute": "o",
-        "DbAttribute": "Odds1A"
+        "DataAttribute": "Odds1A"
       },
       {
         "MatchAttribute": "e",
-        "DbAttribute": "Odds2A"
+        "DataAttribute": "Odds2A"
       }
     ]
   },
@@ -264,19 +264,19 @@
     "BetChoices": [
       {
         "MatchAttribute": "hy",
-        "DbAttribute": "cs11"
+        "DataAttribute": "cs11"
       },
       {
         "MatchAttribute": "hn",
-        "DbAttribute": "cs10"
+        "DataAttribute": "cs10"
       },
       {
         "MatchAttribute": "ay",
-        "DbAttribute": "cs21"
+        "DataAttribute": "cs21"
       },
       {
         "MatchAttribute": "an",
-        "DbAttribute": "cs20"
+        "DataAttribute": "cs20"
       }
     ]
   },
@@ -286,23 +286,23 @@
     "BetChoices": [
       {
         "MatchAttribute": "hf",
-        "DbAttribute": "cs11"
+        "DataAttribute": "cs11"
       },
       {
         "MatchAttribute": "hl",
-        "DbAttribute": "cs12"
+        "DataAttribute": "cs12"
       },
       {
         "MatchAttribute": "af",
-        "DbAttribute": "cs21"
+        "DataAttribute": "cs21"
       },
       {
         "MatchAttribute": "al",
-        "DbAttribute": "cs22"
+        "DataAttribute": "cs22"
       },
       {
         "MatchAttribute": "ng",
-        "DbAttribute": "cs00"
+        "DataAttribute": "cs00"
       }
     ]
   },
@@ -312,15 +312,15 @@
     "BetChoices": [
       {
         "MatchAttribute": "o1",
-        "DbAttribute": "Com1"
+        "DataAttribute": "Com1"
       },
       {
         "MatchAttribute": "o2",
-        "DbAttribute": "ComX"
+        "DataAttribute": "ComX"
       },
       {
         "MatchAttribute": "o3",
-        "DbAttribute": "Com2"
+        "DataAttribute": "Com2"
       }
     ]
   },
@@ -330,39 +330,39 @@
     "BetChoices": [
       {
         "MatchAttribute": "hh",
-        "DbAttribute": "cs11"
+        "DataAttribute": "cs11"
       },
       {
         "MatchAttribute": "hd",
-        "DbAttribute": "cs10"
+        "DataAttribute": "cs10"
       },
       {
         "MatchAttribute": "ha",
-        "DbAttribute": "cs12"
+        "DataAttribute": "cs12"
       },
       {
         "MatchAttribute": "dh",
-        "DbAttribute": "cs01"
+        "DataAttribute": "cs01"
       },
       {
         "MatchAttribute": "dd",
-        "DbAttribute": "cs00"
+        "DataAttribute": "cs00"
       },
       {
         "MatchAttribute": "da",
-        "DbAttribute": "cs02"
+        "DataAttribute": "cs02"
       },
       {
         "MatchAttribute": "ah",
-        "DbAttribute": "cs21"
+        "DataAttribute": "cs21"
       },
       {
         "MatchAttribute": "ad",
-        "DbAttribute": "cs20"
+        "DataAttribute": "cs20"
       },
       {
         "MatchAttribute": "aa",
-        "DbAttribute": "cs22"
+        "DataAttribute": "cs22"
       }
     ]
   },
@@ -380,11 +380,11 @@
       },
       {
         "MatchAttribute": "o",
-        "DbAttribute": "Odds1A"
+        "DataAttribute": "Odds1A"
       },
       {
         "MatchAttribute": "u",
-        "DbAttribute": "Odds2A"
+        "DataAttribute": "Odds2A"
       }
     ]
   },
@@ -394,16 +394,16 @@
     "BetChoices": [
       {
         "MatchAttribute": "h",
-        "DbAttribute": "hdp1",
+        "DataAttribute": "hdp1",
         "NotConvert": true
       },
       {
         "MatchAttribute": "o",
-        "DbAttribute": "odds2a"
+        "DataAttribute": "odds2a"
       },
       {
         "MatchAttribute": "u",
-        "DbAttribute": "Com2"
+        "DataAttribute": "Com2"
       }
     ]
   },
@@ -413,11 +413,11 @@
     "BetChoices": [
       {
         "MatchAttribute": "o1",
-        "DbAttribute": "Odds1A"
+        "DataAttribute": "Odds1A"
       },
       {
         "MatchAttribute": "o2",
-        "DbAttribute": "Odds2A"
+        "DataAttribute": "Odds2A"
       }
     ]
   },
@@ -427,11 +427,11 @@
     "BetChoices": [
       {
         "MatchAttribute": "o1",
-        "DbAttribute": "Odds1A"
+        "DataAttribute": "Odds1A"
       },
       {
         "MatchAttribute": "o2",
-        "DbAttribute": "Odds2A"
+        "DataAttribute": "Odds2A"
       }
     ]
   },
@@ -441,15 +441,15 @@
     "BetChoices": [
       {
         "MatchAttribute": "hd",
-        "DbAttribute": "com1"
+        "DataAttribute": "com1"
       },
       {
         "MatchAttribute": "ha",
-        "DbAttribute": "comx"
+        "DataAttribute": "comx"
       },
       {
         "MatchAttribute": "ad",
-        "DbAttribute": "com2"
+        "DataAttribute": "com2"
       }
     ]
   },
@@ -459,11 +459,11 @@
     "BetChoices": [
       {
         "MatchAttribute": "h",
-        "DbAttribute": "odds1a"
+        "DataAttribute": "odds1a"
       },
       {
         "MatchAttribute": "a",
-        "DbAttribute": "odds2a"
+        "DataAttribute": "odds2a"
       }
     ]
   },
@@ -473,15 +473,15 @@
     "BetChoices": [
       {
         "MatchAttribute": "b",
-        "DbAttribute": "com2"
+        "DataAttribute": "com2"
       },
       {
         "MatchAttribute": "o",
-        "DbAttribute": "com1"
+        "DataAttribute": "com1"
       },
       {
         "MatchAttribute": "n",
-        "DbAttribute": "comx"
+        "DataAttribute": "comx"
       }
     ]
   },
@@ -491,11 +491,11 @@
     "BetChoices": [
       {
         "MatchAttribute": "a",
-        "DbAttribute": "odds1a"
+        "DataAttribute": "odds1a"
       },
       {
         "MatchAttribute": "h",
-        "DbAttribute": "odds2a"
+        "DataAttribute": "odds2a"
       }
     ]
   },
@@ -505,15 +505,15 @@
     "BetChoices": [
       {
         "MatchAttribute": "h",
-        "DbAttribute": "com1"
+        "DataAttribute": "com1"
       },
       {
         "MatchAttribute": "d",
-        "DbAttribute": "comx"
+        "DataAttribute": "comx"
       },
       {
         "MatchAttribute": "a",
-        "DbAttribute": "com2"
+        "DataAttribute": "com2"
       }
     ]
   },
@@ -523,75 +523,75 @@
     "BetChoices": [
       {
         "MatchAttribute": "c10",
-        "DbAttribute": "cs10"
+        "DataAttribute": "cs10"
       },
       {
         "MatchAttribute": "c20",
-        "DbAttribute": "cs20"
+        "DataAttribute": "cs20"
       },
       {
         "MatchAttribute": "c21",
-        "DbAttribute": "cs21"
+        "DataAttribute": "cs21"
       },
       {
         "MatchAttribute": "c30",
-        "DbAttribute": "cs30"
+        "DataAttribute": "cs30"
       },
       {
         "MatchAttribute": "c31",
-        "DbAttribute": "cs31"
+        "DataAttribute": "cs31"
       },
       {
         "MatchAttribute": "c32",
-        "DbAttribute": "cs32"
+        "DataAttribute": "cs32"
       },
       {
         "MatchAttribute": "c40",
-        "DbAttribute": "cs40"
+        "DataAttribute": "cs40"
       },
       {
         "MatchAttribute": "c01",
-        "DbAttribute": "cs01"
+        "DataAttribute": "cs01"
       },
       {
         "MatchAttribute": "c02",
-        "DbAttribute": "cs02"
+        "DataAttribute": "cs02"
       },
       {
         "MatchAttribute": "c12",
-        "DbAttribute": "cs12"
+        "DataAttribute": "cs12"
       },
       {
         "MatchAttribute": "c03",
-        "DbAttribute": "cs03"
+        "DataAttribute": "cs03"
       },
       {
         "MatchAttribute": "c13",
-        "DbAttribute": "cs13"
+        "DataAttribute": "cs13"
       },
       {
         "MatchAttribute": "c23",
-        "DbAttribute": "cs23"
+        "DataAttribute": "cs23"
       },
       {
         "MatchAttribute": "c04",
-        "DbAttribute": "cs04"
+        "DataAttribute": "cs04"
       },
       {
         "MatchAttribute": "cs00",
-        "DbAttribute": "c00"
+        "DataAttribute": "c00"
       },
       {
         "MatchAttribute": "c11",
-        "DbAttribute": "cs11"
+        "DataAttribute": "cs11"
       },
       {
         "MatchAttribute": "c22",
-        "DbAttribute": "cs22"
+        "DataAttribute": "cs22"
       },
       {
         "MatchAttribute": "c33",
-        "DbAttribute": "cs33"
+        "DataAttribute": "cs33"
       }
     ]
   },
@@ -601,11 +601,11 @@
     "BetChoices": [
       {
         "MatchAttribute": "a",
-        "DbAttribute": "odds2a"
+        "DataAttribute": "odds2a"
       },
       {
         "MatchAttribute": "d",
-        "DbAttribute": "odds1a"
+        "DataAttribute": "odds1a"
       }
     ]
   },
@@ -615,11 +615,11 @@
     "BetChoices": [
       {
         "MatchAttribute": "h",
-        "DbAttribute": "odds1a"
+        "DataAttribute": "odds1a"
       },
       {
         "MatchAttribute": "d",
-        "DbAttribute": "odds2a"
+        "DataAttribute": "odds2a"
       }
     ]
   },
@@ -629,11 +629,11 @@
     "BetChoices": [
       {
         "MatchAttribute": "d",
-        "DbAttribute": "odds1a"
+        "DataAttribute": "odds1a"
       },
       {
         "MatchAttribute": "n",
-        "DbAttribute": "odds2a"
+        "DataAttribute": "odds2a"
       }
     ]
   },
@@ -643,15 +643,15 @@
     "BetChoices": [
       {
         "MatchAttribute": "o1",
-        "DbAttribute": "cs00"
+        "DataAttribute": "cs00"
       },
       {
         "MatchAttribute": "o2",
-        "DbAttribute": "cs01"
+        "DataAttribute": "cs01"
       },
       {
         "MatchAttribute": "o3",
-        "DbAttribute": "cs10"
+        "DataAttribute": "cs10"
       }
     ]
   },
@@ -661,23 +661,23 @@
     "BetChoices": [
       {
         "MatchAttribute": "hf",
-        "DbAttribute": "cs11"
+        "DataAttribute": "cs11"
       },
       {
         "MatchAttribute": "hl",
-        "DbAttribute": "cs12"
+        "DataAttribute": "cs12"
       },
       {
         "MatchAttribute": "af",
-        "DbAttribute": "cs21"
+        "DataAttribute": "cs21"
       },
       {
         "MatchAttribute": "al",
-        "DbAttribute": "cs22"
+        "DataAttribute": "cs22"
       },
       {
         "MatchAttribute": "ng",
-        "DbAttribute": "cs00"
+        "DataAttribute": "cs00"
       }
     ]
   },
@@ -687,19 +687,19 @@
     "BetChoices": [
       {
         "MatchAttribute": "oe",
-        "DbAttribute": "cs12"
+        "DataAttribute": "cs12"
       },
       {
         "MatchAttribute": "eo",
-        "DbAttribute": "cs21"
+        "DataAttribute": "cs21"
       },
       {
         "MatchAttribute": "oo",
-        "DbAttribute": "cs11"
+        "DataAttribute": "cs11"
       },
       {
         "MatchAttribute": "ee",
-        "DbAttribute": "cs22"
+        "DataAttribute": "cs22"
       }
     ]
   },
@@ -709,11 +709,11 @@
     "BetChoices": [
       {
         "MatchAttribute": "y",
-        "DbAttribute": "com1"
+        "DataAttribute": "com1"
       },
       {
         "MatchAttribute": "n",
-        "DbAttribute": "com2"
+        "DataAttribute": "com2"
       }
     ]
   },
@@ -723,11 +723,11 @@
     "BetChoices": [
       {
         "MatchAttribute": "y",
-        "DbAttribute": "com1"
+        "DataAttribute": "com1"
       },
       {
         "MatchAttribute": "n",
-        "DbAttribute": "com2"
+        "DataAttribute": "com2"
       }
     ]
   },
@@ -737,11 +737,11 @@
     "BetChoices": [
       {
         "MatchAttribute": "y",
-        "DbAttribute": "com1"
+        "DataAttribute": "com1"
       },
       {
         "MatchAttribute": "n",
-        "DbAttribute": "com2"
+        "DataAttribute": "com2"
       }
     ]
   },
@@ -751,15 +751,15 @@
     "BetChoices": [
       {
         "MatchAttribute": "firsth",
-        "DbAttribute": "cs10"
+        "DataAttribute": "cs10"
       },
       {
         "MatchAttribute": "secondh",
-        "DbAttribute": "cs20"
+        "DataAttribute": "cs20"
       },
       {
         "MatchAttribute": "t",
-        "DbAttribute": "cs00"
+        "DataAttribute": "cs00"
       }
     ]
   },
@@ -769,15 +769,15 @@
     "BetChoices": [
       {
         "MatchAttribute": "firsth",
-        "DbAttribute": "cs10"
+        "DataAttribute": "cs10"
       },
       {
         "MatchAttribute": "secondh",
-        "DbAttribute": "cs20"
+        "DataAttribute": "cs20"
       },
       {
         "MatchAttribute": "t",
-        "DbAttribute": "cs00"
+        "DataAttribute": "cs00"
       }
     ]
   },
@@ -787,15 +787,15 @@
     "BetChoices": [
       {
         "MatchAttribute": "firsth",
-        "DbAttribute": "cs10"
+        "DataAttribute": "cs10"
       },
       {
         "MatchAttribute": "secondh",
-        "DbAttribute": "cs20"
+        "DataAttribute": "cs20"
       },
       {
         "MatchAttribute": "t",
-        "DbAttribute": "cs00"
+        "DataAttribute": "cs00"
       }
     ]
   },
@@ -805,11 +805,11 @@
     "BetChoices": [
       {
         "MatchAttribute": "y",
-        "DbAttribute": "com1"
+        "DataAttribute": "com1"
       },
       {
         "MatchAttribute": "n",
-        "DbAttribute": "com2"
+        "DataAttribute": "com2"
       }
     ]
   },
@@ -819,11 +819,11 @@
     "BetChoices": [
       {
         "MatchAttribute": "y",
-        "DbAttribute": "com1"
+        "DataAttribute": "com1"
       },
       {
         "MatchAttribute": "n",
-        "DbAttribute": "com2"
+        "DataAttribute": "com2"
       }
     ]
   },
@@ -833,11 +833,11 @@
     "BetChoices": [
       {
         "MatchAttribute": "y",
-        "DbAttribute": "com1"
+        "DataAttribute": "com1"
       },
       {
         "MatchAttribute": "n",
-        "DbAttribute": "com2"
+        "DataAttribute": "com2"
       }
     ]
   },
@@ -847,11 +847,11 @@
     "BetChoices": [
       {
         "MatchAttribute": "y",
-        "DbAttribute": "com1"
+        "DataAttribute": "com1"
       },
       {
         "MatchAttribute": "n",
-        "DbAttribute": "com2"
+        "DataAttribute": "com2"
       }
     ]
   },
@@ -861,11 +861,11 @@
     "BetChoices": [
       {
         "MatchAttribute": "y",
-        "DbAttribute": "com1"
+        "DataAttribute": "com1"
       },
       {
         "MatchAttribute": "n",
-        "DbAttribute": "com2"
+        "DataAttribute": "com2"
       }
     ]
   },
@@ -875,11 +875,11 @@
     "BetChoices": [
       {
         "MatchAttribute": "y",
-        "DbAttribute": "com1"
+        "DataAttribute": "com1"
       },
       {
         "MatchAttribute": "n",
-        "DbAttribute": "com2"
+        "DataAttribute": "com2"
       }
     ]
   },
@@ -889,15 +889,15 @@
     "BetChoices": [
       {
         "MatchAttribute": "hd",
-        "DbAttribute": "cs10"
+        "DataAttribute": "cs10"
       },
       {
         "MatchAttribute": "ha",
-        "DbAttribute": "cs00"
+        "DataAttribute": "cs00"
       },
       {
         "MatchAttribute": "ad",
-        "DbAttribute": "cs20"
+        "DataAttribute": "cs20"
       }
     ]
   },
@@ -915,11 +915,11 @@
       },
       {
         "MatchAttribute": "o",
-        "DbAttribute": "odds1a"
+        "DataAttribute": "odds1a"
       },
       {
         "MatchAttribute": "u",
-        "DbAttribute": "odds2a"
+        "DataAttribute": "odds2a"
       }
     ]
   },
@@ -929,15 +929,15 @@
     "BetChoices": [
       {
         "MatchAttribute": "h",
-        "DbAttribute": "odds1a"
+        "DataAttribute": "odds1a"
       },
       {
         "MatchAttribute": "a",
-        "DbAttribute": "odds2a"
+        "DataAttribute": "odds2a"
       },
       {
         "MatchAttribute": "x",
-        "DbAttribute": "resourceID",
+        "DataAttribute": "resourceID",
         "IsResource": true
       }
     ]
@@ -956,15 +956,15 @@
       },
       {
         "MatchAttribute": "o",
-        "DbAttribute": "odds1a"
+        "DataAttribute": "odds1a"
       },
       {
         "MatchAttribute": "u",
-        "DbAttribute": "odds2a"
+        "DataAttribute": "odds2a"
       },
       {
         "MatchAttribute": "x",
-        "DbAttribute": "resourceID",
+        "DataAttribute": "resourceID",
         "IsResource": true
       }
     ]
@@ -975,20 +975,20 @@
     "BetChoices": [
       {
         "MatchAttribute": "h",
-        "DbAttribute": "hdp1",
+        "DataAttribute": "hdp1",
         "NotConvert": true
       },
       {
         "MatchAttribute": "o",
-        "DbAttribute": "odds1a"
+        "DataAttribute": "odds1a"
       },
       {
         "MatchAttribute": "u",
-        "DbAttribute": "odds2a"
+        "DataAttribute": "odds2a"
       },
       {
         "MatchAttribute": "x",
-        "DbAttribute": "resourceID",
+        "DataAttribute": "resourceID",
         "IsResource": true
       }
     ]
@@ -999,11 +999,11 @@
     "BetChoices": [
       {
         "MatchAttribute": "o",
-        "DbAttribute": "odds1a"
+        "DataAttribute": "odds1a"
       },
       {
         "MatchAttribute": "e",
-        "DbAttribute": "odds2a"
+        "DataAttribute": "odds2a"
       }
     ]
   },
@@ -1013,31 +1013,31 @@
     "BetChoices": [
       {
         "MatchAttribute": "o01",
-        "DbAttribute": "cs01"
+        "DataAttribute": "cs01"
       },
       {
         "MatchAttribute": "o02",
-        "DbAttribute": "cs02"
+        "DataAttribute": "cs02"
       },
       {
         "MatchAttribute": "o03",
-        "DbAttribute": "cs03"
+        "DataAttribute": "cs03"
       },
       {
         "MatchAttribute": "o04",
-        "DbAttribute": "cs04"
+        "DataAttribute": "cs04"
       },
       {
         "MatchAttribute": "o05",
-        "DbAttribute": "cs10"
+        "DataAttribute": "cs10"
       },
       {
         "MatchAttribute": "o06",
-        "DbAttribute": "cs20"
+        "DataAttribute": "cs20"
       },
       {
         "MatchAttribute": "o07",
-        "DbAttribute": "cs30"
+        "DataAttribute": "cs30"
       }
     ]
   },
@@ -1047,15 +1047,15 @@
     "BetChoices": [
       {
         "MatchAttribute": "h",
-        "DbAttribute": "com1"
+        "DataAttribute": "com1"
       },
       {
         "MatchAttribute": "n",
-        "DbAttribute": "comx"
+        "DataAttribute": "comx"
       },
       {
         "MatchAttribute": "a",
-        "DbAttribute": "com2"
+        "DataAttribute": "com2"
       }
     ]
   },
@@ -1065,19 +1065,19 @@
     "BetChoices": [
       {
         "MatchAttribute": "o1",
-        "DbAttribute": "cs00"
+        "DataAttribute": "cs00"
       },
       {
         "MatchAttribute": "o2",
-        "DbAttribute": "cs01"
+        "DataAttribute": "cs01"
       },
       {
         "MatchAttribute": "o3",
-        "DbAttribute": "cs02"
+        "DataAttribute": "cs02"
       },
       {
         "MatchAttribute": "o4",
-        "DbAttribute": "cs03"
+        "DataAttribute": "cs03"
       }
     ]
   },
@@ -1087,19 +1087,19 @@
     "BetChoices": [
       {
         "MatchAttribute": "o1",
-        "DbAttribute": "cs00"
+        "DataAttribute": "cs00"
       },
       {
         "MatchAttribute": "o2",
-        "DbAttribute": "cs01"
+        "DataAttribute": "cs01"
       },
       {
         "MatchAttribute": "o3",
-        "DbAttribute": "cs02"
+        "DataAttribute": "cs02"
       },
       {
         "MatchAttribute": "o4",
-        "DbAttribute": "cs03"
+        "DataAttribute": "cs03"
       }
     ]
   },
@@ -1109,32 +1109,32 @@
     "BetChoices": [
       {
         "MatchAttribute": "h",
-        "DbAttribute": "hdp1",
+        "DataAttribute": "hdp1",
         "NotConvert": true
       },
       {
         "MatchAttribute": "ho",
-        "DbAttribute": "cs01"
+        "DataAttribute": "cs01"
       },
       {
         "MatchAttribute": "hu",
-        "DbAttribute": "cs00"
+        "DataAttribute": "cs00"
       },
       {
         "MatchAttribute": "ao",
-        "DbAttribute": "cs05"
+        "DataAttribute": "cs05"
       },
       {
         "MatchAttribute": "au",
-        "DbAttribute": "cs04"
+        "DataAttribute": "cs04"
       },
       {
         "MatchAttribute": "do",
-        "DbAttribute": "cs03"
+        "DataAttribute": "cs03"
       },
       {
         "MatchAttribute": "du",
-        "DbAttribute": "cs02"
+        "DataAttribute": "cs02"
       }
     ]
   },
@@ -1144,15 +1144,15 @@
     "BetChoices": [
       {
         "MatchAttribute": "h",
-        "DbAttribute": "com1"
+        "DataAttribute": "com1"
       },
       {
         "MatchAttribute": "n",
-        "DbAttribute": "comx"
+        "DataAttribute": "comx"
       },
       {
         "MatchAttribute": "a",
-        "DbAttribute": "com2"
+        "DataAttribute": "com2"
       }
     ]
   },
@@ -1162,27 +1162,27 @@
     "BetChoices": [
       {
         "MatchAttribute": "cs00",
-        "DbAttribute": "cs00"
+        "DataAttribute": "cs00"
       },
       {
         "MatchAttribute": "cs10",
-        "DbAttribute": "cs01"
+        "DataAttribute": "cs01"
       },
       {
         "MatchAttribute": "cs01",
-        "DbAttribute": "cs03"
+        "DataAttribute": "cs03"
       },
       {
         "MatchAttribute": "cs11",
-        "DbAttribute": "cs04"
+        "DataAttribute": "cs04"
       },
       {
         "MatchAttribute": "cs20",
-        "DbAttribute": "cs02"
+        "DataAttribute": "cs02"
       },
       {
         "MatchAttribute": "cs02",
-        "DbAttribute": "cs05"
+        "DataAttribute": "cs05"
       }
     ]
   },
@@ -1192,43 +1192,43 @@
     "BetChoices": [
       {
         "MatchAttribute": "cs00",
-        "DbAttribute": "cs21"
+        "DataAttribute": "cs21"
       },
       {
         "MatchAttribute": "cs10",
-        "DbAttribute": "cs12"
+        "DataAttribute": "cs12"
       },
       {
         "MatchAttribute": "cs01",
-        "DbAttribute": "cs30"
+        "DataAttribute": "cs30"
       },
       {
         "MatchAttribute": "cs11",
-        "DbAttribute": "cs32"
+        "DataAttribute": "cs32"
       },
       {
         "MatchAttribute": "cs20",
-        "DbAttribute": "cs20"
+        "DataAttribute": "cs20"
       },
       {
         "MatchAttribute": "cs02",
-        "DbAttribute": "cs13"
+        "DataAttribute": "cs13"
       },
       {
         "MatchAttribute": "cs21",
-        "DbAttribute": "cs31"
+        "DataAttribute": "cs31"
       },
       {
         "MatchAttribute": "cs12",
-        "DbAttribute": "cs32"
+        "DataAttribute": "cs32"
       },
       {
         "MatchAttribute": "cs30",
-        "DbAttribute": "cs02"
+        "DataAttribute": "cs02"
       },
       {
         "MatchAttribute": "cs03",
-        "DbAttribute": "cs23"
+        "DataAttribute": "cs23"
       }
     ]
   },
@@ -1238,15 +1238,15 @@
     "BetChoices": [
       {
         "MatchAttribute": "h",
-        "DbAttribute": "com1"
+        "DataAttribute": "com1"
       },
       {
         "MatchAttribute": "n",
-        "DbAttribute": "comx"
+        "DataAttribute": "comx"
       },
       {
         "MatchAttribute": "a",
-        "DbAttribute": "com2"
+        "DataAttribute": "com2"
       }
     ]
   },
@@ -1256,11 +1256,11 @@
     "BetChoices": [
       {
         "MatchAttribute": "h",
-        "DbAttribute": "com1"
+        "DataAttribute": "com1"
       },
       {
         "MatchAttribute": "a",
-        "DbAttribute": "com2"
+        "DataAttribute": "com2"
       }
     ]
   },
@@ -1270,31 +1270,31 @@
     "BetChoices": [
       {
         "MatchAttribute": "o1",
-        "DbAttribute": "cs01"
+        "DataAttribute": "cs01"
       },
       {
         "MatchAttribute": "o2",
-        "DbAttribute": "cs02"
+        "DataAttribute": "cs02"
       },
       {
         "MatchAttribute": "o3",
-        "DbAttribute": "cs03"
+        "DataAttribute": "cs03"
       },
       {
         "MatchAttribute": "o4",
-        "DbAttribute": "cs04"
+        "DataAttribute": "cs04"
       },
       {
         "MatchAttribute": "o5",
-        "DbAttribute": "cs10"
+        "DataAttribute": "cs10"
       },
       {
         "MatchAttribute": "o6",
-        "DbAttribute": "cs20"
+        "DataAttribute": "cs20"
       },
       {
         "MatchAttribute": "o7",
-        "DbAttribute": "cs30"
+        "DataAttribute": "cs30"
       }
     ]
   },
@@ -1304,19 +1304,19 @@
     "BetChoices": [
       {
         "MatchAttribute": "h",
-        "DbAttribute": "cs00"
+        "DataAttribute": "cs00"
       },
       {
         "MatchAttribute": "a",
-        "DbAttribute": "cs01"
+        "DataAttribute": "cs01"
       },
       {
         "MatchAttribute": "b",
-        "DbAttribute": "cs02"
+        "DataAttribute": "cs02"
       },
       {
         "MatchAttribute": "n",
-        "DbAttribute": "cs03"
+        "DataAttribute": "cs03"
       }
     ]
   },
@@ -1326,35 +1326,35 @@
     "BetChoices": [
       {
         "MatchAttribute": "h1",
-        "DbAttribute": "cs01"
+        "DataAttribute": "cs01"
       },
       {
         "MatchAttribute": "h2",
-        "DbAttribute": "cs02"
+        "DataAttribute": "cs02"
       },
       {
         "MatchAttribute": "h3",
-        "DbAttribute": "cs03"
+        "DataAttribute": "cs03"
       },
       {
         "MatchAttribute": "d",
-        "DbAttribute": "cs04"
+        "DataAttribute": "cs04"
       },
       {
         "MatchAttribute": "a1",
-        "DbAttribute": "cs10"
+        "DataAttribute": "cs10"
       },
       {
         "MatchAttribute": "a2",
-        "DbAttribute": "cs20"
+        "DataAttribute": "cs20"
       },
       {
         "MatchAttribute": "a3",
-        "DbAttribute": "cs30"
+        "DataAttribute": "cs30"
       },
       {
         "MatchAttribute": "ng",
-        "DbAttribute": "cs00"
+        "DataAttribute": "cs00"
       }
     ]
   },
@@ -1364,31 +1364,31 @@
     "BetChoices": [
       {
         "MatchAttribute": "hh",
-        "DbAttribute": "cs01"
+        "DataAttribute": "cs01"
       },
       {
         "MatchAttribute": "dh",
-        "DbAttribute": "cs02"
+        "DataAttribute": "cs02"
       },
       {
         "MatchAttribute": "ah",
-        "DbAttribute": "cs03"
+        "DataAttribute": "cs03"
       },
       {
         "MatchAttribute": "ha",
-        "DbAttribute": "cs04"
+        "DataAttribute": "cs04"
       },
       {
         "MatchAttribute": "da",
-        "DbAttribute": "cs10"
+        "DataAttribute": "cs10"
       },
       {
         "MatchAttribute": "aa",
-        "DbAttribute": "cs20"
+        "DataAttribute": "cs20"
       },
       {
         "MatchAttribute": "n",
-        "DbAttribute": "cs30"
+        "DataAttribute": "cs30"
       }
     ]
   },
@@ -1398,11 +1398,11 @@
     "BetChoices": [
       {
         "MatchAttribute": "y",
-        "DbAttribute": "odds1a"
+        "DataAttribute": "odds1a"
       },
       {
         "MatchAttribute": "n",
-        "DbAttribute": "odds2a"
+        "DataAttribute": "odds2a"
       }
     ]
   },
@@ -1412,11 +1412,11 @@
     "BetChoices": [
       {
         "MatchAttribute": "y",
-        "DbAttribute": "odds1a"
+        "DataAttribute": "odds1a"
       },
       {
         "MatchAttribute": "n",
-        "DbAttribute": "odds2a"
+        "DataAttribute": "odds2a"
       }
     ]
   },
@@ -1426,27 +1426,27 @@
     "BetChoices": [
       {
         "MatchAttribute": "h1",
-        "DbAttribute": "cs00"
+        "DataAttribute": "cs00"
       },
       {
         "MatchAttribute": "h2",
-        "DbAttribute": "cs01"
+        "DataAttribute": "cs01"
       },
       {
         "MatchAttribute": "h3",
-        "DbAttribute": "cs02"
+        "DataAttribute": "cs02"
       },
       {
         "MatchAttribute": "a1",
-        "DbAttribute": "cs03"
+        "DataAttribute": "cs03"
       },
       {
         "MatchAttribute": "a2",
-        "DbAttribute": "cs04"
+        "DataAttribute": "cs04"
       },
       {
         "MatchAttribute": "a3",
-        "DbAttribute": "cs05"
+        "DataAttribute": "cs05"
       }
     ]
   },
@@ -1456,15 +1456,15 @@
     "BetChoices": [
       {
         "MatchAttribute": "h",
-        "DbAttribute": "com1"
+        "DataAttribute": "com1"
       },
       {
         "MatchAttribute": "n",
-        "DbAttribute": "comx"
+        "DataAttribute": "comx"
       },
       {
         "MatchAttribute": "a",
-        "DbAttribute": "com2"
+        "DataAttribute": "com2"
       }
     ]
   },
@@ -1474,15 +1474,15 @@
     "BetChoices": [
       {
         "MatchAttribute": "h",
-        "DbAttribute": "com1"
+        "DataAttribute": "com1"
       },
       {
         "MatchAttribute": "n",
-        "DbAttribute": "comx"
+        "DataAttribute": "comx"
       },
       {
         "MatchAttribute": "a",
-        "DbAttribute": "com2"
+        "DataAttribute": "com2"
       }
     ]
   },
@@ -1492,16 +1492,16 @@
     "BetChoices": [
       {
         "MatchAttribute": "h",
-        "DbAttribute": "hdp1",
+        "DataAttribute": "hdp1",
         "NotConvert": true
       },
       {
         "MatchAttribute": "o",
-        "DbAttribute": "odds1a"
+        "DataAttribute": "odds1a"
       },
       {
         "MatchAttribute": "u",
-        "DbAttribute": "odds2a"
+        "DataAttribute": "odds2a"
       }
     ]
   },
@@ -1511,15 +1511,15 @@
     "BetChoices": [
       {
         "MatchAttribute": "h",
-        "DbAttribute": "com1"
+        "DataAttribute": "com1"
       },
       {
         "MatchAttribute": "n",
-        "DbAttribute": "comx"
+        "DataAttribute": "comx"
       },
       {
         "MatchAttribute": "a",
-        "DbAttribute": "com2"
+        "DataAttribute": "com2"
       }
     ]
   },
@@ -1529,19 +1529,19 @@
     "BetChoices": [
       {
         "MatchAttribute": "o1",
-        "DbAttribute": "cs00"
+        "DataAttribute": "cs00"
       },
       {
         "MatchAttribute": "o2",
-        "DbAttribute": "cs01"
+        "DataAttribute": "cs01"
       },
       {
         "MatchAttribute": "o3",
-        "DbAttribute": "cs02"
+        "DataAttribute": "cs02"
       },
       {
         "MatchAttribute": "o4",
-        "DbAttribute": "cs03"
+        "DataAttribute": "cs03"
       }
     ]
   },
@@ -1551,19 +1551,19 @@
     "BetChoices": [
       {
         "MatchAttribute": "o1",
-        "DbAttribute": "cs00"
+        "DataAttribute": "cs00"
       },
       {
         "MatchAttribute": "o2",
-        "DbAttribute": "cs01"
+        "DataAttribute": "cs01"
       },
       {
         "MatchAttribute": "o3",
-        "DbAttribute": "cs02"
+        "DataAttribute": "cs02"
       },
       {
         "MatchAttribute": "o4",
-        "DbAttribute": "cs03"
+        "DataAttribute": "cs03"
       }
     ]
   },
@@ -1581,11 +1581,11 @@
       },
       {
         "MatchAttribute": "o",
-        "DbAttribute": "odds1a"
+        "DataAttribute": "odds1a"
       },
       {
         "MatchAttribute": "u",
-        "DbAttribute": "odds2a"
+        "DataAttribute": "odds2a"
       }
     ]
   },
@@ -1595,11 +1595,11 @@
     "BetChoices": [
       {
         "MatchAttribute": "o",
-        "DbAttribute": "odds1a"
+        "DataAttribute": "odds1a"
       },
       {
         "MatchAttribute": "e",
-        "DbAttribute": "odds2a"
+        "DataAttribute": "odds2a"
       }
     ]
   },
@@ -1609,11 +1609,11 @@
     "BetChoices": [
       {
         "MatchAttribute": "h",
-        "DbAttribute": "odds1a"
+        "DataAttribute": "odds1a"
       },
       {
         "MatchAttribute": "a",
-        "DbAttribute": "odds2a"
+        "DataAttribute": "odds2a"
       }
     ]
   },
@@ -1623,15 +1623,15 @@
     "BetChoices": [
       {
         "MatchAttribute": "hd",
-        "DbAttribute": "cs10"
+        "DataAttribute": "cs10"
       },
       {
         "MatchAttribute": "ha",
-        "DbAttribute": "cs20"
+        "DataAttribute": "cs20"
       },
       {
         "MatchAttribute": "ad",
-        "DbAttribute": "cs00"
+        "DataAttribute": "cs00"
       }
     ]
   },
@@ -1641,15 +1641,15 @@
     "BetChoices": [
       {
         "MatchAttribute": "o1",
-        "DbAttribute": "cs10"
+        "DataAttribute": "cs10"
       },
       {
         "MatchAttribute": "o2",
-        "DbAttribute": "cs20"
+        "DataAttribute": "cs20"
       },
       {
         "MatchAttribute": "o3",
-        "DbAttribute": "cs00"
+        "DataAttribute": "cs00"
       }
     ]
   },
@@ -1659,11 +1659,11 @@
     "BetChoices": [
       {
         "MatchAttribute": "y",
-        "DbAttribute": "odds1a"
+        "DataAttribute": "odds1a"
       },
       {
         "MatchAttribute": "n",
-        "DbAttribute": "odds2a"
+        "DataAttribute": "odds2a"
       }
     ]
   },
@@ -1673,11 +1673,11 @@
     "BetChoices": [
       {
         "MatchAttribute": "y",
-        "DbAttribute": "odds1a"
+        "DataAttribute": "odds1a"
       },
       {
         "MatchAttribute": "n",
-        "DbAttribute": "odds2a"
+        "DataAttribute": "odds2a"
       }
     ]
   },
@@ -1687,11 +1687,11 @@
     "BetChoices": [
       {
         "MatchAttribute": "y",
-        "DbAttribute": "odds1a"
+        "DataAttribute": "odds1a"
       },
       {
         "MatchAttribute": "n",
-        "DbAttribute": "odds2a"
+        "DataAttribute": "odds2a"
       }
     ]
   },
@@ -1701,11 +1701,11 @@
     "BetChoices": [
       {
         "MatchAttribute": "h",
-        "DbAttribute": "odds1a"
+        "DataAttribute": "odds1a"
       },
       {
         "MatchAttribute": "a",
-        "DbAttribute": "odds2a"
+        "DataAttribute": "odds2a"
       }
     ]
   },
@@ -1715,43 +1715,43 @@
     "BetChoices": [
       {
         "MatchAttribute": "o1",
-        "DbAttribute": "cs21"
+        "DataAttribute": "cs21"
       },
       {
         "MatchAttribute": "o2",
-        "DbAttribute": "cs12"
+        "DataAttribute": "cs12"
       },
       {
         "MatchAttribute": "o3",
-        "DbAttribute": "cs20"
+        "DataAttribute": "cs20"
       },
       {
         "MatchAttribute": "o4",
-        "DbAttribute": "cs02"
+        "DataAttribute": "cs02"
       },
       {
         "MatchAttribute": "o5",
-        "DbAttribute": "cs30"
+        "DataAttribute": "cs30"
       },
       {
         "MatchAttribute": "o6",
-        "DbAttribute": "cs03"
+        "DataAttribute": "cs03"
       },
       {
         "MatchAttribute": "o7",
-        "DbAttribute": "cs31"
+        "DataAttribute": "cs31"
       },
       {
         "MatchAttribute": "o8",
-        "DbAttribute": "cs13"
+        "DataAttribute": "cs13"
       },
       {
         "MatchAttribute": "o9",
-        "DbAttribute": "cs32"
+        "DataAttribute": "cs32"
       },
       {
         "MatchAttribute": "o10",
-        "DbAttribute": "cs23"
+        "DataAttribute": "cs23"
       }
     ]
   },
@@ -1761,31 +1761,31 @@
     "BetChoices": [
       {
         "MatchAttribute": "o1",
-        "DbAttribute": "cs01"
+        "DataAttribute": "cs01"
       },
       {
         "MatchAttribute": "o2",
-        "DbAttribute": "cs02"
+        "DataAttribute": "cs02"
       },
       {
         "MatchAttribute": "o3",
-        "DbAttribute": "cs03"
+        "DataAttribute": "cs03"
       },
       {
         "MatchAttribute": "o4",
-        "DbAttribute": "cs04"
+        "DataAttribute": "cs04"
       },
       {
         "MatchAttribute": "o5",
-        "DbAttribute": "cs10"
+        "DataAttribute": "cs10"
       },
       {
         "MatchAttribute": "o6",
-        "DbAttribute": "cs20"
+        "DataAttribute": "cs20"
       },
       {
         "MatchAttribute": "o7",
-        "DbAttribute": "cs30"
+        "DataAttribute": "cs30"
       }
     ]
   },
@@ -1795,11 +1795,11 @@
     "BetChoices": [
       {
         "MatchAttribute": "o",
-        "DbAttribute": "odds1a"
+        "DataAttribute": "odds1a"
       },
       {
         "MatchAttribute": "e",
-        "DbAttribute": "odds2a"
+        "DataAttribute": "odds2a"
       }
     ]
   },
@@ -1809,19 +1809,19 @@
     "BetChoices": [
       {
         "MatchAttribute": "o1",
-        "DbAttribute": "cs00"
+        "DataAttribute": "cs00"
       },
       {
         "MatchAttribute": "o2",
-        "DbAttribute": "cs01"
+        "DataAttribute": "cs01"
       },
       {
         "MatchAttribute": "o3",
-        "DbAttribute": "cs02"
+        "DataAttribute": "cs02"
       },
       {
         "MatchAttribute": "o4",
-        "DbAttribute": "cs03"
+        "DataAttribute": "cs03"
       }
     ]
   },
@@ -1831,19 +1831,19 @@
     "BetChoices": [
       {
         "MatchAttribute": "o1",
-        "DbAttribute": "cs00"
+        "DataAttribute": "cs00"
       },
       {
         "MatchAttribute": "o2",
-        "DbAttribute": "cs01"
+        "DataAttribute": "cs01"
       },
       {
         "MatchAttribute": "o3",
-        "DbAttribute": "cs02"
+        "DataAttribute": "cs02"
       },
       {
         "MatchAttribute": "o4",
-        "DbAttribute": "cs03"
+        "DataAttribute": "cs03"
       }
     ]
   },
@@ -1853,16 +1853,16 @@
     "BetChoices": [
       {
         "MatchAttribute": "h",
-        "DbAttribute": "hdp1",
+        "DataAttribute": "hdp1",
         "NotConvert": true
       },
       {
         "MatchAttribute": "o",
-        "DbAttribute": "odds1a"
+        "DataAttribute": "odds1a"
       },
       {
         "MatchAttribute": "u",
-        "DbAttribute": "odds2a"
+        "DataAttribute": "odds2a"
       }
     ]
   },
@@ -1872,16 +1872,16 @@
     "BetChoices": [
       {
         "MatchAttribute": "h",
-        "DbAttribute": "hdp1",
+        "DataAttribute": "hdp1",
         "NotConvert": true
       },
       {
         "MatchAttribute": "o",
-        "DbAttribute": "odds1a"
+        "DataAttribute": "odds1a"
       },
       {
         "MatchAttribute": "u",
-        "DbAttribute": "odds2a"
+        "DataAttribute": "odds2a"
       }
     ]
   },
@@ -1891,15 +1891,15 @@
     "BetChoices": [
       {
         "MatchAttribute": "o1",
-        "DbAttribute": "cs10"
+        "DataAttribute": "cs10"
       },
       {
         "MatchAttribute": "o2",
-        "DbAttribute": "cs20"
+        "DataAttribute": "cs20"
       },
       {
         "MatchAttribute": "o3",
-        "DbAttribute": "cs00"
+        "DataAttribute": "cs00"
       }
     ]
   },
@@ -1909,19 +1909,19 @@
     "BetChoices": [
       {
         "MatchAttribute": "o1",
-        "DbAttribute": "cs00"
+        "DataAttribute": "cs00"
       },
       {
         "MatchAttribute": "o2",
-        "DbAttribute": "cs01"
+        "DataAttribute": "cs01"
       },
       {
         "MatchAttribute": "o3",
-        "DbAttribute": "cs02"
+        "DataAttribute": "cs02"
       },
       {
         "MatchAttribute": "o4",
-        "DbAttribute": "cs03"
+        "DataAttribute": "cs03"
       }
     ]
   },
@@ -1931,19 +1931,19 @@
     "BetChoices": [
       {
         "MatchAttribute": "o1",
-        "DbAttribute": "cs00"
+        "DataAttribute": "cs00"
       },
       {
         "MatchAttribute": "o2",
-        "DbAttribute": "cs01"
+        "DataAttribute": "cs01"
       },
       {
         "MatchAttribute": "o3",
-        "DbAttribute": "cs02"
+        "DataAttribute": "cs02"
       },
       {
         "MatchAttribute": "o4",
-        "DbAttribute": "cs03"
+        "DataAttribute": "cs03"
       }
     ]
   },
@@ -1953,15 +1953,15 @@
     "BetChoices": [
       {
         "MatchAttribute": "o1",
-        "DbAttribute": "cs10"
+        "DataAttribute": "cs10"
       },
       {
         "MatchAttribute": "o2",
-        "DbAttribute": "cs20"
+        "DataAttribute": "cs20"
       },
       {
         "MatchAttribute": "o3",
-        "DbAttribute": "cs00"
+        "DataAttribute": "cs00"
       }
     ]
   },
@@ -1971,11 +1971,11 @@
     "BetChoices": [
       {
         "MatchAttribute": "o",
-        "DbAttribute": "odds1a"
+        "DataAttribute": "odds1a"
       },
       {
         "MatchAttribute": "e",
-        "DbAttribute": "odds2a"
+        "DataAttribute": "odds2a"
       }
     ]
   },
@@ -1985,16 +1985,16 @@
     "BetChoices": [
       {
         "MatchAttribute": "h",
-        "DbAttribute": "hdp1",
+        "DataAttribute": "hdp1",
         "NotConvert": true
       },
       {
         "MatchAttribute": "o",
-        "DbAttribute": "odds1a"
+        "DataAttribute": "odds1a"
       },
       {
         "MatchAttribute": "u",
-        "DbAttribute": "odds2a"
+        "DataAttribute": "odds2a"
       }
     ]
   },
@@ -2004,16 +2004,16 @@
     "BetChoices": [
       {
         "MatchAttribute": "h",
-        "DbAttribute": "hdp1",
+        "DataAttribute": "hdp1",
         "NotConvert": true
       },
       {
         "MatchAttribute": "o",
-        "DbAttribute": "odds1a"
+        "DataAttribute": "odds1a"
       },
       {
         "MatchAttribute": "u",
-        "DbAttribute": "odds2a"
+        "DataAttribute": "odds2a"
       }
     ]
   },
@@ -2023,15 +2023,15 @@
     "BetChoices": [
       {
         "MatchAttribute": "h",
-        "DbAttribute": "cs10"
+        "DataAttribute": "cs10"
       },
       {
         "MatchAttribute": "n",
-        "DbAttribute": "cs00"
+        "DataAttribute": "cs00"
       },
       {
         "MatchAttribute": "a",
-        "DbAttribute": "cs20"
+        "DataAttribute": "cs20"
       }
     ]
   },
@@ -2041,15 +2041,15 @@
     "BetChoices": [
       {
         "MatchAttribute": "h",
-        "DbAttribute": "cs10"
+        "DataAttribute": "cs10"
       },
       {
         "MatchAttribute": "n",
-        "DbAttribute": "cs00"
+        "DataAttribute": "cs00"
       },
       {
         "MatchAttribute": "a",
-        "DbAttribute": "cs20"
+        "DataAttribute": "cs20"
       }
     ]
   },
@@ -2059,15 +2059,15 @@
     "BetChoices": [
       {
         "MatchAttribute": "h",
-        "DbAttribute": "cs10"
+        "DataAttribute": "cs10"
       },
       {
         "MatchAttribute": "n",
-        "DbAttribute": "cs00"
+        "DataAttribute": "cs00"
       },
       {
         "MatchAttribute": "a",
-        "DbAttribute": "cs20"
+        "DataAttribute": "cs20"
       }
     ]
   },
@@ -2077,15 +2077,15 @@
     "BetChoices": [
       {
         "MatchAttribute": "h",
-        "DbAttribute": "cs10"
+        "DataAttribute": "cs10"
       },
       {
         "MatchAttribute": "n",
-        "DbAttribute": "cs00"
+        "DataAttribute": "cs00"
       },
       {
         "MatchAttribute": "a",
-        "DbAttribute": "cs20"
+        "DataAttribute": "cs20"
       }
     ]
   },
@@ -2095,11 +2095,11 @@
     "BetChoices": [
       {
         "MatchAttribute": "y",
-        "DbAttribute": "odds1a"
+        "DataAttribute": "odds1a"
       },
       {
         "MatchAttribute": "n",
-        "DbAttribute": "odds2a"
+        "DataAttribute": "odds2a"
       }
     ]
   },
@@ -2109,11 +2109,11 @@
     "BetChoices": [
       {
         "MatchAttribute": "y",
-        "DbAttribute": "odds1a"
+        "DataAttribute": "odds1a"
       },
       {
         "MatchAttribute": "n",
-        "DbAttribute": "odds2a"
+        "DataAttribute": "odds2a"
       }
     ]
   },
@@ -2123,11 +2123,11 @@
     "BetChoices": [
       {
         "MatchAttribute": "y",
-        "DbAttribute": "odds1a"
+        "DataAttribute": "odds1a"
       },
       {
         "MatchAttribute": "n",
-        "DbAttribute": "odds2a"
+        "DataAttribute": "odds2a"
       }
     ]
   },
@@ -2137,11 +2137,11 @@
     "BetChoices": [
       {
         "MatchAttribute": "y",
-        "DbAttribute": "odds1a"
+        "DataAttribute": "odds1a"
       },
       {
         "MatchAttribute": "n",
-        "DbAttribute": "odds2a"
+        "DataAttribute": "odds2a"
       }
     ]
   },
@@ -2151,11 +2151,11 @@
     "BetChoices": [
       {
         "MatchAttribute": "y",
-        "DbAttribute": "odds1a"
+        "DataAttribute": "odds1a"
       },
       {
         "MatchAttribute": "n",
-        "DbAttribute": "odds2a"
+        "DataAttribute": "odds2a"
       }
     ]
   },
@@ -2165,11 +2165,11 @@
     "BetChoices": [
       {
         "MatchAttribute": "y",
-        "DbAttribute": "odds1a"
+        "DataAttribute": "odds1a"
       },
       {
         "MatchAttribute": "n",
-        "DbAttribute": "odds2a"
+        "DataAttribute": "odds2a"
       }
     ]
   },
@@ -2187,11 +2187,11 @@
       },
       {
         "MatchAttribute": "o",
-        "DbAttribute": "Odds1A"
+        "DataAttribute": "Odds1A"
       },
       {
         "MatchAttribute": "u",
-        "DbAttribute": "Odds2A"
+        "DataAttribute": "Odds2A"
       }
     ]
   },
@@ -2202,187 +2202,187 @@
     "BetChoices": [
       {
         "MatchAttribute": "O01",
-        "DbAttribute": "0:0/0:0"
+        "DataAttribute": "0:0/0:0"
       },
       {
         "MatchAttribute": "O02",
-        "DbAttribute": "0:0/1:0"
+        "DataAttribute": "0:0/1:0"
       },
       {
         "MatchAttribute": "O03",
-        "DbAttribute": "0:0/0:1"
+        "DataAttribute": "0:0/0:1"
       },
       {
         "MatchAttribute": "O04",
-        "DbAttribute": "0:0/2:0"
+        "DataAttribute": "0:0/2:0"
       },
       {
         "MatchAttribute": "O05",
-        "DbAttribute": "0:0/1:1"
+        "DataAttribute": "0:0/1:1"
       },
       {
         "MatchAttribute": "O06",
-        "DbAttribute": "0:0/0:2"
+        "DataAttribute": "0:0/0:2"
       },
       {
         "MatchAttribute": "O07",
-        "DbAttribute": "0:0/3:0"
+        "DataAttribute": "0:0/3:0"
       },
       {
         "MatchAttribute": "O08",
-        "DbAttribute": "0:0/2:1"
+        "DataAttribute": "0:0/2:1"
       },
       {
         "MatchAttribute": "O09",
-        "DbAttribute": "0:0/1:2"
+        "DataAttribute": "0:0/1:2"
       },
       {
         "MatchAttribute": "O10",
-        "DbAttribute": "0:0/0:3"
+        "DataAttribute": "0:0/0:3"
       },
       {
         "MatchAttribute": "O11",
-        "DbAttribute": "0:0/4+"
+        "DataAttribute": "0:0/4+"
       },
       {
         "MatchAttribute": "O12",
-        "DbAttribute": "1:0/1:0"
+        "DataAttribute": "1:0/1:0"
       },
       {
         "MatchAttribute": "O13",
-        "DbAttribute": "1:0/2:0"
+        "DataAttribute": "1:0/2:0"
       },
       {
         "MatchAttribute": "O14",
-        "DbAttribute": "1:0/1:1"
+        "DataAttribute": "1:0/1:1"
       },
       {
         "MatchAttribute": "O15",
-        "DbAttribute": "1:0/3:0"
+        "DataAttribute": "1:0/3:0"
       },
       {
         "MatchAttribute": "O16",
-        "DbAttribute": "1:0/2:1"
+        "DataAttribute": "1:0/2:1"
       },
       {
         "MatchAttribute": "O17",
-        "DbAttribute": "1:0/1:2"
+        "DataAttribute": "1:0/1:2"
       },
       {
         "MatchAttribute": "O18",
-        "DbAttribute": "1:0/4+"
+        "DataAttribute": "1:0/4+"
       },
       {
         "MatchAttribute": "O19",
-        "DbAttribute": "0:1/0:1"
+        "DataAttribute": "0:1/0:1"
       },
       {
         "MatchAttribute": "O20",
-        "DbAttribute": "0:1/1:1"
+        "DataAttribute": "0:1/1:1"
       },
       {
         "MatchAttribute": "O21",
-        "DbAttribute": "0:1/0:2"
+        "DataAttribute": "0:1/0:2"
       },
       {
         "MatchAttribute": "O22",
-        "DbAttribute": "0:1/2:1"
+        "DataAttribute": "0:1/2:1"
       },
       {
         "MatchAttribute": "O23",
-        "DbAttribute": "0:1/1:2"
+        "DataAttribute": "0:1/1:2"
       },
       {
         "MatchAttribute": "O24",
-        "DbAttribute": "0:1/0:3"
+        "DataAttribute": "0:1/0:3"
       },
       {
         "MatchAttribute": "O25",
-        "DbAttribute": "0:1/4+"
+        "DataAttribute": "0:1/4+"
       },
       {
         "MatchAttribute": "O26",
-        "DbAttribute": "1:1/1:1"
+        "DataAttribute": "1:1/1:1"
       },
       {
         "MatchAttribute": "O27",
-        "DbAttribute": "1:1/2:1"
+        "DataAttribute": "1:1/2:1"
       },
       {
         "MatchAttribute": "O28",
-        "DbAttribute": "1:1/1:2"
+        "DataAttribute": "1:1/1:2"
       },
       {
         "MatchAttribute": "O29",
-        "DbAttribute": "1:1/4+"
+        "DataAttribute": "1:1/4+"
       },
       {
         "MatchAttribute": "O30",
-        "DbAttribute": "2:0/2:0"
+        "DataAttribute": "2:0/2:0"
       },
       {
         "MatchAttribute": "O31",
-        "DbAttribute": "2:0/3:0"
+        "DataAttribute": "2:0/3:0"
       },
       {
         "MatchAttribute": "O32",
-        "DbAttribute": "2:0/3:1"
+        "DataAttribute": "2:0/3:1"
       },
       {
         "MatchAttribute": "O33",
-        "DbAttribute": "2:0/4+"
+        "DataAttribute": "2:0/4+"
       },
       {
         "MatchAttribute": "O34",
-        "DbAttribute": "0:2/0:2"
+        "DataAttribute": "0:2/0:2"
       },
       {
         "MatchAttribute": "O35",
-        "DbAttribute": "0:2/1:2"
+        "DataAttribute": "0:2/1:2"
       },
       {
         "MatchAttribute": "O36",
-        "DbAttribute": "0:2/0:3"
+        "DataAttribute": "0:2/0:3"
       },
       {
         "MatchAttribute": "O37",
-        "DbAttribute": "0:2/4+"
+        "DataAttribute": "0:2/4+"
       },
       {
         "MatchAttribute": "O38",
-        "DbAttribute": "2:1/2:1"
+        "DataAttribute": "2:1/2:1"
       },
       {
         "MatchAttribute": "O39",
-        "DbAttribute": "2:1/4+"
+        "DataAttribute": "2:1/4+"
       },
       {
         "MatchAttribute": "O40",
-        "DbAttribute": "1:2/1:2"
+        "DataAttribute": "1:2/1:2"
       },
       {
         "MatchAttribute": "O41",
-        "DbAttribute": "1:2/4+"
+        "DataAttribute": "1:2/4+"
       },
       {
         "MatchAttribute": "O42",
-        "DbAttribute": "3:0/3:0"
+        "DataAttribute": "3:0/3:0"
       },
       {
         "MatchAttribute": "O43",
-        "DbAttribute": "3:0/4+"
+        "DataAttribute": "3:0/4+"
       },
       {
         "MatchAttribute": "O44",
-        "DbAttribute": "0:3/0:3"
+        "DataAttribute": "0:3/0:3"
       },
       {
         "MatchAttribute": "O45",
-        "DbAttribute": "0:3/4+"
+        "DataAttribute": "0:3/4+"
       },
       {
         "MatchAttribute": "O46",
-        "DbAttribute": "4+/4+"
+        "DataAttribute": "4+/4+"
       }
     ]
   },
@@ -2393,867 +2393,867 @@
     "BetChoices": [
       {
         "MatchAttribute": "cs001",
-        "DbAttribute": "0:0/0:0"
+        "DataAttribute": "0:0/0:0"
       },
       {
         "MatchAttribute": "cs002",
-        "DbAttribute": "0:0/0:1"
+        "DataAttribute": "0:0/0:1"
       },
       {
         "MatchAttribute": "cs003",
-        "DbAttribute": "0:0/0:2"
+        "DataAttribute": "0:0/0:2"
       },
       {
         "MatchAttribute": "cs004",
-        "DbAttribute": "0:0/0:3"
+        "DataAttribute": "0:0/0:3"
       },
       {
         "MatchAttribute": "cs005",
-        "DbAttribute": "0:0/0:4"
+        "DataAttribute": "0:0/0:4"
       },
       {
         "MatchAttribute": "cs006",
-        "DbAttribute": "0:0/1:0"
+        "DataAttribute": "0:0/1:0"
       },
       {
         "MatchAttribute": "cs007",
-        "DbAttribute": "0:0/1:1"
+        "DataAttribute": "0:0/1:1"
       },
       {
         "MatchAttribute": "cs008",
-        "DbAttribute": "0:0/1:2"
+        "DataAttribute": "0:0/1:2"
       },
       {
         "MatchAttribute": "cs009",
-        "DbAttribute": "0:0/1:3"
+        "DataAttribute": "0:0/1:3"
       },
       {
         "MatchAttribute": "cs010",
-        "DbAttribute": "0:0/1:4"
+        "DataAttribute": "0:0/1:4"
       },
       {
         "MatchAttribute": "cs011",
-        "DbAttribute": "0:0/2:0"
+        "DataAttribute": "0:0/2:0"
       },
       {
         "MatchAttribute": "cs012",
-        "DbAttribute": "0:0/2:1"
+        "DataAttribute": "0:0/2:1"
       },
       {
         "MatchAttribute": "cs013",
-        "DbAttribute": "0:0/2:2"
+        "DataAttribute": "0:0/2:2"
       },
       {
         "MatchAttribute": "cs014",
-        "DbAttribute": "0:0/2:3"
+        "DataAttribute": "0:0/2:3"
       },
       {
         "MatchAttribute": "cs015",
-        "DbAttribute": "0:0/2:4"
+        "DataAttribute": "0:0/2:4"
       },
       {
         "MatchAttribute": "cs016",
-        "DbAttribute": "0:0/3:0"
+        "DataAttribute": "0:0/3:0"
       },
       {
         "MatchAttribute": "cs017",
-        "DbAttribute": "0:0/3:1"
+        "DataAttribute": "0:0/3:1"
       },
       {
         "MatchAttribute": "cs018",
-        "DbAttribute": "0:0/3:2"
+        "DataAttribute": "0:0/3:2"
       },
       {
         "MatchAttribute": "cs019",
-        "DbAttribute": "0:0/3:3"
+        "DataAttribute": "0:0/3:3"
       },
       {
         "MatchAttribute": "cs020",
-        "DbAttribute": "0:0/3:4"
+        "DataAttribute": "0:0/3:4"
       },
       {
         "MatchAttribute": "cs021",
-        "DbAttribute": "0:0/4:0"
+        "DataAttribute": "0:0/4:0"
       },
       {
         "MatchAttribute": "cs022",
-        "DbAttribute": "0:0/4:1"
+        "DataAttribute": "0:0/4:1"
       },
       {
         "MatchAttribute": "cs023",
-        "DbAttribute": "0:0/4:2"
+        "DataAttribute": "0:0/4:2"
       },
       {
         "MatchAttribute": "cs024",
-        "DbAttribute": "0:0/4:3"
+        "DataAttribute": "0:0/4:3"
       },
       {
         "MatchAttribute": "cs025",
-        "DbAttribute": "0:0/4:4"
+        "DataAttribute": "0:0/4:4"
       },
       {
         "MatchAttribute": "cs026",
-        "DbAttribute": "0:0/AOS"
+        "DataAttribute": "0:0/AOS"
       },
       {
         "MatchAttribute": "cs027",
-        "DbAttribute": "0:1/0:1"
+        "DataAttribute": "0:1/0:1"
       },
       {
         "MatchAttribute": "cs028",
-        "DbAttribute": "0:1/0:2"
+        "DataAttribute": "0:1/0:2"
       },
       {
         "MatchAttribute": "cs029",
-        "DbAttribute": "0:1/0:3"
+        "DataAttribute": "0:1/0:3"
       },
       {
         "MatchAttribute": "cs030",
-        "DbAttribute": "0:1/0:4"
+        "DataAttribute": "0:1/0:4"
       },
       {
         "MatchAttribute": "cs031",
-        "DbAttribute": "0:1/1:1"
+        "DataAttribute": "0:1/1:1"
       },
       {
         "MatchAttribute": "cs032",
-        "DbAttribute": "0:1/1:2"
+        "DataAttribute": "0:1/1:2"
       },
       {
         "MatchAttribute": "cs033",
-        "DbAttribute": "0:1/1:3"
+        "DataAttribute": "0:1/1:3"
       },
       {
         "MatchAttribute": "cs034",
-        "DbAttribute": "0:1/1:4"
+        "DataAttribute": "0:1/1:4"
       },
       {
         "MatchAttribute": "cs035",
-        "DbAttribute": "0:1/2:1"
+        "DataAttribute": "0:1/2:1"
       },
       {
         "MatchAttribute": "cs036",
-        "DbAttribute": "0:1/2:2"
+        "DataAttribute": "0:1/2:2"
       },
       {
         "MatchAttribute": "cs037",
-        "DbAttribute": "0:1/2:3"
+        "DataAttribute": "0:1/2:3"
       },
       {
         "MatchAttribute": "cs038",
-        "DbAttribute": "0:1/2:4"
+        "DataAttribute": "0:1/2:4"
       },
       {
         "MatchAttribute": "cs039",
-        "DbAttribute": "0:1/3:1"
+        "DataAttribute": "0:1/3:1"
       },
       {
         "MatchAttribute": "cs040",
-        "DbAttribute": "0:1/3:2"
+        "DataAttribute": "0:1/3:2"
       },
       {
         "MatchAttribute": "cs041",
-        "DbAttribute": "0:1/3:3"
+        "DataAttribute": "0:1/3:3"
       },
       {
         "MatchAttribute": "cs042",
-        "DbAttribute": "0:1/3:4"
+        "DataAttribute": "0:1/3:4"
       },
       {
         "MatchAttribute": "cs043",
-        "DbAttribute": "0:1/4:1"
+        "DataAttribute": "0:1/4:1"
       },
       {
         "MatchAttribute": "cs044",
-        "DbAttribute": "0:1/4:2"
+        "DataAttribute": "0:1/4:2"
       },
       {
         "MatchAttribute": "cs044",
-        "DbAttribute": "0:1/4:3"
+        "DataAttribute": "0:1/4:3"
       },
       {
         "MatchAttribute": "cs045",
-        "DbAttribute": "0:1/4:4"
+        "DataAttribute": "0:1/4:4"
       },
       {
         "MatchAttribute": "cs046",
-        "DbAttribute": "0:1/AOS"
+        "DataAttribute": "0:1/AOS"
       },
       {
         "MatchAttribute": "cs048",
-        "DbAttribute": "0:2/0:2"
+        "DataAttribute": "0:2/0:2"
       },
       {
         "MatchAttribute": "cs049",
-        "DbAttribute": "0:2/0:3"
+        "DataAttribute": "0:2/0:3"
       },
       {
         "MatchAttribute": "cs050",
-        "DbAttribute": "0:2/0:4"
+        "DataAttribute": "0:2/0:4"
       },
       {
         "MatchAttribute": "cs051",
-        "DbAttribute": "0:2/1:2"
+        "DataAttribute": "0:2/1:2"
       },
       {
         "MatchAttribute": "cs052",
-        "DbAttribute": "0:2/1:3"
+        "DataAttribute": "0:2/1:3"
       },
       {
         "MatchAttribute": "cs053",
-        "DbAttribute": "0:2/1:4"
+        "DataAttribute": "0:2/1:4"
       },
       {
         "MatchAttribute": "cs054",
-        "DbAttribute": "0:2/2:2"
+        "DataAttribute": "0:2/2:2"
       },
       {
         "MatchAttribute": "cs055",
-        "DbAttribute": "0:2/2:3"
+        "DataAttribute": "0:2/2:3"
       },
       {
         "MatchAttribute": "cs056",
-        "DbAttribute": "0:2/2:4"
+        "DataAttribute": "0:2/2:4"
       },
       {
         "MatchAttribute": "cs057",
-        "DbAttribute": "0:2/3:2"
+        "DataAttribute": "0:2/3:2"
       },
       {
         "MatchAttribute": "cs058",
-        "DbAttribute": "0:2/3:3"
+        "DataAttribute": "0:2/3:3"
       },
       {
         "MatchAttribute": "cs059",
-        "DbAttribute": "0:2/3:4"
+        "DataAttribute": "0:2/3:4"
       },
       {
         "MatchAttribute": "cs060",
-        "DbAttribute": "0:2/4:2"
+        "DataAttribute": "0:2/4:2"
       },
       {
         "MatchAttribute": "cs061",
-        "DbAttribute": "0:2/4:3"
+        "DataAttribute": "0:2/4:3"
       },
       {
         "MatchAttribute": "cs062",
-        "DbAttribute": "0:2/4:4"
+        "DataAttribute": "0:2/4:4"
       },
       {
         "MatchAttribute": "cs063",
-        "DbAttribute": "0:2/AOS"
+        "DataAttribute": "0:2/AOS"
       },
       {
         "MatchAttribute": "cs064",
-        "DbAttribute": "0:3/0:3"
+        "DataAttribute": "0:3/0:3"
       },
       {
         "MatchAttribute": "cs065",
-        "DbAttribute": "0:3/0:4"
+        "DataAttribute": "0:3/0:4"
       },
       {
         "MatchAttribute": "cs066",
-        "DbAttribute": "0:3/1:3"
+        "DataAttribute": "0:3/1:3"
       },
       {
         "MatchAttribute": "cs067",
-        "DbAttribute": "0:3/1:4"
+        "DataAttribute": "0:3/1:4"
       },
       {
         "MatchAttribute": "cs068",
-        "DbAttribute": "0:3/2:3"
+        "DataAttribute": "0:3/2:3"
       },
       {
         "MatchAttribute": "cs069",
-        "DbAttribute": "0:3/2:4"
+        "DataAttribute": "0:3/2:4"
       },
       {
         "MatchAttribute": "cs070",
-        "DbAttribute": "0:3/3:3"
+        "DataAttribute": "0:3/3:3"
       },
       {
         "MatchAttribute": "cs071",
-        "DbAttribute": "0:3/3:4"
+        "DataAttribute": "0:3/3:4"
       },
       {
         "MatchAttribute": "cs072",
-        "DbAttribute": "0:3/4:3"
+        "DataAttribute": "0:3/4:3"
       },
       {
         "MatchAttribute": "cs073",
-        "DbAttribute": "0:3/4:4"
+        "DataAttribute": "0:3/4:4"
       },
       {
         "MatchAttribute": "cs074",
-        "DbAttribute": "0:3/AOS"
+        "DataAttribute": "0:3/AOS"
       },
       {
         "MatchAttribute": "cs075",
-        "DbAttribute": "1:0/1:0"
+        "DataAttribute": "1:0/1:0"
       },
       {
         "MatchAttribute": "cs076",
-        "DbAttribute": "1:1/1:1"
+        "DataAttribute": "1:1/1:1"
       },
       {
         "MatchAttribute": "cs077",
-        "DbAttribute": "1:0/1:2"
+        "DataAttribute": "1:0/1:2"
       },
       {
         "MatchAttribute": "cs078",
-        "DbAttribute": "1:0/1:3"
+        "DataAttribute": "1:0/1:3"
       },
       {
         "MatchAttribute": "cs079",
-        "DbAttribute": "1:0/1:4"
+        "DataAttribute": "1:0/1:4"
       },
       {
         "MatchAttribute": "cs080",
-        "DbAttribute": "1:0/2:0"
+        "DataAttribute": "1:0/2:0"
       },
       {
         "MatchAttribute": "cs081",
-        "DbAttribute": "1:0/2:1"
+        "DataAttribute": "1:0/2:1"
       },
       {
         "MatchAttribute": "cs082",
-        "DbAttribute": "1:0/2:2"
+        "DataAttribute": "1:0/2:2"
       },
       {
         "MatchAttribute": "cs083",
-        "DbAttribute": "1:0/2:3"
+        "DataAttribute": "1:0/2:3"
       },
       {
         "MatchAttribute": "cs084",
-        "DbAttribute": "1:0/2:4"
+        "DataAttribute": "1:0/2:4"
       },
       {
         "MatchAttribute": "cs085",
-        "DbAttribute": "1:0/3:0"
+        "DataAttribute": "1:0/3:0"
       },
       {
         "MatchAttribute": "cs086",
-        "DbAttribute": "1:0/3:1"
+        "DataAttribute": "1:0/3:1"
       },
       {
         "MatchAttribute": "cs087",
-        "DbAttribute": "1:0/3:2"
+        "DataAttribute": "1:0/3:2"
       },
       {
         "MatchAttribute": "cs088",
-        "DbAttribute": "1:0/3:3"
+        "DataAttribute": "1:0/3:3"
       },
       {
         "MatchAttribute": "cs089",
-        "DbAttribute": "1:0/3:4"
+        "DataAttribute": "1:0/3:4"
       },
       {
         "MatchAttribute": "cs090",
-        "DbAttribute": "1:0/4:0"
+        "DataAttribute": "1:0/4:0"
       },
       {
         "MatchAttribute": "cs091",
-        "DbAttribute": "1:0/4:1"
+        "DataAttribute": "1:0/4:1"
       },
       {
         "MatchAttribute": "cs092",
-        "DbAttribute": "1:0/4:2"
+        "DataAttribute": "1:0/4:2"
       },
       {
         "MatchAttribute": "cs093",
-        "DbAttribute": "1:0/4:3"
+        "DataAttribute": "1:0/4:3"
       },
       {
         "MatchAttribute": "cs094",
-        "DbAttribute": "1:0/4:4"
+        "DataAttribute": "1:0/4:4"
       },
       {
         "MatchAttribute": "cs095",
-        "DbAttribute": "1:0/AOS"
+        "DataAttribute": "1:0/AOS"
       },
       {
         "MatchAttribute": "cs096",
-        "DbAttribute": "1:1/1:1"
+        "DataAttribute": "1:1/1:1"
       },
       {
         "MatchAttribute": "cs097",
-        "DbAttribute": "1:1/1:2"
+        "DataAttribute": "1:1/1:2"
       },
       {
         "MatchAttribute": "cs098",
-        "DbAttribute": "1:1/1:3"
+        "DataAttribute": "1:1/1:3"
       },
       {
         "MatchAttribute": "cs099",
-        "DbAttribute": "1:1/1:4"
+        "DataAttribute": "1:1/1:4"
       },
       {
         "MatchAttribute": "cs100",
-        "DbAttribute": "1:1/2:1"
+        "DataAttribute": "1:1/2:1"
       },
       {
         "MatchAttribute": "cs101",
-        "DbAttribute": "1:1/2:2"
+        "DataAttribute": "1:1/2:2"
       },
       {
         "MatchAttribute": "cs102",
-        "DbAttribute": "1:1/2:3"
+        "DataAttribute": "1:1/2:3"
       },
       {
         "MatchAttribute": "cs103",
-        "DbAttribute": "1:1/2:4"
+        "DataAttribute": "1:1/2:4"
       },
       {
         "MatchAttribute": "cs104",
-        "DbAttribute": "1:1/3:1"
+        "DataAttribute": "1:1/3:1"
       },
       {
         "MatchAttribute": "cs105",
-        "DbAttribute": "1:1/3:2"
+        "DataAttribute": "1:1/3:2"
       },
       {
         "MatchAttribute": "cs106",
-        "DbAttribute": "1:1/3:3"
+        "DataAttribute": "1:1/3:3"
       },
       {
         "MatchAttribute": "cs107",
-        "DbAttribute": "1:1/3:4"
+        "DataAttribute": "1:1/3:4"
       },
       {
         "MatchAttribute": "cs108",
-        "DbAttribute": "1:1/4:1"
+        "DataAttribute": "1:1/4:1"
       },
       {
         "MatchAttribute": "cs109",
-        "DbAttribute": "1:1/4:2"
+        "DataAttribute": "1:1/4:2"
       },
       {
         "MatchAttribute": "cs110",
-        "DbAttribute": "1:1/4:3"
+        "DataAttribute": "1:1/4:3"
       },
       {
         "MatchAttribute": "cs111",
-        "DbAttribute": "1:1/4:4"
+        "DataAttribute": "1:1/4:4"
       },
       {
         "MatchAttribute": "cs112",
-        "DbAttribute": "1:1/AOS"
+        "DataAttribute": "1:1/AOS"
       },
       {
         "MatchAttribute": "cs113",
-        "DbAttribute": "1:2/1:2"
+        "DataAttribute": "1:2/1:2"
       },
       {
         "MatchAttribute": "cs114",
-        "DbAttribute": "1:2/1:3"
+        "DataAttribute": "1:2/1:3"
       },
       {
         "MatchAttribute": "cs115",
-        "DbAttribute": "1:2/1:4"
+        "DataAttribute": "1:2/1:4"
       },
       {
         "MatchAttribute": "cs116",
-        "DbAttribute": "1:2/2:2"
+        "DataAttribute": "1:2/2:2"
       },
       {
         "MatchAttribute": "cs117",
-        "DbAttribute": "1:2/2:3"
+        "DataAttribute": "1:2/2:3"
       },
       {
         "MatchAttribute": "cs118",
-        "DbAttribute": "1:2/2:4"
+        "DataAttribute": "1:2/2:4"
       },
       {
         "MatchAttribute": "cs119",
-        "DbAttribute": "1:2/3:2"
+        "DataAttribute": "1:2/3:2"
       },
       {
         "MatchAttribute": "cs120",
-        "DbAttribute": "1:2/3:3"
+        "DataAttribute": "1:2/3:3"
       },
       {
         "MatchAttribute": "cs121",
-        "DbAttribute": "1:2/3:4"
+        "DataAttribute": "1:2/3:4"
       },
       {
         "MatchAttribute": "cs122",
-        "DbAttribute": "1:2/4:2"
+        "DataAttribute": "1:2/4:2"
       },
       {
         "MatchAttribute": "cs123",
-        "DbAttribute": "1:2/4:3"
+        "DataAttribute": "1:2/4:3"
       },
       {
         "MatchAttribute": "cs124",
-        "DbAttribute": "1:2/4:4"
+        "DataAttribute": "1:2/4:4"
       },
       {
         "MatchAttribute": "cs125",
-        "DbAttribute": "1:2/AOS"
+        "DataAttribute": "1:2/AOS"
       },
       {
         "MatchAttribute": "cs126",
-        "DbAttribute": "1:3/1:3"
+        "DataAttribute": "1:3/1:3"
       },
       {
         "MatchAttribute": "cs127",
-        "DbAttribute": "1:3/1:4"
+        "DataAttribute": "1:3/1:4"
       },
       {
         "MatchAttribute": "cs128",
-        "DbAttribute": "1:3/2:3"
+        "DataAttribute": "1:3/2:3"
       },
       {
         "MatchAttribute": "cs129",
-        "DbAttribute": "1:3/2:4"
+        "DataAttribute": "1:3/2:4"
       },
       {
         "MatchAttribute": "cs130",
-        "DbAttribute": "1:3/3:3"
+        "DataAttribute": "1:3/3:3"
       },
       {
         "MatchAttribute": "cs131",
-        "DbAttribute": "1:3/3:4"
+        "DataAttribute": "1:3/3:4"
       },
       {
         "MatchAttribute": "cs132",
-        "DbAttribute": "1:3/4:3"
+        "DataAttribute": "1:3/4:3"
       },
       {
         "MatchAttribute": "cs133",
-        "DbAttribute": "1:3/4:4"
+        "DataAttribute": "1:3/4:4"
       },
       {
         "MatchAttribute": "cs134",
-        "DbAttribute": "1:3/AOS"
+        "DataAttribute": "1:3/AOS"
       },
       {
         "MatchAttribute": "cs135",
-        "DbAttribute": "2:0/2:0"
+        "DataAttribute": "2:0/2:0"
       },
       {
         "MatchAttribute": "cs136",
-        "DbAttribute": "2:0/2:1"
+        "DataAttribute": "2:0/2:1"
       },
       {
         "MatchAttribute": "cs137",
-        "DbAttribute": "2:0/2:2"
+        "DataAttribute": "2:0/2:2"
       },
       {
         "MatchAttribute": "cs138",
-        "DbAttribute": "2:0/2:3"
+        "DataAttribute": "2:0/2:3"
       },
       {
         "MatchAttribute": "cs139",
-        "DbAttribute": "2:0/2:4"
+        "DataAttribute": "2:0/2:4"
       },
       {
         "MatchAttribute": "cs140",
-        "DbAttribute": "2:0/3:0"
+        "DataAttribute": "2:0/3:0"
       },
       {
         "MatchAttribute": "cs141",
-        "DbAttribute": "2:0/3:1"
+        "DataAttribute": "2:0/3:1"
       },
       {
         "MatchAttribute": "cs142",
-        "DbAttribute": "2:0/3:2"
+        "DataAttribute": "2:0/3:2"
       },
       {
         "MatchAttribute": "cs143",
-        "DbAttribute": "2:0/3:3"
+        "DataAttribute": "2:0/3:3"
       },
       {
         "MatchAttribute": "cs144",
-        "DbAttribute": "2:0/3:4"
+        "DataAttribute": "2:0/3:4"
       },
       {
         "MatchAttribute": "cs145",
-        "DbAttribute": "2:0/4:0"
+        "DataAttribute": "2:0/4:0"
       },
       {
         "MatchAttribute": "cs146",
-        "DbAttribute": "2:0/4:1"
+        "DataAttribute": "2:0/4:1"
       },
       {
         "MatchAttribute": "cs147",
-        "DbAttribute": "2:0/4:2"
+        "DataAttribute": "2:0/4:2"
       },
       {
         "MatchAttribute": "cs148",
-        "DbAttribute": "2:0/4:3"
+        "DataAttribute": "2:0/4:3"
       },
       {
         "MatchAttribute": "cs149",
-        "DbAttribute": "2:0/4:4"
+        "DataAttribute": "2:0/4:4"
       },
       {
         "MatchAttribute": "cs150",
-        "DbAttribute": "2:0/AOS"
+        "DataAttribute": "2:0/AOS"
       },
       {
         "MatchAttribute": "cs151",
-        "DbAttribute": "2:1/2:1"
+        "DataAttribute": "2:1/2:1"
       },
       {
         "MatchAttribute": "cs152",
-        "DbAttribute": "2:1/2:2"
+        "DataAttribute": "2:1/2:2"
       },
       {
         "MatchAttribute": "cs153",
-        "DbAttribute": "2:1/2:3"
+        "DataAttribute": "2:1/2:3"
       },
       {
         "MatchAttribute": "cs154",
-        "DbAttribute": "2:1/2:4"
+        "DataAttribute": "2:1/2:4"
       },
       {
         "MatchAttribute": "cs155",
-        "DbAttribute": "2:1/3:1"
+        "DataAttribute": "2:1/3:1"
       },
       {
         "MatchAttribute": "cs156",
-        "DbAttribute": "2:1/3:2"
+        "DataAttribute": "2:1/3:2"
       },
       {
         "MatchAttribute": "cs157",
-        "DbAttribute": "2:1/3:3"
+        "DataAttribute": "2:1/3:3"
       },
       {
         "MatchAttribute": "cs158",
-        "DbAttribute": "2:1/3:4"
+        "DataAttribute": "2:1/3:4"
       },
       {
         "MatchAttribute": "cs159",
-        "DbAttribute": "2:1/4:1"
+        "DataAttribute": "2:1/4:1"
       },
       {
         "MatchAttribute": "cs160",
-        "DbAttribute": "2:1/4:2"
+        "DataAttribute": "2:1/4:2"
       },
       {
         "MatchAttribute": "cs161",
-        "DbAttribute": "2:1/4:3"
+        "DataAttribute": "2:1/4:3"
       },
       {
         "MatchAttribute": "cs162",
-        "DbAttribute": "2:1/4:4"
+        "DataAttribute": "2:1/4:4"
       },
       {
         "MatchAttribute": "cs163",
-        "DbAttribute": "2:1/AOS"
+        "DataAttribute": "2:1/AOS"
       },
       {
         "MatchAttribute": "cs164",
-        "DbAttribute": "2:2/2:2"
+        "DataAttribute": "2:2/2:2"
       },
       {
         "MatchAttribute": "cs165",
-        "DbAttribute": "2:2/2:3"
+        "DataAttribute": "2:2/2:3"
       },
       {
         "MatchAttribute": "cs166",
-        "DbAttribute": "2:2/2:4"
+        "DataAttribute": "2:2/2:4"
       },
       {
         "MatchAttribute": "cs167",
-        "DbAttribute": "2:2/3:2"
+        "DataAttribute": "2:2/3:2"
       },
       {
         "MatchAttribute": "cs168",
-        "DbAttribute": "2:2/3:3"
+        "DataAttribute": "2:2/3:3"
       },
       {
         "MatchAttribute": "cs169",
-        "DbAttribute": "2:2/3:4"
+        "DataAttribute": "2:2/3:4"
       },
       {
         "MatchAttribute": "cs170",
-        "DbAttribute": "2:2/4:2"
+        "DataAttribute": "2:2/4:2"
       },
       {
         "MatchAttribute": "cs171",
-        "DbAttribute": "2:2/4:3"
+        "DataAttribute": "2:2/4:3"
       },
       {
         "MatchAttribute": "cs172",
-        "DbAttribute": "2:2/4:4"
+        "DataAttribute": "2:2/4:4"
       },
       {
         "MatchAttribute": "cs173",
-        "DbAttribute": "2:2/AOS"
+        "DataAttribute": "2:2/AOS"
       },
       {
         "MatchAttribute": "cs174",
-        "DbAttribute": "2:3/2:3"
+        "DataAttribute": "2:3/2:3"
       },
       {
         "MatchAttribute": "cs175",
-        "DbAttribute": "2:3/2:4"
+        "DataAttribute": "2:3/2:4"
       },
       {
         "MatchAttribute": "cs176",
-        "DbAttribute": "2:3/3:3"
+        "DataAttribute": "2:3/3:3"
       },
       {
         "MatchAttribute": "cs177",
-        "DbAttribute": "2:3/3:4"
+        "DataAttribute": "2:3/3:4"
       },
       {
         "MatchAttribute": "cs178",
-        "DbAttribute": "2:3/4:3"
+        "DataAttribute": "2:3/4:3"
       },
       {
         "MatchAttribute": "cs179",
-        "DbAttribute": "2:3/4:4"
+        "DataAttribute": "2:3/4:4"
       },
       {
         "MatchAttribute": "cs180",
-        "DbAttribute": "2:3/AOS"
+        "DataAttribute": "2:3/AOS"
       },
       {
         "MatchAttribute": "cs181",
-        "DbAttribute": "3:0/3:0"
+        "DataAttribute": "3:0/3:0"
       },
       {
         "MatchAttribute": "cs182",
-        "DbAttribute": "3:0/3:1"
+        "DataAttribute": "3:0/3:1"
       },
       {
         "MatchAttribute": "cs183",
-        "DbAttribute": "3:0/3:2"
+        "DataAttribute": "3:0/3:2"
       },
       {
         "MatchAttribute": "cs184",
-        "DbAttribute": "3:0/3:3"
+        "DataAttribute": "3:0/3:3"
       },
       {
         "MatchAttribute": "cs185",
-        "DbAttribute": "3:0/3:4"
+        "DataAttribute": "3:0/3:4"
       },
       {
         "MatchAttribute": "cs186",
-        "DbAttribute": "3:0/4:0"
+        "DataAttribute": "3:0/4:0"
       },
       {
         "MatchAttribute": "cs187",
-        "DbAttribute": "3:0/4:1"
+        "DataAttribute": "3:0/4:1"
       },
       {
         "MatchAttribute": "cs188",
-        "DbAttribute": "3:0/4:2"
+        "DataAttribute": "3:0/4:2"
       },
       {
         "MatchAttribute": "cs189",
-        "DbAttribute": "3:0/4:3"
+        "DataAttribute": "3:0/4:3"
       },
       {
         "MatchAttribute": "cs190",
-        "DbAttribute": "3:0/4:4"
+        "DataAttribute": "3:0/4:4"
       },
       {
         "MatchAttribute": "cs191",
-        "DbAttribute": "3:0/AOS"
+        "DataAttribute": "3:0/AOS"
       },
       {
         "MatchAttribute": "cs192",
-        "DbAttribute": "3:1/3:1"
+        "DataAttribute": "3:1/3:1"
       },
       {
         "MatchAttribute": "cs193",
-        "DbAttribute": "3:1/3:2"
+        "DataAttribute": "3:1/3:2"
       },
       {
         "MatchAttribute": "cs194",
-        "DbAttribute": "3:1/3:3"
+        "DataAttribute": "3:1/3:3"
       },
       {
         "MatchAttribute": "cs195",
-        "DbAttribute": "3:1/3:4"
+        "DataAttribute": "3:1/3:4"
       },
       {
         "MatchAttribute": "cs196",
-        "DbAttribute": "3:1/4:1"
+        "DataAttribute": "3:1/4:1"
       },
       {
         "MatchAttribute": "cs197",
-        "DbAttribute": "3:1/4:2"
+        "DataAttribute": "3:1/4:2"
       },
       {
         "MatchAttribute": "cs198",
-        "DbAttribute": "3:1/4:3"
+        "DataAttribute": "3:1/4:3"
       },
       {
         "MatchAttribute": "cs199",
-        "DbAttribute": "3:1/4:4"
+        "DataAttribute": "3:1/4:4"
       },
       {
         "MatchAttribute": "cs200",
-        "DbAttribute": "3:1/AOS"
+        "DataAttribute": "3:1/AOS"
       },
       {
         "MatchAttribute": "cs201",
-        "DbAttribute": "3:2/3:2"
+        "DataAttribute": "3:2/3:2"
       },
       {
         "MatchAttribute": "cs202",
-        "DbAttribute": "3:2/3:3"
+        "DataAttribute": "3:2/3:3"
       },
       {
         "MatchAttribute": "cs203",
-        "DbAttribute": "3:2/3:4"
+        "DataAttribute": "3:2/3:4"
       },
       {
         "MatchAttribute": "cs204",
-        "DbAttribute": "3:2/4:2"
+        "DataAttribute": "3:2/4:2"
       },
       {
         "MatchAttribute": "cs205",
-        "DbAttribute": "3:2/4:3"
+        "DataAttribute": "3:2/4:3"
       },
       {
         "MatchAttribute": "cs206",
-        "DbAttribute": "3:2/4:4"
+        "DataAttribute": "3:2/4:4"
       },
       {
         "MatchAttribute": "cs207",
-        "DbAttribute": "3:2/AOS"
+        "DataAttribute": "3:2/AOS"
       },
       {
         "MatchAttribute": "cs208",
-        "DbAttribute": "3:3/3:3"
+        "DataAttribute": "3:3/3:3"
       },
       {
         "MatchAttribute": "cs209",
-        "DbAttribute": "3:3/3:4"
+        "DataAttribute": "3:3/3:4"
       },
       {
         "MatchAttribute": "cs210",
-        "DbAttribute": "3:3/4:3"
+        "DataAttribute": "3:3/4:3"
       },
       {
         "MatchAttribute": "cs211",
-        "DbAttribute": "3:3/4:4"
+        "DataAttribute": "3:3/4:4"
       },
       {
         "MatchAttribute": "cs212",
-        "DbAttribute": "3:3/AOS"
+        "DataAttribute": "3:3/AOS"
       },
       {
         "MatchAttribute": "cs213",
-        "DbAttribute": "AOS/3:4"
+        "DataAttribute": "AOS/3:4"
       },
       {
         "MatchAttribute": "cs214",
-        "DbAttribute": "AOS/4:3"
+        "DataAttribute": "AOS/4:3"
       },
       {
         "MatchAttribute": "cs215",
-        "DbAttribute": "AOS/4:4"
+        "DataAttribute": "AOS/4:4"
       },
       {
         "MatchAttribute": "cs216",
-        "DbAttribute": "AOS/AOS"
+        "DataAttribute": "AOS/AOS"
       }
     ]
   },
@@ -3263,27 +3263,27 @@
     "BetChoices": [
       {
         "MatchAttribute": "yh",
-        "DbAttribute": "cs11"
+        "DataAttribute": "cs11"
       },
       {
         "MatchAttribute": "ya",
-        "DbAttribute": "cs12"
+        "DataAttribute": "cs12"
       },
       {
         "MatchAttribute": "yd",
-        "DbAttribute": "cs10"
+        "DataAttribute": "cs10"
       },
       {
         "MatchAttribute": "nh",
-        "DbAttribute": "cs01"
+        "DataAttribute": "cs01"
       },
       {
         "MatchAttribute": "na",
-        "DbAttribute": "cs02"
+        "DataAttribute": "cs02"
       },
       {
         "MatchAttribute": "nd",
-        "DbAttribute": "cs30"
+        "DataAttribute": "cs30"
       }
     ]
   },
@@ -3293,19 +3293,19 @@
     "BetChoices": [
       {
         "MatchAttribute": "yo",
-        "DbAttribute": "cs01"
+        "DataAttribute": "cs01"
       },
       {
         "MatchAttribute": "yu",
-        "DbAttribute": "cs02"
+        "DataAttribute": "cs02"
       },
       {
         "MatchAttribute": "no",
-        "DbAttribute": "cs30"
+        "DataAttribute": "cs30"
       },
       {
         "MatchAttribute": "nu",
-        "DbAttribute": "cs03"
+        "DataAttribute": "cs03"
       }
     ]
   },
@@ -3315,15 +3315,15 @@
     "BetChoices": [
       {
         "MatchAttribute": "h1",
-        "DbAttribute": "cs10"
+        "DataAttribute": "cs10"
       },
       {
         "MatchAttribute": "h2",
-        "DbAttribute": "cs20"
+        "DataAttribute": "cs20"
       },
       {
         "MatchAttribute": "n",
-        "DbAttribute": "cs11"
+        "DataAttribute": "cs11"
       }
     ]
   },
@@ -3333,15 +3333,15 @@
     "BetChoices": [
       {
         "MatchAttribute": "h1",
-        "DbAttribute": "cs10"
+        "DataAttribute": "cs10"
       },
       {
         "MatchAttribute": "h2",
-        "DbAttribute": "cs20"
+        "DataAttribute": "cs20"
       },
       {
         "MatchAttribute": "n",
-        "DbAttribute": "cs11"
+        "DataAttribute": "cs11"
       }
     ]
   },
@@ -3351,15 +3351,15 @@
     "BetChoices": [
       {
         "MatchAttribute": "h1",
-        "DbAttribute": "cs10"
+        "DataAttribute": "cs10"
       },
       {
         "MatchAttribute": "h2",
-        "DbAttribute": "cs20"
+        "DataAttribute": "cs20"
       },
       {
         "MatchAttribute": "n",
-        "DbAttribute": "cs11"
+        "DataAttribute": "cs11"
       }
     ]
   },
@@ -3369,15 +3369,15 @@
     "BetChoices": [
       {
         "MatchAttribute": "h",
-        "DbAttribute": "cs00"
+        "DataAttribute": "cs00"
       },
       {
         "MatchAttribute": "a",
-        "DbAttribute": "cs01"
+        "DataAttribute": "cs01"
       },
       {
         "MatchAttribute": "n",
-        "DbAttribute": "cs11"
+        "DataAttribute": "cs11"
       }
     ]
   },
@@ -3387,15 +3387,15 @@
     "BetChoices": [
       {
         "MatchAttribute": "h",
-        "DbAttribute": "cs00"
+        "DataAttribute": "cs00"
       },
       {
         "MatchAttribute": "a",
-        "DbAttribute": "cs01"
+        "DataAttribute": "cs01"
       },
       {
         "MatchAttribute": "n",
-        "DbAttribute": "cs11"
+        "DataAttribute": "cs11"
       }
     ]
   },
@@ -3405,27 +3405,27 @@
     "BetChoices": [
       {
         "MatchAttribute": "s",
-        "DbAttribute": "cs10"
+        "DataAttribute": "cs10"
       },
       {
         "MatchAttribute": "h",
-        "DbAttribute": "cs00"
+        "DataAttribute": "cs00"
       },
       {
         "MatchAttribute": "p",
-        "DbAttribute": "cs22"
+        "DataAttribute": "cs22"
       },
       {
         "MatchAttribute": "fk",
-        "DbAttribute": "cs12"
+        "DataAttribute": "cs12"
       },
       {
         "MatchAttribute": "og",
-        "DbAttribute": "cs02"
+        "DataAttribute": "cs02"
       },
       {
         "MatchAttribute": "ng",
-        "DbAttribute": "cs21"
+        "DataAttribute": "cs21"
       }
     ]
   },
@@ -3435,11 +3435,11 @@
     "BetChoices": [
       {
         "MatchAttribute": "h",
-        "DbAttribute": "odds1a"
+        "DataAttribute": "odds1a"
       },
       {
         "MatchAttribute": "a",
-        "DbAttribute": "odds2a"
+        "DataAttribute": "odds2a"
       }
     ]
   },
@@ -3449,27 +3449,27 @@
     "BetChoices": [
       {
         "MatchAttribute": "h1",
-        "DbAttribute": "cs00"
+        "DataAttribute": "cs00"
       },
       {
         "MatchAttribute": "h2",
-        "DbAttribute": "cs01"
+        "DataAttribute": "cs01"
       },
       {
         "MatchAttribute": "d",
-        "DbAttribute": "cs11"
+        "DataAttribute": "cs11"
       },
       {
         "MatchAttribute": "a1",
-        "DbAttribute": "cs02"
+        "DataAttribute": "cs02"
       },
       {
         "MatchAttribute": "a2",
-        "DbAttribute": "cs12"
+        "DataAttribute": "cs12"
       },
       {
         "MatchAttribute": "ng",
-        "DbAttribute": "cs21"
+        "DataAttribute": "cs21"
       }
 
     ]
@@ -3480,19 +3480,19 @@
     "BetChoices": [
       {
         "MatchAttribute": "o0",
-        "DbAttribute": "cs22"
+        "DataAttribute": "cs22"
       },
       {
         "MatchAttribute": "o1",
-        "DbAttribute": "cs00"
+        "DataAttribute": "cs00"
       },
       {
         "MatchAttribute": "o2",
-        "DbAttribute": "cs10"
+        "DataAttribute": "cs10"
       },
       {
         "MatchAttribute": "o3",
-        "DbAttribute": "cs11"
+        "DataAttribute": "cs11"
       }
     ]
   },
@@ -3502,19 +3502,19 @@
     "BetChoices": [
       {
         "MatchAttribute": "yy",
-        "DbAttribute": "cs11"
+        "DataAttribute": "cs11"
       },
       {
         "MatchAttribute": "yn",
-        "DbAttribute": "cs12"
+        "DataAttribute": "cs12"
       },
       {
         "MatchAttribute": "ny",
-        "DbAttribute": "cs21"
+        "DataAttribute": "cs21"
       },
       {
         "MatchAttribute": "nn",
-        "DbAttribute": "cs22"
+        "DataAttribute": "cs22"
       }
     ]
   },
@@ -3524,19 +3524,19 @@
     "BetChoices": [
       {
         "MatchAttribute": "yy",
-        "DbAttribute": "cs11"
+        "DataAttribute": "cs11"
       },
       {
         "MatchAttribute": "yn",
-        "DbAttribute": "cs12"
+        "DataAttribute": "cs12"
       },
       {
         "MatchAttribute": "ny",
-        "DbAttribute": "cs21"
+        "DataAttribute": "cs21"
       },
       {
         "MatchAttribute": "nn",
-        "DbAttribute": "cs22"
+        "DataAttribute": "cs22"
       }
     ]
   },
@@ -3546,19 +3546,19 @@
     "BetChoices": [
       {
         "MatchAttribute": "yy",
-        "DbAttribute": "cs11"
+        "DataAttribute": "cs11"
       },
       {
         "MatchAttribute": "yn",
-        "DbAttribute": "cs12"
+        "DataAttribute": "cs12"
       },
       {
         "MatchAttribute": "ny",
-        "DbAttribute": "cs21"
+        "DataAttribute": "cs21"
       },
       {
         "MatchAttribute": "nn",
-        "DbAttribute": "cs22"
+        "DataAttribute": "cs22"
       }
     ]
   },
@@ -3568,27 +3568,27 @@
     "BetChoices": [
       {
         "MatchAttribute": "g",
-        "DbAttribute": "cs01"
+        "DataAttribute": "cs01"
       },
       {
         "MatchAttribute": "c",
-        "DbAttribute": "cs02"
+        "DataAttribute": "cs02"
       },
       {
         "MatchAttribute": "fk",
-        "DbAttribute": "cs03"
+        "DataAttribute": "cs03"
       },
       {
         "MatchAttribute": "gk",
-        "DbAttribute": "cs04"
+        "DataAttribute": "cs04"
       },
       {
         "MatchAttribute": "ti",
-        "DbAttribute": "cs05"
+        "DataAttribute": "cs05"
       },
       {
         "MatchAttribute": "intervals",
-        "DbAttribute": "hdp1",
+        "DataAttribute": "hdp1",
         "NotConvert": true
       }
     ]
@@ -3599,31 +3599,31 @@
     "BetChoices": [
       {
         "MatchAttribute": "gy",
-        "DbAttribute": "cs01"
+        "DataAttribute": "cs01"
       },
       {
         "MatchAttribute": "gn",
-        "DbAttribute": "cs10"
+        "DataAttribute": "cs10"
       },
       {
         "MatchAttribute": "cy",
-        "DbAttribute": "cs02"
+        "DataAttribute": "cs02"
       },
       {
         "MatchAttribute": "cn",
-        "DbAttribute": "cs20"
+        "DataAttribute": "cs20"
       },
       {
         "MatchAttribute": "py",
-        "DbAttribute": "cs13"
+        "DataAttribute": "cs13"
       },
       {
         "MatchAttribute": "pn",
-        "DbAttribute": "cs31"
+        "DataAttribute": "cs31"
       },
       {
         "MatchAttribute": "intervals",
-        "DbAttribute": "hdp1",
+        "DataAttribute": "hdp1",
         "NotConvert": true
       }
     ]
@@ -3634,31 +3634,31 @@
     "BetChoices": [
       {
         "MatchAttribute": "n",
-        "DbAttribute": "cs00"
+        "DataAttribute": "cs00"
       },
       {
         "MatchAttribute": "g",
-        "DbAttribute": "cs01"
+        "DataAttribute": "cs01"
       },
       {
         "MatchAttribute": "c",
-        "DbAttribute": "cs02"
+        "DataAttribute": "cs02"
       },
       {
         "MatchAttribute": "fk",
-        "DbAttribute": "cs03"
+        "DataAttribute": "cs03"
       },
       {
         "MatchAttribute": "gk",
-        "DbAttribute": "cs04"
+        "DataAttribute": "cs04"
       },
       {
         "MatchAttribute": "ti",
-        "DbAttribute": "cs05"
+        "DataAttribute": "cs05"
       },
       {
         "MatchAttribute": "intervals",
-        "DbAttribute": "hdp1",
+        "DataAttribute": "hdp1",
         "NotConvert": true
       }
     ]
@@ -3669,27 +3669,27 @@
     "BetChoices": [
       {
         "MatchAttribute": "n",
-        "DbAttribute": "cs00"
+        "DataAttribute": "cs00"
       },
       {
         "MatchAttribute": "g",
-        "DbAttribute": "cs01"
+        "DataAttribute": "cs01"
       },
       {
         "MatchAttribute": "c",
-        "DbAttribute": "cs02"
+        "DataAttribute": "cs02"
       },
       {
         "MatchAttribute": "b",
-        "DbAttribute": "cs12"
+        "DataAttribute": "cs12"
       },
       {
         "MatchAttribute": "p",
-        "DbAttribute": "cs13"
+        "DataAttribute": "cs13"
       },
       {
         "MatchAttribute": "intervals",
-        "DbAttribute": "hdp1",
+        "DataAttribute": "hdp1",
         "NotConvert": true
       }
     ]
@@ -3700,15 +3700,15 @@
     "BetChoices": [
       {
         "MatchAttribute": "o",
-        "DbAttribute": "odds1a"
+        "DataAttribute": "odds1a"
       },
       {
         "MatchAttribute": "u",
-        "DbAttribute": "odds2a"
+        "DataAttribute": "odds2a"
       },
       {
         "MatchAttribute": "h",
-        "DbAttribute": "hdp1",
+        "DataAttribute": "hdp1",
         "NotConvert": true
       }
     ]
@@ -3719,15 +3719,15 @@
     "BetChoices": [
       {
         "MatchAttribute": "o",
-        "DbAttribute": "odds1a"
+        "DataAttribute": "odds1a"
       },
       {
         "MatchAttribute": "u",
-        "DbAttribute": "odds2a"
+        "DataAttribute": "odds2a"
       },
       {
         "MatchAttribute": "h",
-        "DbAttribute": "hdp1",
+        "DataAttribute": "hdp1",
         "NotConvert": true
       }
     ]
@@ -3738,15 +3738,15 @@
     "BetChoices": [
       {
         "MatchAttribute": "o",
-        "DbAttribute": "odds1a"
+        "DataAttribute": "odds1a"
       },
       {
         "MatchAttribute": "u",
-        "DbAttribute": "odds2a"
+        "DataAttribute": "odds2a"
       },
       {
         "MatchAttribute": "h",
-        "DbAttribute": "hdp1",
+        "DataAttribute": "hdp1",
         "NotConvert": true
       }
     ]
@@ -3757,15 +3757,15 @@
     "BetChoices": [
       {
         "MatchAttribute": "o",
-        "DbAttribute": "odds1a"
+        "DataAttribute": "odds1a"
       },
       {
         "MatchAttribute": "u",
-        "DbAttribute": "odds2a"
+        "DataAttribute": "odds2a"
       },
       {
         "MatchAttribute": "h",
-        "DbAttribute": "hdp1",
+        "DataAttribute": "hdp1",
         "NotConvert": true
       }
     ]
@@ -3776,71 +3776,71 @@
     "BetChoices": [
       {
         "MatchAttribute": "cs10",
-        "DbAttribute": "cs10"
+        "DataAttribute": "cs10"
       },
       {
         "MatchAttribute": "cs20",
-        "DbAttribute": "cs20"
+        "DataAttribute": "cs20"
       },
       {
         "MatchAttribute": "cs21",
-        "DbAttribute": "cs21"
+        "DataAttribute": "cs21"
       },
       {
         "MatchAttribute": "cs30",
-        "DbAttribute": "cs30"
+        "DataAttribute": "cs30"
       },
       {
         "MatchAttribute": "cs31",
-        "DbAttribute": "cs31"
+        "DataAttribute": "cs31"
       },
       {
         "MatchAttribute": "cs32",
-        "DbAttribute": "cs32"
+        "DataAttribute": "cs32"
       },
       {
         "MatchAttribute": "cs01",
-        "DbAttribute": "cs01"
+        "DataAttribute": "cs01"
       },
       {
         "MatchAttribute": "cs02",
-        "DbAttribute": "cs02"
+        "DataAttribute": "cs02"
       },
       {
         "MatchAttribute": "cs12",
-        "DbAttribute": "cs12"
+        "DataAttribute": "cs12"
       },
       {
         "MatchAttribute": "cs03",
-        "DbAttribute": "cs03"
+        "DataAttribute": "cs03"
       },
       {
         "MatchAttribute": "cs13",
-        "DbAttribute": "cs13"
+        "DataAttribute": "cs13"
       },
       {
         "MatchAttribute": "cs23",
-        "DbAttribute": "cs23"
+        "DataAttribute": "cs23"
       },
       {
         "MatchAttribute": "cs00",
-        "DbAttribute": "cs00"
+        "DataAttribute": "cs00"
       },
       {
         "MatchAttribute": "cs11",
-        "DbAttribute": "cs11"
+        "DataAttribute": "cs11"
       },
       {
         "MatchAttribute": "cs22",
-        "DbAttribute": "cs22"
+        "DataAttribute": "cs22"
       },
       {
         "MatchAttribute": "cs33",
-        "DbAttribute": "cs33"
+        "DataAttribute": "cs33"
       },
       {
         "MatchAttribute": "csaos",
-        "DbAttribute": "cs99"
+        "DataAttribute": "cs99"
       }
     ]
   },
@@ -3850,31 +3850,31 @@
     "BetChoices": [
       {
         "MatchAttribute": "o01",
-        "DbAttribute": "cs01"
+        "DataAttribute": "cs01"
       },
       {
         "MatchAttribute": "o02",
-        "DbAttribute": "cs02"
+        "DataAttribute": "cs02"
       },
       {
         "MatchAttribute": "o03",
-        "DbAttribute": "cs03"
+        "DataAttribute": "cs03"
       },
       {
         "MatchAttribute": "o04",
-        "DbAttribute": "cs04"
+        "DataAttribute": "cs04"
       },
       {
         "MatchAttribute": "o05",
-        "DbAttribute": "cs10"
+        "DataAttribute": "cs10"
       },
       {
         "MatchAttribute": "o06",
-        "DbAttribute": "cs20"
+        "DataAttribute": "cs20"
       },
       {
         "MatchAttribute": "o07",
-        "DbAttribute": "cs30"
+        "DataAttribute": "cs30"
       }
     ]
   },
@@ -3884,19 +3884,19 @@
     "BetChoices": [
       {
         "MatchAttribute": "o1",
-        "DbAttribute": "cs00"
+        "DataAttribute": "cs00"
       },
       {
         "MatchAttribute": "o2",
-        "DbAttribute": "cs01"
+        "DataAttribute": "cs01"
       },
       {
         "MatchAttribute": "o3",
-        "DbAttribute": "cs02"
+        "DataAttribute": "cs02"
       },
       {
         "MatchAttribute": "o4",
-        "DbAttribute": "cs03"
+        "DataAttribute": "cs03"
       }
     ]
   },
@@ -3906,35 +3906,35 @@
     "BetChoices": [
       {
         "MatchAttribute": "h1",
-        "DbAttribute": "cs01"
+        "DataAttribute": "cs01"
       },
       {
         "MatchAttribute": "h2",
-        "DbAttribute": "cs02"
+        "DataAttribute": "cs02"
       },
       {
         "MatchAttribute": "h3",
-        "DbAttribute": "cs03"
+        "DataAttribute": "cs03"
       },
       {
         "MatchAttribute": "d",
-        "DbAttribute": "cs04"
+        "DataAttribute": "cs04"
       },
       {
         "MatchAttribute": "a1",
-        "DbAttribute": "cs10"
+        "DataAttribute": "cs10"
       },
       {
         "MatchAttribute": "a2",
-        "DbAttribute": "cs20"
+        "DataAttribute": "cs20"
       },
       {
         "MatchAttribute": "a3",
-        "DbAttribute": "cs30"
+        "DataAttribute": "cs30"
       },
       {
         "MatchAttribute": "ng",
-        "DbAttribute": "cs00"
+        "DataAttribute": "cs00"
       }
     ]
   },
@@ -3944,19 +3944,19 @@
     "BetChoices": [
       {
         "MatchAttribute": "o1",
-        "DbAttribute": "cs00"
+        "DataAttribute": "cs00"
       },
       {
         "MatchAttribute": "o2",
-        "DbAttribute": "cs01"
+        "DataAttribute": "cs01"
       },
       {
         "MatchAttribute": "o3",
-        "DbAttribute": "cs02"
+        "DataAttribute": "cs02"
       },
       {
         "MatchAttribute": "o4",
-        "DbAttribute": "cs03"
+        "DataAttribute": "cs03"
       }
     ]
   },
@@ -3966,15 +3966,15 @@
     "BetChoices": [
       {
         "MatchAttribute": "hd",
-        "DbAttribute": "cs10"
+        "DataAttribute": "cs10"
       },
       {
         "MatchAttribute": "ha",
-        "DbAttribute": "cs00"
+        "DataAttribute": "cs00"
       },
       {
         "MatchAttribute": "ad",
-        "DbAttribute": "cs20"
+        "DataAttribute": "cs20"
       }
     ]
   },
@@ -3984,11 +3984,11 @@
     "BetChoices": [
       {
         "MatchAttribute": "h",
-        "DbAttribute": "odds1a"
+        "DataAttribute": "odds1a"
       },
       {
         "MatchAttribute": "a",
-        "DbAttribute": "odds2a"
+        "DataAttribute": "odds2a"
       }
     ]
   },
@@ -3998,19 +3998,19 @@
     "BetChoices": [
       {
         "MatchAttribute": "o0",
-        "DbAttribute": "cs00"
+        "DataAttribute": "cs00"
       },
       {
         "MatchAttribute": "o1",
-        "DbAttribute": "cs01"
+        "DataAttribute": "cs01"
       },
       {
         "MatchAttribute": "o2",
-        "DbAttribute": "cs10"
+        "DataAttribute": "cs10"
       },
       {
         "MatchAttribute": "o3",
-        "DbAttribute": "cs11"
+        "DataAttribute": "cs11"
       }
     ]
   },
@@ -4020,107 +4020,107 @@
     "BetChoices": [
       {
         "MatchAttribute": "cs10",
-        "DbAttribute": "cs10"
+        "DataAttribute": "cs10"
       },
       {
         "MatchAttribute": "cs20",
-        "DbAttribute": "cs20"
+        "DataAttribute": "cs20"
       },
       {
         "MatchAttribute": "cs21",
-        "DbAttribute": "cs21"
+        "DataAttribute": "cs21"
       },
       {
         "MatchAttribute": "cs30",
-        "DbAttribute": "cs30"
+        "DataAttribute": "cs30"
       },
       {
         "MatchAttribute": "cs31",
-        "DbAttribute": "cs31"
+        "DataAttribute": "cs31"
       },
       {
         "MatchAttribute": "cs32",
-        "DbAttribute": "cs32"
+        "DataAttribute": "cs32"
       },
       {
         "MatchAttribute": "cs40",
-        "DbAttribute": "cs40"
+        "DataAttribute": "cs40"
       },
       {
         "MatchAttribute": "cs41",
-        "DbAttribute": "cs41"
+        "DataAttribute": "cs41"
       },
       {
         "MatchAttribute": "cs42",
-        "DbAttribute": "cs42"
+        "DataAttribute": "cs42"
       },
       {
         "MatchAttribute": "cs43",
-        "DbAttribute": "cs43"
+        "DataAttribute": "cs43"
       },
       {
         "MatchAttribute": "cs01",
-        "DbAttribute": "cs01"
+        "DataAttribute": "cs01"
       },
       {
         "MatchAttribute": "cs02",
-        "DbAttribute": "cs02"
+        "DataAttribute": "cs02"
       },
       {
         "MatchAttribute": "cs12",
-        "DbAttribute": "cs12"
+        "DataAttribute": "cs12"
       },
       {
         "MatchAttribute": "cs03",
-        "DbAttribute": "cs03"
+        "DataAttribute": "cs03"
       },
       {
         "MatchAttribute": "cs13",
-        "DbAttribute": "cs13"
+        "DataAttribute": "cs13"
       },
       {
         "MatchAttribute": "cs23",
-        "DbAttribute": "cs23"
+        "DataAttribute": "cs23"
       },
       {
         "MatchAttribute": "cs04",
-        "DbAttribute": "cs04"
+        "DataAttribute": "cs04"
       },
       {
         "MatchAttribute": "cs14",
-        "DbAttribute": "cs14"
+        "DataAttribute": "cs14"
       },
       {
         "MatchAttribute": "cs24",
-        "DbAttribute": "cs24"
+        "DataAttribute": "cs24"
       },
       {
         "MatchAttribute": "cs34",
-        "DbAttribute": "cs34"
+        "DataAttribute": "cs34"
       },
       {
         "MatchAttribute": "cs00",
-        "DbAttribute": "cs00"
+        "DataAttribute": "cs00"
       },
       {
         "MatchAttribute": "cs11",
-        "DbAttribute": "cs11"
+        "DataAttribute": "cs11"
       },
       {
         "MatchAttribute": "cs22",
-        "DbAttribute": "cs22"
+        "DataAttribute": "cs22"
       },
       {
         "MatchAttribute": "cs33",
-        "DbAttribute": "cs33"
+        "DataAttribute": "cs33"
       },
       {
         "MatchAttribute": "cs44",
-        "DbAttribute": "cs44"
+        "DataAttribute": "cs44"
       },
       {
         "MatchAttribute": "csaos",
-        "DbAttribute": "cs99"
+        "DataAttribute": "cs99"
       }
     ]
   },
@@ -4130,71 +4130,71 @@
     "BetChoices": [
       {
         "MatchAttribute": "cs10",
-        "DbAttribute": "cs10"
+        "DataAttribute": "cs10"
       },
       {
         "MatchAttribute": "cs20",
-        "DbAttribute": "cs20"
+        "DataAttribute": "cs20"
       },
       {
         "MatchAttribute": "cs21",
-        "DbAttribute": "cs21"
+        "DataAttribute": "cs21"
       },
       {
         "MatchAttribute": "cs30",
-        "DbAttribute": "cs30"
+        "DataAttribute": "cs30"
       },
       {
         "MatchAttribute": "cs31",
-        "DbAttribute": "cs31"
+        "DataAttribute": "cs31"
       },
       {
         "MatchAttribute": "cs32",
-        "DbAttribute": "cs32"
+        "DataAttribute": "cs32"
       },
       {
         "MatchAttribute": "cs01",
-        "DbAttribute": "cs01"
+        "DataAttribute": "cs01"
       },
       {
         "MatchAttribute": "cs02",
-        "DbAttribute": "cs02"
+        "DataAttribute": "cs02"
       },
       {
         "MatchAttribute": "cs12",
-        "DbAttribute": "cs12"
+        "DataAttribute": "cs12"
       },
       {
         "MatchAttribute": "cs03",
-        "DbAttribute": "cs03"
+        "DataAttribute": "cs03"
       },
       {
         "MatchAttribute": "cs13",
-        "DbAttribute": "cs13"
+        "DataAttribute": "cs13"
       },
       {
         "MatchAttribute": "cs23",
-        "DbAttribute": "cs23"
+        "DataAttribute": "cs23"
       },
       {
         "MatchAttribute": "cs00",
-        "DbAttribute": "cs00"
+        "DataAttribute": "cs00"
       },
       {
         "MatchAttribute": "cs11",
-        "DbAttribute": "cs11"
+        "DataAttribute": "cs11"
       },
       {
         "MatchAttribute": "cs22",
-        "DbAttribute": "cs22"
+        "DataAttribute": "cs22"
       },
       {
         "MatchAttribute": "cs33",
-        "DbAttribute": "cs33"
+        "DataAttribute": "cs33"
       },
       {
         "MatchAttribute": "csaos",
-        "DbAttribute": "cs99"
+        "DataAttribute": "cs99"
       }
     ]
   },
@@ -4204,31 +4204,31 @@
     "BetChoices": [
       {
         "MatchAttribute": "hh",
-        "DbAttribute": "cs01"
+        "DataAttribute": "cs01"
       },
       {
         "MatchAttribute": "dh",
-        "DbAttribute": "cs02"
+        "DataAttribute": "cs02"
       },
       {
         "MatchAttribute": "ah",
-        "DbAttribute": "cs03"
+        "DataAttribute": "cs03"
       },
       {
         "MatchAttribute": "ha",
-        "DbAttribute": "cs04"
+        "DataAttribute": "cs04"
       },
       {
         "MatchAttribute": "da",
-        "DbAttribute": "cs10"
+        "DataAttribute": "cs10"
       },
       {
         "MatchAttribute": "aa",
-        "DbAttribute": "cs20"
+        "DataAttribute": "cs20"
       },
       {
         "MatchAttribute": "n",
-        "DbAttribute": "cs30"
+        "DataAttribute": "cs30"
       }
     ]
   },
@@ -4238,11 +4238,11 @@
     "BetChoices": [
       {
         "MatchAttribute": "y",
-        "DbAttribute": "odds1a"
+        "DataAttribute": "odds1a"
       },
       {
         "MatchAttribute": "n",
-        "DbAttribute": "odds2a"
+        "DataAttribute": "odds2a"
       }
     ]
   },
@@ -4252,11 +4252,11 @@
     "BetChoices": [
       {
         "MatchAttribute": "o",
-        "DbAttribute": "odds1a"
+        "DataAttribute": "odds1a"
       },
       {
         "MatchAttribute": "e",
-        "DbAttribute": "odds2a"
+        "DataAttribute": "odds2a"
       }
     ]
   },
@@ -4266,15 +4266,15 @@
     "BetChoices": [
       {
         "MatchAttribute": "h",
-        "DbAttribute": "com1"
+        "DataAttribute": "com1"
       },
       {
         "MatchAttribute": "n",
-        "DbAttribute": "comx"
+        "DataAttribute": "comx"
       },
       {
         "MatchAttribute": "a",
-        "DbAttribute": "com2"
+        "DataAttribute": "com2"
       }
     ]
   },
@@ -4284,15 +4284,15 @@
     "BetChoices": [
       {
         "MatchAttribute": "hd",
-        "DbAttribute": "cs10"
+        "DataAttribute": "cs10"
       },
       {
         "MatchAttribute": "ha",
-        "DbAttribute": "cs20"
+        "DataAttribute": "cs20"
       },
       {
         "MatchAttribute": "ad",
-        "DbAttribute": "cs00"
+        "DataAttribute": "cs00"
       }
     ]
   },
@@ -4302,11 +4302,11 @@
     "BetChoices": [
       {
         "MatchAttribute": "h",
-        "DbAttribute": "odds1a"
+        "DataAttribute": "odds1a"
       },
       {
         "MatchAttribute": "a",
-        "DbAttribute": "odds2a"
+        "DataAttribute": "odds2a"
       }
     ]
   },
@@ -4316,11 +4316,11 @@
     "BetChoices": [
       {
         "MatchAttribute": "y",
-        "DbAttribute": "com1"
+        "DataAttribute": "com1"
       },
       {
         "MatchAttribute": "n",
-        "DbAttribute": "com2"
+        "DataAttribute": "com2"
       }
     ]
   },
@@ -4330,11 +4330,11 @@
     "BetChoices": [
       {
         "MatchAttribute": "y",
-        "DbAttribute": "odds1a"
+        "DataAttribute": "odds1a"
       },
       {
         "MatchAttribute": "n",
-        "DbAttribute": "odds2a"
+        "DataAttribute": "odds2a"
       }
     ]
   },
@@ -4344,11 +4344,11 @@
     "BetChoices": [
       {
         "MatchAttribute": "y",
-        "DbAttribute": "odds1a"
+        "DataAttribute": "odds1a"
       },
       {
         "MatchAttribute": "n",
-        "DbAttribute": "odds2a"
+        "DataAttribute": "odds2a"
       }
     ]
   },
@@ -4358,11 +4358,11 @@
     "BetChoices": [
       {
         "MatchAttribute": "y",
-        "DbAttribute": "com1"
+        "DataAttribute": "com1"
       },
       {
         "MatchAttribute": "n",
-        "DbAttribute": "com2"
+        "DataAttribute": "com2"
       }
     ]
   },
@@ -4372,11 +4372,11 @@
     "BetChoices": [
       {
         "MatchAttribute": "y",
-        "DbAttribute": "com1"
+        "DataAttribute": "com1"
       },
       {
         "MatchAttribute": "n",
-        "DbAttribute": "com2"
+        "DataAttribute": "com2"
       }
     ]
   },
@@ -4386,11 +4386,11 @@
     "BetChoices": [
       {
         "MatchAttribute": "y",
-        "DbAttribute": "com1"
+        "DataAttribute": "com1"
       },
       {
         "MatchAttribute": "n",
-        "DbAttribute": "com2"
+        "DataAttribute": "com2"
       }
     ]
   },
@@ -4400,11 +4400,11 @@
     "BetChoices": [
       {
         "MatchAttribute": "y",
-        "DbAttribute": "com1"
+        "DataAttribute": "com1"
       },
       {
         "MatchAttribute": "n",
-        "DbAttribute": "com2"
+        "DataAttribute": "com2"
       }
     ]
   },
@@ -4414,11 +4414,11 @@
     "BetChoices": [
       {
         "MatchAttribute": "y",
-        "DbAttribute": "com1"
+        "DataAttribute": "com1"
       },
       {
         "MatchAttribute": "n",
-        "DbAttribute": "com2"
+        "DataAttribute": "com2"
       }
     ]
   },
@@ -4428,11 +4428,11 @@
     "BetChoices": [
       {
         "MatchAttribute": "y",
-        "DbAttribute": "com1"
+        "DataAttribute": "com1"
       },
       {
         "MatchAttribute": "n",
-        "DbAttribute": "com2"
+        "DataAttribute": "com2"
       }
     ]
   },
@@ -4442,15 +4442,15 @@
     "BetChoices": [
       {
         "MatchAttribute": "h1",
-        "DbAttribute": "cs10"
+        "DataAttribute": "cs10"
       },
       {
         "MatchAttribute": "h2",
-        "DbAttribute": "cs20"
+        "DataAttribute": "cs20"
       },
       {
         "MatchAttribute": "tie",
-        "DbAttribute": "cs00"
+        "DataAttribute": "cs00"
       }
     ]
   },
@@ -4460,15 +4460,15 @@
     "BetChoices": [
       {
         "MatchAttribute": "h1",
-        "DbAttribute": "cs10"
+        "DataAttribute": "cs10"
       },
       {
         "MatchAttribute": "h2",
-        "DbAttribute": "cs20"
+        "DataAttribute": "cs20"
       },
       {
         "MatchAttribute": "tie",
-        "DbAttribute": "cs00"
+        "DataAttribute": "cs00"
       }
     ]
   },
@@ -4478,15 +4478,15 @@
     "BetChoices": [
       {
         "MatchAttribute": "h1",
-        "DbAttribute": "cs10"
+        "DataAttribute": "cs10"
       },
       {
         "MatchAttribute": "h2",
-        "DbAttribute": "cs20"
+        "DataAttribute": "cs20"
       },
       {
         "MatchAttribute": "tie",
-        "DbAttribute": "cs00"
+        "DataAttribute": "cs00"
       }
     ]
   }

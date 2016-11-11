@@ -111,27 +111,6 @@
             matchNode.Attributes.Append(matchIdAttribute);
         }
 
-        private void AssignMatchKickOff(XmlDocument xmlDocument, XmlNode matchNode, DateTime kickOffTime)
-        {
-            var mtAttribute = xmlDocument.CreateAttribute("mt");
-            mtAttribute.Value = kickOffTime.ToString();
-            matchNode.Attributes.Append(mtAttribute);
-        }
-
-        private void AssignSport(XmlDocument xmlDocument, XmlNode matchNode, string sportName)
-        {
-            var sportAttribute = xmlDocument.CreateAttribute("sport");
-            sportAttribute.Value = sportName.ToString();
-            matchNode.Attributes.Append(sportAttribute);
-        }
-
-        private void AssignMatchStatus(XmlDocument xmlDocument, XmlNode matchNode, bool isLive)
-        {
-            var runningAttribute = xmlDocument.CreateAttribute("running");
-            runningAttribute.Value = isLive ? "1" : "0";
-            matchNode.Attributes.Append(runningAttribute);
-        }
-
         private XmlNode CreateBookieNode(
             XmlDocument xmlDocument, 
             OddsProfile oddsProfile, 

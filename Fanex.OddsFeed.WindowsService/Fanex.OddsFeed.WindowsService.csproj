@@ -233,6 +233,7 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="BetTypeSchema\BetTypes.json" />
     <None Include="Fanex.OddsFeed.WindowsService.PRO.exe.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

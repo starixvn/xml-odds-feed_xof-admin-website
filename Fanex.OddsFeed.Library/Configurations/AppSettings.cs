@@ -220,5 +220,21 @@
                 return ConfigurationManager.AppSettings["HighlightBetType"].ToString();
             }
         }
+
+        public static string BetTypeSchemaPath
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["BetTypeSchemaPath"].ToString();
+            }
+        }
+
+        public static string BetTypeSchemaKey
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["BetTypeSchemaKey"].ToString();
+            }
+        }
     }
 }

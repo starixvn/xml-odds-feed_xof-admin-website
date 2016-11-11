@@ -31,9 +31,10 @@
             var xmlDocument = new XmlDocument();
             var oddsProfile = new OddsProfile();
             var outrights = GetOutrightNodes();
+            var oddsFeedFilter = new OddsFeedFilter();
 
             // Action
-            var result = _target.CreateOutrightsNode(xmlDocument, oddsProfile, outrights);
+            var result = _target.CreateOutrightsNode(xmlDocument, oddsProfile, oddsFeedFilter, outrights, true, false);
 
             // Assert
             Assert.AreEqual(outrightXmlNode, result.OuterXml);

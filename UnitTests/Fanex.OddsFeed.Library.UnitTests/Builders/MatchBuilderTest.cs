@@ -25,13 +25,24 @@
             var matchXmlNode = GetDeadballMatchXmlNode();
             var xmlDocument = new XmlDocument();
             var oddsProfile = new OddsProfile {  OddRegion = 1 };
-            var matchNodes = GetMatchNodes(false);
+            var deadballMatchNodes = GetMatchNodes(false);
+            var liveMatchNodes = new List<MatchNode>();
             var bookieName = "111candy";
             var lastUpdate = new DateTime(2016, 11, 2, 15, 51, 07);
             var timeStamp = 1477878874;
+            var oddsFeedFilter = new OddsFeedFilter();
 
             // Action
-            var result = _target.CreateMatchesNode(xmlDocument, oddsProfile, matchNodes, null, bookieName, lastUpdate, timeStamp);
+            var result = _target.CreateMatchesNode(
+                xmlDocument, 
+                oddsProfile,
+                oddsFeedFilter,
+                deadballMatchNodes,
+                liveMatchNodes, 
+                bookieName, 
+                lastUpdate, 
+                timeStamp,
+                false);
 
             // Assert
             Assert.AreEqual(matchXmlNode, result.OuterXml);
@@ -44,13 +55,24 @@
             var matchXmlNode = GetLiveMatchXmlNode();
             var xmlDocument = new XmlDocument();
             var oddsProfile = new OddsProfile { OddRegion = 1 };
-            var matchNodes = GetMatchNodes(true);
+            var deadballMatchNodes = new List<MatchNode>();
+            var liveMatchNodes = GetMatchNodes(true);
             var bookieName = "111candy";
             var lastUpdate = new DateTime(2016, 11, 2, 15, 51, 07);
             var timeStamp = 1477878874;
+            var oddsFeedFilter = new OddsFeedFilter();
 
             // Action
-            var result = _target.CreateMatchesNode(xmlDocument, oddsProfile, matchNodes, null, bookieName, lastUpdate, timeStamp);
+            var result = _target.CreateMatchesNode(
+                xmlDocument, 
+                oddsProfile,
+                oddsFeedFilter,
+                deadballMatchNodes,
+                liveMatchNodes,
+                bookieName, 
+                lastUpdate, 
+                timeStamp,
+                false);
 
             // Assert
             Assert.AreEqual(matchXmlNode, result.OuterXml);

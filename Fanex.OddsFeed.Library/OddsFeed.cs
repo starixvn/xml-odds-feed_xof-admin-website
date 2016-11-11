@@ -38,14 +38,7 @@
         {
             var xmlDocument = CreateXmlDocument();
             var nodeRoot = xmlDocument.CreateElement("oddsfeed");
-
-            if (IsShownOutright(isSample, isOutrights))
-            {
-                AddOutRight(nodeRoot, xmlDocument, filter, isSample, isOutrights);
-            }
-
-            AddMatch(nodeRoot, xmlDocument, filter, isSample, isOutrights);
-
+            
             return nodeRoot;
         }
 
@@ -57,31 +50,6 @@
             xmlDocument.InsertBefore(xmlDeclaration, xmlDocument.DocumentElement);
 
             return xmlDocument;
-        }
-
-        private void AddOutRight(XmlElement nodeRoot, XmlDocument xmlDocument, OddsFeedFilter filter, bool isSample, bool isOutrights)
-        {
-            var outrights = BuildOutRight(nodeRoot, xmlDocument, filter, isOutrights, isSample);
-
-            if (outrights != null)
-            {
-                nodeRoot.AppendChild(outrights);
-            }
-        }
-
-        private void AddMatch(XmlElement nodeRoot, XmlDocument xmlDocument, OddsFeedFilter filter, bool isSample, bool isOutrights)
-        {
-            var matches = BuildMatch(nodeRoot, xmlDocument, filter, isSample);
-
-            if (matches != null)
-            {
-                nodeRoot.AppendChild(matches);
-            }
-        }
-
-        private bool IsShownOutright(bool isSample, bool isOutrights)
-        {
-            return _oddsProfile.OddsType.Contains(8) && (!isSample || isOutrights);
         }
 
         public XmlElement BuildXmlEvent(string timestamp, OddsFeedFilter filter, bool isSample = false, bool isOutrights = true)
@@ -137,82 +105,6 @@
 
         #region XmlDocument
 
-        private XmlNode BuildOutRight(XmlElement root, XmlDocument xd, OddsFeedFilter filter, bool isOutrights = true, bool isSample = false)
-        {
-            ////build outrights
-            if (_oddsProfile.OddsType.Contains(8) && _events != null)
-            {
-                var outrights = xd.CreateNode(XmlNodeType.Element, "outrights", null);
-                var filteredOutrights = (from i in _events
-                                         where
-                                         ////filter by sports                                            
-                                         (_oddsProfile.Sports == null ? true : (_oddsProfile.Sports.Count != 0 ? _oddsProfile.Sports.Contains(i.SportId) : false)) &&
-                                         (filter.Sports == null || filter.Sports.Count == 0 ? true : filter.Sports.Contains(i.SportId)) &&
-                                         ////filter by outrights
-                                         (_oddsProfile.Outrights == null ? true : (_oddsProfile.Outrights.Count != 0 ? _oddsProfile.Outrights.Contains(i.Id) : false)) &&
-                                         ////filter by leagues
-                                         (filter.Leagues == null || filter.Leagues.Count == 0 ? true : FilterByLeague(filter.Leagues, i.Content[0].Content.ToLower())) &&
-                                         ////filter by countries                                            
-                                         (_oddsProfile.Countries == null ? true : (_oddsProfile.Countries.Count != 0 ? _oddsProfile.Countries.Contains(i.CountryCode.ToLower()) : false)) &&
-                                         (filter.Countries == null || filter.Countries.Count == 0 ? true : filter.Countries.Contains(i.CountryCode.ToLower())) &&
-                                         ////filter by keyword
-                                         (string.IsNullOrEmpty(_oddsProfile.OutrightsKeyword) ? true : i.Content[0].Content.ToLower().Contains(_oddsProfile.OutrightsKeyword.ToLower()))
-                                         select i).ToList();
-
-                if (isSample && isOutrights && filteredOutrights.Count > 0)
-                {
-                    outrights.AppendChild(filteredOutrights[0].BuildXmlNodeOutRight(xd, _oddsProfile));
-                }
-                else if (!isSample)
-                {
-                    //// outright bettype = 10
-                    if (filter.BetTypes == null || filter.BetTypes.Count == 0 || (filter.BetTypes != null && filter.BetTypes.Contains(10)))
-                    {
-                        foreach (var item in filteredOutrights)
-                        {
-                            outrights.AppendChild(item.BuildXmlNodeOutRight(xd, _oddsProfile));
-                        }
-                    }
-                }
-
-                return outrights;
-            }
-
-            return null;
-        }
-
-        private XmlNode BuildMatch(XmlElement nodeRoot, XmlDocument xmlDocument, OddsFeedFilter filter, bool isSample = false)
-        {
-            var changetime = !string.IsNullOrEmpty(_timeStamp);
-            int timeStamp = changetime ? int.Parse(_timeStamp) : 0;
-
-            var deadballMatches = GetDeadMatches(_deadballMatches, changetime, timeStamp, filter);
-            var liveMatches = GetLiveMatches(_liveMatches, changetime, timeStamp, filter);
-
-            if (liveMatches != null || deadballMatches != null)
-            {
-                var matchNode = xmlDocument.CreateNode(XmlNodeType.Element, "matches", null);
-
-                var sampleMatch = false;
-                BuildDeadBallMatchNode(matchNode, xmlDocument, deadballMatches, filter, isSample);
-                BuildLiveMatchNode(matchNode, xmlDocument, liveMatches, filter, isSample, sampleMatch);
-
-                if (matchNode.ChildNodes.Count > 0)
-                {
-                    var lastUpdate = xmlDocument.CreateAttribute("lastupdate");
-                    lastUpdate.Value = DateTime.Now.AddHours(12).ToString();
-                    matchNode.Attributes.Append(lastUpdate);
-
-                    BuildTimeStamp(matchNode, xmlDocument, deadballMatches, liveMatches);
-                    BuildOddsType(matchNode, xmlDocument);
-                }
-
-                return matchNode;
-            }
-
-            return null;
-        }
-
         private IList<Match> GetDeadMatches(IList<Match> deadMatches, bool changeTime, int timeStamp, OddsFeedFilter filter)
         {
             return HaveDeadBallMatches()
@@ -235,142 +127,6 @@
         private bool HaveLiveBallMatches()
         {
             return _oddsProfile.OddsType.Contains(4) && _liveMatches != null;
-        }
-
-        private void BuildTimeStamp(
-            XmlNode matchNode, 
-            XmlDocument xmlDocument, 
-            IList<Match> deadBallMatches, 
-            IList<Match> liveMatches)
-        {                     
-            int deadBallTimeStamp = 0;
-            int liveTimeStamp = 0;
-
-            if (deadBallMatches.Any())
-            {
-                deadBallTimeStamp = deadBallMatches.Max(match => match.TimeStamp);
-            }
-
-            if (liveMatches.Any())
-            {
-                liveTimeStamp = liveMatches.Max(match => match.TimeStamp);
-            }
-
-            var maxTimeStamp = deadBallTimeStamp > liveTimeStamp ? deadBallTimeStamp : liveTimeStamp;
-            var timeStampAttribute = xmlDocument.CreateAttribute("timestamp");
-
-            timeStampAttribute.Value = maxTimeStamp.ToString();
-
-            matchNode.Attributes.Append(timeStampAttribute);
-        }
-
-        private void BuildOddsType(XmlNode matchNode, XmlDocument xmlDocument)
-        {
-            var oddstype = xmlDocument.CreateAttribute("oddstype");
-
-            switch (_oddsProfile.OddRegion)
-            {
-                case 1:
-                    oddstype.Value = "Malay";
-                    break;
-                case 2:
-                    oddstype.Value = "HongKong";
-                    break;
-                case 3:
-                    oddstype.Value = "Decimal";
-                    break;
-                case 4:
-                    oddstype.Value = "Indo";
-                    break;
-                case 5:
-                    oddstype.Value = "US";
-                    break;
-                default:
-                    oddstype.Value = "Malay";
-                    break;
-            }
-
-            matchNode.Attributes.Append(oddstype);
-        }
-
-        private void BuildDeadBallMatchNode(
-            XmlNode deadBallMatchNode,
-            XmlDocument xmlDocument,
-            IList<Match> deadBallMatches,
-            OddsFeedFilter filter,
-            bool isSample)
-        {
-            if (!deadBallMatches.Any())
-            {
-                return;
-            }
-
-            if (isSample)
-            {
-                AddSampleMatch(deadBallMatchNode, xmlDocument, deadBallMatches, filter, isSample);
-            }
-            else
-            {
-                AddAllMatches(deadBallMatchNode, xmlDocument, deadBallMatches, filter);
-            }
-        }
-
-        private void BuildLiveMatchNode(
-            XmlNode liveMatchNode,
-            XmlDocument xmlDocument,
-            IList<Match> liveMatches,
-            OddsFeedFilter filter,
-            bool isSample,
-            bool sampleMatch)
-        {
-            if (!liveMatches.Any())
-            {
-                return;
-            }
-
-            if (isSample)
-            {
-                if (!sampleMatch)
-                {
-                    AddSampleMatch(liveMatchNode, xmlDocument, liveMatches, filter, isSample);
-                }
-            }
-            else
-            {
-                AddAllMatches(liveMatchNode, xmlDocument, liveMatches, filter);
-            }
-        }
-
-        private void AddSampleMatch(
-            XmlNode matchNode,
-            XmlDocument xmlDocument,
-            IList<Match> matches,
-            OddsFeedFilter filter,
-            bool isSample)
-        {
-            var node = matches[0].BuildXmlNodeMatch(xmlDocument, _oddsProfile, _bookieName, filter, isSample);
-
-            if (node != null)
-            {
-                matchNode.AppendChild(node);
-            }
-        }
-
-        private void AddAllMatches(
-            XmlNode matchNode,
-            XmlDocument xmlDocument,
-            IList<Match> matches,
-            OddsFeedFilter filter)
-        {
-            foreach (var item in matches)
-            {
-                var node = item.BuildXmlNodeMatch(xmlDocument, _oddsProfile, _bookieName, filter);
-
-                if (node != null)
-                {
-                    matchNode.AppendChild(node);
-                }
-            }
         }
 
         private bool FilterByLeague(IList<string> searchLeagues, string league)

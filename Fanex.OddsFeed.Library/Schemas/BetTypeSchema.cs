@@ -1,7 +1,9 @@
 ﻿namespace Fanex.OddsFeed.Library.Schemas
 {
+    using System;
     using System.Collections.Generic;
 
+    [Serializable]
     public class BetTypeSchema
     {
         public int BetTypeId { get; set; }

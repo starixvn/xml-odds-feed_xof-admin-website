@@ -63,14 +63,6 @@
             return nodeRoot;
         }
 
-        public XmlElement BuildXmlEvent(string timestamp, OddsFeedFilter filter, bool isSample = false, bool isOutrights = true)
-        {
-            var xmlDocument = CreateXmlDocument();
-            var nodeRoot = xmlDocument.CreateElement("eventfeed");
-
-            return nodeRoot;
-        }
-
         private XmlDocument CreateXmlDocument()
         {
             var xmlDocument = new XmlDocument();

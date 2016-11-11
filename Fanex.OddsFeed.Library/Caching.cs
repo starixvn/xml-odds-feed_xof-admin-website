@@ -11,11 +11,14 @@ namespace Fanex.OddsFeed.Library
 {
     using System.Collections.Generic;
     using System.Configuration;
+    using Configurations;
     using Couchbase;
     using Fanex.OddsFeed.Library.Matchs;
-    using Fanex.OddsFeed.Library.Outrights;
+    using Helper;
     using Model;
     using Nodes;
+    using Schemas;
+
     /// <summary>
     /// Class Caching.
     /// </summary>
@@ -110,6 +113,19 @@ namespace Fanex.OddsFeed.Library
                 : _Cache.Get<IList<OutrightNode>>(prefix + "events" + rightVersion);
 
             return result;
+        }
+
+        public static IList<BetTypeSchema> GetBetTypeSchemas()
+        {
+            var bettypeSchemas = Get(AppSettings.BetTypeSchemaKey) as IList<BetTypeSchema>;
+
+            if (bettypeSchemas == null)
+            {
+                bettypeSchemas = JsonHelper.GetBetTypeSchemas(AppSettings.BetTypeSchemaPath);
+                _Cache.Store(Enyim.Caching.Memcached.StoreMode.Set, AppSettings.BetTypeSchemaKey, bettypeSchemas);
+            }
+
+            return bettypeSchemas;
         }
 
         public static object Get(string key)

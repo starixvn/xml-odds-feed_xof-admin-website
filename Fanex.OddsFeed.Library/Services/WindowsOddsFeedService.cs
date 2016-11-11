@@ -11,6 +11,7 @@
     using Logging;
     using Mapping;
     using Model;
+    using Schemas;
 
     public class WindowsOddsFeedService : IWindowsOddsFeedService
     {
@@ -74,10 +75,11 @@
                 line++;
                 var deadballOddsFlexs = GetOddFlexs(deadballOdds.ResultSet.Tables[1]);
                 line++;
+                var betTypeSchemas = Caching.GetBetTypeSchemas();
 
-                var liveMatches = _matchMapping.GetMatchNodes(liveOdds.ResultSet.Tables[0], null, true, liveOddsFlexs);
+                var liveMatches = _matchMapping.GetMatchNodes(liveOdds.ResultSet.Tables[0], betTypeSchemas, true, liveOddsFlexs);
                 line++;
-                var deadBallMatches = _matchMapping.GetMatchNodes(deadballOdds.ResultSet.Tables[0], null, false, deadballOddsFlexs);
+                var deadBallMatches = _matchMapping.GetMatchNodes(deadballOdds.ResultSet.Tables[0], betTypeSchemas, false, deadballOddsFlexs);
                 line++;
                 var outrights = _outrightMapping.GetOutrightNodes(outrightOdds.ResultSet.Tables[0]);
                 line++;

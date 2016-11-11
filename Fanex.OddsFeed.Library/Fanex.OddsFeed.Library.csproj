@@ -221,6 +221,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\CompressAttribute.cs" />
+    <Compile Include="Builders\EventBuilder.cs" />
+    <Compile Include="Builders\IEventBuilder.cs" />
     <Compile Include="Builders\IMatchBuilder.cs" />
     <Compile Include="Builders\IOutrightBuilder.cs" />
     <Compile Include="Builders\OddsFeedBuilder.cs" />
@@ -234,7 +236,7 @@
     <Compile Include="ErrorCollection.cs" />
     <Compile Include="Filters\MatchFilter.cs" />
     <Compile Include="Filters\OutrightFilter.cs" />
-    <Compile Include="JsonIO.cs" />
+    <Compile Include="Helper\JsonHelper.cs" />
     <Compile Include="Mapping\OutrightMapping.cs" />
     <Compile Include="Mapping\IOutrightMapping.cs" />
     <Compile Include="Mapping\IMatchMapping.cs" />
@@ -283,6 +285,8 @@
     <Compile Include="Schemas\BetChoiceSchema.cs" />
     <Compile Include="Schemas\BetTypeSchema.cs" />
     <Compile Include="Schemas\ReserveSchema.cs" />
+    <Compile Include="Services\EventOddsFeedService.cs" />
+    <Compile Include="Services\IEventOddsFeedService.cs" />
     <Compile Include="Services\IWebOddsFeedService.cs" />
     <Compile Include="Services\IWindowsOddsFeedService.cs" />
     <Compile Include="Services\WebOddsFeedService.cs" />
