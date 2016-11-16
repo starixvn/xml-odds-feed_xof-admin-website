@@ -214,6 +214,11 @@
             return umTime.IsUnderMaintenanceTime; ;
         }
 
+        public static bool IsDownTime()
+        {
+            return _maintenanceService.IsUnderMaintenance();
+        }
+
         #region Convert Odds From Decimal
 
         /// <summary>

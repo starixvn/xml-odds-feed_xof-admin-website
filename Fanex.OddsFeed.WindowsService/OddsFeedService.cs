@@ -1,48 +1,42 @@
 ﻿namespace Fanex.OddsFeed.WindowsService
 {
     using System;
-    using System.Configuration;
     using System.ServiceProcess;
+    using System.Timers;
     using Data.Configuration;
     using Fanex.Logging;
     using Fanex.OddsFeed.Library;
+    using Library.Configurations;
     using Library.Services;
 
-    /// <summary>
-    /// OddsFeed WindowsService.
-    /// </summary>    
     public partial class OddsFeedService : ServiceBase
     {
-        private System.Timers.Timer _timer;
+        private Timer _timer;
         private int _currentVersion;
         private int _totalVersion;
-        private bool _updateSuccessful;
 
-        private IWindowsOddsFeedService _service;
-
+        private IWindowsOddsFeedService _oddsFeedService;
 
         public OddsFeedService()
         {
             InitializeComponent();
+
             DbSettingProviderManager.Current.Start();
-            _totalVersion = int.Parse(ConfigurationManager.AppSettings["TotalVersion"]);
-            _service = new WindowsOddsFeedService();
+
+            _totalVersion = AppSettings.TotalVersion;
+
+            _oddsFeedService = new WindowsOddsFeedService();
         }
 
-        /// <summary>
-        /// When implemented in a derived class, executes when a Start command is sent to the service by the Service Control Manager (SCM)
-        /// or when the operating system starts (for a service that starts automatically). Specifies actions to take when the service starts.
-        /// </summary>
-        /// <param name="args">Data passed by the start command.</param>
         protected override void OnStart(string[] args)
         {
             try
             {
                 Reset();
 
-                _timer = new System.Timers.Timer
+                _timer = new Timer
                 {
-                    Interval = int.Parse(ConfigurationManager.AppSettings["Interval"]),
+                    Interval = AppSettings.Interval,
                     Enabled = true
                 };
 
@@ -50,29 +44,12 @@
 
                 _timer.Start();
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                string startTime = string.Empty;
-                string endTime = string.Empty;
-                if (!Utilities.GetDownTime(out startTime, out endTime))
-                {
-                    string[] message = new string[]
-                    {
-                        "ENVIRONMENT: " + ConfigurationManager.AppSettings["Environment"].ToString(),
-                        "ERROR: " + ex.Message, 
-                        "SOURCE: " + ex.Source,
-                        "TARGETSITE: " + ex.TargetSite,
-                        "STACKTRACE: " + ex.StackTrace
-                    };
-                    LogService.Error("OnStart -- " + string.Join(Environment.NewLine, message));
-                }
+                LogService.Error("OnStart -- " + GetExceptionMessage(exception));
             }
         }
 
-        /// <summary>
-        /// When implemented in a derived class, executes when a Stop command is sent to the service by the Service Control Manager (SCM).
-        /// Specifies actions to take when a service stops running.
-        /// </summary>
         protected override void OnStop()
         {
             try
@@ -83,62 +60,28 @@
 
                 _timer.Stop();
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                string startTime = string.Empty;
-                string endTime = string.Empty;
-                if (!Utilities.GetDownTime(out startTime, out endTime))
-                {
-                    string[] message = new string[]
-                    {
-                        "ENVIRONMENT: " + ConfigurationManager.AppSettings["Environment"].ToString(),
-                        "ERROR: " + ex.Message, 
-                        "SOURCE: " + ex.Source,
-                        "TARGETSITE: " + ex.TargetSite,
-                        "STACKTRACE: " + ex.StackTrace
-                    };
-                    LogService.Error("OnStop -- " + string.Join(Environment.NewLine, message));
-                }
+                LogService.Error("OnStop -- " + GetExceptionMessage(exception));
             }
         }
 
-        /// <summary>
-        /// Backgrounds the timer elapsed.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The <see cref="System.Timers.ElapsedEventArgs"/> instance containing the event data.</param>
         private void BackgroundTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             _timer.Stop();
-            string startTime = string.Empty;
-            string endTime = string.Empty;
-
+            
             try
             {
-                if (!Utilities.GetDownTime(out startTime, out endTime))
+                if (!Utilities.IsDownTime())
                 {
-                    _updateSuccessful = _service.Update(_currentVersion);
-                }
+                    bool isSuccessful = _oddsFeedService.Update(_currentVersion);
 
-                _currentVersion = _updateSuccessful == true ? _currentVersion + 1 : _currentVersion;
-                if (_currentVersion == _totalVersion)
-                {
-                    _currentVersion = 0;
-
-                    if (!Utilities.GetDownTime(out startTime, out endTime))
+                    if (isSuccessful)
                     {
-                        _service.StoreFullChain();
+                        _currentVersion++;
+                        UpdateCurrentVersion();
                     }
-                }
-
-                if (_updateSuccessful)
-                {
-                    if (!Utilities.GetDownTime(out startTime, out endTime))
-                    {
-                        _updateSuccessful = false || _service.Update(_currentVersion);
-                    }
-
-                    if (_updateSuccessful == false)
+                    else
                     {
                         LogService.Error("IP address seems to have changed OR Cache on CouchBase is full. Please restart OddsFeedWindowService ! ");
 
@@ -147,59 +90,44 @@
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                if (!Utilities.GetDownTime(out startTime, out endTime))
-                {
-                    string[] message = new string[]
-                    {
-                        "ENVIRONMENT: " + ConfigurationManager.AppSettings["Environment"].ToString(),
-                        "ERROR: " + ex.Message, 
-                        "SOURCE: " + ex.Source,
-                        "TARGETSITE: " + ex.TargetSite,
-                        "STACKTRACE: " + ex.StackTrace
-                    };
-                    LogService.Error("BackgroundTimerElapsed -- " + string.Join(Environment.NewLine, message));
-                }
+                LogService.Error("BackgroundTimerElapsed -- " + GetExceptionMessage(exception));
             }
 
             _timer.Start();
         }
 
-        /// <summary>
-        /// Resets this instance.
-        /// </summary>
         private void Reset()
         {
-            try
+            _currentVersion = 0;
+
+            if (!Utilities.IsDownTime())
             {
-                _updateSuccessful = false;
-                _currentVersion = 0;
-
-                string startTime = string.Empty;
-                string endTime = string.Empty;
-
-                if (!Utilities.GetDownTime(out startTime, out endTime))
-                {
-                    _service.Reset();
-                }
+                _oddsFeedService.Reset();
             }
-            catch (Exception ex)
+        }
+
+        private string GetExceptionMessage(Exception exception)
+        {
+            var messages = new string[]
             {
-                string startTime = string.Empty;
-                string endTime = string.Empty;
-                if (!Utilities.GetDownTime(out startTime, out endTime))
-                {
-                    string[] message = new string[]
-                    {
-                        "ENVIRONMENT: " + ConfigurationManager.AppSettings["Environment"].ToString(),
-                        "ERROR: " + ex.Message, 
-                        "SOURCE: " + ex.Source,
-                        "TARGETSITE: " + ex.TargetSite,
-                        "STACKTRACE: " + ex.StackTrace
-                    };
-                    LogService.Error("Reset -- " + string.Join(Environment.NewLine, message));
-                }
+                "ENVIRONMENT: " + AppSettings.Environment,
+                "ERROR: " + exception.Message,
+                "SOURCE: " + exception.Source,
+                "TARGETSITE: " + exception.TargetSite,
+                "STACKTRACE: " + exception.StackTrace
+            };
+
+            return string.Join(Environment.NewLine, messages);
+        }
+
+        private void UpdateCurrentVersion()
+        {
+            if (_currentVersion == _totalVersion)
+            {
+                _currentVersion = 0;
+                _oddsFeedService.StoreFullChain();
             }
         }
     }

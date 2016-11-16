@@ -8,12 +8,8 @@
     using Fanex.OddsFeed.WebService.Functions;
     using Library.Services;
 
-    /// <summary>
-    /// Class EventController.
-    /// </summary>    
     public class EventController : Controller
     {     
-        // GET: /Schema/
         [Compress]
         public XmlResult Index(string username)
         {
@@ -23,16 +19,6 @@
             return new XmlResult(data);
         }
 
-        /// <summary>
-        /// Gets the event feed.
-        /// </summary>
-        /// <param name="username">The username.</param>
-        /// <param name="timestamp">The timestamp.</param>
-        /// <param name="domain">The domain.</param>
-        /// <param name="filter">The filter.</param>
-        /// <param name="isSample">If set to <c>true</c> [is sample].</param>
-        /// <param name="outrights">If set to <c>true</c> [outrights].</param>
-        /// <returns>Xml Element.</returns>
         private static XmlElement GetEventFeed(string username, string timestamp, string domain, OddsFeedFilter filter, bool isSample = false, bool outrights = true)
         {
             // ignore port number if it presents
@@ -50,8 +36,8 @@
 
             if (err.Id == 0 || isSample)
             {
-                //var of = new Fanex.OddsFeed.Library.OddsFeed(partner.OddsProfile, partner.SystemName, domainName, ip, timestamp);
                 var oddsFeedService = new EventOddsFeedService(partner.OddsProfile);
+
                 return oddsFeedService.BuildXmlEvent(partner.Timestamp, filter, isSample, outrights);
             }
 
