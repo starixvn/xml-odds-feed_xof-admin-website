@@ -244,5 +244,13 @@
                 return ConfigurationManager.AppSettings["Cache.Prefix"].ToString();
             }
         }
+
+        public static int NumberTries
+        {
+            get
+            {
+                return Convert.ToInt32(ConfigurationManager.AppSettings["NumTries"]);
+            }
+        }
     }
 }

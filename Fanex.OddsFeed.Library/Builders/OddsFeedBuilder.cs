@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Security;
     using System.Xml;
 
     public class OddsFeedBuilder
@@ -36,11 +35,6 @@
             { "ts", "zh-CN" }
         };
 
-        protected string EscapeXML(string content)
-        {
-            return SecurityElement.Escape(content);
-        }
-
         protected void AssignNames(XmlDocument xmlDocument, XmlNode node, IEnumerable<Language> names, IDictionary<string, string> tagAttributes)
         {
             foreach (var tagAttribute in tagAttributes)
@@ -50,7 +44,7 @@
                     .Where(name => string.Equals(name.Code, tagAttribute.Value))
                     .Select(name => name.Content).First();
 
-                attribute.Value = EscapeXML(value);
+                attribute.Value = Utilities.EscapeXML(value);
                 node.Attributes.Append(attribute);
             }
         }

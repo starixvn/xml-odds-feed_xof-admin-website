@@ -64,16 +64,6 @@
             return nodeRoot;
         }
 
-        private OddsData GetOddsData()
-        {
-            var cache = new CouchbaseClient();
-            var oddsData = new OddsData();
-
-            var data = cache.Get("apollolivematchs0");
-
-            return oddsData;
-        }
-
         private XmlDocument CreateXmlDocument()
         {
             var xmlDocument = new XmlDocument();
@@ -143,7 +133,7 @@
             }
         }
 
-        private IList<Match> GetLiveMatches(OddsFeedFilter oddsFeedFilter, IEnumerable<Match> liveMatches, bool changeTime, int timeStamp)
+        private IList<Match> GetLiveMatches(OddsFeedFilter oddsFeedFilter, IList<Match> liveMatches, bool changeTime, int timeStamp)
         {
             return HaveLiveBallMatches(liveMatches)
                 ? _matchFilter.QueryMatches(_oddsProfile, oddsFeedFilter, liveMatches, changeTime, timeStamp)
@@ -155,7 +145,7 @@
             return _oddsProfile.OddsType.Contains(4) && liveMatches.Count() > 0;
         }
 
-        private IList<Match> GetDeadMatches(OddsFeedFilter oddsFeedFilter, IEnumerable<Match> deadMatches, bool changeTime, int timeStamp)
+        private IList<Match> GetDeadMatches(OddsFeedFilter oddsFeedFilter, IList<Match> deadMatches, bool changeTime, int timeStamp)
         {
             return HaveDeadBallMatches(deadMatches)
                 ? _matchFilter.QueryMatches(_oddsProfile, oddsFeedFilter, deadMatches, changeTime, timeStamp)

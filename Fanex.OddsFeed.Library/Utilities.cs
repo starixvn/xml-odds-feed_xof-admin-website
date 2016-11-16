@@ -1,12 +1,4 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="Utilities.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Thai.Tran" date="2013.1.7">Created</change>
-// </history>
-namespace Fanex.OddsFeed.Library
+﻿namespace Fanex.OddsFeed.Library
 {
     using ONEbook.UM.Services;
     using ONEbook.UM.Services.Impl;
@@ -18,10 +10,8 @@ namespace Fanex.OddsFeed.Library
     using System.Net;
     using System.Net.Mail;
     using System.Web;
+    using System.Security;
 
-    /// <summary>
-    /// Class Utilities.
-    /// </summary>
     public static class Utilities
     {
         private static string _oddsFormat = "F";
@@ -346,6 +336,11 @@ namespace Fanex.OddsFeed.Library
             }
 
             return result.ToString(_totalFormat);
+        }
+
+        public static string EscapeXML(string content)
+        {
+            return SecurityElement.Escape(content);
         }
     }
 }

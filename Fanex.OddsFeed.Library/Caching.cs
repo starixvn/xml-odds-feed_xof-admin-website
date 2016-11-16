@@ -19,6 +19,11 @@
             _cacheClient = CouchbaseManager.Instance;
         }
 
+        public static object Get(string key)
+        {
+            return _cacheClient.Get(key);
+        }
+
         public static OddsData GetOddsData(IList<int> delayTimes)
         {
             var currentVersion = GetCurrentVersion();
@@ -45,20 +50,6 @@
             };
         }
 
-        private static IList<Match> GetMatches(string key, int rightVersion)
-        {
-            return rightVersion == -1
-                ? new List<Match>()
-                : _cacheClient.Get<List<Match>>(key);
-        }
-
-        private static IList<Outright> GetOutrights(string key, int rightVersion)
-        {
-            return rightVersion == -1
-                ? new List<Outright>()
-                : _cacheClient.Get<List<Outright>>(key);
-        }
-
         public static IList<BetTypeSchema> GetBetTypeSchemas()
         {
             var bettypeSchemas = Get(AppSettings.BetTypeSchemaKey) as IList<BetTypeSchema>;
@@ -71,11 +62,6 @@
             }
 
             return bettypeSchemas;
-        }
-
-        public static object Get(string key)
-        {
-            return _cacheClient.Get(key);
         }
 
         public static int GetCurrentVersion()
@@ -98,6 +84,20 @@
             }
 
             return rightVersion > -1 ? rightVersion : -1;
+        }
+
+        private static IList<Match> GetMatches(string key, int rightVersion)
+        {
+            return rightVersion == -1
+                ? new List<Match>()
+                : _cacheClient.Get<List<Match>>(key);
+        }
+
+        private static IList<Outright> GetOutrights(string key, int rightVersion)
+        {
+            return rightVersion == -1
+                ? new List<Outright>()
+                : _cacheClient.Get<List<Outright>>(key);
         }
     }
 }

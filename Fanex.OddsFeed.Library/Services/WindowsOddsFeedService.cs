@@ -2,10 +2,10 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Configuration;
     using System.Data;
     using System.Linq;
     using System.Threading;
+    using Configurations;
     using Couchbase;
     using Enyim.Caching.Memcached;
     using Logging;
@@ -23,8 +23,8 @@
 
         public WindowsOddsFeedService()
         {
-            _numberTries = Convert.ToInt32(ConfigurationManager.AppSettings["NumTries"]);
-            _cachePrefix = ConfigurationManager.AppSettings["Cache.Prefix"].ToString();
+            _numberTries = AppSettings.NumberTries;
+            _cachePrefix = AppSettings.CachePrefix;
             _cacheClient = CouchbaseManager.Instance;
 
             _matchMapping = new MatchMapping();
@@ -83,7 +83,7 @@
                 var outrights = _outrightMapping.GetOutrightNodes(outrightOdds.ResultSet.Tables[0]);
                 line++;
 
-                bool result = StoreData(CurrentPrefix, 0, _numberTries);
+                bool result = StoreData(CurrentPrefix, currentVersion, _numberTries);
                 line++;
                 result = result && StoreData(string.Format("{0}livematchs{1}", _cachePrefix, currentVersion), liveMatches, _numberTries);
                 line++;

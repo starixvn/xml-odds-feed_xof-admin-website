@@ -8,7 +8,7 @@
 
     public class MatchFilter
     {
-        public IList<Match> QueryMatches(OddsProfile oddsProfile, OddsFeedFilter oddsFeedFilter, IEnumerable<Match> matches, bool changeTime, int timeStamp)
+        public IList<Match> QueryMatches(OddsProfile oddsProfile, OddsFeedFilter oddsFeedFilter, IList<Match> matches, bool changeTime, int timeStamp)
         {
             return (from match in matches
                     where (changeTime ? match.TimeStamp > timeStamp : true) &&

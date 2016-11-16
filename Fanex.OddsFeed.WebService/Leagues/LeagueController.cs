@@ -40,9 +40,9 @@ namespace Fanex.OddsFeed.WebService.Leagues
         {
             foreach (LeagueNode league in leagues)
             {
-                //league.NameEnglish = BetOddNodeBuilder.EscapeXML(league.NameEnglish);
-                //league.NameTraditionalChinese = BetOddNodeBuilder.EscapeXML(league.NameTraditionalChinese);
-                //league.NameSimplifiedChinese = BetOddNodeBuilder.EscapeXML(league.NameSimplifiedChinese);
+                league.NameEnglish = Utilities.EscapeXML(league.NameEnglish);
+                league.NameTraditionalChinese = Utilities.EscapeXML(league.NameTraditionalChinese);
+                league.NameSimplifiedChinese = Utilities.EscapeXML(league.NameSimplifiedChinese);
             }
         }
 
