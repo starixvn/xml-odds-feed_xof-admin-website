@@ -228,8 +228,9 @@
     <Compile Include="Builders\OddsFeedBuilder.cs" />
     <Compile Include="Builders\OutrightBuilder.cs" />
     <Compile Include="Builders\MatchBuilder.cs" />
-    <Compile Include="Caching.cs" />
+    <Compile Include="Caching\Caching.cs" />
     <Compile Include="Configurations\AppSettings.cs" />
+    <Compile Include="Configurations\CacheKeys.cs" />
     <Compile Include="CouchbaseManager.cs" />
     <Compile Include="DbConnect.cs" />
     <Compile Include="Error.cs" />
@@ -268,7 +269,9 @@
     <Compile Include="Schemas\BetChoiceSchema.cs" />
     <Compile Include="Schemas\BetTypeSchema.cs" />
     <Compile Include="Schemas\ReserveSchema.cs" />
+    <Compile Include="Services\BetTypeService.cs" />
     <Compile Include="Services\EventOddsFeedService.cs" />
+    <Compile Include="Services\IBetTypeService.cs" />
     <Compile Include="Services\IEventOddsFeedService.cs" />
     <Compile Include="Services\IWebOddsFeedService.cs" />
     <Compile Include="Services\IWindowsOddsFeedService.cs" />
@@ -280,9 +283,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Caching\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
