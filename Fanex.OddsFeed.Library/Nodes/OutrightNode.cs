@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
 
+    [Serializable]
     public class OutrightNode
     {
         public int EventId { get; set; }

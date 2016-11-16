@@ -206,11 +206,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="OddsFeedWindowsService.cs">
+    <Compile Include="OddsFeedService.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="OddsFeedWindowsService.Designer.cs">
-      <DependentUpon>OddsFeedWindowsService.cs</DependentUpon>
+    <Compile Include="OddsFeedService.Designer.cs">
+      <DependentUpon>OddsFeedService.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="ProjectInstaller.cs">
@@ -222,8 +222,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="OddsFeedWindowsService.resx">
-      <DependentUpon>OddsFeedWindowsService.cs</DependentUpon>
+    <EmbeddedResource Include="OddsFeedService.resx">
+      <DependentUpon>OddsFeedService.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ProjectInstaller.resx">
       <DependentUpon>ProjectInstaller.cs</DependentUpon>
@@ -233,7 +233,9 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="BetTypeSchema\BetTypes.json" />
+    <Content Include="BetTypeSchema\BetTypes.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Fanex.OddsFeed.WindowsService.PRO.exe.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

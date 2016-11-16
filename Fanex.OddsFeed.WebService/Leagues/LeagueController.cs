@@ -1,7 +1,6 @@
 ﻿using Fanex.Data.Repository;
 using Fanex.OddsFeed.Library;
 using Fanex.OddsFeed.Library.Attributes;
-using Fanex.OddsFeed.Library.Matchs.OddNodeBuilder;
 using Fanex.OddsFeed.WebService.Common;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,9 +40,9 @@ namespace Fanex.OddsFeed.WebService.Leagues
         {
             foreach (LeagueNode league in leagues)
             {
-                league.NameEnglish = BetOddNodeBuilder.EscapeXML(league.NameEnglish);
-                league.NameTraditionalChinese = BetOddNodeBuilder.EscapeXML(league.NameTraditionalChinese);
-                league.NameSimplifiedChinese = BetOddNodeBuilder.EscapeXML(league.NameSimplifiedChinese);
+                //league.NameEnglish = BetOddNodeBuilder.EscapeXML(league.NameEnglish);
+                //league.NameTraditionalChinese = BetOddNodeBuilder.EscapeXML(league.NameTraditionalChinese);
+                //league.NameSimplifiedChinese = BetOddNodeBuilder.EscapeXML(league.NameSimplifiedChinese);
             }
         }
 

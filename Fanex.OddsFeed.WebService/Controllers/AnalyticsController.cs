@@ -1,20 +1,8 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="AnalyticsController.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Thai.Tran" date="2013.1.7">Created</change>
-// </history>
-namespace Fanex.OddsFeed.WebService.Controllers
+﻿namespace Fanex.OddsFeed.WebService.Controllers
 {
-    using System.Collections.Generic;
     using System.Configuration;
-    using System.Diagnostics.CodeAnalysis;
     using System.Web.Mvc;
     using Fanex.OddsFeed.Library;
-    using Fanex.OddsFeed.Library.Matchs;
-    using Fanex.OddsFeed.Library.Outrights;
 
     /// <summary>
     /// Class AnalyticsController.
@@ -32,13 +20,13 @@ namespace Fanex.OddsFeed.WebService.Controllers
             var prefix = ConfigurationManager.AppSettings["Cache.Prefix"];
             for (var i = 0; i < totalVersion; i++)
             {
-                var match = Caching.Get(prefix + "deadballmatches" + i) as IList<Match>;
-                var _event = Caching.Get(prefix + "events" + i) as IList<Event>;
+                //var match = Caching.Get(prefix + "deadballmatches" + i) as IList<Match>;
+                //var _event = Caching.Get(prefix + "events" + i) as IList<Event>;
 
-                var m = match == null ? 0 : match.Count;
-                var e = _event == null ? 0 : _event.Count;
+                //var m = match == null ? 0 : match.Count;
+                //var e = _event == null ? 0 : _event.Count;
 
-                result += string.Format("<h3>Version: {0}, match: {1}, event: {2}</h3>", i, m, e);
+                //result += string.Format("<h3>Version: {0}, match: {1}, event: {2}</h3>", i, m, e);
             }
 
             ViewBag.Result = result;

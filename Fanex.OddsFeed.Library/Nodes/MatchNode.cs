@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
 
+    [Serializable]
     public class MatchNode
     {
         public int MatchId { get; set; }

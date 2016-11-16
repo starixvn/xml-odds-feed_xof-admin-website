@@ -1,80 +1,22 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="Caching.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Thai.Tran" date="2013.1.7">Created</change>
-// </history>
-
-namespace Fanex.OddsFeed.Library
+﻿namespace Fanex.OddsFeed.Library
 {
+    using System;
     using System.Collections.Generic;
-    using System.Configuration;
     using Configurations;
     using Couchbase;
-    using Fanex.OddsFeed.Library.Matchs;
+    using Enyim.Caching.Memcached;
     using Helper;
     using Model;
     using Nodes;
     using Schemas;
 
-    /// <summary>
-    /// Class Caching.
-    /// </summary>
     public static class Caching
-    {        
-        private static readonly CouchbaseClient _Cache;
+    {
+        private static readonly CouchbaseClient _cacheClient;
 
-        /// <summary>
-        /// Initializes static members of the <see cref="Caching"/> class.
-        /// </summary>
         static Caching()
         {
-            _Cache = CouchbaseManager.Instance;
-        }
-
-        /// <summary>
-        /// Gets the data.
-        /// </summary>
-        /// <param name="delayTimes">The delay times.</param>
-        /// <returns>Object OddsDataToCache.</returns>
-        public static OddsDataToCache GetData(IList<int> delayTimes)
-        {
-            var currentVersion = GetCurrentVersion();
-            var fullChain = IsFullChain();
-
-            var interval = int.Parse(ConfigurationManager.AppSettings.Get("Interval")) / 1000;
-            OddsDataToCache result = new OddsDataToCache();
-            int delayTimeDeadball = 0, delayTimeLive = 0, delayTimeOutright = 0;
-            if (delayTimes.Count >= 3)
-            {
-                delayTimeDeadball = delayTimes[0];
-                delayTimeLive = delayTimes[1];
-                delayTimeOutright = delayTimes[2];
-            }
-
-            int rightVersion;
-            var prefix = ConfigurationManager.AppSettings["Cache.Prefix"];
-            ////Get Deadball
-            rightVersion = GetRightVersion(delayTimeDeadball, currentVersion, fullChain);
-            result.DeadballMatches = rightVersion == -1
-                ? null
-                : _Cache.Get<IList<Match>>(prefix + "deadballmatches" + rightVersion);
-
-            ////Get Live
-            rightVersion = GetRightVersion(delayTimeLive, currentVersion, fullChain);
-            result.LiveMatches = rightVersion == -1
-                ? null
-                : _Cache.Get<IList<Match>>(prefix + "livematchs" + rightVersion);
-
-            ////Get Outright
-            rightVersion = GetRightVersion(delayTimeOutright, currentVersion, fullChain);
-            result.Events = rightVersion == -1
-                ? null
-                : _Cache.Get<IList<Outrights.Event>>(prefix + "events" + rightVersion);
-
-            return result;
+            _cacheClient = CouchbaseManager.Instance;
         }
 
         public static OddsData GetOddsData(IList<int> delayTimes)
@@ -82,8 +24,6 @@ namespace Fanex.OddsFeed.Library
             var currentVersion = GetCurrentVersion();
             var fullChain = IsFullChain();
 
-            var interval = int.Parse(ConfigurationManager.AppSettings.Get("Interval")) / 1000;
-            OddsData result = new OddsData();
             int delayTimeDeadball = 0, delayTimeLive = 0, delayTimeOutright = 0;
             if (delayTimes.Count >= 3)
             {
@@ -92,27 +32,31 @@ namespace Fanex.OddsFeed.Library
                 delayTimeOutright = delayTimes[2];
             }
 
-            int rightVersion;
-            var prefix = ConfigurationManager.AppSettings["Cache.Prefix"];
-            ////Get Deadball
-            rightVersion = GetRightVersion(delayTimeDeadball, currentVersion, fullChain);
-            result.DeadballMatches = rightVersion == -1
-                ? null
-                : _Cache.Get<IList<MatchNode>>(prefix + "deadballmatches" + rightVersion);
+            var cachePrefix = AppSettings.CachePrefix;
+            int deadballRightVersion = GetRightVersion(delayTimeDeadball, currentVersion, fullChain);
+            int liveRightVersion = GetRightVersion(delayTimeLive, currentVersion, fullChain);
+            int outrightRightVersion = GetRightVersion(delayTimeOutright, currentVersion, fullChain);
 
-            ////Get Live
-            rightVersion = GetRightVersion(delayTimeLive, currentVersion, fullChain);
-            result.LiveMatches = rightVersion == -1
-                ? null
-                : _Cache.Get<IList<MatchNode>>(prefix + "livematchs" + rightVersion);
+            return new OddsData
+            {
+                DeadballMatches = GetMatches(string.Format("{0}deadballmatches{1}", cachePrefix, deadballRightVersion), deadballRightVersion),
+                LiveMatches = GetMatches(string.Format("{0}livematchs{1}", cachePrefix, liveRightVersion), liveRightVersion),
+                Outrights = GetOutrights(string.Format("{0}events{1}", cachePrefix, outrightRightVersion), outrightRightVersion)
+            };
+        }
 
-            ////Get Outright
-            rightVersion = GetRightVersion(delayTimeOutright, currentVersion, fullChain);
-            result.Outrights = rightVersion == -1
-                ? null
-                : _Cache.Get<IList<OutrightNode>>(prefix + "events" + rightVersion);
+        private static IList<MatchNode> GetMatches(string key, int rightVersion)
+        {
+            return rightVersion == -1
+                ? new List<MatchNode>()
+                : _cacheClient.Get<List<MatchNode>>(key);
+        }
 
-            return result;
+        private static IList<OutrightNode> GetOutrights(string key, int rightVersion)
+        {
+            return rightVersion == -1
+                ? new List<OutrightNode>()
+                : _cacheClient.Get<List<OutrightNode>>(key);
         }
 
         public static IList<BetTypeSchema> GetBetTypeSchemas()
@@ -122,7 +66,8 @@ namespace Fanex.OddsFeed.Library
             if (bettypeSchemas == null)
             {
                 bettypeSchemas = JsonHelper.GetBetTypeSchemas(AppSettings.BetTypeSchemaPath);
-                _Cache.Store(Enyim.Caching.Memcached.StoreMode.Set, AppSettings.BetTypeSchemaKey, bettypeSchemas);
+
+                _cacheClient.Store(StoreMode.Set, AppSettings.BetTypeSchemaKey, bettypeSchemas);
             }
 
             return bettypeSchemas;
@@ -130,44 +75,29 @@ namespace Fanex.OddsFeed.Library
 
         public static object Get(string key)
         {
-            return _Cache.Get(key);
+            return _cacheClient.Get(key);
         }
 
         public static int GetCurrentVersion()
         {
-            return _Cache.Get<int>(ConfigurationManager.AppSettings["Cache.Prefix"] + "current");
+            return _cacheClient.Get<int>(AppSettings.CachePrefix + "current");
         }
 
         public static bool IsFullChain()
         {
-            return _Cache.Get<bool>(ConfigurationManager.AppSettings["Cache.Prefix"] + "fullchain");
+            return _cacheClient.Get<bool>(AppSettings.CachePrefix + "fullchain");
         }
 
-        /// <summary>
-        /// Gets the right version.
-        /// </summary>
-        /// <param name="delayTime">The delay time.</param>
-        /// <param name="currentVersion">The current version.</param>
-        /// <param name="isFullChain">If set to <c>true</c> [is full chain].</param>
-        /// <returns>System integer.</returns>
         public static int GetRightVersion(int delayTime, int currentVersion, bool isFullChain)
         {
-            var interval = int.Parse(ConfigurationManager.AppSettings.Get("Interval")) / 1000;
-            var a = currentVersion - (delayTime / interval);
+            var rightVersion = currentVersion - (delayTime / (AppSettings.Interval / 1000));
+
             if (isFullChain)
             {
-                return
-                    a > 0
-                    ? a
-                    : int.Parse(ConfigurationManager.AppSettings.Get("TotalVersion")) - System.Math.Abs(a);
+                return rightVersion > 0 ? rightVersion : AppSettings.TotalVersion - Math.Abs(rightVersion);
             }
-            else
-            {
-                return
-                    a > -1
-                    ? a
-                    : -1;
-            }
+
+            return rightVersion > -1 ? rightVersion : -1;
         }
     }
 }

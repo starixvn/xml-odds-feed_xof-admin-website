@@ -29,7 +29,7 @@ namespace Fanex.OddsFeed.WindowsService
             ServiceBase[] servicesToRun;
             servicesToRun = new ServiceBase[] 
             { 
-                new OddsFeedWindowsService()
+                new OddsFeedService()
             };
             ServiceBase.Run(servicesToRun);
             //// Fanex.Data.Configuration.DbSettingProviderManager.Current.Start();

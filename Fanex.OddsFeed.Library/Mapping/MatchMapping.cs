@@ -25,12 +25,17 @@
                 var matchOdds = GetMatchOdds(schemas, row, oddsFlexs);
                 var matchNode = CreateMatchNode(row, isLive);
 
+                if (matchOdds == null)
+                {
+                    continue;
+                }
+
                 if (matchId != currentMatchId)
                 {
                     matchNode.BookieNode = new BookieNode
                     {
                         BookieNames = GetBookieNames(),
-                        OddsNodes = new[] { matchOdds }
+                        OddsNodes = new List<MatchOddsNode> { matchOdds }
                     };
 
                     matchNode.MatchId = currentMatchId;

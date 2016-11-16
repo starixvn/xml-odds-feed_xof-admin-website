@@ -236,5 +236,13 @@
                 return ConfigurationManager.AppSettings["BetTypeSchemaKey"].ToString();
             }
         }
+
+        public static string CachePrefix
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["Cache.Prefix"].ToString();
+            }
+        }
     }
 }

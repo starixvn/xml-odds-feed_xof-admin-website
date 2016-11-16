@@ -34,9 +34,9 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
         protected const int NapAdminId = 1;
 
-        protected readonly string Environment = NapSettings.Settings.Environment;
+        //protected readonly string Environment = NapSettings.Settings.Environment;
 
-        protected readonly int SiteId = NapSettings.Settings.SiteId;
+        //protected readonly int SiteId = NapSettings.Settings.SiteId;
                
         protected readonly ICurrentContext CurrentContext;
 
@@ -44,7 +44,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
         protected readonly IServiceContext ServiceContext;
 
-        private int _issiteLogin = NapSettings.Settings.IsSiteLogin;
+        //private int _issiteLogin = NapSettings.Settings.IsSiteLogin;
 
         private ViewFlags _viewFlags;   
 

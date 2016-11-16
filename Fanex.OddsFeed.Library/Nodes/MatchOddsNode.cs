@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
 
+    [Serializable]
     public class MatchOddsNode
     {
         public int BetTypeId { get; set; }

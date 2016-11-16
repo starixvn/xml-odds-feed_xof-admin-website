@@ -13,7 +13,7 @@
         {
             try
             {
-                var fullPath = Path.Combine(Environment.CurrentDirectory, filePath);
+                var fullPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, filePath);
 
                 return JsonConvert.DeserializeObject<List<BetTypeSchema>>(File.ReadAllText(fullPath));
             }

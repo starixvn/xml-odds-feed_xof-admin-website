@@ -1,26 +1,12 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="EventController.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Thai.Tran" date="2013.1.7">Created</change>
-// </history>
-
-namespace Fanex.OddsFeed.WebService.Controllers
+﻿namespace Fanex.OddsFeed.WebService.Controllers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Configuration;    
-    using System.Diagnostics.CodeAnalysis;
-    using System.Linq;    
-    using System.Web;
     using System.Web.Mvc;
     using System.Xml;
     using MvcContrib.ActionResults;
     using Fanex.OddsFeed.Library;
     using Fanex.OddsFeed.Library.Attributes;
     using Fanex.OddsFeed.WebService.Functions;
+    using Library.Services;
 
     /// <summary>
     /// Class EventController.
@@ -64,8 +50,9 @@ namespace Fanex.OddsFeed.WebService.Controllers
 
             if (err.Id == 0 || isSample)
             {
-                var of = new Fanex.OddsFeed.Library.OddsFeed(partner.OddsProfile, partner.SystemName, domainName, ip, timestamp);
-                return of.BuildXmlEvent(partner.Timestamp, filter, isSample, outrights);
+                //var of = new Fanex.OddsFeed.Library.OddsFeed(partner.OddsProfile, partner.SystemName, domainName, ip, timestamp);
+                var oddsFeedService = new EventOddsFeedService(partner.OddsProfile);
+                return oddsFeedService.BuildXmlEvent(partner.Timestamp, filter, isSample, outrights);
             }
 
             return err.ToXmlElement();

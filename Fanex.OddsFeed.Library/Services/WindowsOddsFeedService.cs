@@ -11,7 +11,6 @@
     using Logging;
     using Mapping;
     using Model;
-    using Schemas;
 
     public class WindowsOddsFeedService : IWindowsOddsFeedService
     {

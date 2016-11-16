@@ -1,12 +1,4 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="OddsFeedController.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Thai.Tran" date="2013.1.7">Created</change>
-// </history>
-namespace Fanex.OddsFeed.WebService.Controllers
+﻿namespace Fanex.OddsFeed.WebService.Controllers
 {
     using System;
     using System.Configuration;
@@ -20,6 +12,7 @@ namespace Fanex.OddsFeed.WebService.Controllers
     using Fanex.OddsFeed.Library;
     using Fanex.OddsFeed.Library.Attributes;
     using Fanex.OddsFeed.WebService.Functions;
+    using Library.Services;
 
     /// <summary>
     /// Class OddsFeedController.
@@ -28,11 +21,6 @@ namespace Fanex.OddsFeed.WebService.Controllers
     {
         private static readonly ILog Log = LogManager.GetLogger("LogService");
 
-        /// <summary>
-        /// Indexes the specified username.
-        /// </summary>
-        /// <param name="username">The username.</param>
-        /// <returns>Xml Result.</returns>
         [Compress]
         public XmlResult Index(string username)
         {
@@ -118,11 +106,6 @@ namespace Fanex.OddsFeed.WebService.Controllers
             }
         }
 
-        /// <summary>
-        /// Helps the specified username.
-        /// </summary>
-        /// <param name="username">The username.</param>
-        /// <returns>Action Result.</returns>
         public ActionResult Help(string username)
         {
             // check UM Time
@@ -163,8 +146,6 @@ namespace Fanex.OddsFeed.WebService.Controllers
 
             ViewBag.ContactEmail = DbConnect.GetContactEmailByUserName(username);
 
-            ViewBag.BetOddNodeMapping = Fanex.OddsFeed.Library.Matchs.OddNodeBuilder.BetOddNodeMapping.BetTypes;
-
             GenerateAppendixData(username);
 
             if (oddProfile != null)
@@ -177,10 +158,6 @@ namespace Fanex.OddsFeed.WebService.Controllers
             }
         }
 
-        /// <summary>
-        /// Generate data for appendix menu.
-        /// </summary>
-        /// <param name="username">The username.</param>
         private void GenerateAppendixData(string username)
         {
             //// Generate supported sports
@@ -223,7 +200,6 @@ namespace Fanex.OddsFeed.WebService.Controllers
             ViewBag.CountriesCol2 = countriesCol2.Select();
             ViewBag.CountriesCol3 = countriesCol3.Select();
             ViewBag.HighlightSportType = ConfigurationManager.AppSettings["HighlightSportType"].Split(',');
-            ViewBag.HighlightBetType = Library.Matchs.OddNodeBuilder.BetOddNodeMapping.HighlightBetType.Split(',');
         }
 
         public static DataTable SortDataTable(DataTable dt, string colName, string direction)
@@ -234,15 +210,6 @@ namespace Fanex.OddsFeed.WebService.Controllers
             return dtOut;
         }
 
-        /// <summary>
-        /// Generate supported sports, bet types, countries.
-        /// </summary>
-        /// <param name="dt">Input data table.</param>
-        /// <param name="column1Data">Output data table for column1.</param>
-        /// <param name="column2Data">Output data table for column2.</param>
-        /// <param name="column3Data">Output data table for column3.</param>
-        /// <param name="columnID">The column ID.</param>
-        /// <param name="columnName">The column name.</param>
         private void GenerateData(DataTable dt, DataTable column1Data, DataTable column2Data, DataTable column3Data, string columnID, string columnName)
         {
             int sum = dt.Rows.Count;
@@ -281,18 +248,6 @@ namespace Fanex.OddsFeed.WebService.Controllers
             }
         }
 
-        /// <summary>
-        /// Generate data for columns.
-        /// </summary>
-        /// <param name="dt">Input data table.</param>
-        /// <param name="column1Data">Output data table for column1.</param>
-        /// <param name="column2Data">Output data table for column2.</param>
-        /// <param name="column3Data">Output data table for column3.</param>
-        /// <param name="columnID">The column ID.</param>
-        /// <param name="columnName">The column name.</param>
-        /// <param name="sumCol1">Sum items for column1.</param>
-        /// <param name="sumCol2">Sum items for column2.</param>
-        /// <param name="sumCol3">Sum items for column3.</param>
         private void GenerateColumnData(
             DataTable dt,
             DataTable column1Data,
@@ -342,17 +297,6 @@ namespace Fanex.OddsFeed.WebService.Controllers
             }
         }
 
-        /// <summary>
-        /// Gets the odds feed.
-        /// </summary>
-        /// <param name="oddProfile">The odd profile.</param>
-        /// <param name="username">The username.</param>
-        /// <param name="timestamp">The timestamp.</param>
-        /// <param name="domain">The domain.</param>
-        /// <param name="filter">The filter.</param>
-        /// <param name="isSample">If set to <c>true</c> [is sample].</param>
-        /// <param name="outrights">If set to <c>true</c> [outrights].</param>
-        /// <returns>Xml Element.</returns>
         private XmlElement GetOddsFeed(
                                                             ref OddsProfile oddProfile,
                                                             string username,
@@ -380,9 +324,11 @@ namespace Fanex.OddsFeed.WebService.Controllers
                 oddProfile.Domain = domainName;
 
                 Log.Info("2. Get Odds from Cache of " + username + "---" + DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss.fff"));
-                var of = new Fanex.OddsFeed.Library.OddsFeed(partner.OddsProfile, partner.SystemName, domainName, ip, timestamp);
+                //var of = new OddsFeed(partner.OddsProfile, partner.SystemName, domainName, ip, timestamp);
+                var service = new WebOddsFeedService(partner.OddsProfile, partner.SystemName, domainName, ip, timestamp);
                 Log.Info("3. Build XML Document " + username + "---" + DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss.fff"));
-                var xmlDocument = of.BuildXmlDocument(partner.Timestamp, filter, isSample, outrights);
+                //var xmlDocument = of.BuildXmlDocument(partner.Timestamp, filter, isSample, outrights);
+                var xmlDocument = service.BuildXmlDocument(partner.Timestamp, filter, isSample, outrights);
 
                 return xmlDocument;
             }

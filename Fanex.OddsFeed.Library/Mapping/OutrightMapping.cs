@@ -43,7 +43,7 @@
                 SportName = row["LeagueNameTC"].ToString(),
                 CountryCode = row["CountryCode"].ToString(),
                 Time = Convert.ToDateTime(row["EventDate"].ToString()),
-                OutrightOddsNodes = new[] { eventOddsNode }
+                OutrightOddsNodes = new List<OutrightOddsNode> { eventOddsNode }
             };
         }
 

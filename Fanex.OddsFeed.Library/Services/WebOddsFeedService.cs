@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Xml;
     using Builders;
+    using Couchbase;
     using Filters;
     using Model;
     using Nodes;
@@ -61,6 +62,16 @@
             AddMatchesNode(nodeRoot, xmlDocument, oddsFeedFilter, oddsData, isSample);
 
             return nodeRoot;
+        }
+
+        private OddsData GetOddsData()
+        {
+            var cache = new CouchbaseClient();
+            var oddsData = new OddsData();
+
+            var data = cache.Get("apollolivematchs0");
+
+            return oddsData;
         }
 
         private XmlDocument CreateXmlDocument()

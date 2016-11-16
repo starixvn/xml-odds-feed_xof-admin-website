@@ -15,6 +15,7 @@
         public EventOddsFeedService(OddsProfile oddsProfile)
         {
             _oddsProfile = oddsProfile;
+            _eventBuilder = new EventBuilder();
         }
 
         public XmlElement BuildXmlEvent(string timestamp, OddsFeedFilter filter, bool isSample = false, bool isOutright = true)

@@ -241,15 +241,6 @@
     <Compile Include="Mapping\IOutrightMapping.cs" />
     <Compile Include="Mapping\IMatchMapping.cs" />
     <Compile Include="Mapping\MatchMapping.cs" />
-    <Compile Include="Matchs\OddNodeBuilder\BetOddNodeBuilder.cs" />
-    <Compile Include="Matchs\OddNodeBuilder\BetOddNodeMapping.cs" />
-    <Compile Include="Matchs\OddNodeBuilder\OddNodeBase.cs" />
-    <Compile Include="Matchs\OddNodeBuilder\OddNodeFlex.cs" />
-    <Compile Include="Matchs\OddNodeBuilder\OddNodeHandicap.cs" />
-    <Compile Include="Matchs\OddNodeBuilder\OddNodeAttrBase.cs" />
-    <Compile Include="Matchs\OddNodeBuilder\OddNodeAttrFlex.cs" />
-    <Compile Include="Matchs\OddNodeBuilder\OddNodeAttrHandicap.cs" />
-    <Compile Include="Matchs\OddNodeBuilder\OddNodeAttrX.cs" />
     <Compile Include="Model\OddFlex.cs" />
     <Compile Include="Model\OddsData.cs" />
     <Compile Include="Nodes\BetChoice.cs" />
@@ -260,10 +251,6 @@
     <Compile Include="Nodes\MatchOddsNode.cs" />
     <Compile Include="OddsFeedFilter.cs" />
     <Compile Include="Language.cs" />
-    <Compile Include="Matchs\League.cs" />
-    <Compile Include="Matchs\Bookie.cs" />
-    <Compile Include="Matchs\Match.cs" />
-    <Compile Include="Matchs\MatchOdd.cs" />
     <Compile Include="Model\BaseModel.cs" />
     <Compile Include="Model\Country.cs" />
     <Compile Include="Model\Event.cs" />
@@ -272,11 +259,7 @@
     <Compile Include="Model\League.cs" />
     <Compile Include="Model\Sport.cs" />
     <Compile Include="Model\Team.cs" />
-    <Compile Include="OddsDataToCache.cs" />
-    <Compile Include="OddsFeed.cs" />
     <Compile Include="OddsProfile.cs" />
-    <Compile Include="Outrights\Event.cs" />
-    <Compile Include="Outrights\OutrightsOdd.cs" />
     <Compile Include="Parameters\OddsFeedParameters.cs" />
     <Compile Include="Parsers\ORMParsers.cs" />
     <Compile Include="Partner.cs" />
@@ -291,7 +274,6 @@
     <Compile Include="Services\IWindowsOddsFeedService.cs" />
     <Compile Include="Services\WebOddsFeedService.cs" />
     <Compile Include="Services\WindowsOddsFeedService.cs" />
-    <Compile Include="UpdateOddsData.cs" />
     <Compile Include="Utilities.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -301,6 +283,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Caching\" />
+    <Folder Include="Matchs\" />
+    <Folder Include="Outrights\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
