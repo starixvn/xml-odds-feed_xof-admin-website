@@ -5,7 +5,6 @@
     using System.Linq;
     using System.Xml;
     using Builders;
-    using Couchbase;
     using Filters;
     using Model;
     using Nodes;

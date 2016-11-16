@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="OddsFeedWindowsService.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Thai.Tran" date="2013.1.7">Created</change>
-// </history>k
-
-namespace Fanex.OddsFeed.WindowsService
+﻿namespace Fanex.OddsFeed.WindowsService
 {
     using System;
     using System.Configuration;

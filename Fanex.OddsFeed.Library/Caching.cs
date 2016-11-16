@@ -44,9 +44,9 @@
 
             return new OddsData
             {
-                DeadballMatches = GetMatches(string.Format("{0}deadballmatches{1}", cachePrefix, deadballRightVersion), deadballRightVersion),
-                LiveMatches = GetMatches(string.Format("{0}livematchs{1}", cachePrefix, liveRightVersion), liveRightVersion),
-                Outrights = GetOutrights(string.Format("{0}events{1}", cachePrefix, outrightRightVersion), outrightRightVersion)
+                DeadballMatches = GetMatches(CacheKeys.DeadballMatchKey(cachePrefix, deadballRightVersion), deadballRightVersion),
+                LiveMatches = GetMatches(CacheKeys.LiveMatchKey(cachePrefix, liveRightVersion), liveRightVersion),
+                Outrights = GetOutrights(CacheKeys.OutrightKey(cachePrefix, outrightRightVersion), outrightRightVersion)
             };
         }
 
@@ -66,12 +66,12 @@
 
         public static int GetCurrentVersion()
         {
-            return _cacheClient.Get<int>(AppSettings.CachePrefix + "current");
+            return _cacheClient.Get<int>(CacheKeys.CurrentKey(AppSettings.CachePrefix));
         }
 
         public static bool IsFullChain()
         {
-            return _cacheClient.Get<bool>(AppSettings.CachePrefix + "fullchain");
+            return _cacheClient.Get<bool>(CacheKeys.FullChainKey(AppSettings.CachePrefix));
         }
 
         public static int GetRightVersion(int delayTime, int currentVersion, bool isFullChain)

@@ -18,8 +18,8 @@
         private readonly int _numberTries;
         private readonly string _cachePrefix;
 
-        private IMatchMapping _matchMapping;
-        private IOutrightMapping _outrightMapping;
+        private readonly IMatchMapping _matchMapping;
+        private readonly IOutrightMapping _outrightMapping;
 
         public WindowsOddsFeedService()
         {
@@ -31,31 +31,15 @@
             _outrightMapping = new OutrightMapping();
         }
 
-        protected string CurrentPrefix
-        {
-            get
-            {
-                return string.Format("{0}current", _cachePrefix);
-            }
-        }
-
-        protected string FullChainPrefix
-        {
-            get
-            {
-                return string.Format("{0}fullchain", _cachePrefix);
-            }
-        }
-
         public bool Reset()
         {
-            return StoreData(CurrentPrefix, 0, _numberTries)
-                && StoreData(FullChainPrefix, false, _numberTries);
+            return StoreData(CacheKeys.CurrentKey(_cachePrefix), 0, _numberTries)
+                && StoreData(CacheKeys.FullChainKey(_cachePrefix), false, _numberTries);
         }
 
         public bool StoreFullChain()
         {
-            return StoreData(FullChainPrefix, true, _numberTries);
+            return StoreData(CacheKeys.FullChainKey(_cachePrefix), true, _numberTries);
         }
 
         public bool Update(int currentVersion)
@@ -83,13 +67,13 @@
                 var outrights = _outrightMapping.GetOutrightNodes(outrightOdds.ResultSet.Tables[0]);
                 line++;
 
-                bool result = StoreData(CurrentPrefix, currentVersion, _numberTries);
+                bool result = StoreData(CacheKeys.CurrentKey(_cachePrefix), currentVersion, _numberTries);
                 line++;
-                result = result && StoreData(string.Format("{0}livematchs{1}", _cachePrefix, currentVersion), liveMatches, _numberTries);
+                result = result && StoreData(CacheKeys.LiveMatchKey(_cachePrefix, currentVersion), liveMatches, _numberTries);
                 line++;
-                result = result && StoreData(string.Format("{0}deadballmatches{1}", _cachePrefix, currentVersion), deadBallMatches, _numberTries);
+                result = result && StoreData(CacheKeys.DeadballMatchKey(_cachePrefix, currentVersion), deadBallMatches, _numberTries);
                 line++;
-                result = result && StoreData(string.Format("{0}events{1}", _cachePrefix, currentVersion), outrights, _numberTries);
+                result = result && StoreData(CacheKeys.OutrightKey(_cachePrefix, currentVersion), outrights, _numberTries);
 
                 return result;
             }

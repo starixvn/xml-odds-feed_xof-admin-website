@@ -324,10 +324,8 @@
                 oddProfile.Domain = domainName;
 
                 Log.Info("2. Get Odds from Cache of " + username + "---" + DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss.fff"));
-                //var of = new OddsFeed(partner.OddsProfile, partner.SystemName, domainName, ip, timestamp);
                 var service = new WebOddsFeedService(partner.OddsProfile, partner.SystemName, domainName, ip, timestamp);
                 Log.Info("3. Build XML Document " + username + "---" + DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss.fff"));
-                //var xmlDocument = of.BuildXmlDocument(partner.Timestamp, filter, isSample, outrights);
                 var xmlDocument = service.BuildXmlDocument(partner.Timestamp, filter, isSample, outrights);
 
                 return xmlDocument;

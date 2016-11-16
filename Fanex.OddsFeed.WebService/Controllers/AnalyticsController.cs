@@ -1,12 +1,12 @@
 ﻿namespace Fanex.OddsFeed.WebService.Controllers
 {
+    using System.Collections.Generic;
     using System.Configuration;
     using System.Web.Mvc;
     using Fanex.OddsFeed.Library;
+    using Library.Configurations;
+    using Library.Nodes;
 
-    /// <summary>
-    /// Class AnalyticsController.
-    /// </summary>
     public class AnalyticsController : Controller
     {
         /// <summary>
@@ -17,16 +17,17 @@
         {
             var totalVersion = int.Parse(ConfigurationManager.AppSettings.Get("TotalVersion"));
             string result = string.Format("<h3>Current version: {0}, Full chain: {1}</h3>", Caching.GetCurrentVersion(), Caching.IsFullChain());
-            var prefix = ConfigurationManager.AppSettings["Cache.Prefix"];
-            for (var i = 0; i < totalVersion; i++)
+            string cachePrefix = AppSettings.CachePrefix;
+
+            for (var version = 0; version < totalVersion; version++)
             {
-                //var match = Caching.Get(prefix + "deadballmatches" + i) as IList<Match>;
-                //var _event = Caching.Get(prefix + "events" + i) as IList<Event>;
+                var matches = Caching.Get(CacheKeys.DeadballMatchKey(cachePrefix, version)) as IList<Match>;
+                var outrights = Caching.Get(CacheKeys.OutrightKey(cachePrefix, version)) as IList<Outright>;
 
-                //var m = match == null ? 0 : match.Count;
-                //var e = _event == null ? 0 : _event.Count;
+                int matchCount = matches == null ? 0 : matches.Count;
+                int outrightCount = outrights == null ? 0 : outrights.Count;
 
-                //result += string.Format("<h3>Version: {0}, match: {1}, event: {2}</h3>", i, m, e);
+                result += string.Format("<h3>Version: {0}, match: {1}, event: {2}</h3>", version, matchCount, outrightCount);
             }
 
             ViewBag.Result = result;
