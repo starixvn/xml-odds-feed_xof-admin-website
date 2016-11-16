@@ -4,7 +4,7 @@
     using System.Collections.Generic;
 
     [Serializable]
-    public class MatchOddsNode
+    public class MatchOdds
     {
         public int BetTypeId { get; set; }
 

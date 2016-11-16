@@ -143,26 +143,26 @@
             }
         }
 
-        private IList<MatchNode> GetLiveMatches(OddsFeedFilter oddsFeedFilter, IEnumerable<MatchNode> liveMatches, bool changeTime, int timeStamp)
+        private IList<Match> GetLiveMatches(OddsFeedFilter oddsFeedFilter, IEnumerable<Match> liveMatches, bool changeTime, int timeStamp)
         {
             return HaveLiveBallMatches(liveMatches)
                 ? _matchFilter.QueryMatches(_oddsProfile, oddsFeedFilter, liveMatches, changeTime, timeStamp)
-                : new List<MatchNode>();
+                : new List<Match>();
         }
 
-        private bool HaveLiveBallMatches(IEnumerable<MatchNode> liveMatches)
+        private bool HaveLiveBallMatches(IEnumerable<Match> liveMatches)
         {
             return _oddsProfile.OddsType.Contains(4) && liveMatches.Count() > 0;
         }
 
-        private IList<MatchNode> GetDeadMatches(OddsFeedFilter oddsFeedFilter, IEnumerable<MatchNode> deadMatches, bool changeTime, int timeStamp)
+        private IList<Match> GetDeadMatches(OddsFeedFilter oddsFeedFilter, IEnumerable<Match> deadMatches, bool changeTime, int timeStamp)
         {
             return HaveDeadBallMatches(deadMatches)
                 ? _matchFilter.QueryMatches(_oddsProfile, oddsFeedFilter, deadMatches, changeTime, timeStamp)
-                : new List<MatchNode>();
+                : new List<Match>();
         }
 
-        private bool HaveDeadBallMatches(IEnumerable<MatchNode> deadMatches)
+        private bool HaveDeadBallMatches(IEnumerable<Match> deadMatches)
         {
             return _oddsProfile.OddsType.Contains(2) && deadMatches.Count() > 0;
         }
@@ -172,7 +172,7 @@
             return DateTime.Now.AddHours(12);
         }
 
-        private int GetMaxTimeStamp(IEnumerable<MatchNode> deadBallMatches, IEnumerable<MatchNode> liveMatches)
+        private int GetMaxTimeStamp(IEnumerable<Match> deadBallMatches, IEnumerable<Match> liveMatches)
         {
             int deadBallTimeStamp = 0;
             int liveTimeStamp = 0;

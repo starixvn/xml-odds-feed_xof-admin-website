@@ -26,7 +26,7 @@
             var xmlDocument = new XmlDocument();
             var oddsProfile = new OddsProfile {  OddRegion = 1 };
             var deadballMatchNodes = GetMatchNodes(false);
-            var liveMatchNodes = new List<MatchNode>();
+            var liveMatchNodes = new List<Match>();
             var bookieName = "111candy";
             var lastUpdate = new DateTime(2016, 11, 2, 15, 51, 07);
             var timeStamp = 1477878874;
@@ -55,7 +55,7 @@
             var matchXmlNode = GetLiveMatchXmlNode();
             var xmlDocument = new XmlDocument();
             var oddsProfile = new OddsProfile { OddRegion = 1 };
-            var deadballMatchNodes = new List<MatchNode>();
+            var deadballMatchNodes = new List<Match>();
             var liveMatchNodes = GetMatchNodes(true);
             var bookieName = "111candy";
             var lastUpdate = new DateTime(2016, 11, 2, 15, 51, 07);
@@ -100,11 +100,11 @@
                 + "</matches>";
         }
 
-        private IEnumerable<MatchNode> GetMatchNodes(bool isLive)
+        private IEnumerable<Match> GetMatchNodes(bool isLive)
         {
             return new[]
             {
-                new MatchNode
+                new Match
                 {
                     MatchId = 20485706,
                     IsLive = isLive,
@@ -128,11 +128,11 @@
                     },
                     KickOfTime = new DateTime(2016, 11, 3, 11, 59, 59),
                     SportName = "Soccer",
-                    BookieNode = new BookieNode
+                    Bookie = new Bookie
                     {
-                        OddsNodes = new []
+                        MatchOddsList = new []
                         {
-                            new MatchOddsNode
+                            new MatchOdds
                             {
                                 Tag = "oe",
                                 BetTypeId = 1,

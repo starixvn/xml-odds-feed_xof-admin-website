@@ -10,14 +10,14 @@
 
     public class MatchMapping : IMatchMapping
     {
-        public IEnumerable<MatchNode> GetMatchNodes(
+        public IEnumerable<Match> GetMatchNodes(
             DataTable dataTable, 
             IEnumerable<BetTypeSchema> schemas, 
             bool isLive, 
             IEnumerable<OddFlex> oddsFlexs)
         {
             int matchId = 0;
-            var matchNodes = new List<MatchNode>();
+            var matchNodes = new List<Match>();
 
             foreach (DataRow row in dataTable.Rows)
             {
@@ -32,10 +32,10 @@
 
                 if (matchId != currentMatchId)
                 {
-                    matchNode.BookieNode = new BookieNode
+                    matchNode.Bookie = new Bookie
                     {
                         BookieNames = GetBookieNames(),
-                        OddsNodes = new List<MatchOddsNode> { matchOdds }
+                        MatchOddsList = new List<MatchOdds> { matchOdds }
                     };
 
                     matchNode.MatchId = currentMatchId;
@@ -51,16 +51,16 @@
                         matchNode.TimeStamp = matchOdds.TimeStamp;
                     }
 
-                    matchNodes.Last().BookieNode.OddsNodes.Add(matchOdds);
+                    matchNodes.Last().Bookie.MatchOddsList.Add(matchOdds);
                 }
             }
 
             return matchNodes;
         }
 
-        private MatchNode CreateMatchNode(DataRow row, bool isLive)
+        private Match CreateMatchNode(DataRow row, bool isLive)
         {
-            return new MatchNode
+            return new Match
             {
                 SportName = row["SportTypeName"].ToString(),
                 SportId = Convert.ToInt32(row["SportType"]),
@@ -76,7 +76,7 @@
             };
         }
 
-        private MatchOddsNode GetMatchOdds(IEnumerable<BetTypeSchema> schemas, DataRow row, IEnumerable<OddFlex> oddsFlexs)
+        private MatchOdds GetMatchOdds(IEnumerable<BetTypeSchema> schemas, DataRow row, IEnumerable<OddFlex> oddsFlexs)
         {
             var schema = FindBetTypeSchema(Convert.ToInt32(row["BetType"]), schemas);
 
@@ -118,9 +118,9 @@
             return MapBetChoicesOddsFlex(schema.BetChoices, filterOddsFlexs); ;
         }
 
-        private MatchOddsNode CreateMatchOddsNode(BetTypeSchema schema, DataRow row)
+        private MatchOdds CreateMatchOddsNode(BetTypeSchema schema, DataRow row)
         {
-            return new MatchOddsNode
+            return new MatchOdds
             {
                 Tag = schema.Tag,
                 Time = Convert.ToDateTime(row["ChangeTime"]),

@@ -45,18 +45,18 @@
             };
         }
 
-        private static IList<MatchNode> GetMatches(string key, int rightVersion)
+        private static IList<Match> GetMatches(string key, int rightVersion)
         {
             return rightVersion == -1
-                ? new List<MatchNode>()
-                : _cacheClient.Get<List<MatchNode>>(key);
+                ? new List<Match>()
+                : _cacheClient.Get<List<Match>>(key);
         }
 
-        private static IList<OutrightNode> GetOutrights(string key, int rightVersion)
+        private static IList<Outright> GetOutrights(string key, int rightVersion)
         {
             return rightVersion == -1
-                ? new List<OutrightNode>()
-                : _cacheClient.Get<List<OutrightNode>>(key);
+                ? new List<Outright>()
+                : _cacheClient.Get<List<Outright>>(key);
         }
 
         public static IList<BetTypeSchema> GetBetTypeSchemas()

@@ -49,11 +49,11 @@
                 + "</outrights>";
         }
 
-        private IEnumerable<OutrightNode> GetOutrightNodes()
+        private IEnumerable<Outright> GetOutrightNodes()
         {
             return new[]
             {
-                new OutrightNode
+                new Outright
                 {
                     EventId = 9966,
                     EventNames = new []
@@ -65,9 +65,9 @@
                     SportId = 1,
                     SportName = "Soccer",
                     Time = new DateTime(2016,12,8),
-                    OutrightOddsNodes = new []
+                    OutrightOddsList = new []
                     {
-                        new OutrightOddsNode
+                        new OutrightOdds
                         {
                             OddsId = 7207912,
                             Value = 0.3m,

@@ -7,7 +7,7 @@
 
     public class EventBuilder : OddsFeedBuilder
     {
-        public XmlNode CreateOutrightsNode(XmlDocument xmlDocument, IEnumerable<OutrightNode> outrights)
+        public XmlNode CreateOutrightsNode(XmlDocument xmlDocument, IEnumerable<Outright> outrights)
         {
             var outrightsNode = xmlDocument.CreateNode(XmlNodeType.Element, "outrights", null);
 
@@ -19,7 +19,7 @@
             return outrightsNode;
         }
 
-        public XmlNode CreateMatchesNode(XmlDocument xmlDocument, IEnumerable<MatchNode> matches)
+        public XmlNode CreateMatchesNode(XmlDocument xmlDocument, IEnumerable<Match> matches)
         {
             var matchesNode = xmlDocument.CreateNode(XmlNodeType.Element, "matches", null);
             var leagues = matches.GroupBy(league => league.LeagueId);
@@ -32,7 +32,7 @@
             return matchesNode;
         }
 
-        private XmlNode CreateLeagueNode(XmlDocument xmlDocument, int leagueId, IEnumerable<MatchNode> matches)
+        private XmlNode CreateLeagueNode(XmlDocument xmlDocument, int leagueId, IEnumerable<Match> matches)
         {
             var leagueNode = xmlDocument.CreateNode(XmlNodeType.Element, "league", null);
 
@@ -48,7 +48,7 @@
             return leagueNode;
         }
 
-        private XmlNode CreateMatchNode(XmlDocument xmlDocument, MatchNode match)
+        private XmlNode CreateMatchNode(XmlDocument xmlDocument, Match match)
         {
             var matchNode = xmlDocument.CreateNode(XmlNodeType.Element, "match", null);
 
@@ -61,7 +61,7 @@
             return matchNode;
         }
 
-        private XmlNode CreateEventNode(XmlDocument xmlDocument, OutrightNode outright)
+        private XmlNode CreateEventNode(XmlDocument xmlDocument, Outright outright)
         {
             var eventNode = xmlDocument.CreateNode(XmlNodeType.Element, "event", null);
 
@@ -70,7 +70,7 @@
             AssignMatchKickOff(xmlDocument, eventNode, outright.Time);
             AssignSport(xmlDocument, eventNode, outright.SportName);
 
-            foreach (var outrightOddsNode in outright.OutrightOddsNodes)
+            foreach (var outrightOddsNode in outright.OutrightOddsList)
             {
                 eventNode.AppendChild(CreateTeamNode(xmlDocument, outrightOddsNode));
             }
@@ -78,7 +78,7 @@
             return eventNode;
         }
 
-        private XmlNode CreateTeamNode(XmlDocument xmlDocument, OutrightOddsNode outrightOddsNode)
+        private XmlNode CreateTeamNode(XmlDocument xmlDocument, OutrightOdds outrightOddsNode)
         {
             var teamNode = xmlDocument.CreateNode(XmlNodeType.Element, "team", null);
 

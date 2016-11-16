@@ -32,8 +32,8 @@
             // Assert
             Assert.AreEqual(dataTable.Rows[0]["LeagueID"], result.ElementAt(0).EventId);
             Assert.AreEqual(dataTable.Rows[0]["SportID"], result.ElementAt(0).SportId);
-            Assert.AreEqual(dataTable.Rows[0]["OrID"], result.ElementAt(0).OutrightOddsNodes.ElementAt(0).OddsId);
-            Assert.AreEqual(dataTable.Rows[0]["Odds"], result.ElementAt(0).OutrightOddsNodes.ElementAt(0).Value);
+            Assert.AreEqual(dataTable.Rows[0]["OrID"], result.ElementAt(0).OutrightOddsList.ElementAt(0).OddsId);
+            Assert.AreEqual(dataTable.Rows[0]["Odds"], result.ElementAt(0).OutrightOddsList.ElementAt(0).Value);
             Assert.AreEqual(dataTable.Rows[0]["EventDate"], result.ElementAt(0).Time);
         }
 

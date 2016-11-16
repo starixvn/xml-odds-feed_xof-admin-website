@@ -5,10 +5,10 @@
 
     public class OddsData
     {
-        public IEnumerable<MatchNode> LiveMatches { get; set; }
+        public IEnumerable<Match> LiveMatches { get; set; }
 
-        public IEnumerable<MatchNode> DeadballMatches { get; set; }
+        public IEnumerable<Match> DeadballMatches { get; set; }
 
-        public IEnumerable<OutrightNode> Outrights { get; set; }
+        public IEnumerable<Outright> Outrights { get; set; }
     }
 }

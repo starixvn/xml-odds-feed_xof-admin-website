@@ -20,7 +20,7 @@
             XmlDocument xmlDocument,
             OddsProfile oddsProfile,
             OddsFeedFilter oddsFeedFilter,
-            IEnumerable<OutrightNode> outrightNodes,
+            IEnumerable<Outright> outrightNodes,
             bool isOutright,
             bool isSample)
         {
@@ -56,7 +56,7 @@
                 && oddsFeedFilter.BetTypes.Contains(10)));
         }
 
-        private XmlNode CreateEventNode(XmlDocument xmlDocument, OddsProfile oddsProfile, OutrightNode outrightNode)
+        private XmlNode CreateEventNode(XmlDocument xmlDocument, OddsProfile oddsProfile, Outright outrightNode)
         {
             var eventNode = xmlDocument.CreateNode(XmlNodeType.Element, "event", null);
 
@@ -65,7 +65,7 @@
             AssignEventTime(xmlDocument, eventNode, outrightNode.Time);
             AssignSportName(xmlDocument, eventNode, outrightNode.SportName);
 
-            foreach (var outrightOddsNode in outrightNode.OutrightOddsNodes)
+            foreach (var outrightOddsNode in outrightNode.OutrightOddsList)
             {
                 eventNode.AppendChild(CreateOddNode(xmlDocument, oddsProfile, outrightOddsNode));
             }
@@ -97,7 +97,7 @@
         private XmlNode CreateOddNode(
             XmlDocument xmlDocument,
             OddsProfile oddsProfile,
-            OutrightOddsNode outrightOddsNode)
+            OutrightOdds outrightOddsNode)
         {
             var oddNode = xmlDocument.CreateNode(XmlNodeType.Element, "odd", null);
 

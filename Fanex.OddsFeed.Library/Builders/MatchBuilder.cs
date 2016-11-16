@@ -20,8 +20,8 @@
             XmlDocument xmlDocument, 
             OddsProfile oddsProfile,
             OddsFeedFilter oddsFeedFilter,
-            IEnumerable<MatchNode> deadMatches,
-            IEnumerable<MatchNode> liveMatches, 
+            IEnumerable<Match> deadMatches,
+            IEnumerable<Match> liveMatches, 
             string bookieName,
             DateTime lastUpdate,
             int timeStamp,
@@ -44,7 +44,7 @@
             XmlNode matchesNode, 
             OddsProfile oddsProfile,
             OddsFeedFilter oddsFeedFilter,
-            IEnumerable<MatchNode> matches,
+            IEnumerable<Match> matches,
             string bookieName,
             bool isSample)
         {
@@ -86,7 +86,7 @@
             XmlDocument xmlDocument, 
             OddsProfile oddsProfile, 
             OddsFeedFilter oddsFeedFilter, 
-            MatchNode match, 
+            Match match, 
             string bookieName,
             bool isSample)
         {
@@ -99,7 +99,7 @@
             AssignSport(xmlDocument, matchNode, match.SportName);
             AssignMatchStatus(xmlDocument, matchNode, match.IsLive);
 
-            matchNode.AppendChild(CreateBookieNode(xmlDocument, oddsProfile, oddsFeedFilter, match.BookieNode, bookieName, isSample));
+            matchNode.AppendChild(CreateBookieNode(xmlDocument, oddsProfile, oddsFeedFilter, match.Bookie, bookieName, isSample));
 
             return matchNode;
         }
@@ -115,14 +115,14 @@
             XmlDocument xmlDocument, 
             OddsProfile oddsProfile, 
             OddsFeedFilter oddsFeedFilter, 
-            BookieNode bookie, 
+            Bookie bookie, 
             string bookieName,
             bool isSample)
         {
             var bookieNode = xmlDocument.CreateNode(XmlNodeType.Element, "bookie", null);
 
             AssignBookieName(xmlDocument, bookieNode, bookieName);
-            CrearteOddNodeList(xmlDocument, bookieNode, oddsProfile, oddsFeedFilter, bookie.OddsNodes, isSample);
+            CrearteOddNodeList(xmlDocument, bookieNode, oddsProfile, oddsFeedFilter, bookie.MatchOddsList, isSample);
 
             return bookieNode;
         }
@@ -147,7 +147,7 @@
             XmlNode bookieNode, 
             OddsProfile oddsProfile, 
             OddsFeedFilter oddsFeedFilter,
-            IEnumerable<MatchOddsNode> matchOddsNodes,
+            IEnumerable<MatchOdds> matchOddsNodes,
             bool isSample)
         {
             foreach (var matchOddsNode in matchOddsNodes)
@@ -159,7 +159,7 @@
             }
         }
 
-        private XmlNode CreateOddNode(XmlDocument xmlDocument, OddsProfile oddsProfile, MatchOddsNode matchOddsNode)
+        private XmlNode CreateOddNode(XmlDocument xmlDocument, OddsProfile oddsProfile, MatchOdds matchOddsNode)
         {
             var oddXmlNode = xmlDocument.CreateNode(XmlNodeType.Element, "odd", null);
 

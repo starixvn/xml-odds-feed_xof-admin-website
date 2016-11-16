@@ -4,10 +4,10 @@
     using System.Collections.Generic;
 
     [Serializable]
-    public class BookieNode
+    public class Bookie
     {
         public IEnumerable<Language> BookieNames { get; set; }
 
-        public IList<MatchOddsNode> OddsNodes { get; set; }
+        public IList<MatchOdds> MatchOddsList { get; set; }
     }
 }

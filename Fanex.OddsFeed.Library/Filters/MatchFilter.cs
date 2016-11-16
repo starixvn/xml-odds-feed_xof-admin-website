@@ -8,7 +8,7 @@
 
     public class MatchFilter
     {
-        public IList<MatchNode> QueryMatches(OddsProfile oddsProfile, OddsFeedFilter oddsFeedFilter, IEnumerable<MatchNode> matches, bool changeTime, int timeStamp)
+        public IList<Match> QueryMatches(OddsProfile oddsProfile, OddsFeedFilter oddsFeedFilter, IEnumerable<Match> matches, bool changeTime, int timeStamp)
         {
             return (from match in matches
                     where (changeTime ? match.TimeStamp > timeStamp : true) &&
@@ -19,13 +19,13 @@
                     select match).ToList();
         }
 
-        public bool FilterBetType(OddsProfile oddsProfile, OddsFeedFilter oddsFeedFilter, bool isSample, MatchOddsNode matchOdds)
+        public bool FilterBetType(OddsProfile oddsProfile, OddsFeedFilter oddsFeedFilter, bool isSample, MatchOdds matchOdds)
         {
             return FilterByOddsProfile(oddsProfile, isSample, matchOdds)
                 && FilterByOddsFeedFilter(oddsFeedFilter, matchOdds);
         }
 
-        private bool FilterByOddsProfile(OddsProfile oddsProfile, bool isSample, MatchOddsNode matchOdds)
+        private bool FilterByOddsProfile(OddsProfile oddsProfile, bool isSample, MatchOdds matchOdds)
         {
             if (oddsProfile.BetTypes != null && !isSample)
             {
@@ -38,7 +38,7 @@
             return true;
         }
 
-        private bool FilterByOddsFeedFilter(OddsFeedFilter oddsFeedFilter, MatchOddsNode matchOdds)
+        private bool FilterByOddsFeedFilter(OddsFeedFilter oddsFeedFilter, MatchOdds matchOdds)
         {
             if (oddsFeedFilter.BetTypes != null && oddsFeedFilter.BetTypes.Count > 0)
             {
@@ -51,13 +51,13 @@
             return true;
         }
 
-        private bool FilterBySport(OddsProfile oddsProfile, OddsFeedFilter oddsFeedFilter, MatchNode match)
+        private bool FilterBySport(OddsProfile oddsProfile, OddsFeedFilter oddsFeedFilter, Match match)
         {
             return (oddsProfile.Sports == null ? true : (oddsProfile.Sports.Count != 0 ? oddsProfile.Sports.Contains(match.SportId) : false)) &&
                     (oddsFeedFilter.Sports == null || oddsFeedFilter.Sports.Count == 0 ? true : oddsFeedFilter.Sports.Contains(match.SportId));
         }
 
-        private bool FilterByLeague(OddsProfile oddsProfile, OddsFeedFilter oddsFeedFilter, MatchNode match)
+        private bool FilterByLeague(OddsProfile oddsProfile, OddsFeedFilter oddsFeedFilter, Match match)
         {
             return (oddsProfile.Leagues == null 
                 ? true 
@@ -65,13 +65,13 @@
                 && (oddsFeedFilter.Leagues == null || oddsFeedFilter.Leagues.Count == 0 ? true : SearchLeague(oddsFeedFilter.Leagues, match.LeagueNames.ElementAt(0).Content.ToLower()));
         }
 
-        private bool FilterByCountry(OddsProfile oddsProfile, OddsFeedFilter oddsFeedFilter, MatchNode match)
+        private bool FilterByCountry(OddsProfile oddsProfile, OddsFeedFilter oddsFeedFilter, Match match)
         {
             return (oddsProfile.Countries == null ? true : (oddsProfile.Countries.Count != 0 ? oddsProfile.Countries.Contains(match.CountryCode.ToLower()) : false)) &&
                                          (oddsFeedFilter.Countries == null || oddsFeedFilter.Countries.Count == 0 ? true : oddsFeedFilter.Countries.Contains(match.CountryCode.ToLower()));
         }
 
-        private bool FilterByKeyword(OddsProfile oddsProfile, MatchNode match)
+        private bool FilterByKeyword(OddsProfile oddsProfile, Match match)
         {
             return (string.IsNullOrEmpty(oddsProfile.LeagueKeyword) ? true : match.LeagueNames.ElementAt(0).Content.ToLower().Contains(oddsProfile.LeagueKeyword.ToLower()));
         }

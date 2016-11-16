@@ -4,7 +4,7 @@
     using System.Collections.Generic;
 
     [Serializable]
-    public class MatchNode
+    public class Match
     {
         public int MatchId { get; set; }
 
@@ -32,6 +32,6 @@
 
         public bool IsLive { get; set; }
 
-        public BookieNode BookieNode { get; set; }
+        public Bookie Bookie { get; set; }
     }
 }

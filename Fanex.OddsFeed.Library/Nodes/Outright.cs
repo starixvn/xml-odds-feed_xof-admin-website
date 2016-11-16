@@ -4,7 +4,7 @@
     using System.Collections.Generic;
 
     [Serializable]
-    public class OutrightNode
+    public class Outright
     {
         public int EventId { get; set; }
 
@@ -18,6 +18,6 @@
 
         public string CountryCode { get; set; }
 
-        public IList<OutrightOddsNode> OutrightOddsNodes { get; set; }
+        public IList<OutrightOdds> OutrightOddsList { get; set; }
     }
 }

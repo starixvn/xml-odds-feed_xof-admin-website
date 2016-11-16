@@ -8,7 +8,7 @@
 
     public class OutrightFilter
     {
-        public IList<OutrightNode> QueryOutrights(OddsProfile oddsProfile, OddsFeedFilter oddsFeedFilter, IEnumerable<OutrightNode> outrights)
+        public IList<Outright> QueryOutrights(OddsProfile oddsProfile, OddsFeedFilter oddsFeedFilter, IEnumerable<Outright> outrights)
         {
             return (from outright in outrights
                     where
@@ -20,7 +20,7 @@
                     select outright).ToList();
         }
 
-        private bool FilterBySport(OddsProfile oddsProfile, OddsFeedFilter oddsFeedFilter, OutrightNode outright)
+        private bool FilterBySport(OddsProfile oddsProfile, OddsFeedFilter oddsFeedFilter, Outright outright)
         {
             var isProfile = oddsProfile.Sports == null
                 ? true : (oddsProfile.Sports.Count != 0 ? oddsProfile.Sports.Contains(outright.SportId) : false);
@@ -32,14 +32,14 @@
             return isProfile && isFilter;
         }
 
-        private bool FilterByLeague(OddsFeedFilter oddsFeedFilter, OutrightNode outright)
+        private bool FilterByLeague(OddsFeedFilter oddsFeedFilter, Outright outright)
         {
             return (oddsFeedFilter.Leagues == null || oddsFeedFilter.Leagues.Count == 0 
                 ? true 
                 : SearchLeague(oddsFeedFilter.Leagues, outright.EventNames.ElementAt(0).Content.ToLower()));
         }
 
-        private bool FilterByCountry(OddsProfile oddsProfile, OddsFeedFilter oddsFeedFilter, OutrightNode outright)
+        private bool FilterByCountry(OddsProfile oddsProfile, OddsFeedFilter oddsFeedFilter, Outright outright)
         {
             var isProfile = oddsProfile.Countries == null
                 ? true
@@ -53,14 +53,14 @@
             return isProfile && isFilter;
         }
 
-        private bool FilterByProfile(OddsProfile oddsProfile, OutrightNode outright)
+        private bool FilterByProfile(OddsProfile oddsProfile, Outright outright)
         {
             return (oddsProfile.Outrights == null
                 ? true
                 : (oddsProfile.Outrights.Count != 0 ? oddsProfile.Outrights.Contains(outright.EventId) : false));
         }
 
-        private bool FilterByKeyWord(OddsProfile oddsProfile, OutrightNode outright)
+        private bool FilterByKeyWord(OddsProfile oddsProfile, Outright outright)
         {
             return string.IsNullOrEmpty(oddsProfile.OutrightsKeyword) 
                 ? true 

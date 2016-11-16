@@ -4,7 +4,7 @@
     using System.Collections.Generic;
 
     [Serializable]
-    public class OutrightOddsNode
+    public class OutrightOdds
     {
         public int OddsId { get; set; }
 

@@ -10,7 +10,7 @@
             XmlDocument xmlDocument,
             OddsProfile oddsProfile,
             OddsFeedFilter oddsFeedFilter,
-            IEnumerable<OutrightNode> outrightNodes,
+            IEnumerable<Outright> outrightNodes,
             bool isOutright,
             bool isSample);
     }

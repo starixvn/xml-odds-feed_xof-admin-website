@@ -6,8 +6,8 @@
 
     public interface IEventBuilder
     {
-        XmlNode CreateOutrightsNode(XmlDocument xmlDocument, IEnumerable<OutrightNode> outrights);
+        XmlNode CreateOutrightsNode(XmlDocument xmlDocument, IEnumerable<Outright> outrights);
 
-        XmlNode CreateMatchesNode(XmlDocument xmlDocument, IEnumerable<MatchNode> matches);
+        XmlNode CreateMatchesNode(XmlDocument xmlDocument, IEnumerable<Match> matches);
     }
 }
