@@ -4,7 +4,7 @@
     using System.Linq;
     using Schemas;
 
-    public class BetTypeService: IBetTypeService
+    public class BetTypeService : IBetTypeService
     {
         private IEnumerable<BetTypeSchema> _betTypeSchemas;
 

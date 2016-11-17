@@ -60,11 +60,11 @@
                 line++;
                 var betTypeSchemas = Caching.GetBetTypeSchemas();
 
-                var liveMatches = _matchMapping.GetMatchNodes(liveOdds.ResultSet.Tables[0], betTypeSchemas, true, liveOddsFlexs);
+                var liveMatches = _matchMapping.GetMatches(liveOdds.ResultSet.Tables[0], betTypeSchemas, true, liveOddsFlexs);
                 line++;
-                var deadBallMatches = _matchMapping.GetMatchNodes(deadballOdds.ResultSet.Tables[0], betTypeSchemas, false, deadballOddsFlexs);
+                var deadBallMatches = _matchMapping.GetMatches(deadballOdds.ResultSet.Tables[0], betTypeSchemas, false, deadballOddsFlexs);
                 line++;
-                var outrights = _outrightMapping.GetOutrightNodes(outrightOdds.ResultSet.Tables[0]);
+                var outrights = _outrightMapping.GetOutrights(outrightOdds.ResultSet.Tables[0]);
                 line++;
 
                 bool result = StoreData(CacheKeys.CurrentKey(_cachePrefix), currentVersion, _numberTries);
@@ -92,12 +92,12 @@
         {
             return table.AsEnumerable()
                 .Select(
-                row => new OddFlex()
+                row => new OddFlex
                 {
                     BetChoice = row["betChoice"].ToString(),
                     BetType = Convert.ToInt32(row["bettype"]),
                     OddId = Convert.ToInt32(row["oddsid"]),
-                    Odds = Convert.ToInt32(row["odds"]),
+                    Odds = Convert.ToDecimal(row["odds"]),
                     OddsInfo = row["OddsInfo"].ToString()
                 }).ToList();
         }

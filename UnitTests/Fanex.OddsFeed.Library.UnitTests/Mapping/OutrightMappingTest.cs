@@ -1,13 +1,10 @@
 ﻿namespace Fanex.OddsFeed.Library.UnitTests.Mapping
 {
     using System;
-    using System.Collections.Generic;
     using System.Data;
     using System.Linq;
     using Library.Mapping;
-    using Model;
     using NUnit.Framework;
-    using Schemas;
 
     [TestFixture]
     public class OutrightMappingTest
@@ -27,7 +24,7 @@
             var dataTable = GetOutrightDataTable();
 
             // Action
-            var result = _target.GetOutrightNodes(dataTable);
+            var result = _target.GetOutrights(dataTable);
 
             // Assert
             Assert.AreEqual(dataTable.Rows[0]["LeagueID"], result.ElementAt(0).EventId);
@@ -101,6 +98,11 @@
                 DataType = typeof(string),
                 ColumnName = "LeagueNameC_UNI"
             });
+            dataTable.Columns.Add(new DataColumn
+            {
+                DataType = typeof(string),
+                ColumnName = "CountryCode"
+            });
 
             var row = dataTable.NewRow();
             row["LeagueID"] = 1;
@@ -115,6 +117,7 @@
             row["LeagueName"] = "Test";
             row["LeagueNameCN"] = "Test";
             row["LeagueNameC_UNI"] = "Test";
+            row["CountryCode"] = "Test";
 
             dataTable.Rows.Add(row);
 

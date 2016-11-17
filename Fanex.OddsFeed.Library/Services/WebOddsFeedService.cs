@@ -9,7 +9,7 @@
     using Model;
     using Nodes;
 
-    public class WebOddsFeedService
+    public class WebOddsFeedService : IWebOddsFeedService
     {
         private OddsProfile _oddsProfile;
         private string _bookieName;

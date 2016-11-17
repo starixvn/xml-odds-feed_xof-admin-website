@@ -140,8 +140,8 @@
                                 TimeStamp = 1477332693,
                                 BetChoices = new[]
                                 {
-                                    new BetChoice { Code = "o", Value = "1.0" },
-                                    new BetChoice { Code = "e", Value = "0.9" }
+                                    new BetChoice { Code = "o", Value = "2.0" },
+                                    new BetChoice { Code = "e", Value = "1.9" }
                                 }
                             }
                         }

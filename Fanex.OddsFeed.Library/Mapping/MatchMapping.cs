@@ -10,20 +10,20 @@
 
     public class MatchMapping : IMatchMapping
     {
-        public IEnumerable<Match> GetMatchNodes(
+        public IEnumerable<Match> GetMatches(
             DataTable dataTable, 
             IEnumerable<BetTypeSchema> schemas, 
             bool isLive, 
             IEnumerable<OddFlex> oddsFlexs)
         {
             int matchId = 0;
-            var matchNodes = new List<Match>();
+            var matches = new List<Match>();
 
             foreach (DataRow row in dataTable.Rows)
             {
                 var currentMatchId = Convert.ToInt32(row["MatchID"]);
                 var matchOdds = GetMatchOdds(schemas, row, oddsFlexs);
-                var matchNode = CreateMatchNode(row, isLive);
+                var match = CreateMatch(row, isLive);
 
                 if (matchOdds == null)
                 {
@@ -32,33 +32,33 @@
 
                 if (matchId != currentMatchId)
                 {
-                    matchNode.Bookie = new Bookie
+                    match.Bookie = new Bookie
                     {
                         BookieNames = GetBookieNames(),
                         MatchOddsList = new List<MatchOdds> { matchOdds }
                     };
 
-                    matchNode.MatchId = currentMatchId;
+                    match.MatchId = currentMatchId;
 
-                    matchNodes.Add(matchNode);
+                    matches.Add(match);
 
                     matchId = currentMatchId;
                 }
                 else
                 {
-                    if (matchOdds.TimeStamp > matchNode.TimeStamp)
+                    if (matchOdds.TimeStamp > match.TimeStamp)
                     {
-                        matchNode.TimeStamp = matchOdds.TimeStamp;
+                        match.TimeStamp = matchOdds.TimeStamp;
                     }
 
-                    matchNodes.Last().Bookie.MatchOddsList.Add(matchOdds);
+                    matches.Last().Bookie.MatchOddsList.Add(matchOdds);
                 }
             }
 
-            return matchNodes;
+            return matches;
         }
 
-        private Match CreateMatchNode(DataRow row, bool isLive)
+        private Match CreateMatch(DataRow row, bool isLive)
         {
             return new Match
             {
@@ -85,18 +85,18 @@
                 return null;
             }
 
-            var matchOddsNode = CreateMatchOddsNode(schema, row);
+            var matchOdds = CreateMatchOdds(schema, row);
 
             if (schema.IsOddsFlex)
             {
-                matchOddsNode.BetChoices = GetOddsFlexBetChoices(schema, row, oddsFlexs);
+                matchOdds.BetChoices = GetOddsFlexBetChoices(schema, row, oddsFlexs);
             }
             else
             {
-                matchOddsNode.BetChoices = GetNormalBetChoices(schema, row);
+                matchOdds.BetChoices = GetNormalBetChoices(schema, row);
             }
 
-            return matchOddsNode;
+            return matchOdds;
         }
 
         private IEnumerable<BetChoice> GetNormalBetChoices(BetTypeSchema schema, DataRow row)
@@ -118,7 +118,7 @@
             return MapBetChoicesOddsFlex(schema.BetChoices, filterOddsFlexs); ;
         }
 
-        private MatchOdds CreateMatchOddsNode(BetTypeSchema schema, DataRow row)
+        private MatchOdds CreateMatchOdds(BetTypeSchema schema, DataRow row)
         {
             return new MatchOdds
             {
@@ -142,7 +142,7 @@
                 betChoices.Add(new BetChoice
                 {
                     Code = betChoiceSchema.MatchAttribute,
-                    Value = ConvertMalayToDecimalOddsString(Convert.ToDecimal(value))
+                    Value = ConvertMalayToDecimalOddsString(value)
                 });
             }
 
@@ -152,6 +152,11 @@
         private IEnumerable<BetChoice> MapBetChoices(IEnumerable<BetChoiceSchema> betChoiceSchemas, DataRow row)
         {
             var betChoices = new List<BetChoice>();
+
+            if (Convert.ToInt32(row["BetType"]) == 416)
+            {
+                Console.Write("hienra");
+            }
 
             foreach (var betChoiceSchema in betChoiceSchemas)
             {

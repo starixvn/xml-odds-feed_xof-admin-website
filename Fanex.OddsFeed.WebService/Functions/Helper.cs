@@ -1,26 +1,14 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="Helper.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Thai.Tran" date="2013.1.7">Created</change>
-// </history>
-
-namespace Fanex.OddsFeed.WebService.Functions
+﻿namespace Fanex.OddsFeed.WebService.Functions
 {
     using System;
     using System.Collections.Generic;
     using System.Collections.Specialized;
     using System.Configuration;
     using System.Data;
-    using System.Diagnostics.CodeAnalysis;    
     using System.Linq;
     using System.Text;
-    using System.Web;    
-    using System.Xml.Linq;
+    using System.Web;
     using Fanex.OddsFeed.Library;
-    using Fanex.OddsFeed.Library.Model;
 
     /// <summary>
     /// Class Helper.

@@ -3542,7 +3542,7 @@
   },
   {
     "BetTypeId": 447,
-    "Tag": "as12",
+    "Tag": "as_12",
     "BetChoices": [
       {
         "MatchAttribute": "yy",

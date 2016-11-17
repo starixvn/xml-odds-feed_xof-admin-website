@@ -4,7 +4,6 @@
     using System.Configuration;
     using System.Data;
     using System.Text;
-    using System.Web;
     using System.Web.Mvc;
     using System.Xml;
     using log4net;
@@ -13,10 +12,8 @@
     using Fanex.OddsFeed.Library.Attributes;
     using Fanex.OddsFeed.WebService.Functions;
     using Library.Services;
+    using Library.Configurations;
 
-    /// <summary>
-    /// Class OddsFeedController.
-    /// </summary>    
     public class OddsFeedController : Controller
     {
         private static readonly ILog Log = LogManager.GetLogger("LogService");
@@ -199,7 +196,8 @@
             ViewBag.CountriesCol1 = countriesCol1.Select();
             ViewBag.CountriesCol2 = countriesCol2.Select();
             ViewBag.CountriesCol3 = countriesCol3.Select();
-            ViewBag.HighlightSportType = ConfigurationManager.AppSettings["HighlightSportType"].Split(',');
+            ViewBag.HighlightSportType = AppSettings.HighlightSportType.Split(',');
+            ViewBag.HighlightBetType = AppSettings.HighlightBetType.Split(',');
         }
 
         public static DataTable SortDataTable(DataTable dt, string colName, string direction)

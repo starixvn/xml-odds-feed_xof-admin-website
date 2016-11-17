@@ -8,9 +8,9 @@
 
     public class OutrightMapping : IOutrightMapping
     {
-        public IEnumerable<Outright> GetOutrightNodes(DataTable dataTable)
+        public IEnumerable<Outright> GetOutrights(DataTable dataTable)
         {
-            var eventNodes = new List<Outright>();
+            var events = new List<Outright>();
             int leagueId = 0;
 
             foreach (DataRow row in dataTable.Rows)
@@ -20,20 +20,20 @@
 
                 if (leagueId != currentLeagueId)
                 {
-                    eventNodes.Add(GetEventNode(row, currentLeagueId, eventOdds));
+                    events.Add(GetEvent(row, currentLeagueId, eventOdds));
 
                     leagueId = currentLeagueId;
                 }
                 else
                 {
-                    eventNodes.Last().OutrightOddsList.Add(eventOdds);
+                    events.Last().OutrightOddsList.Add(eventOdds);
                 }
             }
 
-            return eventNodes;
+            return events;
         }
 
-        private Outright GetEventNode(DataRow row, int leagueId, OutrightOdds eventOddsNode)
+        private Outright GetEvent(DataRow row, int leagueId, OutrightOdds eventOdds)
         {
             return new Outright
             {
@@ -43,7 +43,7 @@
                 SportName = row["LeagueNameTC"].ToString(),
                 CountryCode = row["CountryCode"].ToString(),
                 Time = Convert.ToDateTime(row["EventDate"].ToString()),
-                OutrightOddsList = new List<OutrightOdds> { eventOddsNode }
+                OutrightOddsList = new List<OutrightOdds> { eventOdds }
             };
         }
 

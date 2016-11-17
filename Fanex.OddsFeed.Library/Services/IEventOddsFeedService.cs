@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Fanex.OddsFeed.Library.Services
+﻿namespace Fanex.OddsFeed.Library.Services
 {
+    using System.Xml;
+
     public interface IEventOddsFeedService
     {
+        XmlElement BuildXmlEvent(string timestamp, OddsFeedFilter filter, bool isSample, bool isOutright);
     }
 }

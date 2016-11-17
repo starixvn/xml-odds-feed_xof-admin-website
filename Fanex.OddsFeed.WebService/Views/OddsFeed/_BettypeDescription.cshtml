@@ -1,0 +1,225 @@
+﻿@model Fanex.OddsFeed.Library.OddsProfile
+
+@if (Model.BetTypes == null || Model.BetTypes.Contains(221))
+{
+    <li>
+        t="nxt1" : Next 1 minutes
+        <ul>
+            <li>g: Price for Goal</li>
+            <li>c: Price for Corner</li>
+            <li>fk: Price for Free Kick</li>
+            <li>gk: Price for Goal Kick</li>
+            <li>ti: Price for Throw In</li>
+            <li>intervals: Indicates offered intervals. For example:
+                <br>&nbsp;&nbsp;&nbsp; intervals = 1 for 00:00 - 00:59
+                <br>&nbsp;&nbsp;&nbsp; intervals = 2 for 01:00 - 01:59
+                <br>&nbsp;&nbsp;&nbsp; intervals = 90 for 89:00 - 89:59
+            </li>
+        </ul>
+    </li>
+}
+@if (Model.BetTypes == null || Model.BetTypes.Contains(222))
+{
+    <li>
+        t="nxt5" : Next 5 minutes
+        <ul>
+            <li>gy: Price for Goal Yes</li>
+            <li>gn: Price for Goal No</li>
+            <li>cy: Price for Corner Yes</li>
+            <li>cn: Price for Corner No</li>
+            <li>py: Price for Penalty Yes</li>
+            <li>pn: Price for Penalty No</li>
+            <li>
+                intervals: Indicates offered intervals. For example:
+                <br>&nbsp;&nbsp;&nbsp; intervals = 1 for 00:00 - 00:59
+                <br>&nbsp;&nbsp;&nbsp; intervals = 2 for 01:00 - 01:59
+                <br>&nbsp;&nbsp;&nbsp; intervals = 90 for 89:00 - 89:59
+            </li>
+        </ul>
+    </li>
+}
+@if (Model.BetTypes == null || Model.BetTypes.Contains(223))
+{
+    <li>
+        t="1nxt1" : What will happen first in next 1 minutes
+        <ul>
+            <li>n: Price for None</li>
+            <li>g: Price for Goal</li>
+            <li>c: Price for Corner</li>
+            <li>fk: Price for Free Kick</li>
+            <li>gk: Price for Goal Kick</li>
+            <li>ti: Price for Throw In</li>
+            <li>
+                intervals: Indicates offered intervals. For example:
+                <br>&nbsp;&nbsp;&nbsp; intervals = 1 for 00:00 - 00:59
+                <br>&nbsp;&nbsp;&nbsp; intervals = 2 for 01:00 - 01:59
+                <br>&nbsp;&nbsp;&nbsp; intervals = 90 for 89:00 - 89:59
+            </li>
+        </ul>
+    </li>
+}
+@if (Model.BetTypes == null || Model.BetTypes.Contains(224))
+{
+    <li>
+        t="1nxt1" : What will happen first in next 1 minutes
+        <ul>
+            <li>n: Price for None</li>
+            <li>g: Price for Goal</li>
+            <li>c: Price for Corner</li>
+            <li>b: Price for Booking</li>
+            <li>p: Price for Penalty</li>
+            <li>
+                intervals: Indicates offered intervals. For example:
+                <br>&nbsp;&nbsp;&nbsp; intervals = 1 for 00:00 - 00:59
+                <br>&nbsp;&nbsp;&nbsp; intervals = 2 for 01:00 - 01:59
+                <br>&nbsp;&nbsp;&nbsp; intervals = 90 for 89:00 - 89:59
+            </li>
+        </ul>
+    </li>
+}
+@if (Model.BetTypes == null || Model.BetTypes.Contains(401))
+{
+    <li>
+        t="ou_h" : Home Team Over/Under
+        <ul>
+            <li>o: Price for Over</li>
+            <li>u: Price for Under</li>
+            <li>h: Price for Over/Under value</li>
+        </ul>
+    </li>
+}
+@if (Model.BetTypes == null || Model.BetTypes.Contains(402))
+{
+    <li>
+        t="ou_a" : Away Team Over/Under
+        <ul>
+            <li>o: Price for Over</li>
+            <li>u: Price for Under</li>
+            <li>h: Price for Over/Under value</li>
+        </ul>
+    </li>
+}
+@if (Model.BetTypes == null || Model.BetTypes.Contains(403))
+{
+    <li>
+        t="ou_h1" : 1H Home Team Over/Under
+        <ul>
+            <li>o: Price for Over</li>
+            <li>u: Price for Under</li>
+            <li>h: Price for Over/Under value</li>
+        </ul>
+    </li>
+}
+@if (Model.BetTypes == null || Model.BetTypes.Contains(404))
+{
+    <li>
+        t="ou_a1" : 1H Away Team Over/Under
+        <ul>
+            <li>o: Price for Over</li>
+            <li>u: Price for Under</li>
+            <li>h: Price for Over/Under value</li>
+        </ul>
+    </li>
+}
+@if (Model.BetTypes == null || Model.BetTypes.Contains(405))
+{
+    <li>
+        t="cs_2" : 2H Correct Score
+        <ul>
+            <li>cs10: Price for 1-0</li>
+            <li>cs20: Price for 2-0</li>
+            <li>cs21: Price for 2-1</li>
+            <li>cs30: Price for 3-0</li>
+            <li>cs31: Price for 3-1</li>
+            <li>cs32: Price for 3-2</li>
+            <li>cs01: Price for 0-1</li>
+            <li>cs02: Price for 0-2</li>
+            <li>cs12: Price for 1-2</li>
+            <li>cs03: Price for 0-3</li>
+            <li>cs13: Price for 1-3</li>
+            <li>cs23: Price for 2-3</li>
+            <li>cs00: Price for 0-0</li>
+            <li>cs11: Price for 1-1</li>
+            <li>cs22: Price for 2-2</li>
+            <li>cs33: Price for 3-3</li>
+            <li>csaos: Price for AOS</li>
+        </ul>
+    </li>
+}
+@if (Model.BetTypes == null || Model.BetTypes.Contains(406))
+{
+    <li>
+        t="etg" : Exact Total Goals
+        <ul>
+            <li>o01: Price for 0</li>
+            <li>o02: Price for 1</li>
+            <li>o03: Price for 2</li>
+            <li>o04: Price for 3</li>
+            <li>o05: Price for 4</li>
+            <li>o06: Price for 5</li>
+            <li>o07: Price for 6&Over</li>
+        </ul>
+    </li>
+}
+@if (Model.BetTypes == null || Model.BetTypes.Contains(407))
+{
+    <li>
+        t="heg" : Exact Home Team Goals
+        <ul>
+            <li>o1: Price for 0</li>
+            <li>o2: Price for 1</li>
+            <li>o3: Price for 2</li>
+            <li>o4: Price for 3&Over</li>
+        </ul>
+    </li>
+}
+@if (Model.BetTypes == null || Model.BetTypes.Contains(408))
+{
+    <li>
+        t="win" : Winning Margin
+        <ul>
+            <li>h1: Price for Home & 1 Goal</li>
+            <li>h2: Price for Home & 2 Goals</li>
+            <li>h3: Price for Home & 3 Goals up</li>
+            <li>d: Price for S.Draw</li>
+            <li>a1: "Price for Away & 1 Goal</li>
+            <li>a2: Price for Away & 2 Goals</li>
+            <li>a3: Price for Away & 3 Goals up</li>
+            <li>ng: Price for No Goal</li>
+        </ul>
+    </li>
+}
+@if (Model.BetTypes == null || Model.BetTypes.Contains(409))
+{
+    <li>
+        t="aeg" : Exact Away Team Goals
+        <ul>
+            <li>o1: Price for 0</li>
+            <li>o2: Price for 1</li>
+            <li>o3: Price for 2</li>
+            <li>o4: Price for 3&Over</li>
+        </ul>
+    </li>
+}
+@if (Model.BetTypes == null || Model.BetTypes.Contains(410))
+{
+    <li>
+        t="x2_1" : 1H Double Chance
+        <ul>
+            <li>hd: Price for Home or Draw</li>
+            <li>ha: Price for Home or Away</li>
+            <li>ad: Price for Away or Draw</li>
+        </ul>
+    </li>
+}
+@if (Model.BetTypes == null || Model.BetTypes.Contains(411))
+{
+    <li>
+        t="dnb_1" : 1H Draw No Bet
+        <ul>
+            <li>h: Price for Home</li>
+            <li>a: Price for Away</li>
+        </ul>
+    </li>
+}
+

@@ -8,7 +8,7 @@
 
     public interface IMatchMapping
     {
-        IEnumerable<Match> GetMatchNodes(
+        IEnumerable<Match> GetMatches(
             DataTable dataTable,
             IEnumerable<BetTypeSchema> schemas,
             bool isLive,

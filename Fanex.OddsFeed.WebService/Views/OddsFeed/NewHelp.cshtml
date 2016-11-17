@@ -1510,7 +1510,7 @@
                             }
 
 
-                            @foreach (Fanex.OddsFeed.Library.Matchs.OddNodeBuilder.OddNodeBase betType in ViewBag.BetOddNodeMapping)
+                            @*@foreach (Fanex.OddsFeed.Library.Matchs.OddNodeBuilder.OddNodeBase betType in ViewBag.BetOddNodeMapping)
                             {
                                 if (!betType.IsChildBettype && ((Model.BetTypes == null || Model.BetTypes.Contains(betType.ID))))
                                 {
@@ -1524,7 +1524,7 @@
                                         </ul>
                                     </li>
                                 }
-                            }
+                            }*@
                         </ul>
                         <div style="height: 20px">
                         </div>
@@ -2003,7 +2003,7 @@
                                                 @row["BetTypeName"].ToString()
                                             </td>
                                             <td>
-                                                @Fanex.OddsFeed.Library.Matchs.OddNodeBuilder.BetOddNodeBuilder.BetTypeNameFromId(Convert.ToInt32(@row["BetTypeID"]))
+                                                @*@Fanex.OddsFeed.Library.Matchs.OddNodeBuilder.BetOddNodeBuilder.BetTypeNameFromId(Convert.ToInt32(@row["BetTypeID"]))*@
                                             </td>
                                         </tr>
                                     }
@@ -2029,7 +2029,7 @@
                                                 @row["BetTypeName"].ToString()
                                             </td>
                                             <td>
-                                                @Fanex.OddsFeed.Library.Matchs.OddNodeBuilder.BetOddNodeBuilder.BetTypeNameFromId(Convert.ToInt32(@row["BetTypeID"]))
+                                                @*@Fanex.OddsFeed.Library.Matchs.OddNodeBuilder.BetOddNodeBuilder.BetTypeNameFromId(Convert.ToInt32(@row["BetTypeID"]))*@
                                             </td>
                                         </tr>
                                     }
@@ -2056,7 +2056,7 @@
                                                 @row["BetTypeName"].ToString()
                                             </td>
                                             <td>
-                                                @Fanex.OddsFeed.Library.Matchs.OddNodeBuilder.BetOddNodeBuilder.BetTypeNameFromId(Convert.ToInt32(@row["BetTypeID"]))
+                                                @*@Fanex.OddsFeed.Library.Matchs.OddNodeBuilder.BetOddNodeBuilder.BetTypeNameFromId(Convert.ToInt32(@row["BetTypeID"]))*@
                                             </td>
                                         </tr>
                                     }
