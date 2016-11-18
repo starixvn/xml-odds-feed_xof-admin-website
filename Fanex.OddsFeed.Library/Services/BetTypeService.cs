@@ -1,7 +1,8 @@
 ﻿namespace Fanex.OddsFeed.Library.Services
-{ 
+{
     using System.Collections.Generic;
     using System.Linq;
+    using Helper;
     using Schemas;
 
     public class BetTypeService : IBetTypeService
@@ -10,11 +11,9 @@
 
         public string GetBetTypeNameById(int betTypeId)
         {
-            var betTypeSchema = GetBetTypeSchemas()
-                .Where(schema => schema.BetTypeId == betTypeId)
-                .FirstOrDefault();
+            var betTypeList = GetBetTypeList();
 
-            return betTypeSchema != null ? betTypeSchema.Tag : "b" + betTypeId;
+            return BetTypeHelper.GetBetTypeName(betTypeList, betTypeId);
         }
 
         public IDictionary<int, string> GetBetTypeList()

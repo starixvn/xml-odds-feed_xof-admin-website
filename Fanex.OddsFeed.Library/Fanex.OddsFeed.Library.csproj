@@ -237,6 +237,7 @@
     <Compile Include="ErrorCollection.cs" />
     <Compile Include="Filters\MatchFilter.cs" />
     <Compile Include="Filters\OutrightFilter.cs" />
+    <Compile Include="Helper\BetTypeHelper.cs" />
     <Compile Include="Helper\JsonHelper.cs" />
     <Compile Include="Mapping\OutrightMapping.cs" />
     <Compile Include="Mapping\IOutrightMapping.cs" />
