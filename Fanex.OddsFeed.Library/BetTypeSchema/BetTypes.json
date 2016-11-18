@@ -1663,7 +1663,7 @@
   },
   {
     "BetTypeId": 187,
-    "Tag": "eg_2",
+    "Tag": "egs_2",
     "BetChoices": [
       {
         "MatchAttribute": "o1",
