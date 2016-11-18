@@ -1506,6 +1506,32 @@
     ]
   },
   {
+    "BetTypeId": 179,
+    "Tag": "egs_1",
+    "BetChoices": [
+      {
+        "MatchAttribute": "o1",
+        "DataAttribute": "cs00"
+      },
+      {
+        "MatchAttribute": "o2",
+        "DataAttribute": "cs11"
+      },
+      {
+        "MatchAttribute": "o3",
+        "DataAttribute": "cs12"
+      },
+      {
+        "MatchAttribute": "o4",
+        "DataAttribute": "cs21"
+      },
+      {
+        "MatchAttribute": "o5",
+        "DataAttribute": "cs22"
+      }
+    ]
+  },
+  {
     "BetTypeId": 180,
     "Tag": "ng_1",
     "BetChoices": [
@@ -3476,7 +3502,7 @@
   },
   {
     "BetTypeId": 429,
-    "Tag": "egs_2nd",
+    "Tag": "egs_2",
     "BetChoices": [
       {
         "MatchAttribute": "o0",
@@ -3994,7 +4020,7 @@
   },
   {
     "BetTypeId": 412,
-    "Tag": "egs_1st",
+    "Tag": "egs_1",
     "BetChoices": [
       {
         "MatchAttribute": "o0",
