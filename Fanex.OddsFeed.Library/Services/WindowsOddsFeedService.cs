@@ -33,7 +33,9 @@
 
         public bool Reset()
         {
-            return StoreData(CacheKeys.CurrentKey(_cachePrefix), 0, _numberTries)
+            
+            return ClearSchema()
+                && StoreData(CacheKeys.CurrentKey(_cachePrefix), 0, _numberTries)
                 && StoreData(CacheKeys.FullChainKey(_cachePrefix), false, _numberTries);
         }
 
@@ -155,6 +157,11 @@
             }
 
             return result;
+        }
+
+        private bool ClearSchema()
+        {
+            return _cacheClient.Remove(AppSettings.BetTypeSchemaKey);
         }
     }
 }

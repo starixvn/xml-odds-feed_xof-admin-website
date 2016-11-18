@@ -17,6 +17,11 @@
             return betTypeSchema != null ? betTypeSchema.Tag : "b" + betTypeId;
         }
 
+        public IDictionary<int, string> GetBetTypeList()
+        {
+            return GetBetTypeSchemas().ToDictionary(schema => schema.BetTypeId, schema => schema.Tag);
+        }
+
         private IEnumerable<BetTypeSchema> GetBetTypeSchemas()
         {
             if (_betTypeSchemas == null)

@@ -384,6 +384,9 @@
     <Content Include="Views\Shared\_LogOnPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
+    <Content Include="BetTypeSchema\BetTypes.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="config.rb" />
     <Content Include="Web.PRO.config">
       <SubType>Designer</SubType>

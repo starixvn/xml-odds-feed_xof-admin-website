@@ -33,8 +33,15 @@
             AssignMatchTimeStamp(xmlDocument, matchesNode, timeStamp);
             AssignOddsType(xmlDocument, matchesNode, GetOddsTypeName(oddsProfile.OddRegion));
 
-            AssignMatchNodes(xmlDocument, matchesNode, oddsProfile, oddsFeedFilter, deadMatches, bookieName, isSample);
-            AssignMatchNodes(xmlDocument, matchesNode, oddsProfile, oddsFeedFilter, liveMatches, bookieName, isSample);
+            if(deadMatches.Any())
+            {
+                AssignMatchNodes(xmlDocument, matchesNode, oddsProfile, oddsFeedFilter, deadMatches, bookieName, isSample);
+            }
+            
+            if(liveMatches.Any())
+            {
+                AssignMatchNodes(xmlDocument, matchesNode, oddsProfile, oddsFeedFilter, liveMatches, bookieName, isSample);
+            }
 
             return matchesNode;
         }

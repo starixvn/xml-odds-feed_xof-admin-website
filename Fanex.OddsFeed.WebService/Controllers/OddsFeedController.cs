@@ -16,12 +16,19 @@
 
     public class OddsFeedController : Controller
     {
-        private static readonly ILog Log = LogManager.GetLogger("LogService");
+        private readonly ILog _logService;
+        private readonly IBetTypeService _betTypeService;
+
+        public OddsFeedController()
+        {
+            _logService = LogManager.GetLogger("LogService");
+            _betTypeService = new BetTypeService();
+        }
 
         [Compress]
         public XmlResult Index(string username)
         {
-            Log.Info("1. Starting Index action:" + username + "-----" + DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss.fff"));
+            _logService.Info("1. Starting Index action:" + username + "-----" + DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss.fff"));
 
             // check UM Time
             string startTime = string.Empty;
@@ -42,8 +49,8 @@
             var domain = Helper.DomainName(Request.ServerVariables);
             var data = GetOddsFeed(ref oddProfile, username, HttpContext.Request["t"], domain, filter);
 
-            Log.Info("4. Finishing Index action:" + username + "------" + DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss.fff"));
-            Log.Info("-------------------------------");
+            _logService.Info("4. Finishing Index action:" + username + "------" + DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss.fff"));
+            _logService.Info("-------------------------------");
             return new XmlResult(data);
         }
 
@@ -198,6 +205,7 @@
             ViewBag.CountriesCol3 = countriesCol3.Select();
             ViewBag.HighlightSportType = AppSettings.HighlightSportType.Split(',');
             ViewBag.HighlightBetType = AppSettings.HighlightBetType.Split(',');
+            ViewBag.BetTypeList = _betTypeService.GetBetTypeList();
         }
 
         public static DataTable SortDataTable(DataTable dt, string colName, string direction)
@@ -321,9 +329,9 @@
                 oddProfile = partner.OddsProfile;
                 oddProfile.Domain = domainName;
 
-                Log.Info("2. Get Odds from Cache of " + username + "---" + DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss.fff"));
+                _logService.Info("2. Get Odds from Cache of " + username + "---" + DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss.fff"));
                 var service = new WebOddsFeedService(partner.OddsProfile, partner.SystemName, domainName, ip, timestamp);
-                Log.Info("3. Build XML Document " + username + "---" + DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss.fff"));
+                _logService.Info("3. Build XML Document " + username + "---" + DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss.fff"));
                 var xmlDocument = service.BuildXmlDocument(partner.Timestamp, filter, isSample, outrights);
 
                 return xmlDocument;
