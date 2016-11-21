@@ -2227,187 +2227,187 @@
     "IsOddsFlex": true,
     "BetChoices": [
       {
-        "MatchAttribute": "O01",
+        "MatchAttribute": "o01",
         "DataAttribute": "0:0/0:0"
       },
       {
-        "MatchAttribute": "O02",
+        "MatchAttribute": "o02",
         "DataAttribute": "0:0/1:0"
       },
       {
-        "MatchAttribute": "O03",
+        "MatchAttribute": "o03",
         "DataAttribute": "0:0/0:1"
       },
       {
-        "MatchAttribute": "O04",
+        "MatchAttribute": "o04",
         "DataAttribute": "0:0/2:0"
       },
       {
-        "MatchAttribute": "O05",
+        "MatchAttribute": "o05",
         "DataAttribute": "0:0/1:1"
       },
       {
-        "MatchAttribute": "O06",
+        "MatchAttribute": "o06",
         "DataAttribute": "0:0/0:2"
       },
       {
-        "MatchAttribute": "O07",
+        "MatchAttribute": "o07",
         "DataAttribute": "0:0/3:0"
       },
       {
-        "MatchAttribute": "O08",
+        "MatchAttribute": "o08",
         "DataAttribute": "0:0/2:1"
       },
       {
-        "MatchAttribute": "O09",
+        "MatchAttribute": "o09",
         "DataAttribute": "0:0/1:2"
       },
       {
-        "MatchAttribute": "O10",
+        "MatchAttribute": "o10",
         "DataAttribute": "0:0/0:3"
       },
       {
-        "MatchAttribute": "O11",
+        "MatchAttribute": "o11",
         "DataAttribute": "0:0/4+"
       },
       {
-        "MatchAttribute": "O12",
+        "MatchAttribute": "o12",
         "DataAttribute": "1:0/1:0"
       },
       {
-        "MatchAttribute": "O13",
+        "MatchAttribute": "o13",
         "DataAttribute": "1:0/2:0"
       },
       {
-        "MatchAttribute": "O14",
+        "MatchAttribute": "o14",
         "DataAttribute": "1:0/1:1"
       },
       {
-        "MatchAttribute": "O15",
+        "MatchAttribute": "o15",
         "DataAttribute": "1:0/3:0"
       },
       {
-        "MatchAttribute": "O16",
+        "MatchAttribute": "o16",
         "DataAttribute": "1:0/2:1"
       },
       {
-        "MatchAttribute": "O17",
+        "MatchAttribute": "o17",
         "DataAttribute": "1:0/1:2"
       },
       {
-        "MatchAttribute": "O18",
+        "MatchAttribute": "o18",
         "DataAttribute": "1:0/4+"
       },
       {
-        "MatchAttribute": "O19",
+        "MatchAttribute": "o19",
         "DataAttribute": "0:1/0:1"
       },
       {
-        "MatchAttribute": "O20",
+        "MatchAttribute": "o20",
         "DataAttribute": "0:1/1:1"
       },
       {
-        "MatchAttribute": "O21",
+        "MatchAttribute": "o21",
         "DataAttribute": "0:1/0:2"
       },
       {
-        "MatchAttribute": "O22",
+        "MatchAttribute": "o22",
         "DataAttribute": "0:1/2:1"
       },
       {
-        "MatchAttribute": "O23",
+        "MatchAttribute": "o23",
         "DataAttribute": "0:1/1:2"
       },
       {
-        "MatchAttribute": "O24",
+        "MatchAttribute": "o24",
         "DataAttribute": "0:1/0:3"
       },
       {
-        "MatchAttribute": "O25",
+        "MatchAttribute": "o25",
         "DataAttribute": "0:1/4+"
       },
       {
-        "MatchAttribute": "O26",
+        "MatchAttribute": "o26",
         "DataAttribute": "1:1/1:1"
       },
       {
-        "MatchAttribute": "O27",
+        "MatchAttribute": "o27",
         "DataAttribute": "1:1/2:1"
       },
       {
-        "MatchAttribute": "O28",
+        "MatchAttribute": "o28",
         "DataAttribute": "1:1/1:2"
       },
       {
-        "MatchAttribute": "O29",
+        "MatchAttribute": "o29",
         "DataAttribute": "1:1/4+"
       },
       {
-        "MatchAttribute": "O30",
+        "MatchAttribute": "o30",
         "DataAttribute": "2:0/2:0"
       },
       {
-        "MatchAttribute": "O31",
+        "MatchAttribute": "o31",
         "DataAttribute": "2:0/3:0"
       },
       {
-        "MatchAttribute": "O32",
+        "MatchAttribute": "o32",
         "DataAttribute": "2:0/3:1"
       },
       {
-        "MatchAttribute": "O33",
+        "MatchAttribute": "o33",
         "DataAttribute": "2:0/4+"
       },
       {
-        "MatchAttribute": "O34",
+        "MatchAttribute": "o34",
         "DataAttribute": "0:2/0:2"
       },
       {
-        "MatchAttribute": "O35",
+        "MatchAttribute": "o35",
         "DataAttribute": "0:2/1:2"
       },
       {
-        "MatchAttribute": "O36",
+        "MatchAttribute": "o36",
         "DataAttribute": "0:2/0:3"
       },
       {
-        "MatchAttribute": "O37",
+        "MatchAttribute": "o37",
         "DataAttribute": "0:2/4+"
       },
       {
-        "MatchAttribute": "O38",
+        "MatchAttribute": "o38",
         "DataAttribute": "2:1/2:1"
       },
       {
-        "MatchAttribute": "O39",
+        "MatchAttribute": "o39",
         "DataAttribute": "2:1/4+"
       },
       {
-        "MatchAttribute": "O40",
+        "MatchAttribute": "o40",
         "DataAttribute": "1:2/1:2"
       },
       {
-        "MatchAttribute": "O41",
+        "MatchAttribute": "o41",
         "DataAttribute": "1:2/4+"
       },
       {
-        "MatchAttribute": "O42",
+        "MatchAttribute": "o42",
         "DataAttribute": "3:0/3:0"
       },
       {
-        "MatchAttribute": "O43",
+        "MatchAttribute": "o43",
         "DataAttribute": "3:0/4+"
       },
       {
-        "MatchAttribute": "O44",
+        "MatchAttribute": "o44",
         "DataAttribute": "0:3/0:3"
       },
       {
-        "MatchAttribute": "O45",
+        "MatchAttribute": "o45",
         "DataAttribute": "0:3/4+"
       },
       {
-        "MatchAttribute": "O46",
+        "MatchAttribute": "o46",
         "DataAttribute": "4+/4+"
       }
     ]
