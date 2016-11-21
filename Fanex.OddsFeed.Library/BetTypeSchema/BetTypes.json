@@ -3866,6 +3866,7 @@
   {
     "BetTypeId": 406,
     "Tag": "etg",
+    "IsChildBetType": true,
     "BetChoices": [
       {
         "MatchAttribute": "o01",
@@ -3900,6 +3901,7 @@
   {
     "BetTypeId": 407,
     "Tag": "heg",
+    "IsChildBetType": true,
     "BetChoices": [
       {
         "MatchAttribute": "o0",
@@ -3922,6 +3924,7 @@
   {
     "BetTypeId": 408,
     "Tag": "win",
+    "IsChildBetType": true,
     "BetChoices": [
       {
         "MatchAttribute": "h1",
@@ -3960,6 +3963,7 @@
   {
     "BetTypeId": 409,
     "Tag": "aeg",
+    "IsChildBetType": true,
     "BetChoices": [
       {
         "MatchAttribute": "o0",
@@ -3982,6 +3986,7 @@
   {
     "BetTypeId": 410,
     "Tag": "x2_1",
+    "IsChildBetType": true,
     "BetChoices": [
       {
         "MatchAttribute": "hd",
@@ -4000,6 +4005,7 @@
   {
     "BetTypeId": 411,
     "Tag": "dnb_1",
+    "IsChildBetType": true,
     "BetChoices": [
       {
         "MatchAttribute": "h",
