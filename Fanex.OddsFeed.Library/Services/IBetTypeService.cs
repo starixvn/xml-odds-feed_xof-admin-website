@@ -1,11 +1,12 @@
 ﻿namespace Fanex.OddsFeed.Library.Services
 {
     using System.Collections.Generic;
+    using Model;
 
     public interface IBetTypeService
     {
         string GetBetTypeNameById(int betTypeId);
 
-        IDictionary<int, string> GetBetTypeList();
+        IDictionary<int, BetType> GetBetTypeList();
     }
 }

@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using Helper;
+    using Model;
     using Schemas;
 
     public class BetTypeService : IBetTypeService
@@ -16,9 +17,11 @@
             return BetTypeHelper.GetBetTypeName(betTypeList, betTypeId);
         }
 
-        public IDictionary<int, string> GetBetTypeList()
+        public IDictionary<int, BetType> GetBetTypeList()
         {
-            return GetBetTypeSchemas().ToDictionary(schema => schema.BetTypeId, schema => schema.Tag);
+            return GetBetTypeSchemas().ToDictionary(
+                schema => schema.BetTypeId,
+                schema => new BetType { BetTypeName = schema.Tag, IsChildBetType = schema.IsChildBetType });
         }
 
         private IEnumerable<BetTypeSchema> GetBetTypeSchemas()

@@ -16,6 +16,8 @@
 
         public bool IsOddsFlex { get; set; }
 
+        public bool IsChildBetType { get; set; }
+
         public IEnumerable<BetChoiceSchema> BetChoices { get; set; }
     }
 }

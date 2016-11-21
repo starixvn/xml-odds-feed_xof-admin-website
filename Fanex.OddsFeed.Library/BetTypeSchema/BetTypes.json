@@ -1001,6 +1001,7 @@
   {
     "BetTypeId": 157,
     "Tag": "oe",
+    "IsChildBetType": true,
     "BetChoices": [
       {
         "MatchAttribute": "o",
@@ -1049,6 +1050,7 @@
   {
     "BetTypeId": 160,
     "Tag": "ng",
+    "IsChildBetType": true,
     "BetChoices": [
       {
         "MatchAttribute": "h",
@@ -1111,6 +1113,7 @@
   {
     "BetTypeId": 163,
     "Tag": "sttg",
+    "IsChildBetType": true,
     "BetChoices": [
       {
         "MatchAttribute": "h",
@@ -1490,6 +1493,7 @@
   {
     "BetTypeId": 178,
     "Tag": "ou_2",
+    "IsChildBetType": true,
     "BetChoices": [
       {
         "MatchAttribute": "h",
@@ -1509,6 +1513,7 @@
   {
     "BetTypeId": 179,
     "Tag": "egs_1",
+    "IsChildBetType": true,
     "BetChoices": [
       {
         "MatchAttribute": "o1",
@@ -1597,6 +1602,7 @@
   {
     "BetTypeId": 183,
     "Tag": "ah_2",
+    "IsChildBetType": true,
     "Reserve": {
       "FirstHdp": "hdp1",
       "SecondHdp": "hdp2"
@@ -1665,6 +1671,7 @@
   {
     "BetTypeId": 187,
     "Tag": "egs_2",
+    "IsChildBetType": true,
     "BetChoices": [
       {
         "MatchAttribute": "o1",
@@ -1915,6 +1922,7 @@
   {
     "BetTypeId": 199,
     "Tag": "tc",
+    "IsChildBetType": true,
     "BetChoices": [
       {
         "MatchAttribute": "o1",
@@ -2395,6 +2403,7 @@
     "BetTypeId": 416,
     "Tag": "cs_12",
     "IsOddsFlex": true,
+    "IsChildBetType": true,
     "BetChoices": [
       {
         "MatchAttribute": "cs001",
@@ -4027,6 +4036,7 @@
   {
     "BetTypeId": 413,
     "Tag": "cs",
+    "IsChildBetType": true,
     "BetChoices": [
       {
         "MatchAttribute": "cs10",
@@ -4137,6 +4147,7 @@
   {
     "BetTypeId": 414,
     "Tag": "cs_1",
+    "IsChildBetType": true,
     "BetChoices": [
       {
         "MatchAttribute": "cs10",
@@ -4211,6 +4222,7 @@
   {
     "BetTypeId": 415,
     "Tag": "stts",
+    "IsChildBetType": true,
     "BetChoices": [
       {
         "MatchAttribute": "hh",
@@ -4245,6 +4257,7 @@
   {
     "BetTypeId": 427,
     "Tag": "b_1",
+    "IsChildBetType": true,
     "BetChoices": [
       {
         "MatchAttribute": "y",
@@ -4259,6 +4272,7 @@
   {
     "BetTypeId": 428,
     "Tag": "oe_2",
+    "IsChildBetType": true,
     "BetChoices": [
       {
         "MatchAttribute": "o",
@@ -4273,6 +4287,7 @@
   {
     "BetTypeId": 430,
     "Tag": "st_2",
+    "IsChildBetType": true,
     "BetChoices": [
       {
         "MatchAttribute": "h",
@@ -4291,6 +4306,7 @@
   {
     "BetTypeId": 431,
     "Tag": "x2_2",
+    "IsChildBetType": true,
     "BetChoices": [
       {
         "MatchAttribute": "hd",
@@ -4309,6 +4325,7 @@
   {
     "BetTypeId": 432,
     "Tag": "dnb_2",
+    "IsChildBetType": true,
     "BetChoices": [
       {
         "MatchAttribute": "h",
@@ -4323,6 +4340,7 @@
   {
     "BetTypeId": 433,
     "Tag": "bs_2",
+    "IsChildBetType": true,
     "BetChoices": [
       {
         "MatchAttribute": "y",
@@ -4337,6 +4355,7 @@
   {
     "BetTypeId": 434,
     "Tag": "oyn",
+    "IsChildBetType": true,
     "BetChoices": [
       {
         "MatchAttribute": "y",
@@ -4351,6 +4370,7 @@
   {
     "BetTypeId": 435,
     "Tag": "uyn",
+    "IsChildBetType": true,
     "BetChoices": [
       {
         "MatchAttribute": "y",
@@ -4365,6 +4385,7 @@
   {
     "BetTypeId": 436,
     "Tag": "hs",
+    "IsChildBetType": true,
     "BetChoices": [
       {
         "MatchAttribute": "y",
@@ -4379,6 +4400,7 @@
   {
     "BetTypeId": 437,
     "Tag": "as",
+    "IsChildBetType": true,
     "BetChoices": [
       {
         "MatchAttribute": "y",
@@ -4393,6 +4415,7 @@
   {
     "BetTypeId": 438,
     "Tag": "h2h",
+    "IsChildBetType": true,
     "BetChoices": [
       {
         "MatchAttribute": "y",
@@ -4407,6 +4430,7 @@
   {
     "BetTypeId": 439,
     "Tag": "a2h",
+    "IsChildBetType": true,
     "BetChoices": [
       {
         "MatchAttribute": "y",
@@ -4421,6 +4445,7 @@
   {
     "BetTypeId": 440,
     "Tag": "hw",
+    "IsChildBetType": true,
     "BetChoices": [
       {
         "MatchAttribute": "y",
@@ -4435,6 +4460,7 @@
   {
     "BetTypeId": 441,
     "Tag": "aw",
+    "IsChildBetType": true,
     "BetChoices": [
       {
         "MatchAttribute": "y",
@@ -4449,6 +4475,7 @@
   {
     "BetTypeId": 442,
     "Tag": "high",
+    "IsChildBetType": true,
     "BetChoices": [
       {
         "MatchAttribute": "h1",
@@ -4467,6 +4494,7 @@
   {
     "BetTypeId": 443,
     "Tag": "hhigh",
+    "IsChildBetType": true,
     "BetChoices": [
       {
         "MatchAttribute": "h1",
@@ -4485,6 +4513,7 @@
   {
     "BetTypeId": 444,
     "Tag": "ahigh",
+    "IsChildBetType": true,
     "BetChoices": [
       {
         "MatchAttribute": "h1",

@@ -243,6 +243,7 @@
     <Compile Include="Mapping\IOutrightMapping.cs" />
     <Compile Include="Mapping\IMatchMapping.cs" />
     <Compile Include="Mapping\MatchMapping.cs" />
+    <Compile Include="Model\BetType.cs" />
     <Compile Include="Model\OddFlex.cs" />
     <Compile Include="Model\OddsData.cs" />
     <Compile Include="Nodes\BetChoice.cs" />

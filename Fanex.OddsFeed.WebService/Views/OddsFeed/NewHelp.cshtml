@@ -1,10 +1,12 @@
 ﻿@using Fanex.OddsFeed.Library.Helper
+@using Fanex.OddsFeed.Library.Model
+
 @model Fanex.OddsFeed.Library.OddsProfile
 @{
     Layout = null;
     var highlightSportType = (string[])ViewBag.HighlightSportType;
     var highlightBetType = (string[])ViewBag.HighlightBetType;
-    var betTypeList = (IDictionary<int, string>)ViewBag.BetTypeList;
+    var betTypeList = (IDictionary<int, BetType>)ViewBag.BetTypeList;
 }
 <!DOCTYPE html>
 <html>
@@ -670,8 +672,14 @@
                                     </tr>
                                     @foreach (System.Data.DataRow row in ViewBag.BetTypesCol1)
                                     {
+                                        int betTypeId = Convert.ToInt32(row["BetTypeID"]);
+                                        if (BetTypeHelper.IsChildBetType(betTypeList, betTypeId))
+                                        {
+                                            continue;
+                                        }
+
                                         var css4 = "";
-                                        if (highlightBetType.Any(i => i == row["BetTypeID"].ToString()))
+                                        if (highlightBetType.Any(i => i == betTypeId.ToString()))
                                         {
                                             css4 = "style=color:Red";
                                         }
@@ -679,14 +687,14 @@
                                         <tr @css4>
                                             <td class="center" valign="middle">
                                                 <div class="bettype-inner-div">
-                                                    @row["BetTypeID"].ToString()
+                                                    @betTypeId.ToString()
                                                 </div>
                                             </td>
                                             <td>
                                                 @row["BetTypeName"].ToString()
                                             </td>
                                             <td>
-                                                @BetTypeHelper.GetBetTypeName(betTypeList, Convert.ToInt32(row["BetTypeID"]))
+                                                @BetTypeHelper.GetBetTypeName(betTypeList, betTypeId)
                                             </td>
                                         </tr>
                                     }
@@ -696,23 +704,29 @@
                                 <table style="width: 270px">
                                     @foreach (System.Data.DataRow row in ViewBag.BetTypesCol2)
                                     {
-                                                                var css5 = "";
-                                                                if (highlightBetType.Any(i => i == row["BetTypeID"].ToString()))
-                                                                {
-                                                                    css5 = "style=color:Red";
-                                                                }
+                                        int betTypeId = Convert.ToInt32(row["BetTypeID"]);
+                                        if (BetTypeHelper.IsChildBetType(betTypeList, betTypeId))
+                                        {
+                                            continue;
+                                        }
+
+                                        var css5 = "";
+                                        if (highlightBetType.Any(i => i == betTypeId.ToString()))
+                                        {
+                                            css5 = "style=color:Red";
+                                        }
 
                                         <tr @css5>
                                             <td style="width: 30%" class="center" valign="middle">
                                                 <div class="bettype-inner-div">
-                                                    @row["BetTypeID"].ToString()
+                                                    @betTypeId.ToString()
                                                 </div>
                                             </td>
                                             <td>
                                                 @row["BetTypeName"].ToString()
                                             </td>
                                             <td>
-                                                @BetTypeHelper.GetBetTypeName(betTypeList, Convert.ToInt32(row["BetTypeID"]))
+                                                @BetTypeHelper.GetBetTypeName(betTypeList, betTypeId)
                                             </td>
                                         </tr>
                                     }
@@ -721,25 +735,30 @@
                             <div style="float: left;">
                                 <table style="width: 270px;">
                                     @foreach (System.Data.DataRow row in ViewBag.BetTypesCol3)
-                                                    {
-                                                        var css6 = "";
-                                                        if (highlightBetType.Any(i => i == row["BetTypeID"].ToString()))
-                                                        {
-                                                            css6 = "style=color:Red";
-                                                        }
+                                    {
+                                        int betTypeId = Convert.ToInt32(row["BetTypeID"]);
+                                        if (BetTypeHelper.IsChildBetType(betTypeList, betTypeId))
+                                        {
+                                            continue;
+                                        }
 
+                                        var css6 = "";
+                                        if (highlightBetType.Any(i => i == betTypeId.ToString()))
+                                        {
+                                            css6 = "style=color:Red";
+                                        }
 
                                         <tr @css6>
                                             <td style="width: 30%" class="center" valign="middle">
                                                 <div class="bettype-inner-div">
-                                                    @row["BetTypeID"].ToString()
+                                                    @betTypeId.ToString()
                                                 </div>
                                             </td>                                            
                                             <td>
                                                 @row["BetTypeName"].ToString()
                                             </td>
                                             <td>
-                                                @BetTypeHelper.GetBetTypeName(betTypeList, Convert.ToInt32(row["BetTypeID"]))
+                                                @BetTypeHelper.GetBetTypeName(betTypeList, betTypeId)
                                             </td>
                                         </tr>
                                     }
