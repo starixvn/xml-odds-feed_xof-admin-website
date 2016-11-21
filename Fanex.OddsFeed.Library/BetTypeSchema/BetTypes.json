@@ -40,11 +40,11 @@
     "Tag": "ou",
     "BetChoices": [
       {
-        "MatchAttribute": "o1",
+        "MatchAttribute": "o",
         "DataAttribute": "Odds1A"
       },
       {
-        "MatchAttribute": "o2",
+        "MatchAttribute": "u",
         "DataAttribute": "Odds2A"
       }
     ]
@@ -54,43 +54,43 @@
     "Tag": "cs",
     "BetChoices": [
       {
-        "MatchAttribute": "c00",
+        "MatchAttribute": "cs00",
         "DataAttribute": "cs00"
       },
       {
-        "MatchAttribute": "c11",
+        "MatchAttribute": "cs11",
         "DataAttribute": "cs11"
       },
       {
-        "MatchAttribute": "c22",
+        "MatchAttribute": "cs22",
         "DataAttribute": "cs22"
       },
       {
-        "MatchAttribute": "c33",
+        "MatchAttribute": "cs33",
         "DataAttribute": "cs33"
       },
       {
-        "MatchAttribute": "c44",
+        "MatchAttribute": "cs44",
         "DataAttribute": "cs44"
       },
       {
-        "MatchAttribute": "c01",
+        "MatchAttribute": "cs01",
         "DataAttribute": "cs01"
       },
       {
-        "MatchAttribute": "c02",
+        "MatchAttribute": "cs02",
         "DataAttribute": "cs02"
       },
       {
-        "MatchAttribute": "c03",
+        "MatchAttribute": "cs03",
         "DataAttribute": "cs03"
       },
       {
-        "MatchAttribute": "c04",
+        "MatchAttribute": "cs04",
         "DataAttribute": "cs04"
       },
       {
-        "MatchAttribute": "c05",
+        "MatchAttribute": "cs05",
         "DataAttribute": "cs05"
       },
       {
@@ -98,67 +98,67 @@
         "DataAttribute": "cs10"
       },
       {
-        "MatchAttribute": "c20",
+        "MatchAttribute": "cs20",
         "DataAttribute": "cs20"
       },
       {
-        "MatchAttribute": "c30",
+        "MatchAttribute": "cs30",
         "DataAttribute": "cs30"
       },
       {
-        "MatchAttribute": "c40",
+        "MatchAttribute": "cs40",
         "DataAttribute": "cs40"
       },
       {
-        "MatchAttribute": "c50",
+        "MatchAttribute": "cs50",
         "DataAttribute": "cs50"
       },
       {
-        "MatchAttribute": "c12",
+        "MatchAttribute": "cs12",
         "DataAttribute": "cs12"
       },
       {
-        "MatchAttribute": "c13",
+        "MatchAttribute": "cs13",
         "DataAttribute": "cs13"
       },
       {
-        "MatchAttribute": "c23",
+        "MatchAttribute": "cs23",
         "DataAttribute": "cs23"
       },
       {
-        "MatchAttribute": "c14",
+        "MatchAttribute": "cs14",
         "DataAttribute": "cs14"
       },
       {
-        "MatchAttribute": "c24",
+        "MatchAttribute": "cs24",
         "DataAttribute": "cs24"
       },
       {
-        "MatchAttribute": "c34",
+        "MatchAttribute": "cs34",
         "DataAttribute": "cs34"
       },
       {
-        "MatchAttribute": "c21",
+        "MatchAttribute": "cs21",
         "DataAttribute": "cs21"
       },
       {
-        "MatchAttribute": "c31",
+        "MatchAttribute": "cs31",
         "DataAttribute": "cs31"
       },
       {
-        "MatchAttribute": "c32",
+        "MatchAttribute": "cs32",
         "DataAttribute": "cs32"
       },
       {
-        "MatchAttribute": "c41",
+        "MatchAttribute": "cs41",
         "DataAttribute": "cs41"
       },
       {
-        "MatchAttribute": "c42",
+        "MatchAttribute": "cs42",
         "DataAttribute": "cs42"
       },
       {
-        "MatchAttribute": "c43",
+        "MatchAttribute": "cs43",
         "DataAttribute": "cs43"
       }
     ]
