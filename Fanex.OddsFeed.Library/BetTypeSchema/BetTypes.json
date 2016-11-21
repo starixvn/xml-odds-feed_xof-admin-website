@@ -40,6 +40,11 @@
     "Tag": "ou",
     "BetChoices": [
       {
+        "MatchAttribute": "h",
+        "DataAttribute": "hdp1",
+        "NotConvert": true
+      },
+      {
         "MatchAttribute": "o",
         "DataAttribute": "Odds1A"
       },
@@ -490,11 +495,11 @@
     "Tag": "twtn",
     "BetChoices": [
       {
-        "MatchAttribute": "a",
+        "MatchAttribute": "h",
         "DataAttribute": "odds1a"
       },
       {
-        "MatchAttribute": "h",
+        "MatchAttribute": "a",
         "DataAttribute": "odds2a"
       }
     ]
@@ -750,15 +755,15 @@
     "Tag": "high",
     "BetChoices": [
       {
-        "MatchAttribute": "firsth",
+        "MatchAttribute": "h1",
         "DataAttribute": "cs10"
       },
       {
-        "MatchAttribute": "secondh",
+        "MatchAttribute": "h2",
         "DataAttribute": "cs20"
       },
       {
-        "MatchAttribute": "t",
+        "MatchAttribute": "tie",
         "DataAttribute": "cs00"
       }
     ]
@@ -768,15 +773,15 @@
     "Tag": "hhigh",
     "BetChoices": [
       {
-        "MatchAttribute": "firsth",
+        "MatchAttribute": "h1",
         "DataAttribute": "cs10"
       },
       {
-        "MatchAttribute": "secondh",
+        "MatchAttribute": "h2",
         "DataAttribute": "cs20"
       },
       {
-        "MatchAttribute": "t",
+        "MatchAttribute": "tie",
         "DataAttribute": "cs00"
       }
     ]
@@ -786,15 +791,15 @@
     "Tag": "ahigh",
     "BetChoices": [
       {
-        "MatchAttribute": "firsth",
+        "MatchAttribute": "h1",
         "DataAttribute": "cs10"
       },
       {
-        "MatchAttribute": "secondh",
+        "MatchAttribute": "h2",
         "DataAttribute": "cs20"
       },
       {
-        "MatchAttribute": "t",
+        "MatchAttribute": "tie",
         "DataAttribute": "cs00"
       }
     ]
@@ -1158,7 +1163,7 @@
   },
   {
     "BetTypeId": 165,
-    "Tag": "nxtg_ex",
+    "Tag": "cs_ex1",
     "BetChoices": [
       {
         "MatchAttribute": "cs00",
@@ -1351,10 +1356,6 @@
       {
         "MatchAttribute": "a3",
         "DataAttribute": "cs30"
-      },
-      {
-        "MatchAttribute": "ng",
-        "DataAttribute": "cs00"
       }
     ]
   },
@@ -2200,28 +2201,6 @@
     ]
   },
   {
-    "BetTypeId": 217,
-    "Tag": "ah_2",
-    "Reserve": {
-      "FirstHdp": "hdp1",
-      "SecondHdp": "hdp2"
-    },
-    "BetChoices": [
-      {
-        "MatchAttribute": "h",
-        "NotConvert": true
-      },
-      {
-        "MatchAttribute": "o",
-        "DataAttribute": "Odds1A"
-      },
-      {
-        "MatchAttribute": "u",
-        "DataAttribute": "Odds2A"
-      }
-    ]
-  },
-  {
     "BetTypeId": 152,
     "Tag": "cs_12",
     "IsOddsFlex": true,
@@ -2352,7 +2331,7 @@
       },
       {
         "MatchAttribute": "o32",
-        "DataAttribute": "2:0/3:1"
+        "DataAttribute": "2:0/2:1"
       },
       {
         "MatchAttribute": "o33",
@@ -3318,6 +3297,11 @@
     "Tag": "bstg",
     "BetChoices": [
       {
+        "MatchAttribute": "h",
+        "DataAttribute": "hdp1",
+        "NotConvert": true
+      },
+      {
         "MatchAttribute": "yo",
         "DataAttribute": "cs01"
       },
@@ -3909,19 +3893,19 @@
     "Tag": "heg",
     "BetChoices": [
       {
-        "MatchAttribute": "o1",
+        "MatchAttribute": "o0",
         "DataAttribute": "cs00"
       },
       {
-        "MatchAttribute": "o2",
+        "MatchAttribute": "o1",
         "DataAttribute": "cs01"
       },
       {
-        "MatchAttribute": "o3",
+        "MatchAttribute": "o2",
         "DataAttribute": "cs02"
       },
       {
-        "MatchAttribute": "o4",
+        "MatchAttribute": "o3",
         "DataAttribute": "cs03"
       }
     ]
@@ -3969,19 +3953,19 @@
     "Tag": "aeg",
     "BetChoices": [
       {
-        "MatchAttribute": "o1",
+        "MatchAttribute": "o0",
         "DataAttribute": "cs00"
       },
       {
-        "MatchAttribute": "o2",
+        "MatchAttribute": "o1",
         "DataAttribute": "cs01"
       },
       {
-        "MatchAttribute": "o3",
+        "MatchAttribute": "o2",
         "DataAttribute": "cs02"
       },
       {
-        "MatchAttribute": "o4",
+        "MatchAttribute": "o3",
         "DataAttribute": "cs03"
       }
     ]
