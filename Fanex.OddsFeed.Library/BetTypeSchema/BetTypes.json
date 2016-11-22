@@ -250,6 +250,30 @@
     ]
   },
   {
+    "BetTypeId": 10,
+    "Tag": "outright",
+    "BetChoices": [
+    ]
+  },
+  {
+    "BetTypeId": 11,
+    "Tag": "tc",
+    "BetChoices": [
+      {
+        "MatchAttribute": "o1",
+        "DataAttribute": "cs10"
+      },
+      {
+        "MatchAttribute": "o2",
+        "DataAttribute": "cs20"
+      },
+      {
+        "MatchAttribute": "o3",
+        "DataAttribute": "cs00"
+      }
+    ]
+  },
+  {
     "BetTypeId": 12,
     "Tag": "oe_1",
     "BetChoices": [
@@ -437,6 +461,24 @@
       {
         "MatchAttribute": "o2",
         "DataAttribute": "Odds2A"
+      }
+    ]
+  },
+  {
+    "BetTypeId": 22,
+    "Tag": "ng",
+    "BetChoices": [
+      {
+        "MatchAttribute": "h",
+        "DataAttribute": "com1"
+      },
+      {
+        "MatchAttribute": "n",
+        "DataAttribute": "comx"
+      },
+      {
+        "MatchAttribute": "a",
+        "DataAttribute": "com2"
       }
     ]
   },
@@ -801,6 +843,41 @@
       {
         "MatchAttribute": "tie",
         "DataAttribute": "cs00"
+      }
+    ]
+  },
+  {
+    "BetTypeId": 144,
+    "Tag": "sttg",
+    "BetChoices": [
+      {
+        "MatchAttribute": "h",
+        "DataAttribute": "hdp1",
+        "NotConvert": true
+      },
+      {
+        "MatchAttribute": "ho",
+        "DataAttribute": "cs01"
+      },
+      {
+        "MatchAttribute": "hu",
+        "DataAttribute": "cs00"
+      },
+      {
+        "MatchAttribute": "ao",
+        "DataAttribute": "cs05"
+      },
+      {
+        "MatchAttribute": "au",
+        "DataAttribute": "cs04"
+      },
+      {
+        "MatchAttribute": "do",
+        "DataAttribute": "cs03"
+      },
+      {
+        "MatchAttribute": "du",
+        "DataAttribute": "cs02"
       }
     ]
   },

@@ -14,15 +14,5 @@
 
             return "b" + betTypeId;
         }
-
-        public static bool IsChildBetType(IDictionary<int, BetType> betTypeList, int betTypeId)
-        {
-            if (betTypeList.ContainsKey(betTypeId))
-            {
-                return betTypeList[betTypeId].IsChildBetType;
-            }
-
-            return false;
-        }
     }
 }

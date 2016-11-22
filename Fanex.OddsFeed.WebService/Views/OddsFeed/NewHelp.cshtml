@@ -673,11 +673,6 @@
                                     @foreach (System.Data.DataRow row in ViewBag.BetTypesCol1)
                                     {
                                         int betTypeId = Convert.ToInt32(row["BetTypeID"]);
-                                        if (BetTypeHelper.IsChildBetType(betTypeList, betTypeId))
-                                        {
-                                            continue;
-                                        }
-
                                         var css4 = "";
                                         if (highlightBetType.Any(i => i == betTypeId.ToString()))
                                         {
@@ -705,11 +700,6 @@
                                     @foreach (System.Data.DataRow row in ViewBag.BetTypesCol2)
                                     {
                                         int betTypeId = Convert.ToInt32(row["BetTypeID"]);
-                                        if (BetTypeHelper.IsChildBetType(betTypeList, betTypeId))
-                                        {
-                                            continue;
-                                        }
-
                                         var css5 = "";
                                         if (highlightBetType.Any(i => i == betTypeId.ToString()))
                                         {
@@ -737,11 +727,6 @@
                                     @foreach (System.Data.DataRow row in ViewBag.BetTypesCol3)
                                     {
                                         int betTypeId = Convert.ToInt32(row["BetTypeID"]);
-                                        if (BetTypeHelper.IsChildBetType(betTypeList, betTypeId))
-                                        {
-                                            continue;
-                                        }
-
                                         var css6 = "";
                                         if (highlightBetType.Any(i => i == betTypeId.ToString()))
                                         {
