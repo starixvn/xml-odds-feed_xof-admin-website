@@ -1,12 +1,10 @@
 ﻿namespace Fanex.OddsFeed.Library.Filters
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
     using Nodes;
 
-    public class MatchFilter
+    public class MatchFilter : IMatchFilter
     {
         public IList<Match> QueryMatches(OddsProfile oddsProfile, OddsFeedFilter oddsFeedFilter, IList<Match> matches, bool changeTime, int timeStamp)
         {

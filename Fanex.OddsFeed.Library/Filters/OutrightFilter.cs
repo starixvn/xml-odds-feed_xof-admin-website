@@ -1,9 +1,7 @@
 ﻿namespace Fanex.OddsFeed.Library.Filters
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
     using Nodes;
 
     public class OutrightFilter

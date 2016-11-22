@@ -20,8 +20,8 @@
         private IMatchBuilder _matchBuilder;
         private IOutrightBuilder _outrightBuilder;
 
-        private MatchFilter _matchFilter;
-        private OutrightFilter _outrightFilter;
+        private IMatchFilter _matchFilter;
+        private IOutrightFilter _outrightFilter;
 
         public WebOddsFeedService(
             OddsProfile oddsProfile, 
