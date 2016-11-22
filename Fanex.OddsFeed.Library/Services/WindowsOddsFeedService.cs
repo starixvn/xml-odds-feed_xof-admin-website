@@ -47,20 +47,43 @@
         public bool Update(int currentVersion)
         {
             var line = 0;
+            var result = false;
 
             try
             {
                 var liveOdds = DbConnect.GetLiveOddsData();
+                if (liveOdds.ResultSet == null)
+                {
+                    return result;
+                }
+
                 line++;
                 var deadballOdds = DbConnect.GetDeadballOddsData();
+                if (deadballOdds.ResultSet == null)
+                {
+                    return result;
+                }
+
                 line++;
                 var outrightOdds = DbConnect.GetOutrightOddsData();
+                if (outrightOdds.ResultSet == null)
+                {
+                    return result;
+                }
+
                 line++;
                 var liveOddsFlexs = GetOddFlexs(liveOdds.ResultSet.Tables[1]);
                 line++;
                 var deadballOddsFlexs = GetOddFlexs(deadballOdds.ResultSet.Tables[1]);
                 line++;
+
                 var betTypeSchemas = OddFeedDataCachingOperator.GetBetTypeSchemas();
+
+                if (betTypeSchemas == null)
+                {
+                    return result;
+                }
+
                 line++;
                 var liveMatches = _matchMapping.GetMatches(liveOdds.ResultSet.Tables[0], betTypeSchemas, true, liveOddsFlexs);
                 line++;
@@ -69,7 +92,7 @@
                 var outrights = _outrightMapping.GetOutrights(outrightOdds.ResultSet.Tables[0]);
                 line++;
 
-                var result = StoreData(CacheKeys.CurrentKey(_cachePrefix), currentVersion, _numberTries);
+                result = StoreData(CacheKeys.CurrentKey(_cachePrefix), currentVersion, _numberTries);
                 line++;
                 result = result && StoreData(CacheKeys.LiveMatchKey(_cachePrefix, currentVersion), liveMatches, _numberTries);
                 line++;

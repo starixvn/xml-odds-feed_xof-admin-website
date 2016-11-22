@@ -87,9 +87,9 @@
 
             var matchOdds = CreateMatchOdds(schema, row);
 
-            matchOdds.BetChoices = schema.IsOddsFlex ? GetOddsFlexBetChoices(schema, row, oddsFlexs)
-
-            : GetNormalBetChoices(schema, row);
+            matchOdds.BetChoices = schema.IsOddsFlex 
+                                        ? GetOddsFlexBetChoices(schema, row, oddsFlexs)
+                                        : GetNormalBetChoices(schema, row);
 
             return matchOdds;
         }
