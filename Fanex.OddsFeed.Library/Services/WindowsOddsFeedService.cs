@@ -122,47 +122,58 @@
             return result;
         }
 
-        private bool TryStore(string key, object data, int numberTries)
+        private static bool TryStore(string key, object data, int numberTries)
         {
             var result = false;
             var backOffExpired = 0;
-            var cacheClient = new CouchbaseClient();
-            do
+
+            using (var cacheClient = new CouchbaseClient())
             {
-                result = cacheClient.Store(StoreMode.Set, key, data);
-
-                if (result)
+                do
                 {
-                    break;
+                    result = cacheClient.Store(StoreMode.Set, key, data);
+
+                    if (result)
+                    {
+                        break;
+                    }
+
+                    if (backOffExpired > 0)
+                    {
+                        var backOffMilliseconds = Math.Min(1000, Math.Pow(2, backOffExpired));
+
+                        Thread.Sleep((int)backOffMilliseconds);
+
+                        LogService.Error(string.Format("Couchbase error! --- Backing off, tries so far: {0}", backOffExpired));
+                    }
+                    else
+                    {
+                        LogService.Error("Couchbase error!");
+                    }
+
+                    backOffExpired++;
+                } while (backOffExpired < numberTries);
+
+                if (!result && (backOffExpired > numberTries))
+                {
+                    throw new ApplicationException(string.Format("Could not perform a set after {0} tries.", numberTries));
                 }
 
-                if (backOffExpired > 0)
-                {
-                    var backOffMilliseconds = Math.Min(1000, Math.Pow(2, backOffExpired));
-
-                    Thread.Sleep((int)backOffMilliseconds);
-
-                    LogService.Error(string.Format("Couchbase error! --- Backing off, tries so far: {0}", backOffExpired));
-                }
-                else
-                {
-                    LogService.Error("Couchbase error!");
-                }
-
-                backOffExpired++;
-            } while (backOffExpired < numberTries);
-
-            if (!result && (backOffExpired > numberTries))
-            {
-                throw new ApplicationException(string.Format("Could not perform a set after {0} tries.", numberTries));
+                return result;
             }
-
-            return result;
         }
 
-        private bool ClearSchema()
+        private static bool ClearSchema()
         {
-            return _cacheClient.Remove(AppSettings.BetTypeSchemaKey);
+            using (var cache = new CouchbaseClient())
+            {
+                if(cache.KeyExists(AppSettings.BetTypeSchemaKey))
+                {
+                    return cache.Remove(AppSettings.BetTypeSchemaKey);
+                }
+            }
+
+            return true;
         }
     }
 }
