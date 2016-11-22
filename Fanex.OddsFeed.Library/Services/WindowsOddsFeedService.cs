@@ -16,7 +16,6 @@
     {
         private readonly int _numberTries;
         private readonly string _cachePrefix;
-
         private readonly IMatchMapping _matchMapping;
         private readonly IOutrightMapping _outrightMapping;
 
@@ -26,8 +25,8 @@
             _cachePrefix = AppSettings.CachePrefix;
             _matchMapping = new MatchMapping();
             _outrightMapping = new OutrightMapping();
+           
         }
-
         public bool Reset()
         {
             return ClearSchema()

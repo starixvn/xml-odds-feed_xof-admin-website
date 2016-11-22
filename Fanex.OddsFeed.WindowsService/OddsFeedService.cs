@@ -82,11 +82,7 @@
                     else
                     {
                         LogService.Error("IP address seems to have changed OR Cache on CouchBase is full. Please restart OddsFeedWindowService ! ");
-                        using (var cache = new CouchbaseClient())
-                        {
-                            cache.FlushAll();
-                            cache.Dispose();
-                        }
+                      
                     }
                 }
             }
