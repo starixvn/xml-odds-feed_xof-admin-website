@@ -14,8 +14,19 @@
             try
             {
                 var fullPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, filePath);
+                using (var reader = new StreamReader(fullPath))
+                {
+                    var temp = reader.ReadToEnd();
+                    if (!string.IsNullOrEmpty(temp))
+                    {
+                        return JsonConvert.DeserializeObject<List<BetTypeSchema>>(temp);
+                    }
+                    else
+                    {
+                        LogService.Info("THe bettypeSchema configuration is empty");
 
-                return JsonConvert.DeserializeObject<List<BetTypeSchema>>(File.ReadAllText(fullPath));
+                    }
+                }
             }
             catch (Exception exception)
             {

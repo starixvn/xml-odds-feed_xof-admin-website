@@ -12,14 +12,6 @@
 
     public static class OddFeedDataCachingOperator
     {
-        private static readonly CouchbaseClient _cacheClient;
-
-        static OddFeedDataCachingOperator()
-        {
-            _cacheClient = CouchbaseManager.Instance;
-        }
-
-
         public static OddsData GetOddsData(IList<int> delayTimes)
         {
             var currentVersion = GetCurrentVersion();
@@ -50,7 +42,10 @@
 
         public static IList<Match> GetOutRight(int version)
         {
-           return _cacheClient.Get(CacheKeys.DeadballMatchKey(AppSettings.CachePrefix, version)) as IList<Match>;
+            using (var cache = new CouchbaseClient())
+            {
+                return cache.Get(CacheKeys.DeadballMatchKey(AppSettings.CachePrefix, version)) as IList<Match>;
+            }
         }
 
         public static IList<Outright> GetMatchs(int version)
@@ -60,16 +55,13 @@
 
         public static IList<BetTypeSchema> GetBetTypeSchemas()
         {
-            var bettypeSchemas = _cacheClient.Get(AppSettings.BetTypeSchemaKey) as IList<BetTypeSchema>;
-
-            if (bettypeSchemas == null)
+            var temp = JsonHelper.GetBetTypeSchemas(AppSettings.BetTypeSchemaPath);
+            if (temp != null)
             {
-                bettypeSchemas = JsonHelper.GetBetTypeSchemas(AppSettings.BetTypeSchemaPath);
-
-                _cacheClient.Store(StoreMode.Set, AppSettings.BetTypeSchemaKey, bettypeSchemas);
+                _cacheClient.Store(StoreMode.Set, AppSettings.BetTypeSchemaKey, temp);
             }
 
-            return bettypeSchemas;
+            return null;
         }
 
         public static int GetCurrentVersion()

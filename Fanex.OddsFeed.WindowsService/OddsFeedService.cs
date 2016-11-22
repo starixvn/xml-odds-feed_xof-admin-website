@@ -21,6 +21,7 @@
         {
             InitializeComponent();
 
+
             _totalVersion = AppSettings.TotalVersion;
 
             _oddsFeedService = new WindowsOddsFeedService();
@@ -67,12 +68,12 @@
         private void BackgroundTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             _timer.Stop();
-
+            
             try
             {
                 if (!Utilities.IsDownTime())
                 {
-                    var isSuccessful = _oddsFeedService.Update(_currentVersion);
+                    bool isSuccessful = _oddsFeedService.Update(_currentVersion);
 
                     if (isSuccessful)
                     {
@@ -106,7 +107,7 @@
             }
         }
 
-        private static string GetExceptionMessage(Exception exception)
+        private string GetExceptionMessage(Exception exception)
         {
             var messages = new string[]
             {

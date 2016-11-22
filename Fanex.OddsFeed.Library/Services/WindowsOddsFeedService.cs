@@ -14,7 +14,6 @@
 
     public class WindowsOddsFeedService : IWindowsOddsFeedService
     {
-        private readonly CouchbaseClient _cacheClient;
         private readonly int _numberTries;
         private readonly string _cachePrefix;
 
@@ -25,15 +24,12 @@
         {
             _numberTries = AppSettings.NumberTries;
             _cachePrefix = AppSettings.CachePrefix;
-            _cacheClient = CouchbaseManager.Instance;
-
             _matchMapping = new MatchMapping();
             _outrightMapping = new OutrightMapping();
         }
 
         public bool Reset()
         {
-            
             return ClearSchema()
                 && StoreData(CacheKeys.CurrentKey(_cachePrefix), 0, _numberTries)
                 && StoreData(CacheKeys.FullChainKey(_cachePrefix), false, _numberTries);
@@ -52,37 +48,16 @@
             try
             {
                 var liveOdds = DbConnect.GetLiveOddsData();
-                if (liveOdds.ResultSet == null)
-                {
-                    return result;
-                }
-
                 line++;
                 var deadballOdds = DbConnect.GetDeadballOddsData();
-                if (deadballOdds.ResultSet == null)
-                {
-                    return result;
-                }
-
                 line++;
                 var outrightOdds = DbConnect.GetOutrightOddsData();
-                if (outrightOdds.ResultSet == null)
-                {
-                    return result;
-                }
-
                 line++;
                 var liveOddsFlexs = GetOddFlexs(liveOdds.ResultSet.Tables[1]);
                 line++;
                 var deadballOddsFlexs = GetOddFlexs(deadballOdds.ResultSet.Tables[1]);
                 line++;
-
                 var betTypeSchemas = OddFeedDataCachingOperator.GetBetTypeSchemas();
-
-                if (betTypeSchemas == null)
-                {
-                    return result;
-                }
 
                 line++;
                 var liveMatches = _matchMapping.GetMatches(liveOdds.ResultSet.Tables[0], betTypeSchemas, true, liveOddsFlexs);
@@ -105,9 +80,10 @@
             catch (Exception exception)
             {
                 var innerExceptionMessage = exception.InnerException == null ? "No inner" : exception.InnerException.Message;
-                var message = string.Format("Error at line: {0}. Main error: {1}. Inner error:{2}", line, exception.Message, innerExceptionMessage);
+                var message = string.Format("Error at line: {0}. Main error: {1}. Inner error:{2} - stackstrace:{3}",
+                    line, exception.Message, innerExceptionMessage, exception.StackTrace);
 
-                LogService.Error(message);
+                LogService.Error(message, exception);
             }
 
             return true;
@@ -133,7 +109,7 @@
 
             try
             {
-                if(data != null)
+                if (data != null)
                 {
                     result = TryStore(key, data, numberTries);
                 }
@@ -142,7 +118,7 @@
             {
                 LogService.Error(string.Format("Couchbase error! --- Interrupted while trying to set.  Exception:{0}", exception.Message));
             }
-            
+
             return result;
         }
 
@@ -150,10 +126,10 @@
         {
             var result = false;
             var backOffExpired = 0;
-
+            var cacheClient = new CouchbaseClient();
             do
             {
-                result = _cacheClient.Store(StoreMode.Set, key, data);
+                result = cacheClient.Store(StoreMode.Set, key, data);
 
                 if (result)
                 {
@@ -174,7 +150,6 @@
                 }
 
                 backOffExpired++;
-
             } while (backOffExpired < numberTries);
 
             if (!result && (backOffExpired > numberTries))
