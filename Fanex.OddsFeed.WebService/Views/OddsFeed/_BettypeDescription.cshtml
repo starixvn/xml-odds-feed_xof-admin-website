@@ -1338,7 +1338,7 @@
 @if (Model.BetTypes == null || Model.BetTypes.Contains(224))
 {
     <li>
-        t="1nxt5" : What will happen first in next 1 minutes
+        t="1nxt5" : What will happen first in next 5 minutes
         <ul>
             <li>n: Price for None</li>
             <li>g: Price for Goal</li>
@@ -1420,27 +1420,6 @@
             <li>cs22: Price for 2-2</li>
             <li>cs33: Price for 3-3</li>
             <li>csaos: Price for AOS</li>
-        </ul>
-    </li>
-}
-@if (Model.BetTypes == null || Model.BetTypes.Contains(410))
-{
-    <li>
-        t="x2_1" : 1H Double Chance
-        <ul>
-            <li>hd: Price for Home or Draw</li>
-            <li>ha: Price for Home or Away</li>
-            <li>ad: Price for Away or Draw</li>
-        </ul>
-    </li>
-}
-@if (Model.BetTypes == null || Model.BetTypes.Contains(411))
-{
-    <li>
-        t="dnb_1" : 1H Draw No Bet
-        <ul>
-            <li>h: Price for Home</li>
-            <li>a: Price for Away</li>
         </ul>
     </li>
 }
