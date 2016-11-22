@@ -4,7 +4,7 @@
     using System.Linq;
     using Nodes;
 
-    public class OutrightFilter
+    public class OutrightFilter : IOutrightFilter
     {
         public IList<Outright> QueryOutrights(OddsProfile oddsProfile, OddsFeedFilter oddsFeedFilter, IEnumerable<Outright> outrights)
         {
