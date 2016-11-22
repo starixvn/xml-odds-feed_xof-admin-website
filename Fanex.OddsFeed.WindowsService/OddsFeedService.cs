@@ -3,7 +3,7 @@
     using System;
     using System.ServiceProcess;
     using System.Timers;
-    using Data.Configuration;
+    using Couchbase;
     using Fanex.Logging;
     using Fanex.OddsFeed.Library;
     using Library.Configurations;
@@ -20,7 +20,6 @@
         public OddsFeedService()
         {
             InitializeComponent();
-
 
             _totalVersion = AppSettings.TotalVersion;
 
@@ -68,12 +67,12 @@
         private void BackgroundTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             _timer.Stop();
-            
+
             try
             {
                 if (!Utilities.IsDownTime())
                 {
-                    bool isSuccessful = _oddsFeedService.Update(_currentVersion);
+                    var isSuccessful = _oddsFeedService.Update(_currentVersion);
 
                     if (isSuccessful)
                     {
@@ -83,9 +82,11 @@
                     else
                     {
                         LogService.Error("IP address seems to have changed OR Cache on CouchBase is full. Please restart OddsFeedWindowService ! ");
-
-                        CouchbaseManager.Instance.FlushAll();
-                        CouchbaseManager.Instance.Dispose();
+                        using (var cache = new CouchbaseClient())
+                        {
+                            cache.FlushAll();
+                            cache.Dispose();
+                        }
                     }
                 }
             }
@@ -107,7 +108,7 @@
             }
         }
 
-        private string GetExceptionMessage(Exception exception)
+        private static string GetExceptionMessage(Exception exception)
         {
             var messages = new string[]
             {

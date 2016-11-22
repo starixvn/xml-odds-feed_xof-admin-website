@@ -50,28 +50,44 @@
 
         public static IList<Outright> GetMatchs(int version)
         {
-            return _cacheClient.Get(CacheKeys.OutrightKey(AppSettings.CachePrefix, version)) as IList<Outright>;
+            using (var cache = new CouchbaseClient())
+            {
+                return cache.Get(CacheKeys.OutrightKey(AppSettings.CachePrefix, version)) as IList<Outright>;
+            }
         }
 
         public static IList<BetTypeSchema> GetBetTypeSchemas()
         {
-            var temp = JsonHelper.GetBetTypeSchemas(AppSettings.BetTypeSchemaPath);
-            if (temp != null)
+            using (var cache = new CouchbaseClient())
             {
-                _cacheClient.Store(StoreMode.Set, AppSettings.BetTypeSchemaKey, temp);
-            }
+                var result = cache.Get<IList<BetTypeSchema>>(AppSettings.BetTypeSchemaKey);
+                if (result == null)
+                {
+                    result = JsonHelper.GetBetTypeSchemas(AppSettings.BetTypeSchemaPath);
+                    if (result != null)
+                    {
+                        cache.Store(StoreMode.Set, AppSettings.BetTypeSchemaKey, result);
+                    }
+                }
 
-            return null;
+                return result;
+            }
         }
 
         public static int GetCurrentVersion()
         {
-            return _cacheClient.Get<int>(CacheKeys.CurrentKey(AppSettings.CachePrefix));
+            using (var cache = new CouchbaseClient())
+            {
+                return cache.Get<int>(CacheKeys.CurrentKey(AppSettings.CachePrefix));
+            }
         }
 
         public static bool IsFullChain()
         {
-            return _cacheClient.Get<bool>(CacheKeys.FullChainKey(AppSettings.CachePrefix));
+            using (var cache = new CouchbaseClient())
+            {
+                return cache.Get<bool>(CacheKeys.FullChainKey(AppSettings.CachePrefix));
+            }
         }
 
         public static int GetRightVersion(int delayTime, int currentVersion, bool isFullChain)
@@ -88,16 +104,26 @@
 
         private static IList<Match> GetMatches(string key, int rightVersion)
         {
-            return rightVersion == -1
-                ? new List<Match>()
-                : _cacheClient.Get<List<Match>>(key);
+            if (rightVersion == -1)
+            {
+                return new List<Match>();
+            }
+            using (var cache = new CouchbaseClient())
+            {
+                return cache.Get<List<Match>>(key);
+            }
         }
 
         private static IList<Outright> GetOutrights(string key, int rightVersion)
         {
-            return rightVersion == -1
-                ? new List<Outright>()
-                : _cacheClient.Get<List<Outright>>(key);
+            if (rightVersion == -1)
+            {
+                return new List<Outright>();
+            }
+            using (var cache = new CouchbaseClient())
+            {
+                return cache.Get<List<Outright>>(key);
+            }
         }
     }
 }
