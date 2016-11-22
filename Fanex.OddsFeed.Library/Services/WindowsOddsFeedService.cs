@@ -61,7 +61,7 @@
                 var deadballOddsFlexs = GetOddFlexs(deadballOdds.ResultSet.Tables[1]);
                 line++;
                 var betTypeSchemas = OddFeedDataCachingOperator.GetBetTypeSchemas();
-
+                line++;
                 var liveMatches = _matchMapping.GetMatches(liveOdds.ResultSet.Tables[0], betTypeSchemas, true, liveOddsFlexs);
                 line++;
                 var deadBallMatches = _matchMapping.GetMatches(deadballOdds.ResultSet.Tables[0], betTypeSchemas, false, deadballOddsFlexs);
@@ -110,7 +110,10 @@
 
             try
             {
-                result = TryStore(key, data, numberTries);
+                if(data != null)
+                {
+                    result = TryStore(key, data, numberTries);
+                }
             }
             catch (Exception exception)
             {
