@@ -106,7 +106,7 @@
             }
         }
 
-        private string GetExceptionMessage(Exception exception)
+        private static string GetExceptionMessage(Exception exception)
         {
             var messages = new string[]
             {

@@ -34,75 +34,114 @@
             Assert.AreEqual(dataTable.Rows[0]["EventDate"], result.ElementAt(0).Time);
         }
 
-        private DataTable GetOutrightDataTable()
+        private static DataTable GetOutrightDataTable()
         {
             var dataTable = new DataTable();
 
-            dataTable.Columns.Add(new DataColumn
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(int),
                 ColumnName = "LeagueID"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(int),
                 ColumnName = "SportID"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(int),
                 ColumnName = "OrID"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(decimal),
                 ColumnName = "Odds"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(DateTime),
                 ColumnName = "EventDate"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(string),
                 ColumnName = "LeagueNameTC"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(string),
                 ColumnName = "TeamName"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(string),
                 ColumnName = "TeamNameCN"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(string),
                 ColumnName = "TeamNameC_UNI"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(string),
                 ColumnName = "LeagueName"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(string),
                 ColumnName = "LeagueNameCN"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(string),
                 ColumnName = "LeagueNameC_UNI"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(string),
                 ColumnName = "CountryCode"
-            });
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
 
             var row = dataTable.NewRow();
             row["LeagueID"] = 1;

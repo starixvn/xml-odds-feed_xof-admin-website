@@ -405,9 +405,9 @@ namespace Fanex.OddsFeed.Core
         /// <returns>Object System.String.</returns>
         public static string GetEnumDescription<TEnum>(TEnum value)
         {
-            FieldInfo fi = value.GetType().GetField(value.ToString());
+            var fi = value.GetType().GetField(value.ToString());
 
-            DescriptionAttribute[] attributes = (DescriptionAttribute[])fi.GetCustomAttributes(typeof(DescriptionAttribute), false);
+            var attributes = (DescriptionAttribute[])fi.GetCustomAttributes(typeof(DescriptionAttribute), false);
 
             if ((attributes != null) && (attributes.Length > 0))
             {
@@ -435,10 +435,10 @@ namespace Fanex.OddsFeed.Core
             object htmlAttributes,
             string excludeValues = "")
         {
-            ModelMetadata metadata = ModelMetadata.FromLambdaExpression(expression, htmlHelper.ViewData);
-            Type enumType = GetNonNullableModelType(metadata);
-            IEnumerable<TEnum> values = Enum.GetValues(enumType).Cast<TEnum>();
-            IEnumerable<SelectListItem> items =
+            var metadata = ModelMetadata.FromLambdaExpression(expression, htmlHelper.ViewData);
+            var enumType = GetNonNullableModelType(metadata);
+            var values = Enum.GetValues(enumType).Cast<TEnum>();
+            var items =
                 from value in values
                 where !excludeValues.ContainsString(GetEnumDescription(value))
                 select new SelectListItem
@@ -565,13 +565,13 @@ namespace Fanex.OddsFeed.Core
             IDictionary<string, object> htmlAttributes,
             bool showNameAttribute = true)
         {
-            string fullHtmlFieldName = htmlHelper.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(name);
+            var fullHtmlFieldName = htmlHelper.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(name);
             if (string.IsNullOrEmpty(fullHtmlFieldName))
             {
                 throw new ArgumentException("name cannot be null or empty.", "name");
             }
 
-            bool selectListFromViewData = false;
+            var selectListFromViewData = false;
             if (selectList == null)
             {
                 selectList = htmlHelper.ViewData.Eval(fullHtmlFieldName) as IEnumerable<SelectListItem>;
@@ -602,7 +602,7 @@ namespace Fanex.OddsFeed.Core
                 selectList = CreateListItems(selectList, values);
             }
 
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             htmlAttributes = (htmlAttributes == null) ? new RouteValueDictionary() : new RouteValueDictionary(htmlAttributes);
 
             htmlAttributes.Remove("checked");
@@ -758,13 +758,13 @@ namespace Fanex.OddsFeed.Core
             IDictionary<string, object> htmlAttributes,
             bool showNameAttribute = true)
         {
-            string fullHtmlFieldName = htmlHelper.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(name);
+            var fullHtmlFieldName = htmlHelper.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(name);
             if (string.IsNullOrEmpty(fullHtmlFieldName))
             {
                 throw new ArgumentException("name cannot be null or empty.", "name");
             }
 
-            bool selectListFromViewData = false;
+            var selectListFromViewData = false;
             if (selectList == null)
             {
                 selectList = htmlHelper.ViewData.Eval(fullHtmlFieldName) as IEnumerable<SelectListItem>;
@@ -780,7 +780,7 @@ namespace Fanex.OddsFeed.Core
             ModelState state;
             if (htmlHelper.ViewData.ModelState.TryGetValue(fullHtmlFieldName, out state) && (state.Value != null))
             {
-                string stateValue = state.Value.ConvertTo(typeof(string)).ToString();
+                var stateValue = state.Value.ConvertTo(typeof(string)).ToString();
                 values = stateValue.Contains(",") ? stateValue.Split(',') : state.Value.ConvertTo(typeof(string[]), null);                
             }
 
@@ -794,7 +794,7 @@ namespace Fanex.OddsFeed.Core
                 selectList = CreateListItems(selectList, values);                
             }
 
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             htmlAttributes = (htmlAttributes == null) ? new RouteValueDictionary() : new RouteValueDictionary(htmlAttributes);
             htmlAttributes.Remove("checked");
 
@@ -993,7 +993,7 @@ namespace Fanex.OddsFeed.Core
             {
                 if (firstItem.Value != null)
                 {
-                    List<SelectListItem> list = new List<SelectListItem>();
+                    var list = new List<SelectListItem>();
                     list.Add(firstItem);
 
                     if (selectList != null)
@@ -1022,9 +1022,9 @@ namespace Fanex.OddsFeed.Core
         /// <returns>Object System.Type.</returns>
         private static Type GetNonNullableModelType(ModelMetadata modelMetadata)
         {
-            Type realModelType = modelMetadata.ModelType;
+            var realModelType = modelMetadata.ModelType;
 
-            Type underlyingType = Nullable.GetUnderlyingType(realModelType);
+            var underlyingType = Nullable.GetUnderlyingType(realModelType);
             if (underlyingType != null)
             {
                 realModelType = underlyingType;
@@ -1064,7 +1064,7 @@ namespace Fanex.OddsFeed.Core
          StringBuilder sb,
          SelectListItem item)
         {
-            TagBuilder input = new TagBuilder("input");
+            var input = new TagBuilder("input");
             input.MergeAttributes(htmlAttributes);
             input.MergeAttribute("type", "checkbox");
             input.MergeAttribute("id", name + item.Value);
@@ -1082,7 +1082,7 @@ namespace Fanex.OddsFeed.Core
             ////TagBuilder label = new TagBuilder("label");
             ////label.InnerHtml = input.ToString(TagRenderMode.SelfClosing) + item.Text;
             ////sb.Append(label.ToString());
-            TagBuilder label = new TagBuilder("label");
+            var label = new TagBuilder("label");
             label.MergeAttribute("for", name + item.Value);
             label.AddCssClass("font-normal");
 
@@ -1103,14 +1103,14 @@ namespace Fanex.OddsFeed.Core
             ? values as string[]
             : values.ToString().Split(new[] { ',' });
 
-            IEnumerable source = values as IEnumerable;
+            var source = values as IEnumerable;
 
-            HashSet<string> set = new HashSet<string>(
+            var set = new HashSet<string>(
                from value in source.Cast<object>()
                select Convert.ToString(value, CultureInfo.CurrentCulture),
                StringComparer.OrdinalIgnoreCase);
 
-            List<SelectListItem> list = new List<SelectListItem>();
+            var list = new List<SelectListItem>();
 
             foreach (SelectListItem item in selectList)
             {
@@ -1139,7 +1139,7 @@ namespace Fanex.OddsFeed.Core
             StringBuilder sb,
             SelectListItem item)
         {
-            TagBuilder input = new TagBuilder("input");
+            var input = new TagBuilder("input");
             input.MergeAttributes(htmlAttributes);
             input.MergeAttribute("type", "checkbox");
             input.MergeAttribute("id", name + item.Value);
@@ -1155,7 +1155,7 @@ namespace Fanex.OddsFeed.Core
                 input.MergeAttribute("checked", "checked");
             }
 
-            TagBuilder label = new TagBuilder("label");
+            var label = new TagBuilder("label");
             label.InnerHtml = input.ToString(TagRenderMode.SelfClosing) + item.Text;
             label.AddCssClass("font-normal");
 

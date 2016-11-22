@@ -194,13 +194,13 @@ namespace Fanex.OddsFeed.Admin.Controllers
         /// <returns>The virtual path.</returns>
         public string GetVirtualPath()
         {
-            string feedUrlPath = ConfigurationManager.AppSettings["FeedUrlPath"].ToString();
+            var feedUrlPath = ConfigurationManager.AppSettings["FeedUrlPath"].ToString();
             if (!string.IsNullOrEmpty(feedUrlPath))
             {
                 feedUrlPath += "/";
             }
 
-            string virtualPathWebService = ConfigurationManager.AppSettings["VirtualPathWebService"].ToString();
+            var virtualPathWebService = ConfigurationManager.AppSettings["VirtualPathWebService"].ToString();
             if (!string.IsNullOrEmpty(virtualPathWebService))
             {
                 virtualPathWebService += "/";

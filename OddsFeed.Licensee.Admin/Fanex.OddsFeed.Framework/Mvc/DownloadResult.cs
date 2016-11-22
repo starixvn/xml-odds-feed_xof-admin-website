@@ -51,16 +51,16 @@ namespace Fanex.OddsFeed.Framework.Mvc
         /// The context information includes the controller, HTTP content, request context, and route data.</param>
         public override void ExecuteResult(ControllerContext context)
         {
-            if (!string.IsNullOrEmpty(this.FileDownloadName))
+            if (!string.IsNullOrEmpty(FileDownloadName))
             {
-                this.FileDownloadName = this.FileDownloadName.Replace(" ", string.Empty);
-                context.HttpContext.Response.AddHeader("content-disposition", "attachment; filename=" + this.FileDownloadName);
+                FileDownloadName = FileDownloadName.Replace(" ", string.Empty);
+                context.HttpContext.Response.AddHeader("content-disposition", "attachment; filename=" + FileDownloadName);
             }
 
-            string filePath = context.HttpContext.Server.MapPath(this.VirtualPath);
+            var filePath = context.HttpContext.Server.MapPath(VirtualPath);
             if (!File.Exists(filePath))
             {
-                context.HttpContext.Response.Redirect(this.ErrorUrl);
+                context.HttpContext.Response.Redirect(ErrorUrl);
             }
             else
             {

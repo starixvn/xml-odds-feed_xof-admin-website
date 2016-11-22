@@ -110,7 +110,7 @@
             bool isSample)
         {
             var changetime = !string.IsNullOrEmpty(_timeStamp);
-            int timeStamp = changetime ? int.Parse(_timeStamp) : 0;
+            var timeStamp = changetime ? int.Parse(_timeStamp) : 0;
 
             var liveMatches = GetLiveMatches(oddsFeedFilter, oddsData.LiveMatches, changetime, timeStamp);
             var deadballMatches = GetDeadMatches(oddsFeedFilter, oddsData.DeadballMatches, changetime, timeStamp);
@@ -156,15 +156,15 @@
             return _oddsProfile.OddsType.Contains(2) && deadMatches.Count() > 0;
         }
 
-        private DateTime GetLastUpdate()
+        private static DateTime GetLastUpdate()
         {
             return DateTime.Now.AddHours(12);
         }
 
-        private int GetMaxTimeStamp(IEnumerable<Match> deadBallMatches, IEnumerable<Match> liveMatches)
+        private static int GetMaxTimeStamp(IEnumerable<Match> deadBallMatches, IEnumerable<Match> liveMatches)
         {
-            int deadBallTimeStamp = 0;
-            int liveTimeStamp = 0;
+            var deadBallTimeStamp = 0;
+            var liveTimeStamp = 0;
 
             if (deadBallMatches.Any())
             {

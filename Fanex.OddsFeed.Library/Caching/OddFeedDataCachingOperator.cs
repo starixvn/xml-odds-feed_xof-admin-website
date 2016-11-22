@@ -37,8 +37,8 @@
 
             var cachePrefix = AppSettings.CachePrefix;
             var deadballRightVersion = GetRightVersion(delayTimeDeadball, currentVersion, fullChain);
-            int liveRightVersion = GetRightVersion(delayTimeLive, currentVersion, fullChain);
-            int outrightRightVersion = GetRightVersion(delayTimeOutright, currentVersion, fullChain);
+            var liveRightVersion = GetRightVersion(delayTimeLive, currentVersion, fullChain);
+            var outrightRightVersion = GetRightVersion(delayTimeOutright, currentVersion, fullChain);
 
             return new OddsData
             {

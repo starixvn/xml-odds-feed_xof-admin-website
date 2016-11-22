@@ -16,7 +16,7 @@
             bool isLive,
             IEnumerable<OddFlex> oddsFlexs)
         {
-            int matchId = 0;
+            var matchId = 0;
             var matches = new List<Match>();
 
             foreach (DataRow row in dataTable.Rows)
@@ -99,14 +99,14 @@
             return schema.Reserve == null ? MapBetChoices(schema.BetChoices, row) : MapBetChoicesReserve(schema, row);
         }
 
-        private IEnumerable<BetChoice> GetOddsFlexBetChoices(BetTypeSchema schema, DataRow row, IEnumerable<OddFlex> oddsFlexs)
+        private static IEnumerable<BetChoice> GetOddsFlexBetChoices(BetTypeSchema schema, DataRow row, IEnumerable<OddFlex> oddsFlexs)
         {
             var filterOddsFlexs = oddsFlexs.Where(odds => odds.OddId == Convert.ToInt32(row["oddsid"]));
 
             return MapBetChoicesOddsFlex(schema.BetChoices, filterOddsFlexs); ;
         }
 
-        private MatchOdds CreateMatchOdds(BetTypeSchema schema, DataRow row)
+        private static MatchOdds CreateMatchOdds(BetTypeSchema schema, DataRow row)
         {
             return new MatchOdds
             {
@@ -117,7 +117,7 @@
             };
         }
 
-        private IEnumerable<BetChoice> MapBetChoicesOddsFlex(IEnumerable<BetChoiceSchema> betChoiceSchemas, IEnumerable<OddFlex> oddsFlexs)
+        private static IEnumerable<BetChoice> MapBetChoicesOddsFlex(IEnumerable<BetChoiceSchema> betChoiceSchemas, IEnumerable<OddFlex> oddsFlexs)
         {
             var betChoices = new List<BetChoice>();
 
@@ -168,7 +168,7 @@
             return betChoices;
         }
 
-        private IEnumerable<BetChoice> MapBetChoicesReserve(BetTypeSchema betTypeSchema, DataRow row)
+        private static IEnumerable<BetChoice> MapBetChoicesReserve(BetTypeSchema betTypeSchema, DataRow row)
         {
             var betChoices = new List<BetChoice>();
             var betChoice1 = betTypeSchema.BetChoices.ElementAt(1);
@@ -203,7 +203,7 @@
             return betChoices;
         }
 
-        private void AssignResourceOdds(IList<BetChoice> betChoices, BetTypeSchema betTypeSchema, DataRow row)
+        private static void AssignResourceOdds(IList<BetChoice> betChoices, BetTypeSchema betTypeSchema, DataRow row)
         {
             var resourceBetChoice = GetResourceBetChoice(betTypeSchema.BetChoices);
 
@@ -254,7 +254,7 @@
             return string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Convert.ToDecimal(odds)));
         }
 
-        private IList<Language> GetBookieNames()
+        private static IList<Language> GetBookieNames()
         {
             return new List<Language>
             {
@@ -276,7 +276,7 @@
             };
         }
 
-        private IList<Language> GetAwayTeams(DataRow row)
+        private static IList<Language> GetAwayTeams(DataRow row)
         {
             return new List<Language>
             {
@@ -320,7 +320,7 @@
             };
         }
 
-        private IList<Language> GetLeagues(DataRow row)
+        private static IList<Language> GetLeagues(DataRow row)
         {
             return new List<Language>
             {

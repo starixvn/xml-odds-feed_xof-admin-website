@@ -25,7 +25,7 @@
                 && FilterByOddsFeedFilter(oddsFeedFilter, matchOdds);
         }
 
-        private bool FilterByOddsProfile(OddsProfile oddsProfile, bool isSample, MatchOdds matchOdds)
+        private static bool FilterByOddsProfile(OddsProfile oddsProfile, bool isSample, MatchOdds matchOdds)
         {
             if (oddsProfile.BetTypes != null && !isSample)
             {
@@ -38,7 +38,7 @@
             return true;
         }
 
-        private bool FilterByOddsFeedFilter(OddsFeedFilter oddsFeedFilter, MatchOdds matchOdds)
+        private static bool FilterByOddsFeedFilter(OddsFeedFilter oddsFeedFilter, MatchOdds matchOdds)
         {
             if (oddsFeedFilter.BetTypes != null && oddsFeedFilter.BetTypes.Count > 0)
             {
@@ -51,13 +51,13 @@
             return true;
         }
 
-        private bool FilterBySport(OddsProfile oddsProfile, OddsFeedFilter oddsFeedFilter, Match match)
+        private static bool FilterBySport(OddsProfile oddsProfile, OddsFeedFilter oddsFeedFilter, Match match)
         {
             return (oddsProfile.Sports == null ? true : (oddsProfile.Sports.Count != 0 ? oddsProfile.Sports.Contains(match.SportId) : false)) &&
                     (oddsFeedFilter.Sports == null || oddsFeedFilter.Sports.Count == 0 ? true : oddsFeedFilter.Sports.Contains(match.SportId));
         }
 
-        private bool FilterByLeague(OddsProfile oddsProfile, OddsFeedFilter oddsFeedFilter, Match match)
+        private static bool FilterByLeague(OddsProfile oddsProfile, OddsFeedFilter oddsFeedFilter, Match match)
         {
             return (oddsProfile.Leagues == null 
                 ? true 
@@ -65,18 +65,18 @@
                 && (oddsFeedFilter.Leagues == null || oddsFeedFilter.Leagues.Count == 0 ? true : SearchLeague(oddsFeedFilter.Leagues, match.LeagueNames.ElementAt(0).Content.ToLower()));
         }
 
-        private bool FilterByCountry(OddsProfile oddsProfile, OddsFeedFilter oddsFeedFilter, Match match)
+        private static bool FilterByCountry(OddsProfile oddsProfile, OddsFeedFilter oddsFeedFilter, Match match)
         {
             return (oddsProfile.Countries == null ? true : (oddsProfile.Countries.Count != 0 ? oddsProfile.Countries.Contains(match.CountryCode.ToLower()) : false)) &&
                                          (oddsFeedFilter.Countries == null || oddsFeedFilter.Countries.Count == 0 ? true : oddsFeedFilter.Countries.Contains(match.CountryCode.ToLower()));
         }
 
-        private bool FilterByKeyword(OddsProfile oddsProfile, Match match)
+        private static bool FilterByKeyword(OddsProfile oddsProfile, Match match)
         {
             return (string.IsNullOrEmpty(oddsProfile.LeagueKeyword) ? true : match.LeagueNames.ElementAt(0).Content.ToLower().Contains(oddsProfile.LeagueKeyword.ToLower()));
         }
 
-        private bool SearchLeague(IList<string> searchLeagues, string league)
+        private static bool SearchLeague(IList<string> searchLeagues, string league)
         {
             foreach (string item in searchLeagues)
             {

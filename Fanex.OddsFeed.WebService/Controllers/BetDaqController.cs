@@ -66,8 +66,8 @@ namespace Fanex.OddsFeed.WebService.Controllers
                 return "You are not authorized to take this action.";
             }
 
-            string startTime = string.Empty;
-            string endTime = string.Empty;
+            var startTime = string.Empty;
+            var endTime = string.Empty;
 
             if (Utilities.GetDownTime(out startTime, out endTime))
             {

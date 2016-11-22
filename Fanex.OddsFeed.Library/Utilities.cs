@@ -164,14 +164,16 @@
         /// <returns><c>true</c> If XXXX, <c>false</c> otherwise.</returns>
         public static bool SendEmail(string from, string to, string subject, string body)
         {
-            SmtpClient client = new SmtpClient();
-            client.DeliveryMethod = SmtpDeliveryMethod.Network;
-            client.EnableSsl = bool.Parse(ConfigurationManager.AppSettings["SmtpClient.EnableSsl"]);
-            client.Host = ConfigurationManager.AppSettings["SmtpClient.Host"];
-            client.Port = int.Parse(ConfigurationManager.AppSettings["SmtpClient.Port"]);
+            var client = new SmtpClient
+            {
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                EnableSsl = bool.Parse(ConfigurationManager.AppSettings["SmtpClient.EnableSsl"]),
+                Host = ConfigurationManager.AppSettings["SmtpClient.Host"],
+                Port = int.Parse(ConfigurationManager.AppSettings["SmtpClient.Port"])
+            };
 
             //// setup Smtp authentication
-            NetworkCredential credentials = new System.Net.NetworkCredential(
+            var credentials = new System.Net.NetworkCredential(
                                                                 ConfigurationManager.AppSettings["SmtpClient.Account"],
                                                                 ConfigurationManager.AppSettings["SmtpClient.Password"]);
 
@@ -179,14 +181,16 @@
             client.Credentials = credentials;
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
 
-            MailAddress _from = new MailAddress(from, from, System.Text.Encoding.UTF8);
-            MailAddress _to = new MailAddress(to, to, System.Text.Encoding.UTF8);
-            MailMessage message = new MailMessage(_from, _to);
-            message.SubjectEncoding = System.Text.Encoding.UTF8;
-            message.Subject = subject;
-            message.BodyEncoding = System.Text.Encoding.UTF8;
-            message.IsBodyHtml = true;
-            message.Body = body;
+            var _from = new MailAddress(from, from, System.Text.Encoding.UTF8);
+            var _to = new MailAddress(to, to, System.Text.Encoding.UTF8);
+            var message = new MailMessage(_from, _to)
+            {
+                SubjectEncoding = System.Text.Encoding.UTF8,
+                Subject = subject,
+                BodyEncoding = System.Text.Encoding.UTF8,
+                IsBodyHtml = true,
+                Body = body
+            };
             try
             {
                 client.SendAsync(message, Guid.NewGuid());
@@ -286,7 +290,7 @@
                 indo = 1 / (1 - dec);
             }
 
-            return Utilities.Floor(indo);
+            return Floor(indo);
         }
 
         /// <summary>

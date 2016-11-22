@@ -41,16 +41,10 @@ namespace Fanex.OddsFeed.Core.Repository.Impl
             }
         }
 
-        /// <summary>
-        /// Inserts the specified criteria.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        /// <param name="logCriteria">The log criteria.</param>
-        /// <returns>ICommand Result.</returns>
         public ICommandResult Insert(ref InsertAffiliateCriteria criteria)
         {
             // prepare SP parameters
-            Hashtable hash = criteria.GetSpParams();
+            var hash = criteria.GetSpParams();
 
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {

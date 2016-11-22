@@ -260,8 +260,8 @@ namespace Fanex.OddsFeed.Core
 
         public static string TotalHoursToTime(float value)
         {
-            int hour = (int)value;
-            int minute = (int)Math.Round((value - hour) * 60);
+            var hour = (int)value;
+            var minute = (int)Math.Round((value - hour) * 60);
             return hour > 0
                 ? ZeroPrefix(hour) + "h" + ZeroPrefix(minute) + "'"
                 : ZeroPrefix(minute) + "'";
@@ -274,8 +274,8 @@ namespace Fanex.OddsFeed.Core
                 return string.Empty;
             }
 
-            int hour = value / 60;
-            int minute = value - (hour * 60);
+            var hour = value / 60;
+            var minute = value - (hour * 60);
             return hour > 0 ? ZeroPrefix(hour) + "h" + ZeroPrefix(minute) + "'" : ZeroPrefix(minute) + "'";
         }
 

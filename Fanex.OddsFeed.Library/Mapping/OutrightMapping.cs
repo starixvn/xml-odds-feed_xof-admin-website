@@ -11,11 +11,11 @@
         public IEnumerable<Outright> GetOutrights(DataTable dataTable)
         {
             var events = new List<Outright>();
-            int leagueId = 0;
+            var leagueId = 0;
 
             foreach (DataRow row in dataTable.Rows)
             {
-                int currentLeagueId = Convert.ToInt32(row["LeagueID"]);
+                var currentLeagueId = Convert.ToInt32(row["LeagueID"]);
                 var eventOdds = GetEventOdds(row);
 
                 if (leagueId != currentLeagueId)
@@ -33,7 +33,7 @@
             return events;
         }
 
-        private Outright GetEvent(DataRow row, int leagueId, OutrightOdds eventOdds)
+        private static Outright GetEvent(DataRow row, int leagueId, OutrightOdds eventOdds)
         {
             return new Outright
             {
@@ -47,7 +47,7 @@
             };
         }
 
-        private OutrightOdds GetEventOdds(DataRow row)
+        private static OutrightOdds GetEventOdds(DataRow row)
         {
             return new OutrightOdds
             {
@@ -57,7 +57,7 @@
             };
         }
 
-        private IList<Language> GetTeams(DataRow row)
+        private static IList<Language> GetTeams(DataRow row)
         {
             return new List<Language>
             {
@@ -79,7 +79,7 @@
             };
         }
 
-        private IList<Language> GetEventNames(DataRow row)
+        private static IList<Language> GetEventNames(DataRow row)
         {
             return new List<Language>
             {

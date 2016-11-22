@@ -291,7 +291,7 @@
         /// <returns>System String.</returns>
         public static string FooBetToCSV_Odds_2(this DataRow[] drs, string separateRow)
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             ////string StakeOption = string.Empty;
 
             foreach (DataRow row in drs)
@@ -300,7 +300,7 @@
                 switch (Convert.ToInt16(row["bettype"]))
                 {                  
                     case 16:
-                        string[] param = new string[] 
+                        var param = new string[] 
                                                         { 
                                                             row["matchid"].ToString(), row["oddsid"].ToString(), row["bettype"].ToString(),
                                                             row["maxbet"].ToString(), 

@@ -68,21 +68,21 @@
             }
         }
 
-        private void AssignLastUpdate(XmlDocument xmlDocument, XmlNode matchesNode, DateTime lastUpdate)
+        private static void AssignLastUpdate(XmlDocument xmlDocument, XmlNode matchesNode, DateTime lastUpdate)
         {
             var sportAttribute = xmlDocument.CreateAttribute("lastupdate");
             sportAttribute.Value = lastUpdate.ToString();
             matchesNode.Attributes.Append(sportAttribute);
         }
 
-        private void AssignMatchTimeStamp(XmlDocument xmlDocument, XmlNode matchesNode, int timeStamp)
+        private static void AssignMatchTimeStamp(XmlDocument xmlDocument, XmlNode matchesNode, int timeStamp)
         {
             var sportAttribute = xmlDocument.CreateAttribute("timestamp");
             sportAttribute.Value = timeStamp.ToString();
             matchesNode.Attributes.Append(sportAttribute);
         }
 
-        private void AssignOddsType(XmlDocument xmlDocument, XmlNode matchesNode, string oddsType)
+        private static void AssignOddsType(XmlDocument xmlDocument, XmlNode matchesNode, string oddsType)
         {
             var sportAttribute = xmlDocument.CreateAttribute("oddstype");
             sportAttribute.Value = oddsType;
@@ -111,7 +111,7 @@
             return matchNode;
         }
 
-        private void AssignMatchId(XmlDocument xmlDocument, XmlNode matchNode, int matchId)
+        private static void AssignMatchId(XmlDocument xmlDocument, XmlNode matchNode, int matchId)
         {
             var matchIdAttribute = xmlDocument.CreateAttribute("id");
             matchIdAttribute.Value = matchId.ToString();
@@ -134,7 +134,7 @@
             return bookieNode;
         }
 
-        private void AssignBookieName(XmlDocument xmlDocument, XmlNode bookieNode, string bookieName)
+        private static void AssignBookieName(XmlDocument xmlDocument, XmlNode bookieNode, string bookieName)
         {
             var nameAttribute = xmlDocument.CreateAttribute("name");
             nameAttribute.Value = bookieName.ToString();
@@ -166,7 +166,7 @@
             }
         }
 
-        private XmlNode CreateOddNode(XmlDocument xmlDocument, OddsProfile oddsProfile, MatchOdds matchOddsNode)
+        private static XmlNode CreateOddNode(XmlDocument xmlDocument, OddsProfile oddsProfile, MatchOdds matchOddsNode)
         {
             var oddXmlNode = xmlDocument.CreateNode(XmlNodeType.Element, "odd", null);
 
@@ -178,7 +178,7 @@
             return oddXmlNode;
         }
 
-        private void AssignTag(XmlDocument xmlDocument, XmlNode oddsNode, string tag)
+        private static void AssignTag(XmlDocument xmlDocument, XmlNode oddsNode, string tag)
         {
             var attribute = xmlDocument.CreateAttribute("t");
             attribute.Value = tag;
@@ -186,7 +186,7 @@
             oddsNode.Attributes.Append(attribute);
         }
 
-        private void AssignBetChoices(
+        private static void AssignBetChoices(
             XmlDocument xmlDocument,
             XmlNode oddsNode,
             OddsProfile oddsProfile,
@@ -200,7 +200,7 @@
             }
         }
 
-        private void AssignTime(XmlDocument xmlDocument, XmlNode oddsNode, DateTime time)
+        private static void AssignTime(XmlDocument xmlDocument, XmlNode oddsNode, DateTime time)
         {
             var attribute = xmlDocument.CreateAttribute("time");
             attribute.Value = time.ToString();
@@ -208,7 +208,7 @@
             oddsNode.Attributes.Append(attribute);
         }
 
-        private void AssignTimeStamp(XmlDocument xmlDocument, XmlNode oddsNode, int timeStamp)
+        private static void AssignTimeStamp(XmlDocument xmlDocument, XmlNode oddsNode, int timeStamp)
         {
             var attribute = xmlDocument.CreateAttribute("timestamp");
             attribute.Value = timeStamp.ToString();
@@ -216,7 +216,7 @@
             oddsNode.Attributes.Append(attribute);
         }
 
-        private string ConvertOdds(OddsProfile oddsProfile, BetChoice betChoice)
+        private static string ConvertOdds(OddsProfile oddsProfile, BetChoice betChoice)
         {
             if(betChoice.NotConvert)
             {
@@ -226,9 +226,9 @@
             return Utilities.ConvertOdds(oddsProfile.OddRegion, Convert.ToDecimal(betChoice.Value)).ToString();
         }
 
-        private string GetOddsTypeName(int oddsTypeId)
+        private static string GetOddsTypeName(int oddsTypeId)
         {
-            string oddsTypeName = string.Empty;
+            var oddsTypeName = string.Empty;
 
             switch (oddsTypeId)
             {

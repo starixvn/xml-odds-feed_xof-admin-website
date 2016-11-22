@@ -69,7 +69,7 @@
                 var outrights = _outrightMapping.GetOutrights(outrightOdds.ResultSet.Tables[0]);
                 line++;
 
-                bool result = StoreData(CacheKeys.CurrentKey(_cachePrefix), currentVersion, _numberTries);
+                var result = StoreData(CacheKeys.CurrentKey(_cachePrefix), currentVersion, _numberTries);
                 line++;
                 result = result && StoreData(CacheKeys.LiveMatchKey(_cachePrefix, currentVersion), liveMatches, _numberTries);
                 line++;
@@ -106,7 +106,7 @@
 
         private bool StoreData(string key, object data, int numberTries)
         {
-            bool result = false;
+            var result = false;
 
             try
             {
@@ -122,8 +122,8 @@
 
         private bool TryStore(string key, object data, int numberTries)
         {
-            bool result = false;
-            int backOffExpired = 0;
+            var result = false;
+            var backOffExpired = 0;
 
             do
             {

@@ -1150,7 +1150,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
             if (userProfile != null && userProfile.Tables.Count > 0 && userProfile.Tables[0].Rows.Count > 0)
             {
-                DataRow row = userProfile.Tables[0].Rows[0];
+                var row = userProfile.Tables[0].Rows[0];
                 ViewBag.NumberOfIPs = int.Parse(row["NumberOfIPs"].ToString());
                 ViewBagForFlags(
                                        bool.Parse(row["OddsTypeFlag"].ToString()),

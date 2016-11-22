@@ -35,7 +35,7 @@
             { "ts", "zh-CN" }
         };
 
-        protected void AssignNames(XmlDocument xmlDocument, XmlNode node, IEnumerable<Language> names, IDictionary<string, string> tagAttributes)
+        protected static void AssignNames(XmlDocument xmlDocument, XmlNode node, IEnumerable<Language> names, IDictionary<string, string> tagAttributes)
         {
             foreach (var tagAttribute in tagAttributes)
             {
@@ -49,28 +49,28 @@
             }
         }
 
-        protected void AssignId(XmlDocument xmlDocument, XmlNode node, int id)
+        protected static void AssignId(XmlDocument xmlDocument, XmlNode node, int id)
         {
             var idAttribute = xmlDocument.CreateAttribute("id");
             idAttribute.Value = id.ToString();
             node.Attributes.Append(idAttribute);
         }
 
-        protected void AssignSport(XmlDocument xmlDocument, XmlNode node, string sportName)
+        protected static void AssignSport(XmlDocument xmlDocument, XmlNode node, string sportName)
         {
             var sportAttribute = xmlDocument.CreateAttribute("sport");
             sportAttribute.Value = sportName.ToString();
             node.Attributes.Append(sportAttribute);
         }
 
-        protected void AssignMatchStatus(XmlDocument xmlDocument, XmlNode node, bool isLive)
+        protected static void AssignMatchStatus(XmlDocument xmlDocument, XmlNode node, bool isLive)
         {
             var runningAttribute = xmlDocument.CreateAttribute("running");
             runningAttribute.Value = isLive ? "1" : "0";
             node.Attributes.Append(runningAttribute);
         }
 
-        protected void AssignMatchKickOff(XmlDocument xmlDocument, XmlNode node, DateTime kickOffTime)
+        protected static void AssignMatchKickOff(XmlDocument xmlDocument, XmlNode node, DateTime kickOffTime)
         {
             var mtAttribute = xmlDocument.CreateAttribute("mt");
             mtAttribute.Value = kickOffTime.ToString();

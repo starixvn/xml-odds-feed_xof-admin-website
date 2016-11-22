@@ -43,7 +43,7 @@ namespace Fanex.OddsFeed.WebService.Controllers
             var typeName = "Fanex.OddsFeed.Library.Model." + feedname +
                 ", Fanex.OddsFeed.Library, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null";
 
-            Type feedType = Type.GetType(typeName, false, true);
+            var feedType = Type.GetType(typeName, false, true);
 
             if (feedType == null)
             {
@@ -76,7 +76,7 @@ namespace Fanex.OddsFeed.WebService.Controllers
             var typeName = "Fanex.OddsFeed.Library.Model." + feedname +
                 ", Fanex.OddsFeed.Library, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null";
 
-            Type feedType = Type.GetType(typeName, false, true);
+            var feedType = Type.GetType(typeName, false, true);
 
             if (feedType == null)
             {
@@ -97,7 +97,7 @@ namespace Fanex.OddsFeed.WebService.Controllers
         /// <param name="domain">The domain.</param>
         /// <param name="fromid">The from id.</param>
         /// <returns>System String.</returns>
-        private string GetJsonFeeds(Type feedType, string username, string timestamp, string domain, int? fromid)
+        private static string GetJsonFeeds(Type feedType, string username, string timestamp, string domain, int? fromid)
         {
             var ip = Utilities.GetIpAddressOfClient();
 
@@ -107,8 +107,8 @@ namespace Fanex.OddsFeed.WebService.Controllers
             {
                 ////try
                 ////{
-                Type genericType = typeof(Feeds<>);
-                Type a = genericType.MakeGenericType(feedType);
+                var genericType = typeof(Feeds<>);
+                var a = genericType.MakeGenericType(feedType);
                 dynamic obj = Activator.CreateInstance(a);
 
                 return obj.BuildJson(domain, ip, username, fromid);
@@ -133,7 +133,7 @@ namespace Fanex.OddsFeed.WebService.Controllers
         /// <param name="domain">The domain.</param>
         /// <param name="fromid">The from id.</param>
         /// <returns>X Container.</returns>
-        private XContainer GetXmlFeeds(Type feedType, string username, string timestamp, string domain, int? fromid)
+        private static XContainer GetXmlFeeds(Type feedType, string username, string timestamp, string domain, int? fromid)
         {
             var ip = Utilities.GetIpAddressOfClient();
 
@@ -143,8 +143,8 @@ namespace Fanex.OddsFeed.WebService.Controllers
             {
                 ////try
                 ////{
-                Type genericType = typeof(Feeds<>);
-                Type a = genericType.MakeGenericType(feedType);
+                var genericType = typeof(Feeds<>);
+                var a = genericType.MakeGenericType(feedType);
                 dynamic obj = Activator.CreateInstance(a);
 
                 return obj.BuildXmlDocument(domain, ip, username, fromid);
@@ -168,7 +168,7 @@ namespace Fanex.OddsFeed.WebService.Controllers
         /// <param name="domain">The domain.</param>
         /// <param name="ip">The IP to authenticate.</param>
         /// <returns>Class Error.</returns>
-        private Error? IsAuthenticated(string username, string timestamp, string domain, string ip)
+        private static Error? IsAuthenticated(string username, string timestamp, string domain, string ip)
         {
             // ignore port number if it presents
             var domainName = domain;

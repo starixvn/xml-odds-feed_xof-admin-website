@@ -42,12 +42,12 @@
             return outrightsNode;
         }
 
-        private bool IsSampleOutright(bool isOutright, bool isSample, int numberOutright)
+        private static bool IsSampleOutright(bool isOutright, bool isSample, int numberOutright)
         {
             return isSample && isOutright && numberOutright > 0;
         }
 
-        public bool FilterBetType(OddsFeedFilter oddsFeedFilter, bool isSample)
+        public static bool FilterBetType(OddsFeedFilter oddsFeedFilter, bool isSample)
         {
             return !isSample 
                 && (oddsFeedFilter.BetTypes == null
@@ -73,21 +73,21 @@
             return eventNode;
         }
 
-        private void AssignEventId(XmlDocument xmlDocument, XmlNode eventNode, int eventId)
+        private static void AssignEventId(XmlDocument xmlDocument, XmlNode eventNode, int eventId)
         {
             var idAttribute = xmlDocument.CreateAttribute("id");
             idAttribute.Value = eventId.ToString();
             eventNode.Attributes.Append(idAttribute);
         }
 
-        private void AssignEventTime(XmlDocument xmlDocument, XmlNode eventNode, DateTime eventTime)
+        private static void AssignEventTime(XmlDocument xmlDocument, XmlNode eventNode, DateTime eventTime)
         {
             var eventTimeAttribute = xmlDocument.CreateAttribute("mt");
             eventTimeAttribute.Value = eventTime.ToString();
             eventNode.Attributes.Append(eventTimeAttribute);
         }
 
-        private void AssignSportName(XmlDocument xmlDocument, XmlNode eventNode, string sportName)
+        private static void AssignSportName(XmlDocument xmlDocument, XmlNode eventNode, string sportName)
         {
             var sportAttribute = xmlDocument.CreateAttribute("sport");
             sportAttribute.Value = sportName;
@@ -108,14 +108,14 @@
             return oddNode;
         }
 
-        private void AssignOddId(XmlDocument xmlDocument, XmlNode eventNode, int oddId)
+        private static void AssignOddId(XmlDocument xmlDocument, XmlNode eventNode, int oddId)
         {
             var idAttribute = xmlDocument.CreateAttribute("id");
             idAttribute.Value = oddId.ToString();
             eventNode.Attributes.Append(idAttribute);
         }
 
-        private void AssignOddValue(XmlDocument xmlDocument, OddsProfile oddsProfile, XmlNode eventNode, decimal oddValue)
+        private static void AssignOddValue(XmlDocument xmlDocument, OddsProfile oddsProfile, XmlNode eventNode, decimal oddValue)
         {
             var valueAttribute = xmlDocument.CreateAttribute("o");
             valueAttribute.Value = Utilities.ConvertOdds(oddsProfile.OddRegion, oddValue).ToString();

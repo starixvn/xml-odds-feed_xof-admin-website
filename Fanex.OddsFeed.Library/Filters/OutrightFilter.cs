@@ -32,14 +32,14 @@
             return isProfile && isFilter;
         }
 
-        private bool FilterByLeague(OddsFeedFilter oddsFeedFilter, Outright outright)
+        private static bool FilterByLeague(OddsFeedFilter oddsFeedFilter, Outright outright)
         {
             return (oddsFeedFilter.Leagues == null || oddsFeedFilter.Leagues.Count == 0 
                 ? true 
                 : SearchLeague(oddsFeedFilter.Leagues, outright.EventNames.ElementAt(0).Content.ToLower()));
         }
 
-        private bool FilterByCountry(OddsProfile oddsProfile, OddsFeedFilter oddsFeedFilter, Outright outright)
+        private static bool FilterByCountry(OddsProfile oddsProfile, OddsFeedFilter oddsFeedFilter, Outright outright)
         {
             var isProfile = oddsProfile.Countries == null
                 ? true

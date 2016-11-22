@@ -72,12 +72,12 @@
             Assert.AreEqual(ConvertToDecimalOdds(flexOdds.ElementAt(1).Odds), result.Bookie.MatchOddsList[0].BetChoices.ElementAt(1).Value);
         }
 
-        private string ConvertToDecimalOdds(object odds)
+        private static string ConvertToDecimalOdds(object odds)
         {
             return string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Convert.ToDecimal(odds)));
         }
 
-        private IEnumerable<BetTypeSchema> GetSchemas()
+        private static IEnumerable<BetTypeSchema> GetSchemas()
         {
             return new[]
             {
@@ -149,121 +149,187 @@
             };
         }
 
-        private DataTable GetHandicapDataTable()
+        private static DataTable GetHandicapDataTable()
         {
             var dataTable = new DataTable();
 
-            dataTable.Columns.Add(new DataColumn
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(int),
                 ColumnName = "MatchID"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(int),
                 ColumnName = "BetType"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(decimal),
                 ColumnName = "Hdp1"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(decimal),
                 ColumnName = "Hdp2"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(decimal),
                 ColumnName = "Odds1A"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(decimal),
                 ColumnName = "Odds2A"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(DateTime),
                 ColumnName = "ChangeTime"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(int),
                 ColumnName = "TimeStamp"
-            });
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
 
-            dataTable.Columns.Add(new DataColumn
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(string),
                 ColumnName = "SportTypeName"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(int),
                 ColumnName = "SportType"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(DateTime),
                 ColumnName = "KickOffTime"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(int),
                 ColumnName = "LeagueID"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(string),
                 ColumnName = "CountryCode"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(string),
                 ColumnName = "Home"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(string),
                 ColumnName = "HomeCN"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(string),
                 ColumnName = "HomeC_UNI"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(string),
                 ColumnName = "Away"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(string),
                 ColumnName = "AwayCN"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(string),
                 ColumnName = "AwayC_UNI"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(string),
                 ColumnName = "LeagueName"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(string),
                 ColumnName = "LeagueNameCN"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(string),
                 ColumnName = "LeagueNameC_UNI"
-            });
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
 
             var row = dataTable.NewRow();
             row["MatchID"] = 1;
@@ -295,110 +361,170 @@
             return dataTable;
         }
 
-        private DataTable GetNormalDataTable()
+        private static DataTable GetNormalDataTable()
         {
             var dataTable = new DataTable();
 
-            dataTable.Columns.Add(new DataColumn
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(int),
                 ColumnName = "MatchID"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(int),
                 ColumnName = "BetType"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(decimal),
                 ColumnName = "Odds1A"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(decimal),
                 ColumnName = "Odds2A"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(DateTime),
                 ColumnName = "ChangeTime"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(int),
                 ColumnName = "TimeStamp"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(string),
                 ColumnName = "SportTypeName"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(int),
                 ColumnName = "SportType"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(DateTime),
                 ColumnName = "KickOffTime"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(int),
                 ColumnName = "LeagueID"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(string),
                 ColumnName = "CountryCode"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(string),
                 ColumnName = "Home"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(string),
                 ColumnName = "HomeCN"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(string),
                 ColumnName = "HomeC_UNI"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(string),
                 ColumnName = "Away"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(string),
                 ColumnName = "AwayCN"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(string),
                 ColumnName = "AwayC_UNI"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(string),
                 ColumnName = "LeagueName"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(string),
                 ColumnName = "LeagueNameCN"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(string),
                 ColumnName = "LeagueNameC_UNI"
-            });
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
 
             var row = dataTable.NewRow();
             row["MatchID"] = 1;
@@ -460,106 +586,163 @@
             return dataTable;
         }
 
-        private void AssignOddsFlexHeader(DataTable dataTable)
+        private static void AssignOddsFlexHeader(DataTable dataTable)
         {
-            dataTable.Columns.Add(new DataColumn
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(int),
                 ColumnName = "MatchID"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(int),
                 ColumnName = "BetType"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(DateTime),
                 ColumnName = "ChangeTime"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(int),
                 ColumnName = "TimeStamp"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(int),
                 ColumnName = "oddsid"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(string),
                 ColumnName = "SportTypeName"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(int),
                 ColumnName = "SportType"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(DateTime),
                 ColumnName = "KickOffTime"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(int),
                 ColumnName = "LeagueID"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(string),
                 ColumnName = "CountryCode"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(string),
                 ColumnName = "Home"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(string),
                 ColumnName = "HomeCN"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(string),
                 ColumnName = "HomeC_UNI"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(string),
                 ColumnName = "Away"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(string),
                 ColumnName = "AwayCN"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(string),
                 ColumnName = "AwayC_UNI"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(string),
                 ColumnName = "LeagueName"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(string),
                 ColumnName = "LeagueNameCN"
-            });
-            dataTable.Columns.Add(new DataColumn
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
+            using (var dataColumn = new DataColumn
             {
                 DataType = typeof(string),
                 ColumnName = "LeagueNameC_UNI"
-            });
+            })
+            {
+                dataTable.Columns.Add(dataColumn);
+            }
         }
 
-        private IEnumerable<OddFlex> GetOddsFlex()
+        private static IEnumerable<OddFlex> GetOddsFlex()
         {
             return new[]
             {

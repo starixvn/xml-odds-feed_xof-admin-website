@@ -254,7 +254,7 @@
             }
         }
 
-        private void GenerateColumnData(
+        private static void GenerateColumnData(
             DataTable dt,
             DataTable column1Data,
             DataTable column2Data,
