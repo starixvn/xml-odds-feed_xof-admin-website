@@ -22,7 +22,7 @@
         {
             var xmlDocument = CreateXmlDocument();
             var nodeRoot = xmlDocument.CreateElement("eventfeed");
-            var oddsData = Caching.GetOddsData(_oddsProfile.DelayTimes);
+            var oddsData = OddFeedDataCachingOperator.GetOddsData(_oddsProfile.DelayTimes);
             var fullMatches = oddsData.DeadballMatches.Concat(oddsData.LiveMatches);
 
             if (IsShownOutRightEvent(isSample, isOutright))

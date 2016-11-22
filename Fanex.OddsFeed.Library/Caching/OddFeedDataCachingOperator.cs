@@ -10,26 +10,24 @@
     using Nodes;
     using Schemas;
 
-    public static class Caching
+    public static class OddFeedDataCachingOperator
     {
         private static readonly CouchbaseClient _cacheClient;
 
-        static Caching()
+        static OddFeedDataCachingOperator()
         {
             _cacheClient = CouchbaseManager.Instance;
         }
 
-        public static object Get(string key)
-        {
-            return _cacheClient.Get(key);
-        }
 
         public static OddsData GetOddsData(IList<int> delayTimes)
         {
             var currentVersion = GetCurrentVersion();
             var fullChain = IsFullChain();
 
-            int delayTimeDeadball = 0, delayTimeLive = 0, delayTimeOutright = 0;
+            var delayTimeDeadball = 0;
+            var delayTimeLive = 0;
+            var delayTimeOutright = 0;
             if (delayTimes.Count >= 3)
             {
                 delayTimeDeadball = delayTimes[0];
@@ -38,7 +36,7 @@
             }
 
             var cachePrefix = AppSettings.CachePrefix;
-            int deadballRightVersion = GetRightVersion(delayTimeDeadball, currentVersion, fullChain);
+            var deadballRightVersion = GetRightVersion(delayTimeDeadball, currentVersion, fullChain);
             int liveRightVersion = GetRightVersion(delayTimeLive, currentVersion, fullChain);
             int outrightRightVersion = GetRightVersion(delayTimeOutright, currentVersion, fullChain);
 
@@ -50,9 +48,19 @@
             };
         }
 
+        public static IList<Match> GetOutRight(int version)
+        {
+           return _cacheClient.Get(CacheKeys.DeadballMatchKey(AppSettings.CachePrefix, version)) as IList<Match>;
+        }
+
+        public static IList<Outright> GetMatchs(int version)
+        {
+            return _cacheClient.Get(CacheKeys.OutrightKey(AppSettings.CachePrefix, version)) as IList<Outright>;
+        }
+
         public static IList<BetTypeSchema> GetBetTypeSchemas()
         {
-            var bettypeSchemas = Get(AppSettings.BetTypeSchemaKey) as IList<BetTypeSchema>;
+            var bettypeSchemas = _cacheClient.Get(AppSettings.BetTypeSchemaKey) as IList<BetTypeSchema>;
 
             if (bettypeSchemas == null)
             {

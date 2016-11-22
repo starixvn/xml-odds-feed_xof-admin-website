@@ -51,7 +51,7 @@
         {
             var xmlDocument = CreateXmlDocument();
             var nodeRoot = xmlDocument.CreateElement("oddsfeed");
-            var oddsData = Caching.GetOddsData(_oddsProfile.DelayTimes);
+            var oddsData = OddFeedDataCachingOperator.GetOddsData(_oddsProfile.DelayTimes);
 
             if (IsShownOutright(isSample, isOutright))
             {

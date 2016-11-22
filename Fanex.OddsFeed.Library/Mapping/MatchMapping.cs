@@ -11,9 +11,9 @@
     public class MatchMapping : IMatchMapping
     {
         public IEnumerable<Match> GetMatches(
-            DataTable dataTable, 
-            IEnumerable<BetTypeSchema> schemas, 
-            bool isLive, 
+            DataTable dataTable,
+            IEnumerable<BetTypeSchema> schemas,
+            bool isLive,
             IEnumerable<OddFlex> oddsFlexs)
         {
             int matchId = 0;
@@ -87,34 +87,22 @@
 
             var matchOdds = CreateMatchOdds(schema, row);
 
-            if (schema.IsOddsFlex)
-            {
-                matchOdds.BetChoices = GetOddsFlexBetChoices(schema, row, oddsFlexs);
-            }
-            else
-            {
-                matchOdds.BetChoices = GetNormalBetChoices(schema, row);
-            }
+            matchOdds.BetChoices = schema.IsOddsFlex ? GetOddsFlexBetChoices(schema, row, oddsFlexs)
+
+            : GetNormalBetChoices(schema, row);
 
             return matchOdds;
         }
 
         private IEnumerable<BetChoice> GetNormalBetChoices(BetTypeSchema schema, DataRow row)
         {
-            if (schema.Reserve == null)
-            {
-                return MapBetChoices(schema.BetChoices, row);
-            }
-            else
-            {
-                return MapBetChoicesReserve(schema, row);
-            }
+            return schema.Reserve == null ? MapBetChoices(schema.BetChoices, row) : MapBetChoicesReserve(schema, row);
         }
 
         private IEnumerable<BetChoice> GetOddsFlexBetChoices(BetTypeSchema schema, DataRow row, IEnumerable<OddFlex> oddsFlexs)
         {
             var filterOddsFlexs = oddsFlexs.Where(odds => odds.OddId == Convert.ToInt32(row["oddsid"]));
-            
+
             return MapBetChoicesOddsFlex(schema.BetChoices, filterOddsFlexs); ;
         }
 
@@ -152,11 +140,6 @@
         private IEnumerable<BetChoice> MapBetChoices(IEnumerable<BetChoiceSchema> betChoiceSchemas, DataRow row)
         {
             var betChoices = new List<BetChoice>();
-
-            if (Convert.ToInt32(row["BetType"]) == 416)
-            {
-                Console.Write("hienra");
-            }
 
             foreach (var betChoiceSchema in betChoiceSchemas)
             {
@@ -234,7 +217,7 @@
             }
         }
 
-        private string GetDataAttribute(BetChoiceSchema betChoiceSchema)
+        private static string GetDataAttribute(BetChoiceSchema betChoiceSchema)
         {
             return string.IsNullOrEmpty(betChoiceSchema.DataAttribute)
                             ? betChoiceSchema.MatchAttribute
@@ -251,30 +234,22 @@
             return ConvertMalayToDecimalOddsString(Convert.ToDecimal(value));
         }
 
-        private BetTypeSchema FindBetTypeSchema(int betTypeId, IEnumerable<BetTypeSchema> schemas)
+        private static BetTypeSchema FindBetTypeSchema(int betTypeId, IEnumerable<BetTypeSchema> schemas)
         {
-            return schemas.Where(schema => schema.BetTypeId == betTypeId).FirstOrDefault();
+            return schemas.FirstOrDefault(schema => schema.BetTypeId == betTypeId);
         }
 
-        private BetChoiceSchema GetResourceBetChoice(IEnumerable<BetChoiceSchema> betChoiceSchemas)
+        private static BetChoiceSchema GetResourceBetChoice(IEnumerable<BetChoiceSchema> betChoiceSchemas)
         {
-            foreach (var betChoiceSchema in betChoiceSchemas)
-            {
-                if (betChoiceSchema.IsResource)
-                {
-                    return betChoiceSchema;
-                }
-            }
-
-            return null;
+            return betChoiceSchemas.FirstOrDefault(i => i.IsResource);
         }
 
-        private string ConvertOddsToString(decimal odds)
+        private static string ConvertOddsToString(decimal odds)
         {
             return string.Format("{0:0.#########}", odds);
         }
 
-        private string ConvertMalayToDecimalOddsString(decimal odds)
+        private static string ConvertMalayToDecimalOddsString(decimal odds)
         {
             return string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Convert.ToDecimal(odds)));
         }

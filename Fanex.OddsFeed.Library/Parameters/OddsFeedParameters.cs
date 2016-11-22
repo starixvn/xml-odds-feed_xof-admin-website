@@ -2,7 +2,6 @@
 {
     public class OddsFeedParameters
     {
-        private bool _outRights = true;
 
         public string UserName { get; set; }
 
@@ -14,16 +13,7 @@
 
         public bool IsSample { get; set; }
 
-        public bool Outrights
-        {
-            get
-            {
-                return _outRights;
-            }
-            set
-            {
-                _outRights = value;
-            }
-        }
+
+        public bool Outrights { get; set; } = true;
     }
 }

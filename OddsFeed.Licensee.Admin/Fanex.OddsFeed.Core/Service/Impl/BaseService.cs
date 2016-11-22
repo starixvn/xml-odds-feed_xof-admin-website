@@ -31,7 +31,7 @@ namespace Fanex.OddsFeed.Core.Service.Impl
     public class BaseService : IBaseService
     {        
         private readonly SelectListRepository _selectListRepository;
-        private RepositoryBase<IAffiliate> _baseRepository;
+        private readonly RepositoryBase<IAffiliate> _baseRepository;
 
         public BaseService()
         {
@@ -52,7 +52,6 @@ namespace Fanex.OddsFeed.Core.Service.Impl
 
         public void HandleException(Exception ex)
         {
-            ////LogService.Error(ex.Message, ex);
             throw ex;
         }
 

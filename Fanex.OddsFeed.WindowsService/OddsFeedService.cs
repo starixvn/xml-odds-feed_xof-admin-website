@@ -21,8 +21,6 @@
         {
             InitializeComponent();
 
-            DbSettingProviderManager.Current.Start();
-
             _totalVersion = AppSettings.TotalVersion;
 
             _oddsFeedService = new WindowsOddsFeedService();
@@ -69,7 +67,7 @@
         private void BackgroundTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             _timer.Stop();
-            
+
             try
             {
                 if (!Utilities.IsDownTime())

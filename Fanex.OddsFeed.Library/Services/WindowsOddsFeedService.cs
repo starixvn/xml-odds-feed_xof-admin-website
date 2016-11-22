@@ -46,7 +46,7 @@
 
         public bool Update(int currentVersion)
         {
-            int line = 0;
+            var line = 0;
 
             try
             {
@@ -60,7 +60,7 @@
                 line++;
                 var deadballOddsFlexs = GetOddFlexs(deadballOdds.ResultSet.Tables[1]);
                 line++;
-                var betTypeSchemas = Caching.GetBetTypeSchemas();
+                var betTypeSchemas = OddFeedDataCachingOperator.GetBetTypeSchemas();
 
                 var liveMatches = _matchMapping.GetMatches(liveOdds.ResultSet.Tables[0], betTypeSchemas, true, liveOddsFlexs);
                 line++;
@@ -90,7 +90,7 @@
             return true;
         }
 
-        private IList<OddFlex> GetOddFlexs(DataTable table)
+        private static IList<OddFlex> GetOddFlexs(DataTable table)
         {
             return table.AsEnumerable()
                 .Select(

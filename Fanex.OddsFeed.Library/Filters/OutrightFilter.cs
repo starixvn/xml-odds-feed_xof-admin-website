@@ -20,7 +20,7 @@
                     select outright).ToList();
         }
 
-        private bool FilterBySport(OddsProfile oddsProfile, OddsFeedFilter oddsFeedFilter, Outright outright)
+        private static bool FilterBySport(OddsProfile oddsProfile, OddsFeedFilter oddsFeedFilter, Outright outright)
         {
             var isProfile = oddsProfile.Sports == null
                 ? true : (oddsProfile.Sports.Count != 0 ? oddsProfile.Sports.Contains(outright.SportId) : false);
@@ -53,21 +53,21 @@
             return isProfile && isFilter;
         }
 
-        private bool FilterByProfile(OddsProfile oddsProfile, Outright outright)
+        private static bool FilterByProfile(OddsProfile oddsProfile, Outright outright)
         {
             return (oddsProfile.Outrights == null
                 ? true
                 : (oddsProfile.Outrights.Count != 0 ? oddsProfile.Outrights.Contains(outright.EventId) : false));
         }
 
-        private bool FilterByKeyWord(OddsProfile oddsProfile, Outright outright)
+        private static bool FilterByKeyWord(OddsProfile oddsProfile, Outright outright)
         {
             return string.IsNullOrEmpty(oddsProfile.OutrightsKeyword) 
                 ? true 
                 : outright.EventNames.ElementAt(0).Content.ToLower().Contains(oddsProfile.OutrightsKeyword.ToLower());
         }
 
-        private bool SearchLeague(IList<string> searchLeagues, string league)
+        private static bool SearchLeague(IList<string> searchLeagues, string league)
         {
             foreach (string item in searchLeagues)
             {

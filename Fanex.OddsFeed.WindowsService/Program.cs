@@ -26,14 +26,18 @@ namespace Fanex.OddsFeed.WindowsService
         /// </summary>
         public static void Main()
         {
-            ServiceBase[] servicesToRun;
-            servicesToRun = new ServiceBase[] 
-            { 
-                new OddsFeedService()
-            };
-            ServiceBase.Run(servicesToRun);
-            //// Fanex.Data.Configuration.DbSettingProviderManager.Current.Start();
-            //// UpdateOddsData.Update(10);
+            Fanex.Data.Configuration.DbSettingProviderManager.Current.Start();
+            using (var feedService = new OddsFeedService())
+            {
+                ServiceBase[] servicesToRun;
+                servicesToRun = new ServiceBase[]
+                {
+                    feedService
+                };
+                ServiceBase.Run(servicesToRun);
+
+            }
+
         }
     }
 }

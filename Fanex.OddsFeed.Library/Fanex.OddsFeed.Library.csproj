@@ -228,7 +228,7 @@
     <Compile Include="Builders\OddsFeedBuilder.cs" />
     <Compile Include="Builders\OutrightBuilder.cs" />
     <Compile Include="Builders\MatchBuilder.cs" />
-    <Compile Include="Caching\Caching.cs" />
+    <Compile Include="Caching\OddFeedDataCachingOperator.cs" />
     <Compile Include="Configurations\AppSettings.cs" />
     <Compile Include="Configurations\CacheKeys.cs" />
     <Compile Include="CouchbaseManager.cs" />

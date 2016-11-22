@@ -28,7 +28,7 @@
         {
             if (_betTypeSchemas == null)
             {
-                _betTypeSchemas = Caching.GetBetTypeSchemas();
+                _betTypeSchemas = OddFeedDataCachingOperator.GetBetTypeSchemas();
             }
 
             return _betTypeSchemas;
