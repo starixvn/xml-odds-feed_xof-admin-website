@@ -102,7 +102,7 @@ namespace Fanex.OddsFeed.Core.Web
 
             foreach (var item in items)
             {
-                string itemId = string.Format("{0}-{1}", name, item.Value);
+                var itemId = string.Format("{0}-{1}", name, item.Value);
 
                 htmlAttributes.Remove("id");
                 htmlAttributes.Add("id", itemId);
@@ -166,14 +166,14 @@ namespace Fanex.OddsFeed.Core.Web
             Check.Argument.IsNotNull(expression, "expression");
 
             htmlAttributes = htmlAttributes ?? new Dictionary<string, object>();
-            string name = ExpressionHelper.GetExpressionText(expression);
+            var name = ExpressionHelper.GetExpressionText(expression);
             var rdoList = new StringBuilder();
 
             rdoList.Append("<div class='rdolist'>");
 
             foreach (var item in items)
             {
-                string itemId = string.Format("{0}-{1}", name, item.Value);
+                var itemId = string.Format("{0}-{1}", name, item.Value);
 
                 htmlAttributes.Remove("id");
                 htmlAttributes.Add("id", itemId);

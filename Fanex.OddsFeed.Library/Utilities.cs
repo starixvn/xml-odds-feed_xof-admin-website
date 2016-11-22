@@ -46,10 +46,10 @@
         /// <returns>The IP address.</returns>
         public static string GetIpAddressOfClient()
         {
-            string clientIp = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+            var clientIp = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
             if (!string.IsNullOrEmpty(clientIp))
             {
-                string[] forwardedIps = clientIp.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                var forwardedIps = clientIp.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                 clientIp = forwardedIps[forwardedIps.Length - 1];
             }
             else
@@ -91,7 +91,7 @@
         {
             string[] separator = { "," };
             var items = stringArray.Split(separator, StringSplitOptions.RemoveEmptyEntries);
-            return trim == true ? items.Select(item => item.Trim()).ToList() : items.ToList();
+            return trim ? items.Select(item => item.Trim()).ToList() : items.ToList();
         }
 
         public static decimal ToHkOdds(decimal malayOdds)
@@ -164,43 +164,43 @@
         /// <returns><c>true</c> If XXXX, <c>false</c> otherwise.</returns>
         public static bool SendEmail(string from, string to, string subject, string body)
         {
-            var client = new SmtpClient
+            using (var client = new SmtpClient
             {
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 EnableSsl = bool.Parse(ConfigurationManager.AppSettings["SmtpClient.EnableSsl"]),
                 Host = ConfigurationManager.AppSettings["SmtpClient.Host"],
                 Port = int.Parse(ConfigurationManager.AppSettings["SmtpClient.Port"])
-            };
-
-            //// setup Smtp authentication
-            var credentials = new System.Net.NetworkCredential(
-                                                                ConfigurationManager.AppSettings["SmtpClient.Account"],
-                                                                ConfigurationManager.AppSettings["SmtpClient.Password"]);
-
-            client.UseDefaultCredentials = false;
-            client.Credentials = credentials;
-            client.DeliveryMethod = SmtpDeliveryMethod.Network;
-
-            var _from = new MailAddress(from, from, System.Text.Encoding.UTF8);
-            var _to = new MailAddress(to, to, System.Text.Encoding.UTF8);
-            var message = new MailMessage(_from, _to)
+            })
             {
-                SubjectEncoding = System.Text.Encoding.UTF8,
-                Subject = subject,
-                BodyEncoding = System.Text.Encoding.UTF8,
-                IsBodyHtml = true,
-                Body = body
-            };
-            try
-            {
-                client.SendAsync(message, Guid.NewGuid());
+                var credentials = new System.Net.NetworkCredential(
+                                                                    ConfigurationManager.AppSettings["SmtpClient.Account"],
+                                                                    ConfigurationManager.AppSettings["SmtpClient.Password"]);
+
+                client.UseDefaultCredentials = false;
+                client.Credentials = credentials;
+                client.DeliveryMethod = SmtpDeliveryMethod.Network;
+
+                var _from = new MailAddress(from, from, System.Text.Encoding.UTF8);
+                var _to = new MailAddress(to, to, System.Text.Encoding.UTF8);
+                var message = new MailMessage(_from, _to)
+                {
+                    SubjectEncoding = System.Text.Encoding.UTF8,
+                    Subject = subject,
+                    BodyEncoding = System.Text.Encoding.UTF8,
+                    IsBodyHtml = true,
+                    Body = body
+                };
+                try
+                {
+                    client.SendAsync(message, Guid.NewGuid());
+                }
+                catch
+                {
+                    return false;
+                }
+
+                return true;
             }
-            catch
-            {
-                return false;
-            }
-
-            return true;
         }
 
         /// <summary>
@@ -256,17 +256,9 @@
         /// <returns>System Decimal.</returns>
         public static decimal DecimalToHK(decimal dec)
         {
-            decimal hongKong;
-            if (dec <= 1)
-            {
-                hongKong = 0;
-            }
-            else
-            {
-                hongKong = dec - 1;
-            }
+            var hongKong = dec <= 1 ? 0 : dec - 1;
 
-            return Utilities.Floor(hongKong);
+            return Floor(hongKong);
         }
 
         /// <summary>
@@ -321,7 +313,7 @@
 
         public static decimal Floor(decimal value, int decimalPlaces = 2)
         {
-            decimal adjustment = (decimal)Math.Pow(10, decimalPlaces);
+            var adjustment = (decimal)Math.Pow(10, decimalPlaces);
             return Math.Floor(value * adjustment) / adjustment;
         }
 

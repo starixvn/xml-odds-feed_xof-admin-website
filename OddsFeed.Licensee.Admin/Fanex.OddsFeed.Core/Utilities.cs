@@ -38,8 +38,8 @@ namespace Fanex.OddsFeed.Core
             {
                 return new List<SelectListItem>
                     {
-                        new SelectListItem() { Text = "Open", Value = "opened" },
-                        new SelectListItem() { Text = "Close", Value = "closed" }
+                        new SelectListItem { Text = "Open", Value = "opened" },
+                        new SelectListItem { Text = "Close", Value = "closed" }
                     };
             }
         }
@@ -49,7 +49,7 @@ namespace Fanex.OddsFeed.Core
         public static DateTime AddTimeToDate(DateTime dateTime, string time)
         {
             var times = time.Split(new[] { ':' });
-            TimeSpan ts = new TimeSpan(int.Parse(times[0]), int.Parse(times[1]), 0);
+            var ts = new TimeSpan(int.Parse(times[0]), int.Parse(times[1]), 0);
             return dateTime.Date + ts;
         }
 
@@ -160,8 +160,8 @@ namespace Fanex.OddsFeed.Core
                 cultureInfo = CultureInfo.CurrentCulture;
             }
 
-            DayOfWeek firstDay = cultureInfo.DateTimeFormat.FirstDayOfWeek;
-            DateTime firstDayInWeek = dayInWeek.Date;
+            var firstDay = cultureInfo.DateTimeFormat.FirstDayOfWeek;
+            var firstDayInWeek = dayInWeek.Date;
             while (firstDayInWeek.DayOfWeek != firstDay)
             {
                 firstDayInWeek = firstDayInWeek.AddDays(-1);
@@ -186,7 +186,7 @@ namespace Fanex.OddsFeed.Core
             var index = 60;
             while (index > 0)
             {
-                list.Add(new SelectListItem()
+                list.Add(new SelectListItem
                 {
                     Text = index + "'",
                     Value = index.ToString()
@@ -211,7 +211,7 @@ namespace Fanex.OddsFeed.Core
             while (hour < 24)
             {
                 var value = ZeroPrefix(hour) + ":" + ZeroPrefix(minute);
-                list.Add(new SelectListItem()
+                list.Add(new SelectListItem
                 {
                     Text = value,
                     Value = value
@@ -289,7 +289,7 @@ namespace Fanex.OddsFeed.Core
         {
             try
             {
-                byte[] bytes = BitConverter.GetBytes(unit);
+                var bytes = BitConverter.GetBytes(unit);
                 Array.Reverse(bytes);
                 return new IPAddress(bytes).ToString();
             }
@@ -308,7 +308,7 @@ namespace Fanex.OddsFeed.Core
         {
             try
             {
-                byte[] bytes = IPAddress.Parse(ip).GetAddressBytes();
+                var bytes = IPAddress.Parse(ip).GetAddressBytes();
                 Array.Reverse(bytes);
                 return BitConverter.ToUInt32(bytes, 0);
             }
@@ -329,10 +329,10 @@ namespace Fanex.OddsFeed.Core
         /// <returns>The result is "1,5".</returns>
         public static string ProducesDifferenceTwoString(string str1, string str2)
         {
-            string[] arrayStr1 = str1.Split(',');
-            string[] arrayStr2 = str2.Split(',');
+            var arrayStr1 = str1.Split(',');
+            var arrayStr2 = str2.Split(',');
 
-            IEnumerable<string> arrayDiff = arrayStr1.Except(arrayStr2).Where(item => !string.IsNullOrEmpty(item));
+            var arrayDiff = arrayStr1.Except(arrayStr2).Where(item => !string.IsNullOrEmpty(item));
             if (arrayDiff.Any())
             {
                 return string.Join(",", arrayDiff);
@@ -349,9 +349,9 @@ namespace Fanex.OddsFeed.Core
         /// <returns>Result is False "because Ids miss 4".</returns>
         public static bool IsExistInSelectListItem(string ids, IEnumerable<SelectListItem> list)
         {
-            string[] arrayStr1 = ids.Split(',');
+            var arrayStr1 = ids.Split(',');
 
-            string str = string.Empty;
+            var str = string.Empty;
             foreach (SelectListItem item in list)
             {
                 str += item.Value + ",";
@@ -362,9 +362,9 @@ namespace Fanex.OddsFeed.Core
                 str = str.Substring(0, str.Length - 1);
             }
 
-            string[] arrayStr2 = str.Split(',');
+            var arrayStr2 = str.Split(',');
 
-            IEnumerable<string> arrayDiff = arrayStr2.Except(arrayStr1);
+            var arrayDiff = arrayStr2.Except(arrayStr1);
 
             return arrayDiff.Count() == 0;
         }
@@ -379,8 +379,8 @@ namespace Fanex.OddsFeed.Core
         public static bool GetDownTime(out string startTime, out string endTime)
         {
             startTime = endTime = null;
-            int timeCacheUM = 10; ////second
-            bool isUM = false;
+            var timeCacheUM = 10; ////second
+            var isUM = false;
             if (HttpContext.Current.Cache["IsUM"] == null)
             {
                 try

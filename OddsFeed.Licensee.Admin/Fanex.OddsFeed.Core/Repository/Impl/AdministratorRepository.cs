@@ -33,7 +33,7 @@ namespace Fanex.OddsFeed.Core.Repository.Impl
         public ICommandResult InsertAdmin(ICriteria criteria)
         {
             // prepare SP parameters
-            Hashtable hash = criteria.GetSpParams();
+            var hash = criteria.GetSpParams();
             
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {

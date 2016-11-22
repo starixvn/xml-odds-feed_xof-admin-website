@@ -32,7 +32,7 @@ namespace Fanex.OddsFeed.Core.Web
         /// <returns>Object System.String.</returns>
         public static string DataForFanexGrid(IDataReader dr)
         {
-            StringBuilder builder = new StringBuilder();
+            var builder = new StringBuilder();
             builder.Append("[");
             while (dr.Read())
             {
@@ -78,15 +78,15 @@ namespace Fanex.OddsFeed.Core.Web
         /// <returns>Object System.String.</returns>
         public static string DataForFanexGrid(DataCollection col)
         {
-            bool flag = false;
-            StringBuilder builder = new StringBuilder();
+            var flag = false;
+            var builder = new StringBuilder();
             builder.Append("[");
             builder.Append("{");
             builder.Append("data:[");
 
             if (col != null && col.Data != null && col.Data.Tables.Count > 0)
             {
-                DataTable dt = col.Data.Tables[0];                
+                var dt = col.Data.Tables[0];                
                 foreach (DataRow row in dt.Rows)
                 {
                     if (!flag)
@@ -147,15 +147,15 @@ namespace Fanex.OddsFeed.Core.Web
         /// <returns>Object System.String.</returns>
         public static string DataForFanexGrid_PreventContainQuote(DataCollection col)
         {
-            bool flag = false;
-            StringBuilder builder = new StringBuilder();
+            var flag = false;
+            var builder = new StringBuilder();
             builder.Append("[");
             builder.Append("{");
             builder.Append("data:[");
 
             if (col != null && col.Data != null && col.Data.Tables.Count > 0)
             {
-                DataTable dt = col.Data.Tables[0];               
+                var dt = col.Data.Tables[0];               
                 foreach (DataRow row in dt.Rows)
                 {
                     if (!flag)

@@ -78,7 +78,7 @@
             Assert.AreEqual(matchXmlNode, result.OuterXml);
         }
 
-        private string GetDeadballMatchXmlNode()
+        private static string GetDeadballMatchXmlNode()
         {
             return "<matches lastupdate=\"11/2/2016 3:51:07 PM\" timestamp=\"1477878874\" oddstype=\"Malay\">"
                 + "<match id=\"20485706\" ge=\"UEFA EUROPA LEAGUE\" gt=\"UEFA EUROPA LEAGUE\" gs=\"UEFA EUROPA LEAGUE\" he=\"FC Astana\" ht=\"FC Astana\" hs=\"FC Astana\" ae=\"Olympiakos\" at=\"Olympiakos\" as=\"Olympiakos\" mt=\"11/3/2016 11:59:59 AM\" sport=\"Soccer\" running=\"0\">"
@@ -89,7 +89,7 @@
                 + "</matches>";
         }
 
-        private string GetLiveMatchXmlNode()
+        private static string GetLiveMatchXmlNode()
         {
             return "<matches lastupdate=\"11/2/2016 3:51:07 PM\" timestamp=\"1477878874\" oddstype=\"Malay\">"
                 + "<match id=\"20485706\" ge=\"UEFA EUROPA LEAGUE\" gt=\"UEFA EUROPA LEAGUE\" gs=\"UEFA EUROPA LEAGUE\" he=\"FC Astana\" ht=\"FC Astana\" hs=\"FC Astana\" ae=\"Olympiakos\" at=\"Olympiakos\" as=\"Olympiakos\" mt=\"11/3/2016 11:59:59 AM\" sport=\"Soccer\" running=\"1\">"
@@ -100,7 +100,7 @@
                 + "</matches>";
         }
 
-        private IEnumerable<Match> GetMatchNodes(bool isLive)
+        private static IEnumerable<Match> GetMatchNodes(bool isLive)
         {
             return new[]
             {

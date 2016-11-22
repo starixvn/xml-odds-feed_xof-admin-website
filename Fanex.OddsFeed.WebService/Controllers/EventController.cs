@@ -14,7 +14,7 @@
         public XmlResult Index(string username)
         {
             var domain = Helper.DomainName(Request.ServerVariables);
-            OddsFeedFilter filter = new OddsFeedFilter();
+            var filter = new OddsFeedFilter();
             var data = GetEventFeed(username, HttpContext.Request["t"], domain, filter);
             return new XmlResult(data);
         }

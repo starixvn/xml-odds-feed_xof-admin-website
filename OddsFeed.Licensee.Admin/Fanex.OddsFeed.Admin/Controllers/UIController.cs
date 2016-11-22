@@ -101,15 +101,15 @@ namespace Fanex.OddsFeed.Admin.Controllers
             }
 
             CurrentSession.SystemList = strSystemList;
-            List<SelectListItem> systemList = new List<SelectListItem>();
-            string[] systems = strSystemList.Split(';');
+            var systemList = new List<SelectListItem>();
+            var systems = strSystemList.Split(';');
             foreach (string system in systems)
             {
                 if (!string.IsNullOrEmpty(system))
                 {
-                    string[] nameId = system.Split(',');
+                    var nameId = system.Split(',');
 
-                    SelectListItem item = new SelectListItem();
+                    var item = new SelectListItem();
                     item.Value = nameId[0] ?? string.Empty;
                     item.Text = nameId[1] ?? string.Empty;
                     item.Selected = item.Value == CurrentSession.SystemId.ToString();

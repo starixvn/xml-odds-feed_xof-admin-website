@@ -40,28 +40,28 @@ namespace Fanex.OddsFeed.Core.Web.Auth
             if (HttpContext.Current.User.Identity is FormsIdentity
                    && HttpContext.Current.User.Identity.IsAuthenticated)
             {
-                string cookie = FormsAuthentication.FormsCookieName;
-                HttpCookie httpCookie = httpContext.Request.Cookies[cookie];
+                var cookie = FormsAuthentication.FormsCookieName;
+                var httpCookie = httpContext.Request.Cookies[cookie];
 
                 if (httpCookie == null)
                 {
                     return;
                 }
 
-                FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(httpCookie.Value);
+                var ticket = FormsAuthentication.Decrypt(httpCookie.Value);
                 if (ticket == null || ticket.Expired)
                 {
                     return;
                 }
 
-                FormsIdentity identity = new FormsIdentity(ticket);
+                var identity = new FormsIdentity(ticket);
                 if (string.IsNullOrEmpty(ticket.UserData))
                 {
                     return;
                 }
 
-                this._authInfo = AuthInfo.CreateUserData(ticket.UserData);
-                this._identity = identity;
+                _authInfo = AuthInfo.CreateUserData(ticket.UserData);
+                _identity = identity;
             }
         }
 

@@ -21,7 +21,7 @@ namespace Fanex.OddsFeed.Framework.Data
 
         public CommandResultBase()
             : this(string.Empty, string.Empty)
-        { 
+        {
         }
 
         public CommandResultBase(dynamic code, dynamic message)

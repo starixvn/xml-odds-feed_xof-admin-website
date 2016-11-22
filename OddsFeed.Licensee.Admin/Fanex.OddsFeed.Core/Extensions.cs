@@ -173,7 +173,7 @@ namespace Fanex.OddsFeed.Core
                 throw new ArgumentNullException("formatDate cannot be null");
             }
 
-            string disabledDate = (unavailDates != null && unavailDates.Count() > 0)
+            var disabledDate = (unavailDates != null && unavailDates.Count() > 0)
                 ? string.Join(",", unavailDates.Select(d => d.ToString("dd MMM yyyy")))
                 : string.Empty;
 
@@ -213,6 +213,7 @@ namespace Fanex.OddsFeed.Core
         {
             var metaData = ModelMetadata.FromLambdaExpression(expression, html.ViewData);
             DateTime? value = DateTime.Now;
+
             if (metaData.Model is DateTime? || metaData.Model is DateTime)
             {
                 value = (DateTime?)metaData.Model;
@@ -480,7 +481,7 @@ namespace Fanex.OddsFeed.Core
         public static bool ContainsStrings(this string str, string stringList)
         {
             var arr = stringList.Split(new char[] { ',' });
-            return arr.Any(a => str.Contains(a) == true);
+            return arr.Any(a => str.Contains(a));
         }        
 
         /// <summary>
@@ -495,14 +496,9 @@ namespace Fanex.OddsFeed.Core
             string sectionName,
             Func<object, HelperResult> defaultContent)
         {
-            if (page.IsSectionDefined(sectionName))
-            {
-                return page.RenderSection(sectionName);
-            }
-            else
-            {
-                return defaultContent(_O);
-            }
+            return page.IsSectionDefined(sectionName)
+                ? page.RenderSection(sectionName)
+                : defaultContent(_O);
         }
 
         #region CheckBoxList
@@ -922,7 +918,7 @@ namespace Fanex.OddsFeed.Core
       
         public static string ToShortFormatedDate(this DateTime date)
         {
-            string dateStr = date.ToString(@"dd MMM, yyyy - HH") + "h" + date.ToString(@"mm\'");
+            var dateStr = date.ToString(@"dd MMM, yyyy - HH") + "h" + date.ToString(@"mm\'");
             return dateStr;
         }
        
@@ -1155,8 +1151,10 @@ namespace Fanex.OddsFeed.Core
                 input.MergeAttribute("checked", "checked");
             }
 
-            var label = new TagBuilder("label");
-            label.InnerHtml = input.ToString(TagRenderMode.SelfClosing) + item.Text;
+            var label = new TagBuilder("label")
+            {
+                InnerHtml = input.ToString(TagRenderMode.SelfClosing) + item.Text
+            };
             label.AddCssClass("font-normal");
 
             sb.Append(label.ToString());

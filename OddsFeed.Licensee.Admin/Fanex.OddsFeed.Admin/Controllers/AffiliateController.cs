@@ -88,7 +88,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
         [HttpGet]
         public ActionResult Add()
         {
-            InsertAffiliateCriteria criteria = new InsertAffiliateCriteria();
+            var criteria = new InsertAffiliateCriteria();
             ViewBag.VirtualPath = GetVirtualPath();
 
             ////Domain
@@ -98,10 +98,10 @@ namespace Fanex.OddsFeed.Admin.Controllers
             ViewData["slDomain"] = new List<SelectListItem>();
 
             ////Profile                
-            var licenseeProfile = _affiliateService.GetDataSet(new GetLicenseeProfileByLicenseeIDCriteria() { SystemID = CurrentSession.SystemId });
+            var licenseeProfile = _affiliateService.GetDataSet(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = CurrentSession.SystemId });
             if (licenseeProfile != null && licenseeProfile.Tables.Count > 0 && licenseeProfile.Tables[0].Rows.Count > 0)
             {
-                DataRow row = licenseeProfile.Tables[0].Rows[0];
+                var row = licenseeProfile.Tables[0].Rows[0];
                 criteria.OddsRegion = row["OddsRegion"].ToString();
                 criteria.NumberOfIPs = (short)row["NumberOfIPs"];
                 ////Delay Times
@@ -281,17 +281,17 @@ namespace Fanex.OddsFeed.Admin.Controllers
             ViewBag.CurrentUser = " of \"" + name + "\"";
             ViewBag.AffId = id;
 
-            var affiliateProfile = _affiliateService.GetDataSet(new GetAffiliateProfileByIDCriteria() { PartnerID = id });
+            var affiliateProfile = _affiliateService.GetDataSet(new GetAffiliateProfileByIDCriteria { PartnerID = id });
             if (affiliateProfile != null && affiliateProfile.Tables.Count > 0 && affiliateProfile.Tables[0].Rows.Count > 0)
             {
                 ViewBag.NumberOfIPs = int.Parse(affiliateProfile.Tables[0].Rows[0]["NumberOfIPs"].ToString());
             }
 
             ////Domain             
-            IEnumerable<SelectListItem> domainSelList = _affiliateService.GetDomainByAffId(id);
+            var domainSelList = _affiliateService.GetDomainByAffId(id);
             ViewData["slAssignedDomain"] = domainSelList;
 
-            IEnumerable<SelectListItem> domainList = _affiliateService.GetDomain();
+            var domainList = _affiliateService.GetDomain();
             domainList = domainList.Where(d => !domainSelList.Any(s => s.Value == d.Value)).ToList();
             ViewData["slDomain"] = domainList;
 
@@ -313,7 +313,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
         [HttpPost]
         public JsonResult EditSetting(int affId, string domains, string listIPs)
         {
-            OddsFeedActionResult actionResult = new OddsFeedActionResult();
+            var actionResult = new OddsFeedActionResult();
             var fromIPs = string.Empty;
             var toIPs = string.Empty;
 
@@ -430,16 +430,16 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 return RedirectToAction("List", "Affiliate");
             }
 
-            string sportIDList = string.Empty;
-            string countryCodeList = string.Empty;
+            var sportIDList = string.Empty;
+            var countryCodeList = string.Empty;
             var criteria = new UpdateProfileCriteria { PartnerID = id };
             ViewBag.CurrentUser = " of \"" + name + "\"";
 
             ////Profile
-            var affiliateProfile = _affiliateService.GetDataSet(new GetAffiliateProfileByIDCriteria() { PartnerID = id });
+            var affiliateProfile = _affiliateService.GetDataSet(new GetAffiliateProfileByIDCriteria { PartnerID = id });
             if (affiliateProfile != null && affiliateProfile.Tables.Count > 0 && affiliateProfile.Tables[0].Rows.Count > 0)
             {
-                DataRow row = affiliateProfile.Tables[0].Rows[0];
+                var row = affiliateProfile.Tables[0].Rows[0];
                 criteria.OddsType = row["OddsType"].ToString();
                 criteria.OddsRegion = row["OddsRegion"].ToString();
                 criteria.LanguageList = row["LanguageList"].ToString();
@@ -511,14 +511,8 @@ namespace Fanex.OddsFeed.Admin.Controllers
             };
 
             var result = _affiliateService.Update(criteria);
-            if (result != null && result.IsSuccessful)
-            {
-                return "Successfully!";
-            }
-            else
-            {
-                return result.Message;
-            }
+
+            return (result != null && result.IsSuccessful) ? "Successfully!" : result.Message;
         }
 
         #endregion
@@ -542,7 +536,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
         [Compress]
         public JsonResult GetAffiliateList(GetAffiliateByNameCriteria criteria)
         {
-            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            var serializer = new JavaScriptSerializer();
             criteria.SystemId = CurrentSession.SystemId;
             criteria.UserName = (criteria.UserName == null || criteria.UserName == "Username") ? string.Empty : criteria.UserName.Trim();
             criteria.PageIndex++;
@@ -592,7 +586,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
             ViewBag.SystemName = CurrentSession.SystemName;
             if (curmonth != string.Empty)
             {
-                DateTime curDate = DateTime.Now;
+                var curDate = DateTime.Now;
                 ViewBag.StartDateConfig = new DateTime(curDate.Year, curDate.Month, 1);
             }
 
@@ -619,7 +613,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
             criteria.SystemId = CurrentSession.SystemId;
             criteria.PageIndex++;
 
-            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            var serializer = new JavaScriptSerializer();
             var dr = _affiliateService.GetPartnerRequestStatisticReturnDataCollection(criteria);
             var result = FanexGridHelper.DataForFanexGrid(dr);
             return Json(result, JsonRequestBehavior.AllowGet);
@@ -702,14 +696,10 @@ namespace Fanex.OddsFeed.Admin.Controllers
             };
 
             var result = _affiliateService.Delete(criteria);
-            if (result != null && result.IsSuccessful)
-            {
-                return "Successfully!";
-            }
-            else
-            {
-                return result.Message;
-            }
+
+            return result != null && result.IsSuccessful
+                ? "Successfully!"
+                : result.Message;
         }
 
         #endregion        
@@ -778,8 +768,8 @@ namespace Fanex.OddsFeed.Admin.Controllers
         {
             if (!string.IsNullOrEmpty(criteria.LeagueIDList))
             {
-                IEnumerable<SelectListItem> leagues =
-                    _affiliateService.GetSelectList(new GetLeagueCriteria() { SportIDList = criteria.SportIDList, CountryCodeList = criteria.CountryCodeList });
+                var leagues =
+                    _affiliateService.GetSelectList(new GetLeagueCriteria { SportIDList = criteria.SportIDList, CountryCodeList = criteria.CountryCodeList });
                 if (Utilities.IsExistInSelectListItem(criteria.LeagueIDList, leagues))
                 {
                     criteria.LeagueIDList = "all";
@@ -788,7 +778,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
             if (!string.IsNullOrEmpty(criteria.OutRightIDList))
             {
-                IEnumerable<SelectListItem> outrights = _affiliateService.GetSelectList(new GetOutRightCriteria()
+                var outrights = _affiliateService.GetSelectList(new GetOutRightCriteria
                 {
                     SportIDList = criteria.SportIDList,
                     CountryCodeList = criteria.CountryCodeList
@@ -801,7 +791,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
             if (!string.IsNullOrEmpty(criteria.SportIDList))
             {
-                IEnumerable<SelectListItem> sports = _affiliateService.GetSelectList(new GetSupportedSportCriteria());
+                var sports = _affiliateService.GetSelectList(new GetSupportedSportCriteria());
                 if (Utilities.IsExistInSelectListItem(criteria.SportIDList, sports))
                 {
                     criteria.SportIDList = "all";
@@ -810,7 +800,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
             if (!string.IsNullOrEmpty(criteria.CountryCodeList))
             {
-                IEnumerable<SelectListItem> countries = _affiliateService.GetSelectList(new GetAllCountryCriteria());
+                var countries = _affiliateService.GetSelectList(new GetAllCountryCriteria());
                 if (Utilities.IsExistInSelectListItem(criteria.CountryCodeList, countries))
                 {
                     criteria.CountryCodeList = "all";
@@ -819,7 +809,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
             if (!string.IsNullOrEmpty(criteria.BetTypeIDList))
             {
-                IEnumerable<SelectListItem> bettypes = _affiliateService.GetSelectList(new GetSupportedBettypeCriteria());
+                var bettypes = _affiliateService.GetSelectList(new GetSupportedBettypeCriteria());
                 if (Utilities.IsExistInSelectListItem(criteria.BetTypeIDList, bettypes))
                 {
                     criteria.BetTypeIDList = "all";
@@ -835,8 +825,8 @@ namespace Fanex.OddsFeed.Admin.Controllers
         {
             if (!string.IsNullOrEmpty(criteria.LeagueIDList))
             {
-                IEnumerable<SelectListItem> leagues =
-                    _affiliateService.GetSelectList(new GetLeagueCriteria() { SportIDList = criteria.SportIDList, CountryCodeList = criteria.CountryCodeList });
+                var leagues =
+                    _affiliateService.GetSelectList(new GetLeagueCriteria { SportIDList = criteria.SportIDList, CountryCodeList = criteria.CountryCodeList });
                 if (Utilities.IsExistInSelectListItem(criteria.LeagueIDList, leagues))
                 {
                     criteria.LeagueIDList = "all";
@@ -845,7 +835,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
             if (!string.IsNullOrEmpty(criteria.OutRightIDList))
             {
-                IEnumerable<SelectListItem> outrights = _affiliateService.GetSelectList(new GetOutRightCriteria()
+                var outrights = _affiliateService.GetSelectList(new GetOutRightCriteria
                 {
                     SportIDList = criteria.SportIDList,
                     CountryCodeList = criteria.CountryCodeList
@@ -858,7 +848,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
             if (!string.IsNullOrEmpty(criteria.SportIDList))
             {
-                IEnumerable<SelectListItem> sports = _affiliateService.GetSelectList(new GetSupportedSportCriteria());
+                var sports = _affiliateService.GetSelectList(new GetSupportedSportCriteria());
                 if (Utilities.IsExistInSelectListItem(criteria.SportIDList, sports))
                 {
                     criteria.SportIDList = "all";
@@ -867,7 +857,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
             if (!string.IsNullOrEmpty(criteria.CountryCodeList))
             {
-                IEnumerable<SelectListItem> countries = _affiliateService.GetSelectList(new GetAllCountryCriteria());
+                var countries = _affiliateService.GetSelectList(new GetAllCountryCriteria());
                 if (Utilities.IsExistInSelectListItem(criteria.CountryCodeList, countries))
                 {
                     criteria.CountryCodeList = "all";
@@ -876,7 +866,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
             if (!string.IsNullOrEmpty(criteria.BetTypeIDList))
             {
-                IEnumerable<SelectListItem> bettypes = _affiliateService.GetSelectList(new GetSupportedBettypeCriteria());
+                var bettypes = _affiliateService.GetSelectList(new GetSupportedBettypeCriteria());
                 if (Utilities.IsExistInSelectListItem(criteria.BetTypeIDList, bettypes))
                 {
                     criteria.BetTypeIDList = "all";
@@ -920,7 +910,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
         {
             if (licenseeProfile != null && licenseeProfile.Tables.Count > 0 && licenseeProfile.Tables[0].Rows.Count > 0)
             {
-                DataRow row = licenseeProfile.Tables[0].Rows[0];
+                var row = licenseeProfile.Tables[0].Rows[0];
 
                 criteria.OddsType = row["OddsType"].ToString();
                 criteria.LanguageList = row["LanguageList"].ToString();
@@ -952,28 +942,28 @@ namespace Fanex.OddsFeed.Admin.Controllers
             ViewBag.LanguageIDList = _affiliateService.GetSelectList(new GetAllLanguageCriteria());
             ViewBag.DelayTimeList = GenerateDelayTime(_affiliateService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "Config" }, false));
             ////Sport
-            IEnumerable<SelectListItem> sports = _affiliateService.GetSelectList(new GetSupportedSportCriteria());
+            var sports = _affiliateService.GetSelectList(new GetSupportedSportCriteria());
             ViewBag.SportList = sports;
             if (criteria.SportIDList.Equals("all"))
             {
                 criteria.SportIDList = string.Join(",", sports.Select(item => item.Value));
             }
             ////Market
-            IEnumerable<SelectListItem> bettypes = _affiliateService.GetSelectList(new GetSupportedBettypeCriteria());
+            var bettypes = _affiliateService.GetSelectList(new GetSupportedBettypeCriteria());
             ViewBag.BettypesList = bettypes;
             if (criteria.BetTypeIDList.Equals("all"))
             {
                 criteria.BetTypeIDList = string.Join(",", bettypes.Select(item => item.Value));
             }
             ////Country
-            IEnumerable<SelectListItem> countries = _affiliateService.GetSelectList(new GetAllCountryCriteria());
+            var countries = _affiliateService.GetSelectList(new GetAllCountryCriteria());
             ViewBag.CountriesList = countries;
             if (criteria.CountryCodeList.Equals("all"))
             {
                 criteria.CountryCodeList = string.Join(",", countries.Select(item => item.Value));
             }
             //// League
-            IEnumerable<SelectListItem> leagues = _affiliateService.GetSelectList(new GetLeagueCriteria()
+            var leagues = _affiliateService.GetSelectList(new GetLeagueCriteria
             {
                 SportIDList = criteria.SportIDList,
                 CountryCodeList = criteria.CountryCodeList
@@ -984,7 +974,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 criteria.LeagueIDList = string.Join(",", leagues.Select(item => item.Value));
             }
             ////OutRight
-            IEnumerable<SelectListItem> outrights = _affiliateService.GetSelectList(new GetOutRightCriteria()
+            var outrights = _affiliateService.GetSelectList(new GetOutRightCriteria
             {
                 SportIDList = criteria.SportIDList,
                 CountryCodeList = criteria.CountryCodeList
@@ -1005,7 +995,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
         {
             if (affiliateProfile != null && affiliateProfile.Tables.Count > 0 && affiliateProfile.Tables[0].Rows.Count > 0)
             {
-                DataRow row = affiliateProfile.Tables[0].Rows[0];
+                var row = affiliateProfile.Tables[0].Rows[0];
                 ////Delay Times
                 var delayTimes = row["DelayTimes"].ToString().Split(',');
                 criteria.DeadballDelayTimes = delayTimes.Length > 0 ? delayTimes[0] : "0";
@@ -1020,10 +1010,10 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 ViewBag.ActualNumberOfIps = int.Parse(row["ActualNumberOfIps"].ToString());
             }
 
-            var licenseeProfile = _affiliateService.GetDataSet(new GetLicenseeProfileByLicenseeIDCriteria() { SystemID = CurrentSession.SystemId });
+            var licenseeProfile = _affiliateService.GetDataSet(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = CurrentSession.SystemId });
             if (licenseeProfile != null && licenseeProfile.Tables.Count > 0 && licenseeProfile.Tables[0].Rows.Count > 0)
             {
-                DataRow row = licenseeProfile.Tables[0].Rows[0];
+                var row = licenseeProfile.Tables[0].Rows[0];
                 ViewBag.NumberOfIPs = int.Parse(row["NumberOfIPs"].ToString());
                 ViewBagForFlags(true, true, true, true, true, true);
 
@@ -1043,28 +1033,28 @@ namespace Fanex.OddsFeed.Admin.Controllers
             var config = _affiliateService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "Config" }, false);
             ViewBag.DelayTimeList = GenerateDelayTime(config);
             ////Sport
-            IEnumerable<SelectListItem> sports = _affiliateService.GetSelectList(new GetSupportedSportCriteria());
+            var sports = _affiliateService.GetSelectList(new GetSupportedSportCriteria());
             ViewBag.SportList = sports;
             if (criteria.SportIDList.Equals("all"))
             {
                 criteria.SportIDList = string.Join(",", sports.Select(item => item.Value));
             }
             ////Market
-            IEnumerable<SelectListItem> bettypes = _affiliateService.GetSelectList(new GetSupportedBettypeCriteria());
+            var bettypes = _affiliateService.GetSelectList(new GetSupportedBettypeCriteria());
             ViewBag.BettypesList = bettypes;
             if (criteria.BetTypeIDList.Equals("all"))
             {
                 criteria.BetTypeIDList = string.Join(",", bettypes.Select(item => item.Value));
             }
             ////Country
-            IEnumerable<SelectListItem> countries = _affiliateService.GetSelectList(new GetAllCountryCriteria());
+            var countries = _affiliateService.GetSelectList(new GetAllCountryCriteria());
             ViewBag.CountriesList = countries;
             if (criteria.CountryCodeList.Equals("all"))
             {
                 criteria.CountryCodeList = string.Join(",", countries.Select(item => item.Value));
             }
             //// League
-            IEnumerable<SelectListItem> leagues = _affiliateService.GetSelectList(new GetLeagueCriteria()
+            var leagues = _affiliateService.GetSelectList(new GetLeagueCriteria
             {
                 SportIDList = criteria.SportIDList,
                 CountryCodeList = criteria.CountryCodeList
@@ -1075,7 +1065,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 criteria.LeagueIDList = string.Join(",", leagues.Select(item => item.Value));
             }
             ////OutRight
-            IEnumerable<SelectListItem> outrights = _affiliateService.GetSelectList(new GetOutRightCriteria()
+            var outrights = _affiliateService.GetSelectList(new GetOutRightCriteria
             {
                 SportIDList = criteria.SportIDList,
                 CountryCodeList = criteria.CountryCodeList
@@ -1099,7 +1089,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
         {
             if (licenseeProfile != null && licenseeProfile.Tables.Count > 0 && licenseeProfile.Tables[0].Rows.Count > 0)
             {
-                DataRow row = licenseeProfile.Tables[0].Rows[0];
+                var row = licenseeProfile.Tables[0].Rows[0];
                 var oddStyles = row["OddsType"].ToString();
                 ViewBag.NumberOfIPs = int.Parse(row["NumberOfIPs"].ToString());
                 ViewBagForFlags(
@@ -1120,10 +1110,10 @@ namespace Fanex.OddsFeed.Admin.Controllers
         /// <param name="criteria">The affiliate's profile.</param>
         private void GetAffiliateProfileWithLicenseeAdminRole(ref UpdateProfileCriteria criteria)
         {
-            var licenseeProfile = _affiliateService.GetDataSet(new GetLicenseeProfileByLicenseeIDCriteria() { SystemID = CurrentSession.SystemId });
+            var licenseeProfile = _affiliateService.GetDataSet(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = CurrentSession.SystemId });
             if (licenseeProfile != null && licenseeProfile.Tables.Count > 0 && licenseeProfile.Tables[0].Rows.Count > 0)
             {
-                DataRow row = licenseeProfile.Tables[0].Rows[0];
+                var row = licenseeProfile.Tables[0].Rows[0];
                 var oddStyles = row["OddsType"].ToString();
                 ViewBag.NumberOfIPs = int.Parse(row["NumberOfIPs"].ToString());
                 ViewBag.OddsTypeFlag = bool.Parse(row["OddsTypeFlag"].ToString());
@@ -1142,7 +1132,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
         /// </summary>
         private void AddAffiliateWithSubAccountRole()
         {
-            var userProfile = _affiliateService.GetDataSet(new UserGetPermissionCriteria()
+            var userProfile = _affiliateService.GetDataSet(new UserGetPermissionCriteria
             {
                 SystemID = CurrentSession.SystemId,
                 UserID = CurrentSession.UserId
@@ -1170,7 +1160,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
         /// <param name="criteria">The affiliate's profile.</param>
         private void GetAffiliateProfileWithSubAccountRole(ref UpdateProfileCriteria criteria)
         {
-            var userProfile = _affiliateService.GetDataSet(new UserGetPermissionCriteria()
+            var userProfile = _affiliateService.GetDataSet(new UserGetPermissionCriteria
             {
                 SystemID = CurrentSession.SystemId,
                 UserID = CurrentSession.UserId
@@ -1178,7 +1168,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
             if (userProfile != null && userProfile.Tables.Count > 0 && userProfile.Tables[0].Rows.Count > 0)
             {
-                DataRow row = userProfile.Tables[0].Rows[0];
+                var row = userProfile.Tables[0].Rows[0];
                 ViewBag.NumberOfIPs = int.Parse(row["NumberOfIPs"].ToString());
                 ViewBag.OddsTypeFlag = bool.Parse(row["OddsTypeFlag"].ToString());
                 ViewBag.OddsStyleFlag = bool.Parse(row["OddsRegionFlag"].ToString());
@@ -1236,7 +1226,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
             ViewBag.LanguageIDList = _affiliateService.GetLanguageBySystemId();
 
             ////Sport
-            IEnumerable<SelectListItem> sports = _affiliateService.GetSportBySystemId();
+            var sports = _affiliateService.GetSportBySystemId();
             ViewBag.SportList = sports;
             if (criteria.SportIDList.Equals("all"))
             {
@@ -1244,7 +1234,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
             }
 
             ////Market
-            IEnumerable<SelectListItem> bettypes = _affiliateService.GetBettypeBySystemId();
+            var bettypes = _affiliateService.GetBettypeBySystemId();
             ViewBag.BettypesList = bettypes;
             if (criteria.BetTypeIDList.Equals("all"))
             {
@@ -1252,7 +1242,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
             }
 
             ////Country
-            IEnumerable<SelectListItem> countries = _affiliateService.GetCountryBySystemId();
+            var countries = _affiliateService.GetCountryBySystemId();
             ViewBag.CountriesList = countries;
             if (criteria.CountryCodeList.Equals("all"))
             {

@@ -31,17 +31,17 @@
             _logService.Info("1. Starting Index action:" + username + "-----" + DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss.fff"));
 
             // check UM Time
-            string startTime = string.Empty;
-            string endTime = string.Empty;
+            var startTime = string.Empty;
+            var endTime = string.Empty;
             if (Utilities.GetDownTime(out startTime, out endTime))
             {
                 return new XmlResult(ErrorCollection.UMDownTime(endTime));
             }
 
-            OddsFeedFilter filter = Helper.GetFilter(Request);
+            var filter = Helper.GetFilter(Request);
             if (Helper.IsOverLimitedOptions(filter))
             {
-                Error errMessage = new Error(10024, "You can only filter maximum 5 options. Please try again.");
+                var errMessage = new Error(10024, "You can only filter maximum 5 options. Please try again.");
                 return new XmlResult(errMessage.ToXmlElement());
             }
 
@@ -62,8 +62,8 @@
         public ActionResult OldHelp(string username)
         {
             // check UM Time
-            string startTime = string.Empty;
-            string endTime = string.Empty;
+            var startTime = string.Empty;
+            var endTime = string.Empty;
             if (Utilities.GetDownTime(out startTime, out endTime))
             {
                 return new XmlResult(ErrorCollection.UMDownTime(endTime));
@@ -75,7 +75,7 @@
 
             OddsProfile oddProfile = null;
             var domain = Helper.DomainName(Request.ServerVariables);
-            OddsFeedFilter filter = new OddsFeedFilter();
+            var filter = new OddsFeedFilter();
             var sampleOdds = GetOddsFeed(ref oddProfile, username, HttpContext.Request["t"], domain, filter, true, true);
 
             var provider = new StringBuilder(sampleOdds.OuterXml);
@@ -113,8 +113,8 @@
         public ActionResult Help(string username)
         {
             // check UM Time
-            string startTime = string.Empty;
-            string endTime = string.Empty;
+            var startTime = string.Empty;
+            var endTime = string.Empty;
             if (Utilities.GetDownTime(out startTime, out endTime))
             {
                 return new XmlResult(ErrorCollection.UMDownTime(endTime));
@@ -126,7 +126,7 @@
 
             OddsProfile oddProfile = null;
             var domain = Helper.DomainName(Request.ServerVariables);
-            OddsFeedFilter filter = new OddsFeedFilter();
+            var filter = new OddsFeedFilter();
             var sampleOdds = GetOddsFeed(ref oddProfile, username, HttpContext.Request["t"], domain, filter, true, true);
 
             var provider = new StringBuilder(sampleOdds.OuterXml);
@@ -165,40 +165,40 @@
         private void GenerateAppendixData(string username)
         {
             //// Generate supported sports
-            DataTable sportsTable = DbConnect.GetSportByUserName(username).ResultSet.Tables[0];
-            DataTable sportsCol1 = new DataTable();
-            DataTable sportsCol2 = new DataTable();
-            DataTable sportsCol3 = new DataTable();
+            var sportsTable = DbConnect.GetSportByUserName(username).ResultSet.Tables[0];
+            var sportsCol1 = new DataTable();
+            var sportsCol2 = new DataTable();
+            var sportsCol3 = new DataTable();
             GenerateData(sportsTable, sportsCol1, sportsCol2, sportsCol3, "SportID", "SportName");
             ViewBag.SportsCol1 = sportsCol1.Select();
             ViewBag.SportsCol2 = sportsCol2.Select();
             ViewBag.SportsCol3 = sportsCol3.Select();
 
             //// Generate supported bettypes
-            DataTable rawBettypesTable = DbConnect.GetBetTypeByUserName(username).ResultSet.Tables[0];
+            var rawBettypesTable = DbConnect.GetBetTypeByUserName(username).ResultSet.Tables[0];
             var bettypesTable = SortDataTable(rawBettypesTable, "BetTypeID", "ASC");
             if (bettypesTable.Rows.Count == 0)
             {
                 //// Show Outright bettype (It's an exception)
-                DataRow row = bettypesTable.NewRow();
+                var row = bettypesTable.NewRow();
                 row["BetTypeID"] = 10;
                 row["BetTypeName"] = "Outright";
                 bettypesTable.Rows.Add(row);
             }
 
-            DataTable bettypesCol1 = new DataTable();
-            DataTable bettypesCol2 = new DataTable();
-            DataTable bettypesCol3 = new DataTable();
+            var bettypesCol1 = new DataTable();
+            var bettypesCol2 = new DataTable();
+            var bettypesCol3 = new DataTable();
             GenerateData(bettypesTable, bettypesCol1, bettypesCol2, bettypesCol3, "BetTypeID", "BetTypeName");
             ViewBag.BetTypesCol1 = bettypesCol1.Select();
             ViewBag.BetTypesCol2 = bettypesCol2.Select();
             ViewBag.BetTypesCol3 = bettypesCol3.Select();
 
             //// Generate supported countries
-            DataTable countriesTable = DbConnect.Odds_CountrySelByUserName(username).ResultSet.Tables[0];
-            DataTable countriesCol1 = new DataTable();
-            DataTable countriesCol2 = new DataTable();
-            DataTable countriesCol3 = new DataTable();
+            var countriesTable = DbConnect.Odds_CountrySelByUserName(username).ResultSet.Tables[0];
+            var countriesCol1 = new DataTable();
+            var countriesCol2 = new DataTable();
+            var countriesCol3 = new DataTable();
             GenerateData(countriesTable, countriesCol1, countriesCol2, countriesCol3, "CountryID", "CountryName");
             ViewBag.CountriesCol1 = countriesCol1.Select();
             ViewBag.CountriesCol2 = countriesCol2.Select();
@@ -216,9 +216,9 @@
             return dtOut;
         }
 
-        private void GenerateData(DataTable dt, DataTable column1Data, DataTable column2Data, DataTable column3Data, string columnID, string columnName)
+        private static void GenerateData(DataTable dt, DataTable column1Data, DataTable column2Data, DataTable column3Data, string columnID, string columnName)
         {
-            int sum = dt.Rows.Count;
+            var sum = dt.Rows.Count;
             //// Just render one column if rowcount< =5
             if (sum <= 5)
             {
@@ -226,11 +226,11 @@
             }
             else
             {
-                int divide = sum / 3;
-                int module = sum % 3;
-                int sumCol1 = divide;
-                int sumCol2 = divide;
-                int sumCol3 = divide;
+                var divide = sum / 3;
+                var module = sum % 3;
+                var sumCol1 = divide;
+                var sumCol2 = divide;
+                var sumCol3 = divide;
 
                 while (module > 0)
                 {
@@ -268,10 +268,10 @@
             ////Col1            
             column1Data.Columns.Add(columnID, typeof(string));
             column1Data.Columns.Add(columnName, typeof(string));
-            int i = 0;
+            var i = 0;
             while (i < sumCol1)
             {
-                DataRow row = column1Data.NewRow();
+                var row = column1Data.NewRow();
                 row[columnID] = dt.Rows[i][columnID].ToString();
                 row[columnName] = dt.Rows[i][columnName].ToString();
                 column1Data.Rows.Add(row);
@@ -283,7 +283,7 @@
             column2Data.Columns.Add(columnName, typeof(string));
             while (i < sumCol1 + sumCol2)
             {
-                DataRow row = column2Data.NewRow();
+                var row = column2Data.NewRow();
                 row[columnID] = dt.Rows[i][columnID].ToString();
                 row[columnName] = dt.Rows[i][columnName].ToString();
                 column2Data.Rows.Add(row);
@@ -295,7 +295,7 @@
             column3Data.Columns.Add(columnName, typeof(string));
             while (i < sumCol1 + sumCol2 + sumCol3)
             {
-                DataRow row = column3Data.NewRow();
+                var row = column3Data.NewRow();
                 row[columnID] = dt.Rows[i][columnID].ToString();
                 row[columnName] = dt.Rows[i][columnName].ToString();
                 column3Data.Rows.Add(row);
@@ -344,15 +344,15 @@
         /// Gets the virtual path.
         /// </summary>
         /// <returns>System String.</returns>
-        private string GetVirtualPath()
+        private static string GetVirtualPath()
         {
-            string feedUrlPath = ConfigurationManager.AppSettings["FeedUrlPath"].ToString();
+            var feedUrlPath = ConfigurationManager.AppSettings["FeedUrlPath"].ToString();
             if (!string.IsNullOrEmpty(feedUrlPath))
             {
                 feedUrlPath += "/";
             }
 
-            string virtualPathWebService = ConfigurationManager.AppSettings["VirtualPathWebService"].ToString();
+            var virtualPathWebService = ConfigurationManager.AppSettings["VirtualPathWebService"].ToString();
             if (!string.IsNullOrEmpty(virtualPathWebService))
             {
                 virtualPathWebService += "/";

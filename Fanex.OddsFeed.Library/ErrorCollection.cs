@@ -54,7 +54,7 @@ namespace Fanex.OddsFeed.Library
         public static XmlElement UMDownTime(string time)
         {
             var e = xdoc.CreateElement("Error");
-            string[] errMsg = new string[]
+            var errMsg = new string[]
                                     {
                                         "We are having server maintenance, website will be unavailable until ",
                                         time,

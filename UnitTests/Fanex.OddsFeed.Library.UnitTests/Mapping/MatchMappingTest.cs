@@ -553,7 +553,7 @@
             return dataTable;
         }
 
-        private DataTable GetOddsFlexDataTable()
+        private static DataTable GetOddsFlexDataTable()
         {
             var dataTable = new DataTable();
 

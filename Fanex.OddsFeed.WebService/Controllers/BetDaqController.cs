@@ -37,8 +37,8 @@ namespace Fanex.OddsFeed.WebService.Controllers
                 return "You are not authorized to take this action.";
             }
 
-            string startTime = string.Empty;
-            string endTime = string.Empty;
+            var startTime = string.Empty;
+            var endTime = string.Empty;
 
             if (Utilities.GetDownTime(out startTime, out endTime))
             {
@@ -108,8 +108,8 @@ namespace Fanex.OddsFeed.WebService.Controllers
 
             if (err.Id == 0)
             {
-                string result = string.Empty;
-                string separateRow = "__";
+                var result = string.Empty;
+                var separateRow = "__";
                 ////if (username.ToLower() != "betdaq")
                 ////{
                 ////    separateRow = System.Environment.NewLine;
@@ -167,7 +167,7 @@ namespace Fanex.OddsFeed.WebService.Controllers
 
             if (err.Id == 0)
             {                
-                string separateRow = "__";
+                var separateRow = "__";
                 return GetOddWithUserIsBetdaq(filter, separateRow);                   
 
                 ////if (username.ToLower() == "betdaq")
@@ -192,9 +192,9 @@ namespace Fanex.OddsFeed.WebService.Controllers
         /// <returns>System String.</returns>
         private string GetOddWithUserIsBetdaq(string filter, string separateRow)
         {
-            string result = string.Empty;
-            DataTable oddsFeed_1 = DbConnect.GetBetdaqScheduleData("SP.GetOddsFeed").ResultSet.Tables[0];
-            DataTable oddsFeed_2 = DbConnect.GetBetdaqScheduleData("SP.GetOddsFeed_2").ResultSet.Tables[0];
+            var result = string.Empty;
+            var oddsFeed_1 = DbConnect.GetBetdaqScheduleData("SP.GetOddsFeed").ResultSet.Tables[0];
+            var oddsFeed_2 = DbConnect.GetBetdaqScheduleData("SP.GetOddsFeed_2").ResultSet.Tables[0];
   
             if (string.IsNullOrEmpty(filter))
             {
@@ -232,9 +232,9 @@ namespace Fanex.OddsFeed.WebService.Controllers
         /// <returns>System String.</returns>
         private string GetOddWithOtherUser(string filter, string separateRow)
         {
-            string result = string.Empty;
-            DataTable oddsFeed_1 = DbConnect.GetBetdaqScheduleData("SP.GetOddsFeed").ResultSet.Tables[0];
-            DataTable oddsFeed_2 = DbConnect.GetBetdaqScheduleData("SP.GetOddsFeed_2").ResultSet.Tables[0];
+            var result = string.Empty;
+            var oddsFeed_1 = DbConnect.GetBetdaqScheduleData("SP.GetOddsFeed").ResultSet.Tables[0];
+            var oddsFeed_2 = DbConnect.GetBetdaqScheduleData("SP.GetOddsFeed_2").ResultSet.Tables[0];
 
             if (string.IsNullOrEmpty(filter))
             {

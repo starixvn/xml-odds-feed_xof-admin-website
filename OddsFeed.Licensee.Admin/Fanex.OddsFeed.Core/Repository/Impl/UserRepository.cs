@@ -38,7 +38,7 @@ namespace Fanex.OddsFeed.Core.Repository.Impl
         {
             using (var objectDb = new ObjectDb(criteria.GetSettingKey()))
             {
-                Hashtable param = criteria.GetSpParams();
+                var param = criteria.GetSpParams();
                 var objUser = objectDb.QueryEntity<User>(param);
 
                 criteria.SystemIdNameList = param["systemidnamelist"] != null ? param["systemidnamelist"].ToString() : string.Empty;
@@ -58,7 +58,7 @@ namespace Fanex.OddsFeed.Core.Repository.Impl
         {
             using (var objectDb = new ObjectDb(criteria.GetSettingKey()))
             {
-                Hashtable param = criteria.GetSpParams();
+                var param = criteria.GetSpParams();
                 var objFlag = objectDb.QueryEntity<PermissionFlag>(param);
 
                 criteria.OnUserId = Convert.ToInt32(param["onuserid"].ToString());
@@ -92,7 +92,7 @@ namespace Fanex.OddsFeed.Core.Repository.Impl
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                Hashtable hash = criteria.GetSpParams();
+                var hash = criteria.GetSpParams();
 
                 var userList = db.Query<User>(hash);
 
@@ -108,7 +108,7 @@ namespace Fanex.OddsFeed.Core.Repository.Impl
         /// <param name="criteria">The criteria.</param>
         public void UserReCheckIn(ref UserReCheckInUserCriteria criteria)
         {
-            Hashtable hash = criteria.GetSpParams();
+            var hash = criteria.GetSpParams();
 
             using (var objectDb = new ObjectDb(criteria.GetSettingKey()))
             {
@@ -123,7 +123,7 @@ namespace Fanex.OddsFeed.Core.Repository.Impl
         /// <param name="criteria">The criteria.</param>
         public void UserLogOut(LogOutUserCriteria criteria)
         {
-            Hashtable hash = criteria.GetSpParams();
+            var hash = criteria.GetSpParams();
 
             using (var objectDb = new ObjectDb(criteria.GetSettingKey()))
             {
@@ -140,7 +140,7 @@ namespace Fanex.OddsFeed.Core.Repository.Impl
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                Hashtable hash = criteria.GetSpParams();
+                var hash = criteria.GetSpParams();
                 var userList = db.Query<dynamic>(hash);
                 return userList.AsQueryable();
             }

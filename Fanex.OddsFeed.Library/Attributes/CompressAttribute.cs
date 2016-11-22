@@ -24,8 +24,8 @@ namespace Fanex.OddsFeed.Library.Attributes
         /// <param name="filterContext">The filter context.</param>
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            HttpRequestBase request = filterContext.HttpContext.Request;
-            HttpResponseBase response = filterContext.HttpContext.Response;
+            var request = filterContext.HttpContext.Request;
+            var response = filterContext.HttpContext.Response;
 
             var zip = request["zip"] == null ? string.Empty : request["zip"].ToLower();
             switch (zip)

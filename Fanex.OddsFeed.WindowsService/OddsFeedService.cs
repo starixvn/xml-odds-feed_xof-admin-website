@@ -72,7 +72,7 @@
             {
                 if (!Utilities.IsDownTime())
                 {
-                    bool isSuccessful = _oddsFeedService.Update(_currentVersion);
+                    var isSuccessful = _oddsFeedService.Update(_currentVersion);
 
                     if (isSuccessful)
                     {

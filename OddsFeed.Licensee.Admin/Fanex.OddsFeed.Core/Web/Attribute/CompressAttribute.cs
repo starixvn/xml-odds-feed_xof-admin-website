@@ -28,7 +28,7 @@ namespace Fanex.OddsFeed.Core.Web.Attribute
         /// <returns>Return true if success.</returns>
         private bool IsGZipSupported()
         {
-            string acceptEncoding = HttpContext.Current.Request.Headers["Accept-Encoding"];
+            var acceptEncoding = HttpContext.Current.Request.Headers["Accept-Encoding"];
             if (!string.IsNullOrEmpty(acceptEncoding) &&
                     (acceptEncoding.Contains("gzip") || acceptEncoding.Contains("deflate")))
             {
@@ -45,11 +45,11 @@ namespace Fanex.OddsFeed.Core.Web.Attribute
         /// </summary>
         private void GZipEncodePage()
         {
-            HttpResponse response = HttpContext.Current.Response;
+            var response = HttpContext.Current.Response;
 
             if (IsGZipSupported())
             {
-                string acceptEncoding = HttpContext.Current.Request.Headers["Accept-Encoding"];
+                var acceptEncoding = HttpContext.Current.Request.Headers["Accept-Encoding"];
 
                 if (acceptEncoding.Contains("gzip"))
                 {

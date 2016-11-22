@@ -34,11 +34,11 @@ namespace Fanex.OddsFeed.Admin.Utility
             int intNine = '9';
             ////int intA = 'A';
             ////int intZ = 'Z';
-            int intCount = 0;
-            int intRandomNumber = 0;
-            string strCaptchaString = string.Empty;
+            var intCount = 0;
+            var intRandomNumber = 0;
+            var strCaptchaString = string.Empty;
 
-            Random random = new Random(System.DateTime.Now.Millisecond);
+            var random = new Random(System.DateTime.Now.Millisecond);
 
             while (intCount < length)
             {
@@ -61,13 +61,13 @@ namespace Fanex.OddsFeed.Admin.Utility
         /// The context information includes the controller, HTTP content, request context, and route data.</param>
         public override void ExecuteResult(ControllerContext context)
         {
-            Bitmap bmp = new Bitmap(70, 25);
-            Graphics g = Graphics.FromImage(bmp);            
+            var bmp = new Bitmap(70, 25);
+            var g = Graphics.FromImage(bmp);            
             g.Clear(Color.CadetBlue);
-            string randomString = this.GetCaptchaString(4);
+            var randomString = this.GetCaptchaString(4);
             context.HttpContext.Session["captchastring"] = randomString;
             g.DrawString(randomString, new Font("Courier", 16), new SolidBrush(Color.WhiteSmoke), 2, 2);
-            HttpResponseBase response = context.HttpContext.Response;
+            var response = context.HttpContext.Response;
             response.ContentType = "image/jpeg";
             bmp.Save(response.OutputStream, ImageFormat.Jpeg);
             bmp.Dispose();

@@ -60,7 +60,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 return this.NoAuthorization();
             }
 
-            InsertCompanyIPsCriteria criteria = new InsertCompanyIPsCriteria();
+            var criteria = new InsertCompanyIPsCriteria();
             var companyIPs = _service.GetDataSet(new GetAllCompanyIPCriteria());
             var listIPFrom = string.Empty;
             var listIPTo = string.Empty;

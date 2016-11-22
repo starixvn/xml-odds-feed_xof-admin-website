@@ -16,16 +16,16 @@
         public ActionResult Cache()
         {
             var totalVersion = int.Parse(ConfigurationManager.AppSettings.Get("TotalVersion"));
-            string result = string.Format("<h3>Current version: {0}, Full chain: {1}</h3>", OddFeedDataCachingOperator.GetCurrentVersion(), OddFeedDataCachingOperator.IsFullChain());
-            string cachePrefix = AppSettings.CachePrefix;
+            var result = string.Format("<h3>Current version: {0}, Full chain: {1}</h3>", OddFeedDataCachingOperator.GetCurrentVersion(), OddFeedDataCachingOperator.IsFullChain());
+            var cachePrefix = AppSettings.CachePrefix;
 
             for (var version = 0; version < totalVersion; version++)
             {
                 var matches = OddFeedDataCachingOperator.GetMatchs(version);
                 var outrights = OddFeedDataCachingOperator.GetOutRight(version);
 
-                int matchCount = matches == null ? 0 : matches.Count;
-                int outrightCount = outrights == null ? 0 : outrights.Count;
+                var matchCount = matches == null ? 0 : matches.Count;
+                var outrightCount = outrights == null ? 0 : outrights.Count;
 
                 result += string.Format("<h3>Version: {0}, match: {1}, event: {2}</h3>", version, matchCount, outrightCount);
             }

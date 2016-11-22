@@ -29,8 +29,8 @@
                 return new XmlResult(ErrorCollection.UnAuthenticated());
             }
 
-            string startTime = string.Empty;
-            string endTime = string.Empty;
+            var startTime = string.Empty;
+            var endTime = string.Empty;
 
             if (Utilities.GetDownTime(out startTime, out endTime))
             {
@@ -68,7 +68,7 @@
         private XmlElement BuildXmlDocument()
         {
             // Load Data.
-            DataTable oddsFeed = DbConnect.GetBetRadar().ResultSet.Tables[0];
+            var oddsFeed = DbConnect.GetBetRadar().ResultSet.Tables[0];
 
             // Generate XML.
             var xd = new XmlDocument();
