@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using Configurations;
     using Couchbase;
     using Enyim.Caching.Memcached;
@@ -61,7 +62,7 @@
             using (var cache = new CouchbaseClient())
             {
                 var result = cache.Get<IList<BetTypeSchema>>(AppSettings.BetTypeSchemaKey);
-                if (result == null)
+                if (result == null || result.Count == 0)
                 {
                     result = JsonHelper.GetBetTypeSchemas(AppSettings.BetTypeSchemaPath);
                     if (result != null)
@@ -110,7 +111,8 @@
             }
             using (var cache = new CouchbaseClient())
             {
-                return cache.Get<List<Match>>(key);
+                var temp = cache.Get<IEnumerable<Match>>(key);
+                return temp != null ? temp.ToList() : new List<Match>();
             }
         }
 
@@ -122,7 +124,9 @@
             }
             using (var cache = new CouchbaseClient())
             {
-                return cache.Get<List<Outright>>(key);
+                var temp = cache.Get<IEnumerable<Outright>>(key);
+                return temp != null ? temp.ToList() : new List<Outright>();
+
             }
         }
     }

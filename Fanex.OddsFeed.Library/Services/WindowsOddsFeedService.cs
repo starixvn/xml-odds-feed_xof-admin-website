@@ -11,6 +11,7 @@
     using Logging;
     using Mapping;
     using Model;
+    using Schemas;
 
     public class WindowsOddsFeedService : IWindowsOddsFeedService
     {
@@ -25,13 +26,13 @@
             _cachePrefix = AppSettings.CachePrefix;
             _matchMapping = new MatchMapping();
             _outrightMapping = new OutrightMapping();
-           
         }
-        public bool Reset()
+
+        public void Reset()
         {
-            return ClearSchema()
-                && StoreData(CacheKeys.CurrentKey(_cachePrefix), 0, _numberTries)
-                && StoreData(CacheKeys.FullChainKey(_cachePrefix), false, _numberTries);
+            StoreData(AppSettings.BetTypeSchemaKey, new List<BetTypeSchema>(), 0);
+            StoreData(CacheKeys.CurrentKey(_cachePrefix), 0, _numberTries);
+            StoreData(CacheKeys.FullChainKey(_cachePrefix), false, _numberTries);
         }
 
         public bool StoreFullChain()
@@ -102,7 +103,7 @@
                 }).ToList();
         }
 
-        private bool StoreData(string key, object data, int numberTries)
+        private static bool StoreData(string key, object data, int numberTries)
         {
             var result = false;
 
@@ -115,7 +116,7 @@
             }
             catch (Exception exception)
             {
-                LogService.Error(string.Format("Couchbase error! --- Interrupted while trying to set.  Exception:{0}", exception.Message));
+                LogService.Error(string.Format("Couchbase error! --- Interrupted while trying to set.  Exception:{0}", exception.Message), exception);
             }
 
             return result;
@@ -160,19 +161,6 @@
 
                 return result;
             }
-        }
-
-        private static bool ClearSchema()
-        {
-            using (var cache = new CouchbaseClient())
-            {
-                if(cache.KeyExists(AppSettings.BetTypeSchemaKey))
-                {
-                    return cache.Remove(AppSettings.BetTypeSchemaKey);
-                }
-            }
-
-            return true;
         }
     }
 }

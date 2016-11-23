@@ -2,7 +2,7 @@
 {
     public interface IWindowsOddsFeedService
     {
-        bool Reset();
+        void Reset();
 
         bool StoreFullChain();
 

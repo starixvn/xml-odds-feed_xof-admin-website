@@ -63,7 +63,7 @@
             return nodeRoot;
         }
 
-        private XmlDocument CreateXmlDocument()
+        private static XmlDocument CreateXmlDocument()
         {
             var xmlDocument = new XmlDocument();
             var xmlDeclaration = xmlDocument.CreateXmlDeclaration("1.0", "utf-8", null);
@@ -79,7 +79,7 @@
         }
 
         private void AddOutrightNode(
-            XmlElement nodeRoot, 
+            XmlElement nodeRoot,
             XmlDocument xmlDocument, 
             OddsFeedFilter oddsFeedFilter,
             OddsData oddsData,
