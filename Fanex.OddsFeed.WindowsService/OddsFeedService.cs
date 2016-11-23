@@ -15,7 +15,7 @@
         private int _currentVersion;
         private int _totalVersion;
 
-        private IWindowsOddsFeedService _oddsFeedService;
+        private readonly IWindowsOddsFeedService _oddsFeedService;
 
         public OddsFeedService()
         {
