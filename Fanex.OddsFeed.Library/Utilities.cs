@@ -108,7 +108,11 @@
 
         public static decimal ToDecimalOddsFromMalayOdds(decimal malayOdds)
         {
-            ////as malayOdd always <= 1
+            if (malayOdds == 0)
+            {
+                return malayOdds;
+            }
+            
             if (malayOdds <= 1)
             {
                 return ToDecimalOddsFromHkOdds(ToHkOdds(malayOdds));
