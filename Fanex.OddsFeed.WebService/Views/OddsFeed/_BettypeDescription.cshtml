@@ -20,6 +20,27 @@
                                     + When h>0, the away team is the favorite.
                                 </div>
 }
+@if (Model.BetTypes == null || Model.BetTypes.Contains(2))
+{
+    <li>
+        t="oe": Full Time Odd/Even bet type
+        <ul>
+            <li>o: Price for Odd </li>
+            <li>e: Price for Even </li>
+        </ul>
+    </li>
+}
+@if (Model.BetTypes == null || Model.BetTypes.Contains(3))
+{
+    <li>
+        t="ou": Full Time Over/Under bet type
+        <ul>
+            <li>h: Over/Under line </li>
+            <li>o: Price for Over </li>
+            <li>u: Price for Under </li>
+        </ul>
+    </li>
+}
 @if (Model.BetTypes == null || Model.BetTypes.Contains(7))
 {
     <li>
@@ -41,16 +62,6 @@
                                     + When h>0, the away team is the favorite.
                                 </div>
 }
-@if (Model.BetTypes == null || Model.BetTypes.Contains(2))
-{
-    <li>
-        t="oe": Full Time Odd/Even bet type
-        <ul>
-            <li>o: Price for Odd </li>
-            <li>e: Price for Even </li>
-        </ul>
-    </li>
-}
 @if (Model.BetTypes == null || Model.BetTypes.Contains(12))
 {
     <li>
@@ -58,17 +69,6 @@
         <ul>
             <li>o: Price for Odd </li>
             <li>e: Price for Even </li>
-        </ul>
-    </li>
-}
-@if (Model.BetTypes == null || Model.BetTypes.Contains(3))
-{
-    <li>
-        t="ou": Full Time Over/Under bet type
-        <ul>
-            <li>h: Over/Under line </li>
-            <li>o: Price for Over </li>
-            <li>u: Price for Under </li>
         </ul>
     </li>
 }
@@ -88,33 +88,34 @@
     <li>
         t="cs": Correct score
         <ul>
-            <li>cs00: Price for the score 0-0 </li>
-            <li>cs11: Price for the score 1-1 </li>
-            <li>cs22: Price for the score 2-2 </li>
-            <li>cs33: Price for the score 3-3 </li>
-            <li>cs44: Price for the score 4-4 </li>
-            <li>cs01: Price for the score 0-1 </li>
-            <li>cs02: Price for the score 0-2 </li>
-            <li>cs03: Price for the score 0-3 </li>
-            <li>cs04: Price for the score 0-4 </li>
-            <li>cs05: Price for the score 0-5 UP </li>
-            <li>cs10: Price for the score 1-0 </li>
-            <li>cs20: Price for the score 2-0 </li>
-            <li>cs30: Price for the score 3-0 </li>
-            <li>cs40: Price for the score 4-0 </li>
-            <li>cs50: Price for the score 5-0 UP </li>
-            <li>cs12: Price for the score 1-2 </li>
-            <li>cs13: Price for the score 1-3 </li>
-            <li>cs23: Price for the score 2-3 </li>
-            <li>cs14: Price for the score 1-4 </li>
-            <li>cs24: Price for the score 2-4 </li>
-            <li>cs34: Price for the score 3-4 </li>
-            <li>cs21: Price for the score 2-1 </li>
-            <li>cs31: Price for the score 3-1 </li>
-            <li>cs32: Price for the score 3-2 </li>
-            <li>cs41: Price for the score 4-1 </li>
-            <li>cs42: Price for the score 4-2 </li>
-            <li>cs43: Price for the score 4-3 </li>
+            <li>cs00: Price for 0-0</li>
+            <li>cs11: Price for 1-1</li>
+            <li>cs22: Price for 2-2</li>
+            <li>cs33: Price for 3-3</li>
+            <li>cs44: Price for 4-4</li>
+            <li>cs10: Price for 1-0</li>
+            <li>cs20: Price for 2-0</li>
+            <li>cs21: Price for 2-1</li>
+            <li>cs30: Price for 3-0</li>
+            <li>cs31: Price for 3-1</li>
+            <li>cs32: Price for 3-2</li>
+            <li>cs40: Price for 4-0</li>
+            <li>cs41: Price for 4-1</li>
+            <li>cs42: Price for 4-2</li>
+            <li>cs43: Price for 4-3</li>
+            <li>cs50: Price for 5-0 UP</li>
+            <li>cs01: Price for 0-1</li>
+            <li>cs02: Price for 0-2</li>
+            <li>cs12: Price for 1-2</li>
+            <li>cs03: Price for 0-3</li>
+            <li>cs13: Price for 1-3</li>
+            <li>cs23: Price for 2-3</li>
+            <li>cs04: Price for 0-4</li>
+            <li>cs14: Price for 1-4</li>
+            <li>cs24: Price for 2-4</li>
+            <li>cs34: Price for 3-4</li>
+            <li>cs05: Price for 0-5 UP</li>
+            <li>csaos: Price for AOS</li>
         </ul>
     </li>
 }
@@ -332,6 +333,7 @@
             <li>c11: Price for 1-1</li>
             <li>c22: Price for 2-2</li>
             <li>c33: Price for 3-3</li>
+            <li>caos: Price for AOS</li>
         </ul>
     </li>
 }
@@ -540,52 +542,233 @@
     <li>
         t="cs_12" : Half Time/Full Time Correct Score
         <ul>
-            <li>o01: Price for 0:0/0:0</li>
-            <li>o02: Price for 0:0/1:0</li>
-            <li>o03: Price for 0:0/0:1</li>
-            <li>o04: Price for 0:0/2:0</li>
-            <li>o05: Price for 0:0/1:1</li>
-            <li>o06: Price for 0:0/0:2</li>
-            <li>o07: Price for 0:0/3:0</li>
-            <li>o08: Price for 0:0/2:1</li>
-            <li>o09: Price for 0:0/1:2</li>
-            <li>o10: Price for 0:0/0:3</li>
-            <li>o11: Price for 0:0/4+</li>
-            <li>o12: Price for 1:0/1:0</li>
-            <li>o13: Price for 1:0/2:0</li>
-            <li>o14: Price for 1:0/1:1</li>
-            <li>o15: Price for 1:0/3:0</li>
-            <li>o16: Price for 1:0/2:1</li>
-            <li>o17: Price for 1:0/1:2</li>
-            <li>o18: Price for 1:0/4+</li>
-            <li>o19: Price for 0:1/0:1</li>
-            <li>o20: Price for 0:1/1:1</li>
-            <li>o21: Price for 0:1/0:2</li>
-            <li>o22: Price for 0:1/2:1</li>
-            <li>o23: Price for 0:1/1:2</li>
-            <li>o24: Price for 0:1/0:3</li>
-            <li>o25: Price for 0:1/4+</li>
-            <li>o26: Price for 1:1/1:1</li>
-            <li>o27: Price for 1:1/2:1</li>
-            <li>o28: Price for 1:1/1:2</li>
-            <li>o29: Price for 1:1/4+</li>
-            <li>o30: Price for 2:0/2:0</li>
-            <li>o31: Price for 2:0/3:0</li>
-            <li>o32: Price for 2:0/2:1</li>
-            <li>o33: Price for 2:0/4+</li>
-            <li>o34: Price for 0:2/0:2</li>
-            <li>o35: Price for 0:2/1:2</li>
-            <li>o36: Price for 0:2/0:3</li>
-            <li>o37: Price for 0:2/4+</li>
-            <li>o38: Price for 2:1/2:1</li>
-            <li>o39: Price for 2:1/4+</li>
-            <li>o40: Price for 1:2/1:2</li>
-            <li>o41: Price for 1:2/4+</li>
-            <li>o42: Price for 3:0/3:0</li>
-            <li>o43: Price for 3:0/4+</li>
-            <li>o44: Price for 0:3/0:3</li>
-            <li>o45: Price for 0:3/4+</li>
-            <li>o46: Price for 4+/4+</li>
+            <li>o001: Price for 0:0/0:0</li>
+            <li>o002: Price for 0:0/1:0</li>
+            <li>o003: Price for 0:0/0:1</li>
+            <li>o004: Price for 0:0/2:0</li>
+            <li>o005: Price for 0:0/1:1</li>
+            <li>o006: Price for 0:0/0:2</li>
+            <li>o007: Price for 0:0/3:0</li>
+            <li>o008: Price for 0:0/2:1</li>
+            <li>o009: Price for 0:0/1:2</li>
+            <li>o010: Price for 0:0/0:3</li>
+            <li>o011: Price for 0:0/4+</li>
+            <li>o012: Price for 1:0/1:0</li>
+            <li>o013: Price for 1:0/2:0</li>
+            <li>o014: Price for 1:0/1:1</li>
+            <li>o015: Price for 1:0/3:0</li>
+            <li>o016: Price for 1:0/2:1</li>
+            <li>o017: Price for 1:0/1:2</li>
+            <li>o018: Price for 1:0/4+</li>
+            <li>o019: Price for 0:1/0:1</li>
+            <li>o020: Price for 0:1/1:1</li>
+            <li>o021: Price for 0:1/0:2</li>
+            <li>o022: Price for 0:1/2:1</li>
+            <li>o023: Price for 0:1/1:2</li>
+            <li>o024: Price for 0:1/0:3</li>
+            <li>o025: Price for 0:1/4+</li>
+            <li>o026: Price for 1:1/1:1</li>
+            <li>o027: Price for 1:1/2:1</li>
+            <li>o028: Price for 1:1/1:2</li>
+            <li>o029: Price for 1:1/4+</li>
+            <li>o030: Price for 2:0/2:0</li>
+            <li>o031: Price for 2:0/3:0</li>
+            <li>o032: Price for 2:0/2:1</li>
+            <li>o033: Price for 2:0/4+</li>
+            <li>o034: Price for 0:2/0:2</li>
+            <li>o035: Price for 0:2/1:2</li>
+            <li>o036: Price for 0:2/0:3</li>
+            <li>o037: Price for 0:2/4+</li>
+            <li>o038: Price for 2:1/2:1</li>
+            <li>o039: Price for 2:1/4+</li>
+            <li>o040: Price for 1:2/1:2</li>
+            <li>o041: Price for 1:2/4+</li>
+            <li>o042: Price for 3:0/3:0</li>
+            <li>o043: Price for 3:0/4+</li>
+            <li>o044: Price for 0:3/0:3</li>
+            <li>o045: Price for 0:3/4+</li>
+            <li>o046: Price for 4+/4+</li>
+            <li>o047: Price for 0:0/0:4</li>
+            <li>o048: Price for 0:0/1:3</li>
+            <li>o049: Price for 0:0/1:4</li>
+            <li>o050: Price for 0:0/2:2</li>
+            <li>o051: Price for 0:0/2:3</li>
+            <li>o052: Price for 0:0/2:4</li>
+            <li>o053: Price for 0:0/3:1</li>
+            <li>o054: Price for 0:0/3:2</li>
+            <li>o055: Price for 0:0/3:3</li>
+            <li>o056: Price for 0:0/3:4</li>
+            <li>o057: Price for 0:0/4:0</li>
+            <li>o058: Price for 0:0/4:1</li>
+            <li>o059: Price for 0:0/4:2</li>
+            <li>o060: Price for 0:0/4:3</li>
+            <li>o061: Price for 0:0/4:4</li>
+            <li>o062: Price for 0:0/AOS</li>
+            <li>o063: Price for 0:1/0:4</li>
+            <li>o064: Price for 0:1/1:3</li>
+            <li>o065: Price for 0:1/1:4</li>
+            <li>o066: Price for 0:1/2:2</li>
+            <li>o067: Price for 0:1/2:3</li>
+            <li>o068: Price for 0:1/2:4</li>
+            <li>o069: Price for 0:1/3:1</li>
+            <li>o070: Price for 0:1/3:2</li>
+            <li>o071: Price for 0:1/3:3</li>
+            <li>o072: Price for 0:1/3:4</li>
+            <li>o073: Price for 0:1/4:1</li>
+            <li>o074: Price for 0:1/4:2</li>
+            <li>o075: Price for 0:1/4:3</li>
+            <li>o076: Price for 0:1/4:4</li>
+            <li>o077: Price for 0:1/AOS</li>
+            <li>o078: Price for 0:2/0:4</li>
+            <li>o079: Price for 0:2/1:3</li>
+            <li>o080: Price for 0:2/1:4</li>
+            <li>o081: Price for 0:2/2:2</li>
+            <li>o082: Price for 0:2/2:3</li>
+            <li>o083: Price for 0:2/2:4</li>
+            <li>o084: Price for 0:2/3:2</li>
+            <li>o085: Price for 0:2/3:3</li>
+            <li>o086: Price for 0:2/3:4</li>
+            <li>o087: Price for 0:2/4:2</li>
+            <li>o088: Price for 0:2/4:3</li>
+            <li>o089: Price for 0:2/4:4</li>
+            <li>o090: Price for 0:2/AOS</li>
+            <li>o091: Price for 0:3/0:4</li>
+            <li>o092: Price for 0:3/1:3</li>
+            <li>o093: Price for 0:3/1:4</li>
+            <li>o094: Price for 0:3/2:3</li>
+            <li>o095: Price for 0:3/2:4</li>
+            <li>o096: Price for 0:3/3:3</li>
+            <li>o097: Price for 0:3/3:4</li>
+            <li>o098: Price for 0:3/4:3</li>
+            <li>o099: Price for 0:3/4:4</li>
+            <li>o100: Price for 0:3/AOS</li>
+            <li>o101: Price for 1:0/1:3</li>
+            <li>o102: Price for 1:0/1:4</li>
+            <li>o103: Price for 1:0/2:2</li>
+            <li>o104: Price for 1:0/2:3</li>
+            <li>o105: Price for 1:0/2:4</li>
+            <li>o106: Price for 1:0/3:1</li>
+            <li>o107: Price for 1:0/3:2</li>
+            <li>o108: Price for 1:0/3:3</li>
+            <li>o109: Price for 1:0/3:4</li>
+            <li>o110: Price for 1:0/4:0</li>
+            <li>o111: Price for 1:0/4:1</li>
+            <li>o112: Price for 1:0/4:2</li>
+            <li>o113: Price for 1:0/4:3</li>
+            <li>o114: Price for 1:0/4:4</li>
+            <li>o115: Price for 1:0/AOS</li>
+            <li>o116: Price for 1:1/1:3</li>
+            <li>o117: Price for 1:1/1:4</li>
+            <li>o118: Price for 1:1/2:2</li>
+            <li>o119: Price for 1:1/2:3</li>
+            <li>o120: Price for 1:1/2:4</li>
+            <li>o121: Price for 1:1/3:1</li>
+            <li>o122: Price for 1:1/3:2</li>
+            <li>o123: Price for 1:1/3:3</li>
+            <li>o124: Price for 1:1/3:4</li>
+            <li>o125: Price for 1:1/4:1</li>
+            <li>o126: Price for 1:1/4:2</li>
+            <li>o127: Price for 1:1/4:3</li>
+            <li>o128: Price for 1:1/4:4</li>
+            <li>o129: Price for 1:1/AOS</li>
+            <li>o130: Price for 1:2/1:3</li>
+            <li>o131: Price for 1:2/1:4</li>
+            <li>o132: Price for 1:2/2:2</li>
+            <li>o133: Price for 1:2/2:3</li>
+            <li>o134: Price for 1:2/2:4</li>
+            <li>o135: Price for 1:2/3:2</li>
+            <li>o136: Price for 1:2/3:3</li>
+            <li>o137: Price for 1:2/3:4</li>
+            <li>o138: Price for 1:2/4:2</li>
+            <li>o139: Price for 1:2/4:3</li>
+            <li>o140: Price for 1:2/4:4</li>
+            <li>o141: Price for 1:2/AOS</li>
+            <li>o142: Price for 1:3/1:3</li>
+            <li>o143: Price for 1:3/1:4</li>
+            <li>o144: Price for 1:3/2:3</li>
+            <li>o145: Price for 1:3/2:4</li>
+            <li>o146: Price for 1:3/3:3</li>
+            <li>o147: Price for 1:3/3:4</li>
+            <li>o148: Price for 1:3/4:3</li>
+            <li>o149: Price for 1:3/4:4</li>
+            <li>o150: Price for 1:3/AOS</li>
+            <li>o151: Price for 2:0/2:2</li>
+            <li>o152: Price for 2:0/2:3</li>
+            <li>o153: Price for 2:0/2:4</li>
+            <li>o154: Price for 2:0/3:1</li>
+            <li>o155: Price for 2:0/3:2</li>
+            <li>o156: Price for 2:0/3:3</li>
+            <li>o157: Price for 2:0/3:4</li>
+            <li>o158: Price for 2:0/4:0</li>
+            <li>o159: Price for 2:0/4:1</li>
+            <li>o160: Price for 2:0/4:2</li>
+            <li>o161: Price for 2:0/4:3</li>
+            <li>o162: Price for 2:0/4:4</li>
+            <li>o163: Price for 2:0/AOS</li>
+            <li>o164: Price for 2:1/2:2</li>
+            <li>o165: Price for 2:1/2:3</li>
+            <li>o166: Price for 2:1/2:4</li>
+            <li>o167: Price for 2:1/3:1</li>
+            <li>o168: Price for 2:1/3:2</li>
+            <li>o169: Price for 2:1/3:3</li>
+            <li>o170: Price for 2:1/3:4</li>
+            <li>o171: Price for 2:1/4:1</li>
+            <li>o172: Price for 2:1/4:2</li>
+            <li>o173: Price for 2:1/4:3</li>
+            <li>o174: Price for 2:1/4:4</li>
+            <li>o175: Price for 2:1/AOS</li>
+            <li>o176: Price for 2:2/2:2</li>
+            <li>o177: Price for 2:2/2:3</li>
+            <li>o178: Price for 2:2/2:4</li>
+            <li>o179: Price for 2:2/3:2</li>
+            <li>o180: Price for 2:2/3:3</li>
+            <li>o181: Price for 2:2/3:4</li>
+            <li>o182: Price for 2:2/4:2</li>
+            <li>o183: Price for 2:2/4:3</li>
+            <li>o184: Price for 2:2/4:4</li>
+            <li>o185: Price for 2:2/AOS</li>
+            <li>o186: Price for 2:3/2:3</li>
+            <li>o187: Price for 2:3/2:4</li>
+            <li>o188: Price for 2:3/3:3</li>
+            <li>o189: Price for 2:3/3:4</li>
+            <li>o190: Price for 2:3/4:3</li>
+            <li>o191: Price for 2:3/4:4</li>
+            <li>o192: Price for 2:3/AOS</li>
+            <li>o193: Price for 3:0/3:1</li>
+            <li>o194: Price for 3:0/3:2</li>
+            <li>o195: Price for 3:0/3:3</li>
+            <li>o196: Price for 3:0/3:4</li>
+            <li>o197: Price for 3:0/4:0</li>
+            <li>o198: Price for 3:0/4:1</li>
+            <li>o199: Price for 3:0/4:2</li>
+            <li>o200: Price for 3:0/4:3</li>
+            <li>o201: Price for 3:0/4:4</li>
+            <li>o202: Price for 3:0/AOS</li>
+            <li>o203: Price for 3:1/3:1</li>
+            <li>o204: Price for 3:1/3:2</li>
+            <li>o205: Price for 3:1/3:3</li>
+            <li>o206: Price for 3:1/3:4</li>
+            <li>o207: Price for 3:1/4:1</li>
+            <li>o208: Price for 3:1/4:2</li>
+            <li>o209: Price for 3:1/4:3</li>
+            <li>o210: Price for 3:1/4:4</li>
+            <li>o211: Price for 3:1/AOS</li>
+            <li>o212: Price for 3:2/3:2</li>
+            <li>o213: Price for 3:2/3:3</li>
+            <li>o214: Price for 3:2/3:4</li>
+            <li>o215: Price for 3:2/4:2</li>
+            <li>o216: Price for 3:2/4:3</li>
+            <li>o217: Price for 3:2/4:4</li>
+            <li>o218: Price for 3:2/AOS</li>
+            <li>o219: Price for 3:3/3:3</li>
+            <li>o220: Price for 3:3/3:4</li>
+            <li>o221: Price for 3:3/4:3</li>
+            <li>o222: Price for 3:3/4:4</li>
+            <li>o223: Price for 3:3/AOS</li>
+            <li>o224: Price for AOS/3:4</li>
+            <li>o225: Price for AOS/4:3</li>
+            <li>o226: Price for AOS/4:4</li>
+            <li>o227Price for AOS/AOS</li>
         </ul>
     </li>
 }
@@ -814,14 +997,25 @@
     <li>
         t="win" : Winning Margin
         <ul>
-            <li>h1: Price for Home 1  </li>
-            <li>h2: Price for Home 2  </li>
-            <li>h3: Price for Home 3up  </li>
-            <li>d: Price for Draw  </li>
-            <li>a1: Price for Away 1  </li>
-            <li>a2: Price for Away 2  </li>
-            <li>a3: Price for Away 3up</li>
+            <li>h1: Price for Home & 1 Goal</li>
+            <li>h2: Price for Home & 2 Goals</li>
+            <li>h3: Price for Home & 3 Goals up</li>
+            <li>d: Price for S.Draw</li>
+            <li>a1: Price for Away & 1 Goal</li>
+            <li>a2: Price for Away & 2 Goals</li>
+            <li>a3: Price for Away & 3 Goals up</li>
             <li>ng: Price for No Goal</li>
+            <li>h1: Price for Home & 1 Goal</li>
+            <li>h2: Price for Home & 2 Goals</li>
+            <li>h3: Price for Home & 3 Goals up</li>
+            <li>d: Price for S.Draw</li>
+            <li>a1: Price for Away & 1 Goal</li>
+            <li>a2: Price for Away & 2 Goals</li>
+            <li>a3: Price for Away & 3 Goals up</li>
+            <li>ng: Price for No Goal</li>
+            <li>h1: Price for Home & 1 Goal</li>
+            <li>h2: Price for Home & 2 Goals</li>
+            <li>h3: Price for Home & 3 Goals up</li>
         </ul>
     </li>
 }
@@ -1431,7 +1625,9 @@
             <li>o0: Price for 0</li>
             <li>o1: Price for 1</li>
             <li>o2: Price for 2</li>
-            <li>o3: Price for 3 Goals & Over</li>
+            <li>o3: Price for 3</li>
+            <li>o3o: Price for 3 Goals & Over</li>
+            <li>o4o: Price for 4 Goals & Over</li>
         </ul>
     </li>
 }
@@ -1563,6 +1759,7 @@
             <li>o0: Price for No Goal</li>
             <li>o1: Price for 1 Goal</li>
             <li>o2: Price for 2 Goals</li>
+            <li>o2o: Price for 2 Goals & Over</li>
             <li>o3: Price for 3-Over</li>
         </ul>
     </li>
