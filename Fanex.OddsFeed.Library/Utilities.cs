@@ -130,6 +130,11 @@
         /// <returns>System Decimal.</returns>
         public static decimal ConvertOdds(int oddsRegion, decimal decimalOdds)
         {
+            if (decimalOdds == 0)
+            {
+                return decimalOdds;
+            }
+
             switch (oddsRegion)
             {
                 case 1:
