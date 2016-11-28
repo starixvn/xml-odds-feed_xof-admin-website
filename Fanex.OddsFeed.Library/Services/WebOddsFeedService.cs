@@ -160,23 +160,5 @@
         {
             return DateTime.Now.AddHours(12);
         }
-
-        private static int GetMaxTimeStamp(IEnumerable<Match> deadBallMatches, IEnumerable<Match> liveMatches)
-        {
-            var deadBallTimeStamp = 0;
-            var liveTimeStamp = 0;
-
-            if (deadBallMatches.Any())
-            {
-                deadBallTimeStamp = deadBallMatches.Max(match => match.TimeStamp);
-            }
-
-            if (liveMatches.Any())
-            {
-                liveTimeStamp = liveMatches.Max(match => match.TimeStamp);
-            }
-
-            return deadBallTimeStamp > liveTimeStamp ? deadBallTimeStamp : liveTimeStamp;
-        }
     }
 }
