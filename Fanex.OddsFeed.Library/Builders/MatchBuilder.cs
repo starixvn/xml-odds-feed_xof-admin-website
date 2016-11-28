@@ -20,7 +20,7 @@
             XmlDocument xmlDocument, 
             OddsProfile oddsProfile,
             OddsFeedFilter oddsFeedFilter,
-            IEnumerable<Match> deadMatches,
+            IEnumerable<Match> deadballMatches,
             IEnumerable<Match> liveMatches, 
             string bookieName,
             DateTime lastUpdate,
@@ -29,13 +29,11 @@
         {
             var matchesNode = xmlDocument.CreateNode(XmlNodeType.Element, "matches", null);
 
-            AssignLastUpdate(xmlDocument, matchesNode, lastUpdate);
-            AssignMatchTimeStamp(xmlDocument, matchesNode, timeStamp);
-            AssignOddsType(xmlDocument, matchesNode, GetOddsTypeName(oddsProfile.OddRegion));
+            AssignMatchesAttributes(xmlDocument, matchesNode, oddsProfile, deadballMatches, liveMatches, lastUpdate);
 
-            if(deadMatches.Any())
+            if (deadballMatches.Any())
             {
-                AssignMatchNodes(xmlDocument, matchesNode, oddsProfile, oddsFeedFilter, deadMatches, bookieName, isSample);
+                AssignMatchNodes(xmlDocument, matchesNode, oddsProfile, oddsFeedFilter, deadballMatches, bookieName, isSample);
             }
             
             if(liveMatches.Any())
@@ -44,6 +42,42 @@
             }
 
             return matchesNode;
+        }
+
+        private static void AssignMatchesAttributes(
+            XmlDocument xmlDocument, 
+            XmlNode matchesNode, 
+            OddsProfile oddsProfile,
+            IEnumerable<Match> deadballMatches,
+            IEnumerable<Match> liveMatches,
+            DateTime lastUpdate)
+        {
+            if (deadballMatches.Any() || liveMatches.Any())
+            {
+                var matchesTimeStamp = GetMatchesTimeStamp(deadballMatches, liveMatches);
+
+                AssignLastUpdate(xmlDocument, matchesNode, lastUpdate);
+                AssignMatchTimeStamp(xmlDocument, matchesNode, matchesTimeStamp);
+                AssignOddsType(xmlDocument, matchesNode, GetOddsTypeName(oddsProfile.OddRegion));
+            }
+        }
+
+        private static int GetMatchesTimeStamp(IEnumerable<Match> deadballMatches, IEnumerable<Match> liveMatches)
+        {
+            var deadBallTimeStamp = 0;
+            var liveTimeStamp = 0;
+
+            if (deadballMatches.Any())
+            {
+                deadBallTimeStamp = deadballMatches.Max(match => match.TimeStamp);
+            }
+
+            if (liveMatches.Any())
+            {
+                liveTimeStamp = liveMatches.Max(match => match.TimeStamp);
+            }
+
+            return Math.Max(deadBallTimeStamp, liveTimeStamp);
         }
 
         private void AssignMatchNodes(
