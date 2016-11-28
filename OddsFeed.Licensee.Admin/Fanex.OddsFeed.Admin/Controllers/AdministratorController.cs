@@ -69,7 +69,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
             }
 
             ////Sport Flag
-            var flags = _adminService.GetDataSet(new GetLicenseeProfileByLicenseeIDCriteria() { SystemID = CurrentSession.SystemId });
+            var flags = _adminService.GetDataSet(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = CurrentSession.SystemId });
             if (flags != null && flags.Tables.Count > 0 && flags.Tables[0].Rows.Count > 0)
             {
                 ViewBag.SportsFlag = bool.Parse(flags.Tables[0].Rows[0]["SportIDListFlag"].ToString());
@@ -201,14 +201,10 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
             var result = _adminService.UpdateAdmin(criteria);
 
-            if (result != null && result.IsSuccessful)
-            {
-                return "Successfully!";
-            }
-            else
-            {
-                return result.Message;
-            }
+
+            return result != null && result.IsSuccessful
+                ? "Successfully!"
+                : result.Message;
         }
 
         #endregion
@@ -279,7 +275,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
             }
 
             var result = _adminService.UpdateAdminInfo(criteria);
-            if (result == null || result.IsSuccessful == false)
+            if (result == null || result.IsSuccessful)
             {
                 actionResult.IsSuccess = false;
                 if (result != null)
@@ -314,9 +310,9 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 return RedirectToAction("AdministratorList", "Administrator");
             }
 
-            if (!this.IsAccountManagerRole())
+            if (!IsAccountManagerRole())
             {
-                return this.NoAuthorization();
+                return NoAuthorization();
             }
 
             ViewBag.CurrentUser = " \"" + username + "\"";
@@ -324,11 +320,11 @@ namespace Fanex.OddsFeed.Admin.Controllers
             IEnumerable<SelectListItem> systemList = new List<SelectListItem>();
             if (role == (int)Constant.UserRole.Licensee)
             {
-                systemList = _adminService.GetSelectList(new GetSystemByUserIDCriteria() { UserID = CurrentSession.UserId, IgnoreIsActive = true });
+                systemList = _adminService.GetSelectList(new GetSystemByUserIDCriteria { UserID = CurrentSession.UserId, IgnoreIsActive = true });
             }
             else
             {
-                systemList = _adminService.GetSelectList(new GetOptionalSystemBySubAccountIDCriteria() { UserID = CurrentSession.UserId, SubAccountID = id });
+                systemList = _adminService.GetSelectList(new GetOptionalSystemBySubAccountIDCriteria { UserID = CurrentSession.UserId, SubAccountID = id });
             }
 
             ViewBag.SystemListID = systemList;
@@ -337,7 +333,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
             {
                 UserID = id,
                 UserName = username,
-                SystemList = _adminService.GetSelectList(new GetSystemByUserIDCriteria() { UserID = id, IgnoreIsActive = false }).Select(item => item.Value).ToArray()
+                SystemList = _adminService.GetSelectList(new GetSystemByUserIDCriteria { UserID = id, IgnoreIsActive = false }).Select(item => item.Value).ToArray()
             };
 
             ViewBag.HasEditPermission = this.HasEditPermission(CurrentSession.UserRole, criteria.UserID);
@@ -371,11 +367,11 @@ namespace Fanex.OddsFeed.Admin.Controllers
             IEnumerable<SelectListItem> systemList = new List<SelectListItem>();
             if (IsLicenseeAdminRole())
             {
-                systemList = _adminService.GetSelectList(new GetSystemByUserIDCriteria() { UserID = CurrentSession.UserId, IgnoreIsActive = true });
+                systemList = _adminService.GetSelectList(new GetSystemByUserIDCriteria { UserID = CurrentSession.UserId, IgnoreIsActive = true });
             }
             else
             {
-                systemList = _adminService.GetSelectList(new GetOptionalSystemBySubAccountIDCriteria() { UserID = CurrentSession.UserId, SubAccountID = criteria.UserID });
+                systemList = _adminService.GetSelectList(new GetOptionalSystemBySubAccountIDCriteria { UserID = CurrentSession.UserId, SubAccountID = criteria.UserID });
             }
 
             if (string.IsNullOrEmpty(criteria.ListSystemId))
@@ -444,7 +440,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
         [HttpPost]
         public string GetExistedAdmin(string username)
         {
-            var licenseeProfile = _adminService.GetDataSet(new GetLicenseeProfileByLicenseeIDCriteria() { SystemID = CurrentSession.SystemId });
+            var licenseeProfile = _adminService.GetDataSet(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = CurrentSession.SystemId });
             if (licenseeProfile != null && licenseeProfile.Tables.Count > 0 && licenseeProfile.Tables[0].Rows.Count > 0)
             {
                 ViewBag.SportsFlag = bool.Parse(licenseeProfile.Tables[0].Rows[0]["SportIDListFlag"].ToString());
@@ -458,7 +454,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
             if (result.Tables.Count != 0)
             {
-                string resultStr = result.Tables[0].Rows[0]["username"].ToString();
+                var resultStr = result.Tables[0].Rows[0]["username"].ToString();
                 resultStr += "," + result.Tables[0].Rows[0]["firstname"].ToString();
                 resultStr += "," + result.Tables[0].Rows[0]["lastname"].ToString();
                 resultStr += "," + result.Tables[0].Rows[0]["email"].ToString();

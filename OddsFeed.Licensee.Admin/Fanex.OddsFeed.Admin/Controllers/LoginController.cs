@@ -84,9 +84,9 @@ namespace Fanex.OddsFeed.Admin.Controllers
         {
             var actionResult = new OddsFeedActionResult();
 
-            string username = criteria.UserName;
-            string password = criteria.UserPwd;
-            string validate = criteria.Validate;
+            var username = criteria.UserName;
+            var password = criteria.UserPwd;
+            var validate = criteria.Validate;
 
             ViewBag.FullDomainName = CurrentContext.FullDomainName;
             ViewBag.ValidationCodePath = CurrentContext.FullDomainName + "/login/ShowCaptchaImage";
@@ -147,8 +147,10 @@ namespace Fanex.OddsFeed.Admin.Controllers
         [HttpPost]
         public ActionResult ReCheckLogin()
         {
-            UserReCheckInUserCriteria criteria = new UserReCheckInUserCriteria();
-            criteria.OnUserId = Convert.ToInt32(CurrentSession.OnUserId);
+            var criteria = new UserReCheckInUserCriteria
+            {
+                OnUserId = Convert.ToInt32(CurrentSession.OnUserId)
+            };
             _userService.ReUserCheckIn(ref criteria);
 
             return Json(criteria.IsKickedOut ? "1" : "0");
@@ -165,8 +167,10 @@ namespace Fanex.OddsFeed.Admin.Controllers
         public ActionResult UpdateUserPassword()
         {
             ModelState.Clear();
-            var criteria = new UpdatePasswordUserCriteria();
-            criteria.UserID = CurrentSession.UserId;
+            var criteria = new UpdatePasswordUserCriteria
+            {
+                UserID = CurrentSession.UserId
+            };
 
             if (Request.UrlReferrer != null && Request.UrlReferrer.Segments.Length >= 4)
             {
@@ -279,10 +283,10 @@ namespace Fanex.OddsFeed.Admin.Controllers
         private void SaveUserSession(UserLoginUserCriteria criteria, User user)
         {
             ////get systemId
-            string[] systemIdNameList = criteria.SystemIdNameList.Split(';');
-            string[] firstSystem = systemIdNameList[0] != null ? systemIdNameList[0].Split(',') : null;
-            byte systemId = firstSystem != null & !string.IsNullOrEmpty(firstSystem[0]) ? Convert.ToByte(firstSystem[0]) : Convert.ToByte(0);
-            string systemName = firstSystem != null & !string.IsNullOrEmpty(firstSystem[1]) ? Convert.ToString(firstSystem[1]) : string.Empty;
+            var systemIdNameList = criteria.SystemIdNameList.Split(';');
+            var firstSystem = systemIdNameList[0] != null ? systemIdNameList[0].Split(',') : null;
+            var systemId = firstSystem != null & !string.IsNullOrEmpty(firstSystem[0]) ? Convert.ToByte(firstSystem[0]) : Convert.ToByte(0);
+            var systemName = firstSystem != null & !string.IsNullOrEmpty(firstSystem[1]) ? Convert.ToString(firstSystem[1]) : string.Empty;
 
             var criteriaProfile = new UserGetProfileCriteria
             {

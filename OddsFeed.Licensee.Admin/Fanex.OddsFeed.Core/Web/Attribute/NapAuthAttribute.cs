@@ -127,7 +127,7 @@ namespace Fanex.OddsFeed.Core.Web.Attribute
         /// Closes the connection.
         /// </summary>
         /// <param name="filterContext">The filter context.</param>
-        private void CloseConnection(AuthorizationContext filterContext)
+        private static void CloseConnection(AuthorizationContext filterContext)
         {
             try
             {
@@ -139,7 +139,7 @@ namespace Fanex.OddsFeed.Core.Web.Attribute
                     return;
                 }
 
-                HttpResponseBase response = filterContext.HttpContext.Response;
+                var response = filterContext.HttpContext.Response;
 
                 if (response == null)
                 {
@@ -173,7 +173,7 @@ namespace Fanex.OddsFeed.Core.Web.Attribute
             }
         }
 
-        private void SignOut()
+        private static void SignOut()
         {
             FormsAuthentication.SignOut();
             FormsAuthentication.RedirectToLoginPage();

@@ -239,7 +239,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 return this.NoAuthorization();
             }
 
-            var licensee = _licenseeService.GetDataSet(new GetLicenseeSettingByLicenseeIDCriteria() { SystemID = criteria.SystemID });
+            var licensee = _licenseeService.GetDataSet(new GetLicenseeSettingByLicenseeIDCriteria { SystemID = criteria.SystemID });
             var listIPFrom = string.Empty;
             var listIPTo = string.Empty;
             foreach (DataRow row in licensee.Tables[0].Rows)
@@ -321,13 +321,13 @@ namespace Fanex.OddsFeed.Admin.Controllers
         {
             criteria.BetTypeIDList = criteria.BetTypeIDList ?? string.Empty;
 
-            if (criteria.IsForceUpdate == true)
+            if (criteria.IsForceUpdate)
             {
                 return SaveLicenseeProfile(criteria);
             }
             else
             {
-                MissingPartnersProfile missingPartnersProfile = GetMissingProfile(criteria);
+                var missingPartnersProfile = GetMissingProfile(criteria);
                 if (IsMissingProfile(missingPartnersProfile))
                 {
                     // Assign a error code in case some affiliates under this licensee have the number of selections greater than the current licensee's profile                     
@@ -447,12 +447,12 @@ namespace Fanex.OddsFeed.Admin.Controllers
         {
             if (!string.IsNullOrEmpty(date))
             {
-                DateTime dateStart = new DateTime();
-                DateTime dateEnd = new DateTime();
+                var dateStart = new DateTime();
+                var dateEnd = new DateTime();
                 switch (criteria.PeriodOption.ToString())
                 {
                     case "Week":
-                        DateTime dt = new DateTime(year, 1, 1).AddDays(((int.Parse(date) - 1) * 7) - (int.Parse(date) == 1 ? 0 : 1));
+                        var dt = new DateTime(year, 1, 1).AddDays(((int.Parse(date) - 1) * 7) - (int.Parse(date) == 1 ? 0 : 1));
                         dt = dt.AddDays(-(int)dt.DayOfWeek);
 
                         dateStart = dt.AddDays(1);
@@ -577,10 +577,10 @@ namespace Fanex.OddsFeed.Admin.Controllers
         /// <returns>The structure of MissingPartnersProfile.</returns>
         private MissingPartnersProfile GetMissingProfile(EditLicenseeProfileCriteria criteria)
         {
-            MissingPartnersProfile missingProfile = new MissingPartnersProfile();
+            var missingProfile = new MissingPartnersProfile();
 
             ////get profile of all affs
-            PartnersProfile partnerProfile = _licenseeService.GetProfileAllPartnersBySystemId(criteria.SystemID);
+            var partnerProfile = _licenseeService.GetProfileAllPartnersBySystemId(criteria.SystemID);
 
             missingProfile.AffsOddsType = Utilities.ProducesDifferenceTwoString(partnerProfile.AffsOddsType, criteria.OddsType);
             missingProfile.AffsLanguageList = Utilities.ProducesDifferenceTwoString(partnerProfile.AffsLanguageList, criteria.LanguageList);
@@ -676,8 +676,10 @@ namespace Fanex.OddsFeed.Admin.Controllers
             criteria.BettypeIDListFlag = criteria.BettypeIDListFlag && criteria.BetTypeIDList != null;
             var res = _licenseeService.UpdateData(criteria);
 
-            MissingPartnersProfile missingPartnersProfile = new MissingPartnersProfile();
-            missingPartnersProfile.ErrCode = (int)res.Code;
+            var missingPartnersProfile = new MissingPartnersProfile
+            {
+                ErrCode = (int)res.Code
+            };
             return Json(missingPartnersProfile, JsonRequestBehavior.AllowGet);
         }
 
@@ -687,10 +689,10 @@ namespace Fanex.OddsFeed.Admin.Controllers
         /// <param name="criteria">The criteria.</param>
         private void GetLicenseeProfile(ref EditLicenseeProfileCriteria criteria)
         {
-            var licensee = _licenseeService.GetDataSet(new GetLicenseeProfileByLicenseeIDCriteria() { SystemID = criteria.SystemID });
+            var licensee = _licenseeService.GetDataSet(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = criteria.SystemID });
             if (licensee != null && licensee.Tables.Count > 0 && licensee.Tables[0].Rows.Count > 0)
             {
-                DataRow row = licensee.Tables[0].Rows[0];
+                var row = licensee.Tables[0].Rows[0];
                 criteria.NumberOfIPs = short.Parse(row["NumberOfIPs"].ToString());
                 criteria.BetTypeIDList = row["BetTypeIDList"].ToString();
                 criteria.BettypeIDListFlag = bool.Parse(row["BettypeIDListFlag"].ToString());
@@ -743,28 +745,28 @@ namespace Fanex.OddsFeed.Admin.Controllers
             var config = _licenseeService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "Config" }, false);
             ViewBag.DelayTimeList = GenerateDelayTime(config);
             ////Sport
-            IEnumerable<SelectListItem> sports = _affiliateService.GetSelectList(new GetSupportedSportCriteria());
+            var sports = _affiliateService.GetSelectList(new GetSupportedSportCriteria());
             ViewBag.SportList = sports;
             if (criteria.SportIDList.Equals("all"))
             {
                 criteria.SportIDList = string.Join(",", sports.Select(item => item.Value));
             }
             ////Market
-            IEnumerable<SelectListItem> bettypes = _affiliateService.GetSelectList(new GetSupportedBettypeCriteria());
+            var bettypes = _affiliateService.GetSelectList(new GetSupportedBettypeCriteria());
             ViewBag.BettypesList = bettypes;
             if (criteria.BetTypeIDList.Equals("all"))
             {
                 criteria.BetTypeIDList = string.Join(",", bettypes.Select(item => item.Value));
             }
             ////Country
-            IEnumerable<SelectListItem> countries = _affiliateService.GetSelectList(new GetAllCountryCriteria());
+            var countries = _affiliateService.GetSelectList(new GetAllCountryCriteria());
             ViewBag.CountriesList = countries;
             if (criteria.CountryCodeList.Equals("all"))
             {
                 criteria.CountryCodeList = string.Join(",", countries.Select(item => item.Value));
             }
             //// League
-            IEnumerable<SelectListItem> leagues = _affiliateService.GetSelectList(new GetLeagueCriteria()
+            var leagues = _affiliateService.GetSelectList(new GetLeagueCriteria
             {
                 SportIDList = criteria.SportIDList,
                 CountryCodeList = criteria.CountryCodeList
@@ -775,7 +777,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 criteria.LeagueIDList = string.Join(",", leagues.Select(item => item.Value));
             }
             ////OutRight
-            IEnumerable<SelectListItem> outrights = _affiliateService.GetSelectList(new GetOutRightCriteria()
+            var outrights = _affiliateService.GetSelectList(new GetOutRightCriteria
             {
                 SportIDList = criteria.SportIDList,
                 CountryCodeList = criteria.CountryCodeList

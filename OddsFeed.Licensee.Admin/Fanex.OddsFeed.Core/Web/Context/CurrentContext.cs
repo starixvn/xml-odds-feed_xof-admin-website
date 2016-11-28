@@ -29,10 +29,10 @@ namespace Fanex.OddsFeed.Core.Web.Context
         {
             get
             {
-                string clientIp = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+                var clientIp = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
                 if (!string.IsNullOrEmpty(clientIp))
                 {
-                    string[] forwardedIps = clientIp.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                    var forwardedIps = clientIp.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                     clientIp = forwardedIps[forwardedIps.Length - 1];
                 }
                 else
@@ -90,7 +90,7 @@ namespace Fanex.OddsFeed.Core.Web.Context
         {
             get
             {
-                string ip = string.Empty;
+                var ip = string.Empty;
 
                 foreach (IPAddress ipa in Dns.GetHostAddresses(HttpContext.Current.Request.UserHostAddress))
                 {
@@ -128,12 +128,12 @@ namespace Fanex.OddsFeed.Core.Web.Context
             get
             {
                 // try to get IP from proxy (if any)
-                string ip = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+                var ip = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
 
                 if (!string.IsNullOrEmpty(ip))
                 {
-                    string[] ipsRange = ip.Split(',');
-                    string trueIP = ipsRange[0].Trim();
+                    var ipsRange = ip.Split(',');
+                    var trueIP = ipsRange[0].Trim();
                 }
                 else
                 {
@@ -161,11 +161,11 @@ namespace Fanex.OddsFeed.Core.Web.Context
         {
             get
             {
-                NameValueCollection variables = HttpContext.Current.Request.ServerVariables;
+                var variables = HttpContext.Current.Request.ServerVariables;
 
-                string domain = variables["SERVER_NAME"];
-                string port = variables["SERVER_PORT"];
-                string protocol = HttpContext.Current.Request.IsSecureConnection ? "https://" : "http://";
+                var domain = variables["SERVER_NAME"];
+                var port = variables["SERVER_PORT"];
+                var protocol = HttpContext.Current.Request.IsSecureConnection ? "https://" : "http://";
 
                 var fulldomain = protocol + domain;                
 
@@ -194,7 +194,7 @@ namespace Fanex.OddsFeed.Core.Web.Context
         {
             get
             {
-                RegionInfo regionInfo = ResolveCountry(HttpContext.Current.Request);
+                var regionInfo = ResolveCountry(HttpContext.Current.Request);
 
                 return regionInfo == null ? null : regionInfo.GeoId.ToString(CultureInfo.InvariantCulture);
             }
@@ -205,9 +205,9 @@ namespace Fanex.OddsFeed.Core.Web.Context
         /// </summary>
         /// <param name="request">The request.</param>
         /// <returns>Object CultureInfo.</returns>
-        private CultureInfo ResolveCulture(HttpRequest request)
+        private static CultureInfo ResolveCulture(HttpRequest request)
         {
-            string[] languages = request.UserLanguages;
+            var languages = request.UserLanguages;
 
             if (languages == null || languages.Length == 0)
             {
@@ -216,7 +216,7 @@ namespace Fanex.OddsFeed.Core.Web.Context
 
             try
             {
-                string language = languages[0].ToLowerInvariant().Trim();
+                var language = languages[0].ToLowerInvariant().Trim();
 
                 return CultureInfo.CreateSpecificCulture(language);
             }
@@ -226,9 +226,9 @@ namespace Fanex.OddsFeed.Core.Web.Context
             }
         }
 
-        private RegionInfo ResolveCountry(HttpRequest request)
+        private static RegionInfo ResolveCountry(HttpRequest request)
         {
-            CultureInfo culture = ResolveCulture(request);
+            var culture = ResolveCulture(request);
 
             if (culture != null)
             {

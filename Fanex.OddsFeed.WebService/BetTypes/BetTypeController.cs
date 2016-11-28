@@ -1,16 +1,24 @@
-﻿using Fanex.Data.Repository;
-using Fanex.OddsFeed.Library;
-using Fanex.OddsFeed.Library.Attributes;
-using Fanex.OddsFeed.WebService.Common;
-using System.Linq;
-using System.Text;
-using System.Web.Mvc;
-
-namespace Fanex.OddsFeed.WebService.BetTypes
+﻿namespace Fanex.OddsFeed.WebService.BetTypes
 {
+    using System.Linq;
+    using System.Text;
+    using System.Web.Mvc;
+    using Fanex.Data.Repository;
+    using Fanex.OddsFeed.Library;
+    using Fanex.OddsFeed.Library.Attributes;
+    using Fanex.OddsFeed.Library.Services;
+    using Fanex.OddsFeed.WebService.Common;
+
     public class BetTypeController : Controller
     {
-        private OddsFeedSerializer serializer = new OddsFeedSerializer();
+        private OddsFeedSerializer _serializer;
+        private IBetTypeService _betTypeService;
+
+        public BetTypeController()
+        {
+            _serializer = new OddsFeedSerializer();
+            _betTypeService = new BetTypeService();
+        }
 
         [Compress]
         [PartnerPermission]
@@ -19,7 +27,7 @@ namespace Fanex.OddsFeed.WebService.BetTypes
             var betTypes = GetBetTypes(username);
             LimitLanguage(betTypes, oddsProfile);
 
-            var xml = serializer.Serialize(betTypes);
+            var xml = _serializer.Serialize(betTypes);
             return Content(xml, "text/xml", Encoding.UTF8);
         }
 
@@ -41,7 +49,7 @@ namespace Fanex.OddsFeed.WebService.BetTypes
             return new BetTypeNode
             {
                 Id = raw.Id.ToString(),
-                Type = Library.Matchs.OddNodeBuilder.BetOddNodeBuilder.BetTypeNameFromId(raw.Id),
+                Type = _betTypeService.GetBetTypeNameById(raw.Id),
                 NameEnglish = raw.NameEnglish,
                 NameSimplifiedChinese = raw.NameSimplifiedChinese,
                 NameTraditionalChinese = raw.NameTraditionalChinese

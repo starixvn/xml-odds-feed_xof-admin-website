@@ -1,52 +1,24 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="EventController.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Thai.Tran" date="2013.1.7">Created</change>
-// </history>
-
-namespace Fanex.OddsFeed.WebService.Controllers
+﻿namespace Fanex.OddsFeed.WebService.Controllers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Configuration;    
-    using System.Diagnostics.CodeAnalysis;
-    using System.Linq;    
-    using System.Web;
     using System.Web.Mvc;
     using System.Xml;
     using MvcContrib.ActionResults;
     using Fanex.OddsFeed.Library;
     using Fanex.OddsFeed.Library.Attributes;
     using Fanex.OddsFeed.WebService.Functions;
+    using Library.Services;
 
-    /// <summary>
-    /// Class EventController.
-    /// </summary>    
     public class EventController : Controller
     {     
-        // GET: /Schema/
         [Compress]
         public XmlResult Index(string username)
         {
             var domain = Helper.DomainName(Request.ServerVariables);
-            OddsFeedFilter filter = new OddsFeedFilter();
+            var filter = new OddsFeedFilter();
             var data = GetEventFeed(username, HttpContext.Request["t"], domain, filter);
             return new XmlResult(data);
         }
 
-        /// <summary>
-        /// Gets the event feed.
-        /// </summary>
-        /// <param name="username">The username.</param>
-        /// <param name="timestamp">The timestamp.</param>
-        /// <param name="domain">The domain.</param>
-        /// <param name="filter">The filter.</param>
-        /// <param name="isSample">If set to <c>true</c> [is sample].</param>
-        /// <param name="outrights">If set to <c>true</c> [outrights].</param>
-        /// <returns>Xml Element.</returns>
         private static XmlElement GetEventFeed(string username, string timestamp, string domain, OddsFeedFilter filter, bool isSample = false, bool outrights = true)
         {
             // ignore port number if it presents
@@ -64,8 +36,9 @@ namespace Fanex.OddsFeed.WebService.Controllers
 
             if (err.Id == 0 || isSample)
             {
-                var of = new Fanex.OddsFeed.Library.OddsFeed(partner.OddsProfile, partner.SystemName, domainName, ip, timestamp);
-                return of.BuildXmlEvent(partner.Timestamp, filter, isSample, outrights);
+                var oddsFeedService = new EventOddsFeedService(partner.OddsProfile);
+
+                return oddsFeedService.BuildXmlEvent(partner.Timestamp, filter, isSample, outrights);
             }
 
             return err.ToXmlElement();

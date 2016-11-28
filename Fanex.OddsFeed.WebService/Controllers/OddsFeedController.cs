@@ -1,18 +1,9 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="OddsFeedController.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Thai.Tran" date="2013.1.7">Created</change>
-// </history>
-namespace Fanex.OddsFeed.WebService.Controllers
+﻿namespace Fanex.OddsFeed.WebService.Controllers
 {
     using System;
     using System.Configuration;
     using System.Data;
     using System.Text;
-    using System.Web;
     using System.Web.Mvc;
     using System.Xml;
     using log4net;
@@ -20,36 +11,37 @@ namespace Fanex.OddsFeed.WebService.Controllers
     using Fanex.OddsFeed.Library;
     using Fanex.OddsFeed.Library.Attributes;
     using Fanex.OddsFeed.WebService.Functions;
+    using Library.Services;
+    using Library.Configurations;
 
-    /// <summary>
-    /// Class OddsFeedController.
-    /// </summary>    
     public class OddsFeedController : Controller
     {
-        private static readonly ILog Log = LogManager.GetLogger("LogService");
+        private readonly ILog _logService;
+        private readonly IBetTypeService _betTypeService;
 
-        /// <summary>
-        /// Indexes the specified username.
-        /// </summary>
-        /// <param name="username">The username.</param>
-        /// <returns>Xml Result.</returns>
+        public OddsFeedController()
+        {
+            _logService = LogManager.GetLogger("LogService");
+            _betTypeService = new BetTypeService();
+        }
+
         [Compress]
         public XmlResult Index(string username)
         {
-            Log.Info("1. Starting Index action:" + username + "-----" + DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss.fff"));
+            _logService.Info("1. Starting Index action:" + username + "-----" + DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss.fff"));
 
             // check UM Time
-            string startTime = string.Empty;
-            string endTime = string.Empty;
+            var startTime = string.Empty;
+            var endTime = string.Empty;
             if (Utilities.GetDownTime(out startTime, out endTime))
             {
                 return new XmlResult(ErrorCollection.UMDownTime(endTime));
             }
 
-            OddsFeedFilter filter = Helper.GetFilter(Request);
+            var filter = Helper.GetFilter(Request);
             if (Helper.IsOverLimitedOptions(filter))
             {
-                Error errMessage = new Error(10024, "You can only filter maximum 5 options. Please try again.");
+                var errMessage = new Error(10024, "You can only filter maximum 5 options. Please try again.");
                 return new XmlResult(errMessage.ToXmlElement());
             }
 
@@ -57,8 +49,8 @@ namespace Fanex.OddsFeed.WebService.Controllers
             var domain = Helper.DomainName(Request.ServerVariables);
             var data = GetOddsFeed(ref oddProfile, username, HttpContext.Request["t"], domain, filter);
 
-            Log.Info("4. Finishing Index action:" + username + "------" + DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss.fff"));
-            Log.Info("-------------------------------");
+            _logService.Info("4. Finishing Index action:" + username + "------" + DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss.fff"));
+            _logService.Info("-------------------------------");
             return new XmlResult(data);
         }
 
@@ -70,8 +62,8 @@ namespace Fanex.OddsFeed.WebService.Controllers
         public ActionResult OldHelp(string username)
         {
             // check UM Time
-            string startTime = string.Empty;
-            string endTime = string.Empty;
+            var startTime = string.Empty;
+            var endTime = string.Empty;
             if (Utilities.GetDownTime(out startTime, out endTime))
             {
                 return new XmlResult(ErrorCollection.UMDownTime(endTime));
@@ -83,7 +75,7 @@ namespace Fanex.OddsFeed.WebService.Controllers
 
             OddsProfile oddProfile = null;
             var domain = Helper.DomainName(Request.ServerVariables);
-            OddsFeedFilter filter = new OddsFeedFilter();
+            var filter = new OddsFeedFilter();
             var sampleOdds = GetOddsFeed(ref oddProfile, username, HttpContext.Request["t"], domain, filter, true, true);
 
             var provider = new StringBuilder(sampleOdds.OuterXml);
@@ -118,16 +110,11 @@ namespace Fanex.OddsFeed.WebService.Controllers
             }
         }
 
-        /// <summary>
-        /// Helps the specified username.
-        /// </summary>
-        /// <param name="username">The username.</param>
-        /// <returns>Action Result.</returns>
         public ActionResult Help(string username)
         {
             // check UM Time
-            string startTime = string.Empty;
-            string endTime = string.Empty;
+            var startTime = string.Empty;
+            var endTime = string.Empty;
             if (Utilities.GetDownTime(out startTime, out endTime))
             {
                 return new XmlResult(ErrorCollection.UMDownTime(endTime));
@@ -139,7 +126,7 @@ namespace Fanex.OddsFeed.WebService.Controllers
 
             OddsProfile oddProfile = null;
             var domain = Helper.DomainName(Request.ServerVariables);
-            OddsFeedFilter filter = new OddsFeedFilter();
+            var filter = new OddsFeedFilter();
             var sampleOdds = GetOddsFeed(ref oddProfile, username, HttpContext.Request["t"], domain, filter, true, true);
 
             var provider = new StringBuilder(sampleOdds.OuterXml);
@@ -163,8 +150,6 @@ namespace Fanex.OddsFeed.WebService.Controllers
 
             ViewBag.ContactEmail = DbConnect.GetContactEmailByUserName(username);
 
-            ViewBag.BetOddNodeMapping = Fanex.OddsFeed.Library.Matchs.OddNodeBuilder.BetOddNodeMapping.BetTypes;
-
             GenerateAppendixData(username);
 
             if (oddProfile != null)
@@ -177,53 +162,50 @@ namespace Fanex.OddsFeed.WebService.Controllers
             }
         }
 
-        /// <summary>
-        /// Generate data for appendix menu.
-        /// </summary>
-        /// <param name="username">The username.</param>
         private void GenerateAppendixData(string username)
         {
             //// Generate supported sports
-            DataTable sportsTable = DbConnect.GetSportByUserName(username).ResultSet.Tables[0];
-            DataTable sportsCol1 = new DataTable();
-            DataTable sportsCol2 = new DataTable();
-            DataTable sportsCol3 = new DataTable();
+            var sportsTable = DbConnect.GetSportByUserName(username).ResultSet.Tables[0];
+            var sportsCol1 = new DataTable();
+            var sportsCol2 = new DataTable();
+            var sportsCol3 = new DataTable();
             GenerateData(sportsTable, sportsCol1, sportsCol2, sportsCol3, "SportID", "SportName");
             ViewBag.SportsCol1 = sportsCol1.Select();
             ViewBag.SportsCol2 = sportsCol2.Select();
             ViewBag.SportsCol3 = sportsCol3.Select();
 
             //// Generate supported bettypes
-            DataTable rawBettypesTable = DbConnect.GetBetTypeByUserName(username).ResultSet.Tables[0];
+            var rawBettypesTable = DbConnect.GetBetTypeByUserName(username).ResultSet.Tables[0];
             var bettypesTable = SortDataTable(rawBettypesTable, "BetTypeID", "ASC");
             if (bettypesTable.Rows.Count == 0)
             {
                 //// Show Outright bettype (It's an exception)
-                DataRow row = bettypesTable.NewRow();
+                var row = bettypesTable.NewRow();
                 row["BetTypeID"] = 10;
                 row["BetTypeName"] = "Outright";
                 bettypesTable.Rows.Add(row);
             }
 
-            DataTable bettypesCol1 = new DataTable();
-            DataTable bettypesCol2 = new DataTable();
-            DataTable bettypesCol3 = new DataTable();
+            var bettypesCol1 = new DataTable();
+            var bettypesCol2 = new DataTable();
+            var bettypesCol3 = new DataTable();
             GenerateData(bettypesTable, bettypesCol1, bettypesCol2, bettypesCol3, "BetTypeID", "BetTypeName");
             ViewBag.BetTypesCol1 = bettypesCol1.Select();
             ViewBag.BetTypesCol2 = bettypesCol2.Select();
             ViewBag.BetTypesCol3 = bettypesCol3.Select();
 
             //// Generate supported countries
-            DataTable countriesTable = DbConnect.Odds_CountrySelByUserName(username).ResultSet.Tables[0];
-            DataTable countriesCol1 = new DataTable();
-            DataTable countriesCol2 = new DataTable();
-            DataTable countriesCol3 = new DataTable();
+            var countriesTable = DbConnect.Odds_CountrySelByUserName(username).ResultSet.Tables[0];
+            var countriesCol1 = new DataTable();
+            var countriesCol2 = new DataTable();
+            var countriesCol3 = new DataTable();
             GenerateData(countriesTable, countriesCol1, countriesCol2, countriesCol3, "CountryID", "CountryName");
             ViewBag.CountriesCol1 = countriesCol1.Select();
             ViewBag.CountriesCol2 = countriesCol2.Select();
             ViewBag.CountriesCol3 = countriesCol3.Select();
-            ViewBag.HighlightSportType = ConfigurationManager.AppSettings["HighlightSportType"].Split(',');
-            ViewBag.HighlightBetType = Library.Matchs.OddNodeBuilder.BetOddNodeMapping.HighlightBetType.Split(',');
+            ViewBag.HighlightSportType = AppSettings.HighlightSportType.Split(',');
+            ViewBag.HighlightBetType = AppSettings.HighlightBetType.Split(',');
+            ViewBag.BetTypeList = _betTypeService.GetBetTypeList();
         }
 
         public static DataTable SortDataTable(DataTable dt, string colName, string direction)
@@ -234,18 +216,9 @@ namespace Fanex.OddsFeed.WebService.Controllers
             return dtOut;
         }
 
-        /// <summary>
-        /// Generate supported sports, bet types, countries.
-        /// </summary>
-        /// <param name="dt">Input data table.</param>
-        /// <param name="column1Data">Output data table for column1.</param>
-        /// <param name="column2Data">Output data table for column2.</param>
-        /// <param name="column3Data">Output data table for column3.</param>
-        /// <param name="columnID">The column ID.</param>
-        /// <param name="columnName">The column name.</param>
-        private void GenerateData(DataTable dt, DataTable column1Data, DataTable column2Data, DataTable column3Data, string columnID, string columnName)
+        private static void GenerateData(DataTable dt, DataTable column1Data, DataTable column2Data, DataTable column3Data, string columnID, string columnName)
         {
-            int sum = dt.Rows.Count;
+            var sum = dt.Rows.Count;
             //// Just render one column if rowcount< =5
             if (sum <= 5)
             {
@@ -253,11 +226,11 @@ namespace Fanex.OddsFeed.WebService.Controllers
             }
             else
             {
-                int divide = sum / 3;
-                int module = sum % 3;
-                int sumCol1 = divide;
-                int sumCol2 = divide;
-                int sumCol3 = divide;
+                var divide = sum / 3;
+                var module = sum % 3;
+                var sumCol1 = divide;
+                var sumCol2 = divide;
+                var sumCol3 = divide;
 
                 while (module > 0)
                 {
@@ -281,19 +254,7 @@ namespace Fanex.OddsFeed.WebService.Controllers
             }
         }
 
-        /// <summary>
-        /// Generate data for columns.
-        /// </summary>
-        /// <param name="dt">Input data table.</param>
-        /// <param name="column1Data">Output data table for column1.</param>
-        /// <param name="column2Data">Output data table for column2.</param>
-        /// <param name="column3Data">Output data table for column3.</param>
-        /// <param name="columnID">The column ID.</param>
-        /// <param name="columnName">The column name.</param>
-        /// <param name="sumCol1">Sum items for column1.</param>
-        /// <param name="sumCol2">Sum items for column2.</param>
-        /// <param name="sumCol3">Sum items for column3.</param>
-        private void GenerateColumnData(
+        private static void GenerateColumnData(
             DataTable dt,
             DataTable column1Data,
             DataTable column2Data,
@@ -307,10 +268,10 @@ namespace Fanex.OddsFeed.WebService.Controllers
             ////Col1            
             column1Data.Columns.Add(columnID, typeof(string));
             column1Data.Columns.Add(columnName, typeof(string));
-            int i = 0;
+            var i = 0;
             while (i < sumCol1)
             {
-                DataRow row = column1Data.NewRow();
+                var row = column1Data.NewRow();
                 row[columnID] = dt.Rows[i][columnID].ToString();
                 row[columnName] = dt.Rows[i][columnName].ToString();
                 column1Data.Rows.Add(row);
@@ -322,7 +283,7 @@ namespace Fanex.OddsFeed.WebService.Controllers
             column2Data.Columns.Add(columnName, typeof(string));
             while (i < sumCol1 + sumCol2)
             {
-                DataRow row = column2Data.NewRow();
+                var row = column2Data.NewRow();
                 row[columnID] = dt.Rows[i][columnID].ToString();
                 row[columnName] = dt.Rows[i][columnName].ToString();
                 column2Data.Rows.Add(row);
@@ -334,7 +295,7 @@ namespace Fanex.OddsFeed.WebService.Controllers
             column3Data.Columns.Add(columnName, typeof(string));
             while (i < sumCol1 + sumCol2 + sumCol3)
             {
-                DataRow row = column3Data.NewRow();
+                var row = column3Data.NewRow();
                 row[columnID] = dt.Rows[i][columnID].ToString();
                 row[columnName] = dt.Rows[i][columnName].ToString();
                 column3Data.Rows.Add(row);
@@ -342,17 +303,6 @@ namespace Fanex.OddsFeed.WebService.Controllers
             }
         }
 
-        /// <summary>
-        /// Gets the odds feed.
-        /// </summary>
-        /// <param name="oddProfile">The odd profile.</param>
-        /// <param name="username">The username.</param>
-        /// <param name="timestamp">The timestamp.</param>
-        /// <param name="domain">The domain.</param>
-        /// <param name="filter">The filter.</param>
-        /// <param name="isSample">If set to <c>true</c> [is sample].</param>
-        /// <param name="outrights">If set to <c>true</c> [outrights].</param>
-        /// <returns>Xml Element.</returns>
         private XmlElement GetOddsFeed(
                                                             ref OddsProfile oddProfile,
                                                             string username,
@@ -379,10 +329,10 @@ namespace Fanex.OddsFeed.WebService.Controllers
                 oddProfile = partner.OddsProfile;
                 oddProfile.Domain = domainName;
 
-                Log.Info("2. Get Odds from Cache of " + username + "---" + DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss.fff"));
-                var of = new Fanex.OddsFeed.Library.OddsFeed(partner.OddsProfile, partner.SystemName, domainName, ip, timestamp);
-                Log.Info("3. Build XML Document " + username + "---" + DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss.fff"));
-                var xmlDocument = of.BuildXmlDocument(partner.Timestamp, filter, isSample, outrights);
+                _logService.Info("2. Get Odds from Cache of " + username + "---" + DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss.fff"));
+                var service = new WebOddsFeedService(partner.OddsProfile, partner.SystemName, domainName, ip, timestamp);
+                _logService.Info("3. Build XML Document " + username + "---" + DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss.fff"));
+                var xmlDocument = service.BuildXmlDocument(partner.Timestamp, filter, isSample, outrights);
 
                 return xmlDocument;
             }
@@ -394,15 +344,15 @@ namespace Fanex.OddsFeed.WebService.Controllers
         /// Gets the virtual path.
         /// </summary>
         /// <returns>System String.</returns>
-        private string GetVirtualPath()
+        private static string GetVirtualPath()
         {
-            string feedUrlPath = ConfigurationManager.AppSettings["FeedUrlPath"].ToString();
+            var feedUrlPath = ConfigurationManager.AppSettings["FeedUrlPath"].ToString();
             if (!string.IsNullOrEmpty(feedUrlPath))
             {
                 feedUrlPath += "/";
             }
 
-            string virtualPathWebService = ConfigurationManager.AppSettings["VirtualPathWebService"].ToString();
+            var virtualPathWebService = ConfigurationManager.AppSettings["VirtualPathWebService"].ToString();
             if (!string.IsNullOrEmpty(virtualPathWebService))
             {
                 virtualPathWebService += "/";

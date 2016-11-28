@@ -8,7 +8,7 @@
 
         public string BetChoice { get; set; }
 
-        public int Odds { get; set; }
+        public decimal Odds { get; set; }
 
         public string OddsInfo { get; set; }
     }

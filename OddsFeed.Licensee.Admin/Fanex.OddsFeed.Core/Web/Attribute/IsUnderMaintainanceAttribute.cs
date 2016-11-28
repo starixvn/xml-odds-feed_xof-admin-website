@@ -28,8 +28,8 @@ namespace Fanex.OddsFeed.Core.Web.Attribute
         /// <param name="filterContext">The filter context.</param>
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            string startTime = string.Empty;
-            string endTime = string.Empty;
+            var startTime = string.Empty;
+            var endTime = string.Empty;
 
             if (Utilities.GetDownTime(out startTime, out endTime))
             {

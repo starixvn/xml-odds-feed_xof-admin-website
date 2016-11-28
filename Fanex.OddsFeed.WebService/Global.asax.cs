@@ -42,7 +42,7 @@ namespace Fanex.OddsFeed.WebService
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            string _feedUrlPath = ConfigurationManager.AppSettings["FeedUrlPath"].ToString();
+            var _feedUrlPath = ConfigurationManager.AppSettings["FeedUrlPath"].ToString();
             if (!string.IsNullOrEmpty(_feedUrlPath))
             {
                 _feedUrlPath += "/";
@@ -93,7 +93,7 @@ namespace Fanex.OddsFeed.WebService
         /// <param name="e">Event args.</param>
         protected void Application_Error(object sender, EventArgs e)
         {
-            Exception ex = Server.GetLastError();
+            var ex = Server.GetLastError();
             Response.Clear();
             Server.ClearError();
 
@@ -101,11 +101,11 @@ namespace Fanex.OddsFeed.WebService
             if (ex != null && !(ex is HttpException) && !(ex is FormatException))
             {
                 ////write log
-                string startTime = string.Empty;
-                string endTime = string.Empty;
+                var startTime = string.Empty;
+                var endTime = string.Empty;
                 if (!Utilities.GetDownTime(out startTime, out endTime))
                 {
-                    string[] message = new string[]
+                    var message = new string[]
                         {
                             "ENVIRONMENT: " + ConfigurationManager.AppSettings["Environment"].ToString(),
                             "ERROR: " + ex.Message,
@@ -124,7 +124,7 @@ namespace Fanex.OddsFeed.WebService
             }
             else
             {
-                Exception err = new Exception("Sorry for the inconvenience! We are not able to process your request this time. Please try again later");
+                var err = new Exception("Sorry for the inconvenience! We are not able to process your request this time. Please try again later");
                 var routeData = new RouteData();
                 routeData.Values["controller"] = "Errors";
                 routeData.Values["action"] = "Index";

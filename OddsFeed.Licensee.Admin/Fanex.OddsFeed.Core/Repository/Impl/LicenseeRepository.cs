@@ -32,9 +32,9 @@ namespace Fanex.OddsFeed.Core.Repository.Impl
         /// <returns>Partners Profile.</returns>
         public PartnersProfile GetProfileAllPartnersBySystemId(ICriteria criteria)
         {
-            PartnersProfile partnersProfile = new PartnersProfile();
+            var partnersProfile = new PartnersProfile();
 
-            Hashtable hash = criteria.GetSpParams();
+            var hash = criteria.GetSpParams();
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
                 db.ExecuteNonQuery(hash);

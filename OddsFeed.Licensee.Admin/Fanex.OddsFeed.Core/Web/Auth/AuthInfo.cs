@@ -61,9 +61,12 @@ namespace Fanex.OddsFeed.Core.Web.Auth
 
         public static AuthInfo CreateUserData(string authInfoXml)
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(AuthInfo));
-            AuthInfo authInfo = (AuthInfo)serializer.Deserialize(new StringReader(authInfoXml));
-            return authInfo;
+            var serializer = new XmlSerializer(typeof(AuthInfo));
+            using (var stringReader = new StringReader(authInfoXml))
+            {
+                var authInfo = (AuthInfo)serializer.Deserialize(stringReader);
+                return authInfo;
+            }
         }
 
         /// <summary>
@@ -72,10 +75,10 @@ namespace Fanex.OddsFeed.Core.Web.Auth
         /// <returns>Object System.String.</returns>
         public string ToXml()
         {
-            string xml = string.Empty;
+            var xml = string.Empty;
             using (StringWriter sw = new StringWriter())
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(AuthInfo));
+                var serializer = new XmlSerializer(typeof(AuthInfo));
                 serializer.Serialize(sw, this);
                 sw.Close();
                 xml = sw.ToString();

@@ -29,7 +29,7 @@ namespace Fanex.OddsFeed.WebService.Controllers
         /// <returns>System String.</returns>
         public string Index(string username)
         {
-            if (Convert.ToBoolean(ConfigurationManager.AppSettings["IsDisableUMTimeFlag"]) == false)
+            if (!Convert.ToBoolean(ConfigurationManager.AppSettings["IsDisableUMTimeFlag"]))
             {
                 if (username.ToLower() != "betdaq")
                 {
@@ -37,8 +37,8 @@ namespace Fanex.OddsFeed.WebService.Controllers
                 }
 
                 // check UM Time
-                string startTime = string.Empty;
-                string endTime = string.Empty;
+                var startTime = string.Empty;
+                var endTime = string.Empty;
 
                 if (Utilities.GetDownTime(out startTime, out endTime))
                 {
@@ -108,13 +108,13 @@ namespace Fanex.OddsFeed.WebService.Controllers
                              };
 
                 // check UM Time
-                string startTime = string.Empty;
-                string endTime = string.Empty;
-                var ret = Utilities.GetDownTime(out startTime, out endTime) == true
+                var startTime = string.Empty;
+                var endTime = string.Empty;
+                var ret = Utilities.GetDownTime(out startTime, out endTime)
                             ? DbHelper.ExecuteDbResult(ConfigurationManager.AppSettings["SPTestingUMTime"].ToString(), hash)
                             : DbHelper.ExecuteDbResult(Utilities.RealSp("SP.InsertBetDaq"), hash);
 
-                int indexTable = ret.ResultSet.Tables.Count - 1;
+                var indexTable = ret.ResultSet.Tables.Count - 1;
                 return ResultInsertBetDaq(ret.ResultSet.Tables[indexTable]);
             }
 
@@ -128,7 +128,7 @@ namespace Fanex.OddsFeed.WebService.Controllers
         /// <returns>System String.</returns>
         private string ResultInsertBetDaq(DataTable dt)
         {
-            DataRow dr = dt.Rows[0];
+            var dr = dt.Rows[0];
             switch (dr["ErrCode"].ToString())
             {
                 case "0":

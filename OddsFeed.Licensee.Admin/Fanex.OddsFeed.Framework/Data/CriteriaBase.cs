@@ -41,12 +41,12 @@ namespace Fanex.OddsFeed.Framework.Data
         public virtual Hashtable GetSpParams()
         {
             var storeProcNameParams = new Hashtable();
-            Type type = this.GetType();
+            var type = this.GetType();
 
             foreach (PropertyInfo propertyInfo in type.GetProperties())
             {
-                Type typeOfPropertyAttribute = typeof(SpParamAttribute);
-                SpParamAttribute attr = (SpParamAttribute)Attribute.GetCustomAttribute(propertyInfo, typeOfPropertyAttribute);
+                var typeOfPropertyAttribute = typeof(SpParamAttribute);
+                var attr = (SpParamAttribute)Attribute.GetCustomAttribute(propertyInfo, typeOfPropertyAttribute);
 
                 if (attr == null)
                 {
@@ -70,12 +70,12 @@ namespace Fanex.OddsFeed.Framework.Data
         /// <returns>The hash table contains parameters of store procedure name.</returns>
         public virtual Hashtable AddSpParams(Hashtable storeProcParamName)
         {
-            Type type = this.GetType();
+            var type = this.GetType();
 
             foreach (PropertyInfo propertyInfo in type.GetProperties())
             {
-                Type typeOfPropertyAttribute = typeof(SpParamAttribute);
-                SpParamAttribute attr = (SpParamAttribute)Attribute.GetCustomAttribute(propertyInfo, typeOfPropertyAttribute);
+                var typeOfPropertyAttribute = typeof(SpParamAttribute);
+                var attr = (SpParamAttribute)Attribute.GetCustomAttribute(propertyInfo, typeOfPropertyAttribute);
 
                 if (attr == null)
                 {

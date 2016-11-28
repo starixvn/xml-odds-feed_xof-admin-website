@@ -52,50 +52,60 @@ namespace Fanex.OddsFeed.Core.Repository.Impl
         public DataCollection GetAllDomain(ICriteria criteria)
         {
             var res = new DataCollection();
-            var db = new ObjectDb(criteria.GetSettingKey());
-            db.AssignParamValues(criteria.GetSpParams());
-            res.Data = db.ExecuteDataSet();
-            res.TotalItem = (int)db.GetOuputParams()["rowcount"];
-            return res;
+            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            {
+                db.AssignParamValues(criteria.GetSpParams());
+                res.Data = db.ExecuteDataSet();
+                res.TotalItem = (int)db.GetOuputParams()["rowcount"];
+                return res;
+            }
         }
 
         public DataCollection GetDomainSetting(ICriteria criteria)
         {
             var res = new DataCollection();
-            var db = new ObjectDb(criteria.GetSettingKey());
-            db.AssignParamValues(criteria.GetSpParams());
-            res.Data = db.ExecuteDataSet();
-            res.TotalItem = (int)db.GetOuputParams()["rowcount"];
-            return res;
+            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            {
+                db.AssignParamValues(criteria.GetSpParams());
+                res.Data = db.ExecuteDataSet();
+                res.TotalItem = (int)db.GetOuputParams()["rowcount"];
+                return res;
+            }
         }
 
         #region IDomainRepository Members
 
         public int CreateDomain(ICriteria criteria)
         {
-            var db = new ObjectDb(criteria.GetSettingKey());
-            db.AssignParamValues(criteria.GetSpParams());
-            db.ExecuteNonQuery();
+            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            {
+                db.AssignParamValues(criteria.GetSpParams());
+                db.ExecuteNonQuery();
 
-            return (int)db.GetOuputParams()["errcode"];
+                return (int)db.GetOuputParams()["errcode"];
+            }
         }
 
         public int UpdateDomain(ICriteria criteria)
         {
-            var db = new ObjectDb(criteria.GetSettingKey());
-            db.AssignParamValues(criteria.GetSpParams());
-            db.ExecuteNonQuery();
+            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            {
+                db.AssignParamValues(criteria.GetSpParams());
+                db.ExecuteNonQuery();
 
-            return (int)db.GetOuputParams()["errcode"];
+                return (int)db.GetOuputParams()["errcode"];
+            }
         }
 
         public int DeleteDomain(ICriteria criteria)
         {
-            var db = new ObjectDb(criteria.GetSettingKey());
-            db.AssignParamValues(criteria.GetSpParams());
-            db.ExecuteNonQuery();
+            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            {
+                db.AssignParamValues(criteria.GetSpParams());
+                db.ExecuteNonQuery();
 
-            return (int)db.GetOuputParams()["errcode"];
+                return (int)db.GetOuputParams()["errcode"];
+            }
         }
 
         #endregion

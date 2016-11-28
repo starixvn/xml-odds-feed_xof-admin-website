@@ -21,14 +21,7 @@ namespace Fanex.OddsFeed.Library.Model
     {       
         public BaseModel(string pluralName = null)
         {
-            if (string.IsNullOrEmpty(pluralName))
-            {
-                PluralName = this.GetType().Name + "s";
-            }
-            else
-            {
-                PluralName = pluralName;
-            }
+            PluralName = string.IsNullOrEmpty(pluralName) ? GetType().Name + "s" : pluralName;
         }
 
         public static string PluralName { get; set; }

@@ -16,6 +16,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
     using System.Linq;
     using System.Text;
     using System.Web.Mvc;
+    using Common;
     using Fanex.NAP.Core.Configuration;
     using Fanex.NAP.Core.Web;
     using Fanex.OddsFeed.Core.Business;
@@ -34,9 +35,9 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
         protected const int NapAdminId = 1;
 
-        protected readonly string Environment = NapSettings.Settings.Environment;
+        //protected readonly string Environment = NapSettings.Settings.Environment;
 
-        protected readonly int SiteId = NapSettings.Settings.SiteId;
+        //protected readonly int SiteId = NapSettings.Settings.SiteId;
                
         protected readonly ICurrentContext CurrentContext;
 
@@ -44,7 +45,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
         protected readonly IServiceContext ServiceContext;
 
-        private int _issiteLogin = NapSettings.Settings.IsSiteLogin;
+        //private int _issiteLogin = NapSettings.Settings.IsSiteLogin;
 
         private ViewFlags _viewFlags;   
 
@@ -71,7 +72,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
             ViewBag.CurrentTheme = "Default";
             ViewBag.IsDashboard = false;
 
-            string[] navigationHome = new string[]
+            var navigationHome = new string[]
                                                 {
                                                     "<a class='step' href='",
                                                     ViewBag.CurrentDomain,
@@ -133,9 +134,9 @@ namespace Fanex.OddsFeed.Admin.Controllers
             }
         }
 
-        public string DataForAutoComplete(DataTable dt, string fieldName)
+        public static string DataForAutoComplete(DataTable dt, string fieldName)
         {
-            StringBuilder builder = new StringBuilder();
+            var builder = new StringBuilder();
             foreach (DataRow row in dt.Rows)
             {
                 builder.Append(row[fieldName].ToString());
@@ -154,12 +155,14 @@ namespace Fanex.OddsFeed.Admin.Controllers
         /// <returns>Represents a JSON-formatted content.</returns>
         public JsonResult JsonForAutoComplete(DataTable dt, string valueName, string labelName)
         {
-            List<JSONSource> list = new List<JSONSource>();
+            var list = new List<JSONSource>();
             foreach (DataRow row in dt.Rows)
             {
-                var data = new JSONSource();
-                data.Value = row[valueName].ToString();
-                data.Label = row[labelName].ToString();
+                var data = new JSONSource
+                {
+                    Value = row[valueName].ToString(),
+                    Label = row[labelName].ToString()
+                };
                 list.Add(data);
             }
 
@@ -194,13 +197,13 @@ namespace Fanex.OddsFeed.Admin.Controllers
         /// <returns>The virtual path.</returns>
         public string GetVirtualPath()
         {
-            string feedUrlPath = ConfigurationManager.AppSettings["FeedUrlPath"].ToString();
+            var feedUrlPath = ConfigurationManager.AppSettings["FeedUrlPath"].ToString();
             if (!string.IsNullOrEmpty(feedUrlPath))
             {
                 feedUrlPath += "/";
             }
 
-            string virtualPathWebService = ConfigurationManager.AppSettings["VirtualPathWebService"].ToString();
+            var virtualPathWebService = ConfigurationManager.AppSettings["VirtualPathWebService"].ToString();
             if (!string.IsNullOrEmpty(virtualPathWebService))
             {
                 virtualPathWebService += "/";
@@ -219,18 +222,18 @@ namespace Fanex.OddsFeed.Admin.Controllers
             var delayTimeList = new List<SelectListItem>();
             if (config.Count() >= 2)
             {
-                int cacheInterval = int.TryParse(config.Where(m => m.Text == "CacheInterval").ToList()[0].Value, out cacheInterval) ? cacheInterval : 0;
-                int numberOfCacheVersion = int.TryParse(config.Where(m => m.Text == "NumberOfCacheVersion").ToList()[0].Value, out numberOfCacheVersion)
-                                                        ? numberOfCacheVersion : 0;
+                var cacheInterval = Converter.ToInt(config.Where(m => m.Text == "CacheInterval").ToList()[0].Value, 0);
+                var numberOfCacheVersion = Converter.ToInt(config.Where(m => m.Text == "NumberOfCacheVersion").ToList()[0].Value, 0);
 
                 for (int i = 0; i <= numberOfCacheVersion * cacheInterval; i += 5)
                 {
-                    delayTimeList.Add(new SelectListItem() { Text = i.ToString(), Value = i.ToString() });
+                    delayTimeList.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
                 }
             }
 
             return delayTimeList;
-        }      
+        }
+         
         #endregion
     }
 }

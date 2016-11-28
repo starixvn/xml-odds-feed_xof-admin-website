@@ -74,11 +74,11 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 SystemID = CurrentSession.SystemId
             };
 
-            DataSet ds = _dashboardService.GetAccountStatisticsDataSet(criteria);
+            var ds = _dashboardService.GetAccountStatisticsDataSet(criteria);
             if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
             {
-                DataRow row = ds.Tables[0].Rows[0];
-                string lastRequestName = row[4].ToString();
+                var row = ds.Tables[0].Rows[0];
+                var lastRequestName = row[4].ToString();
 
                 ViewBag.TotalAff = row[0].ToString();
                 ViewBag.TotalSubAcc = row[1].ToString();
@@ -105,7 +105,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 UserID = CurrentSession.UserId,
             };
             criteria.PageIndex++;
-            DataSet ds = _dashboardService.GetLoginInfoReturnDataSet(criteria);
+            var ds = _dashboardService.GetLoginInfoReturnDataSet(criteria);
             return GenerateLogInInfoTable(ds);
         }
 
@@ -125,10 +125,10 @@ namespace Fanex.OddsFeed.Admin.Controllers
             {
                 UserID = CurrentSession.UserId,
                 RoleID = CurrentSession.UserRole,
-                SystemID = CurrentSession.SystemId
+                SystemID = CurrentSession.SystemId,
+                PageIndex = Convert.ToInt16(pageIndex) + 1,
+                PageSize = Convert.ToInt16(pageSize)
             };
-            criteria.PageIndex = Convert.ToInt16(pageIndex) + 1;
-            criteria.PageSize = Convert.ToInt16(pageSize);
             var dr = _dashboardService.GetCurrentOnlineUserReturnDataCollection(criteria);
             return FanexGridHelper.DataForFanexGrid(dr);
         }
@@ -149,10 +149,10 @@ namespace Fanex.OddsFeed.Admin.Controllers
             {
                 UserID = optionActivities == 1 ? CurrentSession.UserId : 0,
                 RoleID = CurrentSession.UserRole,
-                SystemID = CurrentSession.SystemId
+                SystemID = CurrentSession.SystemId,
+                PageIndex = Convert.ToInt16(pageIndex) + 1,
+                PageSize = Convert.ToInt16(pageSize)
             };
-            criteria.PageIndex = Convert.ToInt16(pageIndex) + 1;
-            criteria.PageSize = Convert.ToInt16(pageSize);
             var dr = _dashboardService.GetRecentActivitiesReturnDataCollection(criteria);
             return FanexGridHelper.DataForFanexGrid_PreventContainQuote(dr);
         }
@@ -167,7 +167,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
         /// <returns>The content of log information table.</returns>
         private string GenerateLogInInfoTable(DataSet ds)
         {
-            string htmlStr = "<table id=\"logininfotable\"><tr><th>Last login time</th><th>Last login IP</th></tr>";
+            var htmlStr = "<table id=\"logininfotable\"><tr><th>Last login time</th><th>Last login IP</th></tr>";
 
             if (ds == null || ds.Tables.Count == 0)
             {
@@ -175,12 +175,12 @@ namespace Fanex.OddsFeed.Admin.Controllers
             }
             else
             {
-                DataTable dt = ds.Tables[0];
-                int rowCounter = dt.Rows.Count;
+                var dt = ds.Tables[0];
+                var rowCounter = dt.Rows.Count;
 
                 for (int i = 0; i < rowCounter; i++)
                 {
-                    string[] htmlElement = new string[]
+                    var htmlElement = new string[]
                                                     {
                                                         "<tr><td>",
                                                         dt.Rows[i]["LastLoginTime"] == null ? string.Empty : dt.Rows[i]["LastLoginTime"].ToString(),

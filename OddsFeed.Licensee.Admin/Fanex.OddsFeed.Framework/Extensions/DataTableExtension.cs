@@ -55,7 +55,7 @@ namespace Fanex.OddsFeed.Framework.Extensions
         /// <param name="dataTable">Table is added new row.</param>
         public static void AddSumRow(this DataTable dataTable)
         {
-            DataRow newDataRow = dataTable.NewRow();
+            var newDataRow = dataTable.NewRow();
             foreach (DataColumn column in dataTable.Columns)
             {
                 // If Numeric, do this
@@ -63,7 +63,7 @@ namespace Fanex.OddsFeed.Framework.Extensions
                 {
                     double sumOfColumn = 0;
                     double valueOfCell = 0;
-                    bool isdouble = false;
+                    var isdouble = false;
                     foreach (DataRow row in dataTable.Rows)
                     {
                         valueOfCell = 0;

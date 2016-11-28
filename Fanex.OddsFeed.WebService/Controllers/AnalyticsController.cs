@@ -1,24 +1,12 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="AnalyticsController.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Thai.Tran" date="2013.1.7">Created</change>
-// </history>
-namespace Fanex.OddsFeed.WebService.Controllers
+﻿namespace Fanex.OddsFeed.WebService.Controllers
 {
     using System.Collections.Generic;
     using System.Configuration;
-    using System.Diagnostics.CodeAnalysis;
     using System.Web.Mvc;
     using Fanex.OddsFeed.Library;
-    using Fanex.OddsFeed.Library.Matchs;
-    using Fanex.OddsFeed.Library.Outrights;
+    using Library.Configurations;
+    using Library.Nodes;
 
-    /// <summary>
-    /// Class AnalyticsController.
-    /// </summary>
     public class AnalyticsController : Controller
     {
         /// <summary>
@@ -28,17 +16,18 @@ namespace Fanex.OddsFeed.WebService.Controllers
         public ActionResult Cache()
         {
             var totalVersion = int.Parse(ConfigurationManager.AppSettings.Get("TotalVersion"));
-            string result = string.Format("<h3>Current version: {0}, Full chain: {1}</h3>", Caching.GetCurrentVersion(), Caching.IsFullChain());
-            var prefix = ConfigurationManager.AppSettings["Cache.Prefix"];
-            for (var i = 0; i < totalVersion; i++)
+            var result = string.Format("<h3>Current version: {0}, Full chain: {1}</h3>", OddFeedDataCachingOperator.GetCurrentVersion(), OddFeedDataCachingOperator.IsFullChain());
+            var cachePrefix = AppSettings.CachePrefix;
+
+            for (var version = 0; version < totalVersion; version++)
             {
-                var match = Caching.Get(prefix + "deadballmatches" + i) as IList<Match>;
-                var _event = Caching.Get(prefix + "events" + i) as IList<Event>;
+                var matches = OddFeedDataCachingOperator.GetMatchs(version);
+                var outrights = OddFeedDataCachingOperator.GetOutRight(version);
 
-                var m = match == null ? 0 : match.Count;
-                var e = _event == null ? 0 : _event.Count;
+                var matchCount = matches == null ? 0 : matches.Count;
+                var outrightCount = outrights == null ? 0 : outrights.Count;
 
-                result += string.Format("<h3>Version: {0}, match: {1}, event: {2}</h3>", i, m, e);
+                result += string.Format("<h3>Version: {0}, match: {1}, event: {2}</h3>", version, matchCount, outrightCount);
             }
 
             ViewBag.Result = result;

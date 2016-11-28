@@ -352,7 +352,7 @@ namespace Fanex.OddsFeed.Core.Service.Impl
 
                 if (criteria.IsValid())
                 {
-                    IEnumerable<RequestStatistic> list = _partnerStatisticRepository.Fetch(criteria);
+                    var list = _partnerStatisticRepository.Fetch(criteria);
 
                     return list;
                 }

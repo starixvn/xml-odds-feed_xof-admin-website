@@ -58,7 +58,7 @@ namespace Fanex.OddsFeed.Admin
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         protected void Application_Error(object sender, EventArgs e)
         {
-            Exception ex = Server.GetLastError().GetBaseException();
+            var ex = Server.GetLastError().GetBaseException();
             Response.Clear();
             Server.ClearError();
 

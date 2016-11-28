@@ -50,11 +50,13 @@ namespace Fanex.OddsFeed.Core.Repository.Impl
         public object ReturnSingleValue(ICriteria criteria)
         {
             // prepare SP parameters
-            Hashtable hash = criteria.GetSpParams();
+            var hash = criteria.GetSpParams();
 
-            var db = new ObjectDb(criteria.GetSettingKey());
-            db.AssignParamValues(hash);
-            return db.ExecuteScalar();
+            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            {
+                db.AssignParamValues(hash);
+                return db.ExecuteScalar();
+            }
         }
 
         /// <summary>
@@ -66,7 +68,7 @@ namespace Fanex.OddsFeed.Core.Repository.Impl
         public ICommandResult ReturnICommandResult(ICriteria criteria, ICriteria logCriteria)
         {
             // prepare SP parameters
-            Hashtable hash = criteria.GetSpParams();
+            var hash = criteria.GetSpParams();
 
             hash = logCriteria.AddSpParams(hash);
             hash = (new ResultCriteria()).AddSpParams(hash);
@@ -79,16 +81,10 @@ namespace Fanex.OddsFeed.Core.Repository.Impl
             }
         }
 
-        /// <summary>
-        /// Returns the i command result.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        /// <param name="logCriteria">The log criteria.</param>
-        /// <returns>ICommand Result.</returns>
         public ICommandResult ReturnICommandResult(ICriteria criteria)
         {
             // prepare SP parameters
-            Hashtable hash = criteria.GetSpParams();
+            var hash = criteria.GetSpParams();
 
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
@@ -107,26 +103,22 @@ namespace Fanex.OddsFeed.Core.Repository.Impl
         public IDataReader ReturnDataReader(ICriteria criteria, ICriteria logCriteria)
         {
             // prepare SP parameters
-            Hashtable hash = criteria.GetSpParams();
+            var hash = criteria.GetSpParams();
 
             hash = logCriteria.AddSpParams(hash);
             hash = (new ResultCriteria()).AddSpParams(hash);
 
-            var db = new ObjectDb(criteria.GetSettingKey());
-            db.AssignParamValues(hash);
-            return db.ExecuteReader();
+            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            {
+                db.AssignParamValues(hash);
+                return db.ExecuteReader();
+            }
         }
 
-        /// <summary>
-        /// Returns the data reader.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        /// <param name="logCriteria">The log criteria.</param>
-        /// <returns>IData Reader.</returns>
         public IDataReader ReturnDataReader(ICriteria criteria)
         {
             // prepare SP parameters
-            Hashtable hash = criteria.GetSpParams();
+            var hash = criteria.GetSpParams();
 
             var db = new ObjectDb(criteria.GetSettingKey());
             db.AssignParamValues(hash);
@@ -142,7 +134,7 @@ namespace Fanex.OddsFeed.Core.Repository.Impl
         public DataSet ReturnDataSet(ICriteria criteria, ICriteria logCriteria)
         {
             // prepare SP parameters
-            Hashtable hash = criteria.GetSpParams();
+            var hash = criteria.GetSpParams();
 
             hash = logCriteria.AddSpParams(hash);
             hash = (new ResultCriteria()).AddSpParams(hash);
@@ -152,16 +144,10 @@ namespace Fanex.OddsFeed.Core.Repository.Impl
             return db.ExecuteDataSet();
         }
 
-        /// <summary>
-        /// Returns the data set.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        /// <param name="logCriteria">The log criteria.</param>
-        /// <returns>The DataSet.</returns>
         public DataSet ReturnDataSet(ICriteria criteria)
         {
             // prepare SP parameters
-            Hashtable hash = criteria.GetSpParams();
+            var hash = criteria.GetSpParams();
 
             var db = new ObjectDb(criteria.GetSettingKey());
             db.AssignParamValues(hash);
@@ -177,7 +163,7 @@ namespace Fanex.OddsFeed.Core.Repository.Impl
         public DataCollection ReturnDataCollection(ICriteria criteria, ICriteria logCriteria)
         {
             // prepare SP parameters
-            Hashtable hash = criteria.GetSpParams();
+            var hash = criteria.GetSpParams();
 
             hash = logCriteria.AddSpParams(hash);
             hash = (new ResultCriteria()).AddSpParams(hash);
@@ -194,16 +180,10 @@ namespace Fanex.OddsFeed.Core.Repository.Impl
             }
         }
 
-        /// <summary>
-        /// Returns the data collection.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        /// <param name="logCriteria">The log criteria.</param>
-        /// <returns>Data Collection.</returns>
         public DataCollection ReturnDataCollection(ICriteria criteria)
         {
             // prepare SP parameters
-            Hashtable hash = criteria.GetSpParams();
+            var hash = criteria.GetSpParams();
 
             var res = new DataCollection();
 
@@ -226,7 +206,7 @@ namespace Fanex.OddsFeed.Core.Repository.Impl
         public ICommandResult Update(ICriteria criteria, ICriteria logCriteria)
         {
             // prepare SP parameters
-            Hashtable hash = criteria.GetSpParams();
+            var hash = criteria.GetSpParams();
 
             hash = logCriteria.AddSpParams(hash);
             hash = (new ResultCriteria()).AddSpParams(hash);
@@ -239,16 +219,10 @@ namespace Fanex.OddsFeed.Core.Repository.Impl
             }
         }
 
-        /// <summary>
-        /// Updates the specified criteria.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        /// <param name="logCriteria">The log criteria.</param>
-        /// <returns>ICommand Result.</returns>
         public ICommandResult Update(ICriteria criteria)
         {
             // prepare SP parameters
-            Hashtable hash = criteria.GetSpParams();
+            var hash = criteria.GetSpParams();
 
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
@@ -267,7 +241,7 @@ namespace Fanex.OddsFeed.Core.Repository.Impl
         public ICommandResult Delete(ICriteria criteria, ICriteria logCriteria)
         {
             // prepare SP parameters
-            Hashtable hash = criteria.GetSpParams();
+            var hash = criteria.GetSpParams();
 
             hash = logCriteria.AddSpParams(hash);
             hash = (new ResultCriteria()).AddSpParams(hash);
@@ -280,16 +254,10 @@ namespace Fanex.OddsFeed.Core.Repository.Impl
             }
         }
 
-        /// <summary>
-        /// Deletes the specified criteria.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        /// <param name="logCriteria">The log criteria.</param>
-        /// <returns>ICommand Result.</returns>
         public ICommandResult Delete(ICriteria criteria)
         {
             // prepare SP parameters
-            Hashtable hash = criteria.GetSpParams();
+            var hash = criteria.GetSpParams();
 
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {

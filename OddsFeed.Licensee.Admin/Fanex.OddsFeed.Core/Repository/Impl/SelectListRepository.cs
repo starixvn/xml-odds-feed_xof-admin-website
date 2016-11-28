@@ -31,7 +31,7 @@ namespace Fanex.Databank.Repositories
         /// <returns>IEnumerable of Select List Item.</returns>
         public IEnumerable<SelectListItem> Get(string settingKey, bool order = true, string selectedValue = "")
         {
-            List<SelectListItem> result = new List<SelectListItem>();
+            var result = new List<SelectListItem>();
             using (ObjectDb objectDb = new ObjectDb(settingKey))
             {
                 using (IDataReader reader = objectDb.ExecuteReader())
@@ -72,7 +72,7 @@ namespace Fanex.Databank.Repositories
         /// <returns>IEnumerable of Select List Item.</returns>
         public IEnumerable<SelectListItem> Get(ICriteria criteria, bool order = true, string selectedValue = "")
         {
-            List<SelectListItem> result = new List<SelectListItem>();
+            var result = new List<SelectListItem>();
             using (ObjectDb objectDb = new ObjectDb(criteria.GetSettingKey()))
             {
                 objectDb.AssignParamValues(criteria.GetSpParams());
@@ -113,7 +113,7 @@ namespace Fanex.Databank.Repositories
         /// <returns>Select List Item.</returns>
         public IEnumerable<SelectListItem> GetAndGenerateCheck(ICriteria criteria, bool order = true)
         {
-            List<SelectListItem> result = new List<SelectListItem>();
+            var result = new List<SelectListItem>();
             using (ObjectDb objectDb = new ObjectDb(criteria.GetSettingKey()))
             {
                 objectDb.AssignParamValues(criteria.GetSpParams());

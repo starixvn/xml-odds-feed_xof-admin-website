@@ -49,8 +49,8 @@ namespace Fanex.OddsFeed.Admin.Controllers
         
         public bool IsUnderMaintainance()
         {
-            string startTime = string.Empty;
-            string endTime = string.Empty;
+            var startTime = string.Empty;
+            var endTime = string.Empty;
 
             return Utilities.GetDownTime(out startTime, out endTime);
         }

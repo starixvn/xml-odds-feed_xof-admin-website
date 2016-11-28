@@ -1,12 +1,4 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="Utilities.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Thai.Tran" date="2013.1.7">Created</change>
-// </history>
-namespace Fanex.OddsFeed.Library
+﻿namespace Fanex.OddsFeed.Library
 {
     using ONEbook.UM.Services;
     using ONEbook.UM.Services.Impl;
@@ -18,10 +10,8 @@ namespace Fanex.OddsFeed.Library
     using System.Net;
     using System.Net.Mail;
     using System.Web;
+    using System.Security;
 
-    /// <summary>
-    /// Class Utilities.
-    /// </summary>
     public static class Utilities
     {
         private static string _oddsFormat = "F";
@@ -56,10 +46,10 @@ namespace Fanex.OddsFeed.Library
         /// <returns>The IP address.</returns>
         public static string GetIpAddressOfClient()
         {
-            string clientIp = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+            var clientIp = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
             if (!string.IsNullOrEmpty(clientIp))
             {
-                string[] forwardedIps = clientIp.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                var forwardedIps = clientIp.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                 clientIp = forwardedIps[forwardedIps.Length - 1];
             }
             else
@@ -101,7 +91,7 @@ namespace Fanex.OddsFeed.Library
         {
             string[] separator = { "," };
             var items = stringArray.Split(separator, StringSplitOptions.RemoveEmptyEntries);
-            return trim == true ? items.Select(item => item.Trim()).ToList() : items.ToList();
+            return trim ? items.Select(item => item.Trim()).ToList() : items.ToList();
         }
 
         public static decimal ToHkOdds(decimal malayOdds)
@@ -118,7 +108,11 @@ namespace Fanex.OddsFeed.Library
 
         public static decimal ToDecimalOddsFromMalayOdds(decimal malayOdds)
         {
-            ////as malayOdd always <= 1
+            if (malayOdds == 0)
+            {
+                return malayOdds;
+            }
+            
             if (malayOdds <= 1)
             {
                 return ToDecimalOddsFromHkOdds(ToHkOdds(malayOdds));
@@ -140,6 +134,11 @@ namespace Fanex.OddsFeed.Library
         /// <returns>System Decimal.</returns>
         public static decimal ConvertOdds(int oddsRegion, decimal decimalOdds)
         {
+            if (decimalOdds == 0)
+            {
+                return decimalOdds;
+            }
+
             switch (oddsRegion)
             {
                 case 1:
@@ -147,13 +146,13 @@ namespace Fanex.OddsFeed.Library
                 case 2:
                     return DecimalToHK(decimalOdds); //// HongKongOdds
                 case 3:
-                    return Utilities.Floor(decimalOdds); ////DecimalOdds
+                    return Floor(decimalOdds); ////DecimalOdds
                 case 4:
                     return DecimalToIndo(decimalOdds); ////IndoOdds
                 case 5:
                     return DecimalToUS(decimalOdds); ////USOdds
                 default:
-                    return Utilities.Floor(decimalOdds);
+                    return Floor(decimalOdds);
             }
         }
 
@@ -174,39 +173,43 @@ namespace Fanex.OddsFeed.Library
         /// <returns><c>true</c> If XXXX, <c>false</c> otherwise.</returns>
         public static bool SendEmail(string from, string to, string subject, string body)
         {
-            SmtpClient client = new SmtpClient();
-            client.DeliveryMethod = SmtpDeliveryMethod.Network;
-            client.EnableSsl = bool.Parse(ConfigurationManager.AppSettings["SmtpClient.EnableSsl"]);
-            client.Host = ConfigurationManager.AppSettings["SmtpClient.Host"];
-            client.Port = int.Parse(ConfigurationManager.AppSettings["SmtpClient.Port"]);
-
-            //// setup Smtp authentication
-            NetworkCredential credentials = new System.Net.NetworkCredential(
-                                                                ConfigurationManager.AppSettings["SmtpClient.Account"],
-                                                                ConfigurationManager.AppSettings["SmtpClient.Password"]);
-
-            client.UseDefaultCredentials = false;
-            client.Credentials = credentials;
-            client.DeliveryMethod = SmtpDeliveryMethod.Network;
-
-            MailAddress _from = new MailAddress(from, from, System.Text.Encoding.UTF8);
-            MailAddress _to = new MailAddress(to, to, System.Text.Encoding.UTF8);
-            MailMessage message = new MailMessage(_from, _to);
-            message.SubjectEncoding = System.Text.Encoding.UTF8;
-            message.Subject = subject;
-            message.BodyEncoding = System.Text.Encoding.UTF8;
-            message.IsBodyHtml = true;
-            message.Body = body;
-            try
+            using (var client = new SmtpClient
             {
-                client.SendAsync(message, Guid.NewGuid());
-            }
-            catch
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                EnableSsl = bool.Parse(ConfigurationManager.AppSettings["SmtpClient.EnableSsl"]),
+                Host = ConfigurationManager.AppSettings["SmtpClient.Host"],
+                Port = int.Parse(ConfigurationManager.AppSettings["SmtpClient.Port"])
+            })
             {
-                return false;
-            }
+                var credentials = new System.Net.NetworkCredential(
+                                                                    ConfigurationManager.AppSettings["SmtpClient.Account"],
+                                                                    ConfigurationManager.AppSettings["SmtpClient.Password"]);
 
-            return true;
+                client.UseDefaultCredentials = false;
+                client.Credentials = credentials;
+                client.DeliveryMethod = SmtpDeliveryMethod.Network;
+
+                var _from = new MailAddress(from, from, System.Text.Encoding.UTF8);
+                var _to = new MailAddress(to, to, System.Text.Encoding.UTF8);
+                var message = new MailMessage(_from, _to)
+                {
+                    SubjectEncoding = System.Text.Encoding.UTF8,
+                    Subject = subject,
+                    BodyEncoding = System.Text.Encoding.UTF8,
+                    IsBodyHtml = true,
+                    Body = body
+                };
+                try
+                {
+                    client.SendAsync(message, Guid.NewGuid());
+                }
+                catch
+                {
+                    return false;
+                }
+
+                return true;
+            }
         }
 
         /// <summary>
@@ -222,6 +225,11 @@ namespace Fanex.OddsFeed.Library
             endTime = umTime.To;
 
             return umTime.IsUnderMaintenanceTime; ;
+        }
+
+        public static bool IsDownTime()
+        {
+            return _maintenanceService.IsUnderMaintenance();
         }
 
         #region Convert Odds From Decimal
@@ -257,17 +265,9 @@ namespace Fanex.OddsFeed.Library
         /// <returns>System Decimal.</returns>
         public static decimal DecimalToHK(decimal dec)
         {
-            decimal hongKong;
-            if (dec <= 1)
-            {
-                hongKong = 0;
-            }
-            else
-            {
-                hongKong = dec - 1;
-            }
+            var hongKong = dec <= 1 ? 0 : dec - 1;
 
-            return Utilities.Floor(hongKong);
+            return Floor(hongKong);
         }
 
         /// <summary>
@@ -291,7 +291,7 @@ namespace Fanex.OddsFeed.Library
                 indo = 1 / (1 - dec);
             }
 
-            return Utilities.Floor(indo);
+            return Floor(indo);
         }
 
         /// <summary>
@@ -322,7 +322,7 @@ namespace Fanex.OddsFeed.Library
 
         public static decimal Floor(decimal value, int decimalPlaces = 2)
         {
-            decimal adjustment = (decimal)Math.Pow(10, decimalPlaces);
+            var adjustment = (decimal)Math.Pow(10, decimalPlaces);
             return Math.Floor(value * adjustment) / adjustment;
         }
 
@@ -346,6 +346,11 @@ namespace Fanex.OddsFeed.Library
             }
 
             return result.ToString(_totalFormat);
+        }
+
+        public static string EscapeXML(string content)
+        {
+            return SecurityElement.Escape(content);
         }
     }
 }

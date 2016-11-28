@@ -104,7 +104,7 @@
       <Mapping DataField="PartnerId" ObjectProperty="Id" />
       <Mapping DataField="UserName" ObjectProperty="Name" />
     </Setting>    
-    <Setting Key="Odds_PartnerProfileSelByID" SpName="Odds_PartnerProfileSelByID_xtest" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
+    <Setting Key="Odds_PartnerProfileSelByID" SpName="Odds_PartnerProfileSelByID" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
     </Setting>
     
   </Function>

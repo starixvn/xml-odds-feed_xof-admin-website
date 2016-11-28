@@ -60,7 +60,7 @@ namespace Fanex.OddsFeed.Library.Model
         /// <exception cref="System.Exception">Feeds Type T BuildXmlDocument(): This generic type T is not a subclass of BaseModel.</exception>
         private string LoadData(string domainName, string ip, string username, int? fromid)
         {
-            Type t = typeof(T);
+            var t = typeof(T);
             var tableName = t.Name;                       
 
             var db = DbConnect.GetOcsData(tableName, domainName, ip, username, fromid);
