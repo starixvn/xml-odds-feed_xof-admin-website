@@ -49,15 +49,6 @@ namespace Fanex.OddsFeed.Library.Model
             return ORMParsers.BuildJSon(rootName, _feeds);
         }
 
-        /// <summary>
-        /// Loads the data.
-        /// </summary>
-        /// <param name="domainName">Name of the domain.</param>
-        /// <param name="ip">The accessing IP.</param>
-        /// <param name="username">The username.</param>
-        /// <param name="fromid">The from id.</param>
-        /// <returns>System String.</returns>
-        /// <exception cref="System.Exception">Feeds Type T BuildXmlDocument(): This generic type T is not a subclass of BaseModel.</exception>
         private string LoadData(string domainName, string ip, string username, int? fromid)
         {
             var t = typeof(T);
@@ -68,6 +59,7 @@ namespace Fanex.OddsFeed.Library.Model
             _feeds = ORMParsers.TableToList<T>(db.ResultSet.Tables[0]);
 
             var prop = t.GetProperty("PluralName", BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance | BindingFlags.FlattenHierarchy);
+
             if (prop == null)
             {
                 throw new Exception("Feeds<T>.BuildXmlDocument(): This generic type <T> is not a subclass of BaseModel");

@@ -51,7 +51,6 @@ namespace Fanex.OddsFeed.Library
             return DbHelper.ExecuteDbResult(Utilities.RealSp("SP.GetProfileByName"), new Hashtable { { "username", userName } });
         }
         
-        //// ocs
         public static DbResult GetOcsData(string tableName, string domain, string ip, string username, int? fromid = null)
         {
             var procName = Utilities.RealSp("SP.Ocs_" + tableName);

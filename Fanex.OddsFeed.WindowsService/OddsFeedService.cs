@@ -3,12 +3,13 @@
     using System;
     using System.ServiceProcess;
     using System.Timers;
-    using Couchbase;
     using Fanex.Logging;
     using Fanex.OddsFeed.Library;
     using Library.Configurations;
     using Library.Services;
-
+    using ONEbook.UM.Services;
+    using ONEbook.UM.Services.Impl;
+    
     public partial class OddsFeedService : ServiceBase
     {
         private Timer _timer;
@@ -16,6 +17,7 @@
         private int _totalVersion;
 
         private readonly IWindowsOddsFeedService _oddsFeedService;
+        private readonly IMaintenanceService _maintenanceService;
 
         public OddsFeedService()
         {
@@ -24,6 +26,7 @@
             _totalVersion = AppSettings.TotalVersion;
 
             _oddsFeedService = new WindowsOddsFeedService();
+            _maintenanceService = new MaintenanceService();
         }
 
         protected override void OnStart(string[] args)
@@ -129,6 +132,11 @@
                 _currentVersion = 0;
                 _oddsFeedService.StoreFullChain();
             }
+        }
+
+        private bool IsDownTime()
+        {
+            return _maintenanceService.IsUnderMaintenance();
         }
     }
 }

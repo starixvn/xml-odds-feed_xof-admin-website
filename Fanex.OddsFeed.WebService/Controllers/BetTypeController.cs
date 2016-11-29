@@ -1,4 +1,4 @@
-﻿namespace Fanex.OddsFeed.WebService.BetTypes
+﻿namespace Fanex.OddsFeed.WebService.Controllers
 {
     using System.Linq;
     using System.Text;

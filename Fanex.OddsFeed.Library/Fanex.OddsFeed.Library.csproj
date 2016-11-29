@@ -252,11 +252,9 @@
     <Compile Include="Model\Sport.cs" />
     <Compile Include="Model\Team.cs" />
     <Compile Include="OddsProfile.cs" />
-    <Compile Include="Parameters\OddsFeedParameters.cs" />
     <Compile Include="Parsers\ORMParsers.cs" />
     <Compile Include="Partner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Routing\OddsRouteHandler.cs" />
     <Compile Include="Schemas\BetChoiceSchema.cs" />
     <Compile Include="Schemas\BetTypeSchema.cs" />
     <Compile Include="Schemas\ReserveSchema.cs" />

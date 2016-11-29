@@ -21,26 +21,6 @@
         private static readonly IMaintenanceService _maintenanceService = new MaintenanceService();
 
         /// <summary>
-        /// Reads the text file.
-        /// </summary>
-        /// <param name="filePath">The file path.</param>
-        /// <returns>System String.</returns>
-        public static string ReadTextFile(string filePath)
-        {
-            try
-            {
-                using (StreamReader sr = new StreamReader(filePath))
-                {
-                    return sr.ReadToEnd();
-                }
-            }
-            catch
-            {
-                return string.Empty;
-            }
-        }
-
-        /// <summary>
         /// Get IP address.
         /// </summary>
         /// <returns>The IP address.</returns>
@@ -63,15 +43,6 @@
             }
 
             return clientIp;
-
-            ////var ip = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"]
-            ////            ?? HttpContext.Current.Request.UserHostAddress;
-            ////if (ip == "::1")
-            ////{
-            ////    ip = "127.0.0.1";
-            ////}
-
-            ////return ip;
         }
 
         public static IList<int> GetIntList(string stringArray)

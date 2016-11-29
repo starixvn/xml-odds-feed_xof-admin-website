@@ -19,27 +19,15 @@ namespace Fanex.OddsFeed.Library.Parsers
     using System.Xml.Linq;
     using Fanex.OddsFeed.Library.Model;
 
-    /// <summary>
-    /// Class ORMParsers.
-    /// </summary>
     public class ORMParsers
     {
         private static JavaScriptSerializer _serializer  = new JavaScriptSerializer();
 
-        /// <summary>
-        /// Initializes static members of the <see cref="ORMParsers"/> class.
-        /// </summary>
         static ORMParsers()
         {
             _serializer.MaxJsonLength = int.MaxValue;            
         }
 
-        /// <summary>
-        /// Tables to list.
-        /// </summary>
-        /// <typeparam name="T">The type T.</typeparam>
-        /// <param name="table">The data table.</param>
-        /// <returns>IList of type T.</returns>
         public static IList<T> TableToList<T>(DataTable table) where T : BaseModel
         {            
             var list = new List<T>();
@@ -62,13 +50,6 @@ namespace Fanex.OddsFeed.Library.Parsers
             return _serializer.Serialize(items);            
         }
 
-        /// <summary>
-        /// Builds the x document.
-        /// </summary>
-        /// <typeparam name="T">The type T.</typeparam>
-        /// <param name="rootName">Name of the root.</param>
-        /// <param name="items">The items.</param>
-        /// <returns>X Container.</returns>
         public static XContainer BuildXDocument<T>(string rootName, IList<T> items) where T : BaseModel
         {            
             var doc = new XDocument(new XDeclaration("1.0", "UTF-8", null));

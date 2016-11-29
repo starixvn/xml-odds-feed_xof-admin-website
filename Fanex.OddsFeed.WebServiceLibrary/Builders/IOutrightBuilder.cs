@@ -1,0 +1,17 @@
+﻿namespace Fanex.OddsFeed.WebServiceLibrary.Builders
+{
+    using System.Collections.Generic;
+    using System.Xml;
+    using Nodes;
+
+    public interface IOutrightBuilder
+    {
+        XmlNode CreateOutrightsNode(
+            XmlDocument xmlDocument,
+            OddsProfile oddsProfile,
+            OddsFeedFilter oddsFeedFilter,
+            IEnumerable<Outright> outrightNodes,
+            bool isOutright,
+            bool isSample);
+    }
+}
