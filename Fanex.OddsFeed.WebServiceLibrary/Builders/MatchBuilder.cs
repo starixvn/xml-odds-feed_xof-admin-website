@@ -4,8 +4,9 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Xml;
+    using Common.Converters;
+    using Common.DTO;
     using Filters;
-    using Nodes;
 
     public class MatchBuilder : OddsFeedBuilder, IMatchBuilder
     {
@@ -17,9 +18,9 @@
         }
 
         public XmlNode CreateMatchesNode(
-            XmlDocument xmlDocument, 
-            OddsProfile oddsProfile,
-            OddsFeedFilter oddsFeedFilter,
+            XmlDocument xmlDocument,
+            UserProfile userProfile,
+            UserQuery userQuery,
             IEnumerable<Match> deadballMatches,
             IEnumerable<Match> liveMatches, 
             string bookieName,
@@ -29,16 +30,16 @@
         {
             var matchesNode = xmlDocument.CreateNode(XmlNodeType.Element, "matches", null);
 
-            AssignMatchesAttributes(xmlDocument, matchesNode, oddsProfile, deadballMatches, liveMatches, lastUpdate);
+            AssignMatchesAttributes(xmlDocument, matchesNode, userProfile, deadballMatches, liveMatches, lastUpdate);
 
             if (deadballMatches.Any())
             {
-                AssignMatchNodes(xmlDocument, matchesNode, oddsProfile, oddsFeedFilter, deadballMatches, bookieName, isSample);
+                AssignMatchNodes(xmlDocument, matchesNode, userProfile, userQuery, deadballMatches, bookieName, isSample);
             }
             
             if(liveMatches.Any())
             {
-                AssignMatchNodes(xmlDocument, matchesNode, oddsProfile, oddsFeedFilter, liveMatches, bookieName, isSample);
+                AssignMatchNodes(xmlDocument, matchesNode, userProfile, userQuery, liveMatches, bookieName, isSample);
             }
 
             return matchesNode;
@@ -46,8 +47,8 @@
 
         private static void AssignMatchesAttributes(
             XmlDocument xmlDocument, 
-            XmlNode matchesNode, 
-            OddsProfile oddsProfile,
+            XmlNode matchesNode,
+            UserProfile userProfile,
             IEnumerable<Match> deadballMatches,
             IEnumerable<Match> liveMatches,
             DateTime lastUpdate)
@@ -58,7 +59,7 @@
 
                 AssignLastUpdate(xmlDocument, matchesNode, lastUpdate);
                 AssignMatchTimeStamp(xmlDocument, matchesNode, matchesTimeStamp);
-                AssignOddsType(xmlDocument, matchesNode, GetOddsTypeName(oddsProfile.OddRegion));
+                AssignOddsType(xmlDocument, matchesNode, GetOddsTypeName(userProfile.OddRegion));
             }
         }
 
@@ -82,22 +83,22 @@
 
         private void AssignMatchNodes(
             XmlDocument xmlDocument, 
-            XmlNode matchesNode, 
-            OddsProfile oddsProfile,
-            OddsFeedFilter oddsFeedFilter,
+            XmlNode matchesNode,
+            UserProfile userProfile,
+            UserQuery userQuery,
             IEnumerable<Match> matches,
             string bookieName,
             bool isSample)
         {
             if (isSample)
             {
-                matchesNode.AppendChild(CreateMatchNode(xmlDocument, oddsProfile, oddsFeedFilter, matches.ElementAt(0), bookieName, isSample));
+                matchesNode.AppendChild(CreateMatchNode(xmlDocument, userProfile, userQuery, matches.ElementAt(0), bookieName, isSample));
             }
             else
             {
                 foreach (var match in matches)
                 {
-                    matchesNode.AppendChild(CreateMatchNode(xmlDocument, oddsProfile, oddsFeedFilter, match, bookieName, isSample));
+                    matchesNode.AppendChild(CreateMatchNode(xmlDocument, userProfile, userQuery, match, bookieName, isSample));
                 }
             }
         }
@@ -124,9 +125,9 @@
         }
 
         private XmlNode CreateMatchNode(
-            XmlDocument xmlDocument, 
-            OddsProfile oddsProfile, 
-            OddsFeedFilter oddsFeedFilter, 
+            XmlDocument xmlDocument,
+            UserProfile userProfile,
+            UserQuery userQuery, 
             Match match, 
             string bookieName,
             bool isSample)
@@ -140,7 +141,7 @@
             AssignSport(xmlDocument, matchNode, match.SportName);
             AssignMatchStatus(xmlDocument, matchNode, match.IsLive);
 
-            matchNode.AppendChild(CreateBookieNode(xmlDocument, oddsProfile, oddsFeedFilter, match.Bookie, bookieName, isSample));
+            matchNode.AppendChild(CreateBookieNode(xmlDocument, userProfile, userQuery, match.Bookie, bookieName, isSample));
 
             return matchNode;
         }
@@ -154,8 +155,8 @@
 
         private XmlNode CreateBookieNode(
             XmlDocument xmlDocument, 
-            OddsProfile oddsProfile, 
-            OddsFeedFilter oddsFeedFilter, 
+            UserProfile userProfile, 
+            UserQuery userQuery, 
             Bookie bookie, 
             string bookieName,
             bool isSample)
@@ -163,7 +164,7 @@
             var bookieNode = xmlDocument.CreateNode(XmlNodeType.Element, "bookie", null);
 
             AssignBookieName(xmlDocument, bookieNode, bookieName);
-            CrearteOddNodeList(xmlDocument, bookieNode, oddsProfile, oddsFeedFilter, bookie.MatchOddsList, isSample);
+            CrearteOddNodeList(xmlDocument, bookieNode, userProfile, userQuery, bookie.MatchOddsList, isSample);
 
             return bookieNode;
         }
@@ -185,27 +186,27 @@
 
         private void CrearteOddNodeList(
             XmlDocument xmlDocument, 
-            XmlNode bookieNode, 
-            OddsProfile oddsProfile, 
-            OddsFeedFilter oddsFeedFilter,
+            XmlNode bookieNode,
+            UserProfile userProfile,
+            UserQuery userQuery,
             IEnumerable<MatchOdds> matchOddsNodes,
             bool isSample)
         {
             foreach (var matchOddsNode in matchOddsNodes)
             {
-                if (_matchFilter.FilterBetType(oddsProfile, oddsFeedFilter, isSample, matchOddsNode))
+                if (_matchFilter.FilterBetType(userProfile, userQuery, isSample, matchOddsNode))
                 {
-                    bookieNode.AppendChild(CreateOddNode(xmlDocument, oddsProfile, matchOddsNode));
+                    bookieNode.AppendChild(CreateOddNode(xmlDocument, userProfile, matchOddsNode));
                 }
             }
         }
 
-        private static XmlNode CreateOddNode(XmlDocument xmlDocument, OddsProfile oddsProfile, MatchOdds matchOddsNode)
+        private static XmlNode CreateOddNode(XmlDocument xmlDocument, UserProfile userProfile, MatchOdds matchOddsNode)
         {
             var oddXmlNode = xmlDocument.CreateNode(XmlNodeType.Element, "odd", null);
 
             AssignTag(xmlDocument, oddXmlNode, matchOddsNode.Tag);
-            AssignBetChoices(xmlDocument, oddXmlNode, oddsProfile, matchOddsNode.BetChoices);
+            AssignBetChoices(xmlDocument, oddXmlNode, userProfile, matchOddsNode.BetChoices);
             AssignTime(xmlDocument, oddXmlNode, matchOddsNode.Time);
             AssignTimeStamp(xmlDocument, oddXmlNode, matchOddsNode.TimeStamp);
 
@@ -223,13 +224,13 @@
         private static void AssignBetChoices(
             XmlDocument xmlDocument,
             XmlNode oddsNode,
-            OddsProfile oddsProfile,
+            UserProfile userProfile,
             IEnumerable<BetChoice> betChoices)
         {
             foreach (var betChoice in betChoices)
             {
                 var attribute = xmlDocument.CreateAttribute(betChoice.Code);
-                attribute.Value = ConvertOdds(oddsProfile, betChoice);
+                attribute.Value = ConvertOdds(userProfile, betChoice);
                 oddsNode.Attributes.Append(attribute);
             }
         }
@@ -250,14 +251,14 @@
             oddsNode.Attributes.Append(attribute);
         }
 
-        private static string ConvertOdds(OddsProfile oddsProfile, BetChoice betChoice)
+        private static string ConvertOdds(UserProfile UserProfile, BetChoice betChoice)
         {
             if(betChoice.NotConvert)
             {
                 return betChoice.Value;
             }
 
-            return Utilities.ConvertOdds(oddsProfile.OddRegion, Convert.ToDecimal(betChoice.Value)).ToString();
+            return OddsConverter.ConvertOdds(UserProfile.OddRegion, Convert.ToDecimal(betChoice.Value)).ToString();
         }
 
         private static string GetOddsTypeName(int oddsTypeId)

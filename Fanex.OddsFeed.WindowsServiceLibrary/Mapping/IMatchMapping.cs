@@ -2,9 +2,8 @@
 {
     using System.Collections.Generic;
     using System.Data;
-    using Fanex.OddsFeed.Library.Schemas;
-    using Model;
-    using Nodes;
+    using Common.DTO;
+    using Common.Schemas;
 
     public interface IMatchMapping
     {

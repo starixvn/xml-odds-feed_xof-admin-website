@@ -2,9 +2,10 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using Helper;
-    using Model;
-    using Schemas;
+    using Caching;
+    using Common.DTO;
+    using Common.Schemas;
+    using Helpers;
 
     public class BetTypeService : IBetTypeService
     {

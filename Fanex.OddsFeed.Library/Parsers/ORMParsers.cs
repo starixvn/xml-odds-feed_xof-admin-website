@@ -44,7 +44,7 @@ namespace Fanex.OddsFeed.Library.Parsers
 
             return list;
         }
-
+        
         public static string BuildJSon<T>(string rootName, IList<T> items) where T : BaseModel
         {
             return _serializer.Serialize(items);            

@@ -3,9 +3,9 @@
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using Common.Schemas;
     using Logging;
     using Newtonsoft.Json;
-    using Schemas;
 
     public class JsonHelper
     {
@@ -14,6 +14,7 @@
             try
             {
                 var fullPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, filePath);
+
                 using (var reader = new StreamReader(fullPath))
                 {
                     var temp = reader.ReadToEnd();

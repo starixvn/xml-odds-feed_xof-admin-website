@@ -2,32 +2,32 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using Nodes;
+    using Common.DTO;
 
     public class MatchFilter : IMatchFilter
     {
-        public IList<Match> QueryMatches(OddsProfile oddsProfile, OddsFeedFilter oddsFeedFilter, IList<Match> matches, bool changeTime, int timeStamp)
+        public IList<Match> QueryMatches(UserProfile userProfile, UserQuery userQuery, IList<Match> matches, bool changeTime, int timeStamp)
         {
             return (from match in matches
                     where (changeTime ? match.TimeStamp > timeStamp : true) &&
-                                FilterBySport(oddsProfile, oddsFeedFilter, match) &&
-                                FilterByLeague(oddsProfile, oddsFeedFilter, match) &&
-                                FilterByCountry(oddsProfile, oddsFeedFilter, match) &&
-                                FilterByKeyword(oddsProfile, match)
+                                FilterBySport(userProfile, userQuery, match) &&
+                                FilterByLeague(userProfile, userQuery, match) &&
+                                FilterByCountry(userProfile, userQuery, match) &&
+                                FilterByKeyword(userProfile, match)
                     select match).ToList();
         }
 
-        public bool FilterBetType(OddsProfile oddsProfile, OddsFeedFilter oddsFeedFilter, bool isSample, MatchOdds matchOdds)
+        public bool FilterBetType(UserProfile userProfile, UserQuery userQuery, bool isSample, MatchOdds matchOdds)
         {
-            return FilterByOddsProfile(oddsProfile, isSample, matchOdds)
-                && FilterByOddsFeedFilter(oddsFeedFilter, matchOdds);
+            return FilterByOddsProfile(userProfile, isSample, matchOdds)
+                && FilterByOddsFeedFilter(userQuery, matchOdds);
         }
 
-        private static bool FilterByOddsProfile(OddsProfile oddsProfile, bool isSample, MatchOdds matchOdds)
+        private static bool FilterByOddsProfile(UserProfile userProfile, bool isSample, MatchOdds matchOdds)
         {
-            if (oddsProfile.BetTypes != null && !isSample)
+            if (userProfile.BetTypes != null && !isSample)
             {
-                if (!oddsProfile.BetTypes.Contains(matchOdds.BetTypeId))
+                if (!userProfile.BetTypes.Contains(matchOdds.BetTypeId))
                 {
                     return false;
                 }
@@ -36,11 +36,11 @@
             return true;
         }
 
-        private static bool FilterByOddsFeedFilter(OddsFeedFilter oddsFeedFilter, MatchOdds matchOdds)
+        private static bool FilterByOddsFeedFilter(UserQuery userQuery, MatchOdds matchOdds)
         {
-            if (oddsFeedFilter.BetTypes != null && oddsFeedFilter.BetTypes.Count > 0)
+            if (userQuery.BetTypes != null && userQuery.BetTypes.Count > 0)
             {
-                if (!oddsFeedFilter.BetTypes.Contains(matchOdds.BetTypeId))
+                if (!userQuery.BetTypes.Contains(matchOdds.BetTypeId))
                 {
                     return false;
                 }
@@ -49,29 +49,29 @@
             return true;
         }
 
-        private static bool FilterBySport(OddsProfile oddsProfile, OddsFeedFilter oddsFeedFilter, Match match)
+        private static bool FilterBySport(UserProfile userProfile, UserQuery userQuery, Match match)
         {
-            return (oddsProfile.Sports == null ? true : (oddsProfile.Sports.Count != 0 ? oddsProfile.Sports.Contains(match.SportId) : false)) &&
-                    (oddsFeedFilter.Sports == null || oddsFeedFilter.Sports.Count == 0 ? true : oddsFeedFilter.Sports.Contains(match.SportId));
+            return (userProfile.Sports == null ? true : (userProfile.Sports.Count != 0 ? userProfile.Sports.Contains(match.SportId) : false)) &&
+                    (userQuery.Sports == null || userQuery.Sports.Count == 0 ? true : userQuery.Sports.Contains(match.SportId));
         }
 
-        private static bool FilterByLeague(OddsProfile oddsProfile, OddsFeedFilter oddsFeedFilter, Match match)
+        private static bool FilterByLeague(UserProfile userProfile, UserQuery userQuery, Match match)
         {
-            return (oddsProfile.Leagues == null 
+            return (userProfile.Leagues == null 
                 ? true 
-                : (oddsProfile.Leagues.Count != 0 ? oddsProfile.Leagues.Contains(match.LeagueId) : false)) 
-                && (oddsFeedFilter.Leagues == null || oddsFeedFilter.Leagues.Count == 0 ? true : SearchLeague(oddsFeedFilter.Leagues, match.LeagueNames.ElementAt(0).Content.ToLower()));
+                : (userProfile.Leagues.Count != 0 ? userProfile.Leagues.Contains(match.LeagueId) : false)) 
+                && (userQuery.Leagues == null || userQuery.Leagues.Count == 0 ? true : SearchLeague(userQuery.Leagues, match.LeagueNames.ElementAt(0).Content.ToLower()));
         }
 
-        private static bool FilterByCountry(OddsProfile oddsProfile, OddsFeedFilter oddsFeedFilter, Match match)
+        private static bool FilterByCountry(UserProfile userProfile, UserQuery userQuery, Match match)
         {
-            return (oddsProfile.Countries == null ? true : (oddsProfile.Countries.Count != 0 ? oddsProfile.Countries.Contains(match.CountryCode.ToLower()) : false)) &&
-                                         (oddsFeedFilter.Countries == null || oddsFeedFilter.Countries.Count == 0 ? true : oddsFeedFilter.Countries.Contains(match.CountryCode.ToLower()));
+            return (userProfile.Countries == null ? true : (userProfile.Countries.Count != 0 ? userProfile.Countries.Contains(match.CountryCode.ToLower()) : false)) &&
+                                         (userQuery.Countries == null || userQuery.Countries.Count == 0 ? true : userQuery.Countries.Contains(match.CountryCode.ToLower()));
         }
 
-        private static bool FilterByKeyword(OddsProfile oddsProfile, Match match)
+        private static bool FilterByKeyword(UserProfile userProfile, Match match)
         {
-            return (string.IsNullOrEmpty(oddsProfile.LeagueKeyword) ? true : match.LeagueNames.ElementAt(0).Content.ToLower().Contains(oddsProfile.LeagueKeyword.ToLower()));
+            return (string.IsNullOrEmpty(userProfile.LeagueKeyword) ? true : match.LeagueNames.ElementAt(0).Content.ToLower().Contains(userProfile.LeagueKeyword.ToLower()));
         }
 
         private static bool SearchLeague(IList<string> searchLeagues, string league)

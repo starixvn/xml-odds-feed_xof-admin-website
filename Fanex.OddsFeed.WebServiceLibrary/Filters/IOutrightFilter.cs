@@ -1,10 +1,10 @@
 ﻿namespace Fanex.OddsFeed.WebServiceLibrary.Filters
 {
     using System.Collections.Generic;
-    using Fanex.OddsFeed.Library.Nodes;
+    using Common.DTO;
 
     public interface IOutrightFilter
     {
-        IList<Outright> QueryOutrights(OddsProfile oddsProfile, OddsFeedFilter oddsFeedFilter, IEnumerable<Outright> outrights);
+        IList<Outright> QueryOutrights(UserProfile userProfile, UserQuery userQuery, IEnumerable<Outright> outrights);
     }
 }

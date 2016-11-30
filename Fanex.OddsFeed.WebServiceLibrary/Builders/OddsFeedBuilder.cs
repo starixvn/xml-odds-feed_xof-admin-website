@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Xml;
-
+    using Common.DTO;
     public class OddsFeedBuilder
     {
         protected IDictionary<string, string> _leagueAttributes = new Dictionary<string, string>
@@ -44,7 +44,7 @@
                     .Where(name => string.Equals(name.Code, tagAttribute.Value))
                     .Select(name => name.Content).First();
 
-                attribute.Value = Utilities.EscapeXML(value);
+                attribute.Value = value;
                 node.Attributes.Append(attribute);
             }
         }

@@ -1,7 +1,7 @@
 ﻿namespace Fanex.OddsFeed.WebServiceLibrary.Services
 {
     using System.Collections.Generic;
-    using Model;
+    using Common.DTO;
 
     public interface IBetTypeService
     {

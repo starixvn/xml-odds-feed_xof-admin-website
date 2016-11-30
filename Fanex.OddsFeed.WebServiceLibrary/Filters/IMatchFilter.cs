@@ -1,12 +1,12 @@
 ﻿namespace Fanex.OddsFeed.WebServiceLibrary.Filters
 {
     using System.Collections.Generic;
-    using Fanex.OddsFeed.Library.Nodes;
+    using Common.DTO;
 
     public interface IMatchFilter
     {
-        IList<Match> QueryMatches(OddsProfile oddsProfile, OddsFeedFilter oddsFeedFilter, IList<Match> matches, bool changeTime, int timeStamp);
+        IList<Match> QueryMatches(UserProfile userProfile, UserQuery userQuery, IList<Match> matches, bool changeTime, int timeStamp);
 
-        bool FilterBetType(OddsProfile oddsProfile, OddsFeedFilter oddsFeedFilter, bool isSample, MatchOdds matchOdds);
+        bool FilterBetType(UserProfile userProfile, UserQuery userQuery, bool isSample, MatchOdds matchOdds);
     }
 }

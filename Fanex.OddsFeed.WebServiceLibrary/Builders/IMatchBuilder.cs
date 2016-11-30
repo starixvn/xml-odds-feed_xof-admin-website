@@ -3,14 +3,14 @@
     using System;
     using System.Collections.Generic;
     using System.Xml;
-    using Nodes;
+    using Common.DTO;
 
     public interface IMatchBuilder
     {
         XmlNode CreateMatchesNode(
             XmlDocument xmlDocument,
-            OddsProfile oddsProfile,
-            OddsFeedFilter filter,
+            UserProfile userProfile,
+            UserQuery userQuery,
             IEnumerable<Match> deadMatches,
             IEnumerable<Match> liveMatches,
             string bookieName,

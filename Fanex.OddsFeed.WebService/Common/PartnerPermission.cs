@@ -1,60 +1,54 @@
-﻿using Fanex.OddsFeed.Library;
-using Fanex.OddsFeed.WebService.Functions;
-using System.Text;
-using System.Web.Mvc;
-
-namespace Fanex.OddsFeed.WebService.Common
+﻿namespace Fanex.OddsFeed.WebService.Common
 {
+    using System.Text;
+    using System.Web.Mvc;
+    using Fanex.OddsFeed.Common.DTO;
+    using Fanex.OddsFeed.WebService.Functions;
+    using Fanex.OddsFeed.WebServiceLibrary.Helpers;
+    using WebServiceLibrary.Criteria;
+    using WebServiceLibrary.Repositories;
+
     public class PartnerPermission : ActionFilterAttribute, IActionFilter
     {
-        private const string XmlPrefix = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n";
+        private readonly IPartnerRepository _partnerRepository;
+
+        public PartnerPermission()
+        {
+            _partnerRepository = new PartnerRepository();
+        }
 
         void IActionFilter.OnActionExecuting(ActionExecutingContext filterContext)
-
-
         {
             var request = filterContext.HttpContext.Request;
             var username = filterContext.ActionParameters["username"].ToString();
             var domainName = Helper.DomainName(request.ServerVariables);
-            var ip = Utilities.GetIpAddressOfClient();
+            var ipAddress = HttpHelper.GetIpAddressOfClient();
 
-            string errorMessage;
-            var oddsProfile = GetOddsProfile(username, domainName, ip, out errorMessage);
-            if (oddsProfile == null)
+            var result = GetUserProfileResult(username, domainName, ipAddress);
+
+            if (result.Error.Id > 0)
             {
-                var result = new ContentResult
+                filterContext.Result = new ContentResult
                 {
-                    Content = errorMessage,
+                    Content = result.Error.Message,
                     ContentEncoding = Encoding.UTF8,
                     ContentType = "text/xml"
-                };
-
-                filterContext.Result = result;
+                }; ;
             }
             else
             {
-                filterContext.ActionParameters["oddsProfile"] = oddsProfile;
+                filterContext.ActionParameters["userProfile"] = result.Data;
             }
         }
 
-        private OddsProfile GetOddsProfile(string username, string domainName, string ip, out string errorMessage)
+        private QueryResult<UserProfile> GetUserProfileResult(string username, string domainName, string ip)
         {
-            var partner = new Partner(username, domainName, ip, null);
-            var error = partner.IsAuthenticated();
-
-            if (error.Id == 0)
+            return _partnerRepository.GetAuthenticatedUserProfile(new CheckPermissionCriteria
             {
-                var oddsProfile = partner.OddsProfile;
-                oddsProfile.Domain = domainName;
-                errorMessage = string.Empty;
-                return oddsProfile;
-            }
-            else
-            {
-                errorMessage = XmlPrefix + error.ToXmlElement().OuterXml;
-                return null;
-            }
-
+                UserName = username, 
+                DomainName = domainName,
+                Ip = ip
+            });
         }
     }
 }

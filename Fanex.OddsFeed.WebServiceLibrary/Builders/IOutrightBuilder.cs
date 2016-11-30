@@ -2,14 +2,14 @@
 {
     using System.Collections.Generic;
     using System.Xml;
-    using Nodes;
+    using Common.DTO;
 
     public interface IOutrightBuilder
     {
         XmlNode CreateOutrightsNode(
             XmlDocument xmlDocument,
-            OddsProfile oddsProfile,
-            OddsFeedFilter oddsFeedFilter,
+            UserProfile userProfile,
+            UserQuery userQuery,
             IEnumerable<Outright> outrightNodes,
             bool isOutright,
             bool isSample);

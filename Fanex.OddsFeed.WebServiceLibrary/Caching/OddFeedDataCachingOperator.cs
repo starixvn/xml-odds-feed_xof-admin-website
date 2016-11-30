@@ -3,14 +3,10 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Configurations;
+    using Common.Configurations;
+    using Common.DTO;
+    using Common.Schemas;
     using Couchbase;
-    using Enyim.Caching.Memcached;
-    using Helper;
-    using Model;
-    using Nodes;
-    using Schemas;
-
     public static class OddFeedDataCachingOperator
     {
         public static OddsData GetOddsData(IList<int> delayTimes)
@@ -61,17 +57,9 @@
         {
             using (var cache = new CouchbaseClient())
             {
-                var result = cache.Get<IList<BetTypeSchema>>(AppSettings.BetTypeSchemaKey);
-                if (result == null || result.Count == 0)
-                {
-                    result = JsonHelper.GetBetTypeSchemas(AppSettings.BetTypeSchemaPath);
-                    if (result != null)
-                    {
-                        cache.Store(StoreMode.Set, AppSettings.BetTypeSchemaKey, result);
-                    }
-                }
+                var schemas = cache.Get<IList<BetTypeSchema>>(AppSettings.BetTypeSchemaKey);
 
-                return result;
+                return schemas == null ? new List<BetTypeSchema>() : schemas;
             }
         }
 

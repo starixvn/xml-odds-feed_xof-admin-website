@@ -4,10 +4,9 @@
     using System.Text;
     using System.Web.Mvc;
     using Fanex.Data.Repository;
-    using Fanex.OddsFeed.Library;
-    using Fanex.OddsFeed.Library.Attributes;
-    using Fanex.OddsFeed.Library.Services;
     using Fanex.OddsFeed.WebService.Common;
+    using OddsFeed.Common.DTO;
+    using WebServiceLibrary.Services;
 
     public class BetTypeController : Controller
     {
@@ -22,10 +21,10 @@
 
         [Compress]
         [PartnerPermission]
-        public ActionResult Index(string username, OddsProfile oddsProfile)
+        public ActionResult Index(string username, UserProfile userProfile)
         {
             var betTypes = GetBetTypes(username);
-            LimitLanguage(betTypes, oddsProfile);
+            LimitLanguage(betTypes, userProfile);
 
             var xml = _serializer.Serialize(betTypes);
             return Content(xml, "text/xml", Encoding.UTF8);

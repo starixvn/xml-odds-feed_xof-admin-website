@@ -6,23 +6,25 @@
     using System.Text;
     using System.Xml;
     using Builders;
+    using Caching;
+    using Common.DTO;
 
     public class EventFeedService : IEventFeedService
     {
-        private OddsProfile _oddsProfile;
+        private UserProfile _userProfile;
         private EventBuilder _eventBuilder;
 
-        public EventFeedService(OddsProfile oddsProfile)
+        public EventFeedService(UserProfile userProfile)
         {
-            _oddsProfile = oddsProfile;
+            _userProfile = userProfile;
             _eventBuilder = new EventBuilder();
         }
 
-        public XmlElement BuildXmlEvent(string timestamp, OddsFeedFilter filter, bool isSample = false, bool isOutright = true)
+        public XmlElement BuildXmlEvent(string timestamp, UserQuery userQuery, bool isSample = false, bool isOutright = true)
         {
             var xmlDocument = CreateXmlDocument();
             var nodeRoot = xmlDocument.CreateElement("eventfeed");
-            var oddsData = OddFeedDataCachingOperator.GetOddsData(_oddsProfile.DelayTimes);
+            var oddsData = OddFeedDataCachingOperator.GetOddsData(_userProfile.DelayTimes);
             var fullMatches = oddsData.DeadballMatches.Concat(oddsData.LiveMatches);
 
             if (IsShownOutRightEvent(isSample, isOutright))

@@ -5,10 +5,15 @@
     using System.Data;
     using System.Linq;
     using System.Threading;
-    using Mapping;
-    using Common.Configurations;
-    using Common.Schemas;
     using Common;
+    using Common.Configurations;
+    using Common.DTO;
+    using Common.Helpers;
+    using Common.Schemas;
+    using Couchbase;
+    using Enyim.Caching.Memcached;
+    using Logging;
+    using Mapping;
 
     public class WindowsOddsFeedService : IWindowsOddsFeedService
     {
@@ -54,7 +59,7 @@
                 line++;
                 var deadballOddsFlexs = GetOddFlexs(deadballOdds.ResultSet.Tables[1]);
                 line++;
-                var betTypeSchemas = OddFeedDataCachingOperator.GetBetTypeSchemas();
+                var betTypeSchemas = GetBetTypeSchemas();
 
                 line++;
                 var liveMatches = _matchMapping.GetMatches(liveOdds.ResultSet.Tables[0], betTypeSchemas, true, liveOddsFlexs);
@@ -98,6 +103,26 @@
                     Odds = Convert.ToDecimal(row["odds"]),
                     OddsInfo = row["OddsInfo"].ToString()
                 }).ToList();
+        }
+
+        public static IList<BetTypeSchema> GetBetTypeSchemas()
+        {
+            using (var cache = new CouchbaseClient())
+            {
+                var schemas = cache.Get<IList<BetTypeSchema>>(AppSettings.BetTypeSchemaKey);
+
+                if (schemas == null || schemas.Count == 0)
+                {
+                    schemas = JsonHelper.GetBetTypeSchemas(AppSettings.BetTypeSchemaPath);
+
+                    if (schemas != null)
+                    {
+                        cache.Store(StoreMode.Set, AppSettings.BetTypeSchemaKey, schemas);
+                    }
+                }
+
+                return schemas;
+            }
         }
 
         private static bool StoreData(string key, object data, int numberTries)

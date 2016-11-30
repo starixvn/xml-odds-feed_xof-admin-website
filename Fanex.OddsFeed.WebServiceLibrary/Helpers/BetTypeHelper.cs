@@ -1,7 +1,7 @@
-﻿namespace Fanex.OddsFeed.Library.Helpers
+﻿namespace Fanex.OddsFeed.WebServiceLibrary.Helpers
 {
     using System.Collections.Generic;
-    using Model;
+    using Common.DTO;
 
     public static class BetTypeHelper
     {

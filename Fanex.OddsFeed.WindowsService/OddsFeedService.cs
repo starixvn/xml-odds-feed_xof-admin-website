@@ -3,13 +3,12 @@
     using System;
     using System.ServiceProcess;
     using System.Timers;
-    using Fanex.Logging;
-    using Fanex.OddsFeed.Library;
-    using Library.Configurations;
-    using Library.Services;
+    using Common.Configurations;
+    using Logging;
     using ONEbook.UM.Services;
     using ONEbook.UM.Services.Impl;
-    
+    using WindowsServiceLibrary.Services;
+
     public partial class OddsFeedService : ServiceBase
     {
         private Timer _timer;
@@ -77,7 +76,7 @@
 
             try
             {
-                if (!Utilities.IsDownTime())
+                if (!_maintenanceService.IsUnderMaintenance())
                 {
                     var isSuccessful = _oddsFeedService.Update(_currentVersion);
 
@@ -105,7 +104,7 @@
         {
             _currentVersion = 0;
 
-            if (!Utilities.IsDownTime())
+            if (!_maintenanceService.IsUnderMaintenance())
             {
                 _oddsFeedService.Reset();
             }

@@ -4,8 +4,9 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Xml;
+    using Common.Converters;
+    using Common.DTO;
     using Filters;
-    using Nodes;
 
     public class OutrightBuilder : OddsFeedBuilder, IOutrightBuilder
     {
@@ -18,8 +19,8 @@
 
         public XmlNode CreateOutrightsNode(
             XmlDocument xmlDocument,
-            OddsProfile oddsProfile,
-            OddsFeedFilter oddsFeedFilter,
+            UserProfile userProfile,
+            UserQuery userQuery,
             IEnumerable<Outright> outrightNodes,
             bool isOutright,
             bool isSample)
@@ -28,14 +29,14 @@
 
             if (IsSampleOutright(isOutright, isSample, outrightNodes.Count()))
             {
-                outrightsNode.AppendChild(CreateEventNode(xmlDocument, oddsProfile, outrightNodes.ElementAt(0)));
+                outrightsNode.AppendChild(CreateEventNode(xmlDocument, userProfile, outrightNodes.ElementAt(0)));
             }
 
-            if (FilterBetType(oddsFeedFilter, isSample))
+            if (FilterBetType(userQuery, isSample))
             {
                 foreach (var outrightNode in outrightNodes)
                 {
-                    outrightsNode.AppendChild(CreateEventNode(xmlDocument, oddsProfile, outrightNode));
+                    outrightsNode.AppendChild(CreateEventNode(xmlDocument, userProfile, outrightNode));
                 }
             }
 
@@ -47,16 +48,16 @@
             return isSample && isOutright && numberOutright > 0;
         }
 
-        public static bool FilterBetType(OddsFeedFilter oddsFeedFilter, bool isSample)
+        public static bool FilterBetType(UserQuery userQuery, bool isSample)
         {
             return !isSample 
-                && (oddsFeedFilter.BetTypes == null
-                || oddsFeedFilter.BetTypes.Count == 0
-                || (oddsFeedFilter.BetTypes != null
-                && oddsFeedFilter.BetTypes.Contains(10)));
+                && (userQuery.BetTypes == null
+                || userQuery.BetTypes.Count == 0
+                || (userQuery.BetTypes != null
+                && userQuery.BetTypes.Contains(10)));
         }
 
-        private XmlNode CreateEventNode(XmlDocument xmlDocument, OddsProfile oddsProfile, Outright outrightNode)
+        private XmlNode CreateEventNode(XmlDocument xmlDocument, UserProfile userProfile, Outright outrightNode)
         {
             var eventNode = xmlDocument.CreateNode(XmlNodeType.Element, "event", null);
 
@@ -67,7 +68,7 @@
 
             foreach (var outrightOddsNode in outrightNode.OutrightOddsList)
             {
-                eventNode.AppendChild(CreateOddNode(xmlDocument, oddsProfile, outrightOddsNode));
+                eventNode.AppendChild(CreateOddNode(xmlDocument, userProfile, outrightOddsNode));
             }
 
             return eventNode;
@@ -96,14 +97,14 @@
 
         private XmlNode CreateOddNode(
             XmlDocument xmlDocument,
-            OddsProfile oddsProfile,
+            UserProfile userProfile,
             OutrightOdds outrightOddsNode)
         {
             var oddNode = xmlDocument.CreateNode(XmlNodeType.Element, "odd", null);
 
             AssignOddId(xmlDocument, oddNode, outrightOddsNode.OddsId);
             AssignNames(xmlDocument, oddNode, outrightOddsNode.Names, _teamAttributes);
-            AssignOddValue(xmlDocument, oddsProfile, oddNode, outrightOddsNode.Value);
+            AssignOddValue(xmlDocument, userProfile, oddNode, outrightOddsNode.Value);
 
             return oddNode;
         }
@@ -115,10 +116,10 @@
             eventNode.Attributes.Append(idAttribute);
         }
 
-        private static void AssignOddValue(XmlDocument xmlDocument, OddsProfile oddsProfile, XmlNode eventNode, decimal oddValue)
+        private static void AssignOddValue(XmlDocument xmlDocument, UserProfile userProfile, XmlNode eventNode, decimal oddValue)
         {
             var valueAttribute = xmlDocument.CreateAttribute("o");
-            valueAttribute.Value = Utilities.ConvertOdds(oddsProfile.OddRegion, oddValue).ToString();
+            valueAttribute.Value = OddsConverter.ConvertOdds(userProfile.OddRegion, oddValue).ToString();
             eventNode.Attributes.Append(valueAttribute);
         }
     }

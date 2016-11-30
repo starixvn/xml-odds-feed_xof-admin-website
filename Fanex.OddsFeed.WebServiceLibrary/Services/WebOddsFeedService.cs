@@ -5,13 +5,13 @@
     using System.Linq;
     using System.Xml;
     using Builders;
+    using Caching;
+    using Common.DTO;
     using Filters;
-    using Model;
-    using Nodes;
 
     public class WebOddsFeedService : IWebOddsFeedService
     {
-        private OddsProfile _oddsProfile;
+        private UserProfile _userProfile;
         private string _bookieName;
         private string _domainName;
         private string _ipAddress;
@@ -24,13 +24,13 @@
         private IOutrightFilter _outrightFilter;
 
         public WebOddsFeedService(
-            OddsProfile oddsProfile, 
+            UserProfile userProfile, 
             string bookieName, 
             string domainName, 
             string ipAddress, 
             string timeStamp)
         {
-            _oddsProfile = oddsProfile;
+            _userProfile = userProfile;
             _bookieName = bookieName;
             _domainName = domainName;
             _ipAddress = ipAddress;
@@ -45,20 +45,20 @@
 
         public XmlElement BuildXmlDocument(
             string timeStamp, 
-            OddsFeedFilter oddsFeedFilter, 
+            UserQuery userQuery, 
             bool isSample = false, 
             bool isOutright = true)
         {
             var xmlDocument = CreateXmlDocument();
             var nodeRoot = xmlDocument.CreateElement("oddsfeed");
-            var oddsData = OddFeedDataCachingOperator.GetOddsData(_oddsProfile.DelayTimes);
+            var oddsData = OddFeedDataCachingOperator.GetOddsData(_userProfile.DelayTimes);
 
             if (IsShownOutright(isSample, isOutright))
             {
-                AddOutrightNode(nodeRoot, xmlDocument, oddsFeedFilter, oddsData, isOutright, isSample);
+                AddOutrightNode(nodeRoot, xmlDocument, userQuery, oddsData, isOutright, isSample);
             }
 
-            AddMatchesNode(nodeRoot, xmlDocument, oddsFeedFilter, oddsData, isSample);
+            AddMatchesNode(nodeRoot, xmlDocument, userQuery, oddsData, isSample);
 
             return nodeRoot;
         }
@@ -75,25 +75,25 @@
 
         private bool IsShownOutright(bool isSample, bool isOutrights)
         {
-            return _oddsProfile.OddsType.Contains(8) && (!isSample || isOutrights);
+            return _userProfile.OddsType.Contains(8) && (!isSample || isOutrights);
         }
 
         private void AddOutrightNode(
             XmlElement nodeRoot,
             XmlDocument xmlDocument, 
-            OddsFeedFilter oddsFeedFilter,
+            UserQuery userQuery,
             OddsData oddsData,
             bool isOutright, 
             bool isSample)
         {
-            var outrights = _outrightFilter.QueryOutrights(_oddsProfile, oddsFeedFilter, oddsData.Outrights);
+            var outrights = _outrightFilter.QueryOutrights(_userProfile, userQuery, oddsData.Outrights);
 
             if (outrights != null)
             {
                 var outrightsNode = _outrightBuilder.CreateOutrightsNode(
                     xmlDocument, 
-                    _oddsProfile, 
-                    oddsFeedFilter, 
+                    _userProfile, 
+                    userQuery, 
                     outrights, 
                     isOutright, 
                     isSample);
@@ -105,22 +105,22 @@
         private void AddMatchesNode(
             XmlElement nodeRoot,
             XmlDocument xmlDocument,
-            OddsFeedFilter oddsFeedFilter,
+            UserQuery userQuery,
             OddsData oddsData,
             bool isSample)
         {
             var changetime = !string.IsNullOrEmpty(_timeStamp);
             var timeStamp = changetime ? int.Parse(_timeStamp) : 0;
 
-            var liveMatches = GetLiveMatches(oddsFeedFilter, oddsData.LiveMatches, changetime, timeStamp);
-            var deadballMatches = GetDeadMatches(oddsFeedFilter, oddsData.DeadballMatches, changetime, timeStamp);
+            var liveMatches = GetLiveMatches(userQuery, oddsData.LiveMatches, changetime, timeStamp);
+            var deadballMatches = GetDeadMatches(userQuery, oddsData.DeadballMatches, changetime, timeStamp);
 
             if (liveMatches != null || deadballMatches != null)
             {
                 var matchesNode = _matchBuilder.CreateMatchesNode(
                     xmlDocument, 
-                    _oddsProfile,
-                    oddsFeedFilter,
+                    _userProfile,
+                    userQuery,
                     deadballMatches, 
                     liveMatches, 
                     _bookieName,
@@ -132,28 +132,28 @@
             }
         }
 
-        private IList<Match> GetLiveMatches(OddsFeedFilter oddsFeedFilter, IList<Match> liveMatches, bool changeTime, int timeStamp)
+        private IList<Match> GetLiveMatches(UserQuery userQuery, IList<Match> liveMatches, bool changeTime, int timeStamp)
         {
             return HaveLiveBallMatches(liveMatches)
-                ? _matchFilter.QueryMatches(_oddsProfile, oddsFeedFilter, liveMatches, changeTime, timeStamp)
+                ? _matchFilter.QueryMatches(_userProfile, userQuery, liveMatches, changeTime, timeStamp)
                 : new List<Match>();
         }
 
         private bool HaveLiveBallMatches(IEnumerable<Match> liveMatches)
         {
-            return _oddsProfile.OddsType.Contains(4) && liveMatches.Count() > 0;
+            return _userProfile.OddsType.Contains(4) && liveMatches.Count() > 0;
         }
 
-        private IList<Match> GetDeadMatches(OddsFeedFilter oddsFeedFilter, IList<Match> deadMatches, bool changeTime, int timeStamp)
+        private IList<Match> GetDeadMatches(UserQuery userQuery, IList<Match> deadMatches, bool changeTime, int timeStamp)
         {
             return HaveDeadBallMatches(deadMatches)
-                ? _matchFilter.QueryMatches(_oddsProfile, oddsFeedFilter, deadMatches, changeTime, timeStamp)
+                ? _matchFilter.QueryMatches(_userProfile, userQuery, deadMatches, changeTime, timeStamp)
                 : new List<Match>();
         }
 
         private bool HaveDeadBallMatches(IEnumerable<Match> deadMatches)
         {
-            return _oddsProfile.OddsType.Contains(2) && deadMatches.Count() > 0;
+            return _userProfile.OddsType.Contains(2) && deadMatches.Count() > 0;
         }
 
         private static DateTime GetLastUpdate()

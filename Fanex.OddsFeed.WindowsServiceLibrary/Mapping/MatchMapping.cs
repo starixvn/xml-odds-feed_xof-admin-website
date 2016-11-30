@@ -4,9 +4,9 @@
     using System.Collections.Generic;
     using System.Data;
     using System.Linq;
-    using Fanex.OddsFeed.Library.Nodes;
-    using Fanex.OddsFeed.Library.Schemas;
-    using Model;
+    using Common.Converters;
+    using Common.DTO;
+    using Common.Schemas;
 
     public class MatchMapping : IMatchMapping
     {
@@ -251,7 +251,7 @@
 
         private static string ConvertMalayToDecimalOddsString(decimal odds)
         {
-            return string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Convert.ToDecimal(odds)));
+            return string.Format("{0:0.#########}", OddsConverter.ToDecimalOddsFromMalayOdds(Convert.ToDecimal(odds)));
         }
 
         private static IList<Language> GetBookieNames()

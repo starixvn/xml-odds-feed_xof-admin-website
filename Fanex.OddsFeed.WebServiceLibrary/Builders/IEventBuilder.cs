@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Xml;
-    using Nodes;
+    using Common.DTO;
 
     public interface IEventBuilder
     {

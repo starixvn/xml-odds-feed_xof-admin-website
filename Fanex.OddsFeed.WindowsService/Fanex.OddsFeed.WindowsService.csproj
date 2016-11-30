@@ -230,12 +230,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Fanex.OddsFeed.Library\Fanex.OddsFeed.Library.csproj">
-      <Project>{4FDD9795-91D9-490C-BBB8-C70EF27F7FA6}</Project>
-      <Name>Fanex.OddsFeed.Library</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
@@ -270,6 +264,16 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Fanex.OddsFeed.Common\Fanex.OddsFeed.Common.csproj">
+      <Project>{0b1c255e-fde1-4d4c-bb5e-6c5738815f84}</Project>
+      <Name>Fanex.OddsFeed.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Fanex.OddsFeed.WindowsServiceLibrary\Fanex.OddsFeed.WindowsServiceLibrary.csproj">
+      <Project>{07ce44cb-b168-4f57-a7ba-7c761bf47082}</Project>
+      <Name>Fanex.OddsFeed.WindowsServiceLibrary</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

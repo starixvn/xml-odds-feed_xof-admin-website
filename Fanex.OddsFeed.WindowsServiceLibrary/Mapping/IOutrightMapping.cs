@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Data;
-    using Fanex.OddsFeed.Library.Nodes;
+    using Common.DTO;
 
     public interface IOutrightMapping
     {

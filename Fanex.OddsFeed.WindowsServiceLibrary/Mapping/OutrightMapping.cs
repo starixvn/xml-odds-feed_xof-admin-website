@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Data;
     using System.Linq;
-    using Nodes;
+    using Common.DTO;
 
     public class OutrightMapping : IOutrightMapping
     {

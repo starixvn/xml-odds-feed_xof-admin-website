@@ -19,76 +19,89 @@
 
         public static DbResult GetLiveOddsData()
         {
-            return DbHelper.ExecuteDbResult(Utilities.RealSp("SP.LiveOdds"));
+            //return DbHelper.ExecuteDbResult(Utilities.RealSp("SP.LiveOdds"));
+            return DbHelper.ExecuteDbResult("");
         }
 
         public static DbResult GetDeadballOddsData()
         {
-            return DbHelper.ExecuteDbResult(Utilities.RealSp("SP.DeadballOdds"));
+            //return DbHelper.ExecuteDbResult(Utilities.RealSp("SP.DeadballOdds"));
+            return DbHelper.ExecuteDbResult("");
         }
 
         public static DbResult GetOutrightOddsData()
         {
-            return DbHelper.ExecuteDbResult(Utilities.RealSp("SP.OutrightOdds"));
+            //return DbHelper.ExecuteDbResult(Utilities.RealSp("SP.OutrightOdds"));
+            return DbHelper.ExecuteDbResult("");
         }
 
         public static DbResult GetProfile(int profileId)
         {
-            return DbHelper.ExecuteDbResult(Utilities.RealSp("SP.GetProfile"), new Hashtable { { "profileid", profileId } });
+            //return DbHelper.ExecuteDbResult(Utilities.RealSp("SP.GetProfile"), new Hashtable { { "profileid", profileId } });
+            return DbHelper.ExecuteDbResult("");
         }
 
         public static DbResult GetProfile(string userName)
         {
-            return DbHelper.ExecuteDbResult(Utilities.RealSp("SP.GetProfileByName"), new Hashtable { { "username", userName } });
+            //return DbHelper.ExecuteDbResult(Utilities.RealSp("SP.GetProfileByName"), new Hashtable { { "username", userName } });
+            return DbHelper.ExecuteDbResult("");
         }
-        
+
         public static DbResult GetOcsData(string tableName, string domain, string ip, string username, int? fromid = null)
         {
-            var procName = Utilities.RealSp("SP.Ocs_" + tableName);
-            var hashtable = new Hashtable { { "domain", domain }, { "ip", ip }, { "username", username } };
-            if (fromid != null)
-            {
-                hashtable.Add("fromid", fromid);
-            }
+            //var procName = Utilities.RealSp("SP.Ocs_" + tableName);
+            //var hashtable = new Hashtable { { "domain", domain }, { "ip", ip }, { "username", username } };
+            //if (fromid != null)
+            //{
+            //    hashtable.Add("fromid", fromid);
+            //}
 
-            return DbHelper.ExecuteDbResult(procName, hashtable);
+            //return DbHelper.ExecuteDbResult(procName, hashtable);
+            return DbHelper.ExecuteDbResult("");
         }
 
         public static DbResult GetBetdaqScheduleData(string uspName)
         {
-            var procName = Utilities.RealSp(uspName);
-            var result = DbHelper.ExecuteDbResult(procName);
-            return result;
+            //var procName = Utilities.RealSp(uspName);
+            //var result = DbHelper.ExecuteDbResult(procName);
+            //return result;
+            return DbHelper.ExecuteDbResult("");
         }
 
         public static DbResult GetBetRadar()
         {
-            return DbHelper.ExecuteDbResult(Utilities.RealSp("SP.BetRadarOddsSel"));
+            //return DbHelper.ExecuteDbResult(Utilities.RealSp("SP.BetRadarOddsSel"));
+            return DbHelper.ExecuteDbResult("");
         }
 
         public static DbResult GetSportByUserName(string userName)
         {
-            return DbHelper.ExecuteDbResult(Utilities.RealSp("SP.GetSportByUserName"), new Hashtable { { "username", userName } });      
+            //return DbHelper.ExecuteDbResult(Utilities.RealSp("SP.GetSportByUserName"), new Hashtable { { "username", userName } });
+            return DbHelper.ExecuteDbResult("");
         }
 
         public static DbResult GetBetTypeByUserName(string userName)
         {
-            return DbHelper.ExecuteDbResult(Utilities.RealSp("SP.GetBetTypeByUserName"), new Hashtable { { "username", userName } });                     
+            //return DbHelper.ExecuteDbResult(Utilities.RealSp("SP.GetBetTypeByUserName"), new Hashtable { { "username", userName } });
+            return DbHelper.ExecuteDbResult("");
         }
 
         public static DbResult Odds_CountrySelByUserName(string userName)
         {
-            return DbHelper.ExecuteDbResult(Utilities.RealSp("SP.GetCountryByUserName"), new Hashtable { { "username", userName } });
+            //return DbHelper.ExecuteDbResult(Utilities.RealSp("SP.GetCountryByUserName"), new Hashtable { { "username", userName } });
+            return DbHelper.ExecuteDbResult("");
         }
 
         public static string GetContactEmailByUserName(string userName)
         {
-            return Convert.ToString(DbHelper.ExecuteScalar(Utilities.RealSp("SP.GetContactEmailByUserName"), new Hashtable { { "username", userName } }));
+            //return Convert.ToString(DbHelper.ExecuteScalar(Utilities.RealSp("SP.GetContactEmailByUserName"), new Hashtable { { "username", userName } }));
+            return "";
         }
 
         public static DbResult GetCountryList()
         {
-            return DbHelper.ExecuteDbResult(Utilities.RealSp("SP.GetCountryList"));
+            //return DbHelper.ExecuteDbResult(Utilities.RealSp("SP.GetCountryList"));
+            return DbHelper.ExecuteDbResult("");
         }
     }
 }
