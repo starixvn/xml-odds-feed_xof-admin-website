@@ -1,32 +1,16 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="ErrorsController.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Thai.Tran" date="2013.1.7">Created</change>
-// </history>
-
-namespace Fanex.OddsFeed.WebService.Controllers
+﻿namespace Fanex.OddsFeed.WebService.Controllers
 {
     using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Linq;
-    using System.Web;
     using System.Web.Mvc;
     using MvcContrib.ActionResults;
-    using Fanex.OddsFeed.Library;
+    using OddsFeed.Common.DTO;
 
-    /// <summary>
-    /// Class ErrorsController.
-    /// </summary>    
     public class ErrorsController : Controller
     {        
-        // GET: /Error/    
         public XmlResult Index(Exception exception)
-        {            
-            var error = new Error(4, exception.Message).ToXmlElement();
+        {
+            var error = new Error { Id = 4, Message = exception.Message };
+
             return new XmlResult(error);
         }
 

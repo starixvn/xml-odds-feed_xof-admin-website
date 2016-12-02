@@ -1,7 +1,6 @@
 ﻿namespace Fanex.OddsFeed.WebServiceLibrary.Repositories
 {
     using System.Collections;
-    using System.Collections.Generic;
     using System.Linq;
     using Common.Converters;
     using Common.DataObjects;

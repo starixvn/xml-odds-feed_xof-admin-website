@@ -1,38 +1,15 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="FeedsController.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Thai.Tran" date="2013.1.7">Created</change>
-// </history>
-namespace Fanex.OddsFeed.WebService.Controllers
+﻿namespace Fanex.OddsFeed.WebService.Controllers
 {
     using System;
-    using System.Collections.Generic;
-    using System.Configuration;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Globalization;    
-    using System.Linq;
-    using System.Text;
-    using System.Web;
-    using System.Web.Mvc;        
-    using System.Xml.Linq;    
-    using MvcContrib.ActionResults;    
-    using Fanex.OddsFeed.Library;
-    using Fanex.OddsFeed.Library.Attributes;
-    using Fanex.OddsFeed.Library.Model;
+    using System.Xml.Linq;
+    using MvcContrib.ActionResults;
     using Fanex.OddsFeed.WebService.Functions;
+    using OddsFeed.Common.DTO;
 
-    /// <summary>
-    /// Class FeedsController.
-    /// </summary>    
-    public class FeedsController : Controller
+    public class FeedsController : BaseController
     {
-        [Compress]
         public XmlResult Index(string username, string feedname, int? fromid)
-        {            
-            var a = typeof(Country).AssemblyQualifiedName;
+        {
             var typeName = "Fanex.OddsFeed.Library.Model." + feedname +
                 ", Fanex.OddsFeed.Library, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null";
 
@@ -50,7 +27,6 @@ namespace Fanex.OddsFeed.WebService.Controllers
 
         public string GetJson(string username, string feedname, int? fromid)
         {
-            var a = typeof(Country).AssemblyQualifiedName;
             var typeName = "Fanex.OddsFeed.Library.Model." + feedname +
                 ", Fanex.OddsFeed.Library, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null";
 
@@ -58,7 +34,7 @@ namespace Fanex.OddsFeed.WebService.Controllers
 
             if (feedType == null)
             {
-                return new Error(-1, "This feed is not available.").ToString();
+                return new Error { Id = -1, Message = "This feed is not available." };
             }
 
             var domain = Helper.DomainName(Request.ServerVariables);                                     
@@ -66,11 +42,11 @@ namespace Fanex.OddsFeed.WebService.Controllers
             return data;            
         }
 
-        private static string GetJsonFeeds(Type feedType, string username, string timestamp, string domain, int? fromid)
+        private string GetJsonFeeds(Type feedType, string username, string timestamp, string domain, int? fromid)
         {
-            var ip = Utilities.GetIpAddressOfClient();
+            var ipAddress = GetClientIpAddress();
 
-            var err = IsAuthenticated(username, timestamp, domain, ip);
+            var err = IsAuthenticated(username, timestamp, domain, ipAddress);
 
             if (err.HasValue && err.Value.Id == 0)
             {
@@ -78,17 +54,17 @@ namespace Fanex.OddsFeed.WebService.Controllers
                 var a = genericType.MakeGenericType(feedType);
                 dynamic obj = Activator.CreateInstance(a);
 
-                return obj.BuildJson(domain, ip, username, fromid);
+                return obj.BuildJson(domain, ipAddress, username, fromid);
             }
 
             return err.Value.ToString();
         }
 
-        private static XContainer GetXmlFeeds(Type feedType, string username, string timestamp, string domain, int? fromid)
+        private XContainer GetXmlFeeds(Type feedType, string username, string timestamp, string domain, int? fromid)
         {
-            var ip = Utilities.GetIpAddressOfClient();
+            var ipAddress = GetClientIpAddress();
 
-            var err = IsAuthenticated(username, timestamp, domain, ip);
+            var err = IsAuthenticated(username, timestamp, domain, ipAddress);
 
             if (err.HasValue && err.Value.Id == 0)
             {
@@ -96,20 +72,19 @@ namespace Fanex.OddsFeed.WebService.Controllers
                 var a = genericType.MakeGenericType(feedType);
                 dynamic obj = Activator.CreateInstance(a);
 
-                return obj.BuildXmlDocument(domain, ip, username, fromid);
+                return obj.BuildXmlDocument(domain, ipAddress, username, fromid);
             }
-
+            XmlResult()
             return err.Value.ToXElement();
         }
 
-        private static Error? IsAuthenticated(string username, string timestamp, string domain, string ip)
+        private static Error IsAuthenticated(string username, string timestamp, string domain, string ip)
         {
-            // ignore port number if it presents
             var domainName = domain;
 
             if (string.IsNullOrEmpty(username))
             {
-                return null; // ErrorCollection.ParameterSufficent();
+                return null;
             }
 
             var partner = new Partner(username, domainName, ip, timestamp);

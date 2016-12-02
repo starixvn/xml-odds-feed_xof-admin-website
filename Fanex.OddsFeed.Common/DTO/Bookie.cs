@@ -6,8 +6,12 @@
     [Serializable]
     public class Bookie
     {
-        public IEnumerable<Language> BookieNames { get; set; }
+        public string BookieNameEnglish { get; set; }
 
-        public IList<MatchOdds> MatchOddsList { get; set; }
+        public string BookieNameTraditionalChinese { get; set; }
+
+        public string BookieNameSimplifiedChinese { get; set; }
+
+        public IEnumerable<MatchOdds> MatchOddsList { get; set; }
     }
 }

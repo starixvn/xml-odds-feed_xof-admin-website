@@ -1,76 +1,58 @@
 ﻿namespace Fanex.OddsFeed.WebService.Controllers
 {
-    using System;
-    using System.Configuration;
     using System.Data;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Web;
     using System.Web.Mvc;
     using System.Xml;
-    using MvcContrib.ActionResults;
-    using Fanex.OddsFeed.Library;
-    using Fanex.OddsFeed.Library.Attributes;
     using Fanex.OddsFeed.WebService.Functions;
+    using OddsFeed.Common;
+    using OddsFeed.Common.Formatter;
+    using WebServiceLibrary;
+    using WebServiceLibrary.Criteria;
 
-    public class BetRadarController : Controller
+    public class BetRadarController : BaseController
     {
-        #region Odds
-
-        /// <summary>
-        /// Gets the odds.
-        /// </summary>
-        /// <param name="userName">Name of the user.</param>
-        /// <returns>System String.</returns>
-        [Compress]
-        public XmlResult Index(string userName)
+        public ActionResult Index(string userName)
         {
             if (userName.ToLower() != "betradar")
             {
-                return new XmlResult(ErrorCollection.UnAuthenticated());
+                return Content(SerializeObject(ErrorBuilder.GetUnAuthenticated()));
             }
 
-            var startTime = string.Empty;
-            var endTime = string.Empty;
-
-            if (Utilities.GetDownTime(out startTime, out endTime))
+            if (IsDownTime())
             {
-                return new XmlResult(ErrorCollection.UMDownTime(endTime));
+                var underMaintenanceTime = GetUndermaintenanceTime();
+
+                return Content(SerializeObject(ErrorBuilder.GetUMDownTime(underMaintenanceTime.To)));
             }
             
-            return new XmlResult(GetOddsFeed(userName));
+            return Content(GetOddsFeed(userName));
         }
-        
-        #endregion
 
-        #region Private Methods
-
-        private XmlElement GetOddsFeed(string username)
+        private string GetOddsFeed(string username)
         {
-            // ignore port number if it presents
             if (string.IsNullOrEmpty(username))
             {
-                return ErrorCollection.ParameterSufficent();
+                return SerializeObject(ErrorBuilder.GetParameterSufficent());
             }
 
-            var domain = Helper.DomainName(Request.ServerVariables);
-            var ip = Utilities.GetIpAddressOfClient();
-            var partner = new Partner(username, domain, ip, string.Empty);
-            var err = partner.IsAuthenticated();
-
-            if (err.Id == 0)
+            var userProfileResult = GetAuthenticatedUserProfile(new CheckPermissionCriteria
+            {
+                UserName = username,
+                DomainName = Helper.DomainName(Request.ServerVariables),
+                Ip = GetClientIpAddress()
+            });
+            
+            if (userProfileResult.Error.Id == 0)
             {
                 return BuildXmlDocument();
             }
 
-            return err.ToXmlElement();
+            return SerializeObject(userProfileResult.Error);
         }
 
-        private XmlElement BuildXmlDocument()
+        private string BuildXmlDocument()
         {
-            // Load Data.
-            var oddsFeed = DbConnect.GetBetRadar().ResultSet.Tables[0];
-
-            // Generate XML.
+            var oddsFeed = DbAccess.GetBetRadar().ResultSet.Tables[0];
             var xd = new XmlDocument();
             var commentMain = xd.CreateComment(" Date is based on Malaysian time ");
             var list = xd.CreateElement("List");
@@ -126,9 +108,9 @@
             var node = xd.CreateElement("OddsData");
             node.SetAttribute("type", "3w");
             node.AppendChild(CreateNode(xd, "AC", "3"));
-            node.AppendChild(CreateNode(xd, "HomeOdds", Utilities.OddsFormat(row["com1_5"])));
-            node.AppendChild(CreateNode(xd, "DrawOdds", Utilities.OddsFormat(row["comx_5"])));
-            node.AppendChild(CreateNode(xd, "AwayOdds", Utilities.OddsFormat(row["com2_5"])));
+            node.AppendChild(CreateNode(xd, "HomeOdds", NumberFormatter.FormatOdds(row["com1_5"])));
+            node.AppendChild(CreateNode(xd, "DrawOdds", NumberFormatter.FormatOdds(row["comx_5"])));
+            node.AppendChild(CreateNode(xd, "AwayOdds", NumberFormatter.FormatOdds(row["com2_5"])));
             return node;
         }
 
@@ -138,8 +120,8 @@
             node.SetAttribute("type", "handicap");
             node.AppendChild(CreateNode(xd, "AC", "1"));
             node.AppendChild(CreateNode(xd, "Handicap", row["hdp1_1"].ToString() + ":" + row["hdp2_1"].ToString()));
-            node.AppendChild(CreateNode(xd, "HomeOdds", Utilities.OddsFormat(row["odds1hka_1"])));
-            node.AppendChild(CreateNode(xd, "AwayOdds", Utilities.OddsFormat(row["odds2hka_1"])));
+            node.AppendChild(CreateNode(xd, "HomeOdds", NumberFormatter.FormatOdds(row["odds1hka_1"])));
+            node.AppendChild(CreateNode(xd, "AwayOdds", NumberFormatter.FormatOdds(row["odds2hka_1"])));
             return node;
         }
 
@@ -148,11 +130,10 @@
             var node = xd.CreateElement("OddsData");
             node.SetAttribute("type", "total");
             node.AppendChild(CreateNode(xd, "AC", "1"));
-            node.AppendChild(CreateNode(xd, "Total", Utilities.TotalFormat(row["Hdp1_3"])));
-            node.AppendChild(CreateNode(xd, "UnderOdds", Utilities.OddsFormat(row["odds1hka_3"])));
-            node.AppendChild(CreateNode(xd, "OverOdds", Utilities.OddsFormat(row["odds2hka_3"])));
+            node.AppendChild(CreateNode(xd, "Total", NumberFormatter.FormatTotal(row["Hdp1_3"])));
+            node.AppendChild(CreateNode(xd, "UnderOdds", NumberFormatter.FormatOdds(row["odds1hka_3"])));
+            node.AppendChild(CreateNode(xd, "OverOdds", NumberFormatter.FormatOdds(row["odds2hka_3"])));
             return node;
         }
-        #endregion
     }
 }

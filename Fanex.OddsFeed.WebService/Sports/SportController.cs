@@ -1,10 +1,9 @@
 ﻿using Fanex.Data.Repository;
-using Fanex.OddsFeed.Library;
-using Fanex.OddsFeed.Library.Attributes;
 using Fanex.OddsFeed.WebService.Common;
 using System.Linq;
 using System.Text;
 using System.Web.Mvc;
+using Fanex.OddsFeed.Common.DTO;
 
 namespace Fanex.OddsFeed.WebService.Sports
 {
@@ -12,12 +11,11 @@ namespace Fanex.OddsFeed.WebService.Sports
     {
         private OddsFeedSerializer serializer = new OddsFeedSerializer();
 
-        [Compress]
         [PartnerPermission]
-        public ActionResult Index(string username, OddsProfile oddsProfile)
+        public ActionResult Index(string username, UserProfile userProfile)
         {
             var sports = GetSports(username);
-            LimitLanguage(sports, oddsProfile);
+            LimitLanguage(sports, userProfile);
 
             var xml = serializer.Serialize(sports);
             return Content(xml, "text/xml", Encoding.UTF8);
@@ -34,11 +32,11 @@ namespace Fanex.OddsFeed.WebService.Sports
             };
         }
 
-        private void LimitLanguage(SportsNode nodes, OddsProfile oddsProfile)
+        private void LimitLanguage(SportsNode nodes, UserProfile userProfile)
         {
-            var enableEnglish = oddsProfile.Languages.Contains("en-US");
-            var enableTraditionalChinese = oddsProfile.Languages.Contains("zh-TW");
-            var enableSimplifiedChinese = oddsProfile.Languages.Contains("zh-CN");
+            var enableEnglish = userProfile.Languages.Contains("en-US");
+            var enableTraditionalChinese = userProfile.Languages.Contains("zh-TW");
+            var enableSimplifiedChinese = userProfile.Languages.Contains("zh-CN");
 
             nodes.SportList.ForEach(b =>
             {

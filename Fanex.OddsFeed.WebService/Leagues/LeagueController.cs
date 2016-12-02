@@ -1,24 +1,22 @@
-﻿using Fanex.Data.Repository;
-using Fanex.OddsFeed.Library;
-using Fanex.OddsFeed.Library.Attributes;
-using Fanex.OddsFeed.WebService.Common;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web.Mvc;
-
-namespace Fanex.OddsFeed.WebService.Leagues
+﻿namespace Fanex.OddsFeed.WebService.Leagues
 {
+    using Fanex.Data.Repository;
+    using Fanex.OddsFeed.WebService.Common;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Web.Mvc;
+    using OddsFeed.Common.DTO;
+
     public class LeagueController : Controller
     {
         private OddsFeedSerializer serializer = new OddsFeedSerializer();
 
-        [Compress]
         [PartnerPermission]
-        public ActionResult Index(string username, OddsProfile oddsProfile)
+        public ActionResult Index(string username, UserProfile userProfile)
         {
             var leagues = GetLeagues(username);
-            LimitLanguage(leagues, oddsProfile);
+            LimitLanguage(leagues, userProfile);
 
             var xml = serializer.Serialize(leagues);
             return Content(xml, "text/xml", Encoding.UTF8);
@@ -40,17 +38,17 @@ namespace Fanex.OddsFeed.WebService.Leagues
         {
             foreach (LeagueNode league in leagues)
             {
-                league.NameEnglish = Utilities.EscapeXML(league.NameEnglish);
-                league.NameTraditionalChinese = Utilities.EscapeXML(league.NameTraditionalChinese);
-                league.NameSimplifiedChinese = Utilities.EscapeXML(league.NameSimplifiedChinese);
+                league.NameEnglish = league.NameEnglish;
+                league.NameTraditionalChinese = league.NameTraditionalChinese;
+                league.NameSimplifiedChinese = league.NameSimplifiedChinese;
             }
         }
 
-        private void LimitLanguage(LeaguesNode nodes, OddsProfile oddsProfile)
+        private void LimitLanguage(LeaguesNode nodes, UserProfile userProfile)
         {
-            var enableEnglish = oddsProfile.Languages.Contains("en-US");
-            var enableTraditionalChinese = oddsProfile.Languages.Contains("zh-TW");
-            var enableSimplifiedChinese = oddsProfile.Languages.Contains("zh-CN");
+            var enableEnglish = userProfile.Languages.Contains("en-US");
+            var enableTraditionalChinese = userProfile.Languages.Contains("zh-TW");
+            var enableSimplifiedChinese = userProfile.Languages.Contains("zh-CN");
 
             nodes.LeagueList.ForEach(b =>
             {

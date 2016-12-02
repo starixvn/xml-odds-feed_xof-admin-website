@@ -1,18 +1,7 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="Global.asax.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Thai.Tran" date="2013.1.7">Created</change>
-// </history>
-
-namespace Fanex.OddsFeed.WebService
+﻿namespace Fanex.OddsFeed.WebService
 {
     using Fanex.Logging;
     using log4net.Config;
-    using Fanex.OddsFeed.Library;
-    using Fanex.OddsFeed.Library.Attributes;
     using Fanex.OddsFeed.WebService.Controllers;
     using System;
     using System.Configuration;
@@ -20,24 +9,13 @@ namespace Fanex.OddsFeed.WebService
     using System.Web.Mvc;
     using System.Web.Routing;
 
-    //// Note: For instructions on enabling IIS6 or IIS7 classic mode, 
-    //// visit http://go.microsoft.com/?LinkId=9394801
-
-    /// <summary>
-    /// Class MVCApplication.
-    /// </summary>        
     public class MvcApplication : System.Web.HttpApplication
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
-            filters.Add(new CompressAttribute());
         }
-
-        /// <summary>
-        /// Register Routes.
-        /// </summary>
-        /// <param name="routes">Route Collection.</param>
+        
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
@@ -71,9 +49,6 @@ namespace Fanex.OddsFeed.WebService
                new { controller = "Home", action = "Index", id = UrlParameter.Optional }); // Parameter defaults            
         }
 
-        /// <summary>
-        /// Application_s the start.
-        /// </summary>
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
@@ -86,11 +61,6 @@ namespace Fanex.OddsFeed.WebService
             XmlConfigurator.Configure();
         }
 
-        /// <summary>
-        /// Application Error.
-        /// </summary>
-        /// <param name="sender">Object sender.</param>
-        /// <param name="e">Event args.</param>
         protected void Application_Error(object sender, EventArgs e)
         {
             var ex = Server.GetLastError();
@@ -138,11 +108,6 @@ namespace Fanex.OddsFeed.WebService
 
         #region Private register routes methods
 
-        /// <summary>
-        /// Registers the routes event.
-        /// </summary>
-        /// <param name="routes">The routes.</param>
-        /// <param name="_feedUrlPath">The _feed URL path.</param>
         private static void RegisterRoutesEvent(RouteCollection routes, string _feedUrlPath)
         {
             routes.MapRoute(
@@ -151,11 +116,6 @@ namespace Fanex.OddsFeed.WebService
                new { controller = "Event", action = "Index" });
         }
 
-        /// <summary>
-        /// Registers the routes feeds.
-        /// </summary>
-        /// <param name="routes">The routes.</param>
-        /// <param name="_feedUrlPath">The _feed URL path.</param>
         private static void RegisterRoutesFeeds(RouteCollection routes, string _feedUrlPath)
         {
             routes.MapRoute(
@@ -174,11 +134,6 @@ namespace Fanex.OddsFeed.WebService
                  new { controller = "Feeds", action = "GetJson" });
         }
 
-        /// <summary>
-        /// Registers the routes odds feed.
-        /// </summary>
-        /// <param name="routes">The routes.</param>
-        /// <param name="_feedUrlPath">The _feed URL path.</param>
         private static void RegisterRoutesOddsFeed(RouteCollection routes, string _feedUrlPath)
         {
             routes.MapRoute(
@@ -197,11 +152,6 @@ namespace Fanex.OddsFeed.WebService
               new { controller = "OddsFeed", action = "OldHelp" });
         }
 
-        /// <summary>
-        /// Registers the routes bed DAQ.
-        /// </summary>
-        /// <param name="routes">The routes.</param>
-        /// <param name="_feedUrlPath">The _feed URL path.</param>
         private static void RegisterRoutesBedDaq(RouteCollection routes, string _feedUrlPath)
         {
             routes.MapRoute(
@@ -235,11 +185,6 @@ namespace Fanex.OddsFeed.WebService
                 new { controller = "InsertBetdaq", action = "Index" });
         }
 
-        /// <summary>
-        /// Registers the routes bed Radar.
-        /// </summary>
-        /// <param name="routes">The routes.</param>
-        /// <param name="_feedUrlPath">The _feed URL path.</param>
         private static void RegisterRoutesBetRadar(RouteCollection routes, string _feedUrlPath)
         {
             routes.MapRoute(

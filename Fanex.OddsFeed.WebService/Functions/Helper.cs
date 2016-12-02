@@ -1,27 +1,18 @@
 ﻿namespace Fanex.OddsFeed.WebService.Functions
 {
     using System;
-    using System.Collections.Generic;
     using System.Collections.Specialized;
     using System.Configuration;
     using System.Data;
     using System.Linq;
     using System.Text;
     using System.Web;
-    using Fanex.OddsFeed.Library;
+    using OddsFeed.Common;
+    using OddsFeed.Common.Converters;
+    using OddsFeed.Common.DTO;
 
-    /// <summary>
-    /// Class Helper.
-    /// </summary>    
     public static class Helper
     {
-        #region Domain
-
-        /// <summary>
-        /// Get the name of the domain.
-        /// </summary>
-        /// <param name="variables">The variables.</param>
-        /// <returns>System String.</returns>
         public static string DomainName(NameValueCollection variables)
         {
             var protocol = (variables["SERVER_PORT_SECURE"] == "1") ? "https://" : "http://";
@@ -38,11 +29,6 @@
             return fullDomainName;
         }
 
-        /// <summary>
-        /// Get the full name of the domain.
-        /// </summary>
-        /// <param name="variables">The variables.</param>
-        /// <returns>System String.</returns>
         public static string FullDomainName(NameValueCollection variables)
         {
             var domain = variables["SERVER_NAME"];
@@ -61,17 +47,6 @@
             return fulldomain;
         }
 
-        #endregion       
-
-        #region ToCSV
-
-        /// <summary>
-        /// To the CSV.
-        /// </summary>
-        /// <param name="dt">The data table.</param>
-        /// <param name="isPrintHeader">If set to <c>true</c> [is print header].</param>
-        /// <param name="separateRow">The separate row.</param>
-        /// <returns>System String.</returns>
         public static string ToCSV(this DataTable dt, bool isPrintHeader, string separateRow)
         {
             var sb = new StringBuilder();
@@ -97,12 +72,6 @@
             return sb.ToString();
         }
 
-        /// <summary>
-        /// To the CSV.
-        /// </summary>
-        /// <param name="drs">The data row.</param>
-        /// <param name="separateRow">The separate row.</param>
-        /// <returns>System String.</returns>
         public static string ToCSV(this DataRow[] drs, string separateRow)
         {
             var sb = new StringBuilder();            
@@ -122,16 +91,6 @@
             return sb.ToString();
         }
 
-        #endregion
-
-        #region ToCSV_Odds
-
-        /// <summary>
-        /// To the cs v_ odds.
-        /// </summary>
-        /// <param name="drs">The data row.</param>
-        /// <param name="separateRow">The separate row.</param>
-        /// <returns>System String.</returns>
         public static string ToCSV_Odds(this DataRow[] drs, string separateRow)
         {
             var sb = new StringBuilder();
@@ -182,12 +141,6 @@
             return sb.ToString();
         }
 
-        /// <summary>
-        /// To the cs v_ odds_2.
-        /// </summary>
-        /// <param name="drs">The data row.</param>
-        /// <param name="separateRow">The separate row.</param>
-        /// <returns>System String.</returns>
         public static string ToCSV_Odds_2(this DataRow[] drs, string separateRow)
         {
             var sb = new StringBuilder();
@@ -229,12 +182,6 @@
             return sb.ToString();
         }
 
-        /// <summary>
-        /// Generate foo bet to cs v_ odds.
-        /// </summary>
-        /// <param name="drs">The data row.</param>
-        /// <param name="separateRow">The separate row.</param>
-        /// <returns>System String.</returns>
         public static string FooBetToCSV_Odds(this DataRow[] drs, string separateRow)
         {
             var sb = new StringBuilder();
@@ -283,12 +230,6 @@
             return sb.ToString();
         }
 
-        /// <summary>
-        /// Generate foo bet to cs v_ odds_2.
-        /// </summary>
-        /// <param name="drs">The data row.</param>
-        /// <param name="separateRow">The separate row.</param>
-        /// <returns>System String.</returns>
         public static string FooBetToCSV_Odds_2(this DataRow[] drs, string separateRow)
         {
             var sb = new StringBuilder();
@@ -315,19 +256,10 @@
 
             return sb.ToString();
         }
-
-        #endregion        
-
-        #region Filter
-
-        /// <summary>
-        /// Gets the filter.
-        /// </summary>
-        /// <param name="request">The request.</param>
-        /// <returns>Object OddsFeedFilter.</returns>
-        public static OddsFeedFilter GetFilter(HttpRequestBase request)
+        
+        public static UserQuery GetFilter(HttpRequestBase request)
         {
-            var oddsFeedFilter = new OddsFeedFilter();
+            var userQuery = new UserQuery();
 
             var filterSport = request["Sport"] == null ? string.Empty : request["Sport"].ToLower();
             var filterCountry = request["Country"] == null ? string.Empty : request["Country"].ToLower();
@@ -336,48 +268,36 @@
 
             if (!string.IsNullOrEmpty(filterCountry))
             {
-                filterCountry = StandardizeCountryCodeList(string.Join(",", Utilities.GetStringIList(filterCountry, true))).ToLower();
+                filterCountry = StandardizeCountryCodeList(string.Join(",", ListConverter.ConvertToListString(filterCountry, true))).ToLower();
                 if (string.IsNullOrEmpty(filterCountry))
                 {
                     filterCountry = "null";
                 }
             }
 
-            oddsFeedFilter.Sports = Utilities.GetIntList(filterSport);
-            oddsFeedFilter.Countries = Utilities.GetStringIList(filterCountry, true);
-            oddsFeedFilter.BetTypes = Utilities.GetIntList(filterBettype);
-            oddsFeedFilter.Leagues = Utilities.GetStringIList(filterLeague, true);
+            userQuery.Sports = ListConverter.ConvertToListInt(filterSport);
+            userQuery.Countries = ListConverter.ConvertToListString(filterCountry, true);
+            userQuery.BetTypes = ListConverter.ConvertToListInt(filterBettype);
+            userQuery.Leagues = ListConverter.ConvertToListString(filterLeague, true);
 
-            return oddsFeedFilter;
+            return userQuery;
         }
-
-        /// <summary>
-        /// Check over limited options.
-        /// </summary>
-        /// <param name="filter">The filter.</param>
-        /// <returns>Return True if over else return false.</returns>
-        public static bool IsOverLimitedOptions(OddsFeedFilter filter)
+        
+        public static bool IsOverLimitedOptions(UserQuery userQuery)
         {
             var limitedOptionsNumber = Convert.ToInt32(ConfigurationManager.AppSettings["LimitedOptions"]);
 
-            return filter.Sports.Count > limitedOptionsNumber ||
-                filter.Countries.Count > limitedOptionsNumber ||
-                filter.BetTypes.Count > limitedOptionsNumber ||
-                filter.Leagues.Count > limitedOptionsNumber;            
+            return userQuery.Sports.Count > limitedOptionsNumber ||
+                userQuery.Countries.Count > limitedOptionsNumber ||
+                userQuery.BetTypes.Count > limitedOptionsNumber ||
+                userQuery.Leagues.Count > limitedOptionsNumber;            
         }
 
-        /// <summary>
-        /// Standardize list of country codes.
-        /// </summary>
-        /// <param name="countryCodeList">The country code list.</param>
-        /// <returns>The standardize country code list.</returns>
         public static string StandardizeCountryCodeList(string countryCodeList)
         {
-            var countryCodeTable = DbConnect.GetCountryList().ResultSet.Tables[0];
+            var countryCodeTable = DbAccess.GetCountryList().ResultSet.Tables[0];
             var filteredRows = countryCodeTable.Select(string.Format("{0} in ('{1}')", "CountryCode", countryCodeList.Replace(",", "','")));
             return string.Join(",", filteredRows.Select(x => x.ItemArray.GetValue(2)).AsEnumerable());            
         }
-     
-        #endregion
     }
 }

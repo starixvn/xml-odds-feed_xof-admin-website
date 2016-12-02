@@ -10,11 +10,23 @@
 
         public int LeagueId { get; set; }
 
-        public IEnumerable<Language> LeagueNames { get; set; }
+        public string LeagueEnglish { get; set; }
 
-        public IEnumerable<Language> HomeNames { get; set; }
+        public string LeagueTraditionalChinese { get; set; }
 
-        public IEnumerable<Language> AwayNames { get; set; }
+        public string LeagueSimplifiedChinese { get; set; }
+
+        public string HomeEnglish { get; set; }
+
+        public string HomeTraditionalChinese { get; set; }
+
+        public string HomeSimplifiedChinese { get; set; }
+
+        public string AwayEnglish { get; set; }
+
+        public string AwayTraditionalChinese { get; set; }
+
+        public string AwaySimplifiedChinese { get; set; }
 
         public int TimeStamp { get; set; }
 
@@ -23,8 +35,6 @@
         public string SportName { get; set; }
 
         public string CountryCode { get; set; }
-
-        public int BetTypeId { get; set; }
 
         public DateTime KickOfTime { get; set; }
 

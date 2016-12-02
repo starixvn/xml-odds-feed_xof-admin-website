@@ -8,7 +8,7 @@
     using WebServiceLibrary.Criteria;
     using WebServiceLibrary.Repositories;
 
-    public class PartnerPermission : ActionFilterAttribute, IActionFilter
+    public sealed class PartnerPermission : ActionFilterAttribute
     {
         private readonly IPartnerRepository _partnerRepository;
 
@@ -17,12 +17,12 @@
             _partnerRepository = new PartnerRepository();
         }
 
-        void IActionFilter.OnActionExecuting(ActionExecutingContext filterContext)
+        public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             var request = filterContext.HttpContext.Request;
             var username = filterContext.ActionParameters["username"].ToString();
             var domainName = Helper.DomainName(request.ServerVariables);
-            var ipAddress = HttpHelper.GetIpAddressOfClient();
+            var ipAddress = RequestHelper.GetClientIpAddress();
 
             var result = GetUserProfileResult(username, domainName, ipAddress);
 
@@ -45,7 +45,7 @@
         {
             return _partnerRepository.GetAuthenticatedUserProfile(new CheckPermissionCriteria
             {
-                UserName = username, 
+                UserName = username,
                 DomainName = domainName,
                 Ip = ip
             });

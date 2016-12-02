@@ -3,9 +3,9 @@
     using System;
     using System.Web;
 
-    public static class HttpHelper
+    public static class RequestHelper
     {
-        public static string GetIpAddressOfClient()
+        public static string GetClientIpAddress()
         {
             var clientIp = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
 

@@ -34,7 +34,9 @@
                 {
                     match.Bookie = new Bookie
                     {
-                        BookieNames = GetBookieNames(),
+                        BookieNameEnglish = string.Empty,
+                        BookieNameSimplifiedChinese = string.Empty,
+                        BookieNameTraditionalChinese = string.Empty,
                         MatchOddsList = new List<MatchOdds> { matchOdds }
                     };
 
@@ -65,12 +67,17 @@
                 SportName = row["SportTypeName"].ToString(),
                 SportId = Convert.ToInt32(row["SportType"]),
                 KickOfTime = Convert.ToDateTime(row["KickOffTime"].ToString()),
-                HomeNames = GetHomeTeams(row),
-                AwayNames = GetAwayTeams(row),
+                HomeEnglish = row["Home"].ToString(),
+                HomeSimplifiedChinese = row["HomeCN"].ToString(),
+                HomeTraditionalChinese = row["HomeC_UNI"].ToString(),
+                AwayEnglish = row["Away"].ToString(),
+                AwaySimplifiedChinese = row["AwayC_UNI"].ToString(),
+                AwayTraditionalChinese = row["AwayCN"].ToString(),
                 LeagueId = Convert.ToInt32(row["LeagueID"]),
-                LeagueNames = GetLeagues(row),
+                LeagueEnglish = row["LeagueName"].ToString(),
+                LeagueSimplifiedChinese = row["LeagueNameCN"].ToString(),
+                LeagueTraditionalChinese = row["LeagueNameC_UNI"].ToString(),
                 CountryCode = row["CountryCode"].ToString(),
-                BetTypeId = Convert.ToInt32(row["BetType"]),
                 IsLive = isLive,
                 TimeStamp = Convert.ToInt32(row["TimeStamp"])
             };
@@ -252,94 +259,6 @@
         private static string ConvertMalayToDecimalOddsString(decimal odds)
         {
             return string.Format("{0:0.#########}", OddsConverter.ToDecimalOddsFromMalayOdds(Convert.ToDecimal(odds)));
-        }
-
-        private static IList<Language> GetBookieNames()
-        {
-            return new List<Language>
-            {
-                new Language
-                    {
-                        Code = "en-US",
-                        Content = string.Empty
-                    },
-                new Language
-                    {
-                        Code = "zh-TW",
-                        Content = string.Empty
-                    },
-                new Language
-                    {
-                        Code = "zh-CN",
-                        Content = string.Empty
-                    }
-            };
-        }
-
-        private static IList<Language> GetAwayTeams(DataRow row)
-        {
-            return new List<Language>
-            {
-                new Language
-                    {
-                        Code = "en-US",
-                        Content = row["Away"].ToString()
-                    },
-                new Language
-                    {
-                        Code = "zh-TW",
-                        Content = row["AwayCN"].ToString()
-                    },
-                new Language
-                    {
-                        Code = "zh-CN",
-                        Content = row["AwayC_UNI"].ToString()
-                    }
-            };
-        }
-
-        private IList<Language> GetHomeTeams(DataRow row)
-        {
-            return new List<Language>
-            {
-                new Language
-                    {
-                        Code = "en-US",
-                        Content = row["Home"].ToString()
-                    },
-                new Language
-                    {
-                        Code = "zh-TW",
-                        Content = row["HomeCN"].ToString()
-                    },
-                new Language
-                    {
-                        Code = "zh-CN",
-                        Content = row["HomeC_UNI"].ToString()
-                    }
-            };
-        }
-
-        private static IList<Language> GetLeagues(DataRow row)
-        {
-            return new List<Language>
-            {
-                new Language
-                    {
-                        Code = "en-US",
-                        Content = row["LeagueName"].ToString()
-                    },
-                new Language
-                    {
-                        Code = "zh-TW",
-                        Content = row["LeagueNameCN"].ToString()
-                    },
-                new Language
-                    {
-                        Code = "zh-CN",
-                        Content = row["LeagueNameC_UNI"].ToString()
-                    }
-            };
         }
     }
 }

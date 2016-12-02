@@ -3,6 +3,7 @@
     using System.Linq;
     using System.Text;
     using System.Web.Mvc;
+    using BetTypes;
     using Fanex.Data.Repository;
     using Fanex.OddsFeed.WebService.Common;
     using OddsFeed.Common.DTO;
@@ -19,7 +20,6 @@
             _betTypeService = new BetTypeService();
         }
 
-        [Compress]
         [PartnerPermission]
         public ActionResult Index(string username, UserProfile userProfile)
         {
@@ -55,11 +55,11 @@
             };
         }
 
-        private void LimitLanguage(BetTypesNode nodes, OddsProfile oddsProfile)
+        private void LimitLanguage(BetTypesNode nodes, UserProfile userProfile)
         {
-            var enableEnglish = oddsProfile.Languages.Contains("en-US");
-            var enableTraditionalChinese = oddsProfile.Languages.Contains("zh-TW");
-            var enableSimplifiedChinese = oddsProfile.Languages.Contains("zh-CN");
+            var enableEnglish = userProfile.Languages.Contains("en-US");
+            var enableTraditionalChinese = userProfile.Languages.Contains("zh-TW");
+            var enableSimplifiedChinese = userProfile.Languages.Contains("zh-CN");
 
             nodes.BetTypeList.ForEach(b =>
             {
