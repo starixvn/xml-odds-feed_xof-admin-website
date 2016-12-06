@@ -1,12 +1,11 @@
 ﻿namespace Fanex.OddsFeed.WebServiceLibrary.Services
 {
-    using System.Xml;
+    using System.Text;
     using Common.DTO;
 
     public interface IWebOddsFeedService
     {
-        XmlElement BuildXmlDocument(
-            string timeStamp,
+        StringBuilder BuildXmlDocument(
             UserQuery userQuery,
             bool isSample,
             bool isOutright);

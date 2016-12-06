@@ -1,14 +1,15 @@
 ﻿namespace Fanex.OddsFeed.WebService.Controllers
 {
     using System;
+    using System.Web.Mvc;
     using System.Xml.Linq;
-    using MvcContrib.ActionResults;
     using Fanex.OddsFeed.WebService.Functions;
     using OddsFeed.Common.DTO;
+    using WebServiceLibrary.Criteria;
 
     public class FeedsController : BaseController
     {
-        public XmlResult Index(string username, string feedname, int? fromid)
+        public ActionResult Index(string username, string feedname, int? fromid)
         {
             var typeName = "Fanex.OddsFeed.Library.Model." + feedname +
                 ", Fanex.OddsFeed.Library, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null";
@@ -17,12 +18,18 @@
 
             if (feedType == null)
             {
-                return new XmlResult(new Error(-1, "This feed is not available.").ToXElement());
+                return Content(SerializeObject(
+                    new Error
+                    {
+                        Id = -1,
+                        Message = "This feed is not available."
+                    }));
             }            
                     
             var domain = Helper.DomainName(Request.ServerVariables);                                     
             var data = GetXmlFeeds(feedType, username, HttpContext.Request["t"], domain, fromid);
-            return new XmlResult(data);                     
+
+            return Content(data);                     
         }
 
         public string GetJson(string username, string feedname, int? fromid)
@@ -74,11 +81,10 @@
 
                 return obj.BuildXmlDocument(domain, ipAddress, username, fromid);
             }
-            XmlResult()
             return err.Value.ToXElement();
         }
 
-        private static Error IsAuthenticated(string username, string timestamp, string domain, string ip)
+        private QueryResult<UserProfile> IsAuthenticated(string username, string timestamp, string domain, string ip)
         {
             var domainName = domain;
 
@@ -87,9 +93,7 @@
                 return null;
             }
 
-            var partner = new Partner(username, domainName, ip, timestamp);
-
-            return partner.IsAuthenticated();
+            return GetAuthenticatedUserProfile(new CheckPermissionCriteria { UserName = username, DomainName = domain, Ip = ip });
         }
     }
 }

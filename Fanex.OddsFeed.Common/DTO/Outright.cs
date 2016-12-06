@@ -8,7 +8,11 @@
     {
         public int EventId { get; set; }
 
-        public IEnumerable<Language> EventNames { get; set; }
+        public string EventEnglish { get; set; }
+
+        public string EventTraditionalChinese { get; set; }
+
+        public string EventSimplifiedChinese { get; set; }
 
         public DateTime Time { get; set; }
 

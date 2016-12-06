@@ -1,16 +1,16 @@
 ﻿namespace Fanex.OddsFeed.WebServiceLibrary.Builders
 {
     using System.Collections.Generic;
-    using System.Xml;
+    using System.Text;
     using Common.DTO;
 
     public interface IOutrightBuilder
     {
-        XmlNode CreateOutrightsNode(
-            XmlDocument xmlDocument,
+        void AppendOutrightsNode(
+            StringBuilder oddsFeedNode,
             UserProfile userProfile,
             UserQuery userQuery,
-            IEnumerable<Outright> outrightNodes,
+            IEnumerable<Outright> outrights,
             bool isOutright,
             bool isSample);
     }

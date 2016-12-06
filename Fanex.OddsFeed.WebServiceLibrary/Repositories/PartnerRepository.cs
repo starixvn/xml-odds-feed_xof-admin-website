@@ -12,7 +12,7 @@
     {
         private const string All = "all";
 
-        public QueryResult<UserProfile> GetAuthenticatedUserProfile(CheckPermissionCriteria criteria)
+        public AuthenticatedPartner GetAuthenticatedPartner(CheckPermissionCriteria criteria)
         {
             using (var db = GetObjectDb(criteria.GetSettingKey()))
             {
@@ -21,9 +21,10 @@
                 var profileDataList = db.Query<ProfileData>(inputParams);
                 var outputParams = db.GetOuputParams();
 
-                return new QueryResult<UserProfile>
+                return new AuthenticatedPartner
                 {
-                    Data = profileDataList.Count() == 0 ? null : GetUserProfile(profileDataList.FirstOrDefault()),
+                    SystemName = Converter.ToString2(outputParams["systemname"]),
+                    UserProfile = profileDataList.Count() == 0 ? null : GetUserProfile(profileDataList.FirstOrDefault()),
                     Error = new Error
                     {
                         Id = Converter.ToInt(outputParams[ErrorCode]),

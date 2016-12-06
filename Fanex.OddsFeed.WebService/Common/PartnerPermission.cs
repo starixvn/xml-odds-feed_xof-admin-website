@@ -41,9 +41,9 @@
             }
         }
 
-        private QueryResult<UserProfile> GetUserProfileResult(string username, string domainName, string ip)
+        private AuthenticatedPartner GetUserProfileResult(string username, string domainName, string ip)
         {
-            return _partnerRepository.GetAuthenticatedUserProfile(new CheckPermissionCriteria
+            return _partnerRepository.GetAuthenticatedPartner(new CheckPermissionCriteria
             {
                 UserName = username,
                 DomainName = domainName,

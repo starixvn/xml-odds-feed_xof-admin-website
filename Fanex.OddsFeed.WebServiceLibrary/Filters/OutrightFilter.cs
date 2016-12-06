@@ -34,7 +34,7 @@
         {
             return (userQuery.Leagues == null || userQuery.Leagues.Count == 0 
                 ? true 
-                : SearchLeague(userQuery.Leagues, outright.EventNames.ElementAt(0).Content.ToLower()));
+                : SearchLeague(userQuery.Leagues, outright.EventEnglish.ToLower()));
         }
 
         private static bool FilterByCountry(UserProfile userProfile, UserQuery userQuery, Outright outright)
@@ -62,7 +62,7 @@
         {
             return string.IsNullOrEmpty(userProfile.OutrightsKeyword) 
                 ? true 
-                : outright.EventNames.ElementAt(0).Content.ToLower().Contains(userProfile.OutrightsKeyword.ToLower());
+                : outright.EventEnglish.ToLower().Contains(userProfile.OutrightsKeyword.ToLower());
         }
 
         private static bool SearchLeague(IList<string> searchLeagues, string league)

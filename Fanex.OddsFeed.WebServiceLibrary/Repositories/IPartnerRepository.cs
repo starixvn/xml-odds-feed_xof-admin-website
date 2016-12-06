@@ -5,6 +5,6 @@
 
     public interface IPartnerRepository
     {
-        QueryResult<UserProfile> GetAuthenticatedUserProfile(CheckPermissionCriteria criteria);
+        AuthenticatedPartner GetAuthenticatedPartner(CheckPermissionCriteria criteria);
     }
 }

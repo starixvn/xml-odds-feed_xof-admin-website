@@ -123,7 +123,6 @@
     <Compile Include="Builders\IMatchBuilder.cs" />
     <Compile Include="Builders\IOutrightBuilder.cs" />
     <Compile Include="Builders\MatchBuilder.cs" />
-    <Compile Include="Builders\OddsFeedBuilder.cs" />
     <Compile Include="Builders\OutrightBuilder.cs" />
     <Compile Include="Caching\OddFeedDataCachingOperator.cs" />
     <Compile Include="Criteria\CheckPermissionCriteria.cs" />

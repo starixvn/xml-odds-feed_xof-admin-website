@@ -32,15 +32,8 @@
 
                 if (matchId != currentMatchId)
                 {
-                    match.Bookie = new Bookie
-                    {
-                        BookieNameEnglish = string.Empty,
-                        BookieNameSimplifiedChinese = string.Empty,
-                        BookieNameTraditionalChinese = string.Empty,
-                        MatchOddsList = new List<MatchOdds> { matchOdds }
-                    };
-
                     match.MatchId = currentMatchId;
+                    match.MatchOddsList = new List<MatchOdds> { matchOdds };
 
                     matches.Add(match);
 
@@ -53,7 +46,7 @@
                         match.TimeStamp = matchOdds.TimeStamp;
                     }
 
-                    matches.Last().Bookie.MatchOddsList.Add(matchOdds);
+                    matches.Last().MatchOddsList.Add(matchOdds);
                 }
             }
 

@@ -2,20 +2,19 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Xml;
+    using System.Text;
     using Common.DTO;
 
     public interface IMatchBuilder
     {
-        XmlNode CreateMatchesNode(
-            XmlDocument xmlDocument,
+        void AppendMatchesNode(
+            StringBuilder oddsFeedNode,
             UserProfile userProfile,
             UserQuery userQuery,
-            IEnumerable<Match> deadMatches,
-            IEnumerable<Match> liveMatches,
+            IList<Match> deadballMatches,
+            IList<Match> liveMatches,
             string bookieName,
             DateTime lastUpdate,
-            int timeStamp,
             bool isSample);
     }
 }

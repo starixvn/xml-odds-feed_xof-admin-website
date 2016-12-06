@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Text;
     using System.Xml;
     using Builders;
     using Caching;
@@ -43,24 +44,36 @@
             _outrightFilter = new OutrightFilter();
         }
 
-        public XmlElement BuildXmlDocument(
-            string timeStamp, 
+        public StringBuilder BuildXmlDocument(
             UserQuery userQuery, 
             bool isSample = false, 
             bool isOutright = true)
         {
-            var xmlDocument = CreateXmlDocument();
-            var nodeRoot = xmlDocument.CreateElement("oddsfeed");
+            var oddsFeedNode = new StringBuilder();
             var oddsData = OddFeedDataCachingOperator.GetOddsData(_userProfile.DelayTimes);
+
+            AppendBeginOddsFeedNode(oddsFeedNode);
 
             if (IsShownOutright(isSample, isOutright))
             {
-                AddOutrightNode(nodeRoot, xmlDocument, userQuery, oddsData, isOutright, isSample);
+                AddOutrightNode(oddsFeedNode, userQuery, oddsData, isOutright, isSample);
             }
 
-            AddMatchesNode(nodeRoot, xmlDocument, userQuery, oddsData, isSample);
+            AddMatchesNode(oddsFeedNode, userQuery, oddsData, isSample);
 
-            return nodeRoot;
+            AppendEndOddsFeedNode(oddsFeedNode);
+
+            return oddsFeedNode;
+        }
+
+        private void AppendBeginOddsFeedNode(StringBuilder oddsFeedNode)
+        {
+            oddsFeedNode.Append("<oddsfeed>");
+        }
+
+        private void AppendEndOddsFeedNode(StringBuilder oddsFeedNode)
+        {
+            oddsFeedNode.Append("</oddsfeed>");
         }
 
         private static XmlDocument CreateXmlDocument()
@@ -79,8 +92,7 @@
         }
 
         private void AddOutrightNode(
-            XmlElement nodeRoot,
-            XmlDocument xmlDocument, 
+            StringBuilder oddsFeedNode, 
             UserQuery userQuery,
             OddsData oddsData,
             bool isOutright, 
@@ -90,21 +102,12 @@
 
             if (outrights != null)
             {
-                var outrightsNode = _outrightBuilder.CreateOutrightsNode(
-                    xmlDocument, 
-                    _userProfile, 
-                    userQuery, 
-                    outrights, 
-                    isOutright, 
-                    isSample);
-
-                nodeRoot.AppendChild(outrightsNode);
+                _outrightBuilder.AppendOutrightsNode(oddsFeedNode, _userProfile, userQuery, outrights, isOutright, isSample);
             }
         }
 
         private void AddMatchesNode(
-            XmlElement nodeRoot,
-            XmlDocument xmlDocument,
+            StringBuilder oddsFeedNode,
             UserQuery userQuery,
             OddsData oddsData,
             bool isSample)
@@ -117,18 +120,15 @@
 
             if (liveMatches != null || deadballMatches != null)
             {
-                var matchesNode = _matchBuilder.CreateMatchesNode(
-                    xmlDocument, 
-                    _userProfile,
-                    userQuery,
+                _matchBuilder.AppendMatchesNode(
+                    oddsFeedNode, 
+                    _userProfile, 
+                    userQuery, 
                     deadballMatches, 
                     liveMatches, 
-                    _bookieName,
+                    _bookieName, 
                     GetLastUpdate(), 
-                    timeStamp,
                     isSample);
-
-                nodeRoot.AppendChild(matchesNode);
             }
         }
 

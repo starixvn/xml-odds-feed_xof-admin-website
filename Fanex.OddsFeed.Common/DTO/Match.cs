@@ -42,6 +42,12 @@
 
         public bool IsLive { get; set; }
 
-        public Bookie Bookie { get; set; }
+        public string BookieNameEnglish { get; set; }
+
+        public string BookieNameTraditionalChinese { get; set; }
+
+        public string BookieNameSimplifiedChinese { get; set; }
+
+        public IList<MatchOdds> MatchOddsList { get; set; }
     }
 }

@@ -8,7 +8,11 @@
     {
         public int OddsId { get; set; }
 
-        public IEnumerable<Language> Names { get; set; }
+        public string OddNameEnglish { get; set; }
+
+        public string OddNameTraditionalChinese { get; set; }
+
+        public string OddNameSimplifiedChinese { get; set; }
 
         public decimal Value { get; set; }
     }

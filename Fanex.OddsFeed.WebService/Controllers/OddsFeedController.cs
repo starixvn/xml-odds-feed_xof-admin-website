@@ -5,15 +5,14 @@
     using System.Data;
     using System.Text;
     using System.Web.Mvc;
-    using System.Xml;
     using log4net;
-    using MvcContrib.ActionResults;
     using Fanex.OddsFeed.WebService.Functions;
     using WebServiceLibrary.Services;
     using OddsFeed.Common;
     using OddsFeed.Common.Configurations;
     using WebServiceLibrary;
     using OddsFeed.Common.DTO;
+    using WebServiceLibrary.Criteria;
 
     public class OddsFeedController : BaseController
     {
@@ -26,31 +25,27 @@
             _betTypeService = new BetTypeService();
         }
 
-        public XmlResult Index(string username)
+        public ActionResult Index(string username)
         {
-            _logService.Info("1. Starting Index action:" + username + "-----" + DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss.fff"));
-            
             if (IsDownTime())
             {
                 var underMaintenanceTime = GetUndermaintenanceTime();
 
-                return new XmlResult(ErrorBuilder.GetUMDownTime(underMaintenanceTime.To));
+                return Content(SerializeObject(ErrorBuilder.GetUMDownTime(underMaintenanceTime.To)));
             }
 
             var filter = Helper.GetFilter(Request);
+
             if (Helper.IsOverLimitedOptions(filter))
             {
                 var errMessage = new Error { Id = 10024, Message = "You can only filter maximum 5 options. Please try again." };
-                return new XmlResult(errMessage);
+
+                return Content(SerializeObject(errMessage));
             }
+            
+            var data = GetOddsFeed(username, HttpContext.Request["t"], Helper.DomainName(Request.ServerVariables), filter);
 
-            UserProfile userProfile = null;
-            var domain = Helper.DomainName(Request.ServerVariables);
-            var data = GetOddsFeed(ref userProfile, username, HttpContext.Request["t"], domain, filter);
-
-            _logService.Info("4. Finishing Index action:" + username + "------" + DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss.fff"));
-            _logService.Info("-------------------------------");
-            return new XmlResult(data);
+            return Content(data);
         }
 
         public ActionResult OldHelp(string username)
@@ -59,19 +54,18 @@
             {
                 var underMaintenanceTime = GetUndermaintenanceTime();
 
-                return new XmlResult(ErrorBuilder.GetUMDownTime(underMaintenanceTime.To));
+                return Content(SerializeObject(ErrorBuilder.GetUMDownTime(underMaintenanceTime.To)));
             }
 
             ViewBag.UserName = username;
             ViewBag.FullDomainName = Helper.FullDomainName(Request.ServerVariables);
             ViewBag.VirtualPath = GetVirtualPath();
 
-            UserProfile userProfile = null;
             var domain = Helper.DomainName(Request.ServerVariables);
             var userQuery = new UserQuery();
-            var sampleOdds = GetOddsFeed(ref userProfile, username, HttpContext.Request["t"], domain, userQuery, true, true);
+            var sampleOdds = GetOddsFeed(username, HttpContext.Request["t"], domain, userQuery, true, true);
 
-            var provider = new StringBuilder(sampleOdds.OuterXml);
+            var provider = new StringBuilder(sampleOdds);
             provider.Replace("><", ">\n<");
             provider.Replace(" />", "></odd>");
             provider.Replace("<outrights>", "\t<outrights>")
@@ -89,7 +83,6 @@
                 .Replace("</matches>", "\t</matches>");
 
             ViewBag.Odds = provider.ToString();
-
             ViewBag.Sports = DbAccess.GetSportByUserName(username).ResultSet.Tables[0].Select();
             ViewBag.Bettypes = DbAccess.GetBetTypeByUserName(username).ResultSet.Tables[0].Select();
 
@@ -99,7 +92,7 @@
             }
             else
             {
-                return new XmlResult(sampleOdds);
+                return Content(sampleOdds);
             }
         }
 
@@ -109,7 +102,7 @@
             {
                 var underMaintenanceTime = GetUndermaintenanceTime();
 
-                return new XmlResult(ErrorBuilder.GetUMDownTime(underMaintenanceTime.To));
+                return Content(SerializeObject(ErrorBuilder.GetUMDownTime(underMaintenanceTime.To)));
             }
 
             ViewBag.UserName = username;
@@ -121,7 +114,7 @@
             var userQuery = new UserQuery();
             var sampleOdds = GetOddsFeed(ref userProfile, username, HttpContext.Request["t"], domain, userQuery, true, true);
 
-            var provider = new StringBuilder(sampleOdds.OuterXml);
+            var provider = new StringBuilder(sampleOdds);
             provider.Replace("><", ">\n<");
             provider.Replace(" />", "></odd>");
             provider.Replace("<outrights>", "\t<outrights>")
@@ -150,7 +143,7 @@
             }
             else
             {
-                return new XmlResult(sampleOdds);
+                return Content(sampleOdds);
             }
         }
 
@@ -294,8 +287,7 @@
             }
         }
 
-        private XmlElement GetOddsFeed(
-            ref UserProfile userProfile,
+        private string GetOddsFeed(
             string username,
             string timestamp,
             string domain,
@@ -303,32 +295,28 @@
             bool isSample = false,
             bool outrights = true)
         {
-            // ignore port number if it presents
-            var domainName = domain;
-
             if (string.IsNullOrEmpty(username))
             {
-                return ErrorCollection.ParameterSufficent();
+                return SerializeObject(ErrorBuilder.GetParameterSufficent());
             }
 
             var ipAddress = GetClientIpAddress();
-            var partner = new Partner(username, domainName, ipAddress, timestamp);
-            var err = partner.IsAuthenticated();
-
-            if (partner.UserProfile != null && (err.Id == 0 || isSample))
+            var authenticatedPartner = GetAuthenticatedPartner(new CheckPermissionCriteria
             {
-                userProfile = partner.UserProfile;
-                userProfile.Domain = domainName;
+                UserName = username,
+                DomainName = domain,
+                Ip = ipAddress
+            });
 
-                _logService.Info("2. Get Odds from Cache of " + username + "---" + DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss.fff"));
-                var service = new WebOddsFeedService(partner.UserProfile, partner.SystemName, domainName, ipAddress, timestamp);
-                _logService.Info("3. Build XML Document " + username + "---" + DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss.fff"));
-                var xmlDocument = service.BuildXmlDocument(partner.Timestamp, userQuery, isSample, outrights);
+            if (authenticatedPartner.UserProfile != null && (authenticatedPartner.Error.Id == 0 || isSample))
+            {
+                var service = new WebOddsFeedService(authenticatedPartner.UserProfile, authenticatedPartner.SystemName, domain, ipAddress, timestamp);
+                var oddsFeedNode = service.BuildXmlDocument(userQuery, isSample, outrights);
 
-                return xmlDocument;
+                return oddsFeedNode.ToString();
             }
 
-            return err.ToXmlElement();
+            return SerializeObject(authenticatedPartner.Error);
         }
         
         private static string GetVirtualPath()

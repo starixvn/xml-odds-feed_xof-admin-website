@@ -2,89 +2,132 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using System.Xml;
+    using System.Text;
     using Common.DTO;
 
-    public class EventBuilder : OddsFeedBuilder
+    public class EventBuilder: IEventBuilder
     {
-        public XmlNode CreateOutrightsNode(XmlDocument xmlDocument, IEnumerable<Outright> outrights)
+        public void AppendOutrightsNode(StringBuilder oddsFeedNode, IEnumerable<Outright> outrights)
         {
-            var outrightsNode = xmlDocument.CreateNode(XmlNodeType.Element, "outrights", null);
+            AppendBeginOutrights(oddsFeedNode);
 
             foreach (var outright in outrights)
             {
-                outrightsNode.AppendChild(CreateEventNode(xmlDocument, outright));
+                AppendEventNode(oddsFeedNode, outright);
             }
 
-            return outrightsNode;
+            AppendEndOutrights(oddsFeedNode);
         }
 
-        public XmlNode CreateMatchesNode(XmlDocument xmlDocument, IEnumerable<Match> matches)
+        public void AppendMatchesNode(StringBuilder oddsFeedNode, IEnumerable<Match> matches)
         {
-            var matchesNode = xmlDocument.CreateNode(XmlNodeType.Element, "matches", null);
             var leagues = matches.GroupBy(league => league.LeagueId);
+
+            AppendBeginMatches(oddsFeedNode);
 
             foreach (var league in leagues)
             {
-                matchesNode.AppendChild(CreateLeagueNode(xmlDocument, league.Key, league.AsEnumerable()));
+                AppendLeagueNode(oddsFeedNode, league.Key, league.AsEnumerable());
             }
 
-            return matchesNode;
+            AppendEndMatches(oddsFeedNode);
         }
 
-        private XmlNode CreateLeagueNode(XmlDocument xmlDocument, int leagueId, IEnumerable<Match> matches)
+        private void AppendLeagueNode(StringBuilder oddsFeedNode, int leagueId, IEnumerable<Match> matches)
         {
-            var leagueNode = xmlDocument.CreateNode(XmlNodeType.Element, "league", null);
-
-            AssignId(xmlDocument, leagueNode, leagueId);
-            AssignNames(xmlDocument, leagueNode, matches.First().LeagueNames, _leagueAttributes);
-            AssignSport(xmlDocument, leagueNode, matches.First().SportName);
+            AppendBeginLeague(oddsFeedNode, leagueId, matches.First());
 
             foreach (var match in matches)
             {
-                leagueNode.AppendChild(CreateMatchNode(xmlDocument, match));
+                AppendMatch(oddsFeedNode, match);
             }
 
-            return leagueNode;
+            AppendEndLeague(oddsFeedNode);
         }
 
-        private XmlNode CreateMatchNode(XmlDocument xmlDocument, Match match)
+        private void AppendBeginOutrights(StringBuilder oddsFeedNode)
         {
-            var matchNode = xmlDocument.CreateNode(XmlNodeType.Element, "match", null);
-
-            AssignId(xmlDocument, matchNode, match.MatchId);
-            AssignNames(xmlDocument, matchNode, match.HomeNames, _homeAttributes);
-            AssignNames(xmlDocument, matchNode, match.AwayNames, _awayAttibutes);
-            AssignMatchKickOff(xmlDocument, matchNode, match.KickOfTime);
-            AssignMatchStatus(xmlDocument, matchNode, match.IsLive);
-
-            return matchNode;
+            oddsFeedNode.Append("<outrights>");
         }
 
-        private XmlNode CreateEventNode(XmlDocument xmlDocument, Outright outright)
+        private void AppendEndOutrights(StringBuilder oddsFeedNode)
         {
-            var eventNode = xmlDocument.CreateNode(XmlNodeType.Element, "event", null);
+            oddsFeedNode.Append("</outrights>");
+        }
 
-            AssignId(xmlDocument, eventNode, outright.EventId);
-            AssignNames(xmlDocument, eventNode, outright.EventNames, _leagueAttributes);
-            AssignMatchKickOff(xmlDocument, eventNode, outright.Time);
-            AssignSport(xmlDocument, eventNode, outright.SportName);
+        private void AppendEventNode(StringBuilder oddsFeedNode, Outright outright)
+        {
+            AppendBeginEvent(oddsFeedNode, outright);
 
             foreach (var outrightOddsNode in outright.OutrightOddsList)
             {
-                eventNode.AppendChild(CreateTeamNode(xmlDocument, outrightOddsNode));
+                AppendTeam(oddsFeedNode, outrightOddsNode);
             }
 
-            return eventNode;
+            AppendEndEvent(oddsFeedNode);
         }
 
-        private XmlNode CreateTeamNode(XmlDocument xmlDocument, OutrightOdds outrightOddsNode)
+        public void AppendBeginEvent(StringBuilder oddsFeedNode, Outright outright)
         {
-            var teamNode = xmlDocument.CreateNode(XmlNodeType.Element, "team", null);
+            oddsFeedNode.AppendFormat("<event id=\"{0}\" ge=\"{1}\" gt=\"{2}\" gs=\"{3}\" mt=\"{4}\" sport=\"{5}\">",
+                outright.EventId,
+                outright.EventEnglish,
+                outright.EventTraditionalChinese,
+                outright.EventSimplifiedChinese,
+                outright.Time,
+                outright.SportName);
+        }
 
-            AssignNames(xmlDocument, teamNode, outrightOddsNode.Names, _teamAttributes);
+        private void AppendEndEvent(StringBuilder oddsFeedNode)
+        {
+            oddsFeedNode.Append("</event>");
+        }
 
-            return teamNode;
+        private void AppendTeam(StringBuilder oddsFeedNode, OutrightOdds outrightOdds)
+        {
+            oddsFeedNode.AppendFormat("<team te=\"{0}\" tt=\"{1}\" ts=\"{2}\" />",
+                outrightOdds.OddNameEnglish,
+                outrightOdds.OddNameTraditionalChinese,
+                outrightOdds.OddNameSimplifiedChinese);
+        }
+
+        private void AppendBeginMatches(StringBuilder oddsFeedNode)
+        {
+            oddsFeedNode.Append("<matches>");
+        }
+
+        private void AppendEndMatches(StringBuilder oddsFeedNode)
+        {
+            oddsFeedNode.Append("</matches>");
+        }
+
+        private void AppendBeginLeague(StringBuilder oddsFeedNode, int leagueId, Match match)
+        {
+            oddsFeedNode.AppendFormat("<league id=\"{0}\" ge=\"{1}\" gt=\"{2}\" gs=\"{3}\" sport=\"{4}\">",
+                leagueId,
+                match.LeagueEnglish,
+                match.LeagueTraditionalChinese,
+                match.LeagueSimplifiedChinese,
+                match.SportName);
+        }
+
+        private void AppendEndLeague(StringBuilder oddsFeedNode)
+        {
+            oddsFeedNode.Append("</league>");
+        }
+
+        private void AppendMatch(StringBuilder oddsFeedNode, Match match)
+        {
+            oddsFeedNode.AppendFormat("<match id=\"{0}\" he=\"\" ht=\"\" hs=\"\" ae=\"\" at=\"\" as=\"\" mt=\"\" running=\"\"/>",
+                match.MatchId,
+                match.HomeEnglish,
+                match.HomeTraditionalChinese,
+                match.HomeSimplifiedChinese,
+                match.AwayEnglish,
+                match.AwayTraditionalChinese,
+                match.AwaySimplifiedChinese,
+                match.KickOfTime,
+                match.IsLive);
         }
     }
 }

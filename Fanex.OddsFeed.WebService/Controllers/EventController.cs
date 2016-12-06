@@ -1,20 +1,21 @@
 ﻿namespace Fanex.OddsFeed.WebService.Controllers
 {
     using System.Xml;
-    using MvcContrib.ActionResults;
     using Fanex.OddsFeed.WebService.Functions;
     using OddsFeed.Common.DTO;
     using WebServiceLibrary.Services;
     using WebServiceLibrary;
+    using System.Web.Mvc;
 
     public class EventController : BaseController
     {     
-        public XmlResult Index(string username)
+        public ActionResult Index(string username)
         {
             var domain = Helper.DomainName(Request.ServerVariables);
             var userQuery = new UserQuery();
             var data = GetEventFeed(username, HttpContext.Request["t"], domain, userQuery);
-            return new XmlResult(data);
+
+            return Content(data);
         }
 
         private XmlElement GetEventFeed(string username, string timestamp, string domain, UserQuery userQuery, bool isSample = false, bool outrights = true)

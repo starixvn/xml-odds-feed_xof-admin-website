@@ -3,51 +3,47 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Xml;
+    using System.Text;
     using Common.Converters;
     using Common.DTO;
     using Filters;
 
-    public class MatchBuilder : OddsFeedBuilder, IMatchBuilder
+    public class MatchBuilder: IMatchBuilder
     {
-        private MatchFilter _matchFilter;
+        private readonly IMatchFilter _matchFilter;
 
         public MatchBuilder()
         {
             _matchFilter = new MatchFilter();
         }
 
-        public XmlNode CreateMatchesNode(
-            XmlDocument xmlDocument,
+        public void AppendMatchesNode(
+            StringBuilder oddsFeedNode,
             UserProfile userProfile,
             UserQuery userQuery,
-            IEnumerable<Match> deadballMatches,
-            IEnumerable<Match> liveMatches, 
+            IList<Match> deadballMatches, 
+            IList<Match> liveMatches,
             string bookieName,
             DateTime lastUpdate,
-            int timeStamp,
             bool isSample)
         {
-            var matchesNode = xmlDocument.CreateNode(XmlNodeType.Element, "matches", null);
-
-            AssignMatchesAttributes(xmlDocument, matchesNode, userProfile, deadballMatches, liveMatches, lastUpdate);
+            AppendBeginMatches(oddsFeedNode, userProfile, deadballMatches, liveMatches, lastUpdate);
 
             if (deadballMatches.Any())
             {
-                AssignMatchNodes(xmlDocument, matchesNode, userProfile, userQuery, deadballMatches, bookieName, isSample);
-            }
-            
-            if(liveMatches.Any())
-            {
-                AssignMatchNodes(xmlDocument, matchesNode, userProfile, userQuery, liveMatches, bookieName, isSample);
+                AssignMatchNodes(oddsFeedNode, userProfile, userQuery, deadballMatches, bookieName, isSample);
             }
 
-            return matchesNode;
+            if (liveMatches.Any())
+            {
+                AssignMatchNodes(oddsFeedNode, userProfile, userQuery, liveMatches, bookieName, isSample);
+            }
+
+            AppendEndMatches(oddsFeedNode);
         }
 
-        private static void AssignMatchesAttributes(
-            XmlDocument xmlDocument, 
-            XmlNode matchesNode,
+        private void AppendBeginMatches(
+            StringBuilder oddsFeedNode,
             UserProfile userProfile,
             IEnumerable<Match> deadballMatches,
             IEnumerable<Match> liveMatches,
@@ -57,10 +53,135 @@
             {
                 var matchesTimeStamp = GetMatchesTimeStamp(deadballMatches, liveMatches);
 
-                AssignLastUpdate(xmlDocument, matchesNode, lastUpdate);
-                AssignMatchTimeStamp(xmlDocument, matchesNode, matchesTimeStamp);
-                AssignOddsType(xmlDocument, matchesNode, GetOddsTypeName(userProfile.OddRegion));
+                oddsFeedNode.AppendFormat("<matches lastupdate=\"{0}\" timestamp=\"{1}\" oddstype=\"{2}\">", lastUpdate, matchesTimeStamp, GetOddsTypeName(userProfile.OddRegion));
             }
+            else
+            {
+                oddsFeedNode.Append("<matches>");
+            }
+        }
+
+        private void AppendEndMatches(StringBuilder oddsFeedNode)
+        {
+            oddsFeedNode.Append("</matches>");
+        }
+
+        private void AssignMatchNodes(
+            StringBuilder oddsFeedNode,
+            UserProfile userProfile,
+            UserQuery userQuery,
+            IEnumerable<Match> matches,
+            string bookieName,
+            bool isSample)
+        {
+            if (isSample)
+            {
+                AppendMatchNode(oddsFeedNode, userProfile, userQuery, matches.ElementAt(0), bookieName, isSample);
+            }
+            else
+            {
+                foreach (var match in matches)
+                {
+                    AppendMatchNode(oddsFeedNode, userProfile, userQuery, match, bookieName, isSample);
+                }
+            }
+        }
+
+        private void AppendMatchNode(
+            StringBuilder oddsFeedNode,
+            UserProfile userProfile,
+            UserQuery userQuery,
+            Match match,
+            string bookieName,
+            bool isSample)
+        {
+            AppendBeginMatch(oddsFeedNode, match);
+            AppendBookieNode(oddsFeedNode, userProfile, userQuery, match, bookieName, isSample);
+            AppendEndMatch(oddsFeedNode);
+        }
+
+        private void AppendBeginMatch(StringBuilder oddsFeedNode, Match match)
+        {
+            oddsFeedNode.AppendFormat("<match id=\"{0}\" ge=\"{1}\" gt=\"{2}\" gs=\"{3}\" he=\"{4}\" ht=\"{5}\" hs=\"{6}\" ae=\"{7}\" at=\"{8}\" as=\"{9}\" mt=\"{10}\" sport=\"{11}\" running=\"{12}\">",
+                match.MatchId,
+                match.LeagueEnglish,
+                match.LeagueTraditionalChinese,
+                match.LeagueSimplifiedChinese,
+                match.HomeEnglish,
+                match.HomeTraditionalChinese,
+                match.HomeSimplifiedChinese,
+                match.AwayEnglish,
+                match.AwayTraditionalChinese,
+                match.AwaySimplifiedChinese,
+                match.KickOfTime,
+                match.SportName,
+                match.IsLive);
+        }
+
+        private void AppendEndMatch(StringBuilder oddsFeedNode)
+        {
+            oddsFeedNode.Append("</match>");
+        }
+
+        private void AppendBookieNode(
+           StringBuilder matchesNode,
+           UserProfile userProfile,
+           UserQuery userQuery,
+           Match match,
+           string bookieName,
+           bool isSample)
+        {
+            AppendBeginBookie(matchesNode, bookieName);
+            AppendOddNodeList(matchesNode, userProfile, userQuery, match.MatchOddsList, isSample);
+            AppendEndBookie(matchesNode);
+        }
+
+        private void AppendBeginBookie(StringBuilder oddsFeedNode, string bookieName)
+        {
+            oddsFeedNode.AppendFormat("<bookie name=\"{0}\" simp=\"{0}\" trad=\"{0}\">", bookieName);
+        }
+
+        private void AppendEndBookie(StringBuilder oddsFeedNode)
+        {
+            oddsFeedNode.Append("</bookie>");
+        }
+
+        private void AppendOddNodeList(
+            StringBuilder oddsFeedNode,
+            UserProfile userProfile,
+            UserQuery userQuery,
+            IEnumerable<MatchOdds> matchOddsNodes,
+            bool isSample)
+        {
+            foreach (var matchOddsNode in matchOddsNodes)
+            {
+                if (_matchFilter.FilterBetType(userProfile, userQuery, isSample, matchOddsNode))
+                {
+                    AppendOdd(oddsFeedNode, userProfile, matchOddsNode);
+                }
+            }
+        }
+
+        private void AppendOdd(StringBuilder oddsFeedNode, UserProfile userProfile, MatchOdds matchOddsNode)
+        {
+            oddsFeedNode.AppendFormat("<odd t=\"{0}\"", matchOddsNode.Tag);
+
+            foreach (var betChoice in matchOddsNode.BetChoices)
+            {
+                oddsFeedNode.AppendFormat("{0}=\"{1}\" ", betChoice.Code, ConvertOdds(userProfile, betChoice));
+            }
+
+            oddsFeedNode.AppendFormat("time=\"{0}\" timestamp=\"{1}\" />", matchOddsNode.Time, matchOddsNode.TimeStamp);
+        }
+
+        private static string ConvertOdds(UserProfile UserProfile, BetChoice betChoice)
+        {
+            if (betChoice.NotConvert)
+            {
+                return betChoice.Value;
+            }
+
+            return OddsConverter.ConvertOdds(UserProfile.OddRegion, Convert.ToDecimal(betChoice.Value)).ToString();
         }
 
         private static int GetMatchesTimeStamp(IEnumerable<Match> deadballMatches, IEnumerable<Match> liveMatches)
@@ -79,186 +200,6 @@
             }
 
             return Math.Max(deadBallTimeStamp, liveTimeStamp);
-        }
-
-        private void AssignMatchNodes(
-            XmlDocument xmlDocument, 
-            XmlNode matchesNode,
-            UserProfile userProfile,
-            UserQuery userQuery,
-            IEnumerable<Match> matches,
-            string bookieName,
-            bool isSample)
-        {
-            if (isSample)
-            {
-                matchesNode.AppendChild(CreateMatchNode(xmlDocument, userProfile, userQuery, matches.ElementAt(0), bookieName, isSample));
-            }
-            else
-            {
-                foreach (var match in matches)
-                {
-                    matchesNode.AppendChild(CreateMatchNode(xmlDocument, userProfile, userQuery, match, bookieName, isSample));
-                }
-            }
-        }
-
-        private static void AssignLastUpdate(XmlDocument xmlDocument, XmlNode matchesNode, DateTime lastUpdate)
-        {
-            var sportAttribute = xmlDocument.CreateAttribute("lastupdate");
-            sportAttribute.Value = lastUpdate.ToString();
-            matchesNode.Attributes.Append(sportAttribute);
-        }
-
-        private static void AssignMatchTimeStamp(XmlDocument xmlDocument, XmlNode matchesNode, int timeStamp)
-        {
-            var sportAttribute = xmlDocument.CreateAttribute("timestamp");
-            sportAttribute.Value = timeStamp.ToString();
-            matchesNode.Attributes.Append(sportAttribute);
-        }
-
-        private static void AssignOddsType(XmlDocument xmlDocument, XmlNode matchesNode, string oddsType)
-        {
-            var sportAttribute = xmlDocument.CreateAttribute("oddstype");
-            sportAttribute.Value = oddsType;
-            matchesNode.Attributes.Append(sportAttribute);
-        }
-
-        private XmlNode CreateMatchNode(
-            XmlDocument xmlDocument,
-            UserProfile userProfile,
-            UserQuery userQuery, 
-            Match match, 
-            string bookieName,
-            bool isSample)
-        {
-            var matchNode = xmlDocument.CreateNode(XmlNodeType.Element, "match", null);
-            AssignMatchId(xmlDocument, matchNode, match.MatchId);
-            AssignNames(xmlDocument, matchNode, match.LeagueNames, _leagueAttributes);
-            AssignNames(xmlDocument, matchNode, match.HomeNames, _homeAttributes);
-            AssignNames(xmlDocument, matchNode, match.AwayNames, _awayAttibutes);
-            AssignMatchKickOff(xmlDocument, matchNode, match.KickOfTime);
-            AssignSport(xmlDocument, matchNode, match.SportName);
-            AssignMatchStatus(xmlDocument, matchNode, match.IsLive);
-
-            matchNode.AppendChild(CreateBookieNode(xmlDocument, userProfile, userQuery, match.Bookie, bookieName, isSample));
-
-            return matchNode;
-        }
-
-        private static void AssignMatchId(XmlDocument xmlDocument, XmlNode matchNode, int matchId)
-        {
-            var matchIdAttribute = xmlDocument.CreateAttribute("id");
-            matchIdAttribute.Value = matchId.ToString();
-            matchNode.Attributes.Append(matchIdAttribute);
-        }
-
-        private XmlNode CreateBookieNode(
-            XmlDocument xmlDocument, 
-            UserProfile userProfile, 
-            UserQuery userQuery, 
-            Bookie bookie, 
-            string bookieName,
-            bool isSample)
-        {
-            var bookieNode = xmlDocument.CreateNode(XmlNodeType.Element, "bookie", null);
-
-            AssignBookieName(xmlDocument, bookieNode, bookieName);
-            CrearteOddNodeList(xmlDocument, bookieNode, userProfile, userQuery, bookie.MatchOddsList, isSample);
-
-            return bookieNode;
-        }
-
-        private static void AssignBookieName(XmlDocument xmlDocument, XmlNode bookieNode, string bookieName)
-        {
-            var nameAttribute = xmlDocument.CreateAttribute("name");
-            nameAttribute.Value = bookieName.ToString();
-            bookieNode.Attributes.Append(nameAttribute);
-
-            var simpAttribute = xmlDocument.CreateAttribute("simp");
-            simpAttribute.Value = bookieName.ToString();
-            bookieNode.Attributes.Append(simpAttribute);
-
-            var tradAttribute = xmlDocument.CreateAttribute("trad");
-            tradAttribute.Value = bookieName.ToString();
-            bookieNode.Attributes.Append(tradAttribute);
-        }
-
-        private void CrearteOddNodeList(
-            XmlDocument xmlDocument, 
-            XmlNode bookieNode,
-            UserProfile userProfile,
-            UserQuery userQuery,
-            IEnumerable<MatchOdds> matchOddsNodes,
-            bool isSample)
-        {
-            foreach (var matchOddsNode in matchOddsNodes)
-            {
-                if (_matchFilter.FilterBetType(userProfile, userQuery, isSample, matchOddsNode))
-                {
-                    bookieNode.AppendChild(CreateOddNode(xmlDocument, userProfile, matchOddsNode));
-                }
-            }
-        }
-
-        private static XmlNode CreateOddNode(XmlDocument xmlDocument, UserProfile userProfile, MatchOdds matchOddsNode)
-        {
-            var oddXmlNode = xmlDocument.CreateNode(XmlNodeType.Element, "odd", null);
-
-            AssignTag(xmlDocument, oddXmlNode, matchOddsNode.Tag);
-            AssignBetChoices(xmlDocument, oddXmlNode, userProfile, matchOddsNode.BetChoices);
-            AssignTime(xmlDocument, oddXmlNode, matchOddsNode.Time);
-            AssignTimeStamp(xmlDocument, oddXmlNode, matchOddsNode.TimeStamp);
-
-            return oddXmlNode;
-        }
-
-        private static void AssignTag(XmlDocument xmlDocument, XmlNode oddsNode, string tag)
-        {
-            var attribute = xmlDocument.CreateAttribute("t");
-            attribute.Value = tag;
-
-            oddsNode.Attributes.Append(attribute);
-        }
-
-        private static void AssignBetChoices(
-            XmlDocument xmlDocument,
-            XmlNode oddsNode,
-            UserProfile userProfile,
-            IEnumerable<BetChoice> betChoices)
-        {
-            foreach (var betChoice in betChoices)
-            {
-                var attribute = xmlDocument.CreateAttribute(betChoice.Code);
-                attribute.Value = ConvertOdds(userProfile, betChoice);
-                oddsNode.Attributes.Append(attribute);
-            }
-        }
-
-        private static void AssignTime(XmlDocument xmlDocument, XmlNode oddsNode, DateTime time)
-        {
-            var attribute = xmlDocument.CreateAttribute("time");
-            attribute.Value = time.ToString();
-
-            oddsNode.Attributes.Append(attribute);
-        }
-
-        private static void AssignTimeStamp(XmlDocument xmlDocument, XmlNode oddsNode, int timeStamp)
-        {
-            var attribute = xmlDocument.CreateAttribute("timestamp");
-            attribute.Value = timeStamp.ToString();
-
-            oddsNode.Attributes.Append(attribute);
-        }
-
-        private static string ConvertOdds(UserProfile UserProfile, BetChoice betChoice)
-        {
-            if(betChoice.NotConvert)
-            {
-                return betChoice.Value;
-            }
-
-            return OddsConverter.ConvertOdds(UserProfile.OddRegion, Convert.ToDecimal(betChoice.Value)).ToString();
         }
 
         private static string GetOddsTypeName(int oddsTypeId)

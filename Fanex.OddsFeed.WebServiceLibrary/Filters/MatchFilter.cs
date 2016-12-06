@@ -60,7 +60,7 @@
             return (userProfile.Leagues == null 
                 ? true 
                 : (userProfile.Leagues.Count != 0 ? userProfile.Leagues.Contains(match.LeagueId) : false)) 
-                && (userQuery.Leagues == null || userQuery.Leagues.Count == 0 ? true : SearchLeague(userQuery.Leagues, match.LeagueNames.ElementAt(0).Content.ToLower()));
+                && (userQuery.Leagues == null || userQuery.Leagues.Count == 0 ? true : SearchLeague(userQuery.Leagues, match.LeagueEnglish.ToLower()));
         }
 
         private static bool FilterByCountry(UserProfile userProfile, UserQuery userQuery, Match match)
@@ -71,7 +71,7 @@
 
         private static bool FilterByKeyword(UserProfile userProfile, Match match)
         {
-            return (string.IsNullOrEmpty(userProfile.LeagueKeyword) ? true : match.LeagueNames.ElementAt(0).Content.ToLower().Contains(userProfile.LeagueKeyword.ToLower()));
+            return (string.IsNullOrEmpty(userProfile.LeagueKeyword) ? true : match.LeagueEnglish.ToLower().Contains(userProfile.LeagueKeyword.ToLower()));
         }
 
         private static bool SearchLeague(IList<string> searchLeagues, string league)

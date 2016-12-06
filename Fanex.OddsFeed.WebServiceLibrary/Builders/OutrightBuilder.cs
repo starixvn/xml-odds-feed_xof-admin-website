@@ -1,14 +1,13 @@
 ﻿namespace Fanex.OddsFeed.WebServiceLibrary.Builders
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Xml;
+    using System.Text;
     using Common.Converters;
     using Common.DTO;
     using Filters;
 
-    public class OutrightBuilder : OddsFeedBuilder, IOutrightBuilder
+    public class OutrightBuilder: IOutrightBuilder
     {
         private OutrightFilter _outrightFilter;
 
@@ -17,30 +16,81 @@
             _outrightFilter = new OutrightFilter();
         }
 
-        public XmlNode CreateOutrightsNode(
-            XmlDocument xmlDocument,
+        public void AppendOutrightsNode(
+            StringBuilder oddsFeedNode,
             UserProfile userProfile,
             UserQuery userQuery,
-            IEnumerable<Outright> outrightNodes,
+            IEnumerable<Outright> outrights,
             bool isOutright,
             bool isSample)
         {
-            var outrightsNode = xmlDocument.CreateNode(XmlNodeType.Element, "outrights", null);
+            AppendBeginOutrights(oddsFeedNode);
 
-            if (IsSampleOutright(isOutright, isSample, outrightNodes.Count()))
+            if (IsSampleOutright(isOutright, isSample, outrights.Count()))
             {
-                outrightsNode.AppendChild(CreateEventNode(xmlDocument, userProfile, outrightNodes.ElementAt(0)));
+                AppendEventNode(oddsFeedNode, userProfile, outrights.First());
             }
 
             if (FilterBetType(userQuery, isSample))
             {
-                foreach (var outrightNode in outrightNodes)
+                foreach (var outright in outrights)
                 {
-                    outrightsNode.AppendChild(CreateEventNode(xmlDocument, userProfile, outrightNode));
+                    AppendEventNode(oddsFeedNode, userProfile, outright);
                 }
             }
 
-            return outrightsNode;
+            AppendEndOutrights(oddsFeedNode);
+        }
+
+        public void AppendBeginOutrights(StringBuilder oddsFeedNode)
+        {
+            oddsFeedNode.Append("<outrights>");
+        }
+
+        private void AppendEndOutrights(StringBuilder oddsFeedNode)
+        {
+            oddsFeedNode.Append("</outrights>");
+        }
+
+        private void AppendEventNode(StringBuilder oddsFeedNode, UserProfile userProfile, Outright outright)
+        {
+            AppendBeginEvent(oddsFeedNode, outright);
+
+            foreach (var outrightOddsNode in outright.OutrightOddsList)
+            {
+                AppendOdd(oddsFeedNode, userProfile, outrightOddsNode);
+            }
+
+            AppendEndEvent(oddsFeedNode);
+        }
+
+        public void AppendBeginEvent(StringBuilder oddsFeedNode, Outright outright)
+        {
+            oddsFeedNode.AppendFormat("<event id=\"{0}\" ge=\"{1}\" gt=\"{2}\" gs=\"{3}\" mt=\"{4}\" sport=\"{5}\">", 
+                outright.EventId,
+                outright.EventEnglish,
+                outright.EventTraditionalChinese,
+                outright.EventSimplifiedChinese,
+                outright.Time,
+                outright.SportName);
+        }
+
+        private void AppendEndEvent(StringBuilder oddsFeedNode)
+        {
+            oddsFeedNode.Append("</event>");
+        }
+
+        private void AppendOdd(
+            StringBuilder oddsFeedNode,
+            UserProfile userProfile,
+            OutrightOdds outrightOddsNode)
+        {
+            oddsFeedNode.AppendFormat("<odd id=\"{0}\" te=\"{1}\" tt=\"{2}\" ts=\"{3}\" o=\"{4}\" />",
+                outrightOddsNode.OddsId,
+                outrightOddsNode.OddNameEnglish,
+                outrightOddsNode.OddNameTraditionalChinese,
+                outrightOddsNode.OddNameSimplifiedChinese,
+                OddsConverter.ConvertOdds(userProfile.OddRegion, outrightOddsNode.Value));
         }
 
         private static bool IsSampleOutright(bool isOutright, bool isSample, int numberOutright)
@@ -50,77 +100,11 @@
 
         public static bool FilterBetType(UserQuery userQuery, bool isSample)
         {
-            return !isSample 
+            return !isSample
                 && (userQuery.BetTypes == null
                 || userQuery.BetTypes.Count == 0
                 || (userQuery.BetTypes != null
                 && userQuery.BetTypes.Contains(10)));
-        }
-
-        private XmlNode CreateEventNode(XmlDocument xmlDocument, UserProfile userProfile, Outright outrightNode)
-        {
-            var eventNode = xmlDocument.CreateNode(XmlNodeType.Element, "event", null);
-
-            AssignEventId(xmlDocument, eventNode, outrightNode.EventId);
-            AssignNames(xmlDocument, eventNode, outrightNode.EventNames, _leagueAttributes);
-            AssignEventTime(xmlDocument, eventNode, outrightNode.Time);
-            AssignSportName(xmlDocument, eventNode, outrightNode.SportName);
-
-            foreach (var outrightOddsNode in outrightNode.OutrightOddsList)
-            {
-                eventNode.AppendChild(CreateOddNode(xmlDocument, userProfile, outrightOddsNode));
-            }
-
-            return eventNode;
-        }
-
-        private static void AssignEventId(XmlDocument xmlDocument, XmlNode eventNode, int eventId)
-        {
-            var idAttribute = xmlDocument.CreateAttribute("id");
-            idAttribute.Value = eventId.ToString();
-            eventNode.Attributes.Append(idAttribute);
-        }
-
-        private static void AssignEventTime(XmlDocument xmlDocument, XmlNode eventNode, DateTime eventTime)
-        {
-            var eventTimeAttribute = xmlDocument.CreateAttribute("mt");
-            eventTimeAttribute.Value = eventTime.ToString();
-            eventNode.Attributes.Append(eventTimeAttribute);
-        }
-
-        private static void AssignSportName(XmlDocument xmlDocument, XmlNode eventNode, string sportName)
-        {
-            var sportAttribute = xmlDocument.CreateAttribute("sport");
-            sportAttribute.Value = sportName;
-            eventNode.Attributes.Append(sportAttribute);
-        }
-
-        private XmlNode CreateOddNode(
-            XmlDocument xmlDocument,
-            UserProfile userProfile,
-            OutrightOdds outrightOddsNode)
-        {
-            var oddNode = xmlDocument.CreateNode(XmlNodeType.Element, "odd", null);
-
-            AssignOddId(xmlDocument, oddNode, outrightOddsNode.OddsId);
-            AssignNames(xmlDocument, oddNode, outrightOddsNode.Names, _teamAttributes);
-            AssignOddValue(xmlDocument, userProfile, oddNode, outrightOddsNode.Value);
-
-            return oddNode;
-        }
-
-        private static void AssignOddId(XmlDocument xmlDocument, XmlNode eventNode, int oddId)
-        {
-            var idAttribute = xmlDocument.CreateAttribute("id");
-            idAttribute.Value = oddId.ToString();
-            eventNode.Attributes.Append(idAttribute);
-        }
-
-        private static void AssignOddValue(XmlDocument xmlDocument, UserProfile userProfile, XmlNode eventNode, decimal oddValue)
-        {
-            var valueAttribute = xmlDocument.CreateAttribute("o");
-            valueAttribute.Value = OddsConverter.ConvertOdds(userProfile.OddRegion, oddValue).ToString();
-            eventNode.Attributes.Append(valueAttribute);
         }
     }
 }

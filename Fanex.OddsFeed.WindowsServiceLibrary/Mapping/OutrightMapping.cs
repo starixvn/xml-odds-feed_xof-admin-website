@@ -38,7 +38,9 @@
             return new Outright
             {
                 EventId = leagueId,
-                EventNames = GetEventNames(row),
+                EventEnglish = row["LeagueName"].ToString(),
+                EventSimplifiedChinese = row["LeagueNameCN"].ToString(),
+                EventTraditionalChinese = row["LeagueNameC_UNI"].ToString(),
                 SportId = Convert.ToInt32(row["SportID"]),
                 SportName = row["LeagueNameTC"].ToString(),
                 CountryCode = row["CountryCode"].ToString(),
@@ -52,52 +54,10 @@
             return new OutrightOdds
             {
                 OddsId = Convert.ToInt32(row["OrID"]),
-                Names = GetTeams(row),
+                OddNameEnglish = row["TeamName"].ToString(),
+                OddNameSimplifiedChinese = row["TeamNameCN"].ToString(),
+                OddNameTraditionalChinese = row["TeamNameC_UNI"].ToString(),
                 Value = Convert.ToDecimal(row["Odds"])
-            };
-        }
-
-        private static IList<Language> GetTeams(DataRow row)
-        {
-            return new List<Language>
-            {
-                new Language
-                    {
-                        Code = "en-US",
-                        Content = row["TeamName"].ToString()
-                    },
-                new Language
-                    {
-                        Code = "zh-TW",
-                        Content = row["TeamNameCN"].ToString()
-                    },
-                new Language
-                    {
-                        Code = "zh-CN",
-                        Content = row["TeamNameC_UNI"].ToString()
-                    }
-            };
-        }
-
-        private static IList<Language> GetEventNames(DataRow row)
-        {
-            return new List<Language>
-            {
-                new Language
-                    {
-                        Code = "en-US",
-                        Content = row["LeagueName"].ToString()
-                    },
-                new Language
-                    {
-                        Code = "zh-TW",
-                        Content = row["LeagueNameCN"].ToString()
-                    },
-                new Language
-                    {
-                        Code = "zh-CN",
-                        Content = row["LeagueNameC_UNI"].ToString()
-                    }
             };
         }
     }

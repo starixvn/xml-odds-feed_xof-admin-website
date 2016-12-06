@@ -2,19 +2,22 @@
 {
     using System;
     using System.Web.Mvc;
-    using MvcContrib.ActionResults;
     using OddsFeed.Common.DTO;
+    using OddsFeed.Common.Helpers;
 
     public class ErrorsController : Controller
     {        
-        public XmlResult Index(Exception exception)
+        public ActionResult Index(Exception exception)
         {
-            var error = new Error { Id = 4, Message = exception.Message };
-
-            return new XmlResult(error);
+            return Content(SerializerHelper.SerializeObject(
+            new Error
+            {
+                Id = 4,
+                Message = exception.Message
+            }));
         }
 
-        public ActionResult General(Exception exception)
+        public ActionResult General()
         {
             return Content("General failure", "text/plain");
         }
