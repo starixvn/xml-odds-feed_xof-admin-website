@@ -1,11 +1,7 @@
 ﻿namespace Fanex.OddsFeed.WebService.Controllers
 {
-    using System.IO;
     using System.Web.Mvc;
-    using System.Xml;
-    using System.Xml.Serialization;
     using OddsFeed.Common.DTO;
-    using OddsFeed.Common.Helpers;
     using ONEbook.UM.Models;
     using ONEbook.UM.Services;
     using ONEbook.UM.Services.Impl;
@@ -42,11 +38,6 @@
         protected string GetClientIpAddress()
         {
             return RequestHelper.GetClientIpAddress();
-        }
-
-        protected string SerializeObject<T>(T obj)
-        {
-            return SerializerHelper.SerializeObject(obj);
         }
     }
 }

@@ -36,7 +36,6 @@
     <Setting Key="SP.Ocs_League" SpName="ocs_leagues_sel" DbName="DBEXT.bodb02.bodbAdminNet" />
     <Setting Key="SP.Ocs_Event" SpName="ocs_events_sel" DbName="DBEXT.bodb02.bodbAdminNet" />
     <Setting Key="SP.Ocs_Match" SpName="ocs_matches_sel" DbName="DBEXT.bodb02.bodbAdminNet" />
-    <Setting Key="SP.Ocs_Match" SpName="ocs_matches_sel" DbName="DBEXT.bodb02.bodbAdminNet" />
 
   </Function>
   <Function Name="BetTypeSportType">

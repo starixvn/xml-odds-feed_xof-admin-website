@@ -66,13 +66,7 @@
 
         public void AppendBeginEvent(StringBuilder oddsFeedNode, Outright outright)
         {
-            oddsFeedNode.AppendFormat("<event id=\"{0}\" ge=\"{1}\" gt=\"{2}\" gs=\"{3}\" mt=\"{4}\" sport=\"{5}\">", 
-                outright.EventId,
-                outright.EventEnglish,
-                outright.EventTraditionalChinese,
-                outright.EventSimplifiedChinese,
-                outright.Time,
-                outright.SportName);
+            oddsFeedNode.Append($"<event id=\"{outright.EventId}\" ge=\"{outright.EventEnglish}\" gt=\"{outright.EventTraditionalChinese}\" gs=\"{outright.EventSimplifiedChinese}\" mt=\"{outright.Time}\" sport=\"{outright.SportName}\">"); 
         }
 
         private void AppendEndEvent(StringBuilder oddsFeedNode)
@@ -85,12 +79,7 @@
             UserProfile userProfile,
             OutrightOdds outrightOddsNode)
         {
-            oddsFeedNode.AppendFormat("<odd id=\"{0}\" te=\"{1}\" tt=\"{2}\" ts=\"{3}\" o=\"{4}\" />",
-                outrightOddsNode.OddsId,
-                outrightOddsNode.OddNameEnglish,
-                outrightOddsNode.OddNameTraditionalChinese,
-                outrightOddsNode.OddNameSimplifiedChinese,
-                OddsConverter.ConvertOdds(userProfile.OddRegion, outrightOddsNode.Value));
+            oddsFeedNode.AppendFormat($"<odd id=\"{outrightOddsNode.OddsId}\" te=\"{outrightOddsNode.OddNameEnglish}\" tt=\"{outrightOddsNode.OddNameTraditionalChinese}\" ts=\"{outrightOddsNode.OddNameSimplifiedChinese}\" o=\"{OddsConverter.ConvertOdds(userProfile.OddRegion, outrightOddsNode.Value)}\" />");
         }
 
         private static bool IsSampleOutright(bool isOutright, bool isSample, int numberOutright)

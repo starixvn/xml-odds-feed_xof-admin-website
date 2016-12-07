@@ -25,11 +25,9 @@
                 {
                     SystemName = Converter.ToString2(outputParams["systemname"]),
                     UserProfile = profileDataList.Count() == 0 ? null : GetUserProfile(profileDataList.FirstOrDefault()),
-                    Error = new Error
-                    {
-                        Id = Converter.ToInt(outputParams[ErrorCode]),
-                        Message = Converter.ToString2(outputParams[ErrorMsg])
-                    }
+                    Error = Converter.ToInt(outputParams[ErrorCode]) == 0 
+                    ? string.Empty 
+                    : $"<Error id={outputParams[ErrorCode]} message=\"{outputParams[ErrorMsg]}\" />"
                 };
             }
         }

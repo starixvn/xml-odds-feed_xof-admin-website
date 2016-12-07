@@ -1,99 +1,76 @@
 ﻿namespace Fanex.OddsFeed.WebService.Controllers
 {
-    using System;
     using System.Web.Mvc;
-    using System.Xml.Linq;
     using Fanex.OddsFeed.WebService.Functions;
-    using OddsFeed.Common.DTO;
+    using OddsFeed.Common.Configurations;
     using WebServiceLibrary.Criteria;
+    using WebServiceLibrary.Services;
 
     public class FeedsController : BaseController
     {
+        private readonly IFeedsService _feedsService;
+
+        public FeedsController()
+        {
+            _feedsService = new FeedsService();
+        }
+
+        [HttpGet]
         public ActionResult Index(string username, string feedname, int? fromid)
         {
-            var typeName = "Fanex.OddsFeed.Library.Model." + feedname +
-                ", Fanex.OddsFeed.Library, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null";
+            var ipAddress = GetClientIpAddress();
+            var domainName = Helper.DomainName(Request.ServerVariables);
+            var authenticatedPartner = GetAuthenticatedPartner(
+                new CheckPermissionCriteria
+                {
+                    UserName = username,
+                    DomainName = domainName,
+                    Ip = ipAddress
+                });
 
-            var feedType = Type.GetType(typeName, false, true);
-
-            if (feedType == null)
+            if (string.IsNullOrEmpty(authenticatedPartner.Error))
             {
-                return Content(SerializeObject(
-                    new Error
-                    {
-                        Id = -1,
-                        Message = "This feed is not available."
-                    }));
-            }            
-                    
-            var domain = Helper.DomainName(Request.ServerVariables);                                     
-            var data = GetXmlFeeds(feedType, username, HttpContext.Request["t"], domain, fromid);
-
-            return Content(data);                     
-        }
-
-        public string GetJson(string username, string feedname, int? fromid)
-        {
-            var typeName = "Fanex.OddsFeed.Library.Model." + feedname +
-                ", Fanex.OddsFeed.Library, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null";
-
-            var feedType = Type.GetType(typeName, false, true);
-
-            if (feedType == null)
-            {
-                return new Error { Id = -1, Message = "This feed is not available." };
+                return Content(authenticatedPartner.Error);
             }
 
-            var domain = Helper.DomainName(Request.ServerVariables);                                     
-            var data = GetJsonFeeds(feedType, username, HttpContext.Request["t"], domain, fromid);
-            return data;            
+            var feedsData = _feedsService.GetFeedsData(
+                FormatType.Xml,
+                feedname,
+                username,
+                domainName,
+                ipAddress, 
+                fromid);
+
+            return Content(feedsData);              
         }
 
-        private string GetJsonFeeds(Type feedType, string username, string timestamp, string domain, int? fromid)
+        [HttpGet]
+        public ActionResult GetJson(string username, string feedname, int? fromid)
         {
             var ipAddress = GetClientIpAddress();
+            var domainName = Helper.DomainName(Request.ServerVariables);
+            var authenticatedPartner = GetAuthenticatedPartner(
+                new CheckPermissionCriteria
+                {
+                    UserName = username,
+                    DomainName = domainName,
+                    Ip = ipAddress
+                });
 
-            var err = IsAuthenticated(username, timestamp, domain, ipAddress);
-
-            if (err.HasValue && err.Value.Id == 0)
+            if(string.IsNullOrEmpty(authenticatedPartner.Error))
             {
-                var genericType = typeof(Feeds<>);
-                var a = genericType.MakeGenericType(feedType);
-                dynamic obj = Activator.CreateInstance(a);
-
-                return obj.BuildJson(domain, ipAddress, username, fromid);
+                return Content(authenticatedPartner.Error);
             }
+           
+            var feedsData = _feedsService.GetFeedsData(
+                FormatType.Json,
+                feedname,
+                username,
+                domainName,
+                ipAddress, 
+                fromid);
 
-            return err.Value.ToString();
-        }
-
-        private XContainer GetXmlFeeds(Type feedType, string username, string timestamp, string domain, int? fromid)
-        {
-            var ipAddress = GetClientIpAddress();
-
-            var err = IsAuthenticated(username, timestamp, domain, ipAddress);
-
-            if (err.HasValue && err.Value.Id == 0)
-            {
-                var genericType = typeof(Feeds<>);
-                var a = genericType.MakeGenericType(feedType);
-                dynamic obj = Activator.CreateInstance(a);
-
-                return obj.BuildXmlDocument(domain, ipAddress, username, fromid);
-            }
-            return err.Value.ToXElement();
-        }
-
-        private QueryResult<UserProfile> IsAuthenticated(string username, string timestamp, string domain, string ip)
-        {
-            var domainName = domain;
-
-            if (string.IsNullOrEmpty(username))
-            {
-                return null;
-            }
-
-            return GetAuthenticatedUserProfile(new CheckPermissionCriteria { UserName = username, DomainName = domain, Ip = ip });
+            return Content(feedsData);        
         }
     }
 }

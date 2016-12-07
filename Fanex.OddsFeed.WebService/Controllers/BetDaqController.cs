@@ -43,14 +43,14 @@
                 return string.Empty;
             }
             
-            var queryResult = GetAuthenticatedUserProfile(new CheckPermissionCriteria
+            var authenticatedPartner = GetAuthenticatedPartner(new CheckPermissionCriteria
             {
                 UserName = username,
                 DomainName = domainName,
                 Ip = GetClientIpAddress()
             });
 
-            if (queryResult.Error.Id == 0)
+            if (string.IsNullOrEmpty(authenticatedPartner.Error))
             {
                 var separateRow = "__";
 
@@ -82,14 +82,14 @@
                 return string.Empty;
             }
 
-            var queryResult = GetAuthenticatedUserProfile(new CheckPermissionCriteria
+            var authenticatedPartner = GetAuthenticatedPartner(new CheckPermissionCriteria
             {
                 UserName = username,
                 DomainName = domainName,
                 Ip = GetClientIpAddress()
             });
             
-            if (queryResult.Error.Id == 0)
+            if (string.IsNullOrEmpty(authenticatedPartner.Error))
             {                
                 var separateRow = "__";
 

@@ -8,7 +8,7 @@
     using Common.DTO;
     using Filters;
 
-    public class MatchBuilder: IMatchBuilder
+    public class MatchBuilder : IMatchBuilder
     {
         private readonly IMatchFilter _matchFilter;
 
@@ -21,7 +21,7 @@
             StringBuilder oddsFeedNode,
             UserProfile userProfile,
             UserQuery userQuery,
-            IList<Match> deadballMatches, 
+            IList<Match> deadballMatches,
             IList<Match> liveMatches,
             string bookieName,
             DateTime lastUpdate,
@@ -53,7 +53,8 @@
             {
                 var matchesTimeStamp = GetMatchesTimeStamp(deadballMatches, liveMatches);
 
-                oddsFeedNode.AppendFormat("<matches lastupdate=\"{0}\" timestamp=\"{1}\" oddstype=\"{2}\">", lastUpdate, matchesTimeStamp, GetOddsTypeName(userProfile.OddRegion));
+                oddsFeedNode
+                    .Append($"<matches lastupdate=\"{lastUpdate}\" timestamp=\"{matchesTimeStamp}\" oddstype=\"{GetOddsTypeName(userProfile.OddRegion)}\">");
             }
             else
             {
@@ -102,20 +103,8 @@
 
         private void AppendBeginMatch(StringBuilder oddsFeedNode, Match match)
         {
-            oddsFeedNode.AppendFormat("<match id=\"{0}\" ge=\"{1}\" gt=\"{2}\" gs=\"{3}\" he=\"{4}\" ht=\"{5}\" hs=\"{6}\" ae=\"{7}\" at=\"{8}\" as=\"{9}\" mt=\"{10}\" sport=\"{11}\" running=\"{12}\">",
-                match.MatchId,
-                match.LeagueEnglish,
-                match.LeagueTraditionalChinese,
-                match.LeagueSimplifiedChinese,
-                match.HomeEnglish,
-                match.HomeTraditionalChinese,
-                match.HomeSimplifiedChinese,
-                match.AwayEnglish,
-                match.AwayTraditionalChinese,
-                match.AwaySimplifiedChinese,
-                match.KickOfTime,
-                match.SportName,
-                match.IsLive);
+            oddsFeedNode
+                .Append($"<match id=\"{match.MatchId}\" ge=\"{match.LeagueEnglish}\" gt=\"{match.LeagueTraditionalChinese}\" gs=\"{match.LeagueSimplifiedChinese}\" he=\"{match.HomeEnglish}\" ht=\"{match.HomeTraditionalChinese}\" hs=\"{match.HomeSimplifiedChinese}\" ae=\"{match.AwayEnglish}\" at=\"{match.AwayTraditionalChinese}\" as=\"{match.AwaySimplifiedChinese}\" mt=\"{match.KickOfTime}\" sport=\"{match.SportName}\" running=\"{match.IsLive}\">");
         }
 
         private void AppendEndMatch(StringBuilder oddsFeedNode)
@@ -138,7 +127,7 @@
 
         private void AppendBeginBookie(StringBuilder oddsFeedNode, string bookieName)
         {
-            oddsFeedNode.AppendFormat("<bookie name=\"{0}\" simp=\"{0}\" trad=\"{0}\">", bookieName);
+            oddsFeedNode.Append($"<bookie name=\"{bookieName}\" simp=\"{bookieName}\" trad=\"{bookieName}\">");
         }
 
         private void AppendEndBookie(StringBuilder oddsFeedNode)
@@ -164,14 +153,14 @@
 
         private void AppendOdd(StringBuilder oddsFeedNode, UserProfile userProfile, MatchOdds matchOddsNode)
         {
-            oddsFeedNode.AppendFormat("<odd t=\"{0}\"", matchOddsNode.Tag);
+            oddsFeedNode.Append($"<odd t=\"{matchOddsNode.Tag}\"");
 
             foreach (var betChoice in matchOddsNode.BetChoices)
             {
-                oddsFeedNode.AppendFormat("{0}=\"{1}\" ", betChoice.Code, ConvertOdds(userProfile, betChoice));
+                oddsFeedNode.Append($"{betChoice.Code}=\"{ConvertOdds(userProfile, betChoice)}\" ");
             }
 
-            oddsFeedNode.AppendFormat("time=\"{0}\" timestamp=\"{1}\" />", matchOddsNode.Time, matchOddsNode.TimeStamp);
+            oddsFeedNode.Append($"time=\"{matchOddsNode.Time}\" timestamp=\"{matchOddsNode.TimeStamp}\" />");
         }
 
         private static string ConvertOdds(UserProfile UserProfile, BetChoice betChoice)

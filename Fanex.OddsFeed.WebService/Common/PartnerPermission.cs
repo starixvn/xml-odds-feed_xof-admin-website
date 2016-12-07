@@ -24,24 +24,24 @@
             var domainName = Helper.DomainName(request.ServerVariables);
             var ipAddress = RequestHelper.GetClientIpAddress();
 
-            var result = GetUserProfileResult(username, domainName, ipAddress);
+            var authenticatedPartner = GetAuthenticatedPartner(username, domainName, ipAddress);
 
-            if (result.Error.Id > 0)
+            if (string.IsNullOrEmpty(authenticatedPartner.Error))
             {
                 filterContext.Result = new ContentResult
                 {
-                    Content = result.Error.Message,
+                    Content = authenticatedPartner.Error,
                     ContentEncoding = Encoding.UTF8,
                     ContentType = "text/xml"
-                }; ;
+                };
             }
             else
             {
-                filterContext.ActionParameters["userProfile"] = result.Data;
+                filterContext.ActionParameters["userProfile"] = authenticatedPartner.UserProfile;
             }
         }
 
-        private AuthenticatedPartner GetUserProfileResult(string username, string domainName, string ip)
+        private AuthenticatedPartner GetAuthenticatedPartner(string username, string domainName, string ip)
         {
             return _partnerRepository.GetAuthenticatedPartner(new CheckPermissionCriteria
             {

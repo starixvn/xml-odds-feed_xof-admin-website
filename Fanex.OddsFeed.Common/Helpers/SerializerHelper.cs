@@ -1,6 +1,8 @@
 ﻿namespace Fanex.OddsFeed.Common.Helpers
 {
+    using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using System.Xml;
     using System.Xml.Serialization;
 
@@ -18,6 +20,22 @@
             {
                 var serializer = new XmlSerializer(obj.GetType());
                 serializer.Serialize(xmlWriter, obj, GetXmlSerializerNamespaces());
+                return stringWriter.ToString();
+            }
+        }
+
+        public static string SerializeList<T>(IEnumerable<T> list)
+        {
+            if (list == null || list.Count() == 0)
+            {
+                return string.Empty;
+            }
+
+            using (var stringWriter = new StringWriter())
+            using (var xmlWriter = XmlWriter.Create(stringWriter, GetXmlWriterSettings()))
+            {
+                var serializer = new XmlSerializer(list.GetType());
+                serializer.Serialize(xmlWriter, list, GetXmlSerializerNamespaces());
                 return stringWriter.ToString();
             }
         }

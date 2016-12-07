@@ -6,6 +6,6 @@
 
         public UserProfile UserProfile { get; set; }
 
-        public Error Error { get; set; }
+        public string Error { get; set; }
     }
 }

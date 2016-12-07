@@ -78,6 +78,7 @@
   <ItemGroup>
     <Compile Include="Configurations\AppSettings.cs" />
     <Compile Include="Configurations\CacheKeys.cs" />
+    <Compile Include="Configurations\FormatType.cs" />
     <Compile Include="Converters\ListConverter.cs" />
     <Compile Include="Converters\OddsConverter.cs" />
     <Compile Include="DataObjects\ProfileData.cs" />
@@ -85,6 +86,10 @@
     <Compile Include="DTO\AuthenticatedPartner.cs" />
     <Compile Include="DTO\BetChoice.cs" />
     <Compile Include="DTO\BetType.cs" />
+    <Compile Include="DTO\Country.cs" />
+    <Compile Include="DTO\Event.cs" />
+    <Compile Include="DTO\Ip.cs" />
+    <Compile Include="DTO\League.cs" />
     <Compile Include="DTO\QueryResult.cs" />
     <Compile Include="DTO\Error.cs" />
     <Compile Include="DTO\Language.cs" />
@@ -95,6 +100,8 @@
     <Compile Include="DTO\Outright.cs" />
     <Compile Include="DTO\OutrightOdds.cs" />
     <Compile Include="DTO\Partner.cs" />
+    <Compile Include="DTO\Sport.cs" />
+    <Compile Include="DTO\Team.cs" />
     <Compile Include="DTO\UserProfile.cs" />
     <Compile Include="DTO\UserQuery.cs" />
     <Compile Include="Formatters\NumberFormatter.cs" />

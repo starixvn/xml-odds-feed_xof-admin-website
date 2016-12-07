@@ -1,6 +1,5 @@
 ﻿namespace Fanex.OddsFeed.WebService.Controllers
 {
-    using System;
     using System.Configuration;
     using System.Data;
     using System.Text;
@@ -30,20 +29,39 @@
             if (IsDownTime())
             {
                 var underMaintenanceTime = GetUndermaintenanceTime();
-
-                return Content(SerializeObject(ErrorBuilder.GetUMDownTime(underMaintenanceTime.To)));
+                return Content(ErrorBuilder.GetUMDownTime(underMaintenanceTime.To));
             }
 
-            var filter = Helper.GetFilter(Request);
+            var userQuery = Helper.GetFilter(Request);
 
-            if (Helper.IsOverLimitedOptions(filter))
+            if (Helper.IsOverLimitedOptions(userQuery))
             {
-                var errMessage = new Error { Id = 10024, Message = "You can only filter maximum 5 options. Please try again." };
-
-                return Content(SerializeObject(errMessage));
+                return Content(ErrorBuilder.GetOverLimitedOptions());
             }
-            
-            var data = GetOddsFeed(username, HttpContext.Request["t"], Helper.DomainName(Request.ServerVariables), filter);
+
+            var domain = Helper.DomainName(Request.ServerVariables);
+
+            var ipAddress = GetClientIpAddress();
+            var authenticatedPartner = GetAuthenticatedPartner(new CheckPermissionCriteria
+            {
+                UserName = username,
+                DomainName = domain,
+                Ip = ipAddress
+            });
+
+            if (!string.IsNullOrEmpty(authenticatedPartner.Error) || authenticatedPartner.UserProfile == null)
+            {
+                return Content(authenticatedPartner.Error);
+            }
+
+            var data = GetOddsFeed(
+                authenticatedPartner.UserProfile,
+                HttpContext.Request["t"],
+                domain,
+                ipAddress,
+                authenticatedPartner.SystemName, 
+                userQuery, 
+                true);
 
             return Content(data);
         }
@@ -53,8 +71,12 @@
             if (IsDownTime())
             {
                 var underMaintenanceTime = GetUndermaintenanceTime();
+                return Content(ErrorBuilder.GetUMDownTime(underMaintenanceTime.To));
+            }
 
-                return Content(SerializeObject(ErrorBuilder.GetUMDownTime(underMaintenanceTime.To)));
+            if (string.IsNullOrEmpty(username))
+            {
+                return Content(ErrorBuilder.GetParameterSufficent());
             }
 
             ViewBag.UserName = username;
@@ -62,8 +84,27 @@
             ViewBag.VirtualPath = GetVirtualPath();
 
             var domain = Helper.DomainName(Request.ServerVariables);
-            var userQuery = new UserQuery();
-            var sampleOdds = GetOddsFeed(username, HttpContext.Request["t"], domain, userQuery, true, true);
+
+            var ipAddress = GetClientIpAddress();
+            var authenticatedPartner = GetAuthenticatedPartner(new CheckPermissionCriteria
+            {
+                UserName = username,
+                DomainName = domain,
+                Ip = ipAddress
+            });
+
+            if(!string.IsNullOrEmpty(authenticatedPartner.Error) || authenticatedPartner.UserProfile == null)
+            {
+                return Content(authenticatedPartner.Error);
+            }
+
+            var sampleOdds = GetOddsFeed(
+                authenticatedPartner.UserProfile, 
+                HttpContext.Request["t"], 
+                domain,
+                ipAddress, 
+                authenticatedPartner.SystemName,
+                new UserQuery(), true);
 
             var provider = new StringBuilder(sampleOdds);
             provider.Replace("><", ">\n<");
@@ -86,9 +127,9 @@
             ViewBag.Sports = DbAccess.GetSportByUserName(username).ResultSet.Tables[0].Select();
             ViewBag.Bettypes = DbAccess.GetBetTypeByUserName(username).ResultSet.Tables[0].Select();
 
-            if (userProfile != null)
+            if (authenticatedPartner.UserProfile != null)
             {
-                return View("Help", userProfile);
+                return View("Help", authenticatedPartner.UserProfile);
             }
             else
             {
@@ -102,17 +143,34 @@
             {
                 var underMaintenanceTime = GetUndermaintenanceTime();
 
-                return Content(SerializeObject(ErrorBuilder.GetUMDownTime(underMaintenanceTime.To)));
+                return Content(ErrorBuilder.GetUMDownTime(underMaintenanceTime.To));
             }
 
             ViewBag.UserName = username;
             ViewBag.FullDomainName = Helper.FullDomainName(Request.ServerVariables);
             ViewBag.VirtualPath = GetVirtualPath();
-
-            UserProfile userProfile = null;
+            
             var domain = Helper.DomainName(Request.ServerVariables);
-            var userQuery = new UserQuery();
-            var sampleOdds = GetOddsFeed(ref userProfile, username, HttpContext.Request["t"], domain, userQuery, true, true);
+            var ipAddress = GetClientIpAddress();
+            var authenticatedPartner = GetAuthenticatedPartner(new CheckPermissionCriteria
+            {
+                UserName = username,
+                DomainName = domain,
+                Ip = ipAddress
+            });
+
+            if (!string.IsNullOrEmpty(authenticatedPartner.Error) || authenticatedPartner.UserProfile == null)
+            {
+                return Content(authenticatedPartner.Error);
+            }
+
+            var sampleOdds = GetOddsFeed(
+                authenticatedPartner.UserProfile,
+                HttpContext.Request["t"],
+                domain,
+                ipAddress,
+                authenticatedPartner.SystemName,
+                new UserQuery(), true);
 
             var provider = new StringBuilder(sampleOdds);
             provider.Replace("><", ">\n<");
@@ -137,9 +195,9 @@
 
             GenerateAppendixData(username);
 
-            if (userProfile != null)
+            if (authenticatedPartner.UserProfile != null)
             {
-                return View("NewHelp", userProfile);
+                return View("NewHelp", authenticatedPartner.UserProfile);
             }
             else
             {
@@ -288,35 +346,18 @@
         }
 
         private string GetOddsFeed(
-            string username,
+            UserProfile userProfile,
             string timestamp,
             string domain,
+            string ipAddress,
+            string systemName,
             UserQuery userQuery,
             bool isSample = false,
             bool outrights = true)
         {
-            if (string.IsNullOrEmpty(username))
-            {
-                return SerializeObject(ErrorBuilder.GetParameterSufficent());
-            }
+            var service = new WebOddsFeedService(userProfile, systemName, domain, ipAddress, timestamp);
 
-            var ipAddress = GetClientIpAddress();
-            var authenticatedPartner = GetAuthenticatedPartner(new CheckPermissionCriteria
-            {
-                UserName = username,
-                DomainName = domain,
-                Ip = ipAddress
-            });
-
-            if (authenticatedPartner.UserProfile != null && (authenticatedPartner.Error.Id == 0 || isSample))
-            {
-                var service = new WebOddsFeedService(authenticatedPartner.UserProfile, authenticatedPartner.SystemName, domain, ipAddress, timestamp);
-                var oddsFeedNode = service.BuildXmlDocument(userQuery, isSample, outrights);
-
-                return oddsFeedNode.ToString();
-            }
-
-            return SerializeObject(authenticatedPartner.Error);
+            return service.BuildXmlDocument(userQuery, isSample, outrights).ToString();
         }
         
         private static string GetVirtualPath()

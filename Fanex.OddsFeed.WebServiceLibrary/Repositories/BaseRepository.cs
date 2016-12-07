@@ -28,31 +28,5 @@
                 return result ?? Enumerable.Empty<TResult>();
             }
         }
-
-        //protected virtual CommandResult ExecuteCriteria(ICriteria criteria)
-        //{
-        //    using (var db = GetObjectDb(criteria.GetSettingKey()))
-        //    {
-        //        var inputParams = criteria.GetSpParams();
-
-        //        inputParams.Add(Language, "E");
-        //        inputParams.Add(ErrorCode, 0);
-        //        inputParams.Add(ErrorMsg, string.Empty);
-
-        //        db.ExecuteNonQuery(inputParams);
-
-        //        var outputParams = db.GetOuputParams();
-
-        //        return new CommandResult(Converter.ToInt(outputParams[ErrorCode]), Converter.ToString2(outputParams[ErrorMsg]));
-        //    }
-        //}
-
-        //protected virtual object ExecuteScalar(ICriteria criteria)
-        //{
-        //    using (var db = GetObjectDb(criteria.GetSettingKey()))
-        //    {
-        //        return db.ExecuteScalar(criteria.GetSpParams());
-        //    }
-        //}
     }
 }

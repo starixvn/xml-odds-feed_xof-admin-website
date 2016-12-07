@@ -4,25 +4,32 @@
     using System.Web.Mvc;
     using System.Xml;
     using Fanex.OddsFeed.WebService.Functions;
-    using OddsFeed.Common;
     using OddsFeed.Common.Formatter;
     using WebServiceLibrary;
     using WebServiceLibrary.Criteria;
+    using WebServiceLibrary.Services;
 
     public class BetRadarController : BaseController
     {
+        private readonly IBetRadarService _betRadarService;
+
+        public BetRadarController()
+        {
+            _betRadarService = new BetRadarService();
+        }
+
         public ActionResult Index(string userName)
         {
             if (userName.ToLower() != "betradar")
             {
-                return Content(SerializeObject(ErrorBuilder.GetUnAuthenticated()));
+                return Content(ErrorBuilder.GetUnAuthenticated());
             }
 
             if (IsDownTime())
             {
                 var underMaintenanceTime = GetUndermaintenanceTime();
 
-                return Content(SerializeObject(ErrorBuilder.GetUMDownTime(underMaintenanceTime.To)));
+                return Content(ErrorBuilder.GetUMDownTime(underMaintenanceTime.To));
             }
             
             return Content(GetOddsFeed(userName));
@@ -32,68 +39,22 @@
         {
             if (string.IsNullOrEmpty(username))
             {
-                return SerializeObject(ErrorBuilder.GetParameterSufficent());
+                return ErrorBuilder.GetParameterSufficent();
             }
 
-            var userProfileResult = GetAuthenticatedUserProfile(new CheckPermissionCriteria
+            var authenticatedPartner = GetAuthenticatedPartner(new CheckPermissionCriteria
             {
                 UserName = username,
                 DomainName = Helper.DomainName(Request.ServerVariables),
                 Ip = GetClientIpAddress()
             });
             
-            if (userProfileResult.Error.Id == 0)
+            if (string.IsNullOrEmpty(authenticatedPartner.Error))
             {
-                return BuildXmlDocument();
+                return _betRadarService.GetXmlDocument();
             }
 
-            return SerializeObject(userProfileResult.Error);
-        }
-
-        private string BuildXmlDocument()
-        {
-            var oddsFeed = DbAccess.GetBetRadar().ResultSet.Tables[0];
-            var xd = new XmlDocument();
-            var commentMain = xd.CreateComment(" Date is based on Malaysian time ");
-            var list = xd.CreateElement("List");
-            xd.AppendChild(list);
-            list.AppendChild(commentMain);
-            foreach (DataRow row in oddsFeed.Rows)
-            {
-                var oddsObject = xd.CreateElement("OddsObject");
-                oddsObject.SetAttribute("type", "regular");
-
-                list.AppendChild(oddsObject);
-                oddsObject.AppendChild(CreateNode(xd, "Sport", row["sporttypename"].ToString()));
-                oddsObject.AppendChild(CreateNode(xd, "Tournament", row["leaguename"].ToString()));
-                oddsObject.AppendChild(CreateNode(xd, "MatchId", row["matchid"].ToString()));
-                oddsObject.AppendChild(CreateNode(xd, "HomeTeam", row["home"].ToString()));
-                oddsObject.AppendChild(CreateNode(xd, "AwayTeam", row["away"].ToString()));
-                oddsObject.AppendChild(CreateNode(xd, "Date", row["kickofftime"].ToString()));
-
-                if (!row.IsNull("OddsID_5"))
-                {
-                    var comment = xd.CreateComment(" Threeway odds ");
-                    oddsObject.AppendChild(comment);
-                    oddsObject.AppendChild(OddsDataThreeway(xd, row));
-                }
-
-                if (!row.IsNull("OddsID_1"))
-                {
-                    var comment = xd.CreateComment(" Handicap odds ");
-                    oddsObject.AppendChild(comment);
-                    oddsObject.AppendChild(OddsDataHandicap(xd, row));
-                }
-
-                if (!row.IsNull("OddsID_3"))
-                {
-                    var comment = xd.CreateComment(" Total odds(over/under) ");
-                    oddsObject.AppendChild(comment);
-                    oddsObject.AppendChild(OddsDataOverUnder(xd, row));
-                }
-            }
-
-            return xd.DocumentElement;
+            return authenticatedPartner.Error;
         }
 
         private XmlElement CreateNode(XmlDocument xd, string nodeName, string value)

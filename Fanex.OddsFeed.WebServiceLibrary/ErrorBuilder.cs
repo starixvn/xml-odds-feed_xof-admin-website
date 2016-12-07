@@ -1,43 +1,30 @@
 ﻿namespace Fanex.OddsFeed.WebServiceLibrary
 {
-    using Common.DTO;
-
     public static class ErrorBuilder
     {
-        public static Error GetUnAuthenticated()
+        public static string GetUnAuthenticated()
         {
-            return new Error
-            {
-                Id = 1,
-                Message = "You are not authorized to take this action"
-            };
+            return $"<Error id=1 message=\"You are not authorized to take this action\" />";
         }
 
-        public static Error GetParameterSufficent()
+        public static string GetParameterSufficent()
         {
-            return new Error
-            {
-                Id = 2,
-                Message = "Missing parameter!"
-            };
+            return $"<Error id=2 message=\"Missing parameter!\" />";
         }
 
-        public static Error GetWrongUrlFormat()
+        public static string GetWrongUrlFormat()
         {
-            return new Error
-            {
-                Id = 3,
-                Message = "Invalid URL"
-            };
+            return $"<Error id=3 message=\"Invalid URL\" />";
         }
 
-        public static Error GetUMDownTime(string time)
+        public static string GetUMDownTime(string time)
         {
-            return new Error
-            {
-                Id = 4,
-                Message = string.Format("We are having server maintenance, website will be unavailable until {0} (HK Time GMT +8). Sorry for the inconveniences caused!", time)
-            };
+            return $"<Error id=4 message=\"We are having server maintenance, website will be unavailable until {time} (HK Time GMT +8). Sorry for the inconveniences caused!\" />";
+        }
+
+        public static string GetOverLimitedOptions()
+        {
+            return $"<Error id=10024 message=\"You can only filter maximum 5 options. Please try again.\" />";
         }
     }
 }

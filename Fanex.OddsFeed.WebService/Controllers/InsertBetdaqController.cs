@@ -8,7 +8,7 @@
     using Fanex.OddsFeed.WebService.Functions;
     using OddsFeed.Common.Configurations;
     using OddsFeed.Common.Helpers;
-
+    using WebServiceLibrary.Criteria;
     public class InsertBetdaqController : BaseController
     {
         public string Index(string username)
@@ -57,10 +57,14 @@
             }
 
             var ipAddress = GetClientIpAddress();
-            var partner = new Partner(username, domainName, ipAddress, string.Empty);
-            var err = partner.IsAuthenticated();
+            var authenticatedPartner = GetAuthenticatedPartner(new CheckPermissionCriteria
+            {
+                UserName = username,
+                DomainName = domainName,
+                Ip = ipAddress
+            });
 
-            if (err.Id == 0)
+            if (string.IsNullOrEmpty(authenticatedPartner.Error))
             {
                 var hash = new Hashtable
                              {                                    

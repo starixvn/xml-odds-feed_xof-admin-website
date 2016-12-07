@@ -126,6 +126,13 @@
     <Compile Include="Builders\OutrightBuilder.cs" />
     <Compile Include="Caching\OddFeedDataCachingOperator.cs" />
     <Compile Include="Criteria\CheckPermissionCriteria.cs" />
+    <Compile Include="Criteria\GetCountryCriteria.cs" />
+    <Compile Include="Criteria\GetEventCriteria.cs" />
+    <Compile Include="Criteria\GetIpCriteria.cs" />
+    <Compile Include="Criteria\GetLeagueCriteria.cs" />
+    <Compile Include="Criteria\GetMatchCriteria.cs" />
+    <Compile Include="Criteria\GetSportCriteria.cs" />
+    <Compile Include="Criteria\GetTeamCriteria.cs" />
     <Compile Include="Data\IObjectDbAdapter.cs" />
     <Compile Include="Data\IRecordSetReader.cs" />
     <Compile Include="Data\ObjectDbAdapter.cs" />
@@ -147,13 +154,18 @@
     <Compile Include="Models\Team.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BaseRepository.cs" />
+    <Compile Include="Repositories\FeedsRepository.cs" />
+    <Compile Include="Repositories\IFeedsRepository.cs" />
     <Compile Include="Repositories\IPartnerRepository.cs" />
     <Compile Include="Repositories\PartnerRepository.cs" />
-    <Compile Include="Repositories\UserProfileRepository.cs" />
+    <Compile Include="Services\BetRadarService.cs" />
     <Compile Include="Services\BetTypeService.cs" />
     <Compile Include="Services\EventFeedService.cs" />
+    <Compile Include="Services\FeedsService.cs" />
+    <Compile Include="Services\IBetRadarService.cs" />
     <Compile Include="Services\IBetTypeService.cs" />
     <Compile Include="Services\IEventFeedService.cs" />
+    <Compile Include="Services\IFeedsService.cs" />
     <Compile Include="Services\IWebOddsFeedService.cs" />
     <Compile Include="Services\WebOddsFeedService.cs" />
   </ItemGroup>

@@ -8,6 +8,7 @@
     using System.Web;
     using System.Web.Mvc;
     using System.Web.Routing;
+    using ONEbook.UM.Services.Impl;
 
     public class MvcApplication : System.Web.HttpApplication
     {
@@ -70,10 +71,8 @@
             ////Send & log exception email
             if (ex != null && !(ex is HttpException) && !(ex is FormatException))
             {
-                ////write log
-                var startTime = string.Empty;
-                var endTime = string.Empty;
-                if (!Utilities.GetDownTime(out startTime, out endTime))
+                var maintenanceService = new MaintenanceService();
+                if (!maintenanceService.IsUnderMaintenance())
                 {
                     var message = new string[]
                         {
