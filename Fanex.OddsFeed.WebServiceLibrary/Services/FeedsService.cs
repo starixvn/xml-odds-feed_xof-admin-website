@@ -1,7 +1,7 @@
 ﻿namespace Fanex.OddsFeed.WebServiceLibrary.Services
 {
     using System.Collections.Generic;
-    using Common.Helpers;
+    using System.Text;
     using Criteria;
     using Fanex.OddsFeed.Common.Configurations;
     using Newtonsoft.Json;
@@ -58,15 +58,17 @@
             string ipAddress,
             int? fromid)
         {
-            var criteria = new GetIpCriteria
+            var ipList = _feedsRepository.GetIpList(new GetIpCriteria
             {
                 Username = username,
                 Domain = domain,
                 Ip = ipAddress,
                 FromId = fromid
-            };
+            });
 
-            return SerializeData(formatType, _feedsRepository.GetIpList(criteria));
+            return formatType == FormatType.Json
+                ? JsonConvert.SerializeObject(ipList)
+                : GetFeedsString("Ips", ipList);
         }
 
         private string GetTeamFeeds(
@@ -76,15 +78,17 @@
             string ipAddress,
             int? fromid)
         {
-            var criteria = new GetTeamCriteria
+            var teamList = _feedsRepository.GetTeamList(new GetTeamCriteria
             {
                 Username = username,
                 Domain = domain,
                 Ip = ipAddress,
                 FromId = fromid
-            };
+            });
 
-            return SerializeData(formatType, _feedsRepository.GetTeamList(criteria));
+            return formatType == FormatType.Json
+                ? JsonConvert.SerializeObject(teamList)
+                : GetFeedsString("Teams", teamList);
         }
 
         private string GetLeagueFeeds(
@@ -94,15 +98,17 @@
             string ipAddress,
             int? fromid)
         {
-            var criteria = new GetLeagueCriteria
+            var leagueList = _feedsRepository.GetLeagueList(new GetLeagueCriteria
             {
                 Username = username,
                 Domain = domain,
                 Ip = ipAddress,
                 FromId = fromid
-            };
+            });
 
-            return SerializeData(formatType, _feedsRepository.GetLeagueList(criteria));
+            return formatType == FormatType.Json
+                ? JsonConvert.SerializeObject(leagueList)
+                : GetFeedsString("Leagues", leagueList);
         }
 
         private string GetCountryFeeds(
@@ -112,15 +118,17 @@
             string ipAddress,
             int? fromid)
         {
-            var criteria = new GetCountryCriteria
+            var countryList = _feedsRepository.GetCountryList(new GetCountryCriteria
             {
                 Username = username,
                 Domain = domain,
                 Ip = ipAddress,
                 FromId = fromid
-            };
+            });
 
-            return SerializeData(formatType, _feedsRepository.GetCountryList(criteria));
+            return formatType == FormatType.Json
+                ? JsonConvert.SerializeObject(countryList)
+                : GetFeedsString("Countries", countryList);
         }
 
         private string GetSportFeeds(
@@ -130,15 +138,17 @@
             string ipAddress,
             int? fromid)
         {
-            var criteria = new GetSportCriteria
+            var sportList = _feedsRepository.GetSportList(new GetSportCriteria
             {
                 Username = username,
                 Domain = domain,
                 Ip = ipAddress,
                 FromId = fromid
-            };
+            });
 
-            return SerializeData(formatType, _feedsRepository.GetSportList(criteria));
+            return formatType == FormatType.Json
+                ? JsonConvert.SerializeObject(sportList)
+                : GetFeedsString("Sports", sportList);
         }
 
         private string GetEventFeeds(
@@ -148,25 +158,46 @@
             string ipAddress,
             int? fromid)
         {
-            var criteria = new GetEventCriteria
+            var eventList = _feedsRepository.GetEventList(new GetEventCriteria
             {
                 Username = username,
                 Domain = domain,
                 Ip = ipAddress,
                 FromId = fromid
-            };
+            });
 
-            return SerializeData(formatType, _feedsRepository.GetEventList(criteria));
+            return formatType == FormatType.Json
+                ? JsonConvert.SerializeObject(eventList)
+                : GetFeedsString("Events", eventList);
         }
 
-        private string SerializeData<T>(FormatType formatType, IEnumerable<T> feedsData)
+        private static string GetFeedsString<T>(string rootName, IEnumerable<T> feedsList)
         {
-            if (formatType == FormatType.Json)
+            var feedsString = new StringBuilder($"<{rootName}>");
+
+            foreach (var feeds in feedsList)
             {
-                return JsonConvert.SerializeObject(feedsData);
+                AppendFeeds(feedsString, feeds);
             }
 
-            return SerializerHelper.SerializeList(feedsData);
+            feedsString.Append($"</{rootName}>");
+
+            return feedsString.ToString();
+        }
+
+        private static void AppendFeeds<T>(StringBuilder feedsString, T feeds)
+        {
+            var type = feeds.GetType();
+            var properties = type.GetProperties();
+
+            feedsString.Append($"<{type.Name}>");
+
+            foreach (var property in properties)
+            {
+                feedsString.Append($"<{property.Name}>{property.GetValue(feeds, null)}</{property.Name}>");
+            }
+
+            feedsString.Append($"</{type.Name}>");
         }
     }
 }
