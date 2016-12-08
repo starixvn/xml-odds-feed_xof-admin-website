@@ -1,13 +1,13 @@
 ﻿namespace Fanex.OddsFeed.WebServiceLibrary.Builders
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using Common.Converters;
     using Common.DTO;
     using Filters;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
 
-    public class OutrightBuilder: IOutrightBuilder
+    public class OutrightBuilder : IOutrightBuilder
     {
         private OutrightFilter _outrightFilter;
 
@@ -24,7 +24,7 @@
             bool isOutright,
             bool isSample)
         {
-            AppendBeginOutrights(oddsFeedNode);
+            oddsFeedNode.Append("<outrights>");
 
             if (IsSampleOutright(isOutright, isSample, outrights.Count()))
             {
@@ -39,42 +39,22 @@
                 }
             }
 
-            AppendEndOutrights(oddsFeedNode);
-        }
-
-        public void AppendBeginOutrights(StringBuilder oddsFeedNode)
-        {
-            oddsFeedNode.Append("<outrights>");
-        }
-
-        private void AppendEndOutrights(StringBuilder oddsFeedNode)
-        {
             oddsFeedNode.Append("</outrights>");
         }
 
-        private void AppendEventNode(StringBuilder oddsFeedNode, UserProfile userProfile, Outright outright)
+        private static void AppendEventNode(StringBuilder oddsFeedNode, UserProfile userProfile, Outright outright)
         {
-            AppendBeginEvent(oddsFeedNode, outright);
+            oddsFeedNode.Append($"<event id=\"{outright.EventId}\" ge=\"{outright.EventEnglish}\" gt=\"{outright.EventTraditionalChinese}\" gs=\"{outright.EventSimplifiedChinese}\" mt=\"{outright.Time}\" sport=\"{outright.SportName}\">");
 
             foreach (var outrightOddsNode in outright.OutrightOddsList)
             {
                 AppendOdd(oddsFeedNode, userProfile, outrightOddsNode);
             }
 
-            AppendEndEvent(oddsFeedNode);
-        }
-
-        public void AppendBeginEvent(StringBuilder oddsFeedNode, Outright outright)
-        {
-            oddsFeedNode.Append($"<event id=\"{outright.EventId}\" ge=\"{outright.EventEnglish}\" gt=\"{outright.EventTraditionalChinese}\" gs=\"{outright.EventSimplifiedChinese}\" mt=\"{outright.Time}\" sport=\"{outright.SportName}\">"); 
-        }
-
-        private void AppendEndEvent(StringBuilder oddsFeedNode)
-        {
             oddsFeedNode.Append("</event>");
         }
 
-        private void AppendOdd(
+        private static void AppendOdd(
             StringBuilder oddsFeedNode,
             UserProfile userProfile,
             OutrightOdds outrightOddsNode)

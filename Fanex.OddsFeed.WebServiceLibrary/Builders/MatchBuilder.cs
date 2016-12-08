@@ -1,12 +1,12 @@
 ﻿namespace Fanex.OddsFeed.WebServiceLibrary.Builders
 {
+    using Common.Converters;
+    using Common.DTO;
+    using Filters;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
-    using Common.Converters;
-    using Common.DTO;
-    using Filters;
 
     public class MatchBuilder : IMatchBuilder
     {
@@ -42,10 +42,10 @@
                 AssignMatchNodes(oddsFeedNode, userProfile, userQuery, liveMatches, bookieName, isSample);
             }
 
-            AppendEndMatches(oddsFeedNode);
+            oddsFeedNode.Append("</matches>");
         }
 
-        private void AppendBeginMatches(
+        private static void AppendBeginMatches(
             StringBuilder oddsFeedNode,
             UserProfile userProfile,
             IEnumerable<Match> deadballMatches,
@@ -63,11 +63,6 @@
             {
                 oddsFeedNode.Append("<matches>");
             }
-        }
-
-        private void AppendEndMatches(StringBuilder oddsFeedNode)
-        {
-            oddsFeedNode.Append("</matches>");
         }
 
         private void AssignMatchNodes(
@@ -101,19 +96,14 @@
         {
             AppendBeginMatch(oddsFeedNode, match);
             AppendBookieNode(oddsFeedNode, userProfile, userQuery, match, bookieName, isSample);
-            AppendEndMatch(oddsFeedNode);
+            oddsFeedNode.Append("</match>");
         }
 
-        private void AppendBeginMatch(StringBuilder oddsFeedNode, Match match)
+        private static void AppendBeginMatch(StringBuilder oddsFeedNode, Match match)
         {
             var isRunning = match.IsLive ? LIVE : DEADBALL;
             oddsFeedNode
                 .Append($"<match id=\"{match.MatchId}\" ge=\"{match.LeagueEnglish}\" gt=\"{match.LeagueTraditionalChinese}\" gs=\"{match.LeagueSimplifiedChinese}\" he=\"{match.HomeEnglish}\" ht=\"{match.HomeTraditionalChinese}\" hs=\"{match.HomeSimplifiedChinese}\" ae=\"{match.AwayEnglish}\" at=\"{match.AwayTraditionalChinese}\" as=\"{match.AwaySimplifiedChinese}\" mt=\"{match.KickOfTime}\" sport=\"{match.SportName}\" running=\"{isRunning}\">");
-        }
-
-        private void AppendEndMatch(StringBuilder oddsFeedNode)
-        {
-            oddsFeedNode.Append("</match>");
         }
 
         private void AppendBookieNode(
@@ -124,19 +114,9 @@
            string bookieName,
            bool isSample)
         {
-            AppendBeginBookie(matchesNode, bookieName);
+            matchesNode.Append($"<bookie name=\"{bookieName}\" simp=\"{bookieName}\" trad=\"{bookieName}\">");
             AppendOddNodeList(matchesNode, userProfile, userQuery, match.MatchOddsList, isSample);
-            AppendEndBookie(matchesNode);
-        }
-
-        private void AppendBeginBookie(StringBuilder oddsFeedNode, string bookieName)
-        {
-            oddsFeedNode.Append($"<bookie name=\"{bookieName}\" simp=\"{bookieName}\" trad=\"{bookieName}\">");
-        }
-
-        private void AppendEndBookie(StringBuilder oddsFeedNode)
-        {
-            oddsFeedNode.Append("</bookie>");
+            matchesNode.Append("</bookie>");
         }
 
         private void AppendOddNodeList(
@@ -155,7 +135,7 @@
             }
         }
 
-        private void AppendOdd(StringBuilder oddsFeedNode, UserProfile userProfile, MatchOdds matchOddsNode)
+        private static void AppendOdd(StringBuilder oddsFeedNode, UserProfile userProfile, MatchOdds matchOddsNode)
         {
             oddsFeedNode.Append($"<odd t=\"{matchOddsNode.Tag}\"");
 
@@ -169,12 +149,7 @@
 
         private static string ConvertOdds(UserProfile UserProfile, BetChoice betChoice)
         {
-            if (betChoice.NotConvert)
-            {
-                return betChoice.Value;
-            }
-
-            return OddsConverter.ConvertOdds(UserProfile.OddRegion, Convert.ToDecimal(betChoice.Value)).ToString();
+            return betChoice.NotConvert ? betChoice.Value : OddsConverter.ConvertOdds(UserProfile.OddRegion, Convert.ToDecimal(betChoice.Value)).ToString();
         }
 
         private static int GetMatchesTimeStamp(IEnumerable<Match> deadballMatches, IEnumerable<Match> liveMatches)
@@ -204,18 +179,23 @@
                 case 1:
                     oddsTypeName = "Malay";
                     break;
+
                 case 2:
                     oddsTypeName = "HongKong";
                     break;
+
                 case 3:
                     oddsTypeName = "Decimal";
                     break;
+
                 case 4:
                     oddsTypeName = "Indo";
                     break;
+
                 case 5:
                     oddsTypeName = "US";
                     break;
+
                 default:
                     oddsTypeName = "Malay";
                     break;

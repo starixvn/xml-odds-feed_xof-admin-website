@@ -137,7 +137,6 @@
     <Compile Include="Data\IObjectDbAdapter.cs" />
     <Compile Include="Data\IRecordSetReader.cs" />
     <Compile Include="Data\ObjectDbAdapter.cs" />
-    <Compile Include="Data\RecordSetReader.cs" />
     <Compile Include="ErrorBuilder.cs" />
     <Compile Include="Extensions\DataExtension.cs" />
     <Compile Include="Filters\IMatchFilter.cs" />

@@ -4,6 +4,6 @@
 
     public interface IEventFeedService
     {
-        StringBuilder BuildXmlEvent(bool isSample = false, bool isOutright = true);
+        string BuildXmlEvent(bool isSample = false, bool isOutright = true);
     }
 }

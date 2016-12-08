@@ -1,8 +1,8 @@
 ﻿namespace Fanex.OddsFeed.WebServiceLibrary.Filters
 {
+    using Common.DTO;
     using System.Collections.Generic;
     using System.Linq;
-    using Common.DTO;
 
     public class MatchFilter : IMatchFilter
     {
@@ -25,15 +25,7 @@
 
         private static bool FilterByOddsProfile(UserProfile userProfile, bool isSample, MatchOdds matchOdds)
         {
-            if (userProfile.BetTypes != null && !isSample)
-            {
-                if (!userProfile.BetTypes.Contains(matchOdds.BetTypeId))
-                {
-                    return false;
-                }
-            }
-
-            return true;
+            return isSample || userProfile.BetTypes == null || userProfile.BetTypes.Contains(matchOdds.BetTypeId);
         }
 
         private static bool FilterByOddsFeedFilter(UserQuery userQuery, MatchOdds matchOdds)
@@ -57,9 +49,9 @@
 
         private static bool FilterByLeague(UserProfile userProfile, UserQuery userQuery, Match match)
         {
-            return (userProfile.Leagues == null 
-                ? true 
-                : (userProfile.Leagues.Count != 0 ? userProfile.Leagues.Contains(match.LeagueId) : false)) 
+            return (userProfile.Leagues == null
+                ? true
+                : (userProfile.Leagues.Count != 0 ? userProfile.Leagues.Contains(match.LeagueId) : false))
                 && (userQuery.Leagues == null || userQuery.Leagues.Count == 0 ? true : SearchLeague(userQuery.Leagues, match.LeagueEnglish.ToLower()));
         }
 

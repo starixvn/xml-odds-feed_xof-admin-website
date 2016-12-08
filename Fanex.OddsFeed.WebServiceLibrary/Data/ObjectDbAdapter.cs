@@ -1,10 +1,8 @@
 ﻿namespace Fanex.OddsFeed.WebServiceLibrary.Data
 {
-    using System;
+    using Fanex.Data;
     using System.Collections;
     using System.Collections.Generic;
-    using System.Data;
-    using Fanex.Data;
 
     public class ObjectDbAdapter : IObjectDbAdapter
     {
@@ -32,11 +30,6 @@
             }
         }
 
-        public int ExecuteNonQuery(Hashtable inputParams)
-        {
-            return ObjectDb.ExecuteNonQuery(inputParams);
-        }
-
         public Hashtable GetOuputParams()
         {
             return ObjectDb.GetOuputParams();
@@ -45,28 +38,6 @@
         public IEnumerable<TResult> Query<TResult>(Hashtable inputParams)
         {
             return ObjectDb.Query<TResult>(inputParams);
-        }
-
-        public TResult QueryEntity<TResult>(Hashtable inputParams)
-        {
-            return ObjectDb.QueryEntity<TResult>(inputParams);
-        }
-
-        public IRecordSetReader QueryMultiple(Hashtable inputParams)
-        {
-            var reader = ObjectDb.QueryMultiple(inputParams);
-
-            return new RecordSetReader(reader);
-        }
-
-        public IDataReader ExecuteReader(Hashtable inputParams)
-        {
-            return ObjectDb.ExecuteReader(inputParams);
-        }
-
-        public object ExecuteScalar(Hashtable inputParams)
-        {
-            return ObjectDb.ExecuteScalar(inputParams);
         }
     }
 }

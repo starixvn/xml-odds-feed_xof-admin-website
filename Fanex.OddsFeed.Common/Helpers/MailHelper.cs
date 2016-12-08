@@ -1,11 +1,11 @@
 ﻿namespace Fanex.OddsFeed.Common.Helpers
 {
+    using Configurations;
+    using Logging;
     using System;
     using System.Net;
     using System.Net.Mail;
     using System.Text;
-    using Configurations;
-    using Logging;
 
     public static class MailHelper
     {

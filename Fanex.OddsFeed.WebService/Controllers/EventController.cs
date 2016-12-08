@@ -7,7 +7,7 @@
     using WebServiceLibrary.Services;
 
     public class EventController : BaseController
-    {     
+    {
         public ActionResult Index(string username)
         {
             var domain = RequestHelper.DomainName(Request.ServerVariables);
@@ -36,7 +36,7 @@
             {
                 var oddsFeedService = new EventFeedService(authenticatedPartner.UserProfile);
 
-                return oddsFeedService.BuildXmlEvent(isSample, outrights).ToString();
+                return oddsFeedService.BuildXmlEvent(isSample, outrights);
             }
 
             return authenticatedPartner.Error;

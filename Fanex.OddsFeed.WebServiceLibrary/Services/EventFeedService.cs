@@ -1,10 +1,10 @@
 ﻿namespace Fanex.OddsFeed.WebServiceLibrary.Services
 {
-    using System.Linq;
-    using System.Text;
     using Builders;
     using Caching;
     using Common.DTO;
+    using System.Linq;
+    using System.Text;
 
     public class EventFeedService : IEventFeedService
     {
@@ -17,39 +17,24 @@
             _eventBuilder = new EventBuilder();
         }
 
-        public StringBuilder BuildXmlEvent(bool isSample = false, bool isOutright = true)
+        public string BuildXmlEvent(bool isSample = false, bool isOutright = true)
         {
             var eventFeedNode = new StringBuilder();
             var oddsData = OddFeedDataCachingOperator.GetOddsData(_userProfile.DelayTimes);
             var fullMatches = oddsData.DeadballMatches.Concat(oddsData.LiveMatches);
 
-            AppendBeginEventFeed(eventFeedNode);
+            eventFeedNode.Append("<eventfeed>");
 
-            if (IsShownOutRightEvent(isSample, isOutright))
+            if (!isSample || isOutright)
             {
                 _eventBuilder.AppendOutrightsNode(eventFeedNode, oddsData.Outrights);
             }
 
             _eventBuilder.AppendMatchesNode(eventFeedNode, fullMatches);
 
-            AppendEndEventFeed(eventFeedNode);
-
-            return eventFeedNode;
-        }
-
-        private void AppendBeginEventFeed(StringBuilder eventFeedNode)
-        {
-            eventFeedNode.Append("<eventfeed>");
-        }
-
-        private void AppendEndEventFeed(StringBuilder eventFeedNode)
-        {
             eventFeedNode.Append("</eventfeed>");
-        }
 
-        private bool IsShownOutRightEvent(bool isSample, bool isOutrights)
-        {
-            return !isSample || isOutrights;
+            return eventFeedNode.ToString();
         }
     }
 }
