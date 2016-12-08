@@ -36,15 +36,14 @@
                 try
                 {
                     smtpClient.SendAsync(message, Guid.NewGuid());
+                    return true;
                 }
                 catch (Exception exception)
                 {
                     LogService.Error(exception.Message, exception);
-
-                    return false;
                 }
 
-                return true;
+                return false;
             }
         }
     }

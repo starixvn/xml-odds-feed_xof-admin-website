@@ -1,22 +1,22 @@
 ﻿namespace Fanex.OddsFeed.WebServiceLibrary.Builders
 {
+    using Common.DTO;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
-    using Common.DTO;
 
-    public class EventBuilder: IEventBuilder
+    public class EventBuilder : IEventBuilder
     {
         public void AppendOutrightsNode(StringBuilder oddsFeedNode, IEnumerable<Outright> outrights)
         {
-            AppendBeginOutrights(oddsFeedNode);
+            oddsFeedNode.Append("<outrights>");
 
             foreach (var outright in outrights)
             {
                 AppendEventNode(oddsFeedNode, outright);
             }
 
-            AppendEndOutrights(oddsFeedNode);
+            oddsFeedNode.Append("</outrights>");
         }
 
         public void AppendMatchesNode(StringBuilder oddsFeedNode, IEnumerable<Match> matches)
@@ -45,16 +45,6 @@
             AppendEndLeague(oddsFeedNode);
         }
 
-        private void AppendBeginOutrights(StringBuilder oddsFeedNode)
-        {
-            oddsFeedNode.Append("<outrights>");
-        }
-
-        private void AppendEndOutrights(StringBuilder oddsFeedNode)
-        {
-            oddsFeedNode.Append("</outrights>");
-        }
-
         private void AppendEventNode(StringBuilder oddsFeedNode, Outright outright)
         {
             AppendBeginEvent(oddsFeedNode, outright);
@@ -67,12 +57,12 @@
             AppendEndEvent(oddsFeedNode);
         }
 
-        public void AppendBeginEvent(StringBuilder oddsFeedNode, Outright outright)
+        public static void AppendBeginEvent(StringBuilder oddsFeedNode, Outright outright)
         {
             oddsFeedNode.Append($"<event id=\"{outright.EventId}\" ge=\"{outright.EventEnglish}\" gt=\"{outright.EventTraditionalChinese}\" gs=\"{outright.EventSimplifiedChinese}\" mt=\"{outright.Time}\" sport=\"{outright.SportName}\">");
         }
 
-        private void AppendEndEvent(StringBuilder oddsFeedNode)
+        private static void AppendEndEvent(StringBuilder oddsFeedNode)
         {
             oddsFeedNode.Append("</event>");
         }
@@ -97,12 +87,12 @@
             oddsFeedNode.Append($"<league id=\"{leagueId}\" ge=\"{match.LeagueEnglish}\" gt=\"{match.LeagueTraditionalChinese}\" gs=\"{match.LeagueSimplifiedChinese}\" sport=\"{match.SportName}\">");
         }
 
-        private void AppendEndLeague(StringBuilder oddsFeedNode)
+        private static void AppendEndLeague(StringBuilder oddsFeedNode)
         {
             oddsFeedNode.Append("</league>");
         }
 
-        private void AppendMatch(StringBuilder oddsFeedNode, Match match)
+        private static void AppendMatch(StringBuilder oddsFeedNode, Match match)
         {
             oddsFeedNode.Append($"<match id=\"{match.MatchId}\" he=\"{match.HomeEnglish}\" ht=\"{match.HomeTraditionalChinese}\" hs=\"{match.HomeSimplifiedChinese}\" ae=\"{match.AwayEnglish}\" at=\"{match.AwayTraditionalChinese}\" as=\"{match.AwaySimplifiedChinese}\" mt=\"{match.KickOfTime}\" running=\"{match.IsLive}\"/>");
         }

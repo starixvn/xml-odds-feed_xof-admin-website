@@ -1,6 +1,6 @@
 ﻿namespace Fanex.OddsFeed.Common.Configurations
 {
-    public enum FormatType
+    public enum FormatType : byte
     {
         Json,
 
