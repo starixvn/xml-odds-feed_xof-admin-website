@@ -4,7 +4,7 @@
     using System.Data;
     using System.Text;
     using System.Web.Mvc;
-    using log4net;
+    using Logging;
     using OddsFeed.Common;
     using OddsFeed.Common.Configurations;
     using OddsFeed.Common.DTO;
@@ -15,17 +15,17 @@
 
     public class OddsFeedController : BaseController
     {
-        private readonly ILog _logService;
         private readonly IBetTypeService _betTypeService;
 
         public OddsFeedController()
         {
-            _logService = LogManager.GetLogger("LogService");
             _betTypeService = new BetTypeService();
         }
 
         public ActionResult Index(string username)
         {
+            ChangeToReponseXml();
+
             if (IsDownTime())
             {
                 var underMaintenanceTime = GetUndermaintenanceTime();

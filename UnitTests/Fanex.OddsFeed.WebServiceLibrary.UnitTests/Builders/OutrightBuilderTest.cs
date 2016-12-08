@@ -1,10 +1,10 @@
-﻿namespace Fanex.OddsFeed.Library.UnitTests.Builders
+﻿namespace Fanex.OddsFeed.WebServiceLibrary.UnitTests.Builders
 {
     using System;
     using System.Collections.Generic;
     using System.Text;
-    using Common.DTO;
     using NUnit.Framework;
+    using Common.DTO;
     using WebServiceLibrary.Builders;
 
     [TestFixture]

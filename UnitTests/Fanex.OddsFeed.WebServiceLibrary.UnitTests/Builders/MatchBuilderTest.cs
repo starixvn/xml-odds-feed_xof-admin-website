@@ -1,4 +1,4 @@
-﻿namespace Fanex.OddsFeed.Library.UnitTests.Builders
+﻿namespace Fanex.OddsFeed.WebServiceLibrary.UnitTests.Builders
 {
     using System;
     using System.Collections.Generic;

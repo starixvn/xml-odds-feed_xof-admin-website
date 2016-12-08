@@ -32,7 +32,7 @@ namespace Fanex.OddsFeed.Admin
         {
             AreaRegistration.RegisterAllAreas();
 
-            GlobalFilters.Filters.Add(new CheckUMFilter());
+            //GlobalFilters.Filters.Add(new CheckUMFilter());
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);

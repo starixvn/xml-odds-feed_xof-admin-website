@@ -1,7 +1,6 @@
 ﻿namespace Fanex.OddsFeed.WebService
 {
     using Fanex.Logging;
-    using log4net.Config;
     using Fanex.OddsFeed.WebService.Controllers;
     using System;
     using System.Configuration;
@@ -10,7 +9,7 @@
     using System.Web.Routing;
     using ONEbook.UM.Services.Impl;
 
-    public class MvcApplication : System.Web.HttpApplication
+    public class MvcApplication : HttpApplication
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
@@ -58,8 +57,6 @@
             RegisterRoutes(RouteTable.Routes);
 
             Fanex.Data.Configuration.DbSettingProviderManager.Current.Start();
-
-            XmlConfigurator.Configure();
         }
 
         protected void Application_Error(object sender, EventArgs e)

@@ -1,4 +1,4 @@
-﻿namespace Fanex.OddsFeed.Library.UnitTests.Mapping
+﻿namespace Fanex.OddsFeed.WindowsServiceLibrary.UnitTests.Mapping
 {
     using System;
     using System.Data;

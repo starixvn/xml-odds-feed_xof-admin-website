@@ -7,6 +7,7 @@
     using Common.DTO;
     using Common.Schemas;
     using Couchbase;
+
     public static class OddFeedDataCachingOperator
     {
         public static OddsData GetOddsData(IList<int> delayTimes)

@@ -1,5 +1,6 @@
 ﻿namespace Fanex.OddsFeed.WebService.Controllers
 {
+    using System.Text;
     using System.Web.Mvc;
     using OddsFeed.Common.DTO;
     using ONEbook.UM.Models;
@@ -38,6 +39,12 @@
         protected string GetClientIpAddress()
         {
             return RequestHelper.GetClientIpAddress();
+        }
+
+        protected void ChangeToReponseXml()
+        {
+            Response.ContentType = "application/xml";
+            Response.ContentEncoding = Encoding.UTF8;
         }
     }
 }

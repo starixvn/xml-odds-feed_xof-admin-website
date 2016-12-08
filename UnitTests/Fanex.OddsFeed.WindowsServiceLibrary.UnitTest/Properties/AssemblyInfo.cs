@@ -1,16 +1,15 @@
-﻿using System;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Fanex.OddsFeed.Library.UnitTests")]
+[assembly: AssemblyTitle("Fanex.OddsFeed.WindowsServiceLibrary.UnitTest")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Fanex.OddsFeed.Library.UnitTests")]
+[assembly: AssemblyProduct("Fanex.OddsFeed.WindowsServiceLibrary.UnitTest")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -21,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("9e4d2ac5-a9f4-4758-ae46-dbdc3628c398")]
+[assembly: Guid("7e24c9ff-a519-420e-b07a-df0a494e09e8")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -35,4 +34,3 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
-[assembly: CLSCompliant(false)]

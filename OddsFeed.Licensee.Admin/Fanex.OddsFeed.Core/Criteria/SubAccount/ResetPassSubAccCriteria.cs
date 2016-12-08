@@ -1,23 +1,9 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="ResetPassSubAccCriteria.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Thai.Tran" date="2013.01.09">Created</change>
-// </history>
-
-namespace Fanex.OddsFeed.Core.Criteria.Affiliate
+﻿namespace Fanex.OddsFeed.Core.Criteria.Affiliate
 {
     using System.ComponentModel.DataAnnotations;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Web.Mvc;
     using Fanex.OddsFeed.Core.Web;
-    using Fanex.OddsFeed.Framework.Data;
     using Data.Repository;
-    /// <summary>
-    /// Class ResetPassSubACCCriteria.
-    /// </summary>
+
     public class ResetPassSubAccCriteria : CriteriaBase
     {
         public ResetPassSubAccCriteria()
@@ -36,8 +22,6 @@ namespace Fanex.OddsFeed.Core.Criteria.Affiliate
 
         public string ErrMsg { get; set; }
 
-
-        // Ignored
         [SpParam(Ignored = true)]
         [Display(Name = "Confirm_Password", ResourceType = typeof(ViewResources))]
         [DataType(DataType.Password)]
@@ -48,11 +32,7 @@ namespace Fanex.OddsFeed.Core.Criteria.Affiliate
         {
             return "Odds_User_ResetPass";
         }
-
-        /// <summary>
-        /// Check data's constrains.
-        /// </summary>
-        /// <returns>True: valid; False: invalid.</returns>
+        
         public override bool IsValid()
         {
             return true;
