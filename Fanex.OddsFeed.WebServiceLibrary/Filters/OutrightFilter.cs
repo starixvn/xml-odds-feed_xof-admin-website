@@ -20,49 +20,30 @@
 
         private static bool FilterBySport(UserProfile userProfile, UserQuery userQuery, Outright outright)
         {
-            var isProfile = userProfile.Sports == null
-                ? true : (userProfile.Sports.Count != 0 ? userProfile.Sports.Contains(outright.SportId) : false);
-
-            var isFilter = userQuery.Sports == null || userQuery.Sports.Count == 0
-                ? true
-                : userQuery.Sports.Contains(outright.SportId);
-
-            return isProfile && isFilter;
+            return (userProfile.Sports == null || userProfile.Sports.Contains(outright.SportId))
+                && (userQuery.Sports == null || userQuery.Sports.Contains(outright.SportId));
         }
 
         private static bool FilterByLeague(UserQuery userQuery, Outright outright)
         {
-            return (userQuery.Leagues == null || userQuery.Leagues.Count == 0
-                ? true
-                : SearchLeague(userQuery.Leagues, outright.EventEnglish.ToLower()));
+            return userQuery.Leagues == null || SearchLeague(userQuery.Leagues, outright.EventEnglish.ToLower());
         }
 
         private static bool FilterByCountry(UserProfile userProfile, UserQuery userQuery, Outright outright)
         {
-            var isProfile = userProfile.Countries == null
-                ? true
-                : (userProfile.Countries.Count != 0 ? userProfile.Countries.Contains(outright.CountryCode.ToLower()) : false);
-
-            var isFilter = userQuery.Countries == null || userQuery.Countries.Count == 0
-                ? true
-                : userQuery.Countries.Contains(outright.CountryCode.ToLower());
-
-
-            return isProfile && isFilter;
+            return (userProfile.Countries == null || userProfile.Countries.Contains(outright.CountryCode.ToLower()))
+                && (userQuery.Countries == null || userQuery.Countries.Contains(outright.CountryCode.ToLower()));
         }
 
         private static bool FilterByProfile(UserProfile userProfile, Outright outright)
         {
-            return (userProfile.Outrights == null
-                ? true
-                : (userProfile.Outrights.Count != 0 ? userProfile.Outrights.Contains(outright.EventId) : false));
+            return userProfile.Outrights == null || userProfile.Outrights.Contains(outright.EventId);
         }
 
         private static bool FilterByKeyWord(UserProfile userProfile, Outright outright)
         {
-            return string.IsNullOrEmpty(userProfile.OutrightsKeyword)
-                ? true
-                : outright.EventEnglish.ToLower().Contains(userProfile.OutrightsKeyword.ToLower());
+            return string.IsNullOrEmpty(userProfile.OutrightsKeyword) 
+                || outright.EventEnglish.ToLower().Contains(userProfile.OutrightsKeyword.ToLower());
         }
 
         private static bool SearchLeague(IList<string> searchLeagues, string league)

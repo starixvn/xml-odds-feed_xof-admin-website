@@ -14,7 +14,7 @@
 
         public static string GetError(int errorCode, string errorMessage)
         {
-            return errorCode > 0 ? $"<Error id={errorCode} message=\"{errorMessage}\" />" : string.Empty;
+            return errorCode != 0 ? $"<Error id={errorCode} message=\"{errorMessage}\" />" : string.Empty;
         }
     }
 }
