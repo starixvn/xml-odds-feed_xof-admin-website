@@ -23,8 +23,8 @@
             var isProfile = userProfile.Sports == null
                 ? true : (userProfile.Sports.Count != 0 ? userProfile.Sports.Contains(outright.SportId) : false);
 
-            var isFilter = userQuery.Sports == null || userQuery.Sports.Count == 0 
-                ? true 
+            var isFilter = userQuery.Sports == null || userQuery.Sports.Count == 0
+                ? true
                 : userQuery.Sports.Contains(outright.SportId);
 
             return isProfile && isFilter;
@@ -32,8 +32,8 @@
 
         private static bool FilterByLeague(UserQuery userQuery, Outright outright)
         {
-            return (userQuery.Leagues == null || userQuery.Leagues.Count == 0 
-                ? true 
+            return (userQuery.Leagues == null || userQuery.Leagues.Count == 0
+                ? true
                 : SearchLeague(userQuery.Leagues, outright.EventEnglish.ToLower()));
         }
 
@@ -43,8 +43,8 @@
                 ? true
                 : (userProfile.Countries.Count != 0 ? userProfile.Countries.Contains(outright.CountryCode.ToLower()) : false);
 
-            var isFilter = userQuery.Countries == null || userQuery.Countries.Count == 0 
-                ? true 
+            var isFilter = userQuery.Countries == null || userQuery.Countries.Count == 0
+                ? true
                 : userQuery.Countries.Contains(outright.CountryCode.ToLower());
 
 
@@ -60,22 +60,14 @@
 
         private static bool FilterByKeyWord(UserProfile userProfile, Outright outright)
         {
-            return string.IsNullOrEmpty(userProfile.OutrightsKeyword) 
-                ? true 
+            return string.IsNullOrEmpty(userProfile.OutrightsKeyword)
+                ? true
                 : outright.EventEnglish.ToLower().Contains(userProfile.OutrightsKeyword.ToLower());
         }
 
         private static bool SearchLeague(IList<string> searchLeagues, string league)
         {
-            foreach (string item in searchLeagues)
-            {
-                if (league.Contains(item))
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return searchLeagues.Any(i => league.Contains(i));
         }
     }
 }
