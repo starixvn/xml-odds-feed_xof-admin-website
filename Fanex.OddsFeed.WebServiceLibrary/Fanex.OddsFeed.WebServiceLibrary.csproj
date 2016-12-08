@@ -118,6 +118,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\CompressAttribute.cs" />
+    <Compile Include="Attributes\PartnerPermission.cs" />
     <Compile Include="Builders\EventBuilder.cs" />
     <Compile Include="Builders\IEventBuilder.cs" />
     <Compile Include="Builders\IMatchBuilder.cs" />
@@ -138,6 +139,7 @@
     <Compile Include="Data\ObjectDbAdapter.cs" />
     <Compile Include="Data\RecordSetReader.cs" />
     <Compile Include="ErrorBuilder.cs" />
+    <Compile Include="Extensions\DataExtension.cs" />
     <Compile Include="Filters\IMatchFilter.cs" />
     <Compile Include="Filters\IOutrightFilter.cs" />
     <Compile Include="Filters\MatchFilter.cs" />

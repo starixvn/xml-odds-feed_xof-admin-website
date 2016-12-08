@@ -1,5 +1,7 @@
 ﻿namespace Fanex.OddsFeed.WebServiceLibrary
 {
+    using System;
+
     public static class ErrorBuilder
     {
         public static string GetUnAuthenticated()
@@ -25,6 +27,21 @@
         public static string GetOverLimitedOptions()
         {
             return $"<Error id=10024 message=\"You can only filter maximum 5 options. Please try again.\" />";
+        }
+
+        public static string GetException(string exceptionMessage)
+        {
+            return $"<Error id=5 message=\"{exceptionMessage}\" />";
+        }
+
+        public static string GetError(int errorCode, string errorMessage)
+        {
+            if(errorCode > 0)
+            {
+                return $"<Error id={errorCode} message=\"{errorMessage}\" />";
+            }
+
+            return string.Empty;
         }
     }
 }

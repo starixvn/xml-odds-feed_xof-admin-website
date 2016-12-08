@@ -3,8 +3,8 @@
     using System;
     using System.Data;
     using System.Linq;
-    using Library.Mapping;
     using NUnit.Framework;
+    using WindowsServiceLibrary.Mapping;
 
     [TestFixture]
     public class OutrightMappingTest

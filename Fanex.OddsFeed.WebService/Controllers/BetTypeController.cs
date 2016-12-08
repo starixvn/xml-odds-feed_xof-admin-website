@@ -7,6 +7,7 @@
     using Fanex.Data.Repository;
     using Fanex.OddsFeed.WebService.Common;
     using OddsFeed.Common.DTO;
+    using WebServiceLibrary.Attributes;
     using WebServiceLibrary.Services;
 
     public class BetTypeController : Controller

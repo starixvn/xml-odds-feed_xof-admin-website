@@ -1,12 +1,14 @@
-﻿namespace Fanex.OddsFeed.WebService.Leagues
+﻿namespace Fanex.OddsFeed.WebService.Controllers
 {
-    using Fanex.Data.Repository;
-    using Fanex.OddsFeed.WebService.Common;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
     using System.Web.Mvc;
+    using Fanex.Data.Repository;
+    using Fanex.OddsFeed.WebService.Common;
+    using Leagues;
     using OddsFeed.Common.DTO;
+    using WebServiceLibrary.Attributes;
 
     public class LeagueController : Controller
     {

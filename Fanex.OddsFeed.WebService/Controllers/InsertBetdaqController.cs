@@ -5,10 +5,11 @@
     using System.Configuration;
     using System.Data;
     using Fanex.Data.DNAide;
-    using Fanex.OddsFeed.WebService.Functions;
     using OddsFeed.Common.Configurations;
     using OddsFeed.Common.Helpers;
     using WebServiceLibrary.Criteria;
+    using WebServiceLibrary.Helpers;
+
     public class InsertBetdaqController : BaseController
     {
         public string Index(string username)
@@ -26,7 +27,7 @@
                 }
             }
 
-            var domain = Helper.DomainName(Request.ServerVariables);                         
+            var domain = RequestHelper.DomainName(Request.ServerVariables);                         
             
             var betdaqid = Request["RequestId"];
             var oddsid   = Request["OddsId"];

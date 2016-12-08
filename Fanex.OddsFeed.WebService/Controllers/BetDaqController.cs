@@ -1,8 +1,9 @@
 ﻿namespace Fanex.OddsFeed.WebService.Controllers
 {
-    using Fanex.OddsFeed.WebService.Functions;
     using OddsFeed.Common;
     using WebServiceLibrary.Criteria;
+    using WebServiceLibrary.Extensions;
+    using WebServiceLibrary.Helpers;
 
     public class BetDaqController : BaseController
     {
@@ -18,7 +19,7 @@
                 return string.Empty;
             }
        
-            return GetSchedule(userName, Helper.DomainName(Request.ServerVariables), HttpContext.Request["s"]);
+            return GetSchedule(userName, RequestHelper.DomainName(Request.ServerVariables), HttpContext.Request["s"]);
         }
         
         public string GetOdds(string userName)
@@ -33,7 +34,7 @@
                 return string.Empty;
             }
 
-            return GetOdds(userName, Helper.DomainName(Request.ServerVariables), HttpContext.Request["s"]);
+            return GetOdds(userName, RequestHelper.DomainName(Request.ServerVariables), HttpContext.Request["s"]);
         }
        
         private string GetSchedule(string username, string domainName, string filter = null)

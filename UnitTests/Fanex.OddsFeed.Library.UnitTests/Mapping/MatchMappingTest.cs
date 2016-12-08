@@ -4,10 +4,11 @@
     using System.Collections.Generic;
     using System.Data;
     using System.Linq;
-    using Library.Mapping;
-    using Model;
+    using Common.Converters;
+    using Common.DTO;
+    using Common.Schemas;
     using NUnit.Framework;
-    using Schemas;
+    using WindowsServiceLibrary.Mapping;
 
     [TestFixture]
     public class MatchMappingTest
@@ -32,9 +33,8 @@
 
             // Assert
             Assert.AreEqual(normalDataTable.Rows[0]["MatchId"], result.MatchId);
-            Assert.AreEqual(normalDataTable.Rows[0]["BetType"], result.BetTypeId);
-            Assert.AreEqual(ConvertToDecimalOdds(normalDataTable.Rows[0]["Odds1A"]), result.Bookie.MatchOddsList[0].BetChoices.ElementAt(0).Value);
-            Assert.AreEqual(ConvertToDecimalOdds(normalDataTable.Rows[0]["Odds2A"]), result.Bookie.MatchOddsList[0].BetChoices.ElementAt(1).Value);
+            Assert.AreEqual(ConvertToDecimalOdds(normalDataTable.Rows[0]["Odds1A"]), result.MatchOddsList[0].BetChoices.ElementAt(0).Value);
+            Assert.AreEqual(ConvertToDecimalOdds(normalDataTable.Rows[0]["Odds2A"]), result.MatchOddsList[0].BetChoices.ElementAt(1).Value);
         }
 
         [Test]
@@ -49,9 +49,8 @@
 
             // Assert
             Assert.AreEqual(handicapDataTable.Rows[0]["MatchId"], result.MatchId);
-            Assert.AreEqual(handicapDataTable.Rows[0]["BetType"], result.BetTypeId);
-            Assert.AreEqual(ConvertToDecimalOdds(handicapDataTable.Rows[0]["Odds1A"]), result.Bookie.MatchOddsList[0].BetChoices.ElementAt(1).Value);
-            Assert.AreEqual(ConvertToDecimalOdds(handicapDataTable.Rows[0]["Odds2A"]), result.Bookie.MatchOddsList[0].BetChoices.ElementAt(2).Value);
+            Assert.AreEqual(ConvertToDecimalOdds(handicapDataTable.Rows[0]["Odds1A"]), result.MatchOddsList[0].BetChoices.ElementAt(1).Value);
+            Assert.AreEqual(ConvertToDecimalOdds(handicapDataTable.Rows[0]["Odds2A"]), result.MatchOddsList[0].BetChoices.ElementAt(2).Value);
         }
 
         [Test]
@@ -67,14 +66,13 @@
 
             // Assert
             Assert.AreEqual(oddsFlexDataTable.Rows[0]["MatchId"], result.MatchId);
-            Assert.AreEqual(oddsFlexDataTable.Rows[0]["BetType"], result.BetTypeId);
-            Assert.AreEqual(ConvertToDecimalOdds(flexOdds.ElementAt(0).Odds), result.Bookie.MatchOddsList[0].BetChoices.ElementAt(0).Value);
-            Assert.AreEqual(ConvertToDecimalOdds(flexOdds.ElementAt(1).Odds), result.Bookie.MatchOddsList[0].BetChoices.ElementAt(1).Value);
+            Assert.AreEqual(ConvertToDecimalOdds(flexOdds.ElementAt(0).Odds), result.MatchOddsList[0].BetChoices.ElementAt(0).Value);
+            Assert.AreEqual(ConvertToDecimalOdds(flexOdds.ElementAt(1).Odds), result.MatchOddsList[0].BetChoices.ElementAt(1).Value);
         }
 
         private static string ConvertToDecimalOdds(object odds)
         {
-            return string.Format("{0:0.#########}", Utilities.ToDecimalOddsFromMalayOdds(Convert.ToDecimal(odds)));
+            return string.Format("{0:0.#########}", OddsConverter.ToDecimalOddsFromMalayOdds(Convert.ToDecimal(odds)));
         }
 
         private static IEnumerable<BetTypeSchema> GetSchemas()

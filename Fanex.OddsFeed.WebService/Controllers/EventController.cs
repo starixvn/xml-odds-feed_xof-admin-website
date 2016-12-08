@@ -1,16 +1,16 @@
 ﻿namespace Fanex.OddsFeed.WebService.Controllers
 {
-    using Fanex.OddsFeed.WebService.Functions;
-    using WebServiceLibrary.Services;
-    using WebServiceLibrary;
     using System.Web.Mvc;
+    using WebServiceLibrary;
     using WebServiceLibrary.Criteria;
+    using WebServiceLibrary.Helpers;
+    using WebServiceLibrary.Services;
 
     public class EventController : BaseController
     {     
         public ActionResult Index(string username)
         {
-            var domain = Helper.DomainName(Request.ServerVariables);
+            var domain = RequestHelper.DomainName(Request.ServerVariables);
             var data = GetEventFeed(username, HttpContext.Request["t"], domain);
 
             return Content(data);

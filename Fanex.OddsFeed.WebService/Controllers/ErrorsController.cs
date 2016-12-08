@@ -2,19 +2,13 @@
 {
     using System;
     using System.Web.Mvc;
-    using OddsFeed.Common.DTO;
-    using OddsFeed.Common.Helpers;
+    using WebServiceLibrary;
 
     public class ErrorsController : Controller
     {        
         public ActionResult Index(Exception exception)
         {
-            return Content(SerializerHelper.SerializeObject(
-            new Error
-            {
-                Id = 4,
-                Message = exception.Message
-            }));
+            return Content(ErrorBuilder.GetException(exception.Message));
         }
 
         public ActionResult General()

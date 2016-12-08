@@ -90,8 +90,6 @@
     <Compile Include="DTO\Event.cs" />
     <Compile Include="DTO\Ip.cs" />
     <Compile Include="DTO\League.cs" />
-    <Compile Include="DTO\QueryResult.cs" />
-    <Compile Include="DTO\Error.cs" />
     <Compile Include="DTO\Language.cs" />
     <Compile Include="DTO\Match.cs" />
     <Compile Include="DTO\MatchOdds.cs" />

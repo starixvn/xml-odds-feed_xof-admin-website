@@ -8,22 +8,6 @@
 
     public static class SerializerHelper
     {
-        public static string SerializeObject<T>(T obj)
-        {
-            if (obj == null)
-            {
-                return string.Empty;
-            }
-
-            using (var stringWriter = new StringWriter())
-            using (var xmlWriter = XmlWriter.Create(stringWriter, GetXmlWriterSettings()))
-            {
-                var serializer = new XmlSerializer(obj.GetType());
-                serializer.Serialize(xmlWriter, obj, GetXmlSerializerNamespaces());
-                return stringWriter.ToString();
-            }
-        }
-
         public static string SerializeList<T>(IEnumerable<T> list)
         {
             if (list == null || list.Count() == 0)

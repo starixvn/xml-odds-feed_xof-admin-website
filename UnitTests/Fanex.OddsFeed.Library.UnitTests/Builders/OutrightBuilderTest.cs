@@ -2,15 +2,10 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Data;
-    using System.Linq;
-    using System.Xml;
-    using Library.Builders;
-    using Library.Mapping;
-    using Model;
-    using Nodes;
+    using System.Text;
+    using Common.DTO;
     using NUnit.Framework;
-    using Schemas;
+    using WebServiceLibrary.Builders;
 
     [TestFixture]
     public class OutrightBuilderTest
@@ -28,16 +23,16 @@
         {
             // Arrange
             var outrightXmlNode = GetOutrightXmlNode();
-            var xmlDocument = new XmlDocument();
-            var oddsProfile = new OddsProfile();
+            var oddsFeedNode = new StringBuilder();
+            var userProfile = new UserProfile();
             var outrights = GetOutrightNodes();
-            var oddsFeedFilter = new OddsFeedFilter();
+            var userQuery = new UserQuery();
 
             // Action
-            var result = _target.CreateOutrightsNode(xmlDocument, oddsProfile, oddsFeedFilter, outrights, true, false);
+            _target.AppendOutrightsNode(oddsFeedNode, userProfile, userQuery, outrights, true, false);
 
             // Assert
-            Assert.AreEqual(outrightXmlNode, result.OuterXml);
+            Assert.AreEqual(outrightXmlNode, oddsFeedNode.ToString());
         }
 
         private string GetOutrightXmlNode()
@@ -56,12 +51,9 @@
                 new Outright
                 {
                     EventId = 9966,
-                    EventNames = new []
-                    {
-                        new Language { Code = "en-US", Content = "*UEFA EUROPA LEAGUE - GROUP A WINNER" },
-                        new Language { Code = "zh-TW", Content = "*UEFA EUROPA LEAGUE - GROUP A WINNER" },
-                        new Language { Code = "zh-CN", Content = "*UEFA EUROPA LEAGUE - GROUP A WINNER" }
-                    },
+                    EventEnglish = "*UEFA EUROPA LEAGUE - GROUP A WINNER",
+                    EventTraditionalChinese = "*UEFA EUROPA LEAGUE - GROUP A WINNER",
+                    EventSimplifiedChinese = "*UEFA EUROPA LEAGUE - GROUP A WINNER",
                     SportId = 1,
                     SportName = "Soccer",
                     Time = new DateTime(2016,12,8),
@@ -71,12 +63,9 @@
                         {
                             OddsId = 7207912,
                             Value = 0.3m,
-                            Names = new []
-                            {
-                                new Language { Code = "en-US", Content = "Manchester United" },
-                                new Language { Code = "zh-TW", Content = "Manchester United" },
-                                new Language { Code = "zh-CN", Content = "Manchester United" }
-                            }
+                            OddNameEnglish = "Manchester United",
+                            OddNameTraditionalChinese = "Manchester United",
+                            OddNameSimplifiedChinese = "Manchester United"
                         }
                     }
                 }

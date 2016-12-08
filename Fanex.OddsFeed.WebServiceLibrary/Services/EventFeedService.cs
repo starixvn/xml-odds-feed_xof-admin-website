@@ -2,7 +2,6 @@
 {
     using System.Linq;
     using System.Text;
-    using System.Xml;
     using Builders;
     using Caching;
     using Common.DTO;
@@ -46,16 +45,6 @@
         private void AppendEndEventFeed(StringBuilder eventFeedNode)
         {
             eventFeedNode.Append("</eventfeed>");
-        }
-
-        private XmlDocument CreateXmlDocument()
-        {
-            var xmlDocument = new XmlDocument();
-            var xmlDeclaration = xmlDocument.CreateXmlDeclaration("1.0", "utf-8", null);
-
-            xmlDocument.InsertBefore(xmlDeclaration, xmlDocument.DocumentElement);
-
-            return xmlDocument;
         }
 
         private bool IsShownOutRightEvent(bool isSample, bool isOutrights)

@@ -1,12 +1,14 @@
-﻿using Fanex.Data.Repository;
-using Fanex.OddsFeed.WebService.Common;
-using System.Linq;
-using System.Text;
-using System.Web.Mvc;
-using Fanex.OddsFeed.Common.DTO;
-
-namespace Fanex.OddsFeed.WebService.Sports
+﻿namespace Fanex.OddsFeed.WebService.Controllers
 {
+    using System.Linq;
+    using System.Text;
+    using System.Web.Mvc;
+    using Fanex.Data.Repository;
+    using Fanex.OddsFeed.Common.DTO;
+    using Fanex.OddsFeed.WebService.Common;
+    using Sports;
+    using WebServiceLibrary.Attributes;
+
     public class SportController : Controller
     {
         private OddsFeedSerializer serializer = new OddsFeedSerializer();

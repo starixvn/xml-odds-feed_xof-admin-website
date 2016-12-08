@@ -5,13 +5,13 @@
     using System.Text;
     using System.Web.Mvc;
     using log4net;
-    using Fanex.OddsFeed.WebService.Functions;
-    using WebServiceLibrary.Services;
     using OddsFeed.Common;
     using OddsFeed.Common.Configurations;
-    using WebServiceLibrary;
     using OddsFeed.Common.DTO;
+    using WebServiceLibrary;
     using WebServiceLibrary.Criteria;
+    using WebServiceLibrary.Helpers;
+    using WebServiceLibrary.Services;
 
     public class OddsFeedController : BaseController
     {
@@ -32,14 +32,14 @@
                 return Content(ErrorBuilder.GetUMDownTime(underMaintenanceTime.To));
             }
 
-            var userQuery = Helper.GetFilter(Request);
+            var userQuery = RequestHelper.GetFilter(Request);
 
-            if (Helper.IsOverLimitedOptions(userQuery))
+            if (RequestHelper.IsOverLimitedOptions(userQuery))
             {
                 return Content(ErrorBuilder.GetOverLimitedOptions());
             }
 
-            var domain = Helper.DomainName(Request.ServerVariables);
+            var domain = RequestHelper.DomainName(Request.ServerVariables);
 
             var ipAddress = GetClientIpAddress();
             var authenticatedPartner = GetAuthenticatedPartner(new CheckPermissionCriteria
@@ -80,10 +80,10 @@
             }
 
             ViewBag.UserName = username;
-            ViewBag.FullDomainName = Helper.FullDomainName(Request.ServerVariables);
+            ViewBag.FullDomainName = RequestHelper.FullDomainName(Request.ServerVariables);
             ViewBag.VirtualPath = GetVirtualPath();
 
-            var domain = Helper.DomainName(Request.ServerVariables);
+            var domain = RequestHelper.DomainName(Request.ServerVariables);
 
             var ipAddress = GetClientIpAddress();
             var authenticatedPartner = GetAuthenticatedPartner(new CheckPermissionCriteria
@@ -147,10 +147,10 @@
             }
 
             ViewBag.UserName = username;
-            ViewBag.FullDomainName = Helper.FullDomainName(Request.ServerVariables);
+            ViewBag.FullDomainName = RequestHelper.FullDomainName(Request.ServerVariables);
             ViewBag.VirtualPath = GetVirtualPath();
             
-            var domain = Helper.DomainName(Request.ServerVariables);
+            var domain = RequestHelper.DomainName(Request.ServerVariables);
             var ipAddress = GetClientIpAddress();
             var authenticatedPartner = GetAuthenticatedPartner(new CheckPermissionCriteria
             {

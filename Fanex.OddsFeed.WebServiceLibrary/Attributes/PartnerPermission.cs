@@ -1,9 +1,8 @@
-﻿namespace Fanex.OddsFeed.WebService.Common
+﻿namespace Fanex.OddsFeed.WebServiceLibrary.Attributes
 {
     using System.Text;
     using System.Web.Mvc;
     using Fanex.OddsFeed.Common.DTO;
-    using Fanex.OddsFeed.WebService.Functions;
     using Fanex.OddsFeed.WebServiceLibrary.Helpers;
     using WebServiceLibrary.Criteria;
     using WebServiceLibrary.Repositories;
@@ -21,7 +20,7 @@
         {
             var request = filterContext.HttpContext.Request;
             var username = filterContext.ActionParameters["username"].ToString();
-            var domainName = Helper.DomainName(request.ServerVariables);
+            var domainName = RequestHelper.DomainName(request.ServerVariables);
             var ipAddress = RequestHelper.GetClientIpAddress();
 
             var authenticatedPartner = GetAuthenticatedPartner(username, domainName, ipAddress);

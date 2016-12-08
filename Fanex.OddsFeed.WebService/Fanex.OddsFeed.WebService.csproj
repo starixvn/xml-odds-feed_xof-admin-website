@@ -244,7 +244,6 @@
   <ItemGroup>
     <Compile Include="BetTypes\RawBetType.cs" />
     <Compile Include="Common\OddsFeedSerializer.cs" />
-    <Compile Include="Common\PartnerPermission.cs" />
     <Compile Include="Controllers\AnalyticsController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BetDaqController.cs" />
@@ -256,22 +255,20 @@
     <Compile Include="Controllers\InsertBetdaqController.cs" />
     <Compile Include="Controllers\OddsFeedController.cs" />
     <Compile Include="Controllers\EventController.cs" />
-    <Compile Include="Functions\Helper.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BetTypes\BetTypeNode.cs" />
     <Compile Include="Controllers\BetTypeController.cs" />
     <Compile Include="BetTypes\BetTypeCriteria.cs" />
     <Compile Include="BetTypes\BetTypesNode.cs" />
     <Compile Include="Leagues\LeagueNode.cs" />
-    <Compile Include="Leagues\LeagueController.cs" />
+    <Compile Include="Controllers\LeagueController.cs" />
     <Compile Include="Leagues\LeagueCriteria.cs" />
     <Compile Include="Leagues\LeaguesNode.cs" />
     <Compile Include="Sports\SportNode.cs" />
-    <Compile Include="Sports\SportController.cs" />
+    <Compile Include="Controllers\SportController.cs" />
     <Compile Include="Sports\SportsCriteria.cs" />
     <Compile Include="Sports\SportsNode.cs" />
   </ItemGroup>
@@ -432,9 +429,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Analytics\Email.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Fanex.OddsFeed.Common\Fanex.OddsFeed.Common.csproj">

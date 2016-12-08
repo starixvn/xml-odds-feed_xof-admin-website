@@ -1,9 +1,9 @@
 ﻿namespace Fanex.OddsFeed.WebService.Controllers
 {
     using System.Web.Mvc;
-    using Fanex.OddsFeed.WebService.Functions;
     using OddsFeed.Common.Configurations;
     using WebServiceLibrary.Criteria;
+    using WebServiceLibrary.Helpers;
     using WebServiceLibrary.Services;
 
     public class FeedsController : BaseController
@@ -19,7 +19,7 @@
         public ActionResult Index(string username, string feedname, int? fromid)
         {
             var ipAddress = GetClientIpAddress();
-            var domainName = Helper.DomainName(Request.ServerVariables);
+            var domainName = RequestHelper.DomainName(Request.ServerVariables);
             var authenticatedPartner = GetAuthenticatedPartner(
                 new CheckPermissionCriteria
                 {
@@ -48,7 +48,7 @@
         public ActionResult GetJson(string username, string feedname, int? fromid)
         {
             var ipAddress = GetClientIpAddress();
-            var domainName = Helper.DomainName(Request.ServerVariables);
+            var domainName = RequestHelper.DomainName(Request.ServerVariables);
             var authenticatedPartner = GetAuthenticatedPartner(
                 new CheckPermissionCriteria
                 {

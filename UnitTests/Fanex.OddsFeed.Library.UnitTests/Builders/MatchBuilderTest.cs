@@ -2,10 +2,10 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Xml;
-    using Library.Builders;
-    using Nodes;
     using NUnit.Framework;
+    using Common.DTO;
+    using WebServiceLibrary.Builders;
+    using System.Text;
 
     [TestFixture]
     public class MatchBuilderTest
@@ -23,59 +23,55 @@
         {
             // Arrange
             var matchXmlNode = GetDeadballMatchXmlNode();
-            var xmlDocument = new XmlDocument();
-            var oddsProfile = new OddsProfile {  OddRegion = 1 };
+            var oddsFeedNode = new StringBuilder();
+            var userProfile = new UserProfile {  OddRegion = 1 };
             var deadballMatchNodes = GetMatchNodes(false);
             var liveMatchNodes = new List<Match>();
             var bookieName = "111candy";
             var lastUpdate = new DateTime(2016, 11, 2, 15, 51, 07);
-            var timeStamp = 1477878874;
-            var oddsFeedFilter = new OddsFeedFilter();
+            var userQuery = new UserQuery();
 
             // Action
-            var result = _target.CreateMatchesNode(
-                xmlDocument, 
-                oddsProfile,
-                oddsFeedFilter,
+            _target.AppendMatchesNode(
+                oddsFeedNode,
+                userProfile,
+                userQuery,
                 deadballMatchNodes,
                 liveMatchNodes, 
                 bookieName, 
-                lastUpdate, 
-                timeStamp,
+                lastUpdate,
                 false);
 
             // Assert
-            Assert.AreEqual(matchXmlNode, result.OuterXml);
+            Assert.AreEqual(matchXmlNode, oddsFeedNode.ToString());
         }
 
         [Test]
         public void CreateMatchNodeList_LiveMatchNodeList_ReturnLiveMatchNodes()
         {
-            // Arrange
+            // Arrange 
             var matchXmlNode = GetLiveMatchXmlNode();
-            var xmlDocument = new XmlDocument();
-            var oddsProfile = new OddsProfile { OddRegion = 1 };
+            var oddsFeedNode = new StringBuilder();
+            var userProfile = new UserProfile { OddRegion = 1 };
             var deadballMatchNodes = new List<Match>();
             var liveMatchNodes = GetMatchNodes(true);
             var bookieName = "111candy";
             var lastUpdate = new DateTime(2016, 11, 2, 15, 51, 07);
-            var timeStamp = 1477878874;
-            var oddsFeedFilter = new OddsFeedFilter();
+            var oddsFeedFilter = new UserQuery();
 
             // Action
-            var result = _target.CreateMatchesNode(
-                xmlDocument, 
-                oddsProfile,
+            _target.AppendMatchesNode(
+                oddsFeedNode,
+                userProfile,
                 oddsFeedFilter,
                 deadballMatchNodes,
                 liveMatchNodes,
                 bookieName, 
-                lastUpdate, 
-                timeStamp,
+                lastUpdate,
                 false);
 
             // Assert
-            Assert.AreEqual(matchXmlNode, result.OuterXml);
+            Assert.AreEqual(matchXmlNode, oddsFeedNode.ToString());
         }
 
         private static string GetDeadballMatchXmlNode()
@@ -100,49 +96,39 @@
                 + "</matches>";
         }
 
-        private static IEnumerable<Match> GetMatchNodes(bool isLive)
+        private static IList<Match> GetMatchNodes(bool isLive)
         {
-            return new[]
+            return new List<Match>
             {
                 new Match
                 {
                     MatchId = 20485706,
                     IsLive = isLive,
-                    LeagueNames = new[]
-                    {
-                        new Language { Code = "en-US", Content = "UEFA EUROPA LEAGUE" },
-                        new Language { Code = "zh-TW", Content = "UEFA EUROPA LEAGUE" },
-                        new Language { Code = "zh-CN", Content = "UEFA EUROPA LEAGUE" }
-                    },
-                    HomeNames = new []
-                    {
-                        new Language { Code = "en-US", Content = "FC Astana" },
-                        new Language { Code = "zh-TW", Content = "FC Astana" },
-                        new Language { Code = "zh-CN", Content = "FC Astana" }
-                    },
-                    AwayNames = new []
-                    {
-                        new Language { Code = "en-US", Content = "Olympiakos" },
-                        new Language { Code = "zh-TW", Content = "Olympiakos" },
-                        new Language { Code = "zh-CN", Content = "Olympiakos" }
-                    },
+                    LeagueEnglish = "UEFA EUROPA LEAGUE",
+                    LeagueTraditionalChinese = "UEFA EUROPA LEAGUE",
+                    LeagueSimplifiedChinese = "UEFA EUROPA LEAGUE",
+                    HomeEnglish = "FC Astana",
+                    HomeTraditionalChinese = "FC Astana",
+                    HomeSimplifiedChinese = "FC Astana",
+                    AwayEnglish = "Olympiakos",
+                    AwayTraditionalChinese = "Olympiakos",
+                    AwaySimplifiedChinese = "Olympiakos",
                     KickOfTime = new DateTime(2016, 11, 3, 11, 59, 59),
                     SportName = "Soccer",
-                    Bookie = new Bookie
+                    BookieNameEnglish = "12bet",
+                    TimeStamp = 1477878874,
+                    MatchOddsList = new []
                     {
-                        MatchOddsList = new []
+                        new MatchOdds
                         {
-                            new MatchOdds
+                            Tag = "oe",
+                            BetTypeId = 1,
+                            Time = new DateTime(2016, 11, 2, 15, 51, 07),
+                            TimeStamp = 1477332693,
+                            BetChoices = new[]
                             {
-                                Tag = "oe",
-                                BetTypeId = 1,
-                                Time = new DateTime(2016, 11, 2, 15, 51, 07),
-                                TimeStamp = 1477332693,
-                                BetChoices = new[]
-                                {
-                                    new BetChoice { Code = "o", Value = "2.0" },
-                                    new BetChoice { Code = "e", Value = "1.9" }
-                                }
+                                new BetChoice { Code = "o", Value = "2.0" },
+                                new BetChoice { Code = "e", Value = "1.9" }
                             }
                         }
                     }

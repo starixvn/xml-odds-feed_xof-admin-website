@@ -10,6 +10,9 @@
 
     public class MatchBuilder : IMatchBuilder
     {
+        private const int LIVE = 1;
+        private const int DEADBALL = 0;
+
         private readonly IMatchFilter _matchFilter;
 
         public MatchBuilder()
@@ -103,8 +106,9 @@
 
         private void AppendBeginMatch(StringBuilder oddsFeedNode, Match match)
         {
+            var isRunning = match.IsLive ? LIVE : DEADBALL;
             oddsFeedNode
-                .Append($"<match id=\"{match.MatchId}\" ge=\"{match.LeagueEnglish}\" gt=\"{match.LeagueTraditionalChinese}\" gs=\"{match.LeagueSimplifiedChinese}\" he=\"{match.HomeEnglish}\" ht=\"{match.HomeTraditionalChinese}\" hs=\"{match.HomeSimplifiedChinese}\" ae=\"{match.AwayEnglish}\" at=\"{match.AwayTraditionalChinese}\" as=\"{match.AwaySimplifiedChinese}\" mt=\"{match.KickOfTime}\" sport=\"{match.SportName}\" running=\"{match.IsLive}\">");
+                .Append($"<match id=\"{match.MatchId}\" ge=\"{match.LeagueEnglish}\" gt=\"{match.LeagueTraditionalChinese}\" gs=\"{match.LeagueSimplifiedChinese}\" he=\"{match.HomeEnglish}\" ht=\"{match.HomeTraditionalChinese}\" hs=\"{match.HomeSimplifiedChinese}\" ae=\"{match.AwayEnglish}\" at=\"{match.AwayTraditionalChinese}\" as=\"{match.AwaySimplifiedChinese}\" mt=\"{match.KickOfTime}\" sport=\"{match.SportName}\" running=\"{isRunning}\">");
         }
 
         private void AppendEndMatch(StringBuilder oddsFeedNode)
@@ -157,10 +161,10 @@
 
             foreach (var betChoice in matchOddsNode.BetChoices)
             {
-                oddsFeedNode.Append($"{betChoice.Code}=\"{ConvertOdds(userProfile, betChoice)}\" ");
+                oddsFeedNode.Append($" {betChoice.Code}=\"{ConvertOdds(userProfile, betChoice)}\"");
             }
 
-            oddsFeedNode.Append($"time=\"{matchOddsNode.Time}\" timestamp=\"{matchOddsNode.TimeStamp}\" />");
+            oddsFeedNode.Append($" time=\"{matchOddsNode.Time}\" timestamp=\"{matchOddsNode.TimeStamp}\" />");
         }
 
         private static string ConvertOdds(UserProfile UserProfile, BetChoice betChoice)
