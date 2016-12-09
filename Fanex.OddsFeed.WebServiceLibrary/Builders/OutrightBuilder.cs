@@ -6,6 +6,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using Models;
 
     public class OutrightBuilder : IOutrightBuilder
     {
@@ -18,24 +19,21 @@
 
         public void AppendOutrightsNode(
             StringBuilder oddsFeedNode,
-            UserProfile userProfile,
-            UserQuery userQuery,
             IEnumerable<Outright> outrights,
-            bool isOutright,
-            bool isSample)
+            OddsFeedsModel model)
         {
             oddsFeedNode.Append("<outrights>");
 
-            if (IsSampleOutright(isOutright, isSample, outrights.Count()))
+            if (IsSampleOutright(model.IsOutright, model.IsSample, outrights.Count()))
             {
-                AppendEventNode(oddsFeedNode, userProfile, outrights.First());
+                AppendEventNode(oddsFeedNode, model.UserProfile, outrights.First());
             }
 
-            if (FilterBetType(userQuery, isSample))
+            if (FilterBetType(model.UserQuery, model.IsSample))
             {
                 foreach (var outright in outrights)
                 {
-                    AppendEventNode(oddsFeedNode, userProfile, outright);
+                    AppendEventNode(oddsFeedNode, model.UserProfile, outright);
                 }
             }
 

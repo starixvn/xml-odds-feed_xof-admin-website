@@ -2,7 +2,6 @@
 {
     using System.Web.Mvc;
     using OddsFeed.Common.Configurations;
-    using WebServiceLibrary.Criteria;
     using WebServiceLibrary.Helpers;
     using WebServiceLibrary.Services;
 
@@ -20,17 +19,11 @@
         {
             var ipAddress = GetClientIpAddress();
             var domainName = RequestHelper.DomainName(Request.ServerVariables);
-            var authenticatedPartner = GetAuthenticatedPartner(
-                new CheckPermissionCriteria
-                {
-                    UserName = username,
-                    DomainName = domainName,
-                    Ip = ipAddress
-                });
+            var authenticatedPartner = GetAuthenticatedPartner(username, domainName, ipAddress);
 
             if (string.IsNullOrEmpty(authenticatedPartner.Error))
             {
-                return Content(authenticatedPartner.Error);
+                return XmlContent(authenticatedPartner.Error);
             }
 
             var feedsData = _feedsService.GetFeedsData(
@@ -41,7 +34,7 @@
                 ipAddress, 
                 fromid);
 
-            return Content(feedsData);              
+            return XmlContent(feedsData);              
         }
 
         [HttpGet]
@@ -49,13 +42,7 @@
         {
             var ipAddress = GetClientIpAddress();
             var domainName = RequestHelper.DomainName(Request.ServerVariables);
-            var authenticatedPartner = GetAuthenticatedPartner(
-                new CheckPermissionCriteria
-                {
-                    UserName = username,
-                    DomainName = domainName,
-                    Ip = ipAddress
-                });
+            var authenticatedPartner = GetAuthenticatedPartner(username, domainName, ipAddress);
 
             if(string.IsNullOrEmpty(authenticatedPartner.Error))
             {

@@ -1,6 +1,6 @@
 ﻿namespace Fanex.OddsFeed.Common.DTO
 {
-    using System.Collections.Generic;
+    using global::System.Collections.Generic;
 
     public class UserQuery
     {

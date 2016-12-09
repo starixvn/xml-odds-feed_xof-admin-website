@@ -5,6 +5,6 @@
 
     public interface IOutrightFilter
     {
-        IList<Outright> QueryOutrights(UserProfile userProfile, UserQuery userQuery, IEnumerable<Outright> outrights);
+        IList<Outright> QueryOutrights(IEnumerable<Outright> outrights, UserProfile userProfile, UserQuery userQuery);
     }
 }

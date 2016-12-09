@@ -14,7 +14,7 @@
     {
         private OddsFeedSerializer serializer = new OddsFeedSerializer();
 
-        [PartnerPermission]
+        [PartnerPermissionAttribute]
         public ActionResult Index(string username, UserProfile userProfile)
         {
             var leagues = GetLeagues(username);

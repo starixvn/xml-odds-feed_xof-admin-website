@@ -1,7 +1,7 @@
 ﻿namespace Fanex.OddsFeed.Common.DTO
 {
-    using System;
-    using System.Collections.Generic;
+    using global::System;
+    using global::System.Collections.Generic;
 
     [Serializable]
     public class Outright

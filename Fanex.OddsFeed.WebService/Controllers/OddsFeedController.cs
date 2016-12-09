@@ -1,74 +1,63 @@
 ﻿namespace Fanex.OddsFeed.WebService.Controllers
 {
-    using OddsFeed.Common;
-    using OddsFeed.Common.Configurations;
-    using OddsFeed.Common.DTO;
-    using System.Configuration;
-    using System.Data;
     using System.Text;
     using System.Web.Mvc;
+    using OddsFeed.Common.Configurations;
+    using OddsFeed.Common.DTO;
     using WebServiceLibrary;
-    using WebServiceLibrary.Criteria;
     using WebServiceLibrary.Helpers;
+    using WebServiceLibrary.Models;
     using WebServiceLibrary.Services;
 
     public class OddsFeedController : BaseController
     {
         private readonly IBetTypeService _betTypeService;
+        private readonly IOddsFeedService _oddsFeedService;
+        private readonly IUserService _userService;
 
         public OddsFeedController()
         {
             _betTypeService = new BetTypeService();
+            _oddsFeedService = new OddsFeedService();
+            _userService = new UserService();
         }
 
         public ActionResult Index(string username)
         {
             if (IsDownTime())
             {
-                var underMaintenanceTime = GetUndermaintenanceTime();
-                return Content(ErrorBuilder.GetUMDownTime(underMaintenanceTime.To));
+                return XmlContent(GetDowntimeContent());
             }
 
             var userQuery = RequestHelper.GetFilter(Request);
 
             if (RequestHelper.IsOverLimitedOptions(userQuery))
             {
-                return Content(ErrorBuilder.GetOverLimitedOptions());
+                return XmlContent(ErrorBuilder.GetOverLimitedOptions());
             }
 
-            var domain = RequestHelper.DomainName(Request.ServerVariables);
-
+            var domainName = RequestHelper.DomainName(Request.ServerVariables);
             var ipAddress = GetClientIpAddress();
-            var authenticatedPartner = GetAuthenticatedPartner(new CheckPermissionCriteria
-            {
-                UserName = username,
-                DomainName = domain,
-                Ip = ipAddress
-            });
+            var authenticatedPartner = GetAuthenticatedPartner(username, domainName, ipAddress);
 
-            if (!string.IsNullOrEmpty(authenticatedPartner.Error) || authenticatedPartner.UserProfile == null)
-            {
-                return Content(authenticatedPartner.Error);
-            }
-
-            var data = GetOddsFeed(
-                authenticatedPartner.UserProfile,
-                HttpContext.Request["t"],
-                domain,
-                ipAddress,
-                authenticatedPartner.SystemName,
-                userQuery,
-                true);
-
-            return XmlContent(data);
+            return !string.IsNullOrEmpty(authenticatedPartner.Error) || authenticatedPartner.UserProfile == null
+                ? XmlContent(authenticatedPartner.Error)
+                : XmlContent(GetOddsFeed(new OddsFeedsModel
+                {
+                    BookieName = authenticatedPartner.SystemName,
+                    DomainName = domainName,
+                    UserProfile = authenticatedPartner.UserProfile,
+                    UserQuery = userQuery,
+                    IpAddress = ipAddress,
+                    TimeStamp = HttpContext.Request["t"]
+                }));
         }
 
         public ActionResult OldHelp(string username)
         {
             if (IsDownTime())
             {
-                var underMaintenanceTime = GetUndermaintenanceTime();
-                return Content(ErrorBuilder.GetUMDownTime(underMaintenanceTime.To));
+                return Content(GetDowntimeContent());
             }
 
             if (string.IsNullOrEmpty(username))
@@ -76,53 +65,33 @@
                 return Content(ErrorBuilder.GetParameterSufficent());
             }
 
-            ViewBag.UserName = username;
-            ViewBag.FullDomainName = RequestHelper.FullDomainName(Request.ServerVariables);
-            ViewBag.VirtualPath = GetVirtualPath();
-
-            var domain = RequestHelper.DomainName(Request.ServerVariables);
-
+            var domainName = RequestHelper.DomainName(Request.ServerVariables);
             var ipAddress = GetClientIpAddress();
-            var authenticatedPartner = GetAuthenticatedPartner(new CheckPermissionCriteria
-            {
-                UserName = username,
-                DomainName = domain,
-                Ip = ipAddress
-            });
+            var authenticatedPartner = GetAuthenticatedPartner(username, domainName, ipAddress);
 
-            if (!string.IsNullOrEmpty(authenticatedPartner.Error) || authenticatedPartner.UserProfile == null)
+            if (!string.IsNullOrEmpty(authenticatedPartner.Error) 
+                || authenticatedPartner.UserProfile == null)
             {
                 return Content(authenticatedPartner.Error);
             }
 
-            var sampleOdds = GetOddsFeed(
-                authenticatedPartner.UserProfile,
-                HttpContext.Request["t"],
-                domain,
-                ipAddress,
-                authenticatedPartner.SystemName,
-                new UserQuery(), true);
+            var sampleOdds = GetOddsFeed(new OddsFeedsModel
+            {
+                BookieName = authenticatedPartner.SystemName,
+                DomainName = domainName,
+                UserProfile = authenticatedPartner.UserProfile,
+                UserQuery = new UserQuery(),
+                IpAddress = ipAddress,
+                TimeStamp = HttpContext.Request["t"],
+                IsSample = true
+            });
 
-            var provider = new StringBuilder(sampleOdds);
-            provider.Replace("><", ">\n<");
-            provider.Replace(" />", "></odd>");
-            provider.Replace("<outrights>", "\t<outrights>")
-                .Replace("<event", "\t\t<event")
-                .Replace("<odd id", "\t\t\t<odd id")
-                .Replace("</event>", "\t\t</event>")
-                .Replace("</outrights>", "\t</outrights>")
-
-                .Replace("<matches", "\t<matches")
-                .Replace("<match id", "\t\t<match id")
-                .Replace("<bookie", "\t\t\t<bookie")
-                .Replace("<odd t", "\t\t\t\t<odd t")
-                .Replace("</bookie", "\t\t\t</bookie")
-                .Replace("</match>", "\t\t</match>")
-                .Replace("</matches>", "\t</matches>");
-
-            ViewBag.Odds = provider.ToString();
-            ViewBag.Sports = DbAccess.GetSportByUserName(username).ResultSet.Tables[0].Select();
-            ViewBag.Bettypes = DbAccess.GetBetTypeByUserName(username).ResultSet.Tables[0].Select();
+            ViewBag.UserName = username;
+            ViewBag.FullDomainName = RequestHelper.FullDomainName(Request.ServerVariables);
+            ViewBag.VirtualPath = GetVirtualPath();
+            ViewBag.Odds = GetFormatSampleOdds(sampleOdds);
+            ViewBag.Sports = _userService.GetSports(username);
+            ViewBag.Bettypes = _userService.GetBetTypes(username);
 
             if (authenticatedPartner.UserProfile != null)
             {
@@ -138,37 +107,50 @@
         {
             if (IsDownTime())
             {
-                var underMaintenanceTime = GetUndermaintenanceTime();
-
-                return Content(ErrorBuilder.GetUMDownTime(underMaintenanceTime.To));
+                return Content(GetDowntimeContent());
             }
-
-            ViewBag.UserName = username;
-            ViewBag.FullDomainName = RequestHelper.FullDomainName(Request.ServerVariables);
-            ViewBag.VirtualPath = GetVirtualPath();
-
-            var domain = RequestHelper.DomainName(Request.ServerVariables);
+            
+            var domainName = RequestHelper.DomainName(Request.ServerVariables);
             var ipAddress = GetClientIpAddress();
-            var authenticatedPartner = GetAuthenticatedPartner(new CheckPermissionCriteria
-            {
-                UserName = username,
-                DomainName = domain,
-                Ip = ipAddress
-            });
+            var authenticatedPartner = GetAuthenticatedPartner(username, domainName, ipAddress);
 
-            if (!string.IsNullOrEmpty(authenticatedPartner.Error) || authenticatedPartner.UserProfile == null)
+            if (!string.IsNullOrEmpty(authenticatedPartner.Error) 
+                || authenticatedPartner.UserProfile == null)
             {
                 return Content(authenticatedPartner.Error);
             }
 
-            var sampleOdds = GetOddsFeed(
-                authenticatedPartner.UserProfile,
-                HttpContext.Request["t"],
-                domain,
-                ipAddress,
-                authenticatedPartner.SystemName,
-                new UserQuery(), true);
+            var sampleOdds = GetOddsFeed(new OddsFeedsModel
+            {
+                BookieName = authenticatedPartner.SystemName,
+                DomainName = domainName,
+                UserProfile = authenticatedPartner.UserProfile,
+                UserQuery = new UserQuery(),
+                IpAddress = ipAddress,
+                TimeStamp = HttpContext.Request["t"],
+                IsSample = true
+            });
 
+            ViewBag.Odds = GetFormatSampleOdds(sampleOdds);
+            ViewBag.UserName = username;
+            ViewBag.FullDomainName = RequestHelper.FullDomainName(Request.ServerVariables);
+            ViewBag.VirtualPath = GetVirtualPath();
+            ViewBag.ContactEmail = _userService.GetContactEmail(username);
+
+            GenerateAppendixData(username);
+
+            if (authenticatedPartner.UserProfile != null)
+            {
+                return View("NewHelp", authenticatedPartner.UserProfile);
+            }
+            else
+            {
+                return Content(sampleOdds);
+            }
+        }
+
+        private static string GetFormatSampleOdds(string sampleOdds)
+        {
             var provider = new StringBuilder(sampleOdds);
             provider.Replace("><", ">\n<");
             provider.Replace(" />", "></odd>");
@@ -186,192 +168,54 @@
                 .Replace("</match>", "\t\t</match>")
                 .Replace("</matches>", "\t</matches>");
 
-            ViewBag.Odds = provider.ToString();
-
-            ViewBag.ContactEmail = DbAccess.GetContactEmailByUserName(username);
-
-            GenerateAppendixData(username);
-
-            if (authenticatedPartner.UserProfile != null)
-            {
-                return View("NewHelp", authenticatedPartner.UserProfile);
-            }
-            else
-            {
-                return Content(sampleOdds);
-            }
+            return provider.ToString();
         }
 
         private void GenerateAppendixData(string username)
         {
-            //// Generate supported sports
-            var sportsTable = DbAccess.GetSportByUserName(username).ResultSet.Tables[0];
-            var sportsCol1 = new DataTable();
-            var sportsCol2 = new DataTable();
-            var sportsCol3 = new DataTable();
-            GenerateData(sportsTable, sportsCol1, sportsCol2, sportsCol3, "SportID", "SportName");
-            ViewBag.SportsCol1 = sportsCol1.Select();
-            ViewBag.SportsCol2 = sportsCol2.Select();
-            ViewBag.SportsCol3 = sportsCol3.Select();
+            var sports = _userService.GetSports(username);
+            ViewBag.SportsCol1 = sports.ColumnOne;
+            ViewBag.SportsCol2 = sports.ColumnTwo;
+            ViewBag.SportsCol3 = sports.ColumnThree;
 
-            //// Generate supported bettypes
-            var rawBettypesTable = DbAccess.GetBetTypeByUserName(username).ResultSet.Tables[0];
-            var bettypesTable = SortDataTable(rawBettypesTable, "BetTypeID", "ASC");
-            if (bettypesTable.Rows.Count == 0)
-            {
-                //// Show Outright bettype (It's an exception)
-                var row = bettypesTable.NewRow();
-                row["BetTypeID"] = 10;
-                row["BetTypeName"] = "Outright";
-                bettypesTable.Rows.Add(row);
-            }
+            var bettypes = _userService.GetBetTypes(username);
+            ViewBag.BetTypesCol1 = bettypes.ColumnOne;
+            ViewBag.BetTypesCol2 = bettypes.ColumnTwo;
+            ViewBag.BetTypesCol3 = bettypes.ColumnThree;
 
-            var bettypesCol1 = new DataTable();
-            var bettypesCol2 = new DataTable();
-            var bettypesCol3 = new DataTable();
-            GenerateData(bettypesTable, bettypesCol1, bettypesCol2, bettypesCol3, "BetTypeID", "BetTypeName");
-            ViewBag.BetTypesCol1 = bettypesCol1.Select();
-            ViewBag.BetTypesCol2 = bettypesCol2.Select();
-            ViewBag.BetTypesCol3 = bettypesCol3.Select();
+            
+            var countries = _userService.GetCountries(username);
+            ViewBag.CountriesCol1 = countries.ColumnOne;
+            ViewBag.CountriesCol2 = countries.ColumnTwo;
+            ViewBag.CountriesCol3 = countries.ColumnThree;
 
-            //// Generate supported countries
-            var countriesTable = DbAccess.Odds_CountrySelByUserName(username).ResultSet.Tables[0];
-            var countriesCol1 = new DataTable();
-            var countriesCol2 = new DataTable();
-            var countriesCol3 = new DataTable();
-            GenerateData(countriesTable, countriesCol1, countriesCol2, countriesCol3, "CountryID", "CountryName");
-            ViewBag.CountriesCol1 = countriesCol1.Select();
-            ViewBag.CountriesCol2 = countriesCol2.Select();
-            ViewBag.CountriesCol3 = countriesCol3.Select();
             ViewBag.HighlightSportType = AppSettings.HighlightSportType.Split(',');
             ViewBag.HighlightBetType = AppSettings.HighlightBetType.Split(',');
             ViewBag.BetTypeList = _betTypeService.GetBetTypeList();
         }
 
-        public static DataTable SortDataTable(DataTable dt, string colName, string direction)
+        private string GetOddsFeed(OddsFeedsModel model)
         {
-            DataTable dtOut = null;
-            dt.DefaultView.Sort = colName + " " + direction;
-            dtOut = dt.DefaultView.ToTable();
-            return dtOut;
-        }
-
-        private static void GenerateData(DataTable dt, DataTable column1Data, DataTable column2Data, DataTable column3Data, string columnID, string columnName)
-        {
-            var sum = dt.Rows.Count;
-            if (sum <= 5)
-            {
-                GenerateColumnData(dt, column1Data, column2Data, column3Data, columnID, columnName, sum, 0, 0);
-            }
-            else
-            {
-                var divide = sum / 3;
-                var module = sum % 3;
-                var sumCol1 = divide;
-                var sumCol2 = divide;
-                var sumCol3 = divide;
-
-                while (module > 0)
-                {
-                    sumCol2 += 1;
-                    module--;
-
-                    if (module > 0)
-                    {
-                        sumCol3 += 1;
-                        module--;
-                    }
-
-                    if (module > 0)
-                    {
-                        sumCol1 += 1;
-                        module--;
-                    }
-                }
-
-                GenerateColumnData(dt, column1Data, column2Data, column3Data, columnID, columnName, sumCol1, sumCol2, sumCol3);
-            }
-        }
-
-        private static void GenerateColumnData(
-            DataTable dt,
-            DataTable column1Data,
-            DataTable column2Data,
-            DataTable column3Data,
-            string columnID,
-            string columnName,
-            int sumCol1,
-            int sumCol2,
-            int sumCol3)
-        {
-            ////Col1
-            column1Data.Columns.Add(columnID, typeof(string));
-            column1Data.Columns.Add(columnName, typeof(string));
-            var i = 0;
-            while (i < sumCol1)
-            {
-                var row = column1Data.NewRow();
-                row[columnID] = dt.Rows[i][columnID].ToString();
-                row[columnName] = dt.Rows[i][columnName].ToString();
-                column1Data.Rows.Add(row);
-                i++;
-            }
-
-            ////Col2
-            column2Data.Columns.Add(columnID, typeof(string));
-            column2Data.Columns.Add(columnName, typeof(string));
-            while (i < sumCol1 + sumCol2)
-            {
-                var row = column2Data.NewRow();
-                row[columnID] = dt.Rows[i][columnID].ToString();
-                row[columnName] = dt.Rows[i][columnName].ToString();
-                column2Data.Rows.Add(row);
-                i++;
-            }
-
-            ////Col3
-            column3Data.Columns.Add(columnID, typeof(string));
-            column3Data.Columns.Add(columnName, typeof(string));
-            while (i < sumCol1 + sumCol2 + sumCol3)
-            {
-                var row = column3Data.NewRow();
-                row[columnID] = dt.Rows[i][columnID].ToString();
-                row[columnName] = dt.Rows[i][columnName].ToString();
-                column3Data.Rows.Add(row);
-                i++;
-            }
-        }
-
-        private static string GetOddsFeed(
-            UserProfile userProfile,
-            string timestamp,
-            string domain,
-            string ipAddress,
-            string systemName,
-            UserQuery userQuery,
-            bool isSample = false,
-            bool outrights = true)
-        {
-            var service = new WebOddsFeedService(userProfile, systemName, domain, ipAddress, timestamp);
-
-            return service.BuildXmlDocument(userQuery, isSample, outrights).ToString();
+            return _oddsFeedService.BuildXmlDocument(model).ToString();
         }
 
         private static string GetVirtualPath()
         {
-            var feedUrlPath = ConfigurationManager.AppSettings["FeedUrlPath"].ToString();
-            if (!string.IsNullOrEmpty(feedUrlPath))
+            var virtualPath = new StringBuilder(AppSettings.FeedUrlPath);
+
+            if (!string.IsNullOrEmpty(AppSettings.FeedUrlPath))
             {
-                feedUrlPath += "/";
+                virtualPath.Append("/");
             }
 
-            var virtualPathWebService = ConfigurationManager.AppSettings["VirtualPathWebService"].ToString();
-            if (!string.IsNullOrEmpty(virtualPathWebService))
+            virtualPath.Append(AppSettings.VirtualPathWebService);
+
+            if (!string.IsNullOrEmpty(AppSettings.VirtualPathWebService))
             {
-                virtualPathWebService += "/";
+                virtualPath.Append("/");
             }
 
-            return virtualPathWebService + feedUrlPath;
+            return virtualPath.ToString();
         }
     }
 }

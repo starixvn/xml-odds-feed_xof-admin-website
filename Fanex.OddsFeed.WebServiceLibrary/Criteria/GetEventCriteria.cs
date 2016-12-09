@@ -1,5 +1,6 @@
 ﻿namespace Fanex.OddsFeed.WebServiceLibrary.Criteria
 {
+    using Common.Helpers;
     using Fanex.Data.Repository;
 
     public class GetEventCriteria : CriteriaBase
@@ -14,7 +15,7 @@
 
         public override string GetSettingKey()
         {
-            return "SP.Ocs_Event";
+            return SpHelper.RealSp("SP.Ocs_Event");
         }
     }
 }

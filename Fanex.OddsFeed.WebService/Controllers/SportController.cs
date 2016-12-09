@@ -23,7 +23,7 @@
             return Content(xml, "text/xml", Encoding.UTF8);
         }
 
-        private SportsNode GetSports(string username)
+        private static SportsNode GetSports(string username)
         {
             var criteria = new SportsCriteria { Username = username };
             var repository = new DynamicRepository();
@@ -34,7 +34,7 @@
             };
         }
 
-        private void LimitLanguage(SportsNode nodes, UserProfile userProfile)
+        private static void LimitLanguage(SportsNode nodes, UserProfile userProfile)
         {
             var enableEnglish = userProfile.Languages.Contains("en-US");
             var enableTraditionalChinese = userProfile.Languages.Contains("zh-TW");

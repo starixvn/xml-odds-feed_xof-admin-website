@@ -1,6 +1,6 @@
 ﻿namespace Fanex.OddsFeed.Common.DTO
 {
-    using System.Xml.Serialization;
+    using global::System.Xml.Serialization;
 
     [XmlRoot("Countries")]
     public class Country
@@ -12,5 +12,7 @@
         public string Name_cs { get; set; }
 
         public string Name_ct { get; set; }
+
+        public string CountryName { get; set; }
     }
 }

@@ -4,17 +4,15 @@
     using System.Collections.Generic;
     using System.Text;
     using Common.DTO;
+    using Models;
 
     public interface IMatchBuilder
     {
         void AppendMatchesNode(
             StringBuilder oddsFeedNode,
-            UserProfile userProfile,
-            UserQuery userQuery,
             IList<Match> deadballMatches,
             IList<Match> liveMatches,
-            string bookieName,
-            DateTime lastUpdate,
-            bool isSample);
+            OddsFeedsModel model,
+            DateTime lastUpdate);
     }
 }

@@ -2,10 +2,11 @@
 {
     using System;
     using System.Collections.Generic;
-    using NUnit.Framework;
-    using Common.DTO;
-    using WebServiceLibrary.Builders;
     using System.Text;
+    using Common.DTO;
+    using Models;
+    using NUnit.Framework;
+    using WebServiceLibrary.Builders;
 
     [TestFixture]
     public class MatchBuilderTest
@@ -24,23 +25,24 @@
             // Arrange
             var matchXmlNode = GetDeadballMatchXmlNode();
             var oddsFeedNode = new StringBuilder();
-            var userProfile = new UserProfile {  OddRegion = 1 };
             var deadballMatchNodes = GetMatchNodes(false);
             var liveMatchNodes = new List<Match>();
-            var bookieName = "111candy";
             var lastUpdate = new DateTime(2016, 11, 2, 15, 51, 07);
-            var userQuery = new UserQuery();
+
+            var model = new OddsFeedsModel
+            {
+                BookieName = "111candy",
+                UserProfile = new UserProfile { OddRegion = 1 },
+                UserQuery = new UserQuery()
+            };
 
             // Action
             _target.AppendMatchesNode(
                 oddsFeedNode,
-                userProfile,
-                userQuery,
                 deadballMatchNodes,
-                liveMatchNodes, 
-                bookieName, 
-                lastUpdate,
-                false);
+                liveMatchNodes,
+                model,
+                lastUpdate);
 
             // Assert
             Assert.AreEqual(matchXmlNode, oddsFeedNode.ToString());
@@ -52,23 +54,23 @@
             // Arrange 
             var matchXmlNode = GetLiveMatchXmlNode();
             var oddsFeedNode = new StringBuilder();
-            var userProfile = new UserProfile { OddRegion = 1 };
             var deadballMatchNodes = new List<Match>();
             var liveMatchNodes = GetMatchNodes(true);
-            var bookieName = "111candy";
             var lastUpdate = new DateTime(2016, 11, 2, 15, 51, 07);
-            var oddsFeedFilter = new UserQuery();
+            var model = new OddsFeedsModel
+            {
+                BookieName = "111candy",
+                UserProfile = new UserProfile { OddRegion = 1 },
+                UserQuery = new UserQuery()
+            };
 
             // Action
             _target.AppendMatchesNode(
                 oddsFeedNode,
-                userProfile,
-                oddsFeedFilter,
                 deadballMatchNodes,
                 liveMatchNodes,
-                bookieName, 
-                lastUpdate,
-                false);
+                model, 
+                lastUpdate);
 
             // Assert
             Assert.AreEqual(matchXmlNode, oddsFeedNode.ToString());

@@ -6,6 +6,7 @@
     using NUnit.Framework;
     using Common.DTO;
     using WebServiceLibrary.Builders;
+    using Models;
 
     [TestFixture]
     public class OutrightBuilderTest
@@ -24,18 +25,22 @@
             // Arrange
             var outrightXmlNode = GetOutrightXmlNode();
             var oddsFeedNode = new StringBuilder();
-            var userProfile = new UserProfile();
             var outrights = GetOutrightNodes();
-            var userQuery = new UserQuery();
+            var model = new OddsFeedsModel
+            {
+                UserProfile = new UserProfile(),
+                UserQuery = new UserQuery(),
+                IsOutright = true
+            };
 
             // Action
-            _target.AppendOutrightsNode(oddsFeedNode, userProfile, userQuery, outrights, true, false);
+            _target.AppendOutrightsNode(oddsFeedNode, outrights, model);
 
             // Assert
             Assert.AreEqual(outrightXmlNode, oddsFeedNode.ToString());
         }
 
-        private string GetOutrightXmlNode()
+        private static string GetOutrightXmlNode()
         {
             return "<outrights>"
                 + "<event id=\"9966\" ge=\"*UEFA EUROPA LEAGUE - GROUP A WINNER\" gt=\"*UEFA EUROPA LEAGUE - GROUP A WINNER\" gs=\"*UEFA EUROPA LEAGUE - GROUP A WINNER\" mt=\"12/8/2016 12:00:00 AM\" sport=\"Soccer\">"

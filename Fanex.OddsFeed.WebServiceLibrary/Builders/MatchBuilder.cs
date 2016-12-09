@@ -7,6 +7,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using Models;
 
     public class MatchBuilder : IMatchBuilder
     {
@@ -22,24 +23,21 @@
 
         public void AppendMatchesNode(
             StringBuilder oddsFeedNode,
-            UserProfile userProfile,
-            UserQuery userQuery,
             IList<Match> deadballMatches,
             IList<Match> liveMatches,
-            string bookieName,
-            DateTime lastUpdate,
-            bool isSample)
+            OddsFeedsModel model,
+            DateTime lastUpdate)
         {
-            AppendBeginMatches(oddsFeedNode, userProfile, deadballMatches, liveMatches, lastUpdate);
+            AppendBeginMatches(oddsFeedNode, model.UserProfile, deadballMatches, liveMatches, lastUpdate);
 
             if (deadballMatches.Any())
             {
-                AssignMatchNodes(oddsFeedNode, userProfile, userQuery, deadballMatches, bookieName, isSample);
+                AssignMatchNodes(oddsFeedNode, deadballMatches, model);
             }
 
             if (liveMatches.Any())
             {
-                AssignMatchNodes(oddsFeedNode, userProfile, userQuery, liveMatches, bookieName, isSample);
+                AssignMatchNodes(oddsFeedNode, liveMatches, model);
             }
 
             oddsFeedNode.Append("</matches>");
@@ -67,35 +65,29 @@
 
         private void AssignMatchNodes(
             StringBuilder oddsFeedNode,
-            UserProfile userProfile,
-            UserQuery userQuery,
             IEnumerable<Match> matches,
-            string bookieName,
-            bool isSample)
+            OddsFeedsModel model)
         {
-            if (isSample)
+            if (model.IsSample)
             {
-                AppendMatchNode(oddsFeedNode, userProfile, userQuery, matches.ElementAt(0), bookieName, isSample);
+                AppendMatchNode(oddsFeedNode, matches.ElementAt(0), model);
             }
             else
             {
                 foreach (var match in matches)
                 {
-                    AppendMatchNode(oddsFeedNode, userProfile, userQuery, match, bookieName, isSample);
+                    AppendMatchNode(oddsFeedNode, match, model);
                 }
             }
         }
 
         private void AppendMatchNode(
             StringBuilder oddsFeedNode,
-            UserProfile userProfile,
-            UserQuery userQuery,
             Match match,
-            string bookieName,
-            bool isSample)
+            OddsFeedsModel model)
         {
             AppendBeginMatch(oddsFeedNode, match);
-            AppendBookieNode(oddsFeedNode, userProfile, userQuery, match, bookieName, isSample);
+            AppendBookieNode(oddsFeedNode, match, model);
             oddsFeedNode.Append("</match>");
         }
 
@@ -108,29 +100,24 @@
 
         private void AppendBookieNode(
            StringBuilder matchesNode,
-           UserProfile userProfile,
-           UserQuery userQuery,
            Match match,
-           string bookieName,
-           bool isSample)
+           OddsFeedsModel model)
         {
-            matchesNode.Append($"<bookie name=\"{bookieName}\" simp=\"{bookieName}\" trad=\"{bookieName}\">");
-            AppendOddNodeList(matchesNode, userProfile, userQuery, match.MatchOddsList, isSample);
+            matchesNode.Append($"<bookie name=\"{model.BookieName}\" simp=\"{model.BookieName}\" trad=\"{model.BookieName}\">");
+            AppendOddNodeList(matchesNode, match.MatchOddsList, model);
             matchesNode.Append("</bookie>");
         }
 
         private void AppendOddNodeList(
             StringBuilder oddsFeedNode,
-            UserProfile userProfile,
-            UserQuery userQuery,
             IEnumerable<MatchOdds> matchOddsNodes,
-            bool isSample)
+            OddsFeedsModel model)
         {
             foreach (var matchOddsNode in matchOddsNodes)
             {
-                if (_matchFilter.FilterBetType(userProfile, userQuery, isSample, matchOddsNode))
+                if (_matchFilter.FilterBetType(model.UserProfile, model.UserQuery, model.IsSample, matchOddsNode))
                 {
-                    AppendOdd(oddsFeedNode, userProfile, matchOddsNode);
+                    AppendOdd(oddsFeedNode, model.UserProfile, matchOddsNode);
                 }
             }
         }

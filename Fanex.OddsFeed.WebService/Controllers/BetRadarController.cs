@@ -2,7 +2,6 @@
 {
     using System.Web.Mvc;
     using WebServiceLibrary;
-    using WebServiceLibrary.Criteria;
     using WebServiceLibrary.Helpers;
     using WebServiceLibrary.Services;
 
@@ -19,17 +18,12 @@
         {
             if (userName.ToLower() != "betradar")
             {
-                return Content(ErrorBuilder.GetUnAuthenticated());
+                return XmlContent(ErrorBuilder.GetUnAuthenticated());
             }
 
-            if (IsDownTime())
-            {
-                var underMaintenanceTime = GetUndermaintenanceTime();
-
-                return Content(ErrorBuilder.GetUMDownTime(underMaintenanceTime.To));
-            }
-            
-            return Content(GetOddsFeed(userName));
+            return IsDownTime()
+                ? XmlContent(GetDowntimeContent())
+                : XmlContent(GetOddsFeed(userName));
         }
 
         private string GetOddsFeed(string username)
@@ -39,19 +33,11 @@
                 return ErrorBuilder.GetParameterSufficent();
             }
 
-            var authenticatedPartner = GetAuthenticatedPartner(new CheckPermissionCriteria
-            {
-                UserName = username,
-                DomainName = RequestHelper.DomainName(Request.ServerVariables),
-                Ip = GetClientIpAddress()
-            });
-            
-            if (string.IsNullOrEmpty(authenticatedPartner.Error))
-            {
-                return _betRadarService.GetXmlDocument();
-            }
+            var authenticatedPartner = GetAuthenticatedPartner(username, RequestHelper.DomainName(Request.ServerVariables), GetClientIpAddress());
 
-            return authenticatedPartner.Error;
+            return string.IsNullOrEmpty(authenticatedPartner.Error)
+                ? _betRadarService.GetXmlDocument()
+                : authenticatedPartner.Error;
         }
     }
 }

@@ -6,7 +6,7 @@
 
     public class MatchFilter : IMatchFilter
     {
-        public IList<Match> QueryMatches(UserProfile userProfile, UserQuery userQuery, IList<Match> matches, bool changeTime, int timeStamp)
+        public IList<Match> QueryMatches(IList<Match> matches, UserProfile userProfile, UserQuery userQuery,  bool changeTime, int timeStamp)
         {
             return (from match in matches
                     where (changeTime ? match.TimeStamp > timeStamp : true) &&

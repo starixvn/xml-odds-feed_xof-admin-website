@@ -7,11 +7,11 @@
     using WebServiceLibrary.Criteria;
     using WebServiceLibrary.Repositories;
 
-    public sealed class PartnerPermission : ActionFilterAttribute
+    public sealed class PartnerPermissionAttribute : ActionFilterAttribute
     {
         private readonly IPartnerRepository _partnerRepository;
 
-        public PartnerPermission()
+        public PartnerPermissionAttribute()
         {
             _partnerRepository = new PartnerRepository();
         }

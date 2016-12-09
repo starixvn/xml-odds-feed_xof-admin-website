@@ -1,6 +1,6 @@
 ﻿namespace Fanex.OddsFeed.Common.DTO
 {
-    using System;
+    using global::System;
 
     [Serializable]
     public class Language

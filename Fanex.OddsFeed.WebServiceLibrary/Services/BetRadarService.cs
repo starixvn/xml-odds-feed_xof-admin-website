@@ -1,9 +1,6 @@
 ﻿namespace Fanex.OddsFeed.WebServiceLibrary.Services
 {
-    using System;
-    using System.Collections.Generic;
     using System.Data;
-    using System.Linq;
     using System.Text;
     using Common.Formatter;
     using Fanex.OddsFeed.Common;

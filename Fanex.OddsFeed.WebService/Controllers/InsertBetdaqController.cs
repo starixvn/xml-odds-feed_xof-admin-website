@@ -2,109 +2,74 @@
 {
     using System;
     using System.Collections;
-    using System.Configuration;
-    using System.Data;
-    using Fanex.Data.DNAide;
     using OddsFeed.Common.Configurations;
-    using OddsFeed.Common.Helpers;
-    using WebServiceLibrary.Criteria;
     using WebServiceLibrary.Helpers;
+    using WebServiceLibrary.Services;
 
     public class InsertBetdaqController : BaseController
     {
+        private readonly IBetDaqService _betDaqService;
+
+        public InsertBetdaqController()
+        {
+            _betDaqService = new BetDaqService();
+        }
+
         public string Index(string username)
         {
-            if (!Convert.ToBoolean(AppSettings.IsDisableUMTimeFlag))
+            if (!username.Equals("betdaq", StringComparison.OrdinalIgnoreCase))
             {
-                if (username.ToLower() != "betdaq")
-                {
-                    return "You are not authorized to take this action.";
-                }
-                
-                if (IsDownTime())
-                {
-                    return "Failed - Bad oddsId";
-                }
+                return "You are not authorized to take this action.";
             }
 
-            var domain = RequestHelper.DomainName(Request.ServerVariables);                         
-            
-            var betdaqid = Request["RequestId"];
-            var oddsid   = Request["OddsId"];
-            var hdp1     = Request["Handicap1"];
-            var hdp2     = Request["Handicap2"];
-            var odds     = Request["Odds"];
-            var stake    = Request["Stake"];
-            var betteam = Request["BetTeam"];
+            if (!AppSettings.IsDisableUMTimeFlag && IsDownTime())
+            {
+                return "Failed - Bad oddsId";
+            }
 
-            return InsertBetdaq(username, betdaqid, oddsid, hdp1, hdp2, odds, stake, betteam, domain);
+            return InsertBetdaq(username, RequestHelper.DomainName(Request.ServerVariables));
         }
 
-        private string InsertBetdaq(
-            string username, 
-            string betdaqid,
-            string oddsid,
-            string hdp1,
-            string hdp2,
-            string odds,
-            string stake,
-            string betteam,
-            string domain)
-        {            
-            var domainName = domain;
-            if (string.IsNullOrEmpty(username) || username.ToLower() != "betdaq")
-            {
-                return "You are not authorized to take this action";
-            }
-
-            var ipAddress = GetClientIpAddress();
-            var authenticatedPartner = GetAuthenticatedPartner(new CheckPermissionCriteria
-            {
-                UserName = username,
-                DomainName = domainName,
-                Ip = ipAddress
-            });
-
-            if (string.IsNullOrEmpty(authenticatedPartner.Error))
-            {
-                var hash = new Hashtable
-                             {                                    
-                                 { "oddsid", oddsid }, 
-                                 { "hdp1", hdp1 }, 
-                                 { "hdp2", hdp2 }, 
-                                 { "betteam", betteam },                                  
-                                 { "odds", odds }, 
-                                 { "stake", stake }, 
-                                 { "betdaqid", betdaqid },
-                                 { "bet_ip", ipAddress }
-                             };
-                
-                var ret = IsDownTime()
-                            ? DbHelper.ExecuteDbResult(ConfigurationManager.AppSettings["SPTestingUMTime"].ToString(), hash)
-                            : DbHelper.ExecuteDbResult(SpHelper.RealSp("SP.InsertBetDaq"), hash);
-
-                var indexTable = ret.ResultSet.Tables.Count - 1;
-                return ResultInsertBetDaq(ret.ResultSet.Tables[indexTable]);
-            }
-
-            return "Failed - Bad oddsId";
-        }
-
-        private static string ResultInsertBetDaq(DataTable dt)
+        private string InsertBetdaq(string username, string domainName)
         {
-            var dr = dt.Rows[0];
-            switch (dr["ErrCode"].ToString())
+            var ipAddress = GetClientIpAddress();
+            var isAuthenticated = IsAuthenticatedPartner(username, domainName, ipAddress);
+
+            if (!isAuthenticated)
             {
-                case "0":
+                return "Failed - Bad oddsId";
+            }
+
+            return GetMessage(_betDaqService.InsertBetDaq(GetSpParams(ipAddress), IsDownTime()));
+        }
+
+        private Hashtable GetSpParams(string ipAddress)
+        {
+            return new Hashtable
+            {
+                { "oddsid", Request["OddsId"] },
+                { "hdp1", Request["Handicap1"] },
+                { "hdp2", Request["Handicap2"] },
+                { "betteam", Request["BetTeam"] },
+                { "odds", Request["Odds"] },
+                { "stake", Request["Stake"] },
+                { "betdaqid", Request["RequestId"] },
+                { "bet_ip", ipAddress }
+            };
+        }
+
+        private static string GetMessage(int errorCode)
+        {
+            switch (errorCode)
+            {
+                case 0:
                     return "OK";                        
-                case "1":
+                case 1:
                     return "Failed - Bad oddsId";                        
-                case "2":
-                        return "OK Already";                        
-                case "3":
-                        return "Failed - Bad oddsId";                        
+                case 2:
+                    return "OK Already";                      
                 default:
-                        return "Failed - Bad oddsId";                        
+                    return "Failed - Bad oddsId";                        
             }
         }
     }

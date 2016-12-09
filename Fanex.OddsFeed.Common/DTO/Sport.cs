@@ -2,7 +2,7 @@
 {
     public class Sport
     {
-        public int TeamId { get; set; }
+        public int SportId { get; set; }
 
         public string Name_en { get; set; }
 

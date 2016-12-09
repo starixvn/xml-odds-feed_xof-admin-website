@@ -4,8 +4,8 @@
     using System.Linq;
     using Caching;
     using Common.DTO;
+    using Common.Helpers;
     using Common.Schemas;
-    using Helpers;
 
     public class BetTypeService : IBetTypeService
     {

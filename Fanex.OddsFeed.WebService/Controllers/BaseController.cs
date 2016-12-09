@@ -6,6 +6,7 @@
     using ONEbook.UM.Models;
     using ONEbook.UM.Services;
     using ONEbook.UM.Services.Impl;
+    using WebServiceLibrary;
     using WebServiceLibrary.Criteria;
     using WebServiceLibrary.Helpers;
     using WebServiceLibrary.Repositories;
@@ -31,9 +32,31 @@
             return _maintenanceService.GetUnderMaintenanceTime();
         }
 
-        protected AuthenticatedPartner GetAuthenticatedPartner(CheckPermissionCriteria criteria)
+        protected string GetDowntimeContent()
         {
-            return _partnerRepository.GetAuthenticatedPartner(criteria);
+            return ErrorBuilder.GetUMDownTime(GetUndermaintenanceTime().To);
+        }
+
+        protected AuthenticatedPartner GetAuthenticatedPartner(string userName, string domainName, string ip)
+        {
+            return _partnerRepository.GetAuthenticatedPartner(new CheckPermissionCriteria
+            {
+                UserName = userName,
+                DomainName = domainName,
+                Ip = ip
+            });
+        }
+
+        protected bool IsAuthenticatedPartner(string userName, string domainName, string ip)
+        {
+            var criteria = new CheckPermissionCriteria
+            {
+                UserName = userName,
+                DomainName = domainName,
+                Ip = ip
+            };
+
+            return string.IsNullOrEmpty(_partnerRepository.GetAuthenticatedPartner(criteria).Error);
         }
 
         protected static string GetClientIpAddress()
