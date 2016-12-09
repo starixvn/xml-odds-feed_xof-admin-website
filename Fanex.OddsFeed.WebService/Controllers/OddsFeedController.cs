@@ -63,11 +63,6 @@
             return XmlContent(data);
         }
 
-        private ActionResult XmlContent(string data)
-        {
-            return Content(data, "application/xml", Encoding.UTF8);
-        }
-
         public ActionResult OldHelp(string username)
         {
             if (IsDownTime())

@@ -41,5 +41,9 @@
             return RequestHelper.GetClientIpAddress();
         }
 
+        protected ActionResult XmlContent(string data)
+        {
+            return Content(data, "application/xml", Encoding.UTF8);
+        }
     }
 }

@@ -128,7 +128,6 @@
   <ItemGroup>
     <Compile Include="Collections\IPageOfItems.cs" />
     <Compile Include="Collections\PageOfItems.cs" />
-    <Compile Include="Commands\SettingKeyAttribute.cs" />
     <Compile Include="Data\CommandResultBase.cs" />
     <Compile Include="Data\CriteriaBase.cs" />
     <Compile Include="Data\IPagedCriteria.cs" />
@@ -146,14 +145,7 @@
     <Compile Include="Mvc\SpreadSheetResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Exceptions\" />
-    <Folder Include="Localization\" />
-    <Folder Include="Logging\" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
