@@ -36,15 +36,10 @@
             return _partnerRepository.GetAuthenticatedPartner(criteria);
         }
 
-        protected string GetClientIpAddress()
+        protected static string GetClientIpAddress()
         {
             return RequestHelper.GetClientIpAddress();
         }
 
-        protected void ChangeToReponseXml()
-        {
-            Response.ContentType = "application/xml";
-            Response.ContentEncoding = Encoding.UTF8;
-        }
     }
 }

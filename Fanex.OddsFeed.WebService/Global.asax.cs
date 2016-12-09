@@ -15,7 +15,7 @@
         {
             filters.Add(new HandleErrorAttribute());
         }
-        
+
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
@@ -62,8 +62,6 @@
         protected void Application_Error(object sender, EventArgs e)
         {
             var ex = Server.GetLastError();
-            Response.Clear();
-            Server.ClearError();
 
             ////Send & log exception email
             if (ex != null && !(ex is HttpException) && !(ex is FormatException))
@@ -90,15 +88,8 @@
             }
             else
             {
-                var err = new Exception("Sorry for the inconvenience! We are not able to process your request this time. Please try again later");
-                var routeData = new RouteData();
-                routeData.Values["controller"] = "Errors";
-                routeData.Values["action"] = "Index";
-                routeData.Values["exception"] = err;
-
-                IController errorsController = new ErrorsController();
-                var rc = new RequestContext(new HttpContextWrapper(Context), routeData);
-                errorsController.Execute(rc);
+                var msg = "Sorry for the inconvenience!We are not able to process your request this time.Please try again later";
+                Response.Redirect("~/Errors/index?msg=" + msg);
             }
         }
 

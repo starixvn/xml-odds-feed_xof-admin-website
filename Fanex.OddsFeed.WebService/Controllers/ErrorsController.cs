@@ -6,9 +6,9 @@
 
     public class ErrorsController : Controller
     {        
-        public ActionResult Index(Exception exception)
+        public ActionResult Index(string msg)
         {
-            return Content(ErrorBuilder.GetException(exception.Message));
+            return Content(ErrorBuilder.GetException(msg));
         }
 
         public ActionResult General()

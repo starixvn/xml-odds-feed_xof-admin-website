@@ -1,13 +1,12 @@
 ﻿namespace Fanex.OddsFeed.WebService.Controllers
 {
+    using OddsFeed.Common;
+    using OddsFeed.Common.Configurations;
+    using OddsFeed.Common.DTO;
     using System.Configuration;
     using System.Data;
     using System.Text;
     using System.Web.Mvc;
-    using Logging;
-    using OddsFeed.Common;
-    using OddsFeed.Common.Configurations;
-    using OddsFeed.Common.DTO;
     using WebServiceLibrary;
     using WebServiceLibrary.Criteria;
     using WebServiceLibrary.Helpers;
@@ -24,8 +23,6 @@
 
         public ActionResult Index(string username)
         {
-            ChangeToReponseXml();
-
             if (IsDownTime())
             {
                 var underMaintenanceTime = GetUndermaintenanceTime();
@@ -59,11 +56,16 @@
                 HttpContext.Request["t"],
                 domain,
                 ipAddress,
-                authenticatedPartner.SystemName, 
-                userQuery, 
+                authenticatedPartner.SystemName,
+                userQuery,
                 true);
 
-            return Content(data);
+            return XmlContent(data);
+        }
+
+        private ActionResult XmlContent(string data)
+        {
+            return Content(data, "application/xml", Encoding.UTF8);
         }
 
         public ActionResult OldHelp(string username)
@@ -93,16 +95,16 @@
                 Ip = ipAddress
             });
 
-            if(!string.IsNullOrEmpty(authenticatedPartner.Error) || authenticatedPartner.UserProfile == null)
+            if (!string.IsNullOrEmpty(authenticatedPartner.Error) || authenticatedPartner.UserProfile == null)
             {
                 return Content(authenticatedPartner.Error);
             }
 
             var sampleOdds = GetOddsFeed(
-                authenticatedPartner.UserProfile, 
-                HttpContext.Request["t"], 
+                authenticatedPartner.UserProfile,
+                HttpContext.Request["t"],
                 domain,
-                ipAddress, 
+                ipAddress,
                 authenticatedPartner.SystemName,
                 new UserQuery(), true);
 
@@ -149,7 +151,7 @@
             ViewBag.UserName = username;
             ViewBag.FullDomainName = RequestHelper.FullDomainName(Request.ServerVariables);
             ViewBag.VirtualPath = GetVirtualPath();
-            
+
             var domain = RequestHelper.DomainName(Request.ServerVariables);
             var ipAddress = GetClientIpAddress();
             var authenticatedPartner = GetAuthenticatedPartner(new CheckPermissionCriteria
@@ -307,7 +309,7 @@
             int sumCol2,
             int sumCol3)
         {
-            ////Col1            
+            ////Col1
             column1Data.Columns.Add(columnID, typeof(string));
             column1Data.Columns.Add(columnName, typeof(string));
             var i = 0;
@@ -332,7 +334,7 @@
                 i++;
             }
 
-            ////Col3            
+            ////Col3
             column3Data.Columns.Add(columnID, typeof(string));
             column3Data.Columns.Add(columnName, typeof(string));
             while (i < sumCol1 + sumCol2 + sumCol3)
@@ -345,7 +347,7 @@
             }
         }
 
-        private string GetOddsFeed(
+        private static string GetOddsFeed(
             UserProfile userProfile,
             string timestamp,
             string domain,
@@ -359,7 +361,7 @@
 
             return service.BuildXmlDocument(userQuery, isSample, outrights).ToString();
         }
-        
+
         private static string GetVirtualPath()
         {
             var feedUrlPath = ConfigurationManager.AppSettings["FeedUrlPath"].ToString();
