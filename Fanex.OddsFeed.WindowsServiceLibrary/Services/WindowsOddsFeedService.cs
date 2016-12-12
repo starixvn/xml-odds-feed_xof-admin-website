@@ -57,16 +57,16 @@
                 line++;
                 var liveOddsFlexs = GetOddFlexs(liveOdds.Tables[1]);
                 line++;
-                var deadballOddsFlexs = GetOddFlexs(deadballOdds.ResultSet.Tables[1]);
+                var deadballOddsFlexs = GetOddFlexs(deadballOdds.Tables[1]);
                 line++;
                 var betTypeSchemas = GetBetTypeSchemas();
 
                 line++;
                 var liveMatches = _matchMapping.GetMatches(liveOdds.Tables[0], betTypeSchemas, true, liveOddsFlexs);
                 line++;
-                var deadBallMatches = _matchMapping.GetMatches(deadballOdds.ResultSet.Tables[0], betTypeSchemas, false, deadballOddsFlexs);
+                var deadBallMatches = _matchMapping.GetMatches(deadballOdds.Tables[0], betTypeSchemas, false, deadballOddsFlexs);
                 line++;
-                var outrights = _outrightMapping.GetOutrights(outrightOdds.ResultSet.Tables[0]);
+                var outrights = _outrightMapping.GetOutrights(outrightOdds.Tables[0]);
                 line++;
 
                 result = StoreData(CacheKeys.CurrentKey(_cachePrefix), currentVersion, _numberTries);

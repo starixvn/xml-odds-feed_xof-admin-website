@@ -106,7 +106,7 @@
 
         private static string StandardizeCountryCodeList(string countryCodeList)
         {
-            var countryCodeTable = DbAccess.GetCountryList().ResultSet.Tables[0];
+            var countryCodeTable = DbAccess.GetCountryList().Tables[0];
             var filteredRows = countryCodeTable.Select($"{"CountryCode"} in ('{countryCodeList.Replace(",", "','")}')");
             return string.Join(",", filteredRows.Select(x => x.ItemArray.GetValue(2)).AsEnumerable());
         }

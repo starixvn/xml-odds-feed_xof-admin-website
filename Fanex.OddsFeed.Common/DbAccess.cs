@@ -1,7 +1,6 @@
 ﻿namespace Fanex.OddsFeed.Common
 {
     using Data;
-    using Fanex.Data.DNAide;
     using Helpers;
     using System.Data;
 
@@ -9,37 +8,50 @@
     {
         public static DataSet GetLiveOddsData()
         {
-            using (var db = new ObjectDb("SP.LiveOdds"))
+            using (var db = new ObjectDb(SpHelper.RealSp("SP.LiveOdds")))
             {
                 return db.ExecuteDataSet();
             }
         }
 
-        public static DbResult GetDeadballOddsData()
+        public static DataSet GetDeadballOddsData()
         {
-            return DbHelper.ExecuteDbResult(SpHelper.RealSp("SP.DeadballOdds"));
+            using (var db = new ObjectDb(SpHelper.RealSp("SP.DeadballOdds")))
+            {
+                return db.ExecuteDataSet();
+            }
         }
 
-        public static DbResult GetOutrightOddsData()
+        public static DataSet GetOutrightOddsData()
         {
-            return DbHelper.ExecuteDbResult(SpHelper.RealSp("SP.OutrightOdds"));
+            using (var db = new ObjectDb(SpHelper.RealSp("SP.OutrightOdds")))
+            {
+                return db.ExecuteDataSet();
+            }
         }
 
-        public static DbResult GetBetdaqScheduleData(string uspName)
+        public static DataSet GetBetdaqScheduleData(string uspName)
         {
-            var procName = SpHelper.RealSp(uspName);
-            var result = DbHelper.ExecuteDbResult(procName);
-            return result;
+            using (var db = new ObjectDb(SpHelper.RealSp(uspName)))
+            {
+                return db.ExecuteDataSet();
+            }
         }
 
-        public static DbResult GetBetRadar()
+        public static DataSet GetBetRadar()
         {
-            return DbHelper.ExecuteDbResult(SpHelper.RealSp("SP.BetRadarOddsSel"));
+            using (var db = new ObjectDb(SpHelper.RealSp("SP.BetRadarOddsSel")))
+            {
+                return db.ExecuteDataSet();
+            }
         }
 
-        public static DbResult GetCountryList()
+        public static DataSet GetCountryList()
         {
-            return DbHelper.ExecuteDbResult(SpHelper.RealSp("SP.GetCountryList"));
+            using (var db = new ObjectDb(SpHelper.RealSp("SP.GetCountryList")))
+            {
+                return db.ExecuteDataSet();
+            }
         }
     }
 }

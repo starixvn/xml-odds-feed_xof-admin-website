@@ -19,19 +19,19 @@
         {
             if (string.IsNullOrEmpty(filter))
             {
-                return DbAccess.GetBetdaqScheduleData("Portal_BetDaq_Schedule").ResultSet.Tables[0].ToCSV(false, SeparateRow);
+                return DbAccess.GetBetdaqScheduleData("Portal_BetDaq_Schedule").Tables[0].ToCSV(false, SeparateRow);
             }
             else if (filter.Equals(BasketBall0) || filter.Equals("s"))
             {
-                return DbAccess.GetBetdaqScheduleData("Portal_BetDaq_Schedule").ResultSet.Tables[0].Select("IsBasketBall = 0").ToCSV(SeparateRow);
+                return DbAccess.GetBetdaqScheduleData("Portal_BetDaq_Schedule").Tables[0].Select("IsBasketBall = 0").ToCSV(SeparateRow);
             }
             else if (filter.Equals(BasketBall1) || filter.Equals("b"))
             {
-                return DbAccess.GetBetdaqScheduleData("Portal_BetDaq_Schedule").ResultSet.Tables[0].Select("IsBasketBall = 1").ToCSV(SeparateRow);
+                return DbAccess.GetBetdaqScheduleData("Portal_BetDaq_Schedule").Tables[0].Select("IsBasketBall = 1").ToCSV(SeparateRow);
             }
             else if (filter.Equals(BasketBall2))
             {
-                return DbAccess.GetBetdaqScheduleData("Portal_BetDaq_Schedule").ResultSet.Tables[0].Select("IsBasketBall = 2").ToCSV(SeparateRow);
+                return DbAccess.GetBetdaqScheduleData("Portal_BetDaq_Schedule").Tables[0].Select("IsBasketBall = 2").ToCSV(SeparateRow);
             }
 
             return string.Empty;
@@ -40,8 +40,8 @@
         public string GetOddWithUserIsBetdaq(string filter)
         {
             var result = string.Empty;
-            var oddsFeed_1 = DbAccess.GetBetdaqScheduleData("SP.GetOddsFeed").ResultSet.Tables[0];
-            var oddsFeed_2 = DbAccess.GetBetdaqScheduleData("SP.GetOddsFeed_2").ResultSet.Tables[0];
+            var oddsFeed_1 = DbAccess.GetBetdaqScheduleData("SP.GetOddsFeed").Tables[0];
+            var oddsFeed_2 = DbAccess.GetBetdaqScheduleData("SP.GetOddsFeed_2").Tables[0];
 
             if (string.IsNullOrEmpty(filter))
             {

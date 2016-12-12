@@ -9,7 +9,7 @@
     {
         public string GetXmlDocument()
         {
-            var oddsFeedData = DbAccess.GetBetRadar().ResultSet.Tables[0];
+            var oddsFeedData = DbAccess.GetBetRadar().Tables[0];
             var oddsFeedNode = new StringBuilder("<List><!-- Date is based on Malaysian time -->");
 
             foreach (DataRow row in oddsFeedData.Rows)
