@@ -17,16 +17,5 @@
             return result.ToString(OddsPattern);
         }
 
-        public static string FormatTotal(object value)
-        {
-            decimal result = 0;
-
-            if (!decimal.TryParse(value.ToString(), out result))
-            {
-                result = 0;
-            }
-
-            return result.ToString(TotalPattern);
-        }
     }
 }

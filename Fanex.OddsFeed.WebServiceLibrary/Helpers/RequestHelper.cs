@@ -69,8 +69,6 @@
 
         public static UserQuery GetFilter(HttpRequestBase request)
         {
-            var userQuery = new UserQuery();
-
             var filterSport = request["Sport"] == null ? string.Empty : request["Sport"].ToLower();
             var filterCountry = request["Country"] == null ? string.Empty : request["Country"].ToLower();
             var filterBettype = request["Bettype"] == null ? string.Empty : request["Bettype"].ToLower();
@@ -85,12 +83,15 @@
                 }
             }
 
-            userQuery.Sports = ListConverter.ConvertToListInt(filterSport);
-            userQuery.Countries = ListConverter.ConvertToListString(filterCountry, true);
-            userQuery.BetTypes = ListConverter.ConvertToListInt(filterBettype);
-            userQuery.Leagues = ListConverter.ConvertToListString(filterLeague, true);
+            return new UserQuery
+            {
 
-            return userQuery;
+                Sports = ListConverter.ConvertToListInt(filterSport),
+                Countries = ListConverter.ConvertToListString(filterCountry, true),
+                BetTypes = ListConverter.ConvertToListInt(filterBettype),
+                Leagues = ListConverter.ConvertToListString(filterLeague, true)
+            };
+
         }
 
         public static bool IsOverLimitedOptions(UserQuery userQuery)
@@ -106,7 +107,7 @@
         private static string StandardizeCountryCodeList(string countryCodeList)
         {
             var countryCodeTable = DbAccess.GetCountryList().ResultSet.Tables[0];
-            var filteredRows = countryCodeTable.Select(string.Format("{0} in ('{1}')", "CountryCode", countryCodeList.Replace(",", "','")));
+            var filteredRows = countryCodeTable.Select($"{"CountryCode"} in ('{countryCodeList.Replace(",", "','")}')");
             return string.Join(",", filteredRows.Select(x => x.ItemArray.GetValue(2)).AsEnumerable());
         }
     }

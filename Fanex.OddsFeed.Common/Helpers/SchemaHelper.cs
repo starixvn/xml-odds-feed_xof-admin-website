@@ -1,11 +1,11 @@
 ﻿namespace Fanex.OddsFeed.Common.Helpers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
     using Common.Schemas;
     using Logging;
     using Newtonsoft.Json;
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
 
     public class JsonHelper
     {
@@ -25,13 +25,12 @@
                     else
                     {
                         LogService.Info("BettypeSchema configuration is empty");
-
                     }
                 }
             }
             catch (Exception exception)
             {
-                var message = string.Format("Read BetType.json unsuccessful - Message: {0}", exception.Message);
+                var message = $"Read BetType.json unsuccessful - Message: {exception.Message}";
 
                 LogService.Error(message);
             }

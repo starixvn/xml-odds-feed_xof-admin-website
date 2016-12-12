@@ -22,7 +22,7 @@
             return oddsFeedNode.ToString();
         }
 
-        private void AppendOddsObject(StringBuilder oddsFeedNode, DataRow row)
+        private static void AppendOddsObject(StringBuilder oddsFeedNode, DataRow row)
         {
             oddsFeedNode.Append("<OddsObject type=\"regular\">");
             oddsFeedNode.Append($"<Sport>{row["sporttypename"]}</Sport>");

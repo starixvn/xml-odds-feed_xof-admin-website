@@ -8,12 +8,5 @@
 
         public string Error { get; set; }
 
-        public bool IsSuccess
-        {
-            get
-            {
-                return string.IsNullOrEmpty(Error) && UserProfile != null;
-            }
-        }
     }
 }

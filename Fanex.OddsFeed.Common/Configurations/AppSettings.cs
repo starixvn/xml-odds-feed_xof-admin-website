@@ -21,27 +21,11 @@
             }
         }
 
-        public static bool IsShowError
-        {
-            get
-            {
-                return Convert.ToBoolean(ConfigurationManager.AppSettings["IsShowError"]);
-            }
-        }
-
         public static string Environment
         {
             get
             {
                 return ConfigurationManager.AppSettings["Environment"].ToString();
-            }
-        }
-
-        public static int CacheTime
-        {
-            get
-            {
-                return Convert.ToInt32(ConfigurationManager.AppSettings["CacheTime"]);
             }
         }
 
@@ -53,27 +37,11 @@
             }
         }
 
-        public static int LiveCacheTime
-        {
-            get
-            {
-                return Convert.ToInt32(ConfigurationManager.AppSettings["LiveCacheTime"]);
-            }
-        }
-
         public static int Interval
         {
             get
             {
                 return Convert.ToInt32(ConfigurationManager.AppSettings["Interval"]);
-            }
-        }
-
-        public static string ServerPool
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["ServerPool"].ToString();
             }
         }
 
@@ -90,46 +58,6 @@
             get
             {
                 return ConfigurationManager.AppSettings["SP.Suffix"].ToString();
-            }
-        }
-
-        public static string SMTPServer
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["SMTPServer"].ToString();
-            }
-        }
-
-        public static string FromMail
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["FromMail"].ToString();
-            }
-        }
-
-        public static string ToMail
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["ToMail"].ToString();
-            }
-        }
-
-        public static string CCMail
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["CCMail"].ToString();
-            }
-        }
-
-        public static string BCCMail
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["BCCMail"].ToString();
             }
         }
 
@@ -170,14 +98,6 @@
             get
             {
                 return ConfigurationManager.AppSettings["SmtpClient.Password"].ToString();
-            }
-        }
-
-        public static string IpTestingUMTime
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["IPTestingUMTime"].ToString();
             }
         }
 
