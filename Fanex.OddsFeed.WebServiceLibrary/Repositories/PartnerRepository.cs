@@ -69,8 +69,8 @@
                 Leagues = string.Equals(profileData.LeagueIDList, All) ? null : ListConverter.ConvertToListInt(profileData.LeagueIDList),
                 Outrights = string.Equals(profileData.OutrightIDList, All) ? null : ListConverter.ConvertToListInt(profileData.OutrightIDList),
                 BetTypes = string.Equals(profileData.BetTypeIDList, All) ? null : ListConverter.ConvertToListInt(profileData.BetTypeIDList),
-                LeagueKeyword = profileData.LeagueKeyword.ToLower(),
-                OutrightsKeyword = profileData.LeagueKeyword_O.ToLower(),
+                LeagueKeyword = profileData.LeagueKeyword,
+                OutrightsKeyword = profileData.LeagueKeyword_O,
                 Domain = profileData.Domain
             };
         }

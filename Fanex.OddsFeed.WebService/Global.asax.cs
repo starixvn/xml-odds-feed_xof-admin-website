@@ -1,7 +1,6 @@
 ﻿namespace Fanex.OddsFeed.WebService
 {
     using Fanex.Logging;
-    using Fanex.OddsFeed.WebService.Controllers;
     using System;
     using System.Configuration;
     using System.Web;
