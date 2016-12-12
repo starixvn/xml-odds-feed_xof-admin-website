@@ -139,6 +139,7 @@
     <Compile Include="Caching\OddFeedDataCachingOperator.cs" />
     <Compile Include="Criteria\CheckPermissionCriteria.cs" />
     <Compile Include="Criteria\GetBetTypeByUserNameCriteria.cs" />
+    <Compile Include="Criteria\GetPartnerBetTypeCriteria.cs" />
     <Compile Include="Criteria\GetContactEmailByUserNameCriteria.cs" />
     <Compile Include="Criteria\GetCountryByUserNameCriteria.cs" />
     <Compile Include="Criteria\GetCountryCriteria.cs" />
@@ -146,8 +147,10 @@
     <Compile Include="Criteria\GetIpCriteria.cs" />
     <Compile Include="Criteria\GetLeagueCriteria.cs" />
     <Compile Include="Criteria\GetMatchCriteria.cs" />
+    <Compile Include="Criteria\GetPartnerLeagueCriteria.cs" />
     <Compile Include="Criteria\GetSportByUserNameCriteria.cs" />
     <Compile Include="Criteria\GetSportCriteria.cs" />
+    <Compile Include="Criteria\GetPartnerSportTypeCriteria.cs" />
     <Compile Include="Criteria\GetTeamCriteria.cs" />
     <Compile Include="Data\IObjectDbAdapter.cs" />
     <Compile Include="Data\IRecordSetReader.cs" />
@@ -159,6 +162,7 @@
     <Compile Include="Filters\MatchFilter.cs" />
     <Compile Include="Filters\OutrightFilter.cs" />
     <Compile Include="Helpers\RequestHelper.cs" />
+    <Compile Include="Helpers\SecurityHelper.cs" />
     <Compile Include="Models\OddsFeedsModel.cs" />
     <Compile Include="Models\ColumnModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -180,8 +184,10 @@
     <Compile Include="Services\IEventFeedService.cs" />
     <Compile Include="Services\IFeedsService.cs" />
     <Compile Include="Services\IOddsFeedService.cs" />
+    <Compile Include="Services\IPartnerService.cs" />
     <Compile Include="Services\IUserService.cs" />
     <Compile Include="Services\OddsFeedService.cs" />
+    <Compile Include="Services\PartnerService.cs" />
     <Compile Include="Services\UserService.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,6 +1,7 @@
 ﻿namespace Fanex.OddsFeed.WebServiceLibrary.Repositories
 {
     using System.Collections;
+    using System.Collections.Generic;
     using System.Linq;
     using Common.Converters;
     using Common.DataObjects;
@@ -28,6 +29,21 @@
                     Error = ErrorBuilder.GetError(Converter.ToInt(outputParams[ErrorCode]), outputParams[ErrorMsg].ToString())
                 };
             }
+        }
+
+        public IEnumerable<PartnerBetType> GetPartnerBetTypes(GetPartnerBetTypeCriteria criteria)
+        {
+            return GetListOf<PartnerBetType>(criteria);
+        }
+
+        public IEnumerable<PartnerLeague> GetPartnerLeagues(GetPartnerLeagueCriteria criteria)
+        {
+            return GetListOf<PartnerLeague>(criteria);
+        }
+
+        public IEnumerable<PartnerSport> GetPartnerSports(GetPartnerSportTypeCriteria criteria)
+        {
+            return GetListOf<PartnerSport>(criteria);
         }
 
         private static Hashtable GetInputParams(CheckPermissionCriteria criteria)

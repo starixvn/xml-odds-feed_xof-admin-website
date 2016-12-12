@@ -8,6 +8,7 @@
     using System.Linq;
     using System.Text;
     using Models;
+    using Helpers;
 
     public class MatchBuilder : IMatchBuilder
     {
@@ -95,7 +96,11 @@
         {
             var isRunning = match.IsLive ? LIVE : DEADBALL;
             oddsFeedNode
-                .Append($"<match id=\"{match.MatchId}\" ge=\"{match.LeagueEnglish}\" gt=\"{match.LeagueTraditionalChinese}\" gs=\"{match.LeagueSimplifiedChinese}\" he=\"{match.HomeEnglish}\" ht=\"{match.HomeTraditionalChinese}\" hs=\"{match.HomeSimplifiedChinese}\" ae=\"{match.AwayEnglish}\" at=\"{match.AwayTraditionalChinese}\" as=\"{match.AwaySimplifiedChinese}\" mt=\"{match.KickOfTime}\" sport=\"{match.SportName}\" running=\"{isRunning}\">");
+                .Append($"<match id=\"{match.MatchId}\" ge=\"{SecurityHelper.EscapeXML(match.LeagueEnglish)}\" gt=\"{SecurityHelper.EscapeXML(match.LeagueTraditionalChinese)}\" gs=\"{SecurityHelper.EscapeXML(match.LeagueSimplifiedChinese)}\" ");
+            oddsFeedNode
+                .Append($"he=\"{SecurityHelper.EscapeXML(match.HomeEnglish)}\" ht=\"{SecurityHelper.EscapeXML(match.HomeTraditionalChinese)}\" hs=\"{SecurityHelper.EscapeXML(match.HomeSimplifiedChinese)}\" ");
+            oddsFeedNode
+                .Append($"ae=\"{SecurityHelper.EscapeXML(match.AwayEnglish)}\" at=\"{SecurityHelper.EscapeXML(match.AwayTraditionalChinese)}\" as=\"{SecurityHelper.EscapeXML(match.AwaySimplifiedChinese)}\" mt=\"{match.KickOfTime}\" sport=\"{match.SportName}\" running=\"{isRunning}\">");
         }
 
         private void AppendBookieNode(

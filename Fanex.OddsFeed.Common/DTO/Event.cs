@@ -1,8 +1,5 @@
 ﻿namespace Fanex.OddsFeed.Common.DTO
 {
-    using global::System.Xml.Serialization;
-
-    [XmlRoot("Events")]
     public class Event
     {
         public int EventId { get; set; }

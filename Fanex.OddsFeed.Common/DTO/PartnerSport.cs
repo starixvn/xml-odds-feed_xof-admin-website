@@ -1,6 +1,6 @@
-﻿namespace Fanex.OddsFeed.WebService.BetTypes
+﻿namespace Fanex.OddsFeed.Common.DTO
 {
-    public class RawBetType
+    public class PartnerSport
     {
         public int Id { get; set; }
 

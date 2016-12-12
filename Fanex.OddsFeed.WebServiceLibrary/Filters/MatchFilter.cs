@@ -25,30 +25,35 @@
 
         private static bool FilterByOddsProfile(UserProfile userProfile, bool isSample, MatchOdds matchOdds)
         {
-            return isSample || userProfile.BetTypes == null || userProfile.BetTypes.Contains(matchOdds.BetTypeId);
+            return isSample 
+                || userProfile.BetTypes == null
+                || userProfile.BetTypes.Count == 0
+                || userProfile.BetTypes.Contains(matchOdds.BetTypeId);
         }
 
         private static bool FilterByOddsFeedFilter(UserQuery userQuery, MatchOdds matchOdds)
         {
-            return userQuery.BetTypes == null || userQuery.BetTypes.Contains(matchOdds.BetTypeId);
+            return userQuery.BetTypes == null
+                || userQuery.BetTypes.Count == 0
+                || userQuery.BetTypes.Contains(matchOdds.BetTypeId);
         }
 
         private static bool FilterBySport(UserProfile userProfile, UserQuery userQuery, Match match)
         {
-            return (userProfile.Sports == null || userProfile.Sports.Contains(match.SportId)) 
-                && (userQuery.Sports == null || userQuery.Sports.Contains(match.SportId));
+            return (userProfile.Sports == null || userProfile.Sports.Count == 0 || userProfile.Sports.Contains(match.SportId)) 
+                && (userQuery.Sports == null || userQuery.Sports.Count == 0 || userQuery.Sports.Contains(match.SportId));
         }
 
         private static bool FilterByLeague(UserProfile userProfile, UserQuery userQuery, Match match)
         {
-            return (userProfile.Leagues == null || userProfile.Leagues.Contains(match.LeagueId))
-                && (userQuery.Leagues == null || SearchLeague(userQuery.Leagues, match.LeagueEnglish.ToLower()));
+            return (userProfile.Leagues == null || userProfile.Leagues.Count == 0 || userProfile.Leagues.Contains(match.LeagueId))
+                && (userQuery.Leagues == null || userQuery.Leagues.Count ==0 ||SearchLeague(userQuery.Leagues, match.LeagueEnglish.ToLower()));
         }
 
         private static bool FilterByCountry(UserProfile userProfile, UserQuery userQuery, Match match)
         {
-            return (userProfile.Countries == null || userProfile.Countries.Contains(match.CountryCode.ToLower()))
-                && (userQuery.Countries == null || userQuery.Countries.Contains(match.CountryCode.ToLower()));
+            return (userProfile.Countries == null || userProfile.Countries.Count == 0 || userProfile.Countries.Contains(match.CountryCode.ToLower()))
+                && (userQuery.Countries == null || userQuery.Countries.Count == 0 || userQuery.Countries.Contains(match.CountryCode.ToLower()));
         }
 
         private static bool FilterByKeyword(UserProfile userProfile, Match match)

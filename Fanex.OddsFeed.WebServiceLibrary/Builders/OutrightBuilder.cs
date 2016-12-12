@@ -7,6 +7,7 @@
     using System.Linq;
     using System.Text;
     using Models;
+    using Helpers;
 
     public class OutrightBuilder : IOutrightBuilder
     {
@@ -42,7 +43,7 @@
 
         private static void AppendEventNode(StringBuilder oddsFeedNode, UserProfile userProfile, Outright outright)
         {
-            oddsFeedNode.Append($"<event id=\"{outright.EventId}\" ge=\"{outright.EventEnglish}\" gt=\"{outright.EventTraditionalChinese}\" gs=\"{outright.EventSimplifiedChinese}\" mt=\"{outright.Time}\" sport=\"{outright.SportName}\">");
+            oddsFeedNode.Append($"<event id=\"{outright.EventId}\" ge=\"{SecurityHelper.EscapeXML(outright.EventEnglish)}\" gt=\"{SecurityHelper.EscapeXML(outright.EventTraditionalChinese)}\" gs=\"{SecurityHelper.EscapeXML(outright.EventSimplifiedChinese)}\" mt=\"{outright.Time}\" sport=\"{outright.SportName}\">");
 
             foreach (var outrightOddsNode in outright.OutrightOddsList)
             {
@@ -57,7 +58,7 @@
             UserProfile userProfile,
             OutrightOdds outrightOddsNode)
         {
-            oddsFeedNode.AppendFormat($"<odd id=\"{outrightOddsNode.OddsId}\" te=\"{outrightOddsNode.OddNameEnglish}\" tt=\"{outrightOddsNode.OddNameTraditionalChinese}\" ts=\"{outrightOddsNode.OddNameSimplifiedChinese}\" o=\"{OddsConverter.ConvertOdds(userProfile.OddRegion, outrightOddsNode.Value)}\" />");
+            oddsFeedNode.AppendFormat($"<odd id=\"{outrightOddsNode.OddsId}\" te=\"{SecurityHelper.EscapeXML(outrightOddsNode.OddNameEnglish)}\" tt=\"{SecurityHelper.EscapeXML(outrightOddsNode.OddNameTraditionalChinese)}\" ts=\"{SecurityHelper.EscapeXML(outrightOddsNode.OddNameSimplifiedChinese)}\" o=\"{OddsConverter.ConvertOdds(userProfile.OddRegion, outrightOddsNode.Value)}\" />");
         }
 
         private static bool IsSampleOutright(bool isOutright, bool isSample, int numberOutright)

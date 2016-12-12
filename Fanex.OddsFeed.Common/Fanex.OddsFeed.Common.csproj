@@ -101,7 +101,9 @@
     <Compile Include="DTO\OddsData.cs" />
     <Compile Include="DTO\Outright.cs" />
     <Compile Include="DTO\OutrightOdds.cs" />
-    <Compile Include="DTO\Partner.cs" />
+    <Compile Include="DTO\PartnerBetType.cs" />
+    <Compile Include="DTO\PartnerLeague.cs" />
+    <Compile Include="DTO\PartnerSport.cs" />
     <Compile Include="DTO\Sport.cs" />
     <Compile Include="DTO\Team.cs" />
     <Compile Include="DTO\UserProfile.cs" />

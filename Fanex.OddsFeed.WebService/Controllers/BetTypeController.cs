@@ -1,73 +1,23 @@
 ﻿namespace Fanex.OddsFeed.WebService.Controllers
 {
-    using System.Linq;
-    using System.Text;
     using System.Web.Mvc;
-    using BetTypes;
-    using Fanex.Data.Repository;
-    using Fanex.OddsFeed.WebService.Common;
     using OddsFeed.Common.DTO;
     using WebServiceLibrary.Attributes;
     using WebServiceLibrary.Services;
 
-    public class BetTypeController : Controller
+    public class BetTypeController : BaseController
     {
-        private OddsFeedSerializer _serializer;
-        private IBetTypeService _betTypeService;
+        private readonly IPartnerService _partnerService;
 
         public BetTypeController()
         {
-            _serializer = new OddsFeedSerializer();
-            _betTypeService = new BetTypeService();
+            _partnerService = new PartnerService();
         }
 
         [PartnerPermission]
         public ActionResult Index(string username, UserProfile userProfile)
         {
-            var betTypes = GetBetTypes(username);
-            LimitLanguage(betTypes, userProfile);
-
-            var xml = _serializer.Serialize(betTypes);
-            return Content(xml, "text/xml", Encoding.UTF8);
-        }
-
-        private BetTypesNode GetBetTypes(string username)
-        {
-            var criteria = new BetTypesCriteria { Username = username };
-            var repository = new DynamicRepository();
-            var rawBetTypes = repository.Fetch<RawBetType>(criteria).ToList();
-            var betTypes = rawBetTypes.Select(r => FromRaw(r)).ToList();
-
-            return new BetTypesNode
-            {
-                BetTypeList = betTypes
-            };
-        }
-
-        private BetTypeNode FromRaw(RawBetType raw)
-        {
-            return new BetTypeNode
-            {
-                Id = raw.Id.ToString(),
-                Type = _betTypeService.GetBetTypeNameById(raw.Id),
-                NameEnglish = raw.NameEnglish,
-                NameSimplifiedChinese = raw.NameSimplifiedChinese,
-                NameTraditionalChinese = raw.NameTraditionalChinese
-            };
-        }
-
-        private void LimitLanguage(BetTypesNode nodes, UserProfile userProfile)
-        {
-            var enableEnglish = userProfile.Languages.Contains("en-US");
-            var enableTraditionalChinese = userProfile.Languages.Contains("zh-TW");
-            var enableSimplifiedChinese = userProfile.Languages.Contains("zh-CN");
-
-            nodes.BetTypeList.ForEach(b =>
-            {
-                b.NameEnglish = enableEnglish ? b.NameEnglish : string.Empty;
-                b.NameTraditionalChinese = enableTraditionalChinese ? b.NameTraditionalChinese : string.Empty;
-                b.NameSimplifiedChinese = enableSimplifiedChinese ? b.NameSimplifiedChinese : string.Empty;
-            });
+            return XmlContent(_partnerService.GetBetTypesXmlContent(username, userProfile));
         }
     }
 }

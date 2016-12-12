@@ -25,7 +25,7 @@
 
             var authenticatedPartner = GetAuthenticatedPartner(username, domainName, ipAddress);
 
-            if (string.IsNullOrEmpty(authenticatedPartner.Error))
+            if (!string.IsNullOrEmpty(authenticatedPartner.Error))
             {
                 filterContext.Result = new ContentResult
                 {

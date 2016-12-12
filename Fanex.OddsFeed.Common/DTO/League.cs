@@ -1,8 +1,5 @@
 ﻿namespace Fanex.OddsFeed.Common.DTO
 {
-    using global::System.Xml.Serialization;
-
-    [XmlRoot("Leagues")]
     public class League
     {
         public int LeagueId { get; set; }
