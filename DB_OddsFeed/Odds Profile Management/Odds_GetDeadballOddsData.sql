@@ -176,12 +176,12 @@ BEGIN
 		, r.bettype
 		, r.oddsid
 	
-	--extra odds - bettype (152	)
+	--extra odds - bettype (152,416	)
 	;WITH ExtraOdds AS (
 		SELECT oddsid
 			, bettype
 		FROM #OddsDataMix r
-		WHERE r.bettype IN (152)
+		WHERE r.bettype IN (152,416)
 	)
 	SELECT r.[oddsid]
 		,ex.bettype
