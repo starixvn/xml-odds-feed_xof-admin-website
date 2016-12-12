@@ -55,14 +55,14 @@
                 line++;
                 var outrightOdds = DbAccess.GetOutrightOddsData();
                 line++;
-                var liveOddsFlexs = GetOddFlexs(liveOdds.ResultSet.Tables[1]);
+                var liveOddsFlexs = GetOddFlexs(liveOdds.Tables[1]);
                 line++;
                 var deadballOddsFlexs = GetOddFlexs(deadballOdds.ResultSet.Tables[1]);
                 line++;
                 var betTypeSchemas = GetBetTypeSchemas();
 
                 line++;
-                var liveMatches = _matchMapping.GetMatches(liveOdds.ResultSet.Tables[0], betTypeSchemas, true, liveOddsFlexs);
+                var liveMatches = _matchMapping.GetMatches(liveOdds.Tables[0], betTypeSchemas, true, liveOddsFlexs);
                 line++;
                 var deadBallMatches = _matchMapping.GetMatches(deadballOdds.ResultSet.Tables[0], betTypeSchemas, false, deadballOddsFlexs);
                 line++;

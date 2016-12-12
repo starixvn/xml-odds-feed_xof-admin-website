@@ -1,13 +1,18 @@
 ﻿namespace Fanex.OddsFeed.Common
 {
+    using Data;
     using Fanex.Data.DNAide;
     using Helpers;
+    using System.Data;
 
     public static class DbAccess
     {
-        public static DbResult GetLiveOddsData()
+        public static DataSet GetLiveOddsData()
         {
-            return DbHelper.ExecuteDbResult(SpHelper.RealSp("SP.LiveOdds"));
+            using (var db = new ObjectDb("SP.LiveOdds"))
+            {
+                return db.ExecuteDataSet();
+            }
         }
 
         public static DbResult GetDeadballOddsData()
