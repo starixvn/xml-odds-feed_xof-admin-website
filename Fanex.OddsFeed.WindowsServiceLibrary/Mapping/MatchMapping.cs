@@ -53,7 +53,7 @@
             return matches;
         }
 
-        private Match CreateMatch(DataRow row, bool isLive)
+        private static Match CreateMatch(DataRow row, bool isLive)
         {
             return new Match
             {
@@ -224,7 +224,7 @@
                             : betChoiceSchema.DataAttribute;
         }
 
-        private string GetOddsValue(BetChoiceSchema betChoiceSchema, object value)
+        private static string GetOddsValue(BetChoiceSchema betChoiceSchema, object value)
         {
             if (betChoiceSchema.NotConvert)
             {

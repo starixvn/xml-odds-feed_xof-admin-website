@@ -82,8 +82,7 @@
             catch (Exception exception)
             {
                 var innerExceptionMessage = exception.InnerException == null ? "No inner" : exception.InnerException.Message;
-                var message = string.Format("Error at line: {0}. Main error: {1}. Inner error:{2} - stackstrace:{3}",
-                    line, exception.Message, innerExceptionMessage, exception.StackTrace);
+                var message = $"Error at line: {line}. Main error: {exception.Message}. Inner error:{innerExceptionMessage} - stackstrace:{exception.StackTrace}";
 
                 LogService.Error(message, exception);
             }
@@ -138,7 +137,7 @@
             }
             catch (Exception exception)
             {
-                LogService.Error(string.Format("Couchbase error! --- Interrupted while trying to set.  Exception:{0}", exception.Message), exception);
+                LogService.Error($"Couchbase error! --- Interrupted while trying to set.  Exception:{exception.Message}", exception);
             }
 
             return result;
@@ -166,7 +165,7 @@
 
                         Thread.Sleep((int)backOffMilliseconds);
 
-                        LogService.Error(string.Format("Couchbase error! --- Backing off, tries so far: {0}", backOffExpired));
+                        LogService.Error($"Couchbase error! --- Backing off, tries so far: {backOffExpired}");
                     }
                     else
                     {
@@ -178,7 +177,7 @@
 
                 if (!result && (backOffExpired > numberTries))
                 {
-                    throw new ApplicationException(string.Format("Could not perform a set after {0} tries.", numberTries));
+                    throw new ApplicationException($"Could not perform a set after {numberTries} tries.");
                 }
 
                 return result;
