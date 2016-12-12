@@ -1,6 +1,5 @@
 ﻿namespace Fanex.OddsFeed.WebService.Controllers
 {
-    using WebServiceLibrary.Criteria;
     using WebServiceLibrary.Helpers;
     using WebServiceLibrary.Services;
 

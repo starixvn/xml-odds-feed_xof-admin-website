@@ -12,6 +12,10 @@
 
     public class OddsFeedService : IOddsFeedService
     {
+        private const int OddsTypeOutRight = 8;
+        private const int OddsTypeLiveMatch = 4;
+        private const int OddsTypeDeadBallMatch = 2;
+
         private readonly IMatchBuilder _matchBuilder;
         private readonly IOutrightBuilder _outrightBuilder;
 
@@ -46,7 +50,7 @@
 
         private static bool IsShownOutright(OddsFeedsModel model)
         {
-            return model.UserProfile.OddsType.Contains(8) && (!model.IsSample || model.IsOutright);
+            return model.UserProfile.OddsType.Contains(OddsTypeOutRight) && (!model.IsSample || model.IsOutright);
         }
 
         private void AddOutrightNode(
@@ -93,7 +97,7 @@
 
         private static bool HaveLiveBallMatches(IEnumerable<Match> liveMatches, UserProfile userProfile)
         {
-            return userProfile.OddsType.Contains(4) && liveMatches.Count() > 0;
+            return userProfile.OddsType.Contains(OddsTypeLiveMatch) && liveMatches.Count() > 0;
         }
 
         private IList<Match> GetDeadMatches(IList<Match> deadMatches, OddsFeedsModel model, bool changeTime, int timeStamp)
@@ -105,7 +109,7 @@
 
         private static bool HaveDeadBallMatches(IEnumerable<Match> deadMatches, UserProfile userProfile)
         {
-            return userProfile.OddsType.Contains(2) && deadMatches.Count() > 0;
+            return userProfile.OddsType.Contains(OddsTypeDeadBallMatch) && deadMatches.Count() > 0;
         }
 
         private static DateTime GetLastUpdate()
