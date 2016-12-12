@@ -40,11 +40,11 @@ BEGIN
 			, o.oddsid
 			, o.OddsStatus
 			, o.bettype
-			, o.hdp1
-			, o.hdp2
-			, o.odds1a
-			, o.odds2a
-			, o.oddsspreada
+			, ISNULL(o.hdp1, 0) AS hdp1
+			, ISNULL(o.hdp2, 0) AS hdp2
+			, ISNULL(o.odds1a, 0) AS odds1a
+			, ISNULL(o.odds2a, 0) AS odds2a
+			, ISNULL(o.oddsspreada, 0) AS oddsspreada
 			, Convert(FLOAT, ROUND(o.Com1, 3)) com1
 			, Convert(FLOAT, ROUND(o.ComX, 3)) comX
 			, Convert(FLOAT, ROUND(o.Com2, 3)) com2
@@ -77,7 +77,7 @@ BEGIN
 			, cs41
 			, cs42
 			, cs43
-			, cs99
+			, ISNULL(cs99, 0) AS cs99
 			, ISNULL(resourceID, '') resourceID
 		FROM dbo.odds o WITH (NOLOCK)
 			INNER JOIN dbo.match m WITH (NOLOCK) 

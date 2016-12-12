@@ -1,6 +1,6 @@
 USE [bodb_oddsfeed]
 GO
-/****** Object:  UserDefinedFunction [dbo].[f_Odds_GroupBettype_Format]    Script Date: 3/15/2016 2:11:00 PM ******/
+/****** Object:  UserDefinedFunction [dbo].[f_Odds_GroupBettype_Format]    Script Date: 8/2/2016 11:15:28 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -14,9 +14,12 @@ ALTER FUNCTION [dbo].[f_Odds_GroupBettype_Format]
 RETURNS VARCHAR(MAX)
 AS
 /*
-    DB : DB02.bodb02, DB03.on_user,DB052.Affiliate_12BET
-	Task : Convert a value to string for all data types
-	Author : Peter@20090909
+    Creator:20160408@bobby
+	Task : #54093 support new bettype PH AIO
+	DB:DBODDSFEED.bodb_Oddsfeed
+	Revisions:
+		-20160725@bobby: #61422 - Implement 19 new PH-AIO parent-child bet types
+	Param's Explaination:
 	
 */
 BEGIN	   
@@ -42,14 +45,12 @@ BEGIN
 			FROM dbo.strSplit (@BettypeIDList, ',')
 			where len(val)  > 0
 		)
-		SELECT @bettypeGroup = COALESCE(@bettypeGroup + ',', '') + CAST(g.Bettype AS VARCHAR(10))
+		SELECT @bettypeGroup = COALESCE(@bettypeGroup + ',', '') + CAST(g.GroupTypeId AS VARCHAR(10))
 		FROM bodb02.dbo.f_GroupBettype() g
-			INNER JOIN CTE_Bettype b 
-			ON g.GroupTypeId = b.Bettype
-			LEFT JOIN CTE_Bettype cbt 
+			INNER JOIN CTE_Bettype cbt 
 			ON g.Bettype = cbt.Bettype
-
-		WHERE cbt.Bettype IS NULL
+		
+		GROUP BY g.GroupTypeId
 		
 		-- final bettypes
 		SET @bettypeConversion = NULL
@@ -58,11 +59,21 @@ BEGIN
 			SELECT t.Bettype
 				, CASE WHEN g.Bettype IS NULL OR t.Bettype = g.GroupTypeId THEN 1 ELSE 0 END AS IsParent
 			FROM (
+				-- inputed bet types
 				SELECT CAST (val AS INT) AS Bettype
 				FROM dbo.strSplit (@BettypeIDList, ',')
 				WHERE LEN(val)  > 0
 
-				UNION ALL
+				-- child bet types
+				UNION 
+				SELECT g.Bettype
+				FROM dbo.strSplit (@bettypeGroup, ',') AS bg
+					INNER JOIN bodb02.dbo.f_GroupBettype() g 
+					ON bg.val = g.GroupTypeId
+				WHERE LEN(val)  > 0 and g.GroupTypeId <> g.Bettype
+
+				-- parent bet types
+				UNION 
 				SELECT CAST (val AS INT) AS Bettype
 				FROM dbo.strSplit (@bettypeGroup, ',')
 				WHERE LEN(val)  > 0
@@ -74,19 +85,12 @@ BEGIN
 			WHERE t.Bettype > 0
 		) AS bt
 		WHERE 1 = CASE 
-					WHEN @IsShowChild = 0 AND IsParent = 0 THEN 0
-					ELSE 1
+					WHEN @IsShowChild = 1 THEN 1
+					WHEN @IsShowChild = 0 AND IsParent = 1 THEN 1
+					ELSE 0
 				END
 		GROUP BY bt.Bettype
 	END
 
 	RETURN @bettypeConversion
 END
-GO
-declare @bettypes nvarchar(1000) = '1,2,3,1,2,3,1,2,3'
-set @bettypes = 'all'
-SET @bettypes = dbo.f_Odds_GroupBettype_Format(@bettypes, 0)
---SET @bettypes = dbo.f_Odds_GroupBettype_Format(@bettypes, 0)
-
-select @bettypes
-GO
