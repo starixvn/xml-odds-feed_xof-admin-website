@@ -5,14 +5,6 @@
 
     public static class DbAccess
     {
-        public const string Archive = "archive";
-        public const string Maintenance = "maintenance";
-        public const string Bodb02 = "bodb02";
-        public const string Oddsfeed = "oddsfeed";
-
-        public const string BetdaqArchive = "betdaq_archive";
-        public const string BetdaqBodb02 = "betdaq_bodb02";
-
         public static DbResult GetLiveOddsData()
         {
             return DbHelper.ExecuteDbResult(SpHelper.RealSp("SP.LiveOdds"));
