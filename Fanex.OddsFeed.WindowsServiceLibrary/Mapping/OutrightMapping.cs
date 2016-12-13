@@ -39,8 +39,8 @@
             {
                 EventId = leagueId,
                 EventEnglish = row["LeagueName"].ToString(),
-                EventSimplifiedChinese = row["LeagueNameCN"].ToString(),
-                EventTraditionalChinese = row["LeagueNameC_UNI"].ToString(),
+                EventTraditionalChinese = row["LeagueNameCN"].ToString(),
+                EventSimplifiedChinese = row["LeagueNameC_UNI"].ToString(),
                 SportId = Convert.ToInt32(row["SportID"]),
                 SportName = row["LeagueNameTC"].ToString(),
                 CountryCode = row["CountryCode"].ToString(),
@@ -55,8 +55,8 @@
             {
                 OddsId = Convert.ToInt32(row["OrID"]),
                 OddNameEnglish = row["TeamName"].ToString(),
-                OddNameSimplifiedChinese = row["TeamNameCN"].ToString(),
-                OddNameTraditionalChinese = row["TeamNameC_UNI"].ToString(),
+                OddNameTraditionalChinese = row["TeamNameCN"].ToString(),
+                OddNameSimplifiedChinese = row["TeamNameC_UNI"].ToString(),
                 Value = Convert.ToDecimal(row["Odds"])
             };
         }

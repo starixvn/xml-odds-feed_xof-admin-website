@@ -31,20 +31,18 @@
 
                 if (enableEnglish)
                 {
-                    content.Append($" te=\"{bettype.NameEnglish}\"");
+                    content.Append($" te=\"{SecurityElement.Escape(bettype.NameEnglish)}\"");
                 }
 
                 if (enableTraditionalChinese)
                 {
-                    content.Append($" tt=\"{SecurityElement.Escape(bettype.NameEnglish)}\"");
+                    content.Append($" tt=\"{SecurityElement.Escape(bettype.NameTraditionalChinese)}\"");
                 }
 
                 if (enableSimplifiedChinese)
                 {
-                    content.Append($" ts=\"{SecurityElement.Escape(bettype.NameTraditionalChinese)}\"");
+                    content.Append($" ts=\"{SecurityElement.Escape(bettype.NameSimplifiedChinese)}\"");
                 }
-
-                content.Append($" gs=\"{SecurityElement.Escape(bettype.NameSimplifiedChinese)}\" />");
             }
 
             content.Append("</bettypes>");
