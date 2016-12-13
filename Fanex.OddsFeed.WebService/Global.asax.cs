@@ -6,7 +6,6 @@
     using System.Web;
     using System.Web.Mvc;
     using System.Web.Routing;
-    using ONEbook.UM.Services.Impl;
 
     public class MvcApplication : HttpApplication
     {
@@ -44,8 +43,8 @@
 
             routes.MapRoute(
                 "Default", // Route name
-                _feedUrlPath + "{controller}/{action}/{id}", // URL with parameters               
-               new { controller = "Home", action = "Index", id = UrlParameter.Optional }); // Parameter defaults            
+                _feedUrlPath + "{controller}/{action}/{id}", // URL with parameters
+               new { controller = "Home", action = "Index", id = UrlParameter.Optional }); // Parameter defaults
         }
 
         protected void Application_Start()
@@ -62,22 +61,18 @@
         {
             var ex = Server.GetLastError();
 
-            ////Send & log exception email
             if (ex != null && !(ex is HttpException) && !(ex is FormatException))
             {
-                var maintenanceService = new MaintenanceService();
-                if (!maintenanceService.IsUnderMaintenance())
-                {
-                    var message = new string[]
-                        {
+                var message = new string[]
+                    {
                             "ENVIRONMENT: " + ConfigurationManager.AppSettings["Environment"].ToString(),
                             "ERROR: " + ex.Message,
                             "SOURCE: " + ex.Source,
                             "TARGETSITE: " + ex.TargetSite,
                             "STACKTRACE: " + ex.StackTrace
-                        };
-                    LogService.Error(string.Join(Environment.NewLine, message));
-                }
+                    };
+
+                LogService.Error(string.Join(Environment.NewLine, message), ex);
             }
 
             ////Show friendly errors
@@ -87,8 +82,7 @@
             }
             else
             {
-                var msg = "Sorry for the inconvenience!We are not able to process your request this time.Please try again later";
-                Response.Redirect("~/Errors/index?msg=" + msg);
+                Response.Redirect("~/Errors/index");
             }
         }
 
@@ -142,12 +136,12 @@
         {
             routes.MapRoute(
                 "CommonOddsFeedService", // Route name
-                _feedUrlPath + "{username}/odds.txt", // URL with parameters               
+                _feedUrlPath + "{username}/odds.txt", // URL with parameters
                new { controller = "BetDaq", action = "GetOdds" }); // Parameter defaults
 
             routes.MapRoute(
                 "CommonScheduleService", // Route name
-                _feedUrlPath + "{username}/sch.txt", // URL with parameters               
+                _feedUrlPath + "{username}/sch.txt", // URL with parameters
                new { controller = "BetDaq", action = "GetSchedule" }); // Parameter defaults
 
             routes.MapRoute(
@@ -157,13 +151,13 @@
 
             routes.MapRoute(
                 "BetDaqOddsFeedService", // Route name
-                _feedUrlPath + "{username}/en-lang/odds.txt", // URL with parameters               
-               new { controller = "BetDaq", action = "GetOdds" }); // Parameter defaults            
+                _feedUrlPath + "{username}/en-lang/odds.txt", // URL with parameters
+               new { controller = "BetDaq", action = "GetOdds" }); // Parameter defaults
 
             routes.MapRoute(
                 "BetDaqScheduleService", // Route name
-                _feedUrlPath + "{username}/en-lang/sch.txt", // URL with parameters               
-               new { controller = "BetDaq", action = "GetSchedule" }); // Parameter defaults            
+                _feedUrlPath + "{username}/en-lang/sch.txt", // URL with parameters
+               new { controller = "BetDaq", action = "GetSchedule" }); // Parameter defaults
 
             routes.MapRoute(
                 "BetDaqInsertBetdaqService",
@@ -175,7 +169,7 @@
         {
             routes.MapRoute(
                 "BetRadarOddsFeedService", // Route name
-                _feedUrlPath + "{username}/oddsfeed.xml", // URL with parameters               
+                _feedUrlPath + "{username}/oddsfeed.xml", // URL with parameters
                new { controller = "BetRadar", action = "Index" }); // Parameter defaults
         }
 
@@ -195,6 +189,6 @@
                 new { controller = "League", action = "Index" });
         }
 
-        #endregion
+        #endregion Private register routes methods
     }
 }

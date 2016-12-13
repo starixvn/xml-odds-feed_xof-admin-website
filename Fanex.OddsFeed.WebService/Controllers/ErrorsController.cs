@@ -5,9 +5,10 @@
     using WebServiceLibrary;
 
     public class ErrorsController : Controller
-    {        
-        public ActionResult Index(string msg)
+    {
+        public ActionResult Index()
         {
+            const string msg = "Sorry for the inconvenience!We are not able to process your request this time.Please try again later";
             return Content(ErrorBuilder.GetException(msg));
         }
 
