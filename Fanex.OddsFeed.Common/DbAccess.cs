@@ -1,8 +1,9 @@
 ﻿namespace Fanex.OddsFeed.Common
 {
+    using System.Collections;
+    using System.Data;
     using Data;
     using Helpers;
-    using System.Data;
 
     public static class DbAccess
     {
@@ -22,35 +23,46 @@
             }
         }
 
-        public static DataSet GetOutrightOddsData()
+        public static DataTable GetOutrightOddsData()
         {
             using (var db = new ObjectDb(SpHelper.RealSp("SP.OutrightOdds")))
             {
-                return db.ExecuteDataSet();
+                return db.ExecuteDataSet().Tables[0];
             }
         }
 
-        public static DataSet GetBetdaqScheduleData(string uspName)
+        public static DataTable GetBetdaqScheduleData(string uspName)
         {
             using (var db = new ObjectDb(SpHelper.RealSp(uspName)))
             {
-                return db.ExecuteDataSet();
+                return db.ExecuteDataSet().Tables[0];
             }
         }
 
-        public static DataSet GetBetRadar()
+        public static DataTable GetBetRadar()
         {
             using (var db = new ObjectDb(SpHelper.RealSp("SP.BetRadarOddsSel")))
             {
-                return db.ExecuteDataSet();
+                return db.ExecuteDataSet().Tables[0];
             }
         }
 
-        public static DataSet GetCountryList()
+        public static DataTable GetCountryList()
         {
             using (var db = new ObjectDb(SpHelper.RealSp("SP.GetCountryList")))
             {
-                return db.ExecuteDataSet();
+                return db.ExecuteDataSet().Tables[0];
+            }
+        }
+
+        public static DataTable GetInsertBetDaq(string spName, Hashtable spParams)
+        {
+            using (var db = new ObjectDb(spName))
+            {
+                var dataset = db.ExecuteDataSet(spParams);
+                var indexTable = dataset.Tables.Count - 1;
+
+                return dataset.Tables[indexTable];
             }
         }
     }

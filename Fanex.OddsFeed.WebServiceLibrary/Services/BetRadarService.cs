@@ -9,12 +9,14 @@
     {
         public string GetXmlDocument()
         {
-            var oddsFeedData = DbAccess.GetBetRadar().Tables[0];
             var oddsFeedNode = new StringBuilder("<List><!-- Date is based on Malaysian time -->");
 
-            foreach (DataRow row in oddsFeedData.Rows)
+            using (var oddsFeedData = DbAccess.GetBetRadar())
             {
-                AppendOddsObject(oddsFeedNode, row);
+                foreach (DataRow row in oddsFeedData.Rows)
+                {
+                    AppendOddsObject(oddsFeedNode, row);
+                }
             }
 
             oddsFeedNode.Append("</List>");

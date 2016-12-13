@@ -44,37 +44,18 @@
 
         public bool Update(int currentVersion)
         {
-            var line = 0;
             var result = false;
 
             try
             {
-                var liveOdds = DbAccess.GetLiveOddsData();
-                line++;
-                var deadballOdds = DbAccess.GetDeadballOddsData();
-                line++;
-                var outrightOdds = DbAccess.GetOutrightOddsData();
-                line++;
-                var liveOddsFlexs = GetOddFlexs(liveOdds.Tables[1]);
-                line++;
-                var deadballOddsFlexs = GetOddFlexs(deadballOdds.Tables[1]);
-                line++;
                 var betTypeSchemas = GetBetTypeSchemas();
-
-                line++;
-                var liveMatches = _matchMapping.GetMatches(liveOdds.Tables[0], betTypeSchemas, true, liveOddsFlexs);
-                line++;
-                var deadBallMatches = _matchMapping.GetMatches(deadballOdds.Tables[0], betTypeSchemas, false, deadballOddsFlexs);
-                line++;
-                var outrights = _outrightMapping.GetOutrights(outrightOdds.Tables[0]);
-                line++;
+                var liveMatches = GetLiveMatches(betTypeSchemas);
+                var deadBallMatches = GetDeadballMatches(betTypeSchemas);
+                var outrights = GetOutrights();
 
                 result = StoreData(CacheKeys.CurrentKey(_cachePrefix), currentVersion, _numberTries);
-                line++;
                 result = result && StoreData(CacheKeys.LiveMatchKey(_cachePrefix, currentVersion), liveMatches, _numberTries);
-                line++;
                 result = result && StoreData(CacheKeys.DeadballMatchKey(_cachePrefix, currentVersion), deadBallMatches, _numberTries);
-                line++;
                 result = result && StoreData(CacheKeys.OutrightKey(_cachePrefix, currentVersion), outrights, _numberTries);
 
                 return result;
@@ -82,12 +63,36 @@
             catch (Exception exception)
             {
                 var innerExceptionMessage = exception.InnerException == null ? "No inner" : exception.InnerException.Message;
-                var message = $"Error at line: {line}. Main error: {exception.Message}. Inner error:{innerExceptionMessage} - stackstrace:{exception.StackTrace}";
+                var message = $"Main error: {exception.Message}. Inner error:{innerExceptionMessage} - stackstrace:{exception.StackTrace}";
 
                 LogService.Error(message, exception);
             }
 
             return true;
+        }
+
+        private IEnumerable<Match> GetLiveMatches(IList<BetTypeSchema> betTypeSchemas) 
+        {
+            using (var liveOdds = DbAccess.GetLiveOddsData())
+            {
+                return _matchMapping.GetMatches(liveOdds.Tables[0], betTypeSchemas, true, GetOddFlexs(liveOdds.Tables[1]));
+            }
+        }
+
+        private IEnumerable<Match> GetDeadballMatches(IList<BetTypeSchema> betTypeSchemas)
+        {
+            using (var deadballOdds = DbAccess.GetDeadballOddsData())
+            {
+                return _matchMapping.GetMatches(deadballOdds.Tables[0], betTypeSchemas, false, GetOddFlexs(deadballOdds.Tables[1]));
+            }
+        }
+
+        private IEnumerable<Outright> GetOutrights()
+        {
+            using (var outrightOdds = DbAccess.GetOutrightOddsData())
+            {
+                return _outrightMapping.GetOutrights(outrightOdds);
+            }
         }
 
         private static IList<OddFlex> GetOddFlexs(DataTable table)
