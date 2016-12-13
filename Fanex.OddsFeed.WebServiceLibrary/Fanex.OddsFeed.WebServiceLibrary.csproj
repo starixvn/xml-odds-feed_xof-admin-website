@@ -152,15 +152,14 @@
     <Compile Include="Criteria\GetSportCriteria.cs" />
     <Compile Include="Criteria\GetPartnerSportTypeCriteria.cs" />
     <Compile Include="Criteria\GetTeamCriteria.cs" />
-    <Compile Include="Data\IObjectDbAdapter.cs" />
-    <Compile Include="Data\IRecordSetReader.cs" />
-    <Compile Include="Data\ObjectDbAdapter.cs" />
     <Compile Include="ErrorBuilder.cs" />
     <Compile Include="Extensions\DataExtension.cs" />
     <Compile Include="Filters\IMatchFilter.cs" />
     <Compile Include="Filters\IOutrightFilter.cs" />
     <Compile Include="Filters\MatchFilter.cs" />
     <Compile Include="Filters\OutrightFilter.cs" />
+    <Compile Include="Helpers\BetTypeHelper.cs" />
+    <Compile Include="Helpers\MailHelper.cs" />
     <Compile Include="Helpers\RequestHelper.cs" />
     <Compile Include="Helpers\SecurityHelper.cs" />
     <Compile Include="Models\OddsFeedsModel.cs" />

@@ -1,11 +1,11 @@
 ﻿namespace Fanex.OddsFeed.WebService
 {
-    using Fanex.Logging;
     using System;
-    using System.Configuration;
     using System.Web;
     using System.Web.Mvc;
     using System.Web.Routing;
+    using Common.Configurations;
+    using Fanex.Logging;
 
     public class MvcApplication : HttpApplication
     {
@@ -18,7 +18,7 @@
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            var _feedUrlPath = ConfigurationManager.AppSettings["FeedUrlPath"].ToString();
+            var _feedUrlPath = AppSettings.FeedUrlPath;
             if (!string.IsNullOrEmpty(_feedUrlPath))
             {
                 _feedUrlPath += "/";
@@ -54,7 +54,7 @@
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
 
-            Fanex.Data.Configuration.DbSettingProviderManager.Current.Start();
+            Data.Configuration.DbSettingProviderManager.Current.Start();
         }
 
         protected void Application_Error(object sender, EventArgs e)
@@ -64,13 +64,13 @@
             if (ex != null && !(ex is HttpException) && !(ex is FormatException))
             {
                 var message = new string[]
-                    {
-                            "ENVIRONMENT: " + ConfigurationManager.AppSettings["Environment"].ToString(),
-                            "ERROR: " + ex.Message,
-                            "SOURCE: " + ex.Source,
-                            "TARGETSITE: " + ex.TargetSite,
-                            "STACKTRACE: " + ex.StackTrace
-                    };
+                {
+                    "ENVIRONMENT: " + AppSettings.Environment,
+                    "ERROR: " + ex.Message,
+                    "SOURCE: " + ex.Source,
+                    "TARGETSITE: " + ex.TargetSite,
+                    "STACKTRACE: " + ex.StackTrace
+                };
 
                 LogService.Error(string.Join(Environment.NewLine, message), ex);
             }
@@ -82,7 +82,7 @@
             }
             else
             {
-                Response.Redirect("~/Errors/index");
+                Response.Redirect("~/Errors/Index");
             }
         }
 

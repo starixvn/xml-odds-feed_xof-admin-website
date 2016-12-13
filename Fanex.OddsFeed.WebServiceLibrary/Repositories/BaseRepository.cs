@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using Data;
+    using Fanex.Data;
     using Fanex.Data.Repository;
 
     public abstract class BaseRepository
@@ -14,14 +15,9 @@
         protected const string Criteria = "criteria";
         protected const int InvalidCriteriaCode = -2;
 
-        protected virtual IObjectDbAdapter GetObjectDb(string key)
-        {
-            return new ObjectDbAdapter(key);
-        }
-
         protected virtual IEnumerable<TResult> GetListOf<TResult>(ICriteria criteria)
         {
-            using (var db = GetObjectDb(criteria.GetSettingKey()))
+            using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
                 var result = db.Query<TResult>(criteria.GetSpParams());
 

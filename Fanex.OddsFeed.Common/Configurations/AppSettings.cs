@@ -172,5 +172,13 @@
                 return Convert.ToInt32(ConfigurationManager.AppSettings["NumTries"]);
             }
         }
+
+        public static string FromMail
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["FromMail"].ToString();
+            }
+        }
     }
 }

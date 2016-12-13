@@ -8,6 +8,7 @@
     using Common.DTO;
     using Criteria;
     using Fanex.Common;
+    using Fanex.Data;
 
     public class PartnerRepository : BaseRepository, IPartnerRepository
     {
@@ -15,7 +16,7 @@
 
         public AuthenticatedPartner GetAuthenticatedPartner(CheckPermissionCriteria criteria)
         {
-            using (var db = GetObjectDb(criteria.GetSettingKey()))
+            using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
                 var inputParams = GetInputParams(criteria);
 

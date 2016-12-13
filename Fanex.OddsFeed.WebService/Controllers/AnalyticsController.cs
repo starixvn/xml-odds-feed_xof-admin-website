@@ -1,16 +1,16 @@
 ﻿namespace Fanex.OddsFeed.WebService.Controllers
 {
-    using System.Configuration;
     using System.Text;
     using System.Web.Mvc;
-    using OddsFeed.Common.Helpers;
+    using Common.Configurations;
     using WebServiceLibrary.Caching;
+    using WebServiceLibrary.Helpers;
 
     public class AnalyticsController : Controller
     {
         public ActionResult Cache()
         {
-            var totalVersion = int.Parse(ConfigurationManager.AppSettings.Get("TotalVersion"));
+            var totalVersion = AppSettings.TotalVersion;
             var currentVersion = OddFeedDataCachingOperator.GetCurrentVersion();
             var isFullChain = OddFeedDataCachingOperator.IsFullChain();
             var result = new StringBuilder();
@@ -41,11 +41,9 @@
         [HttpPost]
         public ActionResult Email(string emailTo, string content)
         {
-            ViewBag.Sent = MailHelper.SendEmail(
-                ConfigurationManager.AppSettings["FromMail"], 
-                emailTo, 
-                "Odds feed services: Email sending testing", 
-                content);
+            var subject = "Odds feed services: Email sending testing";
+
+            ViewBag.Sent = MailHelper.SendEmail(AppSettings.FromMail, emailTo, subject, content);
 
             return View();
         }

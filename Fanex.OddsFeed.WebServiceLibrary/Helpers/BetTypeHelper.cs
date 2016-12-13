@@ -1,4 +1,4 @@
-﻿namespace Fanex.OddsFeed.Common.Helpers
+﻿namespace Fanex.OddsFeed.WebServiceLibrary.Helpers
 {
     using System.Collections.Generic;
     using Common.DTO;

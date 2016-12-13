@@ -2,12 +2,16 @@
 {
     using System;
     using System.Collections;
-    using OddsFeed.Common.Configurations;
+    using Common.Configurations;
     using WebServiceLibrary.Helpers;
     using WebServiceLibrary.Services;
 
     public class InsertBetdaqController : BaseController
     {
+        private const string FailedBadOddsId = "Failed - Bad oddsId";
+        private const string Success = "OK";
+        private const string SuccessAndAlready = "OK Already";
+
         private readonly IBetDaqService _betDaqService;
 
         public InsertBetdaqController()
@@ -24,7 +28,7 @@
 
             if (!AppSettings.IsDisableUMTimeFlag && IsDownTime())
             {
-                return "Failed - Bad oddsId";
+                return FailedBadOddsId;
             }
 
             return InsertBetdaq(username, RequestHelper.DomainName(Request.ServerVariables));
@@ -37,7 +41,7 @@
 
             if (!isAuthenticated)
             {
-                return "Failed - Bad oddsId";
+                return FailedBadOddsId;
             }
 
             return GetMessage(_betDaqService.InsertBetDaq(GetSpParams(ipAddress), IsDownTime()));
@@ -63,13 +67,13 @@
             switch (errorCode)
             {
                 case 0:
-                    return "OK";                        
+                    return Success;                        
                 case 1:
-                    return "Failed - Bad oddsId";                        
+                    return FailedBadOddsId;                        
                 case 2:
-                    return "OK Already";                      
+                    return SuccessAndAlready;                      
                 default:
-                    return "Failed - Bad oddsId";                        
+                    return FailedBadOddsId;                        
             }
         }
     }
