@@ -31,7 +31,7 @@
             _outrightFilter = new OutrightFilter();
         }
 
-        public StringBuilder BuildXmlDocument(OddsFeedsModel model)
+        public string BuildXmlDocument(OddsFeedsModel model)
         {
             var oddsFeedNode = new StringBuilder("<oddsfeed>");
             var oddsData = OddFeedDataCachingOperator.GetOddsData(model.UserProfile.DelayTimes);
@@ -45,7 +45,7 @@
 
             oddsFeedNode.Append("</oddsfeed>");
 
-            return oddsFeedNode;
+            return oddsFeedNode.ToString();
         }
 
         private static bool IsShownOutright(OddsFeedsModel model)
@@ -54,7 +54,7 @@
         }
 
         private void AddOutrightNode(
-            StringBuilder oddsFeedNode, 
+            StringBuilder oddsFeedNode,
             OddsData oddsData,
             OddsFeedsModel model)
         {
@@ -81,7 +81,7 @@
             {
                 _matchBuilder.AppendMatchesNode(
                     oddsFeedNode,
-                    deadballMatches, 
+                    deadballMatches,
                     liveMatches,
                     model,
                     GetLastUpdate());

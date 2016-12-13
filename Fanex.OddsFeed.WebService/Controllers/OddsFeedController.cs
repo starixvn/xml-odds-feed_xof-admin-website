@@ -196,7 +196,7 @@
 
         private string GetOddsFeed(OddsFeedsModel model)
         {
-            return _oddsFeedService.BuildXmlDocument(model).ToString();
+            return _oddsFeedService.BuildXmlDocument(model);
         }
 
         private static string GetVirtualPath()

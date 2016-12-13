@@ -5,6 +5,6 @@
 
     public interface IOddsFeedService
     {
-        StringBuilder BuildXmlDocument(OddsFeedsModel model);
+        string BuildXmlDocument(OddsFeedsModel model);
     }
 }
