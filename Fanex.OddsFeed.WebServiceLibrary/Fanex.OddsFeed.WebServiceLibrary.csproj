@@ -161,7 +161,6 @@
     <Compile Include="Helpers\BetTypeHelper.cs" />
     <Compile Include="Helpers\MailHelper.cs" />
     <Compile Include="Helpers\RequestHelper.cs" />
-    <Compile Include="Helpers\SecurityHelper.cs" />
     <Compile Include="Models\OddsFeedsModel.cs" />
     <Compile Include="Models\ColumnModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

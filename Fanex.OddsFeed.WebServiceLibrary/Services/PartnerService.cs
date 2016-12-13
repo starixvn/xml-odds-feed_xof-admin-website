@@ -1,9 +1,9 @@
 ﻿namespace Fanex.OddsFeed.WebServiceLibrary.Services
 {
+    using System.Security;
     using System.Text;
     using Common.DTO;
     using Criteria;
-    using Helpers;
     using Repositories;
 
     public class PartnerService : IPartnerService
@@ -36,15 +36,15 @@
 
                 if (enableTraditionalChinese)
                 {
-                    content.Append($" tt=\"{SecurityHelper.EscapeXML(bettype.NameEnglish)}\"");
+                    content.Append($" tt=\"{SecurityElement.Escape(bettype.NameEnglish)}\"");
                 }
 
                 if (enableSimplifiedChinese)
                 {
-                    content.Append($" ts=\"{SecurityHelper.EscapeXML(bettype.NameTraditionalChinese)}\"");
+                    content.Append($" ts=\"{SecurityElement.Escape(bettype.NameTraditionalChinese)}\"");
                 }
 
-                content.Append($" gs=\"{SecurityHelper.EscapeXML(bettype.NameSimplifiedChinese)}\" />");
+                content.Append($" gs=\"{SecurityElement.Escape(bettype.NameSimplifiedChinese)}\" />");
             }
 
             content.Append("</bettypes>");
@@ -67,17 +67,17 @@
 
                 if (enableEnglish)
                 {
-                    content.Append($" ge=\"{SecurityHelper.EscapeXML(league.NameEnglish)}\"");
+                    content.Append($" ge=\"{SecurityElement.Escape(league.NameEnglish)}\"");
                 }
 
                 if (enableTraditionalChinese)
                 {
-                    content.Append($" gt=\"{SecurityHelper.EscapeXML(league.NameTraditionalChinese)}\"");
+                    content.Append($" gt=\"{SecurityElement.Escape(league.NameTraditionalChinese)}\"");
                 }
 
                 if (enableSimplifiedChinese)
                 {
-                    content.Append($" gs=\"{SecurityHelper.EscapeXML(league.NameSimplifiedChinese)}\"");
+                    content.Append($" gs=\"{SecurityElement.Escape(league.NameSimplifiedChinese)}\"");
                 }
 
                 content.Append(" />");
@@ -102,17 +102,17 @@
 
                 if (enableEnglish)
                 {
-                    content.Append($" se=\"{SecurityHelper.EscapeXML(sport.NameEnglish)}\"");
+                    content.Append($" se=\"{SecurityElement.Escape(sport.NameEnglish)}\"");
                 }
 
                 if (enableTraditionalChinese)
                 {
-                    content.Append($" st=\"{SecurityHelper.EscapeXML(sport.NameTraditionalChinese)}\"");
+                    content.Append($" st=\"{SecurityElement.Escape(sport.NameTraditionalChinese)}\"");
                 }
 
                 if (enableSimplifiedChinese)
                 {
-                    content.Append($" ss=\"{SecurityHelper.EscapeXML(sport.NameSimplifiedChinese)}\"");
+                    content.Append($" ss=\"{SecurityElement.Escape(sport.NameSimplifiedChinese)}\"");
                 }
 
                 content.Append("/>");

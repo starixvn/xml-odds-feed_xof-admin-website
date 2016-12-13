@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
-    using Helpers;
+    using System.Security;
 
     public class EventBuilder : IEventBuilder
     {
@@ -37,11 +37,11 @@
         private static void AppendLeagueNode(StringBuilder oddsFeedNode, int leagueId, IEnumerable<Match> matches)
         {
             var firstMatch = matches.First();
-            oddsFeedNode.Append($"<league id=\"{leagueId}\" ge=\"{SecurityHelper.EscapeXML(firstMatch.LeagueEnglish)}\" gt=\"{SecurityHelper.EscapeXML(firstMatch.LeagueTraditionalChinese)}\" gs=\"{SecurityHelper.EscapeXML(firstMatch.LeagueSimplifiedChinese)}\" sport=\"{firstMatch.SportName}\">");
+            oddsFeedNode.Append($"<league id=\"{leagueId}\" ge=\"{SecurityElement.Escape(firstMatch.LeagueEnglish)}\" gt=\"{SecurityElement.Escape(firstMatch.LeagueTraditionalChinese)}\" gs=\"{SecurityElement.Escape(firstMatch.LeagueSimplifiedChinese)}\" sport=\"{firstMatch.SportName}\">");
 
             foreach (var match in matches)
             {
-                oddsFeedNode.Append($"<match id=\"{match.MatchId}\" he=\"{SecurityHelper.EscapeXML(match.HomeEnglish)}\" ht=\"{SecurityHelper.EscapeXML(match.HomeTraditionalChinese)}\" hs=\"{SecurityHelper.EscapeXML(match.HomeSimplifiedChinese)}\" ae=\"{SecurityHelper.EscapeXML(match.AwayEnglish)}\" at=\"{SecurityHelper.EscapeXML(match.AwayTraditionalChinese)}\" as=\"{SecurityHelper.EscapeXML(match.AwaySimplifiedChinese)}\" mt=\"{match.KickOfTime}\" running=\"{match.IsLive}\"/>");
+                oddsFeedNode.Append($"<match id=\"{match.MatchId}\" he=\"{SecurityElement.Escape(match.HomeEnglish)}\" ht=\"{SecurityElement.Escape(match.HomeTraditionalChinese)}\" hs=\"{SecurityElement.Escape(match.HomeSimplifiedChinese)}\" ae=\"{SecurityElement.Escape(match.AwayEnglish)}\" at=\"{SecurityElement.Escape(match.AwayTraditionalChinese)}\" as=\"{SecurityElement.Escape(match.AwaySimplifiedChinese)}\" mt=\"{match.KickOfTime}\" running=\"{match.IsLive}\"/>");
             }
 
             oddsFeedNode.Append("</league>");
@@ -49,11 +49,11 @@
 
         private static void AppendEventNode(StringBuilder oddsFeedNode, Outright outright)
         {
-            oddsFeedNode.Append($"<event id=\"{outright.EventId}\" ge=\"{SecurityHelper.EscapeXML(outright.EventEnglish)}\" gt=\"{SecurityHelper.EscapeXML(outright.EventTraditionalChinese)}\" gs=\"{SecurityHelper.EscapeXML(outright.EventSimplifiedChinese)}\" mt=\"{outright.Time}\" sport=\"{outright.SportName}\">");
+            oddsFeedNode.Append($"<event id=\"{outright.EventId}\" ge=\"{SecurityElement.Escape(outright.EventEnglish)}\" gt=\"{SecurityElement.Escape(outright.EventTraditionalChinese)}\" gs=\"{SecurityElement.Escape(outright.EventSimplifiedChinese)}\" mt=\"{outright.Time}\" sport=\"{outright.SportName}\">");
 
             foreach (var outrightOdds in outright.OutrightOddsList)
             {
-                oddsFeedNode.Append($"<team te=\"{SecurityHelper.EscapeXML(outrightOdds.OddNameEnglish)}\" tt=\"{SecurityHelper.EscapeXML(outrightOdds.OddNameTraditionalChinese)}\" ts=\"{SecurityHelper.EscapeXML(outrightOdds.OddNameSimplifiedChinese)}\" />");
+                oddsFeedNode.Append($"<team te=\"{SecurityElement.Escape(outrightOdds.OddNameEnglish)}\" tt=\"{SecurityElement.Escape(outrightOdds.OddNameTraditionalChinese)}\" ts=\"{SecurityElement.Escape(outrightOdds.OddNameSimplifiedChinese)}\" />");
             }
 
             oddsFeedNode.Append("</event>");

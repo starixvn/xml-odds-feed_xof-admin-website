@@ -1,15 +1,15 @@
 ﻿namespace Fanex.OddsFeed.WebService.Controllers
 {
+    using System.Security;
     using System.Text;
     using System.Web.Mvc;
     using WebServiceLibrary;
-    using WebServiceLibrary.Helpers;
 
     public class ErrorsController : Controller
     {
         public ActionResult Index()
         {
-            var message = SecurityHelper.EscapeXML("Sorry for the inconvenience! We are not able to process your request this time. Please try again later");
+            var message = SecurityElement.Escape("Sorry for the inconvenience! We are not able to process your request this time. Please try again later");
 
             return Content(ErrorBuilder.GetException(message), "application/xml", Encoding.UTF8);
         }

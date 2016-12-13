@@ -3,7 +3,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using Data;
-    using Fanex.Data;
     using Fanex.Data.Repository;
 
     public abstract class BaseRepository
