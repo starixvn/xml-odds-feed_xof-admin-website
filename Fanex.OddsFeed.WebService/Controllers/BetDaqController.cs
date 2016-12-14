@@ -1,5 +1,6 @@
 ﻿namespace Fanex.OddsFeed.WebService.Controllers
 {
+    using System.Web.Mvc;
     using WebServiceLibrary.Helpers;
     using WebServiceLibrary.Services;
 
@@ -12,37 +13,39 @@
             _betdaqService = new BetDaqService();
         }
 
-        public string GetSchedule(string userName)
+        public ActionResult GetSchedule(string userName)
         {
             if (userName.ToLower() != "betdaq")
             {
-                return "You are not authorized to take this action.";
+                return Content("You are not authorized to take this action.");
             }
             
             if (IsDownTime())
             {
-                return string.Empty;
+                return Content(string.Empty);
             }
-       
-            return GetSchedule(userName, RequestHelper.DomainName(Request.ServerVariables), HttpContext.Request["s"]);
+            
+            var scheduleContent = GetScheduleContent(userName, RequestHelper.DomainName(Request.ServerVariables), HttpContext.Request["s"]);
+
+            return Content(scheduleContent);
         }
         
-        public string GetOdds(string userName)
+        public ActionResult GetOdds(string userName)
         {
             if (userName.ToLower() != "betdaq")
             {
-                return "You are not authorized to take this action.";
+                return Content("You are not authorized to take this action.");
             }
 
             if (IsDownTime())
             {
-                return string.Empty;
+                return Content(string.Empty);
             }
 
-            return GetOdds(userName, RequestHelper.DomainName(Request.ServerVariables), HttpContext.Request["s"]);
+            return Content(GetOdds(userName, RequestHelper.DomainName(Request.ServerVariables), HttpContext.Request["s"]));
         }
        
-        private string GetSchedule(string username, string domainName, string filter)
+        private string GetScheduleContent(string username, string domainName, string filter)
         {
             if (string.IsNullOrEmpty(username))
             {

@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections;
+    using System.Web.Mvc;
     using Common.Configurations;
     using WebServiceLibrary.Helpers;
     using WebServiceLibrary.Services;
@@ -19,19 +20,19 @@
             _betDaqService = new BetDaqService();
         }
 
-        public string Index(string username)
+        public ActionResult Index(string username)
         {
             if (!username.Equals("betdaq", StringComparison.OrdinalIgnoreCase))
             {
-                return "You are not authorized to take this action.";
+                return Content("You are not authorized to take this action.");
             }
 
             if (!AppSettings.IsDisableUMTimeFlag && IsDownTime())
             {
-                return FailedBadOddsId;
+                return Content(FailedBadOddsId);
             }
 
-            return InsertBetdaq(username, RequestHelper.DomainName(Request.ServerVariables));
+            return Content(InsertBetdaq(username, RequestHelper.DomainName(Request.ServerVariables)));
         }
 
         private string InsertBetdaq(string username, string domainName)
