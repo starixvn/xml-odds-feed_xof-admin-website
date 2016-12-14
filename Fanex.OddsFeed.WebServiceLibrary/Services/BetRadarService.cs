@@ -1,6 +1,7 @@
 ﻿namespace Fanex.OddsFeed.WebServiceLibrary.Services
 {
     using System.Data;
+    using System.Security;
     using System.Text;
     using Common.Formatter;
     using Fanex.OddsFeed.Common;
@@ -27,11 +28,11 @@
         private static void AppendOddsObject(StringBuilder oddsFeedNode, DataRow row)
         {
             oddsFeedNode.Append("<OddsObject type=\"regular\">");
-            oddsFeedNode.Append($"<Sport>{row["sporttypename"]}</Sport>");
-            oddsFeedNode.Append($"<Tournament>{row["leaguename"]}</Tournament>");
+            oddsFeedNode.Append($"<Sport>{SecurityElement.Escape(row["sporttypename"].ToString())}</Sport>");
+            oddsFeedNode.Append($"<Tournament>{SecurityElement.Escape(row["leaguename"].ToString())}</Tournament>");
             oddsFeedNode.Append($"<MatchId>{row["matchid"]}</MatchId>");
-            oddsFeedNode.Append($"<HomeTeam>{row["home"]}</HomeTeam>");
-            oddsFeedNode.Append($"<AwayTeam>{row["away"]}</AwayTeam>");
+            oddsFeedNode.Append($"<HomeTeam>{SecurityElement.Escape(row["home"].ToString())}</HomeTeam>");
+            oddsFeedNode.Append($"<AwayTeam>{SecurityElement.Escape(row["away"].ToString())}</AwayTeam>");
             oddsFeedNode.Append($"<Date>{row["kickofftime"]}</Date>");
 
             if (!row.IsNull("OddsID_5"))

@@ -43,6 +43,8 @@
                 {
                     content.Append($" ts=\"{SecurityElement.Escape(bettype.NameSimplifiedChinese)}\"");
                 }
+
+                content.Append($" />");
             }
 
             content.Append("</bettypes>");
@@ -61,7 +63,7 @@
 
             foreach (var league in leagues)
             {
-                content.Append($"<league id=\"{league.LeagueId}\" sid=\"{league.SportId}\" se=\"{league.SportName}\"");
+                content.Append($"<league id=\"{league.LeagueId}\" sid=\"{league.SportId}\" se=\"{SecurityElement.Escape(league.SportName)}\"");
 
                 if (enableEnglish)
                 {
