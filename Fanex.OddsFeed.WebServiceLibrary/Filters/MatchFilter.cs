@@ -10,7 +10,7 @@
     {
         public bool FilterMatch(Match match, UserProfile userProfile, UserQuery userQuery, bool changeTime, int timeStamp)
         {
-            return (changeTime ? match.TimeStamp > timeStamp : true) &&
+            return (!changeTime || match.TimeStamp > timeStamp) &&
                     FilterBySport(userProfile, userQuery, match) &&
                     FilterByLeague(userProfile, userQuery, match) &&
                     FilterByCountry(userProfile, userQuery, match) &&
@@ -58,7 +58,7 @@
 
         private static bool FilterByKeyword(UserProfile userProfile, Match match)
         {
-            return (string.IsNullOrEmpty(userProfile.LeagueKeyword) ? true : match.LeagueEnglish.IndexOf(userProfile.LeagueKeyword, StringComparison.CurrentCultureIgnoreCase) > 0);
+            return string.IsNullOrEmpty(userProfile.LeagueKeyword) || StringHelper.Contain(match.LeagueEnglish, userProfile.LeagueKeyword);
         }
     }
 }
