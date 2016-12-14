@@ -1,10 +1,10 @@
 ﻿namespace Fanex.OddsFeed.WebServiceLibrary.Builders
 {
-    using Common.DTO;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
     using System.Security;
+    using System.Text;
+    using Common.DTO;
 
     public class EventBuilder : IEventBuilder
     {
@@ -37,7 +37,7 @@
         private static void AppendLeagueNode(StringBuilder oddsFeedNode, int leagueId, IEnumerable<Match> matches)
         {
             var firstMatch = matches.First();
-            oddsFeedNode.Append($"<league id=\"{leagueId}\" ge=\"{SecurityElement.Escape(firstMatch.LeagueEnglish)}\" gt=\"{SecurityElement.Escape(firstMatch.LeagueTraditionalChinese)}\" gs=\"{SecurityElement.Escape(firstMatch.LeagueSimplifiedChinese)}\" sport=\"{firstMatch.SportName}\">");
+            oddsFeedNode.Append($"<league id=\"{leagueId}\" ge=\"{SecurityElement.Escape(firstMatch.LeagueEnglish)}\" gt=\"{SecurityElement.Escape(firstMatch.LeagueTraditionalChinese)}\" gs=\"{SecurityElement.Escape(firstMatch.LeagueSimplifiedChinese)}\" sport=\"{SecurityElement.Escape(firstMatch.SportName)}\">");
 
             foreach (var match in matches)
             {
@@ -49,7 +49,7 @@
 
         private static void AppendEventNode(StringBuilder oddsFeedNode, Outright outright)
         {
-            oddsFeedNode.Append($"<event id=\"{outright.EventId}\" ge=\"{SecurityElement.Escape(outright.EventEnglish)}\" gt=\"{SecurityElement.Escape(outright.EventTraditionalChinese)}\" gs=\"{SecurityElement.Escape(outright.EventSimplifiedChinese)}\" mt=\"{outright.Time}\" sport=\"{outright.SportName}\">");
+            oddsFeedNode.Append($"<event id=\"{outright.EventId}\" ge=\"{SecurityElement.Escape(outright.EventEnglish)}\" gt=\"{SecurityElement.Escape(outright.EventTraditionalChinese)}\" gs=\"{SecurityElement.Escape(outright.EventSimplifiedChinese)}\" mt=\"{outright.Time}\" sport=\"{SecurityElement.Escape(outright.SportName)}\">");
 
             foreach (var outrightOdds in outright.OutrightOddsList)
             {

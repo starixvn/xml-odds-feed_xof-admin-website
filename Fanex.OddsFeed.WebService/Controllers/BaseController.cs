@@ -56,7 +56,9 @@
                 Ip = ip
             };
 
-            return string.IsNullOrEmpty(_partnerRepository.GetAuthenticatedPartner(criteria).Error);
+            var result = _partnerRepository.GetAuthenticatedPartner(criteria);
+
+            return string.IsNullOrEmpty(result.Error);
         }
 
         protected static string GetClientIpAddress()

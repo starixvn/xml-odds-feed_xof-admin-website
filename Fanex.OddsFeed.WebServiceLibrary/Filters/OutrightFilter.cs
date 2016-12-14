@@ -1,22 +1,17 @@
 ﻿namespace Fanex.OddsFeed.WebServiceLibrary.Filters
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using Common.DTO;
-    using Models;
+    using Common.Helpers;
 
     public class OutrightFilter : IOutrightFilter
     {
-        public IList<Outright> QueryOutrights(IEnumerable<Outright> outrights, UserProfile userProfile, UserQuery userQuery)
+        public bool FilterOutright(Outright outright, UserProfile userProfile, UserQuery userQuery)
         {
-            return (from outright in outrights
-                    where
-                        FilterBySport(userProfile, userQuery, outright) &&
-                        FilterByLeague(userQuery, outright) &&
-                        FilterByCountry(userProfile, userQuery, outright) &&
-                        FilterByKeyWord(userProfile, outright) &&
-                        FilterByProfile(userProfile, outright)
-                    select outright).ToList();
+            return FilterBySport(userProfile, userQuery, outright) &&
+                   FilterByLeague(userQuery, outright) &&
+                   FilterByCountry(userProfile, userQuery, outright) &&
+                   FilterByKeyWord(userProfile, outright) &&
+                   FilterByProfile(userProfile, outright);
         }
 
         private static bool FilterBySport(UserProfile userProfile, UserQuery userQuery, Outright outright)
@@ -27,13 +22,13 @@
 
         private static bool FilterByLeague(UserQuery userQuery, Outright outright)
         {
-            return userQuery.Leagues == null || userQuery.Leagues.Count == 0 || SearchLeague(userQuery.Leagues, outright.EventEnglish.ToLower());
+            return userQuery.Leagues == null || userQuery.Leagues.Count == 0 || StringHelper.ContainInList(userQuery.Leagues, outright.EventEnglish);
         }
 
         private static bool FilterByCountry(UserProfile userProfile, UserQuery userQuery, Outright outright)
         {
-            return (userProfile.Countries == null || userProfile.Countries.Count == 0 || userProfile.Countries.Contains(outright.CountryCode.ToLower()))
-                && (userQuery.Countries == null || userQuery.Countries.Count == 0 || userQuery.Countries.Contains(outright.CountryCode.ToLower()));
+            return (userProfile.Countries == null || userProfile.Countries.Count == 0 || StringHelper.ContainInList(userProfile.Countries, outright.CountryCode))
+                && (userQuery.Countries == null || userQuery.Countries.Count == 0 || StringHelper.ContainInList(userQuery.Countries, outright.CountryCode));
         }
 
         private static bool FilterByProfile(UserProfile userProfile, Outright outright)
@@ -44,12 +39,7 @@
         private static bool FilterByKeyWord(UserProfile userProfile, Outright outright)
         {
             return string.IsNullOrEmpty(userProfile.OutrightsKeyword) 
-                || outright.EventEnglish.ToLower().Contains(userProfile.OutrightsKeyword.ToLower());
-        }
-
-        private static bool SearchLeague(IList<string> searchLeagues, string league)
-        {
-            return searchLeagues.Any(i => league.Contains(i));
+                || StringHelper.Contain(outright.EventEnglish, userProfile.OutrightsKeyword);
         }
     }
 }

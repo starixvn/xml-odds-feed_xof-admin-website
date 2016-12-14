@@ -108,6 +108,7 @@
     <Compile Include="DTO\UserProfile.cs" />
     <Compile Include="DTO\UserQuery.cs" />
     <Compile Include="Formatters\NumberFormatter.cs" />
+    <Compile Include="Helpers\StringHelper.cs" />
     <Compile Include="Helpers\SchemaHelper.cs" />
     <Compile Include="Helpers\SpHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

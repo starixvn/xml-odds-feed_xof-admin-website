@@ -3,10 +3,10 @@
     using System;
     using System.Collections.Generic;
     using System.Text;
-    using NUnit.Framework;
     using Common.DTO;
-    using WebServiceLibrary.Builders;
     using Models;
+    using NUnit.Framework;
+    using WebServiceLibrary.Builders;
 
     [TestFixture]
     public class OutrightBuilderTest

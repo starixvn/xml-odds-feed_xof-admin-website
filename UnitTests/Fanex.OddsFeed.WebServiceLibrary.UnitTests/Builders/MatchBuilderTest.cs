@@ -25,22 +25,23 @@
             // Arrange
             var matchXmlNode = GetDeadballMatchXmlNode();
             var oddsFeedNode = new StringBuilder();
-            var deadballMatchNodes = GetMatchNodes(false);
-            var liveMatchNodes = new List<Match>();
             var lastUpdate = new DateTime(2016, 11, 2, 15, 51, 07);
-
+            var oddsData = new OddsData
+            {
+                DeadballMatches = GetMatchNodes(false),
+                LiveMatches = new List<Match>()
+            };
             var model = new OddsFeedsModel
             {
                 BookieName = "111candy",
-                UserProfile = new UserProfile { OddRegion = 1 },
+                UserProfile = new UserProfile { OddRegion = 1, OddsType = new []{ 2 } },
                 UserQuery = new UserQuery()
             };
 
             // Action
-            _target.AppendMatchesNode(
+            _target.AddMatchesNode(
                 oddsFeedNode,
-                deadballMatchNodes,
-                liveMatchNodes,
+                oddsData,
                 model,
                 lastUpdate);
 
@@ -54,22 +55,24 @@
             // Arrange 
             var matchXmlNode = GetLiveMatchXmlNode();
             var oddsFeedNode = new StringBuilder();
-            var deadballMatchNodes = new List<Match>();
-            var liveMatchNodes = GetMatchNodes(true);
             var lastUpdate = new DateTime(2016, 11, 2, 15, 51, 07);
+            var oddsData = new OddsData
+            {
+                DeadballMatches = GetMatchNodes(true),
+                LiveMatches = new List<Match>()
+            };
             var model = new OddsFeedsModel
             {
                 BookieName = "111candy",
-                UserProfile = new UserProfile { OddRegion = 1 },
+                UserProfile = new UserProfile { OddRegion = 1, OddsType = new[] { 2 } },
                 UserQuery = new UserQuery()
             };
 
             // Action
-            _target.AppendMatchesNode(
+            _target.AddMatchesNode(
                 oddsFeedNode,
-                deadballMatchNodes,
-                liveMatchNodes,
-                model, 
+                oddsData,
+                model,
                 lastUpdate);
 
             // Assert

@@ -1,20 +1,20 @@
 ﻿namespace Fanex.OddsFeed.WebServiceLibrary.Filters
 {
-    using Common.DTO;
+    using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Common.DTO;
+    using Common.Helpers;
 
     public class MatchFilter : IMatchFilter
     {
-        public IList<Match> QueryMatches(IList<Match> matches, UserProfile userProfile, UserQuery userQuery,  bool changeTime, int timeStamp)
+        public bool FilterMatch(Match match, UserProfile userProfile, UserQuery userQuery, bool changeTime, int timeStamp)
         {
-            return (from match in matches
-                    where (changeTime ? match.TimeStamp > timeStamp : true) &&
-                                FilterBySport(userProfile, userQuery, match) &&
-                                FilterByLeague(userProfile, userQuery, match) &&
-                                FilterByCountry(userProfile, userQuery, match) &&
-                                FilterByKeyword(userProfile, match)
-                    select match).ToList();
+            return (changeTime ? match.TimeStamp > timeStamp : true) &&
+                    FilterBySport(userProfile, userQuery, match) &&
+                    FilterByLeague(userProfile, userQuery, match) &&
+                    FilterByCountry(userProfile, userQuery, match) &&
+                    FilterByKeyword(userProfile, match);
         }
 
         public bool FilterBetType(UserProfile userProfile, UserQuery userQuery, bool isSample, MatchOdds matchOdds)
@@ -47,23 +47,18 @@
         private static bool FilterByLeague(UserProfile userProfile, UserQuery userQuery, Match match)
         {
             return (userProfile.Leagues == null || userProfile.Leagues.Count == 0 || userProfile.Leagues.Contains(match.LeagueId))
-                && (userQuery.Leagues == null || userQuery.Leagues.Count ==0 ||SearchLeague(userQuery.Leagues, match.LeagueEnglish.ToLower()));
+                && (userQuery.Leagues == null || userQuery.Leagues.Count ==0 || StringHelper.ContainInList(userQuery.Leagues, match.LeagueEnglish));
         }
 
         private static bool FilterByCountry(UserProfile userProfile, UserQuery userQuery, Match match)
         {
-            return (userProfile.Countries == null || userProfile.Countries.Count == 0 || userProfile.Countries.Contains(match.CountryCode.ToLower()))
-                && (userQuery.Countries == null || userQuery.Countries.Count == 0 || userQuery.Countries.Contains(match.CountryCode.ToLower()));
+            return (userProfile.Countries == null || userProfile.Countries.Count == 0 || StringHelper.ContainInList(userProfile.Countries, match.CountryCode))
+                && (userQuery.Countries == null || userQuery.Countries.Count == 0 || StringHelper.ContainInList(userQuery.Countries, match.CountryCode));
         }
 
         private static bool FilterByKeyword(UserProfile userProfile, Match match)
         {
-            return (string.IsNullOrEmpty(userProfile.LeagueKeyword) ? true : match.LeagueEnglish.ToLower().Contains(userProfile.LeagueKeyword.ToLower()));
-        }
-
-        private static bool SearchLeague(IList<string> searchLeagues, string league)
-        {
-            return searchLeagues.Any(keyword => league.Contains(keyword));
+            return (string.IsNullOrEmpty(userProfile.LeagueKeyword) ? true : match.LeagueEnglish.IndexOf(userProfile.LeagueKeyword, StringComparison.CurrentCultureIgnoreCase) > 0);
         }
     }
 }
