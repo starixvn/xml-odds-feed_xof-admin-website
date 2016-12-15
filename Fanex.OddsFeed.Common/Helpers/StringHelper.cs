@@ -6,14 +6,14 @@
 
     public static class StringHelper
     {
-        public static bool ContainInList(IList<string> list, string keyWord)
+        public static bool ContainInList(IList<string> list, string value)
         {
-            return list.Any(value => Contain(value, keyWord));
+            return list.Any(keyword => Contain(value, keyword));
         }
 
-        public static bool Contain(string value, string keyWord)
+        public static bool Contain(string value, string keyword)
         {
-            return value.IndexOf(keyWord, StringComparison.CurrentCultureIgnoreCase) > -1;
+            return value.IndexOf(keyword, StringComparison.CurrentCultureIgnoreCase) > -1;
         }
     }
 }
