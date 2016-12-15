@@ -35,12 +35,12 @@
 
             AppendBeginMatches(oddsFeedNode, oddsData.DeadballMatches, oddsData.LiveMatches, model, changetime, timeStamp, lastUpdate);
 
-            if (HasSupportedLiveMatch(model.UserProfile))
+            if (HasSupportedLiveMatch(model.UserProfile, oddsData.LiveMatches))
             {
                 AppendMatchNodes(oddsFeedNode, oddsData.LiveMatches, model, changetime, timeStamp);
             }
 
-            if (HaveSupportedDeadBallMatch(model.UserProfile))
+            if (HaveSupportedDeadBallMatch(model.UserProfile, oddsData.DeadballMatches))
             {
                 AppendMatchNodes(oddsFeedNode, oddsData.DeadballMatches, model, changetime, timeStamp);
             }
@@ -48,14 +48,18 @@
             oddsFeedNode.Append("</matches>");
         }
 
-        private static bool HasSupportedLiveMatch(UserProfile userProfile)
+        private static bool HasSupportedLiveMatch(UserProfile userProfile, IEnumerable<Match> matches)
         {
-            return userProfile.OddsType != null && userProfile.OddsType.Contains(OddsTypeLiveMatch);
+            return userProfile.OddsType != null 
+                && userProfile.OddsType.Contains(OddsTypeLiveMatch)
+                && matches.Any();
         }
 
-        private static bool HaveSupportedDeadBallMatch(UserProfile userProfile)
+        private static bool HaveSupportedDeadBallMatch(UserProfile userProfile, IEnumerable<Match> matches)
         {
-            return userProfile.OddsType != null && userProfile.OddsType.Contains(OddsTypeDeadBallMatch);
+            return userProfile.OddsType != null 
+                && userProfile.OddsType.Contains(OddsTypeDeadBallMatch)
+                && matches.Any();
         }
 
         private void AppendBeginMatches(
