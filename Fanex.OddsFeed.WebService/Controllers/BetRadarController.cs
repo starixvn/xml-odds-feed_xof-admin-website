@@ -1,5 +1,6 @@
 ﻿namespace Fanex.OddsFeed.WebService.Controllers
 {
+    using System;
     using System.Web.Mvc;
     using WebServiceLibrary;
     using WebServiceLibrary.Helpers;
@@ -16,7 +17,7 @@
 
         public ActionResult Index(string userName)
         {
-            if (userName.ToLower() != "betradar")
+            if (!userName.Equals("betradar", StringComparison.CurrentCultureIgnoreCase))
             {
                 return XmlContent(ErrorBuilder.GetUnAuthenticated());
             }

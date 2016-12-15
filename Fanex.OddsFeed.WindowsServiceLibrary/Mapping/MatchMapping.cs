@@ -68,8 +68,8 @@
                 AwaySimplifiedChinese = row["AwayC_UNI"].ToString(),
                 LeagueId = Convert.ToInt32(row["LeagueID"]),
                 LeagueEnglish = row["LeagueName"].ToString(),
-                LeagueSimplifiedChinese = row["LeagueNameCN"].ToString(),
-                LeagueTraditionalChinese = row["LeagueNameC_UNI"].ToString(),
+                LeagueTraditionalChinese = row["LeagueNameCN"].ToString(),
+                LeagueSimplifiedChinese = row["LeagueNameC_UNI"].ToString(),
                 CountryCode = row["CountryCode"].ToString(),
                 IsLive = isLive,
                 TimeStamp = Convert.ToInt32(row["TimeStamp"])

@@ -1,5 +1,6 @@
 ﻿namespace Fanex.OddsFeed.WebService.Controllers
 {
+    using System;
     using System.Web.Mvc;
     using WebServiceLibrary.Helpers;
     using WebServiceLibrary.Services;
@@ -15,7 +16,7 @@
 
         public ActionResult GetSchedule(string userName)
         {
-            if (userName.ToLower() != "betdaq")
+            if (!userName.Equals("betdaq", StringComparison.CurrentCultureIgnoreCase))
             {
                 return Content("You are not authorized to take this action.");
             }
@@ -32,7 +33,7 @@
         
         public ActionResult GetOdds(string userName)
         {
-            if (userName.ToLower() != "betdaq")
+            if (!userName.Equals("betdaq", StringComparison.CurrentCultureIgnoreCase))
             {
                 return Content("You are not authorized to take this action.");
             }

@@ -36,12 +36,18 @@
 
                 if (enableTraditionalChinese)
                 {
-                    content.Append($" tt=\"{SecurityElement.Escape(bettype.NameTraditionalChinese)}\"");
+                    var traditionalChinese = string.IsNullOrEmpty(bettype.NameTraditionalChinese)
+                        ? bettype.NameEnglish
+                        : bettype.NameTraditionalChinese;
+                    content.Append($" tt=\"{SecurityElement.Escape(traditionalChinese)}\"");
                 }
 
                 if (enableSimplifiedChinese)
                 {
-                    content.Append($" ts=\"{SecurityElement.Escape(bettype.NameSimplifiedChinese)}\"");
+                    var simplifiedChinese = string.IsNullOrEmpty(bettype.NameSimplifiedChinese)
+                        ? bettype.NameEnglish
+                        : bettype.NameSimplifiedChinese;
+                    content.Append($" ts=\"{SecurityElement.Escape(simplifiedChinese)}\"");
                 }
 
                 content.Append($" />");
