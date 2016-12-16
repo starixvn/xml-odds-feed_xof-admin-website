@@ -13,7 +13,7 @@
 
         public static bool Contain(string value, string keyword)
         {
-            return value.IndexOf(keyword, StringComparison.CurrentCultureIgnoreCase) > -1;
+            return value.IndexOf(keyword,StringComparison.OrdinalIgnoreCase) > -1;
         }
     }
 }
