@@ -1,36 +1,20 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="ErrorsController.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Thai.Tran" date="2013.1.7">Created</change>
-// </history>
-
-namespace Fanex.OddsFeed.WebService.Controllers
+﻿namespace Fanex.OddsFeed.WebService.Controllers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Linq;
-    using System.Web;
+    using System.Security;
+    using System.Text;
     using System.Web.Mvc;
-    using MvcContrib.ActionResults;
-    using Fanex.OddsFeed.Library;
+    using WebServiceLibrary;
 
-    /// <summary>
-    /// Class ErrorsController.
-    /// </summary>    
     public class ErrorsController : Controller
-    {        
-        // GET: /Error/    
-        public XmlResult Index(Exception exception)
-        {            
-            var error = new Error(4, exception.Message).ToXmlElement();
-            return new XmlResult(error);
+    {
+        public ActionResult Index()
+        {
+            var message = SecurityElement.Escape("Sorry for the inconvenience! We are not able to process your request this time. Please try again later");
+
+            return Content(ErrorBuilder.GetException(message), "application/xml", Encoding.UTF8);
         }
 
-        public ActionResult General(Exception exception)
+        public ActionResult General()
         {
             return Content("General failure", "text/plain");
         }

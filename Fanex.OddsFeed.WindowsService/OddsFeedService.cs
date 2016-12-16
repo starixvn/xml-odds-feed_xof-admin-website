@@ -3,11 +3,12 @@
     using System;
     using System.ServiceProcess;
     using System.Timers;
+    using Common.Configurations;
     using Couchbase;
-    using Fanex.Logging;
-    using Fanex.OddsFeed.Library;
-    using Library.Configurations;
-    using Library.Services;
+    using Logging;
+    using ONEbook.UM.Services;
+    using ONEbook.UM.Services.Impl;
+    using WindowsServiceLibrary.Services;
 
     public partial class OddsFeedService : ServiceBase
     {
@@ -16,6 +17,7 @@
         private int _totalVersion;
 
         private readonly IWindowsOddsFeedService _oddsFeedService;
+        private readonly IMaintenanceService _maintenanceService;
 
         public OddsFeedService()
         {
@@ -24,6 +26,7 @@
             _totalVersion = AppSettings.TotalVersion;
 
             _oddsFeedService = new WindowsOddsFeedService();
+            _maintenanceService = new MaintenanceService();
         }
 
         protected override void OnStart(string[] args)
@@ -74,7 +77,7 @@
 
             try
             {
-                if (!Utilities.IsDownTime())
+                if (!_maintenanceService.IsUnderMaintenance())
                 {
                     var isSuccessful = _oddsFeedService.Update(_currentVersion);
 
@@ -87,6 +90,10 @@
                     {
                         LogService.Error("IP address seems to have changed OR Cache on CouchBase is full. Please restart OddsFeedWindowService ! ");
 
+                        using (var cacheClient = new CouchbaseClient())
+                        {
+                            cacheClient.FlushAll();
+                        }
                     }
                 }
             }
@@ -102,7 +109,7 @@
         {
             _currentVersion = 0;
 
-            if (!Utilities.IsDownTime())
+            if (!_maintenanceService.IsUnderMaintenance())
             {
                 _oddsFeedService.Reset();
             }
@@ -129,6 +136,11 @@
                 _currentVersion = 0;
                 _oddsFeedService.StoreFullChain();
             }
+        }
+
+        private bool IsDownTime()
+        {
+            return _maintenanceService.IsUnderMaintenance();
         }
     }
 }

@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="Utilities.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Thai.Tran" date="2013.06.26">Created</change>
-// </history>
-
-namespace Fanex.OddsFeed.Core
+﻿namespace Fanex.OddsFeed.Core
 {
     using Fanex.Logging;
     using ONEbook.UM.Services;
@@ -22,10 +13,7 @@ namespace Fanex.OddsFeed.Core
     using System.Text.RegularExpressions;
     using System.Web;
     using System.Web.Mvc;
-
-    /// <summary>
-    /// Class Utilities.
-    /// </summary>
+    
     public static class Utilities
     {
         private static readonly IMaintenanceService _maintenanceService = new MaintenanceService();
@@ -63,12 +51,7 @@ namespace Fanex.OddsFeed.Core
             var value = (DateTime)dateTime;
             return ZeroPrefix(value.Hour) + ":" + ZeroPrefix(value.Minute);
         }
-
-        /// <summary>
-        /// Copies to.
-        /// </summary>
-        /// <param name="s">The object s.</param>
-        /// <param name="t">The object t.</param>
+        
         public static void CopyTo(this object s, object t)
         {
             foreach (var pS in s.GetType().GetProperties())
@@ -84,12 +67,7 @@ namespace Fanex.OddsFeed.Core
                 }
             }
         }
-
-        /// <summary>
-        /// Reads the text file.
-        /// </summary>
-        /// <param name="filePath">The file path.</param>
-        /// <returns>Object System.String.</returns>
+        
         public static string ReadTextFile(string filePath)
         {
             try
@@ -105,12 +83,7 @@ namespace Fanex.OddsFeed.Core
                 return string.Empty;
             }
         }
-
-        /// <summary>
-        /// Randomize the string.
-        /// </summary>
-        /// <param name="length">The length.</param>
-        /// <returns>Object System.String.</returns>
+        
         public static string RandomString(int length)
         {
             // returns random string of length specified with characters including: 0-9, a-z, A-Z
@@ -146,13 +119,7 @@ namespace Fanex.OddsFeed.Core
 
             return new string(ca).ToLower();
         }
-
-        /// <summary>
-        /// Firsts the day of week.
-        /// </summary>
-        /// <param name="dayInWeek">The day in week.</param>
-        /// <param name="cultureInfo">The culture information.</param>
-        /// <returns>Object DateTime.</returns>
+        
         public static DateTime FirstDayOfWeek(DateTime dayInWeek, CultureInfo cultureInfo = null)
         {
             if (cultureInfo == null)
@@ -175,11 +142,6 @@ namespace Fanex.OddsFeed.Core
             return DateTime.Now.AddDays(6 - Convert.ToDouble(dayInWeek.DayOfWeek));
         }
 
-        /// <summary>
-        /// Minutes the steps.
-        /// </summary>
-        /// <param name="step">The step for.</param>
-        /// <returns>Object IList{SelectListItem}.</returns>
         public static IList<SelectListItem> MinuteSteps(int step)
         {
             var list = new List<SelectListItem>();
@@ -197,11 +159,6 @@ namespace Fanex.OddsFeed.Core
             return list;
         }
 
-        /// <summary>
-        /// Times the steps.
-        /// </summary>
-        /// <param name="minuteStep">The minute step.</param>
-        /// <returns>Object IList{SelectListItem}.</returns>
         public static IList<SelectListItem> TimeSteps(int minuteStep)
         {
             var list = new List<SelectListItem>();
@@ -398,7 +355,6 @@ namespace Fanex.OddsFeed.Core
                 catch (Exception ex)
                 {
                     LogService.Error(ex.Message, ex);
-                    ////DNAide.Web.DNAideLog.Write("LoadBalancerLibrary Error : " + ex.Message);
                 }
             }
             else

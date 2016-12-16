@@ -1,28 +1,11 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="UpdateAdminPasswordCriteria.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Long.Luu" date="2013.03.05">Created</change>
-// </history>
-
-namespace Fanex.OddsFeed.Core.Criteria.Administrator
+﻿namespace Fanex.OddsFeed.Core.Criteria.Administrator
 {
     using System.ComponentModel.DataAnnotations;
-    using System.Web.Mvc;
     using Core.Web;
-    using Framework.Data;
     using Data.Repository;
-    /// <summary>
-    /// Class UpdateAdminPasswordCriteria.
-    /// </summary>
+
     public class UpdateAdminPasswordCriteria : CriteriaBase
     {  
-        public UpdateAdminPasswordCriteria()
-        {
-        }
-
         [Required]
         public int UserID { get; set; }
 

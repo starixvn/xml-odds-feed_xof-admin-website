@@ -1,47 +1,37 @@
 ﻿namespace Fanex.OddsFeed.WebService.Controllers
 {
     using System.Web.Mvc;
-    using System.Xml;
-    using MvcContrib.ActionResults;
-    using Fanex.OddsFeed.Library;
-    using Fanex.OddsFeed.Library.Attributes;
-    using Fanex.OddsFeed.WebService.Functions;
-    using Library.Services;
+    using WebServiceLibrary;
+    using WebServiceLibrary.Helpers;
+    using WebServiceLibrary.Services;
 
-    public class EventController : Controller
-    {     
-        [Compress]
-        public XmlResult Index(string username)
+    public class EventController : BaseController
+    {
+        public ActionResult Index(string username)
         {
-            var domain = Helper.DomainName(Request.ServerVariables);
-            var filter = new OddsFeedFilter();
-            var data = GetEventFeed(username, HttpContext.Request["t"], domain, filter);
-            return new XmlResult(data);
+            var domain = RequestHelper.DomainName(Request.ServerVariables);
+            var data = GetEventFeed(username, HttpContext.Request["t"], domain);
+
+            return XmlContent(data);
         }
 
-        private static XmlElement GetEventFeed(string username, string timestamp, string domain, OddsFeedFilter filter, bool isSample = false, bool outrights = true)
+        private string GetEventFeed(string username, string timestamp, string domain, bool isSample = false, bool outrights = true)
         {
-            // ignore port number if it presents
-            var domainName = domain;
-
             if (string.IsNullOrEmpty(username))
             {
-                return ErrorCollection.ParameterSufficent();
+                return ErrorBuilder.GetParameterSufficent();
             }
 
-            var ip = Utilities.GetIpAddressOfClient();
-            var partner = new Partner(username, domainName, ip, timestamp);
+            var authenticatedPartner = GetAuthenticatedPartner(username, domain, GetClientIpAddress());
 
-            var err = partner.IsAuthenticated();
-
-            if (err.Id == 0 || isSample)
+            if (string.IsNullOrEmpty(authenticatedPartner.Error) || isSample)
             {
-                var oddsFeedService = new EventOddsFeedService(partner.OddsProfile);
+                var oddsFeedService = new EventFeedService(authenticatedPartner.UserProfile);
 
-                return oddsFeedService.BuildXmlEvent(partner.Timestamp, filter, isSample, outrights);
+                return oddsFeedService.BuildXmlEvent(isSample, outrights);
             }
 
-            return err.ToXmlElement();
+            return authenticatedPartner.Error;
         }
     }
 }

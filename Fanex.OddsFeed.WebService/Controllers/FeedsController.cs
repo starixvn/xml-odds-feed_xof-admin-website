@@ -1,186 +1,63 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="FeedsController.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Thai.Tran" date="2013.1.7">Created</change>
-// </history>
-namespace Fanex.OddsFeed.WebService.Controllers
+﻿namespace Fanex.OddsFeed.WebService.Controllers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Configuration;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Globalization;    
-    using System.Linq;
-    using System.Text;
-    using System.Web;
-    using System.Web.Mvc;        
-    using System.Xml.Linq;    
-    using MvcContrib.ActionResults;    
-    using Fanex.OddsFeed.Library;
-    using Fanex.OddsFeed.Library.Attributes;
-    using Fanex.OddsFeed.Library.Model;
-    using Fanex.OddsFeed.WebService.Functions;
+    using System.Web.Mvc;
+    using OddsFeed.Common.Configurations;
+    using WebServiceLibrary.Helpers;
+    using WebServiceLibrary.Services;
 
-    /// <summary>
-    /// Class FeedsController.
-    /// </summary>    
-    public class FeedsController : Controller
+    public class FeedsController : BaseController
     {
-        /// <summary>
-        /// Indexes the specified username.
-        /// </summary>
-        /// <param name="username">The username.</param>
-        /// <param name="feedname">The feed name.</param>
-        /// <param name="fromid">The from id.</param>
-        /// <returns>Xml Result.</returns>
-        [Compress]
-        public XmlResult Index(string username, string feedname, int? fromid)
-        {            
-            var a = typeof(Country).AssemblyQualifiedName;
-            var typeName = "Fanex.OddsFeed.Library.Model." + feedname +
-                ", Fanex.OddsFeed.Library, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null";
+        private readonly IFeedsService _feedsService;
 
-            var feedType = Type.GetType(typeName, false, true);
-
-            if (feedType == null)
-            {
-                return new XmlResult(new Error(-1, "This feed is not available.").ToXElement());
-            }            
-
-            // try
-            // {            
-            var domain = Helper.DomainName(Request.ServerVariables);                                     
-            var data = GetXmlFeeds(feedType, username, HttpContext.Request["t"], domain, fromid);
-            return new XmlResult(data);
-
-            // }
-            // catch(Exception ex)
-            // {
-            //     return new XmlResult(new Error(-1, ex.Message));
-            // }                       
+        public FeedsController()
+        {
+            _feedsService = new FeedsService();
         }
 
-        /// <summary>
-        /// Gets the JSON.
-        /// </summary>
-        /// <param name="username">The username.</param>
-        /// <param name="feedname">The feed name.</param>
-        /// <param name="fromid">The from id.</param>
-        /// <returns>System String.</returns>
-        public string GetJson(string username, string feedname, int? fromid)
+        [HttpGet]
+        public ActionResult Index(string username, string feedname, int? fromid)
         {
-            var a = typeof(Country).AssemblyQualifiedName;
-            var typeName = "Fanex.OddsFeed.Library.Model." + feedname +
-                ", Fanex.OddsFeed.Library, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null";
+            var ipAddress = GetClientIpAddress();
+            var domainName = RequestHelper.DomainName(Request.ServerVariables);
+            var authenticatedPartner = GetAuthenticatedPartner(username, domainName, ipAddress);
 
-            var feedType = Type.GetType(typeName, false, true);
-
-            if (feedType == null)
+            if (string.IsNullOrEmpty(authenticatedPartner.Error))
             {
-                return new Error(-1, "This feed is not available.").ToString();
+                return XmlContent(authenticatedPartner.Error);
             }
 
-            var domain = Helper.DomainName(Request.ServerVariables);                                     
-            var data = GetJsonFeeds(feedType, username, HttpContext.Request["t"], domain, fromid);
-            return data;            
+            var feedsData = _feedsService.GetFeedsData(
+                FormatType.Xml,
+                feedname,
+                username,
+                domainName,
+                ipAddress, 
+                fromid);
+
+            return XmlContent(feedsData);              
         }
 
-        /// <summary>
-        /// Gets the JSON feeds.
-        /// </summary>
-        /// <param name="feedType">Type of the feed.</param>
-        /// <param name="username">The username.</param>
-        /// <param name="timestamp">The timestamp.</param>
-        /// <param name="domain">The domain.</param>
-        /// <param name="fromid">The from id.</param>
-        /// <returns>System String.</returns>
-        private static string GetJsonFeeds(Type feedType, string username, string timestamp, string domain, int? fromid)
+        [HttpGet]
+        public ActionResult GetJson(string username, string feedname, int? fromid)
         {
-            var ip = Utilities.GetIpAddressOfClient();
+            var ipAddress = GetClientIpAddress();
+            var domainName = RequestHelper.DomainName(Request.ServerVariables);
+            var authenticatedPartner = GetAuthenticatedPartner(username, domainName, ipAddress);
 
-            var err = IsAuthenticated(username, timestamp, domain, ip);
-
-            if (err.HasValue && err.Value.Id == 0)
+            if(string.IsNullOrEmpty(authenticatedPartner.Error))
             {
-                ////try
-                ////{
-                var genericType = typeof(Feeds<>);
-                var a = genericType.MakeGenericType(feedType);
-                dynamic obj = Activator.CreateInstance(a);
-
-                return obj.BuildJson(domain, ip, username, fromid);
-                ////}
-                ////catch (Exception e)
-                ////{
-                ////    Helper.LogError(e.Message);
-                ////    string errMsg = "Sorry for the inconvenience! We are not able to process your request this time. Please try again later";
-                ////    return new Error(4, errMsg).ToXElement();
-                ////}
+                return Content(authenticatedPartner.Error);
             }
+           
+            var feedsData = _feedsService.GetFeedsData(
+                FormatType.Json,
+                feedname,
+                username,
+                domainName,
+                ipAddress, 
+                fromid);
 
-            return err.Value.ToString();
-        }
-
-        /// <summary>
-        /// Gets the XML feeds.
-        /// </summary>
-        /// <param name="feedType">Type of the feed.</param>
-        /// <param name="username">The username.</param>
-        /// <param name="timestamp">The timestamp.</param>
-        /// <param name="domain">The domain.</param>
-        /// <param name="fromid">The from id.</param>
-        /// <returns>X Container.</returns>
-        private static XContainer GetXmlFeeds(Type feedType, string username, string timestamp, string domain, int? fromid)
-        {
-            var ip = Utilities.GetIpAddressOfClient();
-
-            var err = IsAuthenticated(username, timestamp, domain, ip);
-
-            if (err.HasValue && err.Value.Id == 0)
-            {
-                ////try
-                ////{
-                var genericType = typeof(Feeds<>);
-                var a = genericType.MakeGenericType(feedType);
-                dynamic obj = Activator.CreateInstance(a);
-
-                return obj.BuildXmlDocument(domain, ip, username, fromid);
-                ////}
-                ////catch (Exception e)
-                ////{
-                ////    Helper.LogError(e.Message);
-                ////    string errMsg = "Sorry for the inconvenience! We are not able to process your request this time. Please try again later";
-                ////    return new Error(4, errMsg).ToXElement();
-                ////}
-            }
-
-            return err.Value.ToXElement();
-        }
-
-        /// <summary>
-        /// Determines whether the specified username is authenticated.
-        /// </summary>
-        /// <param name="username">The username.</param>
-        /// <param name="timestamp">The timestamp.</param>
-        /// <param name="domain">The domain.</param>
-        /// <param name="ip">The IP to authenticate.</param>
-        /// <returns>Class Error.</returns>
-        private static Error? IsAuthenticated(string username, string timestamp, string domain, string ip)
-        {
-            // ignore port number if it presents
-            var domainName = domain;
-
-            if (string.IsNullOrEmpty(username))
-            {
-                return null; // ErrorCollection.ParameterSufficent();
-            }
-
-            var partner = new Partner(username, domainName, ip, timestamp);
-
-            return partner.IsAuthenticated();
+            return Content(feedsData);        
         }
     }
 }

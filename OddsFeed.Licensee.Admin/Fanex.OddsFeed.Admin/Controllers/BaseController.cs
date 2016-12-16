@@ -63,7 +63,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
             ViewFlags = new ViewFlags
             {
-                IsReCheckin = NapSettings.Settings.ReCheckIn
+                IsReCheckin = NapSettings.Settings.EnableReCheckIn
             };
 
             ViewBag.MinDate = new DateTime(2000, 1, 1);

@@ -120,9 +120,11 @@ namespace Fanex.OddsFeed.Core.Repository.Impl
             // prepare SP parameters
             var hash = criteria.GetSpParams();
 
-            var db = new ObjectDb(criteria.GetSettingKey());
-            db.AssignParamValues(hash);
-            return db.ExecuteReader();
+            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            {
+                db.AssignParamValues(hash);
+                return db.ExecuteReader();
+            }
         }
 
         /// <summary>
@@ -139,9 +141,11 @@ namespace Fanex.OddsFeed.Core.Repository.Impl
             hash = logCriteria.AddSpParams(hash);
             hash = (new ResultCriteria()).AddSpParams(hash);
 
-            var db = new ObjectDb(criteria.GetSettingKey());
-            db.AssignParamValues(hash);
-            return db.ExecuteDataSet();
+            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            {
+                db.AssignParamValues(hash);
+                return db.ExecuteDataSet();
+            }
         }
 
         public DataSet ReturnDataSet(ICriteria criteria)
@@ -149,9 +153,11 @@ namespace Fanex.OddsFeed.Core.Repository.Impl
             // prepare SP parameters
             var hash = criteria.GetSpParams();
 
-            var db = new ObjectDb(criteria.GetSettingKey());
-            db.AssignParamValues(hash);
-            return db.ExecuteDataSet();
+            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            {
+                db.AssignParamValues(hash);
+                return db.ExecuteDataSet();
+            }
         }
 
         /// <summary>

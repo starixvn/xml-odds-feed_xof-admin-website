@@ -1,7 +1,7 @@
-﻿@using Fanex.OddsFeed.Library.Helper
-@using Fanex.OddsFeed.Library.Model
+﻿@using Fanex.OddsFeed.Common.DTO
+@using Fanex.OddsFeed.WebServiceLibrary.Helpers
 
-@model Fanex.OddsFeed.Library.OddsProfile
+@model UserProfile
 @{
     Layout = null;
     var highlightSportType = (string[])ViewBag.HighlightSportType;
@@ -568,20 +568,20 @@
                                         </th>
                                     </tr>
 
-                                    @foreach (System.Data.DataRow row in ViewBag.SportsCol1)
+                                    @foreach (var sport in ViewBag.SportsCol1)
                                     {
                                         var css1 = "";
-                                        if (highlightSportType.Any(i => i == row["SportID"].ToString()))
+                                        if (highlightSportType.Any(sportType => string.Equals(sportType, sport.SportId.ToString())))
                                         {
                                             css1 = "style=color:Red";
                                         }
 
                                         <tr @css1>
                                             <td class="center">
-                                                @row["SportID"].ToString()
+                                                @sport.SportId
                                             </td>
                                             <td>
-                                                @row["SportName"].ToString()
+                                                @sport.SportName
                                             </td>
                                         </tr>
 
@@ -590,20 +590,20 @@
                             </div>
                             <div style="float: left; margin-right: 26px;">
                                 <table style="width: 270px">
-                                    @foreach (System.Data.DataRow row in ViewBag.SportsCol2)
+                                    @foreach (var sport in ViewBag.SportsCol2)
                                     {
                                         var css2 = "";
-                                        if (highlightSportType.Any(i => i == row["SportID"].ToString()))
+                                        if (highlightSportType.Any(sportType => string.Equals(sportType, sport.SportId.ToString())))
                                         {
                                             css2 = "style=color:Red";
                                         }
 
                                         <tr @css2>
                                             <td style="width: 30%" class="center">
-                                                @row["SportID"].ToString()
+                                                @sport.SportId
                                             </td>
                                             <td>
-                                                @row["SportName"].ToString()
+                                                @sport.SportName
                                             </td>
                                         </tr>
                                     }
@@ -611,20 +611,20 @@
                             </div>
                             <div style="float: left;">
                                 <table style="width: 270px;">
-                                    @foreach (System.Data.DataRow row in ViewBag.SportsCol3)
+                                    @foreach (var sport in ViewBag.SportsCol3)
                                     {
                                         var css3 = "";
-                                        if (highlightSportType.Any(i => i == row["SportID"].ToString()))
+                                        if (highlightSportType.Any(sportType => string.Equals(sportType, sport.SportId.ToString())))
                                         {
                                             css3 = "style=color:Red";
                                         }
 
                                         <tr @css3>
                                             <td style="width: 30%" class="center">
-                                                @row["SportID"].ToString()
+                                                @sport.SportId
                                             </td>
                                             <td>
-                                                @row["SportName"].ToString()
+                                                @sport.SportName
                                             </td>
                                         </tr>
                                     }
@@ -679,11 +679,10 @@
                                         </th>
                                         
                                     </tr>
-                                    @foreach (System.Data.DataRow row in ViewBag.BetTypesCol1)
+                                    @foreach (var bettype in ViewBag.BetTypesCol1)
                                     {
-                                        int betTypeId = Convert.ToInt32(row["BetTypeID"]);
                                         var css4 = "";
-                                        if (highlightBetType.Any(i => i == betTypeId.ToString()))
+                                        if (highlightBetType.Any(bt => string.Equals(bt, bettype.BetTypeId.ToString())))
                                         {
                                             css4 = "style=color:Red";
                                         }
@@ -691,14 +690,14 @@
                                         <tr @css4>
                                             <td class="center" valign="middle">
                                                 <div class="bettype-inner-div">
-                                                    @betTypeId.ToString()
+                                                    @bettype.BetTypeId
                                                 </div>
                                             </td>
                                             <td>
-                                                @row["BetTypeName"].ToString()
+                                                @bettype.BetTypeName
                                             </td>
                                             <td>
-                                                @BetTypeHelper.GetBetTypeName(betTypeList, betTypeId)
+                                                @BetTypeHelper.GetBetTypeName(betTypeList, bettype.BetTypeId)
                                             </td>
                                         </tr>
                                     }
@@ -706,11 +705,10 @@
                             </div>
                             <div style="float: left; margin-right: 26px;">
                                 <table style="width: 270px">
-                                    @foreach (System.Data.DataRow row in ViewBag.BetTypesCol2)
+                                    @foreach (var bettype in ViewBag.BetTypesCol2)
                                     {
-                                        int betTypeId = Convert.ToInt32(row["BetTypeID"]);
                                         var css5 = "";
-                                        if (highlightBetType.Any(i => i == betTypeId.ToString()))
+                                        if (highlightBetType.Any(bt => string.Equals(bt, bettype.BetTypeId.ToString())))
                                         {
                                             css5 = "style=color:Red";
                                         }
@@ -718,14 +716,14 @@
                                         <tr @css5>
                                             <td style="width: 30%" class="center" valign="middle">
                                                 <div class="bettype-inner-div">
-                                                    @betTypeId.ToString()
+                                                    @bettype.BetTypeId
                                                 </div>
                                             </td>
                                             <td>
-                                                @row["BetTypeName"].ToString()
+                                                @bettype.BetTypeName
                                             </td>
                                             <td>
-                                                @BetTypeHelper.GetBetTypeName(betTypeList, betTypeId)
+                                                @BetTypeHelper.GetBetTypeName(betTypeList, bettype.BetTypeId)
                                             </td>
                                         </tr>
                                     }
@@ -733,11 +731,10 @@
                             </div>
                             <div style="float: left;">
                                 <table style="width: 270px;">
-                                    @foreach (System.Data.DataRow row in ViewBag.BetTypesCol3)
+                                    @foreach (var bettype in ViewBag.BetTypesCol3)
                                     {
-                                        int betTypeId = Convert.ToInt32(row["BetTypeID"]);
                                         var css6 = "";
-                                        if (highlightBetType.Any(i => i == betTypeId.ToString()))
+                                        if (highlightBetType.Any(bt => string.Equals(bt, bettype.BetTypeId.ToString())))
                                         {
                                             css6 = "style=color:Red";
                                         }
@@ -745,14 +742,14 @@
                                         <tr @css6>
                                             <td style="width: 30%" class="center" valign="middle">
                                                 <div class="bettype-inner-div">
-                                                    @betTypeId.ToString()
+                                                    @bettype.BetTypeId
                                                 </div>
                                             </td>                                            
                                             <td>
-                                                @row["BetTypeName"].ToString()
+                                                @bettype.BetTypeName
                                             </td>
                                             <td>
-                                                @BetTypeHelper.GetBetTypeName(betTypeList, betTypeId)
+                                                @BetTypeHelper.GetBetTypeName(betTypeList, bettype.BetTypeId)
                                             </td>
                                         </tr>
                                     }
@@ -802,14 +799,14 @@
                                             Country Name
                                         </th>
                                     </tr>
-                                    @foreach (System.Data.DataRow row in ViewBag.CountriesCol1)
+                                    @foreach (var country in ViewBag.CountriesCol1)
                                                 {
                                         <tr>
                                             <td class="center">
-                                                @row["CountryID"].ToString()
+                                                @country.CountryId
                                             </td>
                                             <td>
-                                                @row["CountryName"].ToString()
+                                                @country.CountryName
                                             </td>
                                         </tr>
                                     }
@@ -817,14 +814,14 @@
                             </div>
                             <div style="float: left; margin-right: 26px;">
                                 <table style="width: 270px">
-                                    @foreach (System.Data.DataRow row in ViewBag.CountriesCol2)
+                                    @foreach (var country in ViewBag.CountriesCol2)
                                                 {
                                         <tr>
                                             <td style="width: 30%" class="center">
-                                                @row["CountryID"].ToString()
+                                                @country.CountryId
                                             </td>
                                             <td>
-                                                @row["CountryName"].ToString()
+                                                @country.CountryName
                                             </td>
                                         </tr>
                                     }
@@ -832,14 +829,14 @@
                             </div>
                             <div style="float: left;">
                                 <table style="width: 270px;">
-                                    @foreach (System.Data.DataRow row in ViewBag.CountriesCol3)
+                                    @foreach (var country in ViewBag.CountriesCol3)
                                                 {
                                         <tr>
                                             <td style="width: 30%" class="center">
-                                                @row["CountryID"].ToString()
+                                                @country.CountryId
                                             </td>
                                             <td>
-                                                @row["CountryName"].ToString()
+                                                @country.CountryName
                                             </td>
                                         </tr>
                                     }
