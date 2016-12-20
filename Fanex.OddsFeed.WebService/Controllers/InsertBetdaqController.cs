@@ -38,9 +38,9 @@
         private string InsertBetdaq(string username, string domainName)
         {
             var ipAddress = GetClientIpAddress();
-            var isAuthenticated = IsAuthenticatedPartner(username, domainName, ipAddress);
+            var authenticatedPartner = GetAuthenticatedPartner(username, domainName, ipAddress);
 
-            if (!isAuthenticated)
+            if (!string.IsNullOrEmpty(authenticatedPartner.Error))
             {
                 return FailedBadOddsId;
             }

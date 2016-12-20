@@ -23,12 +23,20 @@
                 var profileDataList = db.Query<ProfileData>(inputParams);
                 var outputParams = db.GetOuputParams();
 
-                return new AuthenticatedPartner
+                var authenticatedPartner = new AuthenticatedPartner
                 {
                     SystemName = Converter.ToString2(outputParams["systemname"]),
                     UserProfile = profileDataList.Count() == 0 ? null : GetUserProfile(profileDataList.FirstOrDefault()),
                     Error = ErrorBuilder.GetError(Converter.ToInt(outputParams[ErrorCode]), outputParams[ErrorMsg].ToString())
                 };
+
+                if (string.IsNullOrEmpty(authenticatedPartner.Error) 
+                    && authenticatedPartner.UserProfile == null)
+                {
+                    authenticatedPartner.Error = ErrorBuilder.GetUnAuthenticated();
+                }
+
+                return authenticatedPartner;
             }
         }
 

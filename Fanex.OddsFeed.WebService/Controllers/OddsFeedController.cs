@@ -40,7 +40,7 @@
             var ipAddress = GetClientIpAddress();
             var authenticatedPartner = GetAuthenticatedPartner(username, domainName, ipAddress);
 
-            return !string.IsNullOrEmpty(authenticatedPartner.Error) || authenticatedPartner.UserProfile == null
+            return !string.IsNullOrEmpty(authenticatedPartner.Error)
                 ? XmlContent(authenticatedPartner.Error)
                 : XmlContent(GetOddsFeed(new OddsFeedsModel
                 {
@@ -69,8 +69,7 @@
             var ipAddress = GetClientIpAddress();
             var authenticatedPartner = GetAuthenticatedPartner(username, domainName, ipAddress);
 
-            if (!string.IsNullOrEmpty(authenticatedPartner.Error) 
-                || authenticatedPartner.UserProfile == null)
+            if (!string.IsNullOrEmpty(authenticatedPartner.Error))
             {
                 return Content(authenticatedPartner.Error);
             }
@@ -93,7 +92,7 @@
             ViewBag.Sports = _userService.GetSports(username);
             ViewBag.Bettypes = _userService.GetBetTypes(username);
 
-            if (authenticatedPartner.UserProfile != null)
+            if (string.IsNullOrEmpty(authenticatedPartner.Error))
             {
                 return View("Help", authenticatedPartner.UserProfile);
             }
@@ -114,8 +113,7 @@
             var ipAddress = GetClientIpAddress();
             var authenticatedPartner = GetAuthenticatedPartner(username, domainName, ipAddress);
 
-            if (!string.IsNullOrEmpty(authenticatedPartner.Error) 
-                || authenticatedPartner.UserProfile == null)
+            if (!string.IsNullOrEmpty(authenticatedPartner.Error))
             {
                 return Content(authenticatedPartner.Error);
             }
@@ -139,7 +137,7 @@
 
             GenerateAppendixData(username);
 
-            if (authenticatedPartner.UserProfile != null)
+            if (string.IsNullOrEmpty(authenticatedPartner.Error))
             {
                 return View("NewHelp", authenticatedPartner.UserProfile);
             }

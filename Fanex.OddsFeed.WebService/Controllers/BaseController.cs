@@ -47,20 +47,6 @@
             });
         }
 
-        protected bool IsAuthenticatedPartner(string userName, string domainName, string ip)
-        {
-            var criteria = new CheckPermissionCriteria
-            {
-                UserName = userName,
-                DomainName = domainName,
-                Ip = ip
-            };
-
-            var result = _partnerRepository.GetAuthenticatedPartner(criteria);
-
-            return string.IsNullOrEmpty(result.Error);
-        }
-
         protected static string GetClientIpAddress()
         {
             return RequestHelper.GetClientIpAddress();
