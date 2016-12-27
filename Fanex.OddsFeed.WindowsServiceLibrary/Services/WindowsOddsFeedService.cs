@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Data;
+    using System.Diagnostics;
     using System.Linq;
     using System.Threading;
     using Common;
@@ -81,9 +82,24 @@
 
         private IEnumerable<Match> GetDeadballMatches(IList<BetTypeSchema> betTypeSchemas)
         {
+            LogService.Info("Begin call Deadball Odds Data");
+
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+
             using (var deadballOdds = DbAccess.GetDeadballOddsData())
             {
-                return _matchMapping.GetMatches(deadballOdds.Tables[0], betTypeSchemas, false, GetOddFlexs(deadballOdds.Tables[1]));
+                stopwatch.Stop();
+                LogService.Info($"End call Deadball Odds Data with time elapsed: {stopwatch.Elapsed}");
+                stopwatch.Restart();
+                LogService.Info("Begin mapping data");
+
+                var data = _matchMapping.GetMatches(deadballOdds.Tables[0], betTypeSchemas, false, GetOddFlexs(deadballOdds.Tables[1]));
+
+                stopwatch.Stop();
+                LogService.Info($"End mapping data with time elapsed: {stopwatch.Elapsed}");
+
+                return data;
             }
         }
 
