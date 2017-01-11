@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Data;
-    using System.Diagnostics;
     using System.Linq;
     using System.Threading;
     using Common;
@@ -49,9 +48,6 @@
 
             try
             {
-                var stopwatch = new Stopwatch();
-                stopwatch.Start();
-
                 var betTypeSchemas = GetBetTypeSchemas();
                 var liveMatches = GetLiveMatches(betTypeSchemas);
                 var deadBallMatches = GetDeadballMatches(betTypeSchemas);
@@ -62,8 +58,6 @@
                 result = result && StoreData(CacheKeys.DeadballMatchKey(_cachePrefix, currentVersion), deadBallMatches, _numberTries);
                 result = result && StoreData(CacheKeys.OutrightKey(_cachePrefix, currentVersion), outrights, _numberTries);
 
-                stopwatch.Stop();
-                LogService.Info($"End mapping data with time elapsed: {stopwatch.Elapsed}");
                 return result;
             }
             catch (Exception exception)
@@ -79,27 +73,16 @@
 
         private IEnumerable<Match> GetLiveMatches(IList<BetTypeSchema> betTypeSchemas) 
         {
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
             using (var liveOdds = DbAccess.GetLiveOddsData())
             {
-                stopwatch.Stop();
-                LogService.Info($"End call Live Odds Data with time elapsed: {stopwatch.Elapsed}");
-
                 return _matchMapping.GetMatches(liveOdds.Tables[0], betTypeSchemas, true, GetOddsFlexGroups(liveOdds.Tables[1]));
             }
         }
 
         private IEnumerable<Match> GetDeadballMatches(IList<BetTypeSchema> betTypeSchemas)
         {
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
-
             using (var deadballOdds = DbAccess.GetDeadballOddsData())
             {
-                stopwatch.Stop();
-                LogService.Info($"End call Deadball Odds Data with time elapsed: {stopwatch.Elapsed}");
-                
                 return _matchMapping.GetMatches(deadballOdds.Tables[0], betTypeSchemas, false, GetOddsFlexGroups(deadballOdds.Tables[1]));
             }
         }
