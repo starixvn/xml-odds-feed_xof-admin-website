@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Data;
     using System.Linq;
+    using System.Threading.Tasks;
     using Common.Converters;
     using Common.DTO;
     using Common.Schemas;
@@ -14,41 +15,39 @@
             DataTable dataTable,
             IEnumerable<BetTypeSchema> schemas,
             bool isLive,
-            IEnumerable<OddFlex> oddsFlexs)
+            IEnumerable<OddFlexGroup> oddsFlexs)
         {
             var matchId = 0;
             var matches = new List<Match>();
 
-            foreach (DataRow row in dataTable.Rows)
+            Parallel.ForEach(dataTable.AsEnumerable(), row =>
             {
                 var currentMatchId = Convert.ToInt32(row["MatchID"]);
                 var matchOdds = GetMatchOdds(schemas, row, oddsFlexs);
                 var match = CreateMatch(row, isLive);
 
-                if (matchOdds == null)
+                if (matchOdds != null)
                 {
-                    continue;
-                }
-
-                if (matchId != currentMatchId)
-                {
-                    match.MatchId = currentMatchId;
-                    match.MatchOddsList = new List<MatchOdds> { matchOdds };
-
-                    matches.Add(match);
-
-                    matchId = currentMatchId;
-                }
-                else
-                {
-                    if (matchOdds.TimeStamp > match.TimeStamp)
+                    if (matchId != currentMatchId)
                     {
-                        match.TimeStamp = matchOdds.TimeStamp;
-                    }
+                        match.MatchId = currentMatchId;
+                        match.MatchOddsList = new List<MatchOdds> { matchOdds };
 
-                    matches.Last().MatchOddsList.Add(matchOdds);
+                        matches.Add(match);
+
+                        matchId = currentMatchId;
+                    }
+                    else
+                    {
+                        if (matchOdds.TimeStamp > match.TimeStamp)
+                        {
+                            match.TimeStamp = matchOdds.TimeStamp;
+                        }
+
+                        matches.Last().MatchOddsList.Add(matchOdds);
+                    }
                 }
-            }
+            });
 
             return matches;
         }
@@ -76,7 +75,7 @@
             };
         }
 
-        private MatchOdds GetMatchOdds(IEnumerable<BetTypeSchema> schemas, DataRow row, IEnumerable<OddFlex> oddsFlexs)
+        private static MatchOdds GetMatchOdds(IEnumerable<BetTypeSchema> schemas, DataRow row, IEnumerable<OddFlexGroup> oddsFlexs)
         {
             var schema = FindBetTypeSchema(Convert.ToInt32(row["BetType"]), schemas);
 
@@ -89,21 +88,42 @@
 
             matchOdds.BetChoices = schema.IsOddsFlex 
                                         ? GetOddsFlexBetChoices(schema, row, oddsFlexs)
-                                        : GetNormalBetChoices(schema, row);
+                                        : GetNormalBetChoices(schema, row);   
 
             return matchOdds;
         }
 
-        private IEnumerable<BetChoice> GetNormalBetChoices(BetTypeSchema schema, DataRow row)
+        private static IEnumerable<BetChoice> GetNormalBetChoices(BetTypeSchema schema, DataRow row)
         {
             return schema.Reserve == null ? MapBetChoices(schema.BetChoices, row) : MapBetChoicesReserve(schema, row);
         }
 
-        private static IEnumerable<BetChoice> GetOddsFlexBetChoices(BetTypeSchema schema, DataRow row, IEnumerable<OddFlex> oddsFlexs)
+        private static IEnumerable<BetChoice> GetOddsFlexBetChoices(BetTypeSchema schema, DataRow row, IEnumerable<OddFlexGroup> oddFlexGroups)
         {
-            var filterOddsFlexs = oddsFlexs.Where(odds => odds.OddId == Convert.ToInt32(row["oddsid"]));
+            var betChoices = new List<BetChoice>();
+            var oddsId = Convert.ToInt32(row["oddsid"]);
+            var oddsFlexGroup = oddFlexGroups.FirstOrDefault(odds => odds.OddsId == oddsId);
 
-            return MapBetChoicesOddsFlex(schema.BetChoices, filterOddsFlexs); ;
+            if (oddsFlexGroup == null)
+            {
+                return betChoices;
+            }
+
+            foreach (var betChoiceSchema in schema.BetChoices)
+            {
+                var oddsFlex = oddsFlexGroup.OddsFlexs.FirstOrDefault(odds =>odds.BetChoice.Equals(betChoiceSchema.DataAttribute));
+
+                if (oddsFlex != null)
+                {
+                    betChoices.Add(new BetChoice
+                    {
+                        Code = betChoiceSchema.MatchAttribute,
+                        Value = ConvertMalayToDecimalOddsString(oddsFlex.Odds)
+                    });
+                }
+            }
+
+            return betChoices;
         }
 
         private static MatchOdds CreateMatchOdds(BetTypeSchema schema, DataRow row)
@@ -117,27 +137,7 @@
             };
         }
 
-        private static IEnumerable<BetChoice> MapBetChoicesOddsFlex(IEnumerable<BetChoiceSchema> betChoiceSchemas, IEnumerable<OddFlex> oddsFlexs)
-        {
-            var betChoices = new List<BetChoice>();
-
-            foreach (var betChoiceSchema in betChoiceSchemas)
-            {
-                var value = oddsFlexs.Where(odds => odds.BetChoice == betChoiceSchema.DataAttribute)
-                    .Select(odds => odds.Odds)
-                    .FirstOrDefault();
-
-                betChoices.Add(new BetChoice
-                {
-                    Code = betChoiceSchema.MatchAttribute,
-                    Value = ConvertMalayToDecimalOddsString(value)
-                });
-            }
-
-            return betChoices;
-        }
-
-        private IEnumerable<BetChoice> MapBetChoices(IEnumerable<BetChoiceSchema> betChoiceSchemas, DataRow row)
+        private static IEnumerable<BetChoice> MapBetChoices(IEnumerable<BetChoiceSchema> betChoiceSchemas, DataRow row)
         {
             var betChoices = new List<BetChoice>();
 

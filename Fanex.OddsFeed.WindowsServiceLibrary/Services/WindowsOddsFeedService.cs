@@ -49,6 +49,9 @@
 
             try
             {
+                var stopwatch = new Stopwatch();
+                stopwatch.Start();
+
                 var betTypeSchemas = GetBetTypeSchemas();
                 var liveMatches = GetLiveMatches(betTypeSchemas);
                 var deadBallMatches = GetDeadballMatches(betTypeSchemas);
@@ -59,6 +62,8 @@
                 result = result && StoreData(CacheKeys.DeadballMatchKey(_cachePrefix, currentVersion), deadBallMatches, _numberTries);
                 result = result && StoreData(CacheKeys.OutrightKey(_cachePrefix, currentVersion), outrights, _numberTries);
 
+                stopwatch.Stop();
+                LogService.Info($"End mapping data with time elapsed: {stopwatch.Elapsed}");
                 return result;
             }
             catch (Exception exception)
@@ -74,16 +79,19 @@
 
         private IEnumerable<Match> GetLiveMatches(IList<BetTypeSchema> betTypeSchemas) 
         {
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
             using (var liveOdds = DbAccess.GetLiveOddsData())
             {
-                return _matchMapping.GetMatches(liveOdds.Tables[0], betTypeSchemas, true, GetOddFlexs(liveOdds.Tables[1]));
+                stopwatch.Stop();
+                LogService.Info($"End call Live Odds Data with time elapsed: {stopwatch.Elapsed}");
+
+                return _matchMapping.GetMatches(liveOdds.Tables[0], betTypeSchemas, true, GetOddsFlexGroups(liveOdds.Tables[1]));
             }
         }
 
         private IEnumerable<Match> GetDeadballMatches(IList<BetTypeSchema> betTypeSchemas)
         {
-            LogService.Info("Begin call Deadball Odds Data");
-
             var stopwatch = new Stopwatch();
             stopwatch.Start();
 
@@ -91,15 +99,8 @@
             {
                 stopwatch.Stop();
                 LogService.Info($"End call Deadball Odds Data with time elapsed: {stopwatch.Elapsed}");
-                stopwatch.Restart();
-                LogService.Info("Begin mapping data");
-
-                var data = _matchMapping.GetMatches(deadballOdds.Tables[0], betTypeSchemas, false, GetOddFlexs(deadballOdds.Tables[1]));
-
-                stopwatch.Stop();
-                LogService.Info($"End mapping data with time elapsed: {stopwatch.Elapsed}");
-
-                return data;
+                
+                return _matchMapping.GetMatches(deadballOdds.Tables[0], betTypeSchemas, false, GetOddsFlexGroups(deadballOdds.Tables[1]));
             }
         }
 
@@ -111,7 +112,7 @@
             }
         }
 
-        private static IList<OddFlex> GetOddFlexs(DataTable table)
+        private static IEnumerable<OddFlex> GetOddFlexs(DataTable table)
         {
             return table.AsEnumerable()
                 .Select(
@@ -123,6 +124,40 @@
                     Odds = Convert.ToDecimal(row["odds"]),
                     OddsInfo = row["OddsInfo"].ToString()
                 }).ToList();
+        }
+
+        private static IEnumerable<OddFlexGroup> GetOddsFlexGroups(DataTable table)
+        {
+            var oddsFlexGroups = new List<OddFlexGroup>();
+
+            foreach (DataRow row in table.Rows)
+            {
+                var oddsId = Convert.ToInt32(row["oddsid"]);
+                var oddsFlex = new OddFlex
+                {
+                    BetChoice = row["betChoice"].ToString(),
+                    BetType = Convert.ToInt32(row["bettype"]),
+                    OddId = oddsId,
+                    Odds = Convert.ToDecimal(row["odds"]),
+                    OddsInfo = row["OddsInfo"].ToString()
+                };
+                var oddsFlexGroup = oddsFlexGroups.FirstOrDefault(odds => odds.OddsId == oddsId);
+
+                if (oddsFlexGroup == null)
+                {
+                    oddsFlexGroups.Add(new OddFlexGroup
+                    {
+                        OddsId = oddsId,
+                        OddsFlexs = new List<OddFlex> { oddsFlex }
+                    });
+                }
+                else
+                {
+                    oddsFlexGroup.OddsFlexs.Add(oddsFlex);
+                }
+            }
+
+            return oddsFlexGroups;
         }
 
         public static IList<BetTypeSchema> GetBetTypeSchemas()

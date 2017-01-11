@@ -98,6 +98,7 @@
     <Compile Include="DTO\MatchOdds.cs" />
     <Compile Include="DTO\OddFlex.cs" />
     <Compile Include="DTO\OddsData.cs" />
+    <Compile Include="DTO\OddFlexGroup.cs" />
     <Compile Include="DTO\Outright.cs" />
     <Compile Include="DTO\OutrightOdds.cs" />
     <Compile Include="DTO\PartnerBetType.cs" />
