@@ -740,17 +740,17 @@
             }
         }
 
-        private static IEnumerable<OddFlexGroup> GetOddFlexGroups()
+        private static IEnumerable<OddsFlexGroup> GetOddFlexGroups()
         {
             return new[]
             {
-                new OddFlexGroup
+                new OddsFlexGroup
                 {
                     OddsId  =1,
                     OddsFlexs = new []
                     {
-                        new OddFlex { OddId = 1, Odds = 1, BetType = 3, BetChoice = "0:0" },
-                        new OddFlex { OddId = 1, Odds = 4, BetType = 3, BetChoice = "0:1" }
+                        new OddsFlex { OddId = 1, Odds = 1, BetType = 3, BetChoice = "0:0" },
+                        new OddsFlex { OddId = 1, Odds = 4, BetType = 3, BetChoice = "0:1" }
                     }
                 }
             };

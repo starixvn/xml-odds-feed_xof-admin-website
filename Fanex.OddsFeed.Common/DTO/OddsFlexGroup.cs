@@ -2,10 +2,10 @@
 {
     using System.Collections.Generic;
 
-    public class OddFlexGroup
+    public class OddsFlexGroup
     {
         public int OddsId { get; set; }
 
-        public IList<OddFlex> OddsFlexs { get; set; }
+        public IList<OddsFlex> OddsFlexs { get; set; }
     }
 }

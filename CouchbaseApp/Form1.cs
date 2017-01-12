@@ -14,7 +14,6 @@ namespace CouchbaseApp
         public Form1()
         {
             InitializeComponent();
-            DbSettingProviderManager.Current.Start();
         }
 
         private void btnVersionFullChain_Click(object sender, EventArgs e)

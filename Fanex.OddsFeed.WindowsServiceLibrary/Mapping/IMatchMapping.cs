@@ -11,6 +11,6 @@
             DataTable dataTable,
             IEnumerable<BetTypeSchema> schemas,
             bool isLive,
-            IEnumerable<OddFlexGroup> oddsFlexs);
+            IEnumerable<OddsFlexGroup> oddsFlexs);
     }
 }

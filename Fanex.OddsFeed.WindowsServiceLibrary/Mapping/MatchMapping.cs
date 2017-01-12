@@ -15,7 +15,7 @@
             DataTable dataTable,
             IEnumerable<BetTypeSchema> schemas,
             bool isLive,
-            IEnumerable<OddFlexGroup> oddsFlexs)
+            IEnumerable<OddsFlexGroup> oddsFlexs)
         {
             var matchId = 0;
             var matches = new List<Match>();
@@ -75,7 +75,7 @@
             };
         }
 
-        private static MatchOdds GetMatchOdds(IEnumerable<BetTypeSchema> schemas, DataRow row, IEnumerable<OddFlexGroup> oddsFlexs)
+        private static MatchOdds GetMatchOdds(IEnumerable<BetTypeSchema> schemas, DataRow row, IEnumerable<OddsFlexGroup> oddsFlexs)
         {
             var schema = FindBetTypeSchema(Convert.ToInt32(row["BetType"]), schemas);
 
@@ -98,7 +98,7 @@
             return schema.Reserve == null ? MapBetChoices(schema.BetChoices, row) : MapBetChoicesReserve(schema, row);
         }
 
-        private static IEnumerable<BetChoice> GetOddsFlexBetChoices(BetTypeSchema schema, DataRow row, IEnumerable<OddFlexGroup> oddFlexGroups)
+        private static IEnumerable<BetChoice> GetOddsFlexBetChoices(BetTypeSchema schema, DataRow row, IEnumerable<OddsFlexGroup> oddFlexGroups)
         {
             var betChoices = new List<BetChoice>();
             var oddsId = Convert.ToInt32(row["oddsid"]);

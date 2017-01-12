@@ -127,11 +127,11 @@
             }
         }
 
-        private static IEnumerable<OddFlex> GetOddFlexs(DataTable table)
+        private static IEnumerable<OddsFlex> GetOddFlexs(DataTable table)
         {
             return table.AsEnumerable()
                 .Select(
-                row => new OddFlex
+                row => new OddsFlex
                 {
                     BetChoice = row["betChoice"].ToString(),
                     BetType = Convert.ToInt32(row["bettype"]),
@@ -141,14 +141,14 @@
                 }).ToList();
         }
 
-        private static IEnumerable<OddFlexGroup> GetOddsFlexGroups(DataTable table)
+        private static IEnumerable<OddsFlexGroup> GetOddsFlexGroups(DataTable table)
         {
-            var oddsFlexGroups = new List<OddFlexGroup>();
+            var oddsFlexGroups = new List<OddsFlexGroup>();
 
             foreach (DataRow row in table.Rows)
             {
                 var oddsId = Convert.ToInt32(row["oddsid"]);
-                var oddsFlex = new OddFlex
+                var oddsFlex = new OddsFlex
                 {
                     BetChoice = row["betChoice"].ToString(),
                     BetType = Convert.ToInt32(row["bettype"]),
@@ -160,10 +160,10 @@
 
                 if (oddsFlexGroup == null)
                 {
-                    oddsFlexGroups.Add(new OddFlexGroup
+                    oddsFlexGroups.Add(new OddsFlexGroup
                     {
                         OddsId = oddsId,
-                        OddsFlexs = new List<OddFlex> { oddsFlex }
+                        OddsFlexs = new List<OddsFlex> { oddsFlex }
                     });
                 }
                 else
