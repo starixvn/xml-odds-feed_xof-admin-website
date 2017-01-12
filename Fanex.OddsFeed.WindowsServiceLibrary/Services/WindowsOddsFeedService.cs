@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Data;
+    using System.Diagnostics;
     using System.Linq;
     using System.Threading;
     using Common;
@@ -30,6 +31,14 @@
             _outrightMapping = new OutrightMapping();
         }
 
+        public TimeSpan FullTime { get; set; }
+
+        public TimeSpan LiveballTime { get; set; }
+
+        public TimeSpan DeadballTime { get; set; }
+
+        public TimeSpan OutrightTime { get; set; }
+
         public void Reset()
         {
             StoreData(AppSettings.BetTypeSchemaKey, new List<BetTypeSchema>(), 0);
@@ -48,6 +57,9 @@
 
             try
             {
+                var stopwatch = new Stopwatch();
+                stopwatch.Start();
+
                 var betTypeSchemas = GetBetTypeSchemas();
                 var liveMatches = GetLiveMatches(betTypeSchemas);
                 var deadBallMatches = GetDeadballMatches(betTypeSchemas);
@@ -57,6 +69,10 @@
                 result = result && StoreData(CacheKeys.LiveMatchKey(_cachePrefix, currentVersion), liveMatches, _numberTries);
                 result = result && StoreData(CacheKeys.DeadballMatchKey(_cachePrefix, currentVersion), deadBallMatches, _numberTries);
                 result = result && StoreData(CacheKeys.OutrightKey(_cachePrefix, currentVersion), outrights, _numberTries);
+
+                stopwatch.Stop();
+
+                FullTime = stopwatch.Elapsed;
 
                 return result;
             }
@@ -73,24 +89,40 @@
 
         private IEnumerable<Match> GetLiveMatches(IList<BetTypeSchema> betTypeSchemas) 
         {
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+
             using (var liveOdds = DbAccess.GetLiveOddsData())
             {
+                stopwatch.Stop();
+                LiveballTime = stopwatch.Elapsed;
+
                 return _matchMapping.GetMatches(liveOdds.Tables[0], betTypeSchemas, true, GetOddsFlexGroups(liveOdds.Tables[1]));
             }
         }
 
         private IEnumerable<Match> GetDeadballMatches(IList<BetTypeSchema> betTypeSchemas)
         {
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
             using (var deadballOdds = DbAccess.GetDeadballOddsData())
             {
+                stopwatch.Stop();
+                DeadballTime = stopwatch.Elapsed;
+
                 return _matchMapping.GetMatches(deadballOdds.Tables[0], betTypeSchemas, false, GetOddsFlexGroups(deadballOdds.Tables[1]));
             }
         }
 
         private IEnumerable<Outright> GetOutrights()
         {
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
             using (var outrightOdds = DbAccess.GetOutrightOddsData())
             {
+                stopwatch.Stop();
+                OutrightTime = stopwatch.Elapsed;
+
                 return _outrightMapping.GetOutrights(outrightOdds);
             }
         }
