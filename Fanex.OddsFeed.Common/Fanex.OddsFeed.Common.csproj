@@ -104,6 +104,8 @@
     <Compile Include="DTO\PartnerBetType.cs" />
     <Compile Include="DTO\PartnerLeague.cs" />
     <Compile Include="DTO\PartnerSport.cs" />
+    <Compile Include="DTO\SafeEnumerator.cs" />
+    <Compile Include="DTO\SafeList.cs" />
     <Compile Include="DTO\Sport.cs" />
     <Compile Include="DTO\Team.cs" />
     <Compile Include="DTO\UserProfile.cs" />

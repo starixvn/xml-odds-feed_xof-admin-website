@@ -11,45 +11,50 @@
 
     public class MatchMapping : IMatchMapping
     {
-        public IEnumerable<Match> GetMatches(
+        public SafeList<Match> GetMatches(
             DataTable dataTable,
             IEnumerable<BetTypeSchema> schemas,
             bool isLive,
             IEnumerable<OddsFlexGroup> oddsFlexs)
         {
-            var matchId = 0;
-            var matches = new List<Match>();
+            var matches = new SafeList<Match>();
 
-            Parallel.ForEach(dataTable.AsEnumerable(), row =>
+            var task = Task.Factory.StartNew(() =>
             {
-                var currentMatchId = Convert.ToInt32(row["MatchID"]);
-                var matchOdds = GetMatchOdds(schemas, row, oddsFlexs);
-                var match = CreateMatch(row, isLive);
-
-                if (matchOdds != null)
+                Parallel.ForEach(dataTable.AsEnumerable(), row =>
                 {
-                    if (matchId != currentMatchId)
+                    var matchOdds = GetMatchOdds(schemas, row, oddsFlexs);
+
+                    if (matchOdds != null)
                     {
-                        match.MatchId = currentMatchId;
-                        match.MatchOddsList = new List<MatchOdds> { matchOdds };
-
-                        matches.Add(match);
-
-                        matchId = currentMatchId;
+                        AddMatchOdds(row, matches, matchOdds, isLive);
                     }
-                    else
-                    {
-                        if (matchOdds.TimeStamp > match.TimeStamp)
-                        {
-                            match.TimeStamp = matchOdds.TimeStamp;
-                        }
-
-                        matches.Last().MatchOddsList.Add(matchOdds);
-                    }
-                }
+                });
             });
 
+            task.Wait();
+
             return matches;
+        }
+
+        private static void AddMatchOdds(DataRow row, SafeList<Match> matches, MatchOdds matchOdds, bool isLive)
+        {
+            var currentMatchId = Convert.ToInt32(row["MatchID"]);
+            var existedMatch = matches.FirstOrDefault(m => m.MatchId == currentMatchId);
+
+            if (existedMatch != null)
+            {
+                existedMatch.MatchOddsList.Add(matchOdds);
+            }
+            else
+            {
+                var match = CreateMatch(row, isLive);
+
+                match.MatchId = currentMatchId;
+                match.MatchOddsList = new List<MatchOdds> { matchOdds };
+
+                matches.Add(match);
+            }
         }
 
         private static Match CreateMatch(DataRow row, bool isLive)
@@ -86,9 +91,9 @@
 
             var matchOdds = CreateMatchOdds(schema, row);
 
-            matchOdds.BetChoices = schema.IsOddsFlex 
+            matchOdds.BetChoices = schema.IsOddsFlex
                                         ? GetOddsFlexBetChoices(schema, row, oddsFlexs)
-                                        : GetNormalBetChoices(schema, row);   
+                                        : GetNormalBetChoices(schema, row);
 
             return matchOdds;
         }
@@ -111,7 +116,7 @@
 
             foreach (var betChoiceSchema in schema.BetChoices)
             {
-                var oddsFlex = oddsFlexGroup.OddsFlexs.FirstOrDefault(odds =>odds.BetChoice.Equals(betChoiceSchema.DataAttribute));
+                var oddsFlex = oddsFlexGroup.OddsFlexs.FirstOrDefault(odds => odds.BetChoice.Equals(betChoiceSchema.DataAttribute));
 
                 if (oddsFlex != null)
                 {

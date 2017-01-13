@@ -7,7 +7,7 @@
 
     public interface IMatchMapping
     {
-        IEnumerable<Match> GetMatches(
+        SafeList<Match> GetMatches(
             DataTable dataTable,
             IEnumerable<BetTypeSchema> schemas,
             bool isLive,
