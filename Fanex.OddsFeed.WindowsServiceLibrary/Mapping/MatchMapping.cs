@@ -11,6 +11,8 @@
 
     public class MatchMapping : IMatchMapping
     {
+        private readonly object _lock = new object();
+
         public SafeList<Match> GetMatches(
             DataTable dataTable,
             IEnumerable<BetTypeSchema> schemas,
@@ -37,23 +39,26 @@
             return matches;
         }
 
-        private static void AddMatchOdds(DataRow row, SafeList<Match> matches, MatchOdds matchOdds, bool isLive)
+        private void AddMatchOdds(DataRow row, SafeList<Match> matches, MatchOdds matchOdds, bool isLive)
         {
-            var currentMatchId = Convert.ToInt32(row["MatchID"]);
-            var existedMatch = matches.FirstOrDefault(m => m.MatchId == currentMatchId);
-
-            if (existedMatch != null)
+            lock(_lock)
             {
-                existedMatch.MatchOddsList.Add(matchOdds);
-            }
-            else
-            {
-                var match = CreateMatch(row, isLive);
+                var currentMatchId = Convert.ToInt32(row["MatchID"]);
+                var existedMatch = matches.FirstOrDefault(m => m.MatchId == currentMatchId);
 
-                match.MatchId = currentMatchId;
-                match.MatchOddsList = new List<MatchOdds> { matchOdds };
+                if (existedMatch != null)
+                {
+                    existedMatch.MatchOddsList.Add(matchOdds);
+                }
+                else
+                {
+                    var match = CreateMatch(row, isLive);
 
-                matches.Add(match);
+                    match.MatchId = currentMatchId;
+                    match.MatchOddsList = new List<MatchOdds> { matchOdds };
+
+                    matches.Add(match);
+                }
             }
         }
 

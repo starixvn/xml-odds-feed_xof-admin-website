@@ -9,6 +9,8 @@
 
     public class OutrightMapping : IOutrightMapping
     {
+        private readonly object _lock = new object();
+
         public SafeList<Outright> GetOutrights(DataTable dataTable)
         {
             var events = new SafeList<Outright>();
@@ -31,18 +33,21 @@
             return events;
         }
 
-        private static void AddOutrightOdds(DataRow row, SafeList<Outright> outrights, OutrightOdds outrightOdds)
+        private void AddOutrightOdds(DataRow row, SafeList<Outright> outrights, OutrightOdds outrightOdds)
         {
-            var currentLeagueId = Convert.ToInt32(row["LeagueID"]);
-            var existedOutright = outrights.FirstOrDefault(o => o.EventId == currentLeagueId);
+            lock (_lock)
+            {
+                var currentLeagueId = Convert.ToInt32(row["LeagueID"]);
+                var existedOutright = outrights.FirstOrDefault(o => o.EventId == currentLeagueId);
 
-            if (existedOutright != null)
-            {
-                existedOutright.OutrightOddsList.Add(outrightOdds);
-            }
-            else
-            {
-                outrights.Add(GetOutright(row, currentLeagueId, outrightOdds));
+                if (existedOutright != null)
+                {
+                    existedOutright.OutrightOddsList.Add(outrightOdds);
+                }
+                else
+                {
+                    outrights.Add(GetOutright(row, currentLeagueId, outrightOdds));
+                }
             }
         }
 
