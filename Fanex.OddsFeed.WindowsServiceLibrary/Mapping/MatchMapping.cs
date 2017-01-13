@@ -19,46 +19,66 @@
             bool isLive,
             IEnumerable<OddsFlexGroup> oddsFlexs)
         {
-            var matches = new SafeList<Match>();
+            var matchList = new SafeList<Match>();
+            var matchOddsList = new SafeList<MatchOdds>();
 
             var task = Task.Factory.StartNew(() =>
             {
                 Parallel.ForEach(dataTable.AsEnumerable(), row =>
                 {
                     var matchOdds = GetMatchOdds(schemas, row, oddsFlexs);
-
+                    var match = CreateMatch(row, isLive);
                     if (matchOdds != null)
                     {
-                        AddMatchOdds(row, matches, matchOdds, isLive);
+                        matchOddsList.Add(matchOdds);
+                    }
+
+                    if (match != null)
+                    {
+                        matchList.Add(match);
                     }
                 });
             });
 
             task.Wait();
 
-            return matches;
+            var matchListResult = new SafeList<Match>();
+         
+            var resultTask = Task.Factory.StartNew(() =>
+            {
+                var matchListById = matchList.AsParallel<Match>().GroupBy(i => i.MatchId);
+
+                Parallel.ForEach(matchListById, item =>
+                {
+                    var firstMatch = item.FirstOrDefault();
+                    firstMatch.MatchOddsList = matchOddsList.AsParallel<MatchOdds>().Where(i => i.MatchId
+                    == item.Key).ToList();
+                    matchListResult.Add(firstMatch);
+                });
+            });
+
+            resultTask.Wait();
+
+            return matchListResult;
         }
 
-        private void AddMatchOdds(DataRow row, SafeList<Match> matches, MatchOdds matchOdds, bool isLive)
+        private static void AddMatchOdds(DataRow row, SafeList<Match> matches, MatchOdds matchOdds, bool isLive)
         {
-            lock(_lock)
+            var currentMatchId = Convert.ToInt32(row["MatchID"]);
+            var existedMatch = matches.FirstOrDefault(m => m.MatchId == currentMatchId);
+
+            if (existedMatch != null)
             {
-                var currentMatchId = Convert.ToInt32(row["MatchID"]);
-                var existedMatch = matches.FirstOrDefault(m => m.MatchId == currentMatchId);
+                existedMatch.MatchOddsList.Add(matchOdds);
+            }
+            else
+            {
+                var match = CreateMatch(row, isLive);
 
-                if (existedMatch != null)
-                {
-                    existedMatch.MatchOddsList.Add(matchOdds);
-                }
-                else
-                {
-                    var match = CreateMatch(row, isLive);
+                match.MatchId = currentMatchId;
+                match.MatchOddsList = new SafeList<MatchOdds> { matchOdds };
 
-                    match.MatchId = currentMatchId;
-                    match.MatchOddsList = new List<MatchOdds> { matchOdds };
-
-                    matches.Add(match);
-                }
+                matches.Add(match);
             }
         }
 
@@ -66,6 +86,7 @@
         {
             return new Match
             {
+                MatchId = Convert.ToInt32(row["MatchID"]),
                 SportName = row["SportTypeName"].ToString(),
                 SportId = Convert.ToInt32(row["SportType"]),
                 KickOfTime = Convert.ToDateTime(row["KickOffTime"].ToString()),
@@ -94,13 +115,17 @@
                 return null;
             }
 
-            var matchOdds = CreateMatchOdds(schema, row);
-
-            matchOdds.BetChoices = schema.IsOddsFlex
-                                        ? GetOddsFlexBetChoices(schema, row, oddsFlexs)
-                                        : GetNormalBetChoices(schema, row);
-
-            return matchOdds;
+            return new MatchOdds
+            {
+                MatchId = Convert.ToInt32(row["MatchID"]),
+                Tag = schema.Tag,
+                Time = Convert.ToDateTime(row["ChangeTime"]),
+                TimeStamp = Convert.ToInt32(row["TimeStamp"]),
+                BetTypeId = Convert.ToInt32(row["BetType"]),
+                BetChoices = schema.IsOddsFlex
+                                          ? GetOddsFlexBetChoices(schema, row, oddsFlexs)
+                                          : GetNormalBetChoices(schema, row)
+            };
         }
 
         private static IEnumerable<BetChoice> GetNormalBetChoices(BetTypeSchema schema, DataRow row)
@@ -134,17 +159,6 @@
             }
 
             return betChoices;
-        }
-
-        private static MatchOdds CreateMatchOdds(BetTypeSchema schema, DataRow row)
-        {
-            return new MatchOdds
-            {
-                Tag = schema.Tag,
-                Time = Convert.ToDateTime(row["ChangeTime"]),
-                TimeStamp = Convert.ToInt32(row["TimeStamp"]),
-                BetTypeId = Convert.ToInt32(row["BetType"])
-            };
         }
 
         private static IEnumerable<BetChoice> MapBetChoices(IEnumerable<BetChoiceSchema> betChoiceSchemas, DataRow row)
