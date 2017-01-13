@@ -5,6 +5,7 @@
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
 
+    [Serializable]
     public class SafeList<T> : IList<T>
     {
         // the (thread-unsafe) collection that actually stores everything

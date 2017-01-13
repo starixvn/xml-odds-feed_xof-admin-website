@@ -1,10 +1,12 @@
 ﻿namespace Fanex.OddsFeed.Common.DTO
 {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Threading;
 
-    internal class SafeEnumerator<T> : IEnumerator<T>
+    [Serializable]
+    public class SafeEnumerator<T> : IEnumerator<T>
     {
         private readonly IEnumerator<T> _inner;
 

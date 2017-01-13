@@ -4,36 +4,49 @@
     using System.Collections.Generic;
     using System.Data;
     using System.Linq;
+    using System.Threading.Tasks;
     using Common.DTO;
 
     public class OutrightMapping : IOutrightMapping
     {
-        public IEnumerable<Outright> GetOutrights(DataTable dataTable)
+        public SafeList<Outright> GetOutrights(DataTable dataTable)
         {
-            var events = new List<Outright>();
-            var leagueId = 0;
+            var events = new SafeList<Outright>();
 
-            foreach (DataRow row in dataTable.Rows)
+            var task = Task.Factory.StartNew(() =>
             {
-                var currentLeagueId = Convert.ToInt32(row["LeagueID"]);
-                var eventOdds = GetEventOdds(row);
-
-                if (leagueId != currentLeagueId)
+                Parallel.ForEach(dataTable.AsEnumerable(), row =>
                 {
-                    events.Add(GetEvent(row, currentLeagueId, eventOdds));
+                    var eventOdds = GetEventOdds(row);
 
-                    leagueId = currentLeagueId;
-                }
-                else
-                {
-                    events.Last().OutrightOddsList.Add(eventOdds);
-                }
-            }
+                    if (eventOdds != null)
+                    {
+                        AddOutrightOdds(row, events, eventOdds);
+                    }
+                });
+            });
+
+            task.Wait();
 
             return events;
         }
 
-        private static Outright GetEvent(DataRow row, int leagueId, OutrightOdds eventOdds)
+        private static void AddOutrightOdds(DataRow row, SafeList<Outright> outrights, OutrightOdds outrightOdds)
+        {
+            var currentLeagueId = Convert.ToInt32(row["LeagueID"]);
+            var existedOutright = outrights.FirstOrDefault(o => o.EventId == currentLeagueId);
+
+            if (existedOutright != null)
+            {
+                existedOutright.OutrightOddsList.Add(outrightOdds);
+            }
+            else
+            {
+                outrights.Add(GetOutright(row, currentLeagueId, outrightOdds));
+            }
+        }
+
+        private static Outright GetOutright(DataRow row, int leagueId, OutrightOdds eventOdds)
         {
             return new Outright
             {
