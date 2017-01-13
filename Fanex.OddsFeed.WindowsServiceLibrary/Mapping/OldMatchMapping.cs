@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Data;
     using System.Linq;
-    using System.Threading.Tasks;
     using Common.Converters;
     using Common.DTO;
     using Common.Schemas;
@@ -51,7 +50,6 @@
                 }
             }
 
-
             return matches;
         }
 
@@ -89,9 +87,9 @@
 
             var matchOdds = CreateMatchOdds(schema, row);
 
-            matchOdds.BetChoices = schema.IsOddsFlex 
+            matchOdds.BetChoices = schema.IsOddsFlex
                                         ? GetOddsFlexBetChoices(schema, row, oddsFlexs)
-                                        : GetNormalBetChoices(schema, row);   
+                                        : GetNormalBetChoices(schema, row);
 
             return matchOdds;
         }
