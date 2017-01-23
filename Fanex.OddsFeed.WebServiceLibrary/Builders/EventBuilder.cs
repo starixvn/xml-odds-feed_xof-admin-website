@@ -8,19 +8,19 @@
 
     public class EventBuilder : IEventBuilder
     {
-        public void AppendOutrightsNode(StringBuilder oddsFeedNode, IEnumerable<Outright> outrights)
+        public void AppendOutrightsNode(StringBuilder oddsFeedNode, UserLanguage userLanguage, IEnumerable<Outright> outrights)
         {
             oddsFeedNode.Append("<outrights>");
 
             foreach (var outright in outrights)
             {
-                AppendEventNode(oddsFeedNode, outright);
+                AppendEventNode(oddsFeedNode, userLanguage, outright);
             }
 
             oddsFeedNode.Append("</outrights>");
         }
 
-        public void AppendMatchesNode(StringBuilder oddsFeedNode, IEnumerable<Match> matches)
+        public void AppendMatchesNode(StringBuilder oddsFeedNode, UserLanguage userLanguage, IEnumerable<Match> matches)
         {
             var leagues = matches.GroupBy(league => league.LeagueId);
 
@@ -28,35 +28,143 @@
 
             foreach (var league in leagues)
             {
-                AppendLeagueNode(oddsFeedNode, league.Key, league.AsEnumerable());
+                AppendLeagueNode(oddsFeedNode, userLanguage, league.Key, league.AsEnumerable());
             }
 
             oddsFeedNode.Append("</matches>");
         }
 
-        private static void AppendLeagueNode(StringBuilder oddsFeedNode, int leagueId, IEnumerable<Match> matches)
+        private static void AppendLeagueNode(StringBuilder oddsFeedNode, UserLanguage userLanguage, int leagueId, IEnumerable<Match> matches)
         {
             var firstMatch = matches.First();
-            oddsFeedNode.Append($"<league id=\"{leagueId}\" ge=\"{SecurityElement.Escape(firstMatch.LeagueEnglish)}\" gt=\"{SecurityElement.Escape(firstMatch.LeagueTraditionalChinese)}\" gs=\"{SecurityElement.Escape(firstMatch.LeagueSimplifiedChinese)}\" sport=\"{SecurityElement.Escape(firstMatch.SportName)}\">");
+
+            AppendBeginLeague(oddsFeedNode, userLanguage, leagueId, firstMatch);
 
             foreach (var match in matches)
             {
-                oddsFeedNode.Append($"<match id=\"{match.MatchId}\" he=\"{SecurityElement.Escape(match.HomeEnglish)}\" ht=\"{SecurityElement.Escape(match.HomeTraditionalChinese)}\" hs=\"{SecurityElement.Escape(match.HomeSimplifiedChinese)}\" ae=\"{SecurityElement.Escape(match.AwayEnglish)}\" at=\"{SecurityElement.Escape(match.AwayTraditionalChinese)}\" as=\"{SecurityElement.Escape(match.AwaySimplifiedChinese)}\" mt=\"{match.KickOfTime}\" running=\"{match.IsLive}\"/>");
+                oddsFeedNode.Append($"<match id=\"{match.MatchId}\" ");
+
+                AppendHomeTeam(oddsFeedNode, userLanguage, match);
+                AppendAwayTeam(oddsFeedNode, userLanguage, match);
+
+                oddsFeedNode.Append($"mt=\"{match.KickOfTime}\" running=\"{match.IsLive}\"/>");
             }
 
             oddsFeedNode.Append("</league>");
         }
 
-        private static void AppendEventNode(StringBuilder oddsFeedNode, Outright outright)
+        private static void AppendBeginLeague(StringBuilder oddsFeedNode, UserLanguage userLanguage, int leagueId, Match match)
         {
-            oddsFeedNode.Append($"<event id=\"{outright.EventId}\" ge=\"{SecurityElement.Escape(outright.EventEnglish)}\" gt=\"{SecurityElement.Escape(outright.EventTraditionalChinese)}\" gs=\"{SecurityElement.Escape(outright.EventSimplifiedChinese)}\" mt=\"{outright.Time}\" sport=\"{SecurityElement.Escape(outright.SportName)}\">");
+            oddsFeedNode.Append($"<league id=\"{leagueId}\" ");
+
+            if (userLanguage.IsSupportedEnglish)
+            {
+                oddsFeedNode.Append($"ge=\"{SecurityElement.Escape(match.LeagueEnglish)}\" ");
+            }
+
+            if (userLanguage.IsSupportedTraditionalChinese)
+            {
+                oddsFeedNode.Append($"gt=\"{SecurityElement.Escape(match.LeagueTraditionalChinese)}\" ");
+            }
+
+            if (userLanguage.IsSupportedSimplifiedChinese)
+            {
+                oddsFeedNode.Append($"gs=\"{SecurityElement.Escape(match.LeagueSimplifiedChinese)}\" ");
+            }
+
+            oddsFeedNode.Append($"sport=\"{SecurityElement.Escape(match.SportName)}\">");
+        }
+
+        private static void AppendHomeTeam(StringBuilder oddsFeedNode, UserLanguage userLanguage, Match match)
+        {
+            if (userLanguage.IsSupportedEnglish)
+            {
+                oddsFeedNode.Append($"he=\"{SecurityElement.Escape(match.HomeEnglish)}\" ");
+            }
+
+            if (userLanguage.IsSupportedTraditionalChinese)
+            {
+                oddsFeedNode.Append($"ht=\"{SecurityElement.Escape(match.HomeTraditionalChinese)}\" ");
+            }
+
+            if (userLanguage.IsSupportedSimplifiedChinese)
+            {
+                oddsFeedNode.Append($"hs=\"{SecurityElement.Escape(match.HomeSimplifiedChinese)}\" ");
+            }
+        }
+
+        private static void AppendAwayTeam(StringBuilder oddsFeedNode, UserLanguage userLanguage, Match match)
+        {
+            if (userLanguage.IsSupportedEnglish)
+            {
+                oddsFeedNode.Append($"ae=\"{SecurityElement.Escape(match.AwayEnglish)}\" ");
+            }
+
+            if (userLanguage.IsSupportedTraditionalChinese)
+            {
+                oddsFeedNode.Append($"at=\"{SecurityElement.Escape(match.AwayTraditionalChinese)}\" ");
+            }
+
+            if (userLanguage.IsSupportedSimplifiedChinese)
+            {
+                oddsFeedNode.Append($"as=\"{SecurityElement.Escape(match.AwaySimplifiedChinese)}\" ");
+            }
+        }
+
+        private static void AppendEventNode(StringBuilder oddsFeedNode, UserLanguage userLanguage, Outright outright)
+        {
+            AppendBeginEvent(oddsFeedNode, userLanguage, outright);
 
             foreach (var outrightOdds in outright.OutrightOddsList)
             {
-                oddsFeedNode.Append($"<team te=\"{SecurityElement.Escape(outrightOdds.OddNameEnglish)}\" tt=\"{SecurityElement.Escape(outrightOdds.OddNameTraditionalChinese)}\" ts=\"{SecurityElement.Escape(outrightOdds.OddNameSimplifiedChinese)}\" />");
+                AppendEventTeam(oddsFeedNode, userLanguage, outrightOdds);
             }
 
             oddsFeedNode.Append("</event>");
+        }
+
+        private static void AppendBeginEvent(StringBuilder oddsFeedNode, UserLanguage userLanguage, Outright outright)
+        {
+            oddsFeedNode.Append($"<event id=\"{outright.EventId}\" ");
+
+            if (userLanguage.IsSupportedEnglish)
+            {
+                oddsFeedNode.Append($"ge=\"{SecurityElement.Escape(outright.EventEnglish)}\" ");
+            }
+
+            if (userLanguage.IsSupportedTraditionalChinese)
+            {
+                oddsFeedNode.Append($"gt=\"{SecurityElement.Escape(outright.EventTraditionalChinese)}\" ");
+            }
+
+            if (userLanguage.IsSupportedSimplifiedChinese)
+            {
+                oddsFeedNode.Append($"gs=\"{SecurityElement.Escape(outright.EventSimplifiedChinese)}\" ");
+            }
+
+            oddsFeedNode.Append($"mt=\"{outright.Time}\" sport=\"{SecurityElement.Escape(outright.SportName)}\">");
+        }
+
+        private static void AppendEventTeam(StringBuilder oddsFeedNode, UserLanguage userLanguage, OutrightOdds outrightOdds)
+        {
+            oddsFeedNode.Append($"<team ");
+
+            if (userLanguage.IsSupportedEnglish)
+            {
+                oddsFeedNode.Append($"te=\"{SecurityElement.Escape(outrightOdds.OddNameEnglish)}\" ");
+            }
+
+            if (userLanguage.IsSupportedTraditionalChinese)
+            {
+                oddsFeedNode.Append($"tt=\"{SecurityElement.Escape(outrightOdds.OddNameTraditionalChinese)}\" ");
+            }
+
+            if (userLanguage.IsSupportedSimplifiedChinese)
+            {
+                oddsFeedNode.Append($"ts=\"{SecurityElement.Escape(outrightOdds.OddNameSimplifiedChinese)}\" ");
+            }
+
+            oddsFeedNode.Append($"/>");
         }
     }
 }

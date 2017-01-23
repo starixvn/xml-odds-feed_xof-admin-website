@@ -311,6 +311,14 @@ var affiliateManager = {
                 return false;
             }
 
+            if (!$.isNumeric(updateParams.NumberOfIPs)) {
+                $("#errorStep3").append("<ul><li>" + viewResources.Error_Require_NumberOfIPs + "</li></ul>")
+                        .removeClass('hidden');
+                $('#NumberOfIPs').addClass('error');
+                $('.content_scroll').eq(0).animate({ scrollTop: 0 }, 1000);;
+                return false;
+            }
+
             //Check maximum number of IP (32767)            
             var numberOfIPs = parseInt(updateParams.NumberOfIPs); //at step3            
             if (numberOfIPs > OddsFeedAdminManager.MaximumNumberOfIPs) {

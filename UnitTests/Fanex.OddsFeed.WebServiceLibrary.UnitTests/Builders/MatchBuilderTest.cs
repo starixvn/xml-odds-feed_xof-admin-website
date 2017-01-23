@@ -37,12 +37,19 @@
                 UserProfile = new UserProfile { OddRegion = 1, OddsType = new []{ 2 } },
                 UserQuery = new UserQuery()
             };
+            var userLanguage = new UserLanguage
+            {
+                IsSupportedEnglish = true,
+                IsSupportedTraditionalChinese = true,
+                IsSupportedSimplifiedChinese = true
+            };
 
             // Action
             _target.AddMatchesNode(
                 oddsFeedNode,
                 oddsData,
                 model,
+                userLanguage,
                 lastUpdate);
 
             // Assert
@@ -67,12 +74,19 @@
                 UserProfile = new UserProfile { OddRegion = 1, OddsType = new[] { 2 } },
                 UserQuery = new UserQuery()
             };
+            var userLanguage = new UserLanguage
+            {
+                IsSupportedEnglish = true,
+                IsSupportedTraditionalChinese = true,
+                IsSupportedSimplifiedChinese = true
+            };
 
             // Action
             _target.AddMatchesNode(
                 oddsFeedNode,
                 oddsData,
                 model,
+                userLanguage,
                 lastUpdate);
 
             // Assert

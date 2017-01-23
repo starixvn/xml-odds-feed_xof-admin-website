@@ -108,6 +108,7 @@
     <Compile Include="DTO\SafeList.cs" />
     <Compile Include="DTO\Sport.cs" />
     <Compile Include="DTO\Team.cs" />
+    <Compile Include="DTO\UserLanguage.cs" />
     <Compile Include="DTO\UserProfile.cs" />
     <Compile Include="DTO\UserQuery.cs" />
     <Compile Include="Formatters\NumberFormatter.cs" />

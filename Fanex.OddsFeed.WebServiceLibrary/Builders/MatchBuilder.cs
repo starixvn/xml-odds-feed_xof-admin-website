@@ -28,6 +28,7 @@
             StringBuilder oddsFeedNode,
             OddsData oddsData,
             OddsFeedsModel model,
+            UserLanguage userLanguage,
             DateTime lastUpdate)
         {
             var changetime = !string.IsNullOrEmpty(model.TimeStamp);
@@ -37,12 +38,12 @@
 
             if (HasSupportedLiveMatch(model.UserProfile, oddsData.LiveMatches))
             {
-                AppendMatchNodes(oddsFeedNode, oddsData.LiveMatches, model, changetime, timeStamp);
+                AppendMatchNodes(oddsFeedNode, oddsData.LiveMatches, model, userLanguage, changetime, timeStamp);
             }
 
             if (HaveSupportedDeadBallMatch(model.UserProfile, oddsData.DeadballMatches))
             {
-                AppendMatchNodes(oddsFeedNode, oddsData.DeadballMatches, model, changetime, timeStamp);
+                AppendMatchNodes(oddsFeedNode, oddsData.DeadballMatches, model, userLanguage, changetime, timeStamp);
             }
 
             oddsFeedNode.Append("</matches>");
@@ -88,12 +89,13 @@
             StringBuilder oddsFeedNode,
             IList<Match> matches,
             OddsFeedsModel model,
+            UserLanguage userLanguage,
             bool changeTime,
             int timeStamp)
         {
             if (model.IsSample)
             {
-                AppendMatchNode(oddsFeedNode, matches.ElementAt(0), model);
+                AppendMatchNode(oddsFeedNode, matches.ElementAt(0), model, userLanguage);
             }
             else
             {
@@ -101,7 +103,7 @@
                 {
                     if (_matchFilter.FilterMatch(match, model.UserProfile, model.UserQuery, changeTime, timeStamp))
                     {
-                        AppendMatchNode(oddsFeedNode, match, model);
+                        AppendMatchNode(oddsFeedNode, match, model, userLanguage);
                     }
                 }
             }
@@ -110,22 +112,78 @@
         private void AppendMatchNode(
             StringBuilder oddsFeedNode,
             Match match,
-            OddsFeedsModel model)
+            OddsFeedsModel model,
+            UserLanguage userLanguage)
         {
-            AppendBeginMatch(oddsFeedNode, match);
+            AppendBeginMatch(oddsFeedNode, match, userLanguage);
             AppendBookieNode(oddsFeedNode, match, model);
             oddsFeedNode.Append("</match>");
         }
 
-        private static void AppendBeginMatch(StringBuilder oddsFeedNode, Match match)
+        private static void AppendBeginMatch(StringBuilder oddsFeedNode, Match match, UserLanguage userLanguage)
         {
             var isRunning = match.IsLive ? LiveStatus : DeadBallStatus;
-            oddsFeedNode
-                .Append($"<match id=\"{match.MatchId}\" ge=\"{SecurityElement.Escape(match.LeagueEnglish)}\" gt=\"{SecurityElement.Escape(match.LeagueTraditionalChinese)}\" gs=\"{SecurityElement.Escape(match.LeagueSimplifiedChinese)}\" ");
-            oddsFeedNode
-                .Append($"he=\"{SecurityElement.Escape(match.HomeEnglish)}\" ht=\"{SecurityElement.Escape(match.HomeTraditionalChinese)}\" hs=\"{SecurityElement.Escape(match.HomeSimplifiedChinese)}\" ");
-            oddsFeedNode
-                .Append($"ae=\"{SecurityElement.Escape(match.AwayEnglish)}\" at=\"{SecurityElement.Escape(match.AwayTraditionalChinese)}\" as=\"{SecurityElement.Escape(match.AwaySimplifiedChinese)}\" mt=\"{match.KickOfTime}\" sport=\"{SecurityElement.Escape(match.SportName)}\" running=\"{isRunning}\">");
+            oddsFeedNode.Append($"<match id=\"{match.MatchId}\" ");
+
+            AppendLeague(oddsFeedNode, match, userLanguage);
+            AppendHomeTeam(oddsFeedNode, match, userLanguage);
+            AppendAwayTeam(oddsFeedNode, match, userLanguage);
+
+            oddsFeedNode.Append($"mt=\"{match.KickOfTime}\" sport=\"{SecurityElement.Escape(match.SportName)}\" running=\"{isRunning}\">");
+        }
+
+        private static void AppendLeague(StringBuilder oddsFeedNode, Match match, UserLanguage userLanguage)
+        {
+            if (userLanguage.IsSupportedEnglish)
+            {
+                oddsFeedNode.Append($"ge=\"{SecurityElement.Escape(match.LeagueEnglish)}\" ");
+            }
+
+            if (userLanguage.IsSupportedTraditionalChinese)
+            {
+                oddsFeedNode.Append($"gt=\"{SecurityElement.Escape(match.LeagueTraditionalChinese)}\" ");
+            }
+
+            if (userLanguage.IsSupportedSimplifiedChinese)
+            {
+                oddsFeedNode.Append($"gs=\"{SecurityElement.Escape(match.LeagueSimplifiedChinese)}\" ");
+            }
+        }
+
+        private static void AppendHomeTeam(StringBuilder oddsFeedNode, Match match, UserLanguage userLanguage)
+        {
+            if (userLanguage.IsSupportedEnglish)
+            {
+                oddsFeedNode.Append($"he=\"{SecurityElement.Escape(match.HomeEnglish)}\" ");
+            }
+
+            if (userLanguage.IsSupportedTraditionalChinese)
+            {
+                oddsFeedNode.Append($"ht=\"{SecurityElement.Escape(match.HomeTraditionalChinese)}\" ");
+            }
+
+            if (userLanguage.IsSupportedSimplifiedChinese)
+            {
+                oddsFeedNode.Append($"hs=\"{SecurityElement.Escape(match.HomeSimplifiedChinese)}\" ");
+            }
+        }
+
+        private static void AppendAwayTeam(StringBuilder oddsFeedNode, Match match, UserLanguage userLanguage)
+        {
+            if (userLanguage.IsSupportedEnglish)
+            {
+                oddsFeedNode.Append($"ae=\"{SecurityElement.Escape(match.AwayEnglish)}\" ");
+            }
+
+            if (userLanguage.IsSupportedTraditionalChinese)
+            {
+                oddsFeedNode.Append($"at=\"{SecurityElement.Escape(match.AwayTraditionalChinese)}\" ");
+            }
+
+            if (userLanguage.IsSupportedSimplifiedChinese)
+            {
+                oddsFeedNode.Append($"as=\"{SecurityElement.Escape(match.AwaySimplifiedChinese)}\" ");
+            }
         }
 
         private void AppendBookieNode(

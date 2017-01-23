@@ -4,6 +4,8 @@
     using System.Text;
     using Builders;
     using Caching;
+    using Common.DTO;
+    using Common.Helpers;
     using Models;
 
     public class OddsFeedService : IOddsFeedService
@@ -23,13 +25,19 @@
         {
             var oddsFeedNode = new StringBuilder("<oddsfeed>");
             var oddsData = OddFeedDataCachingOperator.GetOddsData(model.UserProfile.DelayTimes);
+            var userLanguage = new UserLanguage
+            {
+                IsSupportedEnglish = StringHelper.ContainInList(model.UserProfile.Languages, "en-US"),
+                IsSupportedTraditionalChinese = StringHelper.ContainInList(model.UserProfile.Languages, "zh-TW"),
+                IsSupportedSimplifiedChinese = StringHelper.ContainInList(model.UserProfile.Languages, "zh-CN")
+            };
 
             if (IsShownOutright(model))
             {
-                _outrightBuilder.AppendOutrightsNode(oddsFeedNode, oddsData.Outrights, model);
+                _outrightBuilder.AppendOutrightsNode(oddsFeedNode, oddsData.Outrights, model, userLanguage);
             }
 
-            _matchBuilder.AddMatchesNode(oddsFeedNode, oddsData, model, GetLastUpdate());
+            _matchBuilder.AddMatchesNode(oddsFeedNode, oddsData, model, userLanguage, GetLastUpdate());
 
             oddsFeedNode.Append("</oddsfeed>");
 

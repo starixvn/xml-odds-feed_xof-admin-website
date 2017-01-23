@@ -5,6 +5,7 @@
     using Common.DTO;
     using System.Linq;
     using System.Text;
+    using Common.Helpers;
 
     public class EventFeedService : IEventFeedService
     {
@@ -22,15 +23,21 @@
             var eventFeedNode = new StringBuilder();
             var oddsData = OddFeedDataCachingOperator.GetOddsData(_userProfile.DelayTimes);
             var fullMatches = oddsData.DeadballMatches.Concat(oddsData.LiveMatches);
+            var userLanguage = new UserLanguage
+            {
+                IsSupportedEnglish = StringHelper.ContainInList(_userProfile.Languages, "en-US"),
+                IsSupportedTraditionalChinese = StringHelper.ContainInList(_userProfile.Languages, "zh-TW"),
+                IsSupportedSimplifiedChinese = StringHelper.ContainInList(_userProfile.Languages, "zh-CN"),
+            };
 
             eventFeedNode.Append("<eventfeed>");
 
             if (!isSample || isOutright)
             {
-                _eventBuilder.AppendOutrightsNode(eventFeedNode, oddsData.Outrights);
+                _eventBuilder.AppendOutrightsNode(eventFeedNode, userLanguage, oddsData.Outrights);
             }
 
-            _eventBuilder.AppendMatchesNode(eventFeedNode, fullMatches);
+            _eventBuilder.AppendMatchesNode(eventFeedNode, userLanguage, fullMatches);
 
             eventFeedNode.Append("</eventfeed>");
 
