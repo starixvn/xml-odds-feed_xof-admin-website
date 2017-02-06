@@ -44,13 +44,13 @@
 
             var resultTask = Task.Factory.StartNew(() =>
             {
-                var matchListById = matchList.AsParallel<Match>().GroupBy(i => i.MatchId);
+                var matchListById = matchList.AsParallel().GroupBy(i => i.MatchId);
 
                 Parallel.ForEach(matchListById, item =>
                 {
                     var firstMatch = item.FirstOrDefault();
-                    firstMatch.MatchOddsList = matchOddsList.AsParallel<MatchOdds>().Where(i => i.MatchId
-                    == item.Key).ToList();
+                    firstMatch.MatchOddsList = matchOddsList.AsParallel().Where(i => i.MatchId== item.Key).ToList();
+                    firstMatch.TimeStamp = firstMatch.MatchOddsList.Max(m => m.TimeStamp);
                     matchListResult.Add(firstMatch);
                 });
             });

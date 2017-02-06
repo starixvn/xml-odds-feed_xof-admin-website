@@ -95,7 +95,7 @@
         {
             if (model.IsSample)
             {
-                AppendMatchNode(oddsFeedNode, matches.ElementAt(0), model, userLanguage);
+                AppendMatchNode(oddsFeedNode, matches.ElementAt(0), model, userLanguage, changeTime, timeStamp);
             }
             else
             {
@@ -103,7 +103,7 @@
                 {
                     if (_matchFilter.FilterMatch(match, model.UserProfile, model.UserQuery, changeTime, timeStamp))
                     {
-                        AppendMatchNode(oddsFeedNode, match, model, userLanguage);
+                        AppendMatchNode(oddsFeedNode, match, model, userLanguage, changeTime, timeStamp);
                     }
                 }
             }
@@ -113,10 +113,12 @@
             StringBuilder oddsFeedNode,
             Match match,
             OddsFeedsModel model,
-            UserLanguage userLanguage)
+            UserLanguage userLanguage,
+            bool changeTime,
+            int timeStamp)
         {
             AppendBeginMatch(oddsFeedNode, match, userLanguage);
-            AppendBookieNode(oddsFeedNode, match, model);
+            AppendBookieNode(oddsFeedNode, match, model, changeTime, timeStamp);
             oddsFeedNode.Append("</match>");
         }
 
@@ -189,21 +191,25 @@
         private void AppendBookieNode(
            StringBuilder matchesNode,
            Match match,
-           OddsFeedsModel model)
+           OddsFeedsModel model,
+           bool changeTime,
+           int timeStamp)
         {
             matchesNode.Append($"<bookie name=\"{model.BookieName}\" simp=\"{model.BookieName}\" trad=\"{model.BookieName}\">");
-            AppendOddNodeList(matchesNode, match.MatchOddsList, model);
+            AppendOddNodeList(matchesNode, match.MatchOddsList, model, changeTime, timeStamp);
             matchesNode.Append("</bookie>");
         }
 
         private void AppendOddNodeList(
             StringBuilder oddsFeedNode,
             IEnumerable<MatchOdds> matchOddsNodes,
-            OddsFeedsModel model)
+            OddsFeedsModel model,
+            bool changeTime,
+            int timeStamp)
         {
             foreach (var matchOddsNode in matchOddsNodes)
             {
-                if (_matchFilter.FilterBetType(model.UserProfile, model.UserQuery, model.IsSample, matchOddsNode))
+                if (_matchFilter.FilterBetType(model.UserProfile, model.UserQuery, model.IsSample, changeTime, timeStamp, matchOddsNode))
                 {
                     AppendOdd(oddsFeedNode, model.UserProfile, matchOddsNode);
                 }

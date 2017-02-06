@@ -14,9 +14,10 @@
                     FilterByKeyword(userProfile, match);
         }
 
-        public bool FilterBetType(UserProfile userProfile, UserQuery userQuery, bool isSample, MatchOdds matchOdds)
+        public bool FilterBetType(UserProfile userProfile, UserQuery userQuery, bool isSample, bool changeTime, int timeStamp, MatchOdds matchOdds)
         {
-            return FilterByOddsProfile(userProfile, isSample, matchOdds)
+            return (!changeTime || matchOdds.TimeStamp > timeStamp)
+                && FilterByOddsProfile(userProfile, isSample, matchOdds)
                 && FilterByOddsFeedFilter(userQuery, matchOdds);
         }
 
