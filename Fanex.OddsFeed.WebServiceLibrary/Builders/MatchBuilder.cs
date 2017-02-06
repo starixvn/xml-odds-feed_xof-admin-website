@@ -101,7 +101,15 @@
             {
                 foreach (var match in matches)
                 {
-                    if (_matchFilter.FilterMatch(match, model.UserProfile, model.UserQuery, changeTime, timeStamp))
+                    if (match.MatchOddsList.Count == 0)
+                    {
+                        continue;
+                    }
+
+                    var matchTimeStamp = match.MatchOddsList.Max(m => m.TimeStamp);
+
+                    if (CheckMatchTimeStamp(matchTimeStamp, changeTime, timeStamp)
+                        && _matchFilter.FilterMatch(match, model.UserProfile, model.UserQuery))
                     {
                         AppendMatchNode(oddsFeedNode, match, model, userLanguage, changeTime, timeStamp);
                     }
@@ -251,17 +259,30 @@
             bool changeTime,
             int timeStamp)
         {
-            var maxTimeStamp = 0;
+            var maxTimeStamp = timeStamp;
 
             foreach (var match in matches)
             {
-                if (_matchFilter.FilterMatch(match, model.UserProfile, model.UserQuery, changeTime, timeStamp))
+                if (match.MatchOddsList.Count == 0)
                 {
-                    maxTimeStamp = Math.Max(timeStamp, match.TimeStamp);
+                    continue;
+                }
+
+                var matchTimeStamp = match.MatchOddsList.Max(m => m.TimeStamp);
+
+                if (CheckMatchTimeStamp(matchTimeStamp, changeTime, timeStamp) 
+                    && _matchFilter.FilterMatch(match, model.UserProfile, model.UserQuery))
+                {
+                    maxTimeStamp = Math.Max(maxTimeStamp, matchTimeStamp);
                 }
             }
 
             return maxTimeStamp;
+        }
+
+        private static bool CheckMatchTimeStamp(int matchTimeStamp, bool changeTime, int timeStamp)
+        {
+            return !changeTime || matchTimeStamp > timeStamp;
         }
 
         private static string GetOddsTypeName(int oddsTypeId)

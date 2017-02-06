@@ -1,14 +1,14 @@
 ﻿namespace Fanex.OddsFeed.WebServiceLibrary.Filters
 {
+    using System.Linq;
     using Common.DTO;
     using Common.Helpers;
 
     public class MatchFilter : IMatchFilter
     {
-        public bool FilterMatch(Match match, UserProfile userProfile, UserQuery userQuery, bool changeTime, int timeStamp)
+        public bool FilterMatch(Match match, UserProfile userProfile, UserQuery userQuery)
         {
-            return (!changeTime || match.TimeStamp > timeStamp) &&
-                    FilterBySport(userProfile, userQuery, match) &&
+            return FilterBySport(userProfile, userQuery, match) &&
                     FilterByLeague(userProfile, userQuery, match) &&
                     FilterByCountry(userProfile, userQuery, match) &&
                     FilterByKeyword(userProfile, match);

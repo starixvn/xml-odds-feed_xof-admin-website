@@ -50,7 +50,6 @@
                 {
                     var firstMatch = item.FirstOrDefault();
                     firstMatch.MatchOddsList = matchOddsList.AsParallel().Where(i => i.MatchId== item.Key).ToList();
-                    firstMatch.TimeStamp = firstMatch.MatchOddsList.Max(m => m.TimeStamp);
                     matchListResult.Add(firstMatch);
                 });
             });
