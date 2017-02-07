@@ -107,7 +107,7 @@
             {
                 foreach (var match in matches)
                 {
-                    if (match.MatchOddsList.Count == 0)
+                    if (!match.MatchOddsList.Any())
                     {
                         continue;
                     }
@@ -278,19 +278,21 @@
             bool changeTime,
             int timeStamp)
         {
-            var maxTimeStamp = timeStamp;
+            var maxTimeStamp = 0;
 
             foreach (var match in matches)
             {
-                if (match.MatchOddsList.Count == 0)
+                if (!match.MatchOddsList.Any() 
+                    || !_matchFilter.FilterMatch(match, model.UserProfile, model.UserQuery))
                 {
                     continue;
                 }
 
-                var matchTimeStamp = match.MatchOddsList.Max(m => m.TimeStamp);
+                var matchTimeStamp = match.MatchOddsList
+                    .Where(m=> _matchFilter.FilterBetType(model.UserProfile, model.UserQuery, model.IsSample, changeTime, timeStamp, m))
+                    .Max(m => m.TimeStamp);
 
-                if (CheckMatchTimeStamp(matchTimeStamp, changeTime, timeStamp) 
-                    && _matchFilter.FilterMatch(match, model.UserProfile, model.UserQuery))
+                if (CheckMatchTimeStamp(matchTimeStamp, changeTime, timeStamp))
                 {
                     maxTimeStamp = Math.Max(maxTimeStamp, matchTimeStamp);
                 }
