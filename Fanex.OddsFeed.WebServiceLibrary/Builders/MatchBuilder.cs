@@ -31,19 +31,30 @@
             UserLanguage userLanguage,
             DateTime lastUpdate)
         {
-            var changetime = !string.IsNullOrEmpty(model.TimeStamp);
-            var timeStamp = changetime ? int.Parse(model.TimeStamp) : 0;
+            var changeTime = !string.IsNullOrEmpty(model.TimeStamp);
+            var timeStamp = changeTime ? int.Parse(model.TimeStamp) : 0;
+            var hasSupportLiveMatch = HasSupportedLiveMatch(model.UserProfile, oddsData.LiveMatches);
+            var hasSupportDeadballMatch = HasSupportedDeadBallMatch(model.UserProfile, oddsData.DeadballMatches);
 
-            AppendBeginMatches(oddsFeedNode, oddsData.DeadballMatches, oddsData.LiveMatches, model, changetime, timeStamp, lastUpdate);
+            var matchesTimeStamp = GetMatchesTimeStamp(
+                oddsData.LiveMatches,
+                oddsData.DeadballMatches, 
+                hasSupportLiveMatch, 
+                hasSupportDeadballMatch, 
+                model,
+                changeTime, 
+                timeStamp);
 
-            if (HasSupportedLiveMatch(model.UserProfile, oddsData.LiveMatches))
+            AppendBeginMatches(oddsFeedNode, model, matchesTimeStamp, lastUpdate);
+
+            if (hasSupportLiveMatch)
             {
-                AppendMatchNodes(oddsFeedNode, oddsData.LiveMatches, model, userLanguage, changetime, timeStamp);
+                AppendMatchNodes(oddsFeedNode, oddsData.LiveMatches, model, userLanguage, changeTime, timeStamp);
             }
 
-            if (HaveSupportedDeadBallMatch(model.UserProfile, oddsData.DeadballMatches))
+            if (hasSupportDeadballMatch)
             {
-                AppendMatchNodes(oddsFeedNode, oddsData.DeadballMatches, model, userLanguage, changetime, timeStamp);
+                AppendMatchNodes(oddsFeedNode, oddsData.DeadballMatches, model, userLanguage, changeTime, timeStamp);
             }
 
             oddsFeedNode.Append("</matches>");
@@ -56,24 +67,19 @@
                 && matches.Any();
         }
 
-        private static bool HaveSupportedDeadBallMatch(UserProfile userProfile, IEnumerable<Match> matches)
+        private static bool HasSupportedDeadBallMatch(UserProfile userProfile, IEnumerable<Match> matches)
         {
             return userProfile.OddsType != null 
                 && userProfile.OddsType.Contains(OddsTypeDeadBallMatch)
                 && matches.Any();
         }
 
-        private void AppendBeginMatches(
+        private static void AppendBeginMatches(
             StringBuilder oddsFeedNode,
-            IEnumerable<Match> deadballMatches,
-            IEnumerable<Match> liveMatches,
             OddsFeedsModel model,
-            bool changeTime,
-            int timeStamp,
+            int matchesTimeStamp,
             DateTime lastUpdate)
         {
-            var matchesTimeStamp = GetMatchesTimeStamp(deadballMatches, liveMatches, model, changeTime, timeStamp);
-
             if (matchesTimeStamp > 0)
             {
                 oddsFeedNode
@@ -242,15 +248,28 @@
         }
 
         private int GetMatchesTimeStamp(
-            IEnumerable<Match> deadballMatches,
             IEnumerable<Match> liveMatches,
+            IEnumerable<Match> deadballMatches,
+            bool hasSupportLiveMatch,
+            bool hasSupportDeadballMatch,
             OddsFeedsModel model,
             bool changeTime,
             int timeStamp)
         {
-            return Math.Max(
-                GetMaxTimeStamp(deadballMatches, model, changeTime, timeStamp),
-                GetMaxTimeStamp(liveMatches, model, changeTime, timeStamp));
+            var liveTimeStamp = 0;
+            var deadballTimeStamp = 0;
+
+            if (hasSupportLiveMatch)
+            {
+                liveTimeStamp = GetMaxTimeStamp(liveMatches, model, changeTime, timeStamp);
+            }
+
+            if (hasSupportDeadballMatch)
+            {
+                deadballTimeStamp = GetMaxTimeStamp(deadballMatches, model, changeTime, timeStamp);
+            }
+
+            return Math.Max(liveTimeStamp, deadballTimeStamp);
         }
 
         private int GetMaxTimeStamp(
