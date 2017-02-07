@@ -105,17 +105,21 @@
             }
             else
             {
-                foreach (var match in matches)
+                var filterMatches = matches.Where(m => _matchFilter.FilterMatch(m, model.UserProfile, model.UserQuery));
+
+                foreach (var match in filterMatches)
                 {
-                    if (!match.MatchOddsList.Any())
+                    var matchOddsList = match.MatchOddsList
+                                        .Where(m => _matchFilter.FilterBetType(model.UserProfile, model.UserQuery, model.IsSample, changeTime, timeStamp, m));
+
+                    if (!matchOddsList.Any())
                     {
                         continue;
                     }
 
-                    var matchTimeStamp = match.MatchOddsList.Max(m => m.TimeStamp);
+                    var matchTimeStamp = matchOddsList.Max(m => m.TimeStamp);
 
-                    if (CheckMatchTimeStamp(matchTimeStamp, changeTime, timeStamp)
-                        && _matchFilter.FilterMatch(match, model.UserProfile, model.UserQuery))
+                    if (CheckMatchTimeStamp(matchTimeStamp, changeTime, timeStamp))
                     {
                         AppendMatchNode(oddsFeedNode, match, model, userLanguage, changeTime, timeStamp);
                     }
