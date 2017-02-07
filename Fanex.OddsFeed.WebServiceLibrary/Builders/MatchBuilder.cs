@@ -279,18 +279,19 @@
             int timeStamp)
         {
             var maxTimeStamp = 0;
+            var filterMatches = matches.Where(m => _matchFilter.FilterMatch(m, model.UserProfile, model.UserQuery));
 
-            foreach (var match in matches)
+            foreach (var match in filterMatches)
             {
-                if (!match.MatchOddsList.Any() 
-                    || !_matchFilter.FilterMatch(match, model.UserProfile, model.UserQuery))
+                var matchOddsList = match.MatchOddsList
+                    .Where(m => _matchFilter.FilterBetType(model.UserProfile, model.UserQuery, model.IsSample, changeTime, timeStamp, m));
+
+                if (!matchOddsList.Any())
                 {
                     continue;
                 }
 
-                var matchTimeStamp = match.MatchOddsList
-                    .Where(m=> _matchFilter.FilterBetType(model.UserProfile, model.UserQuery, model.IsSample, changeTime, timeStamp, m))
-                    .Max(m => m.TimeStamp);
+                var matchTimeStamp = matchOddsList.Max(m => m.TimeStamp);
 
                 if (CheckMatchTimeStamp(matchTimeStamp, changeTime, timeStamp))
                 {

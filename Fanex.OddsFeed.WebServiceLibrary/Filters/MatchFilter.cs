@@ -1,6 +1,5 @@
 ﻿namespace Fanex.OddsFeed.WebServiceLibrary.Filters
 {
-    using System.Linq;
     using Common.DTO;
     using Common.Helpers;
 
