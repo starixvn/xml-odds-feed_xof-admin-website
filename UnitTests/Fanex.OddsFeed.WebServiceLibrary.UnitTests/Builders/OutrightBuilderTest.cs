@@ -68,7 +68,7 @@
                     SportId = 1,
                     SportName = "Soccer",
                     Time = new DateTime(2016,12,8),
-                    OutrightOddsList = new []
+                    OutrightOddsList = new SafeList<OutrightOdds>
                     {
                         new OutrightOdds
                         {
