@@ -24,7 +24,7 @@ namespace CouchbaseApp
 
         private void RequestSubmit_Click(object sender, EventArgs e)
         {
-            _oddsFeedService = new OldWindowsOddsFeedService();
+            //_oddsFeedService = new OldWindowsOddsFeedService();
             OldResultView.Items.Clear();
             Request(OldResultView, false);
         }
@@ -47,14 +47,14 @@ namespace CouchbaseApp
 
                 if (_oddsFeedService.Update(1))
                 {
-                    view.Items.Add(new ListViewItem(new string[] 
-                    {
-                        counter.ToString(),
-                        $"{_oddsFeedService.LiveballTime}",
-                        $"{_oddsFeedService.DeadballTime}",
-                        $"{_oddsFeedService.OutrightTime}",
-                        $"{_oddsFeedService.FullTime}"
-                    }));
+                    //view.Items.Add(new ListViewItem(new string[] 
+                    //{
+                    //    counter.ToString(),
+                    //    $"{_oddsFeedService.LiveballTime}",
+                    //    $"{_oddsFeedService.DeadballTime}",
+                    //    $"{_oddsFeedService.OutrightTime}",
+                    //    $"{_oddsFeedService.FullTime}"
+                    //}));
                 }
 
                 Thread.Sleep(AppSettings.Interval);
