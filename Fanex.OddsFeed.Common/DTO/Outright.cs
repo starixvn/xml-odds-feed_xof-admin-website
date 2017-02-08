@@ -22,6 +22,6 @@
 
         public string CountryCode { get; set; }
 
-        public IList<OutrightOdds> OutrightOddsList { get; set; }
+        public SafeList<OutrightOdds> OutrightOddsList { get; set; }
     }
 }

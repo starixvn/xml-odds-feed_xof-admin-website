@@ -9,35 +9,32 @@
 
     public class OutrightMapping : IOutrightMapping
     {
-        private readonly object _lock = new object();
 
         public SafeList<Outright> GetOutrights(DataTable dataTable)
         {
             var events = new SafeList<Outright>();
+            System.Collections.Concurrent.Partitioner<DataRow> partionerList = System.Collections.Concurrent.Partitioner.Create(dataTable.AsEnumerable().ToList(), true);
 
-            var task = Task.Factory.StartNew(() =>
+            var tempRows = from row in partionerList.AsParallel()
+                           select row;
+
+            tempRows.ForAll((row) =>
             {
-                Parallel.ForEach(dataTable.AsEnumerable(), row =>
-                {
-                    var eventOdds = GetEventOdds(row);
+                var eventOdds = GetEventOdds(row);
 
-                    if (eventOdds != null)
-                    {
-                        AddOutrightOdds(row, events, eventOdds);
-                    }
-                });
+                if (eventOdds != null)
+                {
+                    AddOutrightOdds(row, events, eventOdds);
+                }
             });
 
-            task.Wait();
-
+           
             return events;
         }
 
         private void AddOutrightOdds(DataRow row, SafeList<Outright> outrights, OutrightOdds outrightOdds)
         {
-            lock (_lock)
-            {
-                var currentLeagueId = Convert.ToInt32(row["LeagueID"]);
+            var currentLeagueId = Convert.ToInt32(row["LeagueID"]);
                 var existedOutright = outrights.FirstOrDefault(o => o.EventId == currentLeagueId);
 
                 if (existedOutright != null)
@@ -48,7 +45,7 @@
                 {
                     outrights.Add(GetOutright(row, currentLeagueId, outrightOdds));
                 }
-            }
+            
         }
 
         private static Outright GetOutright(DataRow row, int leagueId, OutrightOdds eventOdds)
@@ -63,7 +60,7 @@
                 SportName = row["LeagueNameTC"].ToString(),
                 CountryCode = row["CountryCode"].ToString(),
                 Time = Convert.ToDateTime(row["EventDate"].ToString()),
-                OutrightOddsList = new List<OutrightOdds> { eventOdds }
+                OutrightOddsList = new SafeList<OutrightOdds> { eventOdds }
             };
         }
 

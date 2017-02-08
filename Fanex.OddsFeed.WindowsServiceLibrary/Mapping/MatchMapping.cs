@@ -8,6 +8,7 @@
     using Common.Converters;
     using Common.DTO;
     using Common.Schemas;
+    using System.Collections.Concurrent;
 
     public class MatchMapping : IMatchMapping
     {
@@ -19,10 +20,12 @@
         {
             var matchList = new SafeList<Match>();
             var matchOddsList = new SafeList<MatchOdds>();
+            Partitioner<DataRow> partionerList = Partitioner.Create(dataTable.AsEnumerable().ToList(), true);
+            
+                var tempRows = from row in partionerList.AsParallel()
+                            select row;
 
-            var task = Task.Factory.StartNew(() =>
-            {
-                Parallel.ForEach(dataTable.AsEnumerable(), row =>
+                tempRows.ForAll((row) =>
                 {
                     var matchOdds = GetMatchOdds(schemas, row, oddsFlexs);
                     var match = CreateMatch(row, isLive);
@@ -36,25 +39,24 @@
                         matchList.Add(match);
                     }
                 });
-            });
 
-            task.Wait();
+                var matchListResult = new SafeList<Match>();
 
-            var matchListResult = new SafeList<Match>();
+           
+                var partitionerMatchList = Partitioner.Create(matchList, true);
 
-            var resultTask = Task.Factory.StartNew(() =>
-            {
-                var matchListById = matchList.AsParallel().GroupBy(i => i.MatchId);
+                var matchListById = from row in partitionerMatchList.AsParallel()
+                                    group row by row.MatchId into g
+                                    select new { MatchId = g.Key, FirstMatch = g.FirstOrDefault() };
 
-                Parallel.ForEach(matchListById, item =>
+                matchListById.ForAll((row) =>
                 {
-                    var firstMatch = item.FirstOrDefault();
-                    firstMatch.MatchOddsList = matchOddsList.AsParallel().Where(i => i.MatchId== item.Key).ToList();
-                    matchListResult.Add(firstMatch);
-                });
-            });
 
-            resultTask.Wait();
+                    var temp = row.FirstMatch;
+                    temp.MatchOddsList = matchOddsList.AsParallel().Where(i => i.MatchId == row.MatchId).ToList();
+                    matchListResult.Add(temp);
+
+                });
 
             return matchListResult;
         }
