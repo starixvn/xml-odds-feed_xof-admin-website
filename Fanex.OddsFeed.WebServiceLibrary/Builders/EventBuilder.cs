@@ -115,7 +115,7 @@
         {
             AppendBeginEvent(oddsFeedNode, userLanguage, outright);
 
-            foreach (var outrightOdds in outright.OutrightOddsList)
+            foreach (OutrightOdds outrightOdds in outright.OutrightOddsList)
             {
                 AppendEventTeam(oddsFeedNode, userLanguage, outrightOdds);
             }

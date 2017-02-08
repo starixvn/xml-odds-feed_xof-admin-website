@@ -71,7 +71,7 @@
 
             oddsFeedNode.Append($"mt=\"{outright.Time}\" sport=\"{SecurityElement.Escape(outright.SportName)}\">");
 
-            foreach (var outrightOddsNode in outright.OutrightOddsList)
+            foreach (OutrightOdds outrightOddsNode in outright.OutrightOddsList)
             {
                 AppendOdd(oddsFeedNode, userProfile, userLanguage, outrightOddsNode);
             }
