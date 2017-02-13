@@ -6,6 +6,6 @@
 
     public interface IOutrightMapping
     {
-        IEnumerable<Outright> GetOutrights(DataTable dataTable);
+        SafeList<Outright> GetOutrights(DataTable dataTable);
     }
 }

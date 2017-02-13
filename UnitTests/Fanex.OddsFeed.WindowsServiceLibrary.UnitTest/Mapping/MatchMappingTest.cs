@@ -58,16 +58,16 @@
         {
             // Arrange
             var oddsFlexDataTable = GetOddsFlexDataTable();
-            var flexOdds = GetOddsFlex();
+            var oddFlexGroups = GetOddFlexGroups();
             var schemas = GetSchemas();
 
             // Action
-            var result = _target.GetMatches(oddsFlexDataTable, schemas, false, flexOdds).First();
+            var result = _target.GetMatches(oddsFlexDataTable, schemas, false, oddFlexGroups).First();
 
             // Assert
             Assert.AreEqual(oddsFlexDataTable.Rows[0]["MatchId"], result.MatchId);
-            Assert.AreEqual(ConvertToDecimalOdds(flexOdds.ElementAt(0).Odds), result.MatchOddsList[0].BetChoices.ElementAt(0).Value);
-            Assert.AreEqual(ConvertToDecimalOdds(flexOdds.ElementAt(1).Odds), result.MatchOddsList[0].BetChoices.ElementAt(1).Value);
+            Assert.AreEqual(ConvertToDecimalOdds(oddFlexGroups.ElementAt(0).OddsFlexs.ElementAt(0).Odds), result.MatchOddsList[0].BetChoices.ElementAt(0).Value);
+            Assert.AreEqual(ConvertToDecimalOdds(oddFlexGroups.ElementAt(0).OddsFlexs.ElementAt(1).Odds), result.MatchOddsList[0].BetChoices.ElementAt(1).Value);
         }
 
         private static string ConvertToDecimalOdds(object odds)
@@ -740,12 +740,19 @@
             }
         }
 
-        private static IEnumerable<OddFlex> GetOddsFlex()
+        private static IEnumerable<OddsFlexGroup> GetOddFlexGroups()
         {
             return new[]
             {
-                new OddFlex { OddId = 1, Odds = 1, BetType = 3, BetChoice = "0:0" },
-                new OddFlex { OddId = 1, Odds = 4, BetType = 3, BetChoice = "0:1" }
+                new OddsFlexGroup
+                {
+                    OddsId  =1,
+                    OddsFlexs = new []
+                    {
+                        new OddsFlex { OddId = 1, Odds = 1, BetType = 3, BetChoice = "0:0" },
+                        new OddsFlex { OddId = 1, Odds = 4, BetType = 3, BetChoice = "0:1" }
+                    }
+                }
             };
         }
     }

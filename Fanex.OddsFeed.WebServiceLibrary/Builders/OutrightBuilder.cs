@@ -21,7 +21,8 @@
         public void AppendOutrightsNode(
             StringBuilder oddsFeedNode,
             IEnumerable<Outright> outrights,
-            OddsFeedsModel model)
+            OddsFeedsModel model,
+            UserLanguage userLanguage)
         {
             oddsFeedNode.Append("<outrights>");
 
@@ -31,7 +32,7 @@
 
                 if(firstOutright != null)
                 {
-                    AppendEventNode(oddsFeedNode, model.UserProfile, firstOutright);
+                    AppendEventNode(oddsFeedNode, model.UserProfile, userLanguage, firstOutright);
                 }
             }
 
@@ -41,7 +42,7 @@
                 {
                     if(_outrightFilter.FilterOutright(outright, model.UserProfile, model.UserQuery))
                     {
-                        AppendEventNode(oddsFeedNode, model.UserProfile, outright);
+                        AppendEventNode(oddsFeedNode, model.UserProfile, userLanguage, outright);
                     }
                 }
             }
@@ -49,13 +50,30 @@
             oddsFeedNode.Append("</outrights>");
         }
 
-        private static void AppendEventNode(StringBuilder oddsFeedNode, UserProfile userProfile, Outright outright)
+        private static void AppendEventNode(StringBuilder oddsFeedNode, UserProfile userProfile, UserLanguage userLanguage, Outright outright)
         {
-            oddsFeedNode.Append($"<event id=\"{outright.EventId}\" ge=\"{SecurityElement.Escape(outright.EventEnglish)}\" gt=\"{SecurityElement.Escape(outright.EventTraditionalChinese)}\" gs=\"{SecurityElement.Escape(outright.EventSimplifiedChinese)}\" mt=\"{outright.Time}\" sport=\"{SecurityElement.Escape(outright.SportName)}\">");
+            oddsFeedNode.Append($"<event id=\"{outright.EventId}\" ");
 
-            foreach (var outrightOddsNode in outright.OutrightOddsList)
+            if (userLanguage.IsSupportedEnglish)
             {
-                AppendOdd(oddsFeedNode, userProfile, outrightOddsNode);
+                oddsFeedNode.Append($"ge=\"{SecurityElement.Escape(outright.EventEnglish)}\" ");
+            }
+
+            if (userLanguage.IsSupportedTraditionalChinese)
+            {
+                oddsFeedNode.Append($"gt=\"{SecurityElement.Escape(outright.EventTraditionalChinese)}\" ");
+            }
+
+            if (userLanguage.IsSupportedSimplifiedChinese)
+            {
+                oddsFeedNode.Append($"gs=\"{SecurityElement.Escape(outright.EventSimplifiedChinese)}\" ");
+            }
+
+            oddsFeedNode.Append($"mt=\"{outright.Time}\" sport=\"{SecurityElement.Escape(outright.SportName)}\">");
+
+            foreach (OutrightOdds outrightOddsNode in outright.OutrightOddsList)
+            {
+                AppendOdd(oddsFeedNode, userProfile, userLanguage, outrightOddsNode);
             }
 
             oddsFeedNode.Append("</event>");
@@ -64,9 +82,27 @@
         private static void AppendOdd(
             StringBuilder oddsFeedNode,
             UserProfile userProfile,
+            UserLanguage userLanguage,
             OutrightOdds outrightOddsNode)
         {
-            oddsFeedNode.AppendFormat($"<odd id=\"{outrightOddsNode.OddsId}\" te=\"{SecurityElement.Escape(outrightOddsNode.OddNameEnglish)}\" tt=\"{SecurityElement.Escape(outrightOddsNode.OddNameTraditionalChinese)}\" ts=\"{SecurityElement.Escape(outrightOddsNode.OddNameSimplifiedChinese)}\" o=\"{OddsConverter.ConvertOdds(userProfile.OddRegion, outrightOddsNode.Value)}\" />");
+            oddsFeedNode.AppendFormat($"<odd id=\"{outrightOddsNode.OddsId}\" ");
+
+            if (userLanguage.IsSupportedEnglish)
+            {
+                oddsFeedNode.Append($"te=\"{SecurityElement.Escape(outrightOddsNode.OddNameEnglish)}\" ");
+            }
+
+            if (userLanguage.IsSupportedTraditionalChinese)
+            {
+                oddsFeedNode.Append($"tt=\"{SecurityElement.Escape(outrightOddsNode.OddNameTraditionalChinese)}\" ");
+            }
+
+            if (userLanguage.IsSupportedSimplifiedChinese)
+            {
+                oddsFeedNode.Append($"ts=\"{SecurityElement.Escape(outrightOddsNode.OddNameSimplifiedChinese)}\" ");
+            }
+
+            oddsFeedNode.AppendFormat($"o=\"{OddsConverter.ConvertOdds(userProfile.OddRegion, outrightOddsNode.Value)}\" />");
         }
 
         private static bool IsSampleOutright(bool isOutright, bool isSample)

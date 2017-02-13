@@ -39,7 +39,7 @@ var Recheckin = function ($) {
         kickedOutMsg: null,
 
         init: function () {
-            Recheckin.time = 5000;
+            Recheckin.time = 30000;
             Recheckin.root = currentDomainURL;// location.protocol + '//' + location.host;
             Recheckin.kickedOutMsg = 'You have logged in from another session or your login session has expired!';
         },

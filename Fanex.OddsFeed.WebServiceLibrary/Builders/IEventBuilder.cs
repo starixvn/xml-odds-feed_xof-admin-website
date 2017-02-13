@@ -6,8 +6,8 @@
 
     public interface IEventBuilder
     {
-        void AppendOutrightsNode(StringBuilder oddsFeedNode, IEnumerable<Outright> outrights);
+        void AppendOutrightsNode(StringBuilder oddsFeedNode, UserLanguage userLanguage, IEnumerable<Outright> outrights);
 
-        void AppendMatchesNode(StringBuilder oddsFeedNode, IEnumerable<Match> matches);
+        void AppendMatchesNode(StringBuilder oddsFeedNode, UserLanguage userLanguage, IEnumerable<Match> matches);
     }
 }

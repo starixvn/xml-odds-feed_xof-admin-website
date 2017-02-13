@@ -23,12 +23,20 @@
                 var profileDataList = db.Query<ProfileData>(inputParams);
                 var outputParams = db.GetOuputParams();
 
-                return new AuthenticatedPartner
+                var authenticatedPartner = new AuthenticatedPartner
                 {
                     SystemName = Converter.ToString2(outputParams["systemname"]),
                     UserProfile = profileDataList.Count() == 0 ? null : GetUserProfile(profileDataList.FirstOrDefault()),
                     Error = ErrorBuilder.GetError(Converter.ToInt(outputParams[ErrorCode]), outputParams[ErrorMsg].ToString())
                 };
+
+                if (string.IsNullOrEmpty(authenticatedPartner.Error) 
+                    && authenticatedPartner.UserProfile == null)
+                {
+                    authenticatedPartner.Error = ErrorBuilder.GetUnAuthenticated();
+                }
+
+                return authenticatedPartner;
             }
         }
 
@@ -69,7 +77,7 @@
                 Countries = string.Equals(profileData.CountryCodeList, All) ? null : ListConverter.ConvertToListString(profileData.CountryCodeList),
                 Leagues = string.Equals(profileData.LeagueIDList, All) ? null : ListConverter.ConvertToListInt(profileData.LeagueIDList),
                 Outrights = string.Equals(profileData.OutrightIDList, All) ? null : ListConverter.ConvertToListInt(profileData.OutrightIDList),
-                BetTypes = string.Equals(profileData.BetTypeIDList, All) ? null : ListConverter.ConvertToListInt(profileData.BetTypeIDList),
+                BetTypes = string.IsNullOrEmpty(profileData.BetTypeIDList) || string.Equals(profileData.BetTypeIDList, All) ? null : ListConverter.ConvertToListInt(profileData.BetTypeIDList),
                 LeagueKeyword = profileData.LeagueKeyword,
                 OutrightsKeyword = profileData.LeagueKeyword_O,
                 Domain = profileData.Domain

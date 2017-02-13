@@ -10,6 +10,7 @@
         void AppendOutrightsNode(
             StringBuilder oddsFeedNode,
             IEnumerable<Outright> outrights,
-            OddsFeedsModel model);
+            OddsFeedsModel model,
+            UserLanguage userLanguage);
     }
 }

@@ -4,36 +4,51 @@
     using System.Collections.Generic;
     using System.Data;
     using System.Linq;
+    using System.Threading.Tasks;
     using Common.DTO;
 
     public class OutrightMapping : IOutrightMapping
     {
-        public IEnumerable<Outright> GetOutrights(DataTable dataTable)
-        {
-            var events = new List<Outright>();
-            var leagueId = 0;
 
-            foreach (DataRow row in dataTable.Rows)
+        public SafeList<Outright> GetOutrights(DataTable dataTable)
+        {
+            var events = new SafeList<Outright>();
+            System.Collections.Concurrent.Partitioner<DataRow> partionerList = System.Collections.Concurrent.Partitioner.Create(dataTable.AsEnumerable().ToList(), true);
+
+            var tempRows = from row in partionerList.AsParallel()
+                           select row;
+
+            tempRows.ForAll((row) =>
             {
-                var currentLeagueId = Convert.ToInt32(row["LeagueID"]);
                 var eventOdds = GetEventOdds(row);
 
-                if (leagueId != currentLeagueId)
+                if (eventOdds != null)
                 {
-                    events.Add(GetEvent(row, currentLeagueId, eventOdds));
-
-                    leagueId = currentLeagueId;
+                    AddOutrightOdds(row, events, eventOdds);
                 }
-                else
-                {
-                    events.Last().OutrightOddsList.Add(eventOdds);
-                }
-            }
+            });
 
+           
             return events;
         }
 
-        private static Outright GetEvent(DataRow row, int leagueId, OutrightOdds eventOdds)
+        private void AddOutrightOdds(DataRow row, SafeList<Outright> outrights, OutrightOdds outrightOdds)
+        {
+            var currentLeagueId = Convert.ToInt32(row["LeagueID"]);
+                var existedOutright = outrights.FirstOrDefault(o => o.EventId == currentLeagueId);
+
+                if (existedOutright != null)
+                {
+                    existedOutright.OutrightOddsList.Add(outrightOdds);
+                }
+                else
+                {
+                    outrights.Add(GetOutright(row, currentLeagueId, outrightOdds));
+                }
+            
+        }
+
+        private static Outright GetOutright(DataRow row, int leagueId, OutrightOdds eventOdds)
         {
             return new Outright
             {
@@ -45,7 +60,7 @@
                 SportName = row["LeagueNameTC"].ToString(),
                 CountryCode = row["CountryCode"].ToString(),
                 Time = Convert.ToDateTime(row["EventDate"].ToString()),
-                OutrightOddsList = new List<OutrightOdds> { eventOdds }
+                OutrightOddsList = new SafeList<OutrightOdds> { eventOdds }
             };
         }
 

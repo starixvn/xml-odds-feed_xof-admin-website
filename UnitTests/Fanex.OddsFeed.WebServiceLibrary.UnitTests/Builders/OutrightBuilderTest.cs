@@ -32,9 +32,15 @@
                 UserQuery = new UserQuery(),
                 IsOutright = true
             };
+            var userLanguage = new UserLanguage
+            {
+                IsSupportedEnglish = true,
+                IsSupportedTraditionalChinese = true,
+                IsSupportedSimplifiedChinese = true
+            };
 
             // Action
-            _target.AppendOutrightsNode(oddsFeedNode, outrights, model);
+            _target.AppendOutrightsNode(oddsFeedNode, outrights, model, userLanguage);
 
             // Assert
             Assert.AreEqual(outrightXmlNode, oddsFeedNode.ToString());
@@ -62,7 +68,7 @@
                     SportId = 1,
                     SportName = "Soccer",
                     Time = new DateTime(2016,12,8),
-                    OutrightOddsList = new []
+                    OutrightOddsList = new SafeList<OutrightOdds>
                     {
                         new OutrightOdds
                         {

@@ -11,6 +11,7 @@
             StringBuilder oddsFeedNode,
             OddsData oddsData,
             OddsFeedsModel model,
+            UserLanguage userLanguage,
             DateTime lastUpdate);
     }
 }

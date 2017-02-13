@@ -92,30 +92,31 @@
             return rightVersion > -1 ? rightVersion : -1;
         }
 
-        private static IList<Match> GetMatches(string key, int rightVersion)
+        private static SafeList<Match> GetMatches(string key, int rightVersion)
         {
             if (rightVersion == -1)
             {
-                return new List<Match>();
+                return new SafeList<Match>();
             }
             using (var cache = new CouchbaseClient())
             {
-                var temp = cache.Get<IEnumerable<Match>>(key);
-                return temp != null ? temp.ToList() : new List<Match>();
+                var temp = cache.Get<SafeList<Match>>(key);
+
+                return temp != null ? temp : new SafeList<Match>();
             }
         }
 
-        private static IList<Outright> GetOutrights(string key, int rightVersion)
+        private static SafeList<Outright> GetOutrights(string key, int rightVersion)
         {
             if (rightVersion == -1)
             {
-                return new List<Outright>();
+                return new SafeList<Outright>();
             }
             using (var cache = new CouchbaseClient())
             {
-                var temp = cache.Get<IEnumerable<Outright>>(key);
-                return temp != null ? temp.ToList() : new List<Outright>();
+                var temp = cache.Get<SafeList<Outright>>(key);
 
+                return temp != null ? temp : new SafeList<Outright>();
             }
         }
     }

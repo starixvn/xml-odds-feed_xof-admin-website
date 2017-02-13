@@ -1,6 +1,6 @@
 ﻿namespace Fanex.OddsFeed.Common.DTO
 {
-    public class OddFlex
+    public class OddsFlex
     {
         public int OddId { get; set; }
 

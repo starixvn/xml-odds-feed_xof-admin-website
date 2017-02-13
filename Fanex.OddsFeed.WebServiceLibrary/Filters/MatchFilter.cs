@@ -5,18 +5,18 @@
 
     public class MatchFilter : IMatchFilter
     {
-        public bool FilterMatch(Match match, UserProfile userProfile, UserQuery userQuery, bool changeTime, int timeStamp)
+        public bool FilterMatch(Match match, UserProfile userProfile, UserQuery userQuery)
         {
-            return (!changeTime || match.TimeStamp > timeStamp) &&
-                    FilterBySport(userProfile, userQuery, match) &&
+            return FilterBySport(userProfile, userQuery, match) &&
                     FilterByLeague(userProfile, userQuery, match) &&
                     FilterByCountry(userProfile, userQuery, match) &&
                     FilterByKeyword(userProfile, match);
         }
 
-        public bool FilterBetType(UserProfile userProfile, UserQuery userQuery, bool isSample, MatchOdds matchOdds)
+        public bool FilterBetType(UserProfile userProfile, UserQuery userQuery, bool isSample, bool changeTime, int timeStamp, MatchOdds matchOdds)
         {
-            return FilterByOddsProfile(userProfile, isSample, matchOdds)
+            return (!changeTime || matchOdds.TimeStamp > timeStamp)
+                && FilterByOddsProfile(userProfile, isSample, matchOdds)
                 && FilterByOddsFeedFilter(userQuery, matchOdds);
         }
 

@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Data;
+    using System.Diagnostics;
     using System.Linq;
     using System.Threading;
     using Common;
@@ -48,6 +49,7 @@
 
             try
             {
+
                 var betTypeSchemas = GetBetTypeSchemas();
                 var liveMatches = GetLiveMatches(betTypeSchemas);
                 var deadBallMatches = GetDeadballMatches(betTypeSchemas);
@@ -75,7 +77,7 @@
         {
             using (var liveOdds = DbAccess.GetLiveOddsData())
             {
-                return _matchMapping.GetMatches(liveOdds.Tables[0], betTypeSchemas, true, GetOddFlexs(liveOdds.Tables[1]));
+                return _matchMapping.GetMatches(liveOdds.Tables[0], betTypeSchemas, true, GetOddsFlexGroups(liveOdds.Tables[1]));
             }
         }
 
@@ -83,7 +85,7 @@
         {
             using (var deadballOdds = DbAccess.GetDeadballOddsData())
             {
-                return _matchMapping.GetMatches(deadballOdds.Tables[0], betTypeSchemas, false, GetOddFlexs(deadballOdds.Tables[1]));
+                return _matchMapping.GetMatches(deadballOdds.Tables[0], betTypeSchemas, false, GetOddsFlexGroups(deadballOdds.Tables[1]));
             }
         }
 
@@ -95,11 +97,11 @@
             }
         }
 
-        private static IList<OddFlex> GetOddFlexs(DataTable table)
+        private static IEnumerable<OddsFlex> GetOddFlexs(DataTable table)
         {
             return table.AsEnumerable()
                 .Select(
-                row => new OddFlex
+                row => new OddsFlex
                 {
                     BetChoice = row["betChoice"].ToString(),
                     BetType = Convert.ToInt32(row["bettype"]),
@@ -107,6 +109,40 @@
                     Odds = Convert.ToDecimal(row["odds"]),
                     OddsInfo = row["OddsInfo"].ToString()
                 }).ToList();
+        }
+
+        private static IEnumerable<OddsFlexGroup> GetOddsFlexGroups(DataTable table)
+        {
+            var oddsFlexGroups = new List<OddsFlexGroup>();
+
+            foreach (DataRow row in table.Rows)
+            {
+                var oddsId = Convert.ToInt32(row["oddsid"]);
+                var oddsFlex = new OddsFlex
+                {
+                    BetChoice = row["betChoice"].ToString(),
+                    BetType = Convert.ToInt32(row["bettype"]),
+                    OddId = oddsId,
+                    Odds = Convert.ToDecimal(row["odds"]),
+                    OddsInfo = row["OddsInfo"].ToString()
+                };
+                var oddsFlexGroup = oddsFlexGroups.FirstOrDefault(odds => odds.OddsId == oddsId);
+
+                if (oddsFlexGroup == null)
+                {
+                    oddsFlexGroups.Add(new OddsFlexGroup
+                    {
+                        OddsId = oddsId,
+                        OddsFlexs = new List<OddsFlex> { oddsFlex }
+                    });
+                }
+                else
+                {
+                    oddsFlexGroup.OddsFlexs.Add(oddsFlex);
+                }
+            }
+
+            return oddsFlexGroups;
         }
 
         public static IList<BetTypeSchema> GetBetTypeSchemas()
