@@ -7,6 +7,7 @@
     public class MatchOdds
     {
         public int MatchId { get; set; }
+
         public int BetTypeId { get; set; }
 
         public string Tag { get; set; }
