@@ -24,11 +24,11 @@ namespace CouchbaseApp
                 return;
             }
 
-            using (var cache = new CouchbaseClient())
-            {
-                var data =  cache.Get(cbVersionFullchain.Text);
-                textBox1.Text = data.ToString();
-            }
+            //using (var cache = new CouchbaseClient())
+            //{
+            //    var data =  cache.Get(cbVersionFullchain.Text);
+            //    textBox1.Text = data.ToString();
+            //}
         }
 
         private void btnMatchOutright_Click(object sender, EventArgs e)
@@ -42,10 +42,10 @@ namespace CouchbaseApp
             var version = string.IsNullOrEmpty(cbNumberVersion.Text) ? 0 : Convert.ToInt32(cbNumberVersion.Text);
             var key = $"{cbMatchOutright.Text}{version}";
 
-            using (var cache = new CouchbaseClient())
-            {
-                HandleData(cache.Get(key), cbMatchOutright.Text);
-            }
+            //using (var cache = new CouchbaseClient())
+            //{
+            //    HandleData(cache.Get(key), cbMatchOutright.Text);
+            //}
         }
 
         private void HandleData(object data, string cbKey)

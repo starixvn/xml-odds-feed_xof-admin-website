@@ -12,7 +12,6 @@
     using Common.Helpers;
     using Common.Schemas;
     using Couchbase;
-    using Enyim.Caching.Memcached;
     using Logging;
     using Mapping;
 
@@ -49,7 +48,6 @@
 
             try
             {
-
                 var betTypeSchemas = GetBetTypeSchemas();
                 var liveMatches = GetLiveMatches(betTypeSchemas);
                 var deadBallMatches = GetDeadballMatches(betTypeSchemas);
@@ -147,22 +145,24 @@
 
         public static IList<BetTypeSchema> GetBetTypeSchemas()
         {
-            using (var cache = new CouchbaseClient())
-            {
-                var schemas = cache.Get<IList<BetTypeSchema>>(AppSettings.BetTypeSchemaKey);
+            //using (var cache = new CouchbaseClient())
+            //{
+            //    var schemas = cache.Get<IList<BetTypeSchema>>(AppSettings.BetTypeSchemaKey);
 
-                if (schemas == null || schemas.Count == 0)
-                {
-                    schemas = JsonHelper.GetBetTypeSchemas(AppSettings.BetTypeSchemaPath);
+            //    if (schemas == null || schemas.Count == 0)
+            //    {
+            //        schemas = JsonHelper.GetBetTypeSchemas(AppSettings.BetTypeSchemaPath);
 
-                    if (schemas != null)
-                    {
-                        cache.Store(StoreMode.Set, AppSettings.BetTypeSchemaKey, schemas);
-                    }
-                }
+            //        if (schemas != null)
+            //        {
+            //            cache.Store(StoreMode.Set, AppSettings.BetTypeSchemaKey, schemas);
+            //        }
+            //    }
 
-                return schemas;
-            }
+            //    return schemas;
+            //}
+
+            return new List<BetTypeSchema>();
         }
 
         private static bool StoreData(string key, object data, int numberTries)
@@ -189,41 +189,42 @@
             var result = false;
             var backOffExpired = 0;
 
-            using (var cacheClient = new CouchbaseClient())
-            {
-                do
-                {
-                    result = cacheClient.Store(StoreMode.Set, key, data);
+            return true;
+            //using (var cacheClient = new CouchbaseClient())
+            //{
+            //    do
+            //    {
+            //        result = cacheClient.Store(StoreMode.Set, key, data);
 
-                    if (result)
-                    {
-                        break;
-                    }
+            //        if (result)
+            //        {
+            //            break;
+            //        }
 
-                    if (backOffExpired > 0)
-                    {
-                        var backOffMilliseconds = Math.Min(1000, Math.Pow(2, backOffExpired));
+            //        if (backOffExpired > 0)
+            //        {
+            //            var backOffMilliseconds = Math.Min(1000, Math.Pow(2, backOffExpired));
 
-                        Thread.Sleep((int)backOffMilliseconds);
+            //            Thread.Sleep((int)backOffMilliseconds);
 
-                        LogService.Error($"Couchbase error! --- Backing off, tries so far: {backOffExpired}");
-                    }
-                    else
-                    {
-                        LogService.Error("Couchbase error!");
-                    }
+            //            LogService.Error($"Couchbase error! --- Backing off, tries so far: {backOffExpired}");
+            //        }
+            //        else
+            //        {
+            //            LogService.Error("Couchbase error!");
+            //        }
 
-                    backOffExpired++;
+            //        backOffExpired++;
 
-                } while (backOffExpired < numberTries);
+            //    } while (backOffExpired < numberTries);
 
-                if (!result && (backOffExpired > numberTries))
-                {
-                    throw new ApplicationException($"Could not perform a set after {numberTries} tries.");
-                }
+            //    if (!result && (backOffExpired > numberTries))
+            //    {
+            //        throw new ApplicationException($"Could not perform a set after {numberTries} tries.");
+            //    }
 
-                return result;
-            }
+            //    return result;
+            //}
         }
     }
 }

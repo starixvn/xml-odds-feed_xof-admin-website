@@ -12,7 +12,7 @@ namespace CouchbaseApp
         [STAThread]
         static void Main(string[] args)
         {
-            DbSettingProviderManager.Current.Start();
+            //DbSettingProviderManager.Current.Start();
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -29,7 +29,7 @@ namespace CouchbaseApp
             //        Application.Run(logF);
             //    }
             //}
-            using (var form1 = new Form1())
+            using (var form1 = new CouchbaseN1QL())
             {
                 Application.Run(form1);
             }

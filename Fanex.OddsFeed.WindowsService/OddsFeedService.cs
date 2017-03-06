@@ -90,10 +90,10 @@
                     {
                         LogService.Error("IP address seems to have changed OR Cache on CouchBase is full. Please restart OddsFeedWindowService ! ");
 
-                        using (var cacheClient = new CouchbaseClient())
-                        {
-                            cacheClient.FlushAll();
-                        }
+                        //using (var cacheClient = new CouchbaseClient())
+                        //{
+                        //    cacheClient.FlushAll();
+                        //}
                     }
                 }
             }

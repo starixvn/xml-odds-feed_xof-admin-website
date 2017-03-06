@@ -38,46 +38,52 @@
             };
         }
 
-        public static IList<Match> GetOutRight(int version)
+        public static IList<Outright> GetOutRight(int version)
         {
-            using (var cache = new CouchbaseClient())
-            {
-                return cache.Get(CacheKeys.DeadballMatchKey(AppSettings.CachePrefix, version)) as IList<Match>;
-            }
+            //using (var cache = new CouchbaseClient())
+            //{
+            //    return cache.Get(CacheKeys.DeadballMatchKey(AppSettings.CachePrefix, version)) as IList<Match>;
+            //}
+
+            return new List<Outright>();
         }
 
-        public static IList<Outright> GetMatchs(int version)
+        public static IList<Match> GetMatchs(int version)
         {
-            using (var cache = new CouchbaseClient())
-            {
-                return cache.Get(CacheKeys.OutrightKey(AppSettings.CachePrefix, version)) as IList<Outright>;
-            }
+            //using (var cache = new CouchbaseClient())
+            //{
+            //    return cache.Get(CacheKeys.OutrightKey(AppSettings.CachePrefix, version)) as IList<Outright>;
+            //}
+            return new List<Match>();
         }
 
         public static IList<BetTypeSchema> GetBetTypeSchemas()
         {
-            using (var cache = new CouchbaseClient())
-            {
-                var schemas = cache.Get<IList<BetTypeSchema>>(AppSettings.BetTypeSchemaKey);
+            //using (var cache = new CouchbaseClient())
+            //{
+            //    var schemas = cache.Get<IList<BetTypeSchema>>(AppSettings.BetTypeSchemaKey);
 
-                return schemas == null ? new List<BetTypeSchema>() : schemas;
-            }
+            //    return schemas == null ? new List<BetTypeSchema>() : schemas;
+            //}
+            return new List<BetTypeSchema>();
         }
 
         public static int GetCurrentVersion()
         {
-            using (var cache = new CouchbaseClient())
-            {
-                return cache.Get<int>(CacheKeys.CurrentKey(AppSettings.CachePrefix));
-            }
+            //using (var cache = new CouchbaseClient())
+            //{
+            //    return cache.Get<int>(CacheKeys.CurrentKey(AppSettings.CachePrefix));
+            //}
+            return 0;
         }
 
         public static bool IsFullChain()
         {
-            using (var cache = new CouchbaseClient())
-            {
-                return cache.Get<bool>(CacheKeys.FullChainKey(AppSettings.CachePrefix));
-            }
+            //using (var cache = new CouchbaseClient())
+            //{
+            //    return cache.Get<bool>(CacheKeys.FullChainKey(AppSettings.CachePrefix));
+            //}
+            return true;
         }
 
         public static int GetRightVersion(int delayTime, int currentVersion, bool isFullChain)
@@ -98,12 +104,13 @@
             {
                 return new SafeList<Match>();
             }
-            using (var cache = new CouchbaseClient())
-            {
-                var temp = cache.Get<SafeList<Match>>(key);
+            //using (var cache = new CouchbaseClient())
+            //{
+            //    var temp = cache.Get<SafeList<Match>>(key);
 
-                return temp != null ? temp : new SafeList<Match>();
-            }
+            //    return temp != null ? temp : new SafeList<Match>();
+            //}
+            return new SafeList<Match>();
         }
 
         private static SafeList<Outright> GetOutrights(string key, int rightVersion)
@@ -112,12 +119,13 @@
             {
                 return new SafeList<Outright>();
             }
-            using (var cache = new CouchbaseClient())
-            {
-                var temp = cache.Get<SafeList<Outright>>(key);
+            //using (var cache = new CouchbaseClient())
+            //{
+            //    var temp = cache.Get<SafeList<Outright>>(key);
 
-                return temp != null ? temp : new SafeList<Outright>();
-            }
+            //    return temp != null ? temp : new SafeList<Outright>();
+            //}
+            return new SafeList<Outright>();
         }
     }
 }
