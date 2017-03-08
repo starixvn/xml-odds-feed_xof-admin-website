@@ -181,6 +181,14 @@
             }
         }
 
+        public static string CouchbaseServer
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["CouchbaseServer"].ToString();
+            }
+        }
+
         public static string BucketOddsFeed
         {
             get

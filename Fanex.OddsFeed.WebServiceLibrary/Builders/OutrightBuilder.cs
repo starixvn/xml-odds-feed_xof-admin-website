@@ -56,17 +56,17 @@
 
             if (userLanguage.IsSupportedEnglish)
             {
-                oddsFeedNode.Append($"ge=\"{SecurityElement.Escape(outright.EventEnglish)}\" ");
+                oddsFeedNode.Append($"ge=\"{SecurityElement.Escape(outright.EventEn)}\" ");
             }
 
             if (userLanguage.IsSupportedTraditionalChinese)
             {
-                oddsFeedNode.Append($"gt=\"{SecurityElement.Escape(outright.EventTraditionalChinese)}\" ");
+                oddsFeedNode.Append($"gt=\"{SecurityElement.Escape(outright.EventTw)}\" ");
             }
 
             if (userLanguage.IsSupportedSimplifiedChinese)
             {
-                oddsFeedNode.Append($"gs=\"{SecurityElement.Escape(outright.EventSimplifiedChinese)}\" ");
+                oddsFeedNode.Append($"gs=\"{SecurityElement.Escape(outright.EventCn)}\" ");
             }
 
             oddsFeedNode.Append($"mt=\"{outright.Time}\" sport=\"{SecurityElement.Escape(outright.SportName)}\">");
@@ -89,17 +89,17 @@
 
             if (userLanguage.IsSupportedEnglish)
             {
-                oddsFeedNode.Append($"te=\"{SecurityElement.Escape(outrightOddsNode.OddNameEnglish)}\" ");
+                oddsFeedNode.Append($"te=\"{SecurityElement.Escape(outrightOddsNode.OddNameEn)}\" ");
             }
 
             if (userLanguage.IsSupportedTraditionalChinese)
             {
-                oddsFeedNode.Append($"tt=\"{SecurityElement.Escape(outrightOddsNode.OddNameTraditionalChinese)}\" ");
+                oddsFeedNode.Append($"tt=\"{SecurityElement.Escape(outrightOddsNode.OddNameTw)}\" ");
             }
 
             if (userLanguage.IsSupportedSimplifiedChinese)
             {
-                oddsFeedNode.Append($"ts=\"{SecurityElement.Escape(outrightOddsNode.OddNameSimplifiedChinese)}\" ");
+                oddsFeedNode.Append($"ts=\"{SecurityElement.Escape(outrightOddsNode.OddNameCn)}\" ");
             }
 
             oddsFeedNode.AppendFormat($"o=\"{OddsConverter.ConvertOdds(userProfile.OddRegion, outrightOddsNode.Value)}\" />");

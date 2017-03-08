@@ -44,7 +44,7 @@
         private static bool FilterByLeague(UserProfile userProfile, UserQuery userQuery, Match match)
         {
             return (userProfile.Leagues == null || userProfile.Leagues.Count == 0 || userProfile.Leagues.Contains(match.LeagueId))
-                && (userQuery.Leagues == null || userQuery.Leagues.Count ==0 || StringHelper.ContainInList(userQuery.Leagues, match.LeagueEnglish));
+                && (userQuery.Leagues == null || userQuery.Leagues.Count ==0 || StringHelper.ContainInList(userQuery.Leagues, match.LeagueEn));
         }
 
         private static bool FilterByCountry(UserProfile userProfile, UserQuery userQuery, Match match)
@@ -55,7 +55,7 @@
 
         private static bool FilterByKeyword(UserProfile userProfile, Match match)
         {
-            return string.IsNullOrEmpty(userProfile.LeagueKeyword) || StringHelper.Contain(match.LeagueEnglish, userProfile.LeagueKeyword);
+            return string.IsNullOrEmpty(userProfile.LeagueKeyword) || StringHelper.Contain(match.LeagueEn, userProfile.LeagueKeyword);
         }
     }
 }

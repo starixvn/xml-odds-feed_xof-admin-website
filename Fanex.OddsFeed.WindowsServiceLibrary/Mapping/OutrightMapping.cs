@@ -53,9 +53,9 @@
             return new Outright
             {
                 EventId = leagueId,
-                EventEnglish = row["LeagueName"].ToString(),
-                EventTraditionalChinese = row["LeagueNameCN"].ToString(),
-                EventSimplifiedChinese = row["LeagueNameC_UNI"].ToString(),
+                EventEn = row["LeagueName"].ToString(),
+                EventTw = row["LeagueNameCN"].ToString(),
+                EventCn = row["LeagueNameC_UNI"].ToString(),
                 SportId = Convert.ToInt32(row["SportID"]),
                 SportName = row["LeagueNameTC"].ToString(),
                 CountryCode = row["CountryCode"].ToString(),
@@ -69,9 +69,9 @@
             return new OutrightOdds
             {
                 OddsId = Convert.ToInt32(row["OrID"]),
-                OddNameEnglish = row["TeamName"].ToString(),
-                OddNameTraditionalChinese = row["TeamNameCN"].ToString(),
-                OddNameSimplifiedChinese = row["TeamNameC_UNI"].ToString(),
+                OddNameEn = row["TeamName"].ToString(),
+                OddNameTw = row["TeamNameCN"].ToString(),
+                OddNameCn = row["TeamNameC_UNI"].ToString(),
                 Value = Convert.ToDecimal(row["Odds"])
             };
         }

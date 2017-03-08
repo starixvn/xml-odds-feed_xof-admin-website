@@ -23,7 +23,7 @@ namespace CouchbaseApp
 
             var config = new ClientConfiguration
             {
-                Servers = new List<Uri> { new Uri("http://10.35.35.253:8091/pools") }
+                Servers = new List<Uri> { new Uri("http://10.35.35.254:8091/pools") }
             };
 
             Cluster = new Cluster(config);
@@ -37,15 +37,15 @@ namespace CouchbaseApp
                 //var document = get.Document;
                 //var msg = string.Format("{0} {1}!", document.Id, document.Content.name);
                 //MessageBox.Show(msg);
-
                 var result = bucket.Query<dynamic>("SELECT * from oddsfeedTest");
+
                 var data = result.ToList();
             }
         }
 
         private void store_Click(object sender, EventArgs e)
         {
-            using (var bucket = Cluster.OpenBucket("oddsfeedTest"))
+            using (var bucket = Cluster.OpenBucket("livematches"))
             {
                 //var document = new Document<dynamic>
                 //{
@@ -59,17 +59,77 @@ namespace CouchbaseApp
                 //    MessageBox.Show("Success");
                 //}
 
-                var document = new Document<IList<Match>>
-                {
-                    Id = "Deadball",
-                    Content = GetMatchNodes(false)
-                };
+                //var matchDocument = new MatchDocument
+                //{
+                //    MatchId = 112,
+                //    LeagueId = 11,
+                //    LeagueEn = "UEFA EUROPA LEAGUE",
+                //    LeagueCn = "UEFA EUROPA LEAGUE",
+                //    LeagueTw = "UEFA EUROPA LEAGUE",
+                //    HomeEn = "FC Astana",
+                //    HomeCn = "FC Astana",
+                //    HomeTw = "FC Astana",
+                //    AwayEn = "Olympiakos",
+                //    AwayCn = "Olympiakos",
+                //    AwayTw = "Olympiakos",
+                //    KickOfTime = new DateTime(2016, 11, 3, 11, 59, 59),
+                //    SportName = "Soccer",
+                //    SportId = 5,
+                //    Bookie = "12bet",
+                //    MatchOddsList = new List<MatchOdds>
+                //    {
+                //        new MatchOdds
+                //        {
+                //            Tag = "oe",
+                //            BetTypeId = 1,
+                //            Time = new DateTime(2016, 11, 2, 15, 51, 07),
+                //            TimeStamp = 1477332693,
+                //            BetChoices = new[]
+                //            {
+                //                new BetChoice { Code = "o", Value = "2.0" },
+                //                new BetChoice { Code = "e", Value = "1.9" }
+                //            }
+                //        },
+                //        new MatchOdds
+                //        {
+                //            Tag = "ou",
+                //            BetTypeId = 2,
+                //            Time = new DateTime(2016, 11, 2, 15, 51, 07),
+                //            TimeStamp = 1477332693,
+                //            BetChoices = new[]
+                //            {
+                //                new BetChoice { Code = "h", Value = "0.5", NotConvert = true },
+                //                new BetChoice { Code = "o", Value = "1.0" },
+                //                new BetChoice { Code = "u", Value = "1.4" }
+                //            }
+                //        },
+                //        new MatchOdds
+                //        {
+                //            Tag = "ou",
+                //            BetTypeId = 2,
+                //            Time = new DateTime(2016, 11, 2, 15, 51, 07),
+                //            TimeStamp = 1477332693,
+                //            BetChoices = new[]
+                //            {
+                //                new BetChoice { Code = "h", Value = "1", NotConvert = true },
+                //                new BetChoice { Code = "o", Value = "2.0" },
+                //                new BetChoice { Code = "u", Value = "4.4" }
+                //            }
+                //        }
+                //    }
+                //};
 
-                var upsert = bucket.Upsert(document);
-                if (upsert.Success)
-                {
-                    MessageBox.Show("Success");
-                }
+                //var document = new Document<MatchDocument>
+                //{
+                //    Id = matchDocument.Version.ToString(),
+                //    Content = matchDocument
+                //};
+
+                //var upsert = bucket.Upsert(document);
+                //if (upsert.Success)
+                //{
+                //    MessageBox.Show("Success");
+                //}
             }
         }
 
@@ -82,20 +142,19 @@ namespace CouchbaseApp
                     MatchId = 20485706,
                     IsLive = isLive,
                     LeagueId = 10,
-                    LeagueEnglish = "UEFA EUROPA LEAGUE",
-                    LeagueTraditionalChinese = "UEFA EUROPA LEAGUE",
-                    LeagueSimplifiedChinese = "UEFA EUROPA LEAGUE",
-                    HomeEnglish = "FC Astana",
-                    HomeTraditionalChinese = "FC Astana",
-                    HomeSimplifiedChinese = "FC Astana",
-                    AwayEnglish = "Olympiakos",
-                    AwayTraditionalChinese = "Olympiakos",
-                    AwaySimplifiedChinese = "Olympiakos",
+                    LeagueEn = "UEFA EUROPA LEAGUE",
+                    LeagueTw = "UEFA EUROPA LEAGUE",
+                    LeagueCn = "UEFA EUROPA LEAGUE",
+                    HomeEn = "FC Astana",
+                    HomeTw = "FC Astana",
+                    HomeCn = "FC Astana",
+                    AwayEn = "Olympiakos",
+                    AwayTw = "Olympiakos",
+                    AwayCn = "Olympiakos",
                     KickOfTime = new DateTime(2016, 11, 3, 11, 59, 59),
                     SportName = "Soccer",
                     SportId = 5,
-                    BookieNameEnglish = "12bet",
-                    TimeStamp = 1477878874,
+                    Bookie = "12bet",
                     MatchOddsList = new []
                     {
                         new MatchOdds
@@ -182,20 +241,19 @@ namespace CouchbaseApp
                     MatchId = 20485707,
                     IsLive = isLive,
                     LeagueId = 10,
-                    LeagueEnglish = "UEFA EUROPA LEAGUE",
-                    LeagueTraditionalChinese = "UEFA EUROPA LEAGUE",
-                    LeagueSimplifiedChinese = "UEFA EUROPA LEAGUE",
-                    HomeEnglish = "FC Astana 1",
-                    HomeTraditionalChinese = "FC Astana 1",
-                    HomeSimplifiedChinese = "FC Astana 1",
-                    AwayEnglish = "Olympiakos 1",
-                    AwayTraditionalChinese = "Olympiakos 1",
-                    AwaySimplifiedChinese = "Olympiakos 1",
+                    LeagueEn = "UEFA EUROPA LEAGUE",
+                    LeagueTw = "UEFA EUROPA LEAGUE",
+                    LeagueCn = "UEFA EUROPA LEAGUE",
+                    HomeEn = "FC Astana 1",
+                    HomeTw = "FC Astana 1",
+                    HomeCn = "FC Astana 1",
+                    AwayEn = "Olympiakos 1",
+                    AwayTw = "Olympiakos 1",
+                    AwayCn = "Olympiakos 1",
                     KickOfTime = new DateTime(2016, 11, 3, 11, 59, 59),
                     SportName = "Soccer",
                     SportId = 5,
-                    BookieNameEnglish = "12bet",
-                    TimeStamp = 1477878874,
+                    Bookie = "12bet",
                     MatchOddsList = new []
                     {
                         new MatchOdds

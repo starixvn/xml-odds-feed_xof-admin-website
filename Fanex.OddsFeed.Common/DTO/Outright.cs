@@ -1,18 +1,17 @@
 ﻿namespace Fanex.OddsFeed.Common.DTO
 {
-    using global::System;
-    using global::System.Collections.Generic;
+    using System;
 
     [Serializable]
     public class Outright
     {
         public int EventId { get; set; }
 
-        public string EventEnglish { get; set; }
+        public string EventEn { get; set; }
 
-        public string EventTraditionalChinese { get; set; }
+        public string EventTw { get; set; }
 
-        public string EventSimplifiedChinese { get; set; }
+        public string EventCn { get; set; }
 
         public DateTime Time { get; set; }
 

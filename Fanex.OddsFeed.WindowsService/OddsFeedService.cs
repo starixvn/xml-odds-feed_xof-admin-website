@@ -62,7 +62,7 @@
                     _timer.Dispose();
                 }
 
-                Reset();
+                //Reset();
 
             }
             catch (Exception exception)
@@ -77,7 +77,7 @@
 
             try
             {
-                if (!_maintenanceService.IsUnderMaintenance())
+                //if (!_maintenanceService.IsUnderMaintenance())
                 {
                     var isSuccessful = _oddsFeedService.Update(_currentVersion);
 

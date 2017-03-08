@@ -1,11 +1,13 @@
 ﻿namespace Fanex.OddsFeed.Common.DTO
 {
-    using global::System;
-    using global::System.Collections.Generic;
+    using System;
+    using System.Collections.Generic;
+    using Newtonsoft.Json;
 
     [Serializable]
     public class MatchOdds
     {
+        [JsonIgnore]
         public int MatchId { get; set; }
 
         public int BetTypeId { get; set; }
@@ -16,6 +18,6 @@
 
         public DateTime Time { get; set; }
 
-        public IEnumerable<BetChoice> BetChoices { get; set; }
+        public IList<BetChoice> BetChoices { get; set; }
     }
 }

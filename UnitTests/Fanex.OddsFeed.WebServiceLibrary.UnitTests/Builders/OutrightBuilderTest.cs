@@ -62,9 +62,9 @@
                 new Outright
                 {
                     EventId = 9966,
-                    EventEnglish = "*UEFA EUROPA LEAGUE - GROUP A WINNER",
-                    EventTraditionalChinese = "*UEFA EUROPA LEAGUE - GROUP A WINNER",
-                    EventSimplifiedChinese = "*UEFA EUROPA LEAGUE - GROUP A WINNER",
+                    EventEn = "*UEFA EUROPA LEAGUE - GROUP A WINNER",
+                    EventTw = "*UEFA EUROPA LEAGUE - GROUP A WINNER",
+                    EventCn = "*UEFA EUROPA LEAGUE - GROUP A WINNER",
                     SportId = 1,
                     SportName = "Soccer",
                     Time = new DateTime(2016,12,8),
@@ -74,9 +74,9 @@
                         {
                             OddsId = 7207912,
                             Value = 0.3m,
-                            OddNameEnglish = "Manchester United",
-                            OddNameTraditionalChinese = "Manchester United",
-                            OddNameSimplifiedChinese = "Manchester United"
+                            OddNameEn = "Manchester United",
+                            OddNameTw = "Manchester United",
+                            OddNameCn = "Manchester United"
                         }
                     }
                 }
