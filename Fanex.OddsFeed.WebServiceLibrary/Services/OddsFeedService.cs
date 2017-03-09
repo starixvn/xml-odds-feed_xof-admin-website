@@ -14,17 +14,19 @@
 
         private readonly IMatchBuilder _matchBuilder;
         private readonly IOutrightBuilder _outrightBuilder;
+        private readonly IOddsFeedCachingOperator _oddsFeedCachingOperator;
 
         public OddsFeedService()
         {
             _matchBuilder = new MatchBuilder();
             _outrightBuilder = new OutrightBuilder();
+            _oddsFeedCachingOperator = new OddsFeedCachingOperator();
         }
 
         public string BuildXmlDocument(OddsFeedsModel model)
         {
             var oddsFeedNode = new StringBuilder("<oddsfeed>");
-            var oddsData = OddFeedDataCachingOperator.GetOddsData(model.UserProfile.DelayTimes);
+            var oddsData = _oddsFeedCachingOperator.GetOddsData(model.UserProfile, model.UserQuery);
             var userLanguage = new UserLanguage
             {
                 IsSupportedEnglish = StringHelper.ContainInList(model.UserProfile.Languages, "en-US"),

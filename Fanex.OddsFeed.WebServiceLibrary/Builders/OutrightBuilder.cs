@@ -17,7 +17,7 @@
         {
             _outrightFilter = new OutrightFilter();
         }
-        
+
         public void AppendOutrightsNode(
             StringBuilder oddsFeedNode,
             IEnumerable<Outright> outrights,
@@ -30,7 +30,7 @@
             {
                 var firstOutright = outrights.FirstOrDefault();
 
-                if(firstOutright != null)
+                if (firstOutright != null)
                 {
                     AppendEventNode(oddsFeedNode, model.UserProfile, userLanguage, firstOutright);
                 }
@@ -40,10 +40,7 @@
             {
                 foreach (var outright in outrights)
                 {
-                    if(_outrightFilter.FilterOutright(outright, model.UserProfile, model.UserQuery))
-                    {
-                        AppendEventNode(oddsFeedNode, model.UserProfile, userLanguage, outright);
-                    }
+                    AppendEventNode(oddsFeedNode, model.UserProfile, userLanguage, outright);
                 }
             }
 
