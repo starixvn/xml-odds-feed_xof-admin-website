@@ -62,8 +62,7 @@
                     _timer.Dispose();
                 }
 
-                //Reset();
-
+                Reset();
             }
             catch (Exception exception)
             {
@@ -77,7 +76,7 @@
 
             try
             {
-                //if (!_maintenanceService.IsUnderMaintenance())
+                if (!_maintenanceService.IsUnderMaintenance())
                 {
                     var isSuccessful = _oddsFeedService.Update(_currentVersion);
 
@@ -88,12 +87,7 @@
                     }
                     else
                     {
-                        LogService.Error("IP address seems to have changed OR Cache on CouchBase is full. Please restart OddsFeedWindowService ! ");
-
-                        //using (var cacheClient = new CouchbaseClient())
-                        //{
-                        //    cacheClient.FlushAll();
-                        //}
+                        LogService.Error("IP address seems to have changed OR Cache on CouchBase is full. Please restart OddsFeedWindowService!");
                     }
                 }
             }

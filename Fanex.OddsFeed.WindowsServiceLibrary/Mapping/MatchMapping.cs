@@ -20,41 +20,38 @@
             var matchOddsList = new SafeList<MatchOdds>();
             Partitioner<DataRow> partionerList = Partitioner.Create(dataTable.AsEnumerable().ToList(), true);
             
-                var tempRows = from row in partionerList.AsParallel()
-                            select row;
+            var tempRows = from row in partionerList.AsParallel() select row;
 
-                tempRows.ForAll((row) =>
+            tempRows.ForAll((row) =>
+            {
+                var matchOdds = GetMatchOdds(schemas, row, oddsFlexs);
+                var match = CreateMatch(row);
+                if (matchOdds != null)
                 {
-                    var matchOdds = GetMatchOdds(schemas, row, oddsFlexs);
-                    var match = CreateMatch(row);
-                    if (matchOdds != null)
-                    {
-                        matchOddsList.Add(matchOdds);
-                    }
+                    matchOddsList.Add(matchOdds);
+                }
 
-                    if (match != null)
-                    {
-                        matchList.Add(match);
-                    }
-                });
-
-                var matchListResult = new SafeList<Match>();
-
-           
-                var partitionerMatchList = Partitioner.Create(matchList, true);
-
-                var matchListById = from row in partitionerMatchList.AsParallel()
-                                    group row by row.MatchId into g
-                                    select new { MatchId = g.Key, FirstMatch = g.FirstOrDefault() };
-
-                matchListById.ForAll((row) =>
+                if (match != null)
                 {
+                    matchList.Add(match);
+                }
+            });
 
-                    var temp = row.FirstMatch;
-                    temp.MatchOddsList = matchOddsList.AsParallel().Where(i => i.MatchId == row.MatchId).ToList();
-                    matchListResult.Add(temp);
+            var matchListResult = new SafeList<Match>();
+            var partitionerMatchList = Partitioner.Create(matchList, true);
 
-                });
+            var matchListById = from row in partitionerMatchList.AsParallel()
+                                group row by row.MatchId into g
+                                select new { MatchId = g.Key, FirstMatch = g.FirstOrDefault() };
+
+            matchListById.ForAll((row) =>
+            {
+
+                var temp = row.FirstMatch;
+                temp.MatchOddsList = matchOddsList.AsParallel().Where(i => i.MatchId == row.MatchId).ToList();
+                matchListResult.Add(temp);
+
+            });
 
             return matchListResult;
         }

@@ -142,7 +142,7 @@
 
         private static void AppendBeginMatch(StringBuilder oddsFeedNode, Match match, UserLanguage userLanguage)
         {
-            var isRunning = match.IsLive ? LiveStatus : DeadBallStatus;
+            var isRunning = true;// match.IsLive ? LiveStatus : DeadBallStatus;
             oddsFeedNode.Append($"<match id=\"{match.MatchId}\" ");
 
             AppendLeague(oddsFeedNode, match, userLanguage);

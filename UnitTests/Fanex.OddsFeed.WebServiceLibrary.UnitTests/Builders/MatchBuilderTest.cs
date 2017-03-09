@@ -122,7 +122,6 @@
                 new Match
                 {
                     MatchId = 20485706,
-                    IsLive = isLive,
                     LeagueEn = "UEFA EUROPA LEAGUE",
                     LeagueTw = "UEFA EUROPA LEAGUE",
                     LeagueCn = "UEFA EUROPA LEAGUE",
@@ -134,7 +133,6 @@
                     AwayCn = "Olympiakos",
                     KickOfTime = new DateTime(2016, 11, 3, 11, 59, 59),
                     SportName = "Soccer",
-                    Bookie = "12bet",
                     MatchOddsList = new []
                     {
                         new MatchOdds

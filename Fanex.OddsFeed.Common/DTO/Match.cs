@@ -36,8 +36,6 @@
 
         public DateTime KickOfTime { get; set; }
 
-        public string Bookie { get; set; }
-
         public IList<MatchOdds> MatchOddsList { get; set; }
     }
 }

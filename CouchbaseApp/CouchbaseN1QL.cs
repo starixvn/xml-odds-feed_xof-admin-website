@@ -140,7 +140,6 @@ namespace CouchbaseApp
                 new Match
                 {
                     MatchId = 20485706,
-                    IsLive = isLive,
                     LeagueId = 10,
                     LeagueEn = "UEFA EUROPA LEAGUE",
                     LeagueTw = "UEFA EUROPA LEAGUE",
@@ -154,7 +153,6 @@ namespace CouchbaseApp
                     KickOfTime = new DateTime(2016, 11, 3, 11, 59, 59),
                     SportName = "Soccer",
                     SportId = 5,
-                    Bookie = "12bet",
                     MatchOddsList = new []
                     {
                         new MatchOdds
@@ -239,7 +237,6 @@ namespace CouchbaseApp
                 new Match
                 {
                     MatchId = 20485707,
-                    IsLive = isLive,
                     LeagueId = 10,
                     LeagueEn = "UEFA EUROPA LEAGUE",
                     LeagueTw = "UEFA EUROPA LEAGUE",
@@ -253,7 +250,6 @@ namespace CouchbaseApp
                     KickOfTime = new DateTime(2016, 11, 3, 11, 59, 59),
                     SportName = "Soccer",
                     SportId = 5,
-                    Bookie = "12bet",
                     MatchOddsList = new []
                     {
                         new MatchOdds
