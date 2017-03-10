@@ -1,6 +1,7 @@
 ﻿namespace Fanex.OddsFeed.WebServiceLibrary.Services
 {
     using System;
+    using System.Linq;
     using System.Text;
     using Builders;
     using Caching;
@@ -28,12 +29,9 @@
         public string BuildXmlDocument(OddsFeedsModel model)
         {
             var oddsFeedNode = new StringBuilder("<oddsfeed>");
-            var userLanguage = new UserLanguage
-            {
-                IsSupportedEnglish = StringHelper.ContainInList(model.UserProfile.Languages, "en-US"),
-                IsSupportedTraditionalChinese = StringHelper.ContainInList(model.UserProfile.Languages, "zh-TW"),
-                IsSupportedSimplifiedChinese = StringHelper.ContainInList(model.UserProfile.Languages, "zh-CN")
-            };
+            var liveMatches = new SafeList<Match>();
+            var deadMatches = new SafeList<Match>();
+            var userLanguage = GetUserLanguage(model);
 
             if (IsShownOutright(model))
             {
@@ -42,17 +40,62 @@
 
             if (IsShownLiveMatch(model.UserProfile))
             {
-                _matchBuilder.AddMatchesNode(oddsFeedNode, _oddsFeedCachingOperator.GetMatches(model, true), model, userLanguage, GetLastUpdate());
+                liveMatches = _oddsFeedCachingOperator.GetMatches(model, true);
             }
 
             if (IsShownDeadBallMatch(model.UserProfile))
             {
-                _matchBuilder.AddMatchesNode(oddsFeedNode, _oddsFeedCachingOperator.GetMatches(model, false), model, userLanguage, GetLastUpdate());
+                deadMatches = _oddsFeedCachingOperator.GetMatches(model, false);
             }
+
+            AppendMatches(oddsFeedNode, liveMatches, deadMatches, model, userLanguage);
 
             oddsFeedNode.Append("</oddsfeed>");
 
             return oddsFeedNode.ToString();
+        }
+
+        private UserLanguage GetUserLanguage(OddsFeedsModel model)
+        {
+            return new UserLanguage
+            {
+                IsSupportedEnglish = StringHelper.ContainInList(model.UserProfile.Languages, "en-US"),
+                IsSupportedTraditionalChinese = StringHelper.ContainInList(model.UserProfile.Languages, "zh-TW"),
+                IsSupportedSimplifiedChinese = StringHelper.ContainInList(model.UserProfile.Languages, "zh-CN")
+            };
+        }
+
+        private void AppendMatches(
+            StringBuilder oddsFeedNode,
+            SafeList<Match> liveMatches,
+            SafeList<Match> deadMatches,
+            OddsFeedsModel model,
+            UserLanguage userLanguage)
+        {
+            AppendBeginMatches(oddsFeedNode, model, GetMatchTimeStamp(liveMatches, deadMatches), GetLastUpdate());
+
+            _matchBuilder.AppendMatchNodes(oddsFeedNode, liveMatches, userLanguage, model, true);
+            _matchBuilder.AppendMatchNodes(oddsFeedNode, deadMatches, userLanguage, model, false);
+
+            oddsFeedNode.Append("</matches>");
+        }
+
+        private static int GetMatchTimeStamp(SafeList<Match> liveMatches, SafeList<Match> deadMatches)
+        {
+            var liveMatchesTimeStamp = 0;
+            var deadMatchesTimeStamp = 0;
+
+            if(liveMatches.Any())
+            {
+                liveMatchesTimeStamp = liveMatches.Max(m => m.TimeStamp);
+            }
+
+            if (deadMatches.Any())
+            {
+                deadMatchesTimeStamp = deadMatches.Max(m => m.TimeStamp);
+            }
+
+            return Math.Max(liveMatchesTimeStamp, deadMatchesTimeStamp);
         }
 
         private static bool IsShownOutright(OddsFeedsModel model)
@@ -83,8 +126,7 @@
         {
             if (matchesTimeStamp > 0)
             {
-                oddsFeedNode
-                    .Append($"<matches lastupdate=\"{lastUpdate}\" timestamp=\"{matchesTimeStamp}\" oddstype=\"{GetOddsTypeName(model.UserProfile.OddRegion)}\">");
+                oddsFeedNode.Append($"<matches lastupdate=\"{lastUpdate}\" timestamp=\"{matchesTimeStamp}\" oddstype=\"{GetOddsTypeName(model.UserProfile.OddRegion)}\">");
             }
             else
             {

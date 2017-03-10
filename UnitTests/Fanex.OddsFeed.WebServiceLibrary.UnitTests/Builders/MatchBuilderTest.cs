@@ -24,7 +24,6 @@
             // Arrange
             var matchXmlNode = GetDeadballMatchXmlNode();
             var oddsFeedNode = new StringBuilder();
-            var lastUpdate = new DateTime(2016, 11, 2, 15, 51, 07);
             var model = new OddsFeedsModel
             {
                 BookieName = "111candy",
@@ -39,12 +38,12 @@
             };
 
             // Action
-            _target.AddMatchesNode(
+            _target.AppendMatchNodes(
                 oddsFeedNode,
                 GetMatchNodes(false),
-                model,
                 userLanguage,
-                lastUpdate);
+                model,
+                false);
 
             // Assert
             Assert.AreEqual(matchXmlNode, oddsFeedNode.ToString());
@@ -71,12 +70,12 @@
             };
 
             // Action
-            _target.AddMatchesNode(
+            _target.AppendMatchNodes(
                 oddsFeedNode,
                 GetMatchNodes(true),
-                model,
                 userLanguage,
-                lastUpdate);
+                model,
+                true);
 
             // Assert
             Assert.AreEqual(matchXmlNode, oddsFeedNode.ToString());
@@ -84,24 +83,20 @@
 
         private static string GetDeadballMatchXmlNode()
         {
-            return "<matches lastupdate=\"11/2/2016 3:51:07 PM\" timestamp=\"1477878874\" oddstype=\"Malay\">"
-                + "<match id=\"20485706\" ge=\"UEFA EUROPA LEAGUE\" gt=\"UEFA EUROPA LEAGUE\" gs=\"UEFA EUROPA LEAGUE\" he=\"FC Astana\" ht=\"FC Astana\" hs=\"FC Astana\" ae=\"Olympiakos\" at=\"Olympiakos\" as=\"Olympiakos\" mt=\"11/3/2016 11:59:59 AM\" sport=\"Soccer\" running=\"0\">"
+            return "<match id=\"20485706\" ge=\"UEFA EUROPA LEAGUE\" gt=\"GT-UEFA EUROPA LEAGUE\" gs=\"GS-UEFA EUROPA LEAGUE\" he=\"FC Astana\" ht=\"FC Astana\" hs=\"FC Astana\" ae=\"Olympiakos\" at=\"Olympiakos\" as=\"Olympiakos\" mt=\"11/3/2016 11:59:59 AM\" sport=\"Soccer\" running=\"0\">"
                 + "<bookie name=\"111candy\" simp=\"111candy\" trad=\"111candy\">"
                 + "<odd t=\"oe\" o=\"1\" e=\"0.9\" time=\"11/2/2016 3:51:07 PM\" timestamp=\"1477332693\" />"
                 + "</bookie>"
-                + "</match>"
-                + "</matches>";
+                + "</match>";
         }
 
         private static string GetLiveMatchXmlNode()
         {
-            return "<matches lastupdate=\"11/2/2016 3:51:07 PM\" timestamp=\"1477878874\" oddstype=\"Malay\">"
-                + "<match id=\"20485706\" ge=\"UEFA EUROPA LEAGUE\" gt=\"UEFA EUROPA LEAGUE\" gs=\"UEFA EUROPA LEAGUE\" he=\"FC Astana\" ht=\"FC Astana\" hs=\"FC Astana\" ae=\"Olympiakos\" at=\"Olympiakos\" as=\"Olympiakos\" mt=\"11/3/2016 11:59:59 AM\" sport=\"Soccer\" running=\"1\">"
+            return "<match id=\"20485706\" ge=\"UEFA EUROPA LEAGUE\" gt=\"GT-UEFA EUROPA LEAGUE\" gs=\"GS-UEFA EUROPA LEAGUE\" he=\"FC Astana\" ht=\"FC Astana\" hs=\"FC Astana\" ae=\"Olympiakos\" at=\"Olympiakos\" as=\"Olympiakos\" mt=\"11/3/2016 11:59:59 AM\" sport=\"Soccer\" running=\"1\">"
                 + "<bookie name=\"111candy\" simp=\"111candy\" trad=\"111candy\">"
                 + "<odd t=\"oe\" o=\"1\" e=\"0.9\" time=\"11/2/2016 3:51:07 PM\" timestamp=\"1477332693\" />"
                 + "</bookie>"
-                + "</match>"
-                + "</matches>";
+                + "</match>";
         }
 
         private static SafeList<Match> GetMatchNodes(bool isLive)
@@ -112,8 +107,8 @@
                 {
                     MatchId = 20485706,
                     LeagueEn = "UEFA EUROPA LEAGUE",
-                    LeagueTw = "UEFA EUROPA LEAGUE",
-                    LeagueCn = "UEFA EUROPA LEAGUE",
+                    LeagueTw = "GT-UEFA EUROPA LEAGUE",
+                    LeagueCn = "GS-UEFA EUROPA LEAGUE",
                     HomeEn = "FC Astana",
                     HomeTw = "FC Astana",
                     HomeCn = "FC Astana",
@@ -122,6 +117,7 @@
                     AwayCn = "Olympiakos",
                     KickOfTime = new DateTime(2016, 11, 3, 11, 59, 59),
                     SportName = "Soccer",
+                    TimeStamp = 1477878874,
                     MatchOddsList = new []
                     {
                         new MatchOdds

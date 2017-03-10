@@ -8,6 +8,7 @@
     using Fanex.OddsFeed.Common.Configurations;
     using Fanex.OddsFeed.Common.DTO;
     using Models;
+
     public class OddsFeedCachingOperator : IOddsFeedCachingOperator
     {
         private readonly ICluster _cluster;
