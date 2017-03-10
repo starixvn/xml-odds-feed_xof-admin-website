@@ -29,7 +29,7 @@
         {
             if (_betTypeSchemas == null)
             {
-                _betTypeSchemas = OddFeedDataCachingOperator.GetBetTypeSchemas();
+                //_betTypeSchemas = OddFeedDataCachingOperator.GetBetTypeSchemas();
             }
 
             return _betTypeSchemas;

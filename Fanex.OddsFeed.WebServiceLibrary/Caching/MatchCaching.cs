@@ -154,7 +154,7 @@ namespace Fanex.OddsFeed.WebServiceLibrary.Caching
             var changeTime = !string.IsNullOrEmpty(timeStamp);
             var _timeStamp = changeTime ? int.Parse(timeStamp) : 0;
 
-            return changeTime ? string.Format(" {0}.timeStamp > {1} ", _timeStamp) : string.Empty;
+            return changeTime ? $" {0}.timeStamp > {_timeStamp} " : string.Empty;
         }
     }
 }

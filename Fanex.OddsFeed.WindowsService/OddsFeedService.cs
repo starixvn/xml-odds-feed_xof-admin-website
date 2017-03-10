@@ -70,7 +70,7 @@
             }
         }
 
-        private void BackgroundTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
+        private void BackgroundTimerElapsed(object sender, ElapsedEventArgs e)
         {
             _timer.Stop();
 

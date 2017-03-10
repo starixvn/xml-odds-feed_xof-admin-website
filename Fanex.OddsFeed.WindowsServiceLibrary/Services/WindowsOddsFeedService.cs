@@ -3,9 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Data;
-    using System.Diagnostics;
     using System.Linq;
-    using System.Threading;
     using Common;
     using Common.Configurations;
     using Common.DTO;
@@ -18,7 +16,6 @@
 
     public class WindowsOddsFeedService : IWindowsOddsFeedService
     {
-        private readonly int _numberTries;
         private readonly string _cachePrefix;
         private readonly IMatchMapping _matchMapping;
         private readonly IOutrightMapping _outrightMapping;
@@ -26,7 +23,6 @@
 
         public WindowsOddsFeedService()
         {
-            _numberTries = AppSettings.NumberTries;
             _cachePrefix = AppSettings.CachePrefix;
             _matchMapping = new MatchMapping();
             _outrightMapping = new OutrightMapping();

@@ -149,7 +149,6 @@
     <Compile Include="Caching\IOutrightCaching.cs" />
     <Compile Include="Caching\IVersionCaching.cs" />
     <Compile Include="Caching\MatchCaching.cs" />
-    <Compile Include="Caching\OddFeedDataCachingOperator.cs" />
     <Compile Include="Caching\OddsFeedCachingOperator.cs" />
     <Compile Include="Caching\OutrightCaching.cs" />
     <Compile Include="Caching\VersionCaching.cs" />
