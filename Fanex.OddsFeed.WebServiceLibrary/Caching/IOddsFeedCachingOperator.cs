@@ -5,9 +5,7 @@
 
     public interface IOddsFeedCachingOperator
     {
-        SafeList<Match> GetMatches(OddsFeedsModel model, bool isLive);
-
-        SafeList<Outright> GetOutrights(OddsFeedsModel model);
+        OddsData GetOddsData(OddsFeedsModel model, bool isGetOutright, bool isGetLiveMatch, bool isGetDeadballMatch);
 
         SafeList<Match> GetEventMatches(bool isLive);
 

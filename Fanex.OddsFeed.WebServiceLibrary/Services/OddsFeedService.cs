@@ -28,6 +28,10 @@
 
         public string BuildXmlDocument(OddsFeedsModel model)
         {
+            var oddsData = _oddsFeedCachingOperator.GetOddsData(model,
+                IsShownOutright(model),
+                IsShownLiveMatch(model.UserProfile),
+                IsShownDeadBallMatch(model.UserProfile));
             var oddsFeedNode = new StringBuilder("<oddsfeed>");
             var liveMatches = new SafeList<Match>();
             var deadMatches = new SafeList<Match>();
@@ -35,17 +39,17 @@
 
             if (IsShownOutright(model))
             {
-                _outrightBuilder.AppendOutrightsNode(oddsFeedNode, _oddsFeedCachingOperator.GetOutrights(model), model, userLanguage);
+                _outrightBuilder.AppendOutrightsNode(oddsFeedNode, oddsData.Outrights, model, userLanguage);
             }
 
             if (IsShownLiveMatch(model.UserProfile))
             {
-                liveMatches = _oddsFeedCachingOperator.GetMatches(model, true);
+                liveMatches = new SafeList<Match>(oddsData.LiveMatches);
             }
 
             if (IsShownDeadBallMatch(model.UserProfile))
             {
-                deadMatches = _oddsFeedCachingOperator.GetMatches(model, false);
+                deadMatches = new SafeList<Match>(oddsData.DeadballMatches);
             }
 
             AppendMatches(oddsFeedNode, liveMatches, deadMatches, model, userLanguage);
@@ -85,7 +89,7 @@
             var liveMatchesTimeStamp = 0;
             var deadMatchesTimeStamp = 0;
 
-            if(liveMatches.Any())
+            if (liveMatches.Any())
             {
                 liveMatchesTimeStamp = liveMatches.Max(m => m.TimeStamp);
             }

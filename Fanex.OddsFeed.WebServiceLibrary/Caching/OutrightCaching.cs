@@ -3,6 +3,7 @@ using System.Linq;
 using Couchbase.Core;
 using Fanex.OddsFeed.Common.Configurations;
 using Fanex.OddsFeed.Common.DTO;
+using Fanex.OddsFeed.WebServiceLibrary.Models;
 
 namespace Fanex.OddsFeed.WebServiceLibrary.Caching
 {
@@ -15,19 +16,19 @@ namespace Fanex.OddsFeed.WebServiceLibrary.Caching
             _outrightBucket = AppSettings.BucketOutrights;
         }
 
-        public SafeList<Outright> GetOutrights(ICluster cluster, UserProfile userProfile, UserQuery userQuery)
+        public SafeList<Outright> GetOutrights(ICluster cluster, OddsFeedsModel model, CacheVersion cacheVersion)
         {
             var data = new List<Outright> { };
             using (var bucket = cluster.OpenBucket(_outrightBucket))
             {
-                var query = BuildQuery(userProfile, userQuery);
+                var query = BuildQuery(model.UserProfile, model.UserQuery, cacheVersion);
                 data = bucket.Query<Outright>(query).ToList();
             }
 
             return new SafeList<Outright>(data);
         }
 
-        private string BuildQuery(UserProfile userProfile, UserQuery userQuery)
+        private string BuildQuery(UserProfile userProfile, UserQuery userQuery, CacheVersion cacheVersion)
         {
             var outrightList = "outrightList";
             var query = string.Format("select outrightList.* from {0} unnest {1}.outrights as {2}",
@@ -35,7 +36,7 @@ namespace Fanex.OddsFeed.WebServiceLibrary.Caching
                 _outrightBucket,
                 outrightList);
             var conditions = new[] {
-                BuildFilterByVersion(_outrightBucket),
+                BuildFilterByVersion(_outrightBucket, cacheVersion),
                 BuildFilterBySport(userProfile, userQuery, outrightList),
                 BuildFilterByLeague(userQuery, outrightList),
                 BuildFilterByCountry(userProfile, userQuery, outrightList),
@@ -47,9 +48,9 @@ namespace Fanex.OddsFeed.WebServiceLibrary.Caching
             return query;
         }
 
-        private string BuildFilterByVersion(string outrightBucket)
+        private string BuildFilterByVersion(string outrightBucket, CacheVersion cacheVersion)
         {
-            var version = 0;
+            var version = cacheVersion.CurrentVersionOutright;
 
             return string.Format(" {0}.version = {1} ", outrightBucket, version);
         }

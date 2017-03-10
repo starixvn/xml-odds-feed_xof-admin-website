@@ -7,11 +7,13 @@
     using Couchbase.Core;
     using Fanex.OddsFeed.Common.Configurations;
     using Fanex.OddsFeed.Common.DTO;
+    using Logging;
     using Models;
 
-    public class OddsFeedCachingOperator : IOddsFeedCachingOperator
+    public class OddsFeedCachingOperator : IOddsFeedCachingOperator, IDisposable
     {
         private readonly ICluster _cluster;
+        private readonly IVersionCaching _versionCaching;
         private readonly IOutrightCaching _outrightCaching;
         private readonly IMatchCaching _livematchCaching;
         private readonly IMatchCaching _deadmatchCaching;
@@ -23,20 +25,36 @@
                 Servers = new List<Uri> { new Uri(AppSettings.CouchbaseServer) }
             });
 
+            _versionCaching = new VersionCaching();
             _outrightCaching = new OutrightCaching();
             _livematchCaching = new MatchCaching(true);
             _deadmatchCaching = new MatchCaching(false);
         }
 
-        public SafeList<Match> GetMatches(OddsFeedsModel model, bool isLive)
+        public OddsData GetOddsData(OddsFeedsModel model, bool isGetOutright, bool isGetLiveMatch, bool isGetDeadballMatch)
         {
-            return isLive ? _livematchCaching.GetMatches(_cluster, model) :
-                _deadmatchCaching.GetMatches(_cluster, model);
+            var cacheVersion = _versionCaching.GetRightVersion(_cluster, model);
+            var outrights = isGetOutright ? GetOutrights(model, cacheVersion) : new SafeList<Outright>();
+            var liveMatches = isGetLiveMatch ? GetMatches(model, cacheVersion, true) : new SafeList<Match>();
+            var deadballMatches = isGetDeadballMatch ? GetMatches(model, cacheVersion, false) : new SafeList<Match>();
+
+            return new OddsData
+            {
+                Outrights = outrights,
+                LiveMatches = liveMatches,
+                DeadballMatches = deadballMatches
+            };
         }
 
-        public SafeList<Outright> GetOutrights(OddsFeedsModel model)
+        private SafeList<Match> GetMatches(OddsFeedsModel model, CacheVersion cacheVersion, bool isLive)
         {
-            return _outrightCaching.GetOutrights(_cluster, model.UserProfile, model.UserQuery);
+            return isLive ? _livematchCaching.GetMatches(_cluster, model, cacheVersion) :
+                _deadmatchCaching.GetMatches(_cluster, model, cacheVersion);
+        }
+
+        private SafeList<Outright> GetOutrights(OddsFeedsModel model, CacheVersion cacheVersion)
+        {
+            return _outrightCaching.GetOutrights(_cluster, model, cacheVersion);
         }
 
         public SafeList<Match> GetEventMatches(bool isLive)
@@ -47,6 +65,18 @@
         public SafeList<Outright> GetEventOutrights()
         {
             return new SafeList<Outright>();
+        }
+
+        public void Dispose()
+        {
+            try
+            {
+                _cluster.Dispose();
+            }
+            catch (Exception ex)
+            {
+                LogService.Error(ex.Message, ex);
+            }
         }
     }
 }

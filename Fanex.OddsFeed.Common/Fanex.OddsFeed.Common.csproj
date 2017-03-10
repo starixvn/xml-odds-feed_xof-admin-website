@@ -89,6 +89,7 @@
     <Compile Include="DTO\AuthenticatedPartner.cs" />
     <Compile Include="DTO\BetChoice.cs" />
     <Compile Include="DTO\BetType.cs" />
+    <Compile Include="DTO\CacheVersion.cs" />
     <Compile Include="DTO\Contact.cs" />
     <Compile Include="DTO\Country.cs" />
     <Compile Include="DTO\Event.cs" />

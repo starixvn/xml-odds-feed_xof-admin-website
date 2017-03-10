@@ -11,26 +11,28 @@ namespace Fanex.OddsFeed.WebServiceLibrary.Caching
     {
         private readonly string _matchBucket;
         private readonly bool _isLive;
+        private readonly IVersionCaching _versionCaching;
 
         public MatchCaching(bool isLive)
         {
             _isLive = isLive;
             _matchBucket = isLive ? AppSettings.BucketLiveMatches : AppSettings.BucketDeadMatches;
+            _versionCaching = new VersionCaching();
         }
 
-        public SafeList<Match> GetMatches(ICluster cluster, OddsFeedsModel model)
+        public SafeList<Match> GetMatches(ICluster cluster, OddsFeedsModel model, CacheVersion cacheVersion)
         {
             var data = new List<Match> { };
             using (var bucket = cluster.OpenBucket(_matchBucket))
             {
-                var query = BuildQuery(model);
+                var query = BuildQuery(model, cacheVersion);
                 data = bucket.Query<Match>(query).ToList();
             }
 
             return new SafeList<Match>(data);
         }
 
-        private string BuildQuery(OddsFeedsModel model)
+        private string BuildQuery(OddsFeedsModel model, CacheVersion cacheVersion)
         {
             var matches = "matches";
             var matchOddsList = "matchOddsList";
@@ -44,7 +46,7 @@ namespace Fanex.OddsFeed.WebServiceLibrary.Caching
                                 matches.homeEn, matches.homeTw, matches.homeCn, matches.awayEn, matches.awayTw, matches.awayCn, 
                                 matches.sportId, matches.sportName, matches.countryCode, matches.kickOfTime";
             var conditions = new[] {
-                BuildFilterByVersion(_matchBucket),
+                BuildFilterByVersion(_matchBucket, cacheVersion),
                 BuildFilterBySport(model.UserProfile, model.UserQuery, matches),
                 BuildFilterByUserProfileLeague(model.UserProfile, matches),
                 BuildFilterByUserQueryLeague(model.UserQuery, matches),
@@ -58,9 +60,9 @@ namespace Fanex.OddsFeed.WebServiceLibrary.Caching
             return string.Format(queryTemplate, _matchBucket, _matchBucket, matches, matchOddsList, whereClause);
         }
 
-        private string BuildFilterByVersion(string matchBucket)
+        private string BuildFilterByVersion(string matchBucket, CacheVersion cacheVersion)
         {
-            var version = 0;
+            var version = _isLive ? cacheVersion.CurrentVersionLiveMatch : cacheVersion.CurrentVersionDeadballMatch;
 
             return string.Format(" {0}.version = {1} ", matchBucket, version);
         }
