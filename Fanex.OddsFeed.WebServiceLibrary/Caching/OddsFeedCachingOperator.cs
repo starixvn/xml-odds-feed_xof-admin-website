@@ -13,7 +13,8 @@
     {
         private readonly ICluster _cluster;
         private readonly IOutrightCaching _outrightCaching;
-        private readonly IMatchCaching _matchCaching;
+        private readonly IMatchCaching _livematchCaching;
+        private readonly IMatchCaching _deadmatchCaching;
 
         public OddsFeedCachingOperator()
         {
@@ -23,12 +24,14 @@
             });
 
             _outrightCaching = new OutrightCaching();
-            _matchCaching = new MatchCaching();
+            _livematchCaching = new MatchCaching(true);
+            _deadmatchCaching = new MatchCaching(false);
         }
 
         public SafeList<Match> GetMatches(OddsFeedsModel model, bool isLive)
         {
-            return _matchCaching.GetMatches(model.UserProfile, model.UserQuery, isLive);
+            return isLive ? _livematchCaching.GetMatches(_cluster, model.UserProfile, model.UserQuery) :
+                _deadmatchCaching.GetMatches(_cluster, model.UserProfile, model.UserQuery);
         }
 
         public SafeList<Outright> GetOutrights(OddsFeedsModel model)

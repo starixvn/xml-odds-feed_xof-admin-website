@@ -30,7 +30,7 @@ namespace Fanex.OddsFeed.WebServiceLibrary.Caching
         private string BuildQuery(UserProfile userProfile, UserQuery userQuery)
         {
             var outrightList = "outrightList";
-            var query = string.Format("select outrightList.*  from {0} unnest {1}.outrights as {2}",
+            var query = string.Format("select outrightList.* from {0} unnest {1}.outrights as {2}",
                 _outrightBucket,
                 _outrightBucket,
                 outrightList);
