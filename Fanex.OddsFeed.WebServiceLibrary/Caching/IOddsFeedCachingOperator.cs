@@ -8,5 +8,9 @@
         SafeList<Match> GetMatches(OddsFeedsModel model, bool isLive);
 
         SafeList<Outright> GetOutrights(OddsFeedsModel model);
+
+        SafeList<Match> GetEventMatches(bool isLive);
+
+        SafeList<Outright> GetEventOutrights();
     }
 }

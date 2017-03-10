@@ -11,18 +11,23 @@
     {
         private UserProfile _userProfile;
         private EventBuilder _eventBuilder;
+        private readonly IOddsFeedCachingOperator _oddsFeedCachingOperator;
 
         public EventFeedService(UserProfile userProfile)
         {
             _userProfile = userProfile;
             _eventBuilder = new EventBuilder();
+            _oddsFeedCachingOperator = new OddsFeedCachingOperator();
         }
 
         public string BuildXmlEvent(bool isSample = false, bool isOutright = true)
         {
             var eventFeedNode = new StringBuilder();
-            var oddsData = OddFeedDataCachingOperator.GetOddsData(_userProfile.DelayTimes);
-            var fullMatches = oddsData.DeadballMatches.Concat(oddsData.LiveMatches);
+            var outrights = _oddsFeedCachingOperator.GetEventOutrights();
+            var deadMatches = _oddsFeedCachingOperator.GetEventMatches(false);
+            var liveMatches = _oddsFeedCachingOperator.GetEventMatches(true);
+            var fullMatches = deadMatches.Concat(liveMatches);
+
             var userLanguage = new UserLanguage
             {
                 IsSupportedEnglish = StringHelper.ContainInList(_userProfile.Languages, "en-US"),
@@ -34,7 +39,7 @@
 
             if (!isSample || isOutright)
             {
-                _eventBuilder.AppendOutrightsNode(eventFeedNode, userLanguage, oddsData.Outrights);
+                _eventBuilder.AppendOutrightsNode(eventFeedNode, userLanguage, outrights);
             }
 
             _eventBuilder.AppendMatchesNode(eventFeedNode, userLanguage, fullMatches);

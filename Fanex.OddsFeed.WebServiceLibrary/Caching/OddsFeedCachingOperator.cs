@@ -38,5 +38,15 @@
         {
             return _outrightCaching.GetOutrights(_cluster, model.UserProfile, model.UserQuery);
         }
+
+        public SafeList<Match> GetEventMatches(bool isLive)
+        {
+            return new SafeList<Match>();
+        }
+
+        public SafeList<Outright> GetEventOutrights()
+        {
+            return new SafeList<Outright>();
+        }
     }
 }
