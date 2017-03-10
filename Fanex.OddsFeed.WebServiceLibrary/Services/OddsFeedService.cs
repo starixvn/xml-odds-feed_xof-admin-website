@@ -11,6 +11,8 @@
     public class OddsFeedService : IOddsFeedService
     {
         private const int OddsTypeOutRight = 8;
+        private const int OddsTypeLiveMatch = 4;
+        private const int OddsTypeDeadBallMatch = 2;
 
         private readonly IMatchBuilder _matchBuilder;
         private readonly IOutrightBuilder _outrightBuilder;
@@ -26,7 +28,6 @@
         public string BuildXmlDocument(OddsFeedsModel model)
         {
             var oddsFeedNode = new StringBuilder("<oddsfeed>");
-            var oddsData = _oddsFeedCachingOperator.GetOddsData(model.UserProfile, model.UserQuery);
             var userLanguage = new UserLanguage
             {
                 IsSupportedEnglish = StringHelper.ContainInList(model.UserProfile.Languages, "en-US"),
@@ -36,10 +37,18 @@
 
             if (IsShownOutright(model))
             {
-                _outrightBuilder.AppendOutrightsNode(oddsFeedNode, oddsData.Outrights, model, userLanguage);
+                _outrightBuilder.AppendOutrightsNode(oddsFeedNode, _oddsFeedCachingOperator.GetOutrights(model), model, userLanguage);
             }
 
-            _matchBuilder.AddMatchesNode(oddsFeedNode, oddsData, model, userLanguage, GetLastUpdate());
+            if (IsShownLiveMatch(model.UserProfile))
+            {
+                _matchBuilder.AddMatchesNode(oddsFeedNode, _oddsFeedCachingOperator.GetMatches(model, true), model, userLanguage, GetLastUpdate());
+            }
+
+            if (IsShownDeadBallMatch(model.UserProfile))
+            {
+                _matchBuilder.AddMatchesNode(oddsFeedNode, _oddsFeedCachingOperator.GetMatches(model, false), model, userLanguage, GetLastUpdate());
+            }
 
             oddsFeedNode.Append("</oddsfeed>");
 
@@ -51,9 +60,66 @@
             return model.UserProfile.OddsType.Contains(OddsTypeOutRight) && (!model.IsSample || model.IsOutright);
         }
 
+        private static bool IsShownLiveMatch(UserProfile userProfile)
+        {
+            return userProfile.OddsType != null && userProfile.OddsType.Contains(OddsTypeLiveMatch);
+        }
+
+        private static bool IsShownDeadBallMatch(UserProfile userProfile)
+        {
+            return userProfile.OddsType != null && userProfile.OddsType.Contains(OddsTypeDeadBallMatch);
+        }
+
         private static DateTime GetLastUpdate()
         {
             return DateTime.Now.AddHours(12);
+        }
+
+        private static void AppendBeginMatches(
+            StringBuilder oddsFeedNode,
+            OddsFeedsModel model,
+            int matchesTimeStamp,
+            DateTime lastUpdate)
+        {
+            if (matchesTimeStamp > 0)
+            {
+                oddsFeedNode
+                    .Append($"<matches lastupdate=\"{lastUpdate}\" timestamp=\"{matchesTimeStamp}\" oddstype=\"{GetOddsTypeName(model.UserProfile.OddRegion)}\">");
+            }
+            else
+            {
+                oddsFeedNode.Append("<matches>");
+            }
+        }
+
+        private static string GetOddsTypeName(int oddsTypeId)
+        {
+            var oddsTypeName = string.Empty;
+
+            switch (oddsTypeId)
+            {
+                case 1:
+                    oddsTypeName = "Malay";
+                    break;
+                case 2:
+                    oddsTypeName = "HongKong";
+                    break;
+                case 3:
+                    oddsTypeName = "Decimal";
+                    break;
+                case 4:
+                    oddsTypeName = "Indo";
+                    break;
+                case 5:
+                    oddsTypeName = "US";
+                    break;
+
+                default:
+                    oddsTypeName = "Malay";
+                    break;
+            }
+
+            return oddsTypeName;
         }
     }
 }

@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using Couchbase;
-using Couchbase.Configuration.Client;
-using Couchbase.Core;
-using Fanex.OddsFeed.Common.Configurations;
-using Fanex.OddsFeed.Common.DTO;
-
-namespace Fanex.OddsFeed.WebServiceLibrary.Caching
+﻿namespace Fanex.OddsFeed.WebServiceLibrary.Caching
 {
+    using System;
+    using System.Collections.Generic;
+    using Couchbase;
+    using Couchbase.Configuration.Client;
+    using Couchbase.Core;
+    using Fanex.OddsFeed.Common.Configurations;
+    using Fanex.OddsFeed.Common.DTO;
+    using Models;
     public class OddsFeedCachingOperator : IOddsFeedCachingOperator
     {
         private readonly ICluster _cluster;
@@ -20,28 +20,19 @@ namespace Fanex.OddsFeed.WebServiceLibrary.Caching
             {
                 Servers = new List<Uri> { new Uri(AppSettings.CouchbaseServer) }
             });
+
             _outrightCaching = new OutrightCaching();
             _matchCaching = new MatchCaching();
         }
 
-        public OddsData GetOddsData(UserProfile userProfile, UserQuery userQuery)
+        public SafeList<Match> GetMatches(OddsFeedsModel model, bool isLive)
         {
-            return new OddsData
-            {
-                Outrights = GetOutrights(userProfile, userQuery),
-                LiveMatches = GetMatches(userProfile, userQuery, true),
-                DeadballMatches = GetMatches(userProfile, userQuery, false)
-            };
+            return _matchCaching.GetMatches(model.UserProfile, model.UserQuery, isLive);
         }
 
-        private SafeList<Match> GetMatches(UserProfile userProfile, UserQuery userQuery, bool isLive)
+        public SafeList<Outright> GetOutrights(OddsFeedsModel model)
         {
-            return _matchCaching.GetMatches(userProfile, userQuery, isLive);
-        }
-
-        private SafeList<Outright> GetOutrights(UserProfile userProfile, UserQuery userQuery)
-        {
-            return _outrightCaching.GetOutrights(_cluster, userProfile, userQuery);
+            return _outrightCaching.GetOutrights(_cluster, model.UserProfile, model.UserQuery);
         }
     }
 }

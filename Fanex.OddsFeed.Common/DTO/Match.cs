@@ -36,6 +36,8 @@
 
         public DateTime KickOfTime { get; set; }
 
+        public int TimeStamp { get; set; }
+
         public IList<MatchOdds> MatchOddsList { get; set; }
     }
 }

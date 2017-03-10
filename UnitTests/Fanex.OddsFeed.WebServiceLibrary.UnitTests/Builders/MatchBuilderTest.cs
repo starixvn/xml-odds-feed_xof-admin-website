@@ -1,7 +1,6 @@
 ﻿namespace Fanex.OddsFeed.WebServiceLibrary.UnitTests.Builders
 {
     using System;
-    using System.Collections.Generic;
     using System.Text;
     using Common.DTO;
     using Models;
@@ -26,11 +25,6 @@
             var matchXmlNode = GetDeadballMatchXmlNode();
             var oddsFeedNode = new StringBuilder();
             var lastUpdate = new DateTime(2016, 11, 2, 15, 51, 07);
-            var oddsData = new OddsData
-            {
-                DeadballMatches = GetMatchNodes(false),
-                LiveMatches = new List<Match>()
-            };
             var model = new OddsFeedsModel
             {
                 BookieName = "111candy",
@@ -47,7 +41,7 @@
             // Action
             _target.AddMatchesNode(
                 oddsFeedNode,
-                oddsData,
+                GetMatchNodes(false),
                 model,
                 userLanguage,
                 lastUpdate);
@@ -63,11 +57,6 @@
             var matchXmlNode = GetLiveMatchXmlNode();
             var oddsFeedNode = new StringBuilder();
             var lastUpdate = new DateTime(2016, 11, 2, 15, 51, 07);
-            var oddsData = new OddsData
-            {
-                DeadballMatches = GetMatchNodes(true),
-                LiveMatches = new List<Match>()
-            };
             var model = new OddsFeedsModel
             {
                 BookieName = "111candy",
@@ -84,7 +73,7 @@
             // Action
             _target.AddMatchesNode(
                 oddsFeedNode,
-                oddsData,
+                GetMatchNodes(true),
                 model,
                 userLanguage,
                 lastUpdate);
@@ -115,9 +104,9 @@
                 + "</matches>";
         }
 
-        private static IList<Match> GetMatchNodes(bool isLive)
+        private static SafeList<Match> GetMatchNodes(bool isLive)
         {
-            return new List<Match>
+            return new SafeList<Match>
             {
                 new Match
                 {

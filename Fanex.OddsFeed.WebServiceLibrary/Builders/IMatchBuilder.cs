@@ -9,7 +9,7 @@
     {
         void AddMatchesNode(
             StringBuilder oddsFeedNode,
-            OddsData oddsData,
+            SafeList<Match> matches,
             OddsFeedsModel model,
             UserLanguage userLanguage,
             DateTime lastUpdate);

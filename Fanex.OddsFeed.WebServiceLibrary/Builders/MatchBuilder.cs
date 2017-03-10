@@ -26,53 +26,53 @@
 
         public void AddMatchesNode(
             StringBuilder oddsFeedNode,
-            OddsData oddsData,
+            SafeList<Match> matches,
             OddsFeedsModel model,
             UserLanguage userLanguage,
             DateTime lastUpdate)
         {
             var changeTime = !string.IsNullOrEmpty(model.TimeStamp);
             var timeStamp = changeTime ? int.Parse(model.TimeStamp) : 0;
-            var hasSupportLiveMatch = HasSupportedLiveMatch(model.UserProfile, oddsData.LiveMatches);
-            var hasSupportDeadballMatch = HasSupportedDeadBallMatch(model.UserProfile, oddsData.DeadballMatches);
+            //var hasSupportLiveMatch = HasSupportedLiveMatch(model.UserProfile, oddsData.LiveMatches);
+            //var hasSupportDeadballMatch = HasSupportedDeadBallMatch(model.UserProfile, oddsData.DeadballMatches);
 
-            var matchesTimeStamp = GetMatchesTimeStamp(
-                oddsData.LiveMatches,
-                oddsData.DeadballMatches, 
-                hasSupportLiveMatch, 
-                hasSupportDeadballMatch, 
-                model,
-                changeTime, 
-                timeStamp);
+            //var matchesTimeStamp = GetMatchesTimeStamp(
+            //    oddsData.LiveMatches,
+            //    oddsData.DeadballMatches, 
+            //    hasSupportLiveMatch, 
+            //    hasSupportDeadballMatch, 
+            //    model,
+            //    changeTime, 
+            //    timeStamp);
 
-            AppendBeginMatches(oddsFeedNode, model, matchesTimeStamp, lastUpdate);
+            //AppendBeginMatches(oddsFeedNode, model, matchesTimeStamp, lastUpdate);
 
-            if (hasSupportLiveMatch)
-            {
-                AppendMatchNodes(oddsFeedNode, oddsData.LiveMatches, model, userLanguage, changeTime, timeStamp);
-            }
+            //if (hasSupportLiveMatch)
+            //{
+            //    AppendMatchNodes(oddsFeedNode, oddsData.LiveMatches, model, userLanguage, changeTime, timeStamp);
+            //}
 
-            if (hasSupportDeadballMatch)
-            {
-                AppendMatchNodes(oddsFeedNode, oddsData.DeadballMatches, model, userLanguage, changeTime, timeStamp);
-            }
+            //if (hasSupportDeadballMatch)
+            //{
+            //    AppendMatchNodes(oddsFeedNode, oddsData.DeadballMatches, model, userLanguage, changeTime, timeStamp);
+            //}
 
             oddsFeedNode.Append("</matches>");
         }
 
-        private static bool HasSupportedLiveMatch(UserProfile userProfile, IEnumerable<Match> matches)
-        {
-            return userProfile.OddsType != null 
-                && userProfile.OddsType.Contains(OddsTypeLiveMatch)
-                && matches.Any();
-        }
+        //private static bool HasSupportedLiveMatch(UserProfile userProfile, IEnumerable<Match> matches)
+        //{
+        //    return userProfile.OddsType != null 
+        //        && userProfile.OddsType.Contains(OddsTypeLiveMatch)
+        //        && matches.Any();
+        //}
 
-        private static bool HasSupportedDeadBallMatch(UserProfile userProfile, IEnumerable<Match> matches)
-        {
-            return userProfile.OddsType != null 
-                && userProfile.OddsType.Contains(OddsTypeDeadBallMatch)
-                && matches.Any();
-        }
+        //private static bool HasSupportedDeadBallMatch(UserProfile userProfile, IEnumerable<Match> matches)
+        //{
+        //    return userProfile.OddsType != null 
+        //        && userProfile.OddsType.Contains(OddsTypeDeadBallMatch)
+        //        && matches.Any();
+        //}
 
         private static void AppendBeginMatches(
             StringBuilder oddsFeedNode,
