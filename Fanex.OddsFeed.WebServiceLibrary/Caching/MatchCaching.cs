@@ -3,6 +3,7 @@ using System.Linq;
 using Couchbase.Core;
 using Fanex.OddsFeed.Common.Configurations;
 using Fanex.OddsFeed.Common.DTO;
+using Fanex.OddsFeed.WebServiceLibrary.Models;
 
 namespace Fanex.OddsFeed.WebServiceLibrary.Caching
 {
@@ -17,19 +18,19 @@ namespace Fanex.OddsFeed.WebServiceLibrary.Caching
             _matchBucket = isLive ? AppSettings.BucketLiveMatches : AppSettings.BucketDeadMatches;
         }
 
-        public SafeList<Match> GetMatches(ICluster cluster, UserProfile userProfile, UserQuery userQuery)
+        public SafeList<Match> GetMatches(ICluster cluster, OddsFeedsModel model)
         {
             var data = new List<Match> { };
             using (var bucket = cluster.OpenBucket(_matchBucket))
             {
-                var query = BuildQuery(userProfile, userQuery);
+                var query = BuildQuery(model);
                 data = bucket.Query<Match>(query).ToList();
             }
 
             return new SafeList<Match>(data);
         }
 
-        private string BuildQuery(UserProfile userProfile, UserQuery userQuery)
+        private string BuildQuery(OddsFeedsModel model)
         {
             var matches = "matches";
             var matchOddsList = "matchOddsList";
@@ -44,11 +45,13 @@ namespace Fanex.OddsFeed.WebServiceLibrary.Caching
                                 matches.sportId, matches.sportName, matches.countryCode, matches.kickOfTime";
             var conditions = new[] {
                 BuildFilterByVersion(_matchBucket),
-                BuildFilterBySport(userProfile, userQuery, matches),
-                BuildFilterByUserProfileLeague(userProfile, matches),
-                BuildFilterByUserQueryLeague(userQuery, matches),
-                BuildFilterByCountry(userProfile, userQuery, matches),
-                BuildFilterByKeyword(userProfile, matches)
+                BuildFilterBySport(model.UserProfile, model.UserQuery, matches),
+                BuildFilterByUserProfileLeague(model.UserProfile, matches),
+                BuildFilterByUserQueryLeague(model.UserQuery, matches),
+                BuildFilterByCountry(model.UserProfile, model.UserQuery, matches),
+                BuildFilterByKeyword(model.UserProfile, matches),
+                BuildFilterByBetType(model.UserProfile, model.UserQuery, matchOddsList),
+                BuildFilterByTimeStamp(model.TimeStamp, matchOddsList)
             }.Where(x => !string.IsNullOrEmpty(x)).ToArray();
             var whereClause = conditions.Any() ? string.Format(" where {0} ", string.Join(" and ", conditions)) : string.Empty;
 
@@ -59,7 +62,7 @@ namespace Fanex.OddsFeed.WebServiceLibrary.Caching
         {
             var version = 0;
 
-            return string.Format(" {0}.version = {1} and matchOddsList.timeStamp = 1488217353 ", matchBucket, version);
+            return string.Format(" {0}.version = {1} ", matchBucket, version);
         }
 
         private string BuildFilterBySport(UserProfile userProfile, UserQuery userQuery, string matches)
@@ -125,6 +128,31 @@ namespace Fanex.OddsFeed.WebServiceLibrary.Caching
         {
             return string.IsNullOrEmpty(userProfile.LeagueKeyword) ? string.Empty :
                 string.Format(" lower({0}.leagueEn) like '%{1}%' ", matches, userProfile.LeagueKeyword.ToLower());
+        }
+
+        private string BuildFilterByBetType(UserProfile userProfile, UserQuery userQuery, string matchOddsList)
+        {
+            var bettypeIds = new List<int>();
+            if (userProfile.BetTypes != null && userProfile.BetTypes.Any())
+            {
+                bettypeIds.AddRange(userProfile.BetTypes.ToList());
+            }
+
+            if (userQuery.BetTypes != null && userQuery.BetTypes.Any())
+            {
+                bettypeIds.AddRange(userQuery.BetTypes.ToList());
+            }
+
+            return bettypeIds.Any() ? string.Format(" {0}.betTypeId in [{1}] ", matchOddsList, string.Join(",", bettypeIds))
+                : string.Empty;
+        }
+
+        private string BuildFilterByTimeStamp(string timeStamp, string matchOddsList)
+        {
+            var changeTime = !string.IsNullOrEmpty(timeStamp);
+            var _timeStamp = changeTime ? int.Parse(timeStamp) : 0;
+
+            return changeTime ? string.Format(" {0}.timeStamp > {1} ", _timeStamp) : string.Empty;
         }
     }
 }

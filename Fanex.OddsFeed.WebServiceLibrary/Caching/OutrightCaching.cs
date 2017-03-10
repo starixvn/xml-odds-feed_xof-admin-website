@@ -35,6 +35,7 @@ namespace Fanex.OddsFeed.WebServiceLibrary.Caching
                 _outrightBucket,
                 outrightList);
             var conditions = new[] {
+                BuildFilterByVersion(_outrightBucket),
                 BuildFilterBySport(userProfile, userQuery, outrightList),
                 BuildFilterByLeague(userQuery, outrightList),
                 BuildFilterByCountry(userProfile, userQuery, outrightList),
@@ -44,6 +45,13 @@ namespace Fanex.OddsFeed.WebServiceLibrary.Caching
             query += conditions.Any() ? string.Format(" where {0} ", string.Join(" and ", conditions)) : string.Empty;
 
             return query;
+        }
+
+        private string BuildFilterByVersion(string outrightBucket)
+        {
+            var version = 0;
+
+            return string.Format(" {0}.version = {1} ", outrightBucket, version);
         }
 
         private string BuildFilterBySport(UserProfile userProfile, UserQuery userQuery, string outrightList)

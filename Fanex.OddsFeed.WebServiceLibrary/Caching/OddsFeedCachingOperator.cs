@@ -30,8 +30,8 @@
 
         public SafeList<Match> GetMatches(OddsFeedsModel model, bool isLive)
         {
-            return isLive ? _livematchCaching.GetMatches(_cluster, model.UserProfile, model.UserQuery) :
-                _deadmatchCaching.GetMatches(_cluster, model.UserProfile, model.UserQuery);
+            return isLive ? _livematchCaching.GetMatches(_cluster, model) :
+                _deadmatchCaching.GetMatches(_cluster, model);
         }
 
         public SafeList<Outright> GetOutrights(OddsFeedsModel model)
