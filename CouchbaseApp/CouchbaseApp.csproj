@@ -118,6 +118,7 @@
     <Compile Include="CouchbaseN1QL.Designer.cs">
       <DependentUpon>CouchbaseN1QL.cs</DependentUpon>
     </Compile>
+    <Compile Include="FakeData.cs" />
     <Compile Include="ItemResult.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -158,6 +159,9 @@
     <None Include="App.UAT.config">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="App_Data\Data\Deadballs.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

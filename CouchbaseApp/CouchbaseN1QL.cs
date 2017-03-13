@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Couchbase;
 using Couchbase.Configuration.Client;
@@ -16,6 +11,7 @@ namespace CouchbaseApp
     public partial class CouchbaseN1QL : Form
     {
         private readonly Cluster Cluster;
+        private readonly FakeData _fakeData;
 
         public CouchbaseN1QL()
         {
@@ -23,10 +19,11 @@ namespace CouchbaseApp
 
             var config = new ClientConfiguration
             {
-                Servers = new List<Uri> { new Uri("http://10.35.35.254:8091/pools") }
+                Servers = new List<Uri> { new Uri("http://10.35.35.253:8091/pools") }
             };
 
             Cluster = new Cluster(config);
+            _fakeData = new FakeData();
         }
 
         private void query_Click(object sender, EventArgs e)
@@ -47,89 +44,11 @@ namespace CouchbaseApp
         {
             using (var bucket = Cluster.OpenBucket("livematches"))
             {
-                //var document = new Document<dynamic>
-                //{
-                //    Id = "Test",
-                //    Content = new { name = "Couchbase" }
-                //};
-
-                //var upsert = bucket.Upsert(document);
-                //if (upsert.Success)
-                //{
-                //    MessageBox.Show("Success");
-                //}
-
-                //var matchDocument = new MatchDocument
-                //{
-                //    MatchId = 112,
-                //    LeagueId = 11,
-                //    LeagueEn = "UEFA EUROPA LEAGUE",
-                //    LeagueCn = "UEFA EUROPA LEAGUE",
-                //    LeagueTw = "UEFA EUROPA LEAGUE",
-                //    HomeEn = "FC Astana",
-                //    HomeCn = "FC Astana",
-                //    HomeTw = "FC Astana",
-                //    AwayEn = "Olympiakos",
-                //    AwayCn = "Olympiakos",
-                //    AwayTw = "Olympiakos",
-                //    KickOfTime = new DateTime(2016, 11, 3, 11, 59, 59),
-                //    SportName = "Soccer",
-                //    SportId = 5,
-                //    Bookie = "12bet",
-                //    MatchOddsList = new List<MatchOdds>
-                //    {
-                //        new MatchOdds
-                //        {
-                //            Tag = "oe",
-                //            BetTypeId = 1,
-                //            Time = new DateTime(2016, 11, 2, 15, 51, 07),
-                //            TimeStamp = 1477332693,
-                //            BetChoices = new[]
-                //            {
-                //                new BetChoice { Code = "o", Value = "2.0" },
-                //                new BetChoice { Code = "e", Value = "1.9" }
-                //            }
-                //        },
-                //        new MatchOdds
-                //        {
-                //            Tag = "ou",
-                //            BetTypeId = 2,
-                //            Time = new DateTime(2016, 11, 2, 15, 51, 07),
-                //            TimeStamp = 1477332693,
-                //            BetChoices = new[]
-                //            {
-                //                new BetChoice { Code = "h", Value = "0.5", NotConvert = true },
-                //                new BetChoice { Code = "o", Value = "1.0" },
-                //                new BetChoice { Code = "u", Value = "1.4" }
-                //            }
-                //        },
-                //        new MatchOdds
-                //        {
-                //            Tag = "ou",
-                //            BetTypeId = 2,
-                //            Time = new DateTime(2016, 11, 2, 15, 51, 07),
-                //            TimeStamp = 1477332693,
-                //            BetChoices = new[]
-                //            {
-                //                new BetChoice { Code = "h", Value = "1", NotConvert = true },
-                //                new BetChoice { Code = "o", Value = "2.0" },
-                //                new BetChoice { Code = "u", Value = "4.4" }
-                //            }
-                //        }
-                //    }
-                //};
-
-                //var document = new Document<MatchDocument>
-                //{
-                //    Id = matchDocument.Version.ToString(),
-                //    Content = matchDocument
-                //};
-
-                //var upsert = bucket.Upsert(document);
-                //if (upsert.Success)
-                //{
-                //    MessageBox.Show("Success");
-                //}
+                for (var i = 0; i < 60; i++)
+                {
+                    var matches = _fakeData.FakeDeadballMatches(i);
+                    var upsert = bucket.Upsert(matches);
+                }
             }
         }
 
