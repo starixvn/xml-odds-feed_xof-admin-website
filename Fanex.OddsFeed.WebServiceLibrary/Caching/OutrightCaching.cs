@@ -16,7 +16,7 @@ namespace Fanex.OddsFeed.WebServiceLibrary.Caching
             _outrightBucket = AppSettings.BucketOutrights;
         }
 
-        public SafeList<Outright> GetOutrights(ICluster cluster, OddsFeedsModel model, CacheVersion cacheVersion)
+        public SafeList<Outright> GetOutrights(ICluster cluster, OddsFeedsModel model, int cacheVersion)
         {
             var data = new List<Outright> { };
             using (var bucket = cluster.OpenBucket(_outrightBucket))
@@ -28,13 +28,10 @@ namespace Fanex.OddsFeed.WebServiceLibrary.Caching
             return new SafeList<Outright>(data);
         }
 
-        private string BuildQuery(UserProfile userProfile, UserQuery userQuery, CacheVersion cacheVersion)
+        private string BuildQuery(UserProfile userProfile, UserQuery userQuery, int cacheVersion)
         {
             var outrightList = "outrightList";
-            var query = string.Format("select outrightList.* from {0} unnest {1}.outrights as {2}",
-                _outrightBucket,
-                _outrightBucket,
-                outrightList);
+            var query = $"select outrightList.* from {_outrightBucket} unnest {_outrightBucket}.outrights as {outrightList}";
             var conditions = new[] {
                 BuildFilterByVersion(_outrightBucket, cacheVersion),
                 BuildFilterBySport(userProfile, userQuery, outrightList),
@@ -43,16 +40,14 @@ namespace Fanex.OddsFeed.WebServiceLibrary.Caching
                 BuildFilterByProfile(userProfile, outrightList),
                 BuildFilterByKeyword(userProfile, outrightList)
             }.Where(x => !string.IsNullOrEmpty(x)).ToArray();
-            query += conditions.Any() ? string.Format(" where {0} ", string.Join(" and ", conditions)) : string.Empty;
+            query += conditions.Any() ? $" where {string.Join(" and ", conditions)} " : string.Empty;
 
             return query;
         }
 
-        private string BuildFilterByVersion(string outrightBucket, CacheVersion cacheVersion)
+        private string BuildFilterByVersion(string outrightBucket, int cacheVersion)
         {
-            var version = cacheVersion.CurrentVersionOutright;
-
-            return string.Format(" {0}.version = {1} ", outrightBucket, version);
+            return $" {outrightBucket}.version = {cacheVersion} ";
         }
 
         private string BuildFilterBySport(UserProfile userProfile, UserQuery userQuery, string outrightList)
@@ -68,8 +63,7 @@ namespace Fanex.OddsFeed.WebServiceLibrary.Caching
                 sportIds.AddRange(userQuery.Sports.ToList());
             }
 
-            return sportIds.Any() ? string.Format(" {0}.sportId in [{1}] ", outrightList, string.Join(",", sportIds))
-                : string.Empty;
+            return sportIds.Any() ? $" {outrightList}.sportId in [{string.Join(",", sportIds)}] " : string.Empty;
         }
 
         private string BuildFilterByLeague(UserQuery userQuery, string outrightList)
@@ -79,27 +73,28 @@ namespace Fanex.OddsFeed.WebServiceLibrary.Caching
             {
                 leagues.AddRange(userQuery.Leagues);
             }
+
             leagues = leagues.Where(l => l != null).Select(l => { return "'" + l.ToLower() + "'"; }).ToList();
 
-            return leagues.Any() ? string.Format(" lower({0}.eventEn) in [{1}] ", outrightList, string.Join(",", leagues))
-                : string.Empty;
+            return leagues.Any() ? $" lower({outrightList}.eventEn) in [{string.Join(",", leagues)}] " : string.Empty;
         }
 
         private string BuildFilterByCountry(UserProfile userProfile, UserQuery userQuery, string outrightList)
         {
             var countries = new List<string>();
+
             if (userProfile.Countries != null && userProfile.Countries.Any())
             {
                 countries.AddRange(userProfile.Countries);
             }
+
             if (userQuery.Countries != null && userQuery.Countries.Any())
             {
                 countries.AddRange(userQuery.Countries);
             }
             countries = countries.Where(c => c != null).Select(c => { return "'" + c.ToLower() + "'"; }).ToList();
 
-            return countries.Any() ? string.Format(" lower({0}.countryCode) in [{1}] ", outrightList, string.Join(",", countries))
-                : string.Empty;
+            return countries.Any() ? $" lower({outrightList}.countryCode) in [{string.Join(",", countries)}] " : string.Empty;
         }
 
         private string BuildFilterByProfile(UserProfile userProfile, string outrightList)
@@ -110,14 +105,14 @@ namespace Fanex.OddsFeed.WebServiceLibrary.Caching
                 eventIds += string.Join(",", userProfile.Outrights);
             }
 
-            return string.IsNullOrEmpty(eventIds) ? string.Empty :
-                string.Format(" {0}.eventId in [{1}] ", outrightList, eventIds);
+            return string.IsNullOrEmpty(eventIds) ? string.Empty : $" {outrightList}.eventId in [{eventIds}] ";
         }
 
         private string BuildFilterByKeyword(UserProfile userProfile, string outrightList)
         {
-            return string.IsNullOrEmpty(userProfile.OutrightsKeyword) ? string.Empty :
-                string.Format(" lower({0}.eventEn) like '%{1}%' ", outrightList, userProfile.OutrightsKeyword.ToLower());
+            return string.IsNullOrEmpty(userProfile.OutrightsKeyword) 
+                ? string.Empty 
+                : $" lower({outrightList}.eventEn) like '%{userProfile.OutrightsKeyword.ToLower()}%' ";
         }
     }
 }

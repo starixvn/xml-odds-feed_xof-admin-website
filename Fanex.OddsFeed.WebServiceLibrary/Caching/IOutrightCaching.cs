@@ -6,6 +6,6 @@ namespace Fanex.OddsFeed.WebServiceLibrary.Caching
 {
     public interface IOutrightCaching
     {
-        SafeList<Outright> GetOutrights(ICluster cluster, OddsFeedsModel model, CacheVersion cacheVersion);
+        SafeList<Outright> GetOutrights(ICluster cluster, OddsFeedsModel model, int cacheVersion);
     }
 }

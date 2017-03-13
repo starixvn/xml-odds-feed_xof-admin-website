@@ -27,16 +27,16 @@
 
             _versionCaching = new VersionCaching();
             _outrightCaching = new OutrightCaching();
-            _livematchCaching = new MatchCaching(true);
-            _deadmatchCaching = new MatchCaching(false);
+            _livematchCaching = new MatchCaching(AppSettings.BucketLiveMatches);
+            _deadmatchCaching = new MatchCaching(AppSettings.BucketDeadMatches);
         }
 
         public OddsData GetOddsData(OddsFeedsModel model, bool isGetOutright, bool isGetLiveMatch, bool isGetDeadballMatch)
         {
             var cacheVersion = _versionCaching.GetRightVersion(_cluster, model);
-            var outrights = isGetOutright ? GetOutrights(model, cacheVersion) : new SafeList<Outright>();
-            var liveMatches = isGetLiveMatch ? GetMatches(model, cacheVersion, true) : new SafeList<Match>();
-            var deadballMatches = isGetDeadballMatch ? GetMatches(model, cacheVersion, false) : new SafeList<Match>();
+            var outrights = isGetOutright ? GetOutrights(model, cacheVersion.CurrentVersionOutright) : new SafeList<Outright>();
+            var liveMatches = isGetLiveMatch ? GetMatches(model, cacheVersion.CurrentVersionLiveMatch, true) : new SafeList<Match>();
+            var deadballMatches = isGetDeadballMatch ? GetMatches(model, cacheVersion.CurrentVersionDeadballMatch, false) : new SafeList<Match>();
 
             return new OddsData
             {
@@ -46,13 +46,13 @@
             };
         }
 
-        private SafeList<Match> GetMatches(OddsFeedsModel model, CacheVersion cacheVersion, bool isLive)
+        private SafeList<Match> GetMatches(OddsFeedsModel model, int cacheVersion, bool isLive)
         {
             return isLive ? _livematchCaching.GetMatches(_cluster, model, cacheVersion) :
                 _deadmatchCaching.GetMatches(_cluster, model, cacheVersion);
         }
 
-        private SafeList<Outright> GetOutrights(OddsFeedsModel model, CacheVersion cacheVersion)
+        private SafeList<Outright> GetOutrights(OddsFeedsModel model, int cacheVersion)
         {
             return _outrightCaching.GetOutrights(_cluster, model, cacheVersion);
         }
@@ -77,6 +77,8 @@
             {
                 LogService.Error(ex.Message, ex);
             }
+
+            GC.SuppressFinalize(this);
         }
     }
 }
