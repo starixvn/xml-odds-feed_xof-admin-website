@@ -53,27 +53,14 @@
             try
             {
                 var betTypeSchemas = GetBetTypeSchemas();
-                var liveMatches = GetLiveMatches(betTypeSchemas);
-                var deadBallMatches = GetDeadballMatches(betTypeSchemas);
+                var liveMatches = GetLiveMatches(betTypeSchemas, currentVersion);
+                var deadBallMatches = GetDeadballMatches(betTypeSchemas, currentVersion);
                 var outrights = GetOutrights();
 
                 result = StoreValue(AppSettings.BucketOddsFeed, CacheKeys.CurrentKey(_cachePrefix), currentVersion);
 
-                result = result && StoreOdds(
-                    AppSettings.BucketLiveMatches, 
-                    new Document<MatchDocument>
-                    {
-                        Id = currentVersion.ToString(),
-                        Content = new MatchDocument { Version = currentVersion, Matches = liveMatches }
-                    });
-
-                result = result && StoreOdds(
-                    AppSettings.BucketDeadMatches,
-                    new Document<MatchDocument>
-                    {
-                        Id = currentVersion.ToString(),
-                        Content = new MatchDocument { Version = currentVersion, Matches = deadBallMatches }
-                    });
+                result = result && StoreLeagueDocuments(AppSettings.BucketLiveMatches, liveMatches, currentVersion);
+                result = result && StoreLeagueDocuments(AppSettings.BucketDeadMatches, deadBallMatches, currentVersion);
 
                 result = result && StoreOdds(
                     AppSettings.BucketOutrights,
@@ -96,19 +83,19 @@
             return true;
         }
 
-        private IList<Match> GetLiveMatches(IList<BetTypeSchema> betTypeSchemas) 
+        private IEnumerable<LeagueDocument> GetLiveMatches(IList<BetTypeSchema> betTypeSchemas, int currentVersion) 
         {
             using (var liveOdds = DbAccess.GetLiveOddsData())
             {
-                return _matchMapping.GetMatches(liveOdds.Tables[0], betTypeSchemas, GetOddsFlexGroups(liveOdds.Tables[1]));
+                return _matchMapping.GetMatches(liveOdds.Tables[0], betTypeSchemas, GetOddsFlexGroups(liveOdds.Tables[1]), currentVersion);
             }
         }
 
-        private IList<Match> GetDeadballMatches(IList<BetTypeSchema> betTypeSchemas)
+        private IEnumerable<LeagueDocument> GetDeadballMatches(IList<BetTypeSchema> betTypeSchemas, int currentVersion)
         {
             using (var deadballOdds = DbAccess.GetDeadballOddsData())
             {
-                return _matchMapping.GetMatches(deadballOdds.Tables[0], betTypeSchemas, GetOddsFlexGroups(deadballOdds.Tables[1]));
+                return _matchMapping.GetMatches(deadballOdds.Tables[0], betTypeSchemas, GetOddsFlexGroups(deadballOdds.Tables[1]), currentVersion);
             }
         }
 
@@ -188,6 +175,24 @@
                 }
 
                 return schemas;
+            }
+        }
+
+        private bool StoreLeagueDocuments(string bucketName, IEnumerable<LeagueDocument> leagueDocuments, int version)
+        {
+            using (var bucket = _cluster.OpenBucket(bucketName))
+            {
+                foreach (var leagueDocument in leagueDocuments)
+                {
+                    var upsert = bucket.Upsert(new Document<LeagueDocument> { Id = $"{version}_{leagueDocument.LeagueId}", Content = leagueDocument });
+
+                    if (!upsert.Success)
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
             }
         }
 

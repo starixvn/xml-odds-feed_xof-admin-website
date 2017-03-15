@@ -11,10 +11,11 @@
 
     public class MatchMapping : IMatchMapping
     {
-        public SafeList<Match> GetMatches(
+        public IEnumerable<LeagueDocument> GetMatches(
             DataTable dataTable,
             IEnumerable<BetTypeSchema> schemas,
-            IEnumerable<OddsFlexGroup> oddsFlexs)
+            IEnumerable<OddsFlexGroup> oddsFlexs,
+            int currentVersion)
         {
             var matchList = new SafeList<Match>();
             var matchOddsList = new SafeList<MatchOdds>();
@@ -39,21 +40,37 @@
 
             var matchListResult = new SafeList<Match>();
             var partitionerMatchList = Partitioner.Create(matchList, true);
-
             var matchListById = from row in partitionerMatchList.AsParallel()
                                 group row by row.MatchId into g
                                 select new { MatchId = g.Key, FirstMatch = g.FirstOrDefault() };
 
             matchListById.ForAll((row) =>
             {
-
                 var temp = row.FirstMatch;
                 temp.MatchOddsList = matchOddsList.AsParallel().Where(i => i.MatchId == row.MatchId).ToList();
                 matchListResult.Add(temp);
 
             });
+            
+            return GetLeagueDocuments(matchListResult, currentVersion);
+        }
 
-            return matchListResult;
+        private static IEnumerable<LeagueDocument> GetLeagueDocuments(SafeList<Match> matchList, int currentVersion)
+        {
+            return from match in matchList
+                   group match by match.LeagueId into league
+                   select new LeagueDocument
+                   {
+                       Version = currentVersion,
+                       LeagueId = league.Key,
+                       LeagueEn = league.First().LeagueEn,
+                       LeagueCn = league.First().LeagueCn,
+                       LeagueTw = league.First().LeagueTw,
+                       SportId = league.First().SportId,
+                       SportName = league.First().SportName,
+                       CountryCode = league.First().CountryCode,
+                       Matches = league.ToList()
+                   };
         }
 
         private static Match CreateMatch(DataRow row)

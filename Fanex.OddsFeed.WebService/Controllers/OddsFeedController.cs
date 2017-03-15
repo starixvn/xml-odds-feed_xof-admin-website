@@ -24,11 +24,6 @@
 
         public ActionResult Index(string username)
         {
-            if (IsDownTime())
-            {
-                return XmlContent(GetDowntimeContent());
-            }
-
             var userQuery = RequestHelper.GetFilter(Request);
 
             if (RequestHelper.IsOverLimitedOptions(userQuery))
