@@ -96,6 +96,7 @@
     <Compile Include="DTO\Ip.cs" />
     <Compile Include="DTO\League.cs" />
     <Compile Include="DTO\Match.cs" />
+    <Compile Include="DTO\MatchDocumentV1.cs" />
     <Compile Include="DTO\MatchDocument.cs" />
     <Compile Include="DTO\MatchNode.cs" />
     <Compile Include="DTO\MatchOdds.cs" />
@@ -103,6 +104,7 @@
     <Compile Include="DTO\OddsData.cs" />
     <Compile Include="DTO\OddsFlexGroup.cs" />
     <Compile Include="DTO\Outright.cs" />
+    <Compile Include="DTO\OutrightDocumentV1.cs" />
     <Compile Include="DTO\OutrightDocument.cs" />
     <Compile Include="DTO\OutrightNode.cs" />
     <Compile Include="DTO\OutrightOdds.cs" />

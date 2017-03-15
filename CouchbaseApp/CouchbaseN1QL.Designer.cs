@@ -28,23 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.query = new System.Windows.Forms.Button();
             this.store = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // query
-            // 
-            this.query.Location = new System.Drawing.Point(159, 106);
-            this.query.Name = "query";
-            this.query.Size = new System.Drawing.Size(75, 23);
-            this.query.TabIndex = 0;
-            this.query.Text = "Query";
-            this.query.UseVisualStyleBackColor = true;
-            this.query.Click += new System.EventHandler(this.query_Click);
-            // 
             // store
             // 
-            this.store.Location = new System.Drawing.Point(40, 106);
+            this.store.Location = new System.Drawing.Point(95, 116);
             this.store.Name = "store";
             this.store.Size = new System.Drawing.Size(75, 23);
             this.store.TabIndex = 1;
@@ -58,7 +47,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 261);
             this.Controls.Add(this.store);
-            this.Controls.Add(this.query);
             this.Name = "CouchbaseN1QL";
             this.Text = "CouchbaseN1QL";
             this.ResumeLayout(false);
@@ -66,8 +54,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Button query;
         private System.Windows.Forms.Button store;
     }
 }
