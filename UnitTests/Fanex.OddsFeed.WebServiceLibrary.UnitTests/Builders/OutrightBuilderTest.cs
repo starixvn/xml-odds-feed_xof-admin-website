@@ -55,7 +55,7 @@
                 + "</outrights>";
         }
 
-        private static IEnumerable<Outright> GetOutrightNodes()
+        private static IList<Outright> GetOutrightNodes()
         {
             return new[]
             {

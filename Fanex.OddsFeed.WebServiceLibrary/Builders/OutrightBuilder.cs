@@ -20,7 +20,7 @@
 
         public void AppendOutrightsNode(
             StringBuilder oddsFeedNode,
-            IEnumerable<Outright> outrights,
+            IList<Outright> outrights,
             OddsFeedsModel model,
             UserLanguage userLanguage)
         {

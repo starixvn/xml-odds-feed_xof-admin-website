@@ -1,6 +1,7 @@
 ﻿namespace Fanex.OddsFeed.WebServiceLibrary.Services
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Text;
     using Builders;
@@ -34,8 +35,8 @@
 
             var oddsData = _oddsFeedCachingOperator.GetOddsData(model, isShownOutright, isShownLiveMatch, isShownDeadMatch);
             var oddsFeedNode = new StringBuilder("<oddsfeed>");
-            var liveMatches = new SafeList<Match>();
-            var deadMatches = new SafeList<Match>();
+            var liveMatches = new List<Match>();
+            var deadMatches = new List<Match>();
             var userLanguage = GetUserLanguage(model);
 
             if (isShownOutright)
@@ -45,12 +46,12 @@
 
             if (isShownLiveMatch)
             {
-                liveMatches = new SafeList<Match>(oddsData.LiveMatches);
+                liveMatches = new List<Match>(oddsData.LiveMatches);
             }
 
             if (isShownDeadMatch)
             {
-                deadMatches = new SafeList<Match>(oddsData.DeadballMatches);
+                deadMatches = new List<Match>(oddsData.DeadballMatches);
             }
 
             AppendMatches(oddsFeedNode, liveMatches, deadMatches, model, userLanguage);
@@ -72,8 +73,8 @@
 
         private void AppendMatches(
             StringBuilder oddsFeedNode,
-            SafeList<Match> liveMatches,
-            SafeList<Match> deadMatches,
+            IList<Match> liveMatches,
+            IList<Match> deadMatches,
             OddsFeedsModel model,
             UserLanguage userLanguage)
         {
@@ -85,7 +86,7 @@
             oddsFeedNode.Append("</matches>");
         }
 
-        private static int GetMatchTimeStamp(SafeList<Match> liveMatches, SafeList<Match> deadMatches)
+        private static int GetMatchTimeStamp(IList<Match> liveMatches, IList<Match> deadMatches)
         {
             var liveMatchesTimeStamp = 0;
             var deadMatchesTimeStamp = 0;

@@ -26,7 +26,7 @@
 
         public void AppendMatchNodes(
             StringBuilder oddsFeedNode,
-            SafeList<Match> matches,
+            IList<Match> matches,
             UserLanguage userLanguage,
             OddsFeedsModel model,
             bool isLive)

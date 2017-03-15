@@ -1,5 +1,6 @@
 ﻿namespace Fanex.OddsFeed.WebServiceLibrary.Builders
 {
+    using System.Collections.Generic;
     using System.Text;
     using Common.DTO;
     using Models;
@@ -8,7 +9,7 @@
     {
         void AppendMatchNodes(
             StringBuilder oddsFeedNode,
-            SafeList<Match> matches,
+            IList<Match> matches,
             UserLanguage userLanguage,
             OddsFeedsModel model,
             bool isLive);
