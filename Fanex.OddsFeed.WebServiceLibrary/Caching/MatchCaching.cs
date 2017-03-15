@@ -19,12 +19,19 @@
 
         public SafeList<Match> GetMatches(ICluster cluster, OddsFeedsModel model, int cacheVersion)
         {
+            var data = new List<Match>();
             using (var bucket = cluster.OpenBucket(_matchBucket))
             {
                 var query = BuildQuery(model, cacheVersion);
-
-                return new SafeList<Match>(bucket.Query<Match>(query));
+                data = bucket.Query<Match>(query).ToList();
             }
+
+            if (data.Count == 1 && data.First().MatchOddsList == null)
+            {
+                data = new List<Match> { };
+            }
+
+            return new SafeList<Match>(data);
         }
 
         private string BuildQuery(OddsFeedsModel model, int cacheVersion)
