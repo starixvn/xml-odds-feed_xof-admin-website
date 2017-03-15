@@ -99,7 +99,7 @@ namespace CouchbaseApp
             }
             var matches = JsonConvert.DeserializeObject<List<Match>>(json);
 
-            return matches.GetRange(0, 20);
+            return matches;
         }
 
         private List<Outright> BuildOutrights()

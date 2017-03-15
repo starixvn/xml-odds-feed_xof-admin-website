@@ -17,8 +17,12 @@ namespace CouchbaseApp
 
         private void store_Click(object sender, EventArgs e)
         {
+            var startTime = DateTime.Now;
             n1qlV1.StoreData();
-            MessageBox.Show("OK");
+            var endTime = DateTime.Now;
+
+            var period = endTime - startTime;
+            MessageBox.Show("OK in " + period);
         }
     }
 }
