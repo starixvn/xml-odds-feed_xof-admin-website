@@ -87,7 +87,7 @@
                 leagues.AddRange(userProfile.Leagues);
             }
 
-            return leagues.Any() ? $" lower({matches}.leagueId) in [{string.Join(",", leagues)}] " : string.Empty;
+            return leagues.Any() ? $" {matches}.leagueId in [{string.Join(",", leagues)}] " : string.Empty;
         }
 
         private string BuildFilterByUserQueryLeague(UserQuery userQuery, string matches)
