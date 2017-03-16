@@ -33,7 +33,7 @@
             // 
             // store
             // 
-            this.store.Location = new System.Drawing.Point(95, 116);
+            this.store.Location = new System.Drawing.Point(80, 104);
             this.store.Name = "store";
             this.store.Size = new System.Drawing.Size(75, 23);
             this.store.TabIndex = 1;
@@ -45,7 +45,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.ClientSize = new System.Drawing.Size(351, 261);
             this.Controls.Add(this.store);
             this.Name = "CouchbaseN1QL";
             this.Text = "CouchbaseN1QL";

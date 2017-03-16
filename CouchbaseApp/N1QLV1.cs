@@ -28,8 +28,8 @@ namespace CouchbaseApp
 
         public void StoreData()
         {
-            DropIndexDeadMatch();
-            DropIndexLiveMatch();
+            //DropIndexDeadMatch();
+            //DropIndexLiveMatch();
             //DropIndexOutright();
             //DropIndexOddsFeed();
 
@@ -38,8 +38,8 @@ namespace CouchbaseApp
             //StoreDataOutright();
             //StoreDataOddsFeed();
 
-            CreateIndexDeadMatch();
-            CreateIndexLiveMatch();
+            //CreateIndexDeadMatch();
+            //CreateIndexLiveMatch();
             //CreateIndexOutright();
             //CreateIndexOddsFeed();
         }

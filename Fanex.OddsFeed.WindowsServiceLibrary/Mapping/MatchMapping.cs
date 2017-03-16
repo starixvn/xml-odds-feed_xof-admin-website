@@ -49,7 +49,6 @@
                 var temp = row.FirstMatch;
                 temp.MatchOddsList = matchOddsList.AsParallel().Where(i => i.MatchId == row.MatchId).ToList();
                 matchListResult.Add(temp);
-
             });
             
             return GetLeagueDocuments(matchListResult, currentVersion);

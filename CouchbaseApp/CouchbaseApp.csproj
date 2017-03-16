@@ -127,6 +127,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="LeagueDocumentTest.cs" />
     <Compile Include="LogFormcs.cs">
       <SubType>Form</SubType>
     </Compile>
