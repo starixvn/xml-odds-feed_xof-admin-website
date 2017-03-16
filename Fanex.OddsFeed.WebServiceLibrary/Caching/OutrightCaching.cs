@@ -30,15 +30,14 @@ namespace Fanex.OddsFeed.WebServiceLibrary.Caching
 
         private string BuildQuery(UserProfile userProfile, UserQuery userQuery, int cacheVersion)
         {
-            var outrightList = "outrightList";
-            var query = $"select outrightList.* from {_outrightBucket} unnest {_outrightBucket}.outrights as {outrightList}";
+            var query = $"select {_outrightBucket}.* from {_outrightBucket}";
             var conditions = new[] {
                 BuildFilterByVersion(_outrightBucket, cacheVersion),
-                BuildFilterBySport(userProfile, userQuery, outrightList),
-                BuildFilterByLeague(userQuery, outrightList),
-                BuildFilterByCountry(userProfile, userQuery, outrightList),
-                BuildFilterByProfile(userProfile, outrightList),
-                BuildFilterByKeyword(userProfile, outrightList)
+                BuildFilterBySport(userProfile, userQuery, _outrightBucket),
+                BuildFilterByLeague(userQuery, _outrightBucket),
+                BuildFilterByCountry(userProfile, userQuery, _outrightBucket),
+                BuildFilterByProfile(userProfile, _outrightBucket),
+                BuildFilterByKeyword(userProfile, _outrightBucket)
             }.Where(x => !string.IsNullOrEmpty(x)).ToArray();
             query += conditions.Any() ? $" where {string.Join(" and ", conditions)} " : string.Empty;
 
@@ -110,8 +109,8 @@ namespace Fanex.OddsFeed.WebServiceLibrary.Caching
 
         private string BuildFilterByKeyword(UserProfile userProfile, string outrightList)
         {
-            return string.IsNullOrEmpty(userProfile.OutrightsKeyword) 
-                ? string.Empty 
+            return string.IsNullOrEmpty(userProfile.OutrightsKeyword)
+                ? string.Empty
                 : $" lower({outrightList}.eventEn) like '%{userProfile.OutrightsKeyword.ToLower()}%' ";
         }
     }

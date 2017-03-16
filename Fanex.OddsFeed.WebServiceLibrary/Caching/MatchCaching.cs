@@ -31,41 +31,34 @@
                 data = new List<Match> { };
             }
 
+            data = FilterByBetType(model.UserProfile, model.UserQuery, data);
+            data = FilterByTimeStamp(model.TimeStamp, data);
             return new SafeList<Match>(data);
         }
 
         private string BuildQuery(OddsFeedsModel model, int cacheVersion)
         {
             var matches = "matches";
-            var matchOddsList = "matchOddsList";
-            var queryTemplate = @"select matches.matchId, matches.leagueId, matches.leagueEn, matches.leagueTw, matches.leagueCn, 
-                            matches.homeEn, matches.homeTw, matches.homeCn, matches.awayEn, matches.awayTw, matches.awayCn, 
-                            matches.sportId, matches.sportName, matches.countryCode, matches.kickOfTime, 
-                            ARRAY_AGG(matchOddsList) as matchOddsList
-                        from {0} unnest {1}.matches as {2} unnest matches.matchOddsList as {3} 
-                        {4}
-                        group by matches.matchId, matches.leagueId, matches.leagueEn, matches.leagueTw, matches.leagueCn, 
-                                matches.homeEn, matches.homeTw, matches.homeCn, matches.awayEn, matches.awayTw, matches.awayCn, 
-                                matches.sportId, matches.sportName, matches.countryCode, matches.kickOfTime";
+            var queryTemplate = @"select matches.* 
+                                  from {0} as matches
+                                  {1}";
             var conditions = new[] {
-                BuildFilterByVersion(_matchBucket, cacheVersion),
+                BuildFilterByVersion(matches, cacheVersion),
                 BuildFilterBySport(model.UserProfile, model.UserQuery, matches),
                 BuildFilterByUserProfileLeague(model.UserProfile, matches),
                 BuildFilterByUserQueryLeague(model.UserQuery, matches),
                 BuildFilterByCountry(model.UserProfile, model.UserQuery, matches),
-                BuildFilterByKeyword(model.UserProfile, matches),
-                BuildFilterByBetType(model.UserProfile, model.UserQuery, matchOddsList),
-                BuildFilterByTimeStamp(model.TimeStamp, matchOddsList)
+                BuildFilterByKeyword(model.UserProfile, matches)
             }.Where(x => !string.IsNullOrEmpty(x)).ToArray();
 
             var whereClause = conditions.Any() ? $" where {string.Join(" and ", conditions)} " : string.Empty;
 
-            return string.Format(queryTemplate, _matchBucket, _matchBucket, matches, matchOddsList, whereClause);
+            return string.Format(queryTemplate, _matchBucket, whereClause);
         }
 
-        private string BuildFilterByVersion(string matchBucket, int cacheVersion)
+        private string BuildFilterByVersion(string matches, int cacheVersion)
         {
-            return $" {matchBucket}.version = {cacheVersion} ";
+            return $" {matches}.version = {cacheVersion} ";
         }
 
         private string BuildFilterBySport(UserProfile userProfile, UserQuery userQuery, string matches)
@@ -134,7 +127,7 @@
             return string.IsNullOrEmpty(userProfile.LeagueKeyword) ? string.Empty : $" lower({matches}.leagueEn) like '%{userProfile.LeagueKeyword.ToLower()}%' ";
         }
 
-        private string BuildFilterByBetType(UserProfile userProfile, UserQuery userQuery, string matchOddsList)
+        private List<Match> FilterByBetType(UserProfile userProfile, UserQuery userQuery, List<Match> data)
         {
             var bettypeIds = new List<int>();
             if (userProfile.BetTypes != null && userProfile.BetTypes.Any())
@@ -147,15 +140,31 @@
                 bettypeIds.AddRange(userQuery.BetTypes.ToList());
             }
 
-            return bettypeIds.Any() ? $" {matchOddsList}.betTypeId in [{string.Join(", ", bettypeIds)}] " : string.Empty;
+            if (bettypeIds.Any())
+            {
+                foreach (var match in data)
+                {
+                    match.MatchOddsList = match.MatchOddsList.Where(x => bettypeIds.Contains(x.BetTypeId)).ToList();
+                }
+            }
+
+            return data;
         }
 
-        private string BuildFilterByTimeStamp(string timeStamp, string matchOddsList)
+        private List<Match> FilterByTimeStamp(string timeStamp, List<Match> data)
         {
             var changeTime = !string.IsNullOrEmpty(timeStamp);
             var _timeStamp = changeTime ? int.Parse(timeStamp) : 0;
 
-            return changeTime ? $" {matchOddsList}.timeStamp > {_timeStamp} " : string.Empty;
+            if (changeTime)
+            {
+                foreach (var match in data)
+                {
+                    match.MatchOddsList = match.MatchOddsList.Where(x => x.TimeStamp > _timeStamp).ToList();
+                }
+            }
+
+            return data;
         }
     }
 }
