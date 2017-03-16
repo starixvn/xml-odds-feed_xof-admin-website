@@ -31,37 +31,39 @@
     {
         public int MatchId { get; set; }
 
-        [JsonIgnore]
         public int LeagueId { get; set; }
 
-        [JsonIgnore]
+        [JsonProperty("LeagueEnglish")]
         public string LeagueEn { get; set; }
 
-        [JsonIgnore]
+        [JsonProperty("LeagueTraditionalChinese")]
         public string LeagueTw { get; set; }
 
-        [JsonIgnore]
+        [JsonProperty("LeagueSimplifiedChinese")]
         public string LeagueCn { get; set; }
 
+        [JsonProperty("HomeEnglish")]
         public string HomeEn { get; set; }
 
+        [JsonProperty("HomeTraditionalChinese")]
         public string HomeTw { get; set; }
 
+        [JsonProperty("HomeSimplifiedChinese")]
         public string HomeCn { get; set; }
 
+        [JsonProperty("AwayEnglish")]
         public string AwayEn { get; set; }
 
+        [JsonProperty("AwayTraditionalChinese")]
         public string AwayTw { get; set; }
 
+        [JsonProperty("AwaySimplifiedChinese")]
         public string AwayCn { get; set; }
 
-        [JsonIgnore]
         public int SportId { get; set; }
 
-        [JsonIgnore]
         public string SportName { get; set; }
 
-        [JsonIgnore]
         public string CountryCode { get; set; }
 
         public DateTime KickOfTime { get; set; }

@@ -30,18 +30,18 @@ namespace CouchbaseApp
         {
             DropIndexDeadMatch();
             DropIndexLiveMatch();
-            DropIndexOutright();
-            DropIndexOddsFeed();
+            //DropIndexOutright();
+            //DropIndexOddsFeed();
 
             StoreDataDeadMatch();
             StoreDataLiveMatch();
-            StoreDataOutright();
-            StoreDataOddsFeed();
+            //StoreDataOutright();
+            //StoreDataOddsFeed();
 
             CreateIndexDeadMatch();
             CreateIndexLiveMatch();
-            CreateIndexOutright();
-            CreateIndexOddsFeed();
+            //CreateIndexOutright();
+            //CreateIndexOddsFeed();
         }
 
         private void StoreDataDeadMatch()
@@ -51,7 +51,10 @@ namespace CouchbaseApp
                 for (var i = 0; i < 62; i++)
                 {
                     var matches = _fakeData.FakeDeadMatches(i);
-                    bucket.InsertAsync(matches);
+                    foreach (var match in matches)
+                    {
+                        bucket.Insert(match);
+                    }
                 }
             }
         }
@@ -63,7 +66,10 @@ namespace CouchbaseApp
                 for (var i = 0; i < 62; i++)
                 {
                     var matches = _fakeData.FakeLiveMatches(i);
-                    bucket.InsertAsync(matches);
+                    foreach (var match in matches)
+                    {
+                        bucket.Insert(match);
+                    }
                 }
             }
         }
