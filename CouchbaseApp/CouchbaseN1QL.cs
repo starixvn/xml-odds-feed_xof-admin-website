@@ -27,5 +27,11 @@ namespace CouchbaseApp
             var period = endTime - startTime;
             MessageBox.Show("OK in " + period);
         }
+
+        private void storeLeague_Click(object sender, EventArgs e)
+        {
+            var league = new LeagueDocumentTest();
+            league.Update2();
+        }
     }
 }
