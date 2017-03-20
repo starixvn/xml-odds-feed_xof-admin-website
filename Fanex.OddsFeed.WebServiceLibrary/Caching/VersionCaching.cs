@@ -1,11 +1,11 @@
-﻿using System;
-using Couchbase.Core;
-using Fanex.OddsFeed.Common.Configurations;
-using Fanex.OddsFeed.Common.DTO;
-using Fanex.OddsFeed.WebServiceLibrary.Models;
-
-namespace Fanex.OddsFeed.WebServiceLibrary.Caching
+﻿namespace Fanex.OddsFeed.WebServiceLibrary.Caching
 {
+    using System;
+    using Couchbase.Core;
+    using Fanex.OddsFeed.Common.Configurations;
+    using Fanex.OddsFeed.Common.DTO;
+    using Fanex.OddsFeed.WebServiceLibrary.Models;
+
     public class VersionCaching : IVersionCaching
     {
         private readonly string _oddsFeedBucket;

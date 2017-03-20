@@ -29,7 +29,7 @@
             var schemas = GetSchemas();
 
             // Action
-            var result = _target.GetMatches(normalDataTable, schemas, null, 0).First();
+            var result = _target.GetMatches(normalDataTable, schemas, null).First();
 
             // Assert
             //Assert.AreEqual(normalDataTable.Rows[0]["MatchId"], result.MatchId);
@@ -45,7 +45,7 @@
             var schemas = GetSchemas();
 
             // Action
-            var result = _target.GetMatches(handicapDataTable, schemas, null, 0).First();
+            var result = _target.GetMatches(handicapDataTable, schemas, null).First();
 
             // Assert
             //Assert.AreEqual(handicapDataTable.Rows[0]["MatchId"], result.MatchId);
@@ -62,7 +62,7 @@
             var schemas = GetSchemas();
 
             // Action
-            var result = _target.GetMatches(oddsFlexDataTable, schemas, oddFlexGroups, 0).First();
+            var result = _target.GetMatches(oddsFlexDataTable, schemas, oddFlexGroups).First();
 
             // Assert
             //Assert.AreEqual(oddsFlexDataTable.Rows[0]["MatchId"], result.MatchId);

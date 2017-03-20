@@ -35,8 +35,6 @@
 
             var oddsData = _oddsFeedCachingOperator.GetOddsData(model, isShownOutright, isShownLiveMatch, isShownDeadMatch);
             var oddsFeedNode = new StringBuilder("<oddsfeed>");
-            var liveMatches = new List<Match>();
-            var deadMatches = new List<Match>();
             var userLanguage = GetUserLanguage(model);
 
             if (isShownOutright)
@@ -44,17 +42,7 @@
                 _outrightBuilder.AppendOutrightsNode(oddsFeedNode, oddsData.Outrights, model, userLanguage);
             }
 
-            if (isShownLiveMatch)
-            {
-                liveMatches = new List<Match>(oddsData.LiveMatches);
-            }
-
-            if (isShownDeadMatch)
-            {
-                deadMatches = new List<Match>(oddsData.DeadballMatches);
-            }
-
-            AppendMatches(oddsFeedNode, liveMatches, deadMatches, model, userLanguage);
+            AppendMatches(oddsFeedNode, oddsData.LiveMatches, oddsData.DeadballMatches, model, userLanguage);
 
             oddsFeedNode.Append("</oddsfeed>");
 
@@ -93,12 +81,12 @@
 
             if (liveMatches.Any())
             {
-                liveMatchesTimeStamp = liveMatches.Max(m => m.TimeStamp);
+                liveMatchesTimeStamp = liveMatches.Max(m => m.MatchOddsList.Max(o => o.TimeStamp));
             }
 
             if (deadMatches.Any())
             {
-                deadMatchesTimeStamp = deadMatches.Max(m => m.TimeStamp);
+                deadMatchesTimeStamp = deadMatches.Max(m => m.MatchOddsList.Max(o => o.TimeStamp));
             }
 
             return Math.Max(liveMatchesTimeStamp, deadMatchesTimeStamp);

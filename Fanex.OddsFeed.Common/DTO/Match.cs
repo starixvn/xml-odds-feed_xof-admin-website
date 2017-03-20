@@ -108,6 +108,8 @@
 
         public int TimeStamp { get; set; }
 
+        public bool IsLive { get; set; }
+
         public IList<MatchOdds> MatchOddsList { get; set; }
     }
 }

@@ -11,11 +11,10 @@
 
     public class MatchMapping : IMatchMapping
     {
-        public IEnumerable<LeagueDocument> GetMatches(
+        public IList<Match> GetMatches(
             DataTable dataTable,
             IEnumerable<BetTypeSchema> schemas,
-            IEnumerable<OddsFlexGroup> oddsFlexs,
-            int currentVersion)
+            IEnumerable<OddsFlexGroup> oddsFlexs)
         {
             var matchList = new SafeList<Match>();
             var matchOddsList = new SafeList<MatchOdds>();
@@ -50,26 +49,8 @@
                 temp.MatchOddsList = matchOddsList.AsParallel().Where(i => i.MatchId == row.MatchId).ToList();
                 matchListResult.Add(temp);
             });
-            
-            return GetLeagueDocuments(matchListResult, currentVersion);
-        }
 
-        private static IEnumerable<LeagueDocument> GetLeagueDocuments(SafeList<Match> matchList, int currentVersion)
-        {
-            return from match in matchList
-                   group match by match.LeagueId into league
-                   select new LeagueDocument
-                   {
-                       Version = currentVersion,
-                       LeagueId = league.Key,
-                       LeagueEn = league.First().LeagueEn,
-                       LeagueCn = league.First().LeagueCn,
-                       LeagueTw = league.First().LeagueTw,
-                       SportId = league.First().SportId,
-                       SportName = league.First().SportName,
-                       CountryCode = league.First().CountryCode,
-                       Matches = league.ToList()
-                   };
+            return matchListResult;
         }
 
         private static Match CreateMatch(DataRow row)

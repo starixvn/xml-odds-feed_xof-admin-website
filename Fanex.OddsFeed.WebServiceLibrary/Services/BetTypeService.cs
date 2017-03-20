@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using Caching;
     using Common.DTO;
     using Common.Schemas;
     using Helpers;

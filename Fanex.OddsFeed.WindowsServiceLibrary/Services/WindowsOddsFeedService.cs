@@ -35,14 +35,14 @@
 
         public void Reset()
         {
-            StoreValue(AppSettings.BucketOddsFeed, AppSettings.BetTypeSchemaKey, new List<BetTypeSchema>());
-            StoreValue(AppSettings.BucketOddsFeed, CacheKeys.CurrentKey(_cachePrefix), 0);
-            StoreValue(AppSettings.BucketOddsFeed, CacheKeys.FullChainKey(_cachePrefix), false);
+            Store(AppSettings.BucketOddsFeed, AppSettings.BetTypeSchemaKey, new List<BetTypeSchema>());
+            Store(AppSettings.BucketOddsFeed, CacheKeys.CurrentKey(_cachePrefix), 0);
+            Store(AppSettings.BucketOddsFeed, CacheKeys.FullChainKey(_cachePrefix), false);
         }
 
         public bool StoreFullChain()
         {
-            return StoreValue(AppSettings.BucketOddsFeed, CacheKeys.FullChainKey(_cachePrefix), true);
+            return Store(AppSettings.BucketOddsFeed, CacheKeys.FullChainKey(_cachePrefix), true);
         }
 
         
@@ -53,22 +53,15 @@
             try
             {
                 var betTypeSchemas = GetBetTypeSchemas();
-                var liveMatches = GetLiveMatches(betTypeSchemas, currentVersion);
-                var deadBallMatches = GetDeadballMatches(betTypeSchemas, currentVersion);
+                var liveMatches = GetLiveMatches(betTypeSchemas);
+                var deadBallMatches = GetDeadballMatches(betTypeSchemas);
                 var outrights = GetOutrights();
 
-                result = StoreValue(AppSettings.BucketOddsFeed, CacheKeys.CurrentKey(_cachePrefix), currentVersion);
+                result = Store(AppSettings.BucketOddsFeed, CacheKeys.CurrentKey(_cachePrefix), currentVersion);
 
-                result = result && StoreLeagueDocuments(AppSettings.BucketLiveMatches, liveMatches, currentVersion);
-                result = result && StoreLeagueDocuments(AppSettings.BucketDeadMatches, deadBallMatches, currentVersion);
-
-                result = result && StoreOdds(
-                    AppSettings.BucketOutrights,
-                    new Document<OutrightDocument>
-                    {
-                        Id = currentVersion.ToString(),
-                        Content = new OutrightDocument { Version = currentVersion, Outrights = outrights }
-                    });
+                result = result && Store(AppSettings.BucketLiveMatches, currentVersion.ToString(), liveMatches);
+                result = result && Store(AppSettings.BucketDeadMatches, currentVersion.ToString(), deadBallMatches);
+                result = result && Store(AppSettings.BucketOutrights, currentVersion.ToString(), outrights);
 
                 return result;
             }
@@ -83,19 +76,19 @@
             return true;
         }
 
-        private IEnumerable<LeagueDocument> GetLiveMatches(IList<BetTypeSchema> betTypeSchemas, int currentVersion) 
+        private IList<Match> GetLiveMatches(IList<BetTypeSchema> betTypeSchemas) 
         {
             using (var liveOdds = DbAccess.GetLiveOddsData())
             {
-                return _matchMapping.GetMatches(liveOdds.Tables[0], betTypeSchemas, GetOddsFlexGroups(liveOdds.Tables[1]), currentVersion);
+                return _matchMapping.GetMatches(liveOdds.Tables[0], betTypeSchemas, GetOddsFlexGroups(liveOdds.Tables[1]));
             }
         }
 
-        private IEnumerable<LeagueDocument> GetDeadballMatches(IList<BetTypeSchema> betTypeSchemas, int currentVersion)
+        private IList<Match> GetDeadballMatches(IList<BetTypeSchema> betTypeSchemas)
         {
             using (var deadballOdds = DbAccess.GetDeadballOddsData())
             {
-                return _matchMapping.GetMatches(deadballOdds.Tables[0], betTypeSchemas, GetOddsFlexGroups(deadballOdds.Tables[1]), currentVersion);
+                return _matchMapping.GetMatches(deadballOdds.Tables[0], betTypeSchemas, GetOddsFlexGroups(deadballOdds.Tables[1]));
             }
         }
 
@@ -178,39 +171,11 @@
             }
         }
 
-        private bool StoreLeagueDocuments(string bucketName, IEnumerable<LeagueDocument> leagueDocuments, int version)
+        private bool Store<T>(string bucketName, string key, T value)
         {
             using (var bucket = _cluster.OpenBucket(bucketName))
             {
-                foreach (var leagueDocument in leagueDocuments)
-                {
-                    var upsert = bucket.Upsert(new Document<LeagueDocument> { Id = $"{version}_{leagueDocument.LeagueId}", Content = leagueDocument });
-
-                    if (!upsert.Success)
-                    {
-                        return false;
-                    }
-                }
-
-                return true;
-            }
-        }
-
-        private bool StoreOdds<T>(string bucketName, Document<T> document)
-        {
-            using (var bucket = _cluster.OpenBucket(bucketName))
-            {
-                var upsert = bucket.Upsert(document);
-
-                return upsert.Success;
-            }
-        }
-
-        private bool StoreValue(string bucketName, string key, object value)
-        {
-            using (var bucket = _cluster.OpenBucket(bucketName))
-            {
-                var upsert = bucket.Upsert(new Document<dynamic> { Id = key, Content = value });
+                var upsert = bucket.Upsert(key, value);
 
                 return upsert.Success;
             }

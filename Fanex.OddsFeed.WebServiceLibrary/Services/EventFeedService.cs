@@ -23,10 +23,12 @@
         public string BuildXmlEvent(bool isSample = false, bool isOutright = true)
         {
             var eventFeedNode = new StringBuilder();
-            var outrights = _oddsFeedCachingOperator.GetEventOutrights();
-            var deadMatches = _oddsFeedCachingOperator.GetEventMatches(false);
-            var liveMatches = _oddsFeedCachingOperator.GetEventMatches(true);
-            var fullMatches = deadMatches.Concat(liveMatches);
+            var data = _oddsFeedCachingOperator.GetOddsData(new Models.OddsFeedsModel(), isOutright, true, true);
+            //var outrights = _oddsFeedCachingOperator.GetEventOutrights();
+            //var deadMatches = _oddsFeedCachingOperator.GetEventMatches(false);
+            //var liveMatches = _oddsFeedCachingOperator.GetEventMatches(true);
+            var outrights = data.Outrights;
+            var fullMatches = data.DeadballMatches.Concat(data.LiveMatches);
 
             var userLanguage = new UserLanguage
             {

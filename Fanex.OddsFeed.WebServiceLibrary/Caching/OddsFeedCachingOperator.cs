@@ -14,9 +14,6 @@
     {
         private readonly ICluster _cluster;
         private readonly IVersionCaching _versionCaching;
-        private readonly IOutrightCaching _outrightCaching;
-        private readonly IMatchCaching _livematchCaching;
-        private readonly IMatchCaching _deadmatchCaching;
 
         public OddsFeedCachingOperator()
         {
@@ -26,17 +23,14 @@
             });
 
             _versionCaching = new VersionCaching();
-            _outrightCaching = new OutrightCaching();
-            _livematchCaching = new MatchCaching(AppSettings.BucketLiveMatches);
-            _deadmatchCaching = new MatchCaching(AppSettings.BucketDeadMatches);
         }
 
         public OddsData GetOddsData(OddsFeedsModel model, bool isGetOutright, bool isGetLiveMatch, bool isGetDeadballMatch)
         {
             var cacheVersion = _versionCaching.GetRightVersion(_cluster, model);
-            var outrights = isGetOutright ? GetOutrights(model, cacheVersion.CurrentVersionOutright) : new SafeList<Outright>();
-            var liveMatches = isGetLiveMatch ? GetMatches(model, cacheVersion.CurrentVersionLiveMatch, true) : new SafeList<Match>();
-            var deadballMatches = isGetDeadballMatch ? GetMatches(model, cacheVersion.CurrentVersionDeadballMatch, false) : new SafeList<Match>();
+            var outrights = isGetOutright ? GetOdds<Outright>(AppSettings.BucketOutrights, cacheVersion.CurrentVersionOutright) : new List<Outright>();
+            var liveMatches = isGetLiveMatch ? GetOdds<Match>(AppSettings.BucketLiveMatches, cacheVersion.CurrentVersionLiveMatch) : new List<Match>();
+            var deadballMatches = isGetDeadballMatch ? GetOdds<Match>(AppSettings.BucketDeadMatches, cacheVersion.CurrentVersionDeadballMatch) : new List<Match>();
 
             return new OddsData
             {
@@ -46,25 +40,14 @@
             };
         }
 
-        private SafeList<Match> GetMatches(OddsFeedsModel model, int cacheVersion, bool isLive)
+        private IList<T> GetOdds<T>(string bucketName, int cacheVersion)
         {
-            return isLive ? _livematchCaching.GetMatches(_cluster, model, cacheVersion) :
-                _deadmatchCaching.GetMatches(_cluster, model, cacheVersion);
-        }
+            using (var bucket = _cluster.OpenBucket(bucketName))
+            {
+                var result = bucket.Get<IList<T>>(cacheVersion.ToString());
 
-        private SafeList<Outright> GetOutrights(OddsFeedsModel model, int cacheVersion)
-        {
-            return _outrightCaching.GetOutrights(_cluster, model, cacheVersion);
-        }
-
-        public SafeList<Match> GetEventMatches(bool isLive)
-        {
-            return new SafeList<Match>();
-        }
-
-        public SafeList<Outright> GetEventOutrights()
-        {
-            return new SafeList<Outright>();
+                return result.Success ? result.Value : new List<T>();
+            }
         }
 
         public void Dispose()
@@ -73,9 +56,9 @@
             {
                 _cluster.Dispose();
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                LogService.Error(ex.Message, ex);
+                LogService.Error(exception.Message, exception);
             }
 
             GC.SuppressFinalize(this);

@@ -7,10 +7,9 @@
 
     public interface IMatchMapping
     {
-        IEnumerable<LeagueDocument> GetMatches(
+        IList<Match> GetMatches(
             DataTable dataTable,
             IEnumerable<BetTypeSchema> schemas,
-            IEnumerable<OddsFlexGroup> oddsFlexs,
-            int currentVersion);
+            IEnumerable<OddsFlexGroup> oddsFlexs);
     }
 }

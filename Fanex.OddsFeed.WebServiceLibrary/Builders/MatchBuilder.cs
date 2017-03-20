@@ -28,19 +28,28 @@
             StringBuilder oddsFeedNode,
             IList<Match> matches,
             UserLanguage userLanguage,
-            OddsFeedsModel model,
-            bool isLive)
+            OddsFeedsModel model)
         {
             if (model.IsSample)
             {
-                AppendMatchNode(oddsFeedNode, matches.ElementAt(0), userLanguage, model, isLive);
+                AppendMatchNode(oddsFeedNode, matches.FirstOrDefault(), userLanguage, model, false);
             }
             else
             {
-                foreach (var match in matches)
+                foreach (var match in matches.Where(m => _matchFilter.FilterMatch(m, model)))
                 {
-                    AppendMatchNode(oddsFeedNode, (Match)match, userLanguage, model, isLive);
+                    var matchOddsList = match.MatchOddsList.Where(odds => _matchFilter.FilterBetType(odds, model));
+
+                    if (matchOddsList.Any())
+                    {
+                        
+                    }
                 }
+
+                //foreach (var match in matches)
+                //{
+                //    AppendMatchNode(oddsFeedNode, match, userLanguage, model, false);
+                //}
             }
         }
 

@@ -2,22 +2,22 @@
 {
     using Common.DTO;
     using Common.Helpers;
-
+    using Models;
     public class MatchFilter : IMatchFilter
     {
-        public bool FilterMatch(Match match, UserProfile userProfile, UserQuery userQuery)
+        public bool FilterMatch(Match match, OddsFeedsModel model)
         {
-            return FilterBySport(userProfile, userQuery, match) &&
-                    FilterByLeague(userProfile, userQuery, match) &&
-                    FilterByCountry(userProfile, userQuery, match) &&
-                    FilterByKeyword(userProfile, match);
+            return FilterBySport(model.UserProfile, model.UserQuery, match) &&
+                    FilterByLeague(model.UserProfile, model.UserQuery, match) &&
+                    FilterByCountry(model.UserProfile, model.UserQuery, match) &&
+                    FilterByKeyword(model.UserProfile, match);
         }
 
-        public bool FilterBetType(UserProfile userProfile, UserQuery userQuery, bool isSample, bool changeTime, int timeStamp, MatchOdds matchOdds)
+        public bool FilterBetType(MatchOdds matchOdds, OddsFeedsModel model)
         {
-            return (!changeTime || matchOdds.TimeStamp > timeStamp)
-                && FilterByOddsProfile(userProfile, isSample, matchOdds)
-                && FilterByOddsFeedFilter(userQuery, matchOdds);
+            return (matchOdds.TimeStamp > model.TimeStamp)
+                && FilterByOddsProfile(model.UserProfile, model.IsSample, matchOdds)
+                && FilterByOddsFeedFilter(model.UserQuery, matchOdds);
         }
 
         private static bool FilterByOddsProfile(UserProfile userProfile, bool isSample, MatchOdds matchOdds)
