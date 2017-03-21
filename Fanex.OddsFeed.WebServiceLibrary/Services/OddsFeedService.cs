@@ -68,8 +68,8 @@
         {
             AppendBeginMatches(oddsFeedNode, model, GetMatchTimeStamp(liveMatches, deadMatches), GetLastUpdate());
 
-            _matchBuilder.AppendMatchNodes(oddsFeedNode, liveMatches, userLanguage, model, true);
-            _matchBuilder.AppendMatchNodes(oddsFeedNode, deadMatches, userLanguage, model, false);
+            _matchBuilder.AppendMatchNodes(oddsFeedNode, liveMatches, userLanguage, model);
+            _matchBuilder.AppendMatchNodes(oddsFeedNode, deadMatches, userLanguage, model);
 
             oddsFeedNode.Append("</matches>");
         }

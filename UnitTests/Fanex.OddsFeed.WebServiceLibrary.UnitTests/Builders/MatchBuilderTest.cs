@@ -42,8 +42,7 @@
                 oddsFeedNode,
                 GetMatchNodes(false),
                 userLanguage,
-                model,
-                false);
+                model);
 
             // Assert
             Assert.AreEqual(matchXmlNode, oddsFeedNode.ToString());
@@ -74,8 +73,7 @@
                 oddsFeedNode,
                 GetMatchNodes(true),
                 userLanguage,
-                model,
-                true);
+                model);
 
             // Assert
             Assert.AreEqual(matchXmlNode, oddsFeedNode.ToString());

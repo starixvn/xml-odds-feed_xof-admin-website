@@ -11,7 +11,6 @@
             StringBuilder oddsFeedNode,
             IList<Match> matches,
             UserLanguage userLanguage,
-            OddsFeedsModel model,
-            bool isLive);
+            OddsFeedsModel model);
     }
 }

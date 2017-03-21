@@ -42,7 +42,7 @@
 
                     if (matchOddsList.Any())
                     {
-                        
+                        AppendMatchNode(oddsFeedNode, match, userLanguage, model, false);
                     }
                 }
 

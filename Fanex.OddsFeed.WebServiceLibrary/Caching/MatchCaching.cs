@@ -151,16 +151,16 @@
             return data;
         }
 
-        private List<Match> FilterByTimeStamp(string timeStamp, List<Match> data)
+        private List<Match> FilterByTimeStamp(int timeStamp, List<Match> data)
         {
-            var changeTime = !string.IsNullOrEmpty(timeStamp);
-            var _timeStamp = changeTime ? int.Parse(timeStamp) : 0;
+            //var changeTime = !string.IsNullOrEmpty(timeStamp);
+            //var _timeStamp = changeTime ? int.Parse(timeStamp) : 0;
 
-            if (changeTime)
+            //if (changeTime)
             {
                 foreach (var match in data)
                 {
-                    match.MatchOddsList = match.MatchOddsList.Where(x => x.TimeStamp > _timeStamp).ToList();
+                    match.MatchOddsList = match.MatchOddsList.Where(x => x.TimeStamp > timeStamp).ToList();
                 }
             }
 

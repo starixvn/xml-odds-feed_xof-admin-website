@@ -1,5 +1,6 @@
 ﻿namespace Fanex.OddsFeed.WebService.Controllers
 {
+    using System;
     using System.Text;
     using System.Web.Mvc;
     using OddsFeed.Common.Configurations;
@@ -44,7 +45,7 @@
                     UserProfile = authenticatedPartner.UserProfile,
                     UserQuery = userQuery,
                     IpAddress = ipAddress,
-                    TimeStamp = HttpContext.Request["t"]
+                    TimeStamp = Convert.ToInt32(HttpContext.Request["t"])
                 }));
         }
 
@@ -76,7 +77,7 @@
                 UserProfile = authenticatedPartner.UserProfile,
                 UserQuery = new UserQuery(),
                 IpAddress = ipAddress,
-                TimeStamp = HttpContext.Request["t"],
+                TimeStamp = Convert.ToInt32(HttpContext.Request["t"]),
                 IsSample = true
             });
 
@@ -120,7 +121,7 @@
                 UserProfile = authenticatedPartner.UserProfile,
                 UserQuery = new UserQuery(),
                 IpAddress = ipAddress,
-                TimeStamp = HttpContext.Request["t"],
+                TimeStamp = Convert.ToInt32(HttpContext.Request["t"]),
                 IsSample = true
             });
 
