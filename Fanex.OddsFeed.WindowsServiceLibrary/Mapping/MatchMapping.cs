@@ -14,18 +14,20 @@
         public IList<Match> GetMatches(
             DataTable dataTable,
             IEnumerable<BetTypeSchema> schemas,
-            IEnumerable<OddsFlexGroup> oddsFlexs)
+            IEnumerable<OddsFlexGroup> oddsFlexs,
+            bool isLive)
         {
             var matchList = new SafeList<Match>();
             var matchOddsList = new SafeList<MatchOdds>();
-            Partitioner<DataRow> partionerList = Partitioner.Create(dataTable.AsEnumerable().ToList(), true);
+
+            var partionerList = Partitioner.Create(dataTable.AsEnumerable().ToList(), true);
             
             var tempRows = from row in partionerList.AsParallel() select row;
 
             tempRows.ForAll((row) =>
             {
                 var matchOdds = GetMatchOdds(schemas, row, oddsFlexs);
-                var match = CreateMatch(row);
+                var match = CreateMatch(row, isLive);
                 if (matchOdds != null)
                 {
                     matchOddsList.Add(matchOdds);
@@ -53,7 +55,7 @@
             return matchListResult;
         }
 
-        private static Match CreateMatch(DataRow row)
+        private static Match CreateMatch(DataRow row, bool isLive)
         {
             return new Match
             {
@@ -71,7 +73,8 @@
                 LeagueEn = row["LeagueName"].ToString(),
                 LeagueTw = row["LeagueNameCN"].ToString(),
                 LeagueCn = row["LeagueNameC_UNI"].ToString(),
-                CountryCode = row["CountryCode"].ToString()
+                CountryCode = row["CountryCode"].ToString(),
+                IsLive = isLive
             };
         }
 

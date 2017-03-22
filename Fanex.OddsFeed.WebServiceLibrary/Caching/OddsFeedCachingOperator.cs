@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using Common.Schemas;
     using Couchbase;
     using Couchbase.Configuration.Client;
     using Couchbase.Core;
@@ -28,9 +29,18 @@
         public OddsData GetOddsData(OddsFeedsModel model, bool isGetOutright, bool isGetLiveMatch, bool isGetDeadballMatch)
         {
             var cacheVersion = _versionCaching.GetRightVersion(_cluster, model);
-            var outrights = isGetOutright ? GetOdds<Outright>(AppSettings.BucketOutrights, cacheVersion.CurrentVersionOutright) : new List<Outright>();
-            var liveMatches = isGetLiveMatch ? GetOdds<Match>(AppSettings.BucketLiveMatches, cacheVersion.CurrentVersionLiveMatch) : new List<Match>();
-            var deadballMatches = isGetDeadballMatch ? GetOdds<Match>(AppSettings.BucketDeadMatches, cacheVersion.CurrentVersionDeadballMatch) : new List<Match>();
+
+            var outrights = isGetOutright 
+                ? Get<Outright>(AppSettings.BucketOutrights, cacheVersion.CurrentVersionOutright.ToString()) : 
+                new List<Outright>();
+
+            var liveMatches = isGetLiveMatch 
+                ? Get<Match>(AppSettings.BucketLiveMatches, cacheVersion.CurrentVersionLiveMatch.ToString()) 
+                : new List<Match>();
+
+            var deadballMatches = isGetDeadballMatch 
+                ? Get<Match>(AppSettings.BucketDeadMatches, cacheVersion.CurrentVersionDeadballMatch.ToString()) 
+                : new List<Match>();
 
             return new OddsData
             {
@@ -40,14 +50,9 @@
             };
         }
 
-        private IList<T> GetOdds<T>(string bucketName, int cacheVersion)
+        public IList<BetTypeSchema> GetBetTypes()
         {
-            using (var bucket = _cluster.OpenBucket(bucketName))
-            {
-                var result = bucket.Get<IList<T>>(cacheVersion.ToString());
-
-                return result.Success ? result.Value : new List<T>();
-            }
+            return Get<BetTypeSchema>(AppSettings.BucketOddsFeed, AppSettings.BetTypeSchemaKey);
         }
 
         public void Dispose()
@@ -62,6 +67,16 @@
             }
 
             GC.SuppressFinalize(this);
+        }
+
+        private IList<T> Get<T>(string bucketName, string key)
+        {
+            using (var bucket = _cluster.OpenBucket(bucketName))
+            {
+                var result = bucket.Get<IList<T>>(key);
+
+                return result.Success ? result.Value : new List<T>();
+            }
         }
     }
 }

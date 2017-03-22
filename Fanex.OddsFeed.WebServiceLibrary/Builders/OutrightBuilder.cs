@@ -40,7 +40,10 @@
             {
                 foreach (var outright in outrights)
                 {
-                    AppendEventNode(oddsFeedNode, model.UserProfile, userLanguage, outright);
+                    if (_outrightFilter.FilterOutright(outright, model.UserProfile, model.UserQuery))
+                    {
+                        AppendEventNode(oddsFeedNode, model.UserProfile, userLanguage, outright);
+                    }
                 }
             }
 

@@ -116,6 +116,7 @@
                     KickOfTime = new DateTime(2016, 11, 3, 11, 59, 59),
                     SportName = "Soccer",
                     TimeStamp = 1477878874,
+                    IsLive = isLive,
                     MatchOddsList = new []
                     {
                         new MatchOdds

@@ -10,6 +10,7 @@
         IList<Match> GetMatches(
             DataTable dataTable,
             IEnumerable<BetTypeSchema> schemas,
-            IEnumerable<OddsFlexGroup> oddsFlexs);
+            IEnumerable<OddsFlexGroup> oddsFlexs,
+            bool isLive);
     }
 }

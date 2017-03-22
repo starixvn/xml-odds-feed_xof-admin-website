@@ -6,6 +6,7 @@
     using System.Linq;
     using System.Text;
     using Common.Helpers;
+    using Models;
 
     public class EventFeedService : IEventFeedService
     {
@@ -23,11 +24,7 @@
         public string BuildXmlEvent(bool isSample = false, bool isOutright = true)
         {
             var eventFeedNode = new StringBuilder();
-            var data = _oddsFeedCachingOperator.GetOddsData(new Models.OddsFeedsModel(), isOutright, true, true);
-            //var outrights = _oddsFeedCachingOperator.GetEventOutrights();
-            //var deadMatches = _oddsFeedCachingOperator.GetEventMatches(false);
-            //var liveMatches = _oddsFeedCachingOperator.GetEventMatches(true);
-            var outrights = data.Outrights;
+            var data = _oddsFeedCachingOperator.GetOddsData(new OddsFeedsModel { UserProfile = _userProfile }, isOutright, true, true);
             var fullMatches = data.DeadballMatches.Concat(data.LiveMatches);
 
             var userLanguage = new UserLanguage
@@ -41,7 +38,7 @@
 
             if (!isSample || isOutright)
             {
-                _eventBuilder.AppendOutrightsNode(eventFeedNode, userLanguage, outrights);
+                _eventBuilder.AppendOutrightsNode(eventFeedNode, userLanguage, data.Outrights);
             }
 
             _eventBuilder.AppendMatchesNode(eventFeedNode, userLanguage, fullMatches);

@@ -8,6 +8,7 @@
     using Caching;
     using Common.DTO;
     using Common.Helpers;
+    using Filters;
     using Models;
 
     public class OddsFeedService : IOddsFeedService
@@ -19,12 +20,14 @@
         private readonly IMatchBuilder _matchBuilder;
         private readonly IOutrightBuilder _outrightBuilder;
         private readonly IOddsFeedCachingOperator _oddsFeedCachingOperator;
+        private readonly IMatchFilter _matchFilter;
 
         public OddsFeedService()
         {
             _matchBuilder = new MatchBuilder();
             _outrightBuilder = new OutrightBuilder();
             _oddsFeedCachingOperator = new OddsFeedCachingOperator();
+            _matchFilter = new MatchFilter();
         }
 
         public string BuildXmlDocument(OddsFeedsModel model)
@@ -49,7 +52,7 @@
             return oddsFeedNode.ToString();
         }
 
-        private UserLanguage GetUserLanguage(OddsFeedsModel model)
+        private static UserLanguage GetUserLanguage(OddsFeedsModel model)
         {
             return new UserLanguage
             {
@@ -58,7 +61,7 @@
                 IsSupportedSimplifiedChinese = StringHelper.ContainInList(model.UserProfile.Languages, "zh-CN")
             };
         }
-
+        
         private void AppendMatches(
             StringBuilder oddsFeedNode,
             IList<Match> liveMatches,
@@ -66,7 +69,7 @@
             OddsFeedsModel model,
             UserLanguage userLanguage)
         {
-            AppendBeginMatches(oddsFeedNode, model, GetMatchTimeStamp(liveMatches, deadMatches), GetLastUpdate());
+            AppendBeginMatches(oddsFeedNode, model, GetMatchTimeStamp(model, liveMatches, deadMatches), GetLastUpdate());
 
             _matchBuilder.AppendMatchNodes(oddsFeedNode, liveMatches, userLanguage, model);
             _matchBuilder.AppendMatchNodes(oddsFeedNode, deadMatches, userLanguage, model);
@@ -74,19 +77,23 @@
             oddsFeedNode.Append("</matches>");
         }
 
-        private static int GetMatchTimeStamp(IList<Match> liveMatches, IList<Match> deadMatches)
+        private int GetMatchTimeStamp(OddsFeedsModel model, IList<Match> liveMatches, IList<Match> deadMatches)
         {
             var liveMatchesTimeStamp = 0;
             var deadMatchesTimeStamp = 0;
 
             if (liveMatches.Any())
             {
-                liveMatchesTimeStamp = liveMatches.Max(m => m.MatchOddsList.Max(o => o.TimeStamp));
+                liveMatchesTimeStamp = liveMatches.Where(m => _matchFilter
+                    .FilterMatch(m, model))
+                    .Max(m => m.MatchOddsList.Where(o => _matchFilter.FilterBetType(o, model)).Max(o => o.TimeStamp));
             }
 
             if (deadMatches.Any())
             {
-                deadMatchesTimeStamp = deadMatches.Max(m => m.MatchOddsList.Max(o => o.TimeStamp));
+                deadMatchesTimeStamp = deadMatches.Where(m => _matchFilter
+                    .FilterMatch(m, model))
+                    .Max(m => m.MatchOddsList.Where(o => _matchFilter.FilterBetType(o, model)).Max(o => o.TimeStamp));
             }
 
             return Math.Max(liveMatchesTimeStamp, deadMatchesTimeStamp);

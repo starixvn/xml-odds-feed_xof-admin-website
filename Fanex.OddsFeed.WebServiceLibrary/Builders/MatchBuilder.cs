@@ -32,7 +32,7 @@
         {
             if (model.IsSample)
             {
-                AppendMatchNode(oddsFeedNode, matches.FirstOrDefault(), userLanguage, model, false);
+                AppendMatchNode(oddsFeedNode, matches.FirstOrDefault(), matches.FirstOrDefault().MatchOddsList, userLanguage, model);
             }
             else
             {
@@ -42,32 +42,27 @@
 
                     if (matchOddsList.Any())
                     {
-                        AppendMatchNode(oddsFeedNode, match, userLanguage, model, false);
+                        AppendMatchNode(oddsFeedNode, match, matchOddsList, userLanguage, model);
                     }
                 }
-
-                //foreach (var match in matches)
-                //{
-                //    AppendMatchNode(oddsFeedNode, match, userLanguage, model, false);
-                //}
             }
         }
 
         private void AppendMatchNode(
             StringBuilder oddsFeedNode,
             Match match,
+            IEnumerable<MatchOdds> matchOddsList,
             UserLanguage userLanguage,
-            OddsFeedsModel model,
-            bool isLive)
+            OddsFeedsModel model)
         {
-            AppendBeginMatch(oddsFeedNode, match, userLanguage, isLive);
-            AppendBookieNode(oddsFeedNode, match, model);
+            AppendBeginMatch(oddsFeedNode, match, userLanguage);
+            AppendBookieNode(oddsFeedNode, match, matchOddsList, model);
             oddsFeedNode.Append("</match>");
         }
 
-        private static void AppendBeginMatch(StringBuilder oddsFeedNode, Match match, UserLanguage userLanguage, bool isLive)
+        private static void AppendBeginMatch(StringBuilder oddsFeedNode, Match match, UserLanguage userLanguage)
         {
-            var running = isLive ? 1 : 0;
+            var running = match.IsLive ? 1 : 0;
 
             oddsFeedNode.Append($"<match id=\"{match.MatchId}\" ");
 
@@ -132,10 +127,10 @@
             }
         }
 
-        private void AppendBookieNode(StringBuilder matchesNode, Match match, OddsFeedsModel model)
+        private void AppendBookieNode(StringBuilder matchesNode, Match match, IEnumerable<MatchOdds> matchOddsList, OddsFeedsModel model)
         {
             matchesNode.Append($"<bookie name=\"{model.BookieName}\" simp=\"{model.BookieName}\" trad=\"{model.BookieName}\">");
-            AppendOddNodeList(matchesNode, match.MatchOddsList, model.UserProfile.OddRegion);
+            AppendOddNodeList(matchesNode, matchOddsList, model.UserProfile.OddRegion);
             matchesNode.Append("</bookie>");
         }
 

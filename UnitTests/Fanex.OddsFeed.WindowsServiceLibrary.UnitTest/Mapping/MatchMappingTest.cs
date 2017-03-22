@@ -29,12 +29,12 @@
             var schemas = GetSchemas();
 
             // Action
-            var result = _target.GetMatches(normalDataTable, schemas, null).First();
+            var result = _target.GetMatches(normalDataTable, schemas, null, false).First();
 
             // Assert
-            //Assert.AreEqual(normalDataTable.Rows[0]["MatchId"], result.MatchId);
-            //Assert.AreEqual(ConvertToDecimalOdds(normalDataTable.Rows[0]["Odds1A"]), result.MatchOddsList[0].BetChoices.ElementAt(0).Value);
-            //Assert.AreEqual(ConvertToDecimalOdds(normalDataTable.Rows[0]["Odds2A"]), result.MatchOddsList[0].BetChoices.ElementAt(1).Value);
+            Assert.AreEqual(normalDataTable.Rows[0]["MatchId"], result.MatchId);
+            Assert.AreEqual(ConvertToDecimalOdds(normalDataTable.Rows[0]["Odds1A"]), result.MatchOddsList[0].BetChoices.ElementAt(0).Value);
+            Assert.AreEqual(ConvertToDecimalOdds(normalDataTable.Rows[0]["Odds2A"]), result.MatchOddsList[0].BetChoices.ElementAt(1).Value);
         }
 
         [Test]
@@ -45,12 +45,12 @@
             var schemas = GetSchemas();
 
             // Action
-            var result = _target.GetMatches(handicapDataTable, schemas, null).First();
+            var result = _target.GetMatches(handicapDataTable, schemas, null, false).First();
 
             // Assert
-            //Assert.AreEqual(handicapDataTable.Rows[0]["MatchId"], result.MatchId);
-            //Assert.AreEqual(ConvertToDecimalOdds(handicapDataTable.Rows[0]["Odds1A"]), result.MatchOddsList[0].BetChoices.ElementAt(1).Value);
-            //Assert.AreEqual(ConvertToDecimalOdds(handicapDataTable.Rows[0]["Odds2A"]), result.MatchOddsList[0].BetChoices.ElementAt(2).Value);
+            Assert.AreEqual(handicapDataTable.Rows[0]["MatchId"], result.MatchId);
+            Assert.AreEqual(ConvertToDecimalOdds(handicapDataTable.Rows[0]["Odds1A"]), result.MatchOddsList[0].BetChoices.ElementAt(1).Value);
+            Assert.AreEqual(ConvertToDecimalOdds(handicapDataTable.Rows[0]["Odds2A"]), result.MatchOddsList[0].BetChoices.ElementAt(2).Value);
         }
 
         [Test]
@@ -62,12 +62,12 @@
             var schemas = GetSchemas();
 
             // Action
-            var result = _target.GetMatches(oddsFlexDataTable, schemas, oddFlexGroups).First();
+            var result = _target.GetMatches(oddsFlexDataTable, schemas, oddFlexGroups, false).First();
 
             // Assert
-            //Assert.AreEqual(oddsFlexDataTable.Rows[0]["MatchId"], result.MatchId);
-            //Assert.AreEqual(ConvertToDecimalOdds(oddFlexGroups.ElementAt(0).OddsFlexs.ElementAt(0).Odds), result.MatchOddsList[0].BetChoices.ElementAt(0).Value);
-            //Assert.AreEqual(ConvertToDecimalOdds(oddFlexGroups.ElementAt(0).OddsFlexs.ElementAt(1).Odds), result.MatchOddsList[0].BetChoices.ElementAt(1).Value);
+            Assert.AreEqual(oddsFlexDataTable.Rows[0]["MatchId"], result.MatchId);
+            Assert.AreEqual(ConvertToDecimalOdds(oddFlexGroups.ElementAt(0).OddsFlexs.ElementAt(0).Odds), result.MatchOddsList[0].BetChoices.ElementAt(0).Value);
+            Assert.AreEqual(ConvertToDecimalOdds(oddFlexGroups.ElementAt(0).OddsFlexs.ElementAt(1).Odds), result.MatchOddsList[0].BetChoices.ElementAt(1).Value);
         }
 
         private static string ConvertToDecimalOdds(object odds)
