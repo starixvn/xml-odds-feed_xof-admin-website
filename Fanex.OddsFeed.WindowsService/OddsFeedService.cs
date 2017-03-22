@@ -1,10 +1,10 @@
 ﻿namespace Fanex.OddsFeed.WindowsService
 {
     using System;
+    using System.Globalization;
     using System.ServiceProcess;
     using System.Timers;
     using Common.Configurations;
-    using Couchbase;
     using Logging;
     using ONEbook.UM.Services;
     using ONEbook.UM.Services.Impl;
@@ -76,24 +76,30 @@
 
             try
             {
-                if (!_maintenanceService.IsUnderMaintenance())
-                {
-                    var isSuccessful = _oddsFeedService.Update(_currentVersion);
+                var isSuccessful = _oddsFeedService.Update(_currentVersion);
 
-                    if (isSuccessful)
-                    {
-                        _currentVersion++;
-                        UpdateCurrentVersion();
-                    }
-                    else
-                    {
-                        LogService.Error("IP address seems to have changed OR Cache on CouchBase is full. Please restart OddsFeedWindowService!");
-                    }
+                if (isSuccessful)
+                {
+                    _currentVersion++;
+                    UpdateCurrentVersion();
+                }
+                else
+                {
+                    LogService.Error("IP address seems to have changed OR Cache on CouchBase is full. Please restart OddsFeedWindowService!");
                 }
             }
             catch (Exception exception)
             {
-                LogService.Error("BackgroundTimerElapsed -- " + GetExceptionMessage(exception));
+                LogService.Error("BackgroundTimerElapsed -- " + GetExceptionMessage(exception), exception);
+
+                if (_maintenanceService.IsUnderMaintenance())
+                {
+                    var underMaintenanceTime = _maintenanceService.GetUnderMaintenanceTime();
+                    var umFrom = DateTime.ParseExact(underMaintenanceTime.From, "HH:mm", CultureInfo.InvariantCulture);
+                    var umTo = DateTime.ParseExact(underMaintenanceTime.To, "HH:mm", CultureInfo.InvariantCulture);
+
+                    System.Threading.Thread.Sleep(umTo - umFrom);
+                }
             }
 
             _timer.Start();

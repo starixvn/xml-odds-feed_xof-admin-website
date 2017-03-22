@@ -11,7 +11,6 @@
     using Common.Schemas;
     using Couchbase;
     using Couchbase.Configuration.Client;
-    using Logging;
     using Mapping;
 
     public class WindowsOddsFeedService : IWindowsOddsFeedService
@@ -50,37 +49,25 @@
         {
             var result = false;
 
-            try
-            {
-                var betTypeSchemas = GetBetTypeSchemas();
-                var liveMatches = GetLiveMatches(betTypeSchemas);
-                var deadBallMatches = GetDeadballMatches(betTypeSchemas);
-                var outrights = GetOutrights();
+            var betTypeSchemas = GetBetTypeSchemas();
+            var liveMatches = GetLiveMatches(betTypeSchemas);
+            var deadBallMatches = GetDeadballMatches(betTypeSchemas);
+            var outrights = GetOutrights();
 
-                result = Store(AppSettings.BucketOddsFeed, CacheKeys.CurrentKey(_cachePrefix), currentVersion);
+            result = Store(AppSettings.BucketOddsFeed, CacheKeys.CurrentKey(_cachePrefix), currentVersion);
 
-                result = result && Store(AppSettings.BucketLiveMatches, currentVersion.ToString(), liveMatches);
-                result = result && Store(AppSettings.BucketDeadMatches, currentVersion.ToString(), deadBallMatches);
-                result = result && Store(AppSettings.BucketOutrights, currentVersion.ToString(), outrights);
+            result = result && Store(AppSettings.BucketLiveMatches, currentVersion.ToString(), liveMatches);
+            result = result && Store(AppSettings.BucketDeadMatches, currentVersion.ToString(), deadBallMatches);
+            result = result && Store(AppSettings.BucketOutrights, currentVersion.ToString(), outrights);
 
-                return result;
-            }
-            catch (Exception exception)
-            {
-                var innerExceptionMessage = exception.InnerException == null ? "No inner" : exception.InnerException.Message;
-                var message = $"Main error: {exception.Message}. Inner error:{innerExceptionMessage} - stackstrace:{exception.StackTrace}";
-
-                LogService.Error(message, exception);
-            }
-
-            return true;
+            return result;
         }
 
         private IList<Match> GetLiveMatches(IList<BetTypeSchema> betTypeSchemas) 
         {
             using (var liveOdds = DbAccess.GetLiveOddsData())
             {
-                return _matchMapping.GetMatches(liveOdds.Tables[0], betTypeSchemas, GetOddsFlexGroups(liveOdds.Tables[1]));
+                return _matchMapping.GetMatches(liveOdds.Tables[0], betTypeSchemas, GetOddsFlexGroups(liveOdds.Tables[1]), true);
             }
         }
 
@@ -88,7 +75,7 @@
         {
             using (var deadballOdds = DbAccess.GetDeadballOddsData())
             {
-                return _matchMapping.GetMatches(deadballOdds.Tables[0], betTypeSchemas, GetOddsFlexGroups(deadballOdds.Tables[1]));
+                return _matchMapping.GetMatches(deadballOdds.Tables[0], betTypeSchemas, GetOddsFlexGroups(deadballOdds.Tables[1]), false);
             }
         }
 
