@@ -180,9 +180,6 @@
             var hdp1 = Convert.ToDecimal(row[betTypeSchema.Reserve.FirstHdp]);
             var hdp2 = Convert.ToDecimal(row[betTypeSchema.Reserve.SecondHdp]);
 
-            var value1 = ConvertMalayToDecimalOddsString(Convert.ToDecimal(row[GetDataAttribute(betChoice1)]));
-            var value2 = ConvertMalayToDecimalOddsString(Convert.ToDecimal(row[GetDataAttribute(betChoice2)]));
-
             betChoices.Add(new BetChoice
             {
                 Code = betTypeSchema.BetChoices.ElementAt(0).MatchAttribute,
@@ -190,16 +187,17 @@
                 NotConvert = true
             });
 
-            if (hdp1 > hdp2)
+            betChoices.Add(new BetChoice
             {
-                betChoices.Add(new BetChoice { Code = betChoice1.MatchAttribute, Value = value1 });
-                betChoices.Add(new BetChoice { Code = betChoice2.MatchAttribute, Value = value2 });
-            }
-            else
+                Code = betChoice1.MatchAttribute,
+                Value = ConvertMalayToDecimalOddsString(Convert.ToDecimal(row[GetDataAttribute(betChoice1)]))
+            });
+
+            betChoices.Add(new BetChoice
             {
-                betChoices.Add(new BetChoice { Code = betChoice2.MatchAttribute, Value = value1 });
-                betChoices.Add(new BetChoice { Code = betChoice1.MatchAttribute, Value = value2 });
-            }
+                Code = betChoice2.MatchAttribute,
+                Value = ConvertMalayToDecimalOddsString(Convert.ToDecimal(row[GetDataAttribute(betChoice2)]))
+            });
 
             AssignResourceOdds(betChoices, betTypeSchema, row);
 

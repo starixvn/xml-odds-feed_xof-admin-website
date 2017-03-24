@@ -8,7 +8,7 @@
         {
             return malayOdds >= 0
                        ? malayOdds
-                       : Floor(1 / Math.Abs(malayOdds));
+                       : Truncate(1 / Math.Abs(malayOdds));
         }
 
         public static decimal ToDecimalOddsFromHkOdds(decimal hongKongOdds)
@@ -45,13 +45,13 @@
                 case 2:
                     return DecimalToHK(decimalOdds);
                 case 3:
-                    return Floor(decimalOdds);
+                    return Truncate(decimalOdds);
                 case 4:
                     return DecimalToIndo(decimalOdds);
                 case 5:
                     return DecimalToUS(decimalOdds);
                 default:
-                    return Floor(decimalOdds);
+                    return Truncate(decimalOdds);
             }
         }
 
@@ -59,15 +59,15 @@
         {
             if (decimalOdds <= 1)
             {
-                return Floor(0);
+                return Truncate(0);
             }
             else if (decimalOdds < 2)
             {
-                return Floor(-100 / (decimalOdds - 1));
+                return Truncate(-100 / (decimalOdds - 1));
             }
             else
             {
-                return Floor((decimalOdds - 1) * 100);
+                return Truncate((decimalOdds - 1) * 100);
             }
         }
 
@@ -75,22 +75,22 @@
         {
             var hongKongOdds = decimalOdds <= 1 ? 0 : decimalOdds - 1;
 
-            return Floor(hongKongOdds);
+            return Truncate(hongKongOdds);
         }
 
         public static decimal DecimalToIndo(decimal decimalOdds)
         {
             if (decimalOdds <= 1)
             {
-                return Floor(0);
+                return Truncate(0);
             }
             else if (decimalOdds >= 2)
             {
-                return Floor(decimalOdds - 1);
+                return Truncate(decimalOdds - 1);
             }
             else
             {
-                return Floor(1 / (1 - decimalOdds));
+                return Truncate(1 / (1 - decimalOdds));
             }
         }
 
@@ -98,23 +98,23 @@
         {
             if (dec <= 1)
             {
-                return Floor(0);
+                return Truncate(0);
             }
             else if (dec <= 2)
             {
-                return Floor(dec - 1);
+                return Truncate(dec - 1);
             }
             else
             {
-                return Floor(1 / (1 - dec));
+                return Truncate(1 / (1 - dec));
             }
         }
 
-        public static decimal Floor(decimal value, int decimalPlaces = 2)
+        public static decimal Truncate(decimal value, int decimalPlaces = 2)
         {
             var adjustment = (decimal)Math.Pow(10, decimalPlaces);
 
-            return Math.Floor(value * adjustment) / adjustment;
+            return Math.Truncate(value * adjustment) / adjustment;
         }
     }
 }
