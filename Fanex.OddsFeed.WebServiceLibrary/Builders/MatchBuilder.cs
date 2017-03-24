@@ -32,7 +32,7 @@
         {
             if (model.IsSample)
             {
-                AppendMatchNode(oddsFeedNode, matches.FirstOrDefault(), matches.FirstOrDefault().MatchOddsList, userLanguage, model);
+                AppendSampleMatchNode(oddsFeedNode, matches, userLanguage, model);
             }
             else
             {
@@ -45,6 +45,18 @@
                         AppendMatchNode(oddsFeedNode, match, matchOddsList, userLanguage, model);
                     }
                 }
+            }
+        }
+
+        private void AppendSampleMatchNode(
+            StringBuilder oddsFeedNode, 
+            IList<Match> matches,
+            UserLanguage userLanguage,
+            OddsFeedsModel model)
+        {
+            if(matches.Any())
+            {
+                AppendMatchNode(oddsFeedNode, matches.FirstOrDefault(), matches.FirstOrDefault().MatchOddsList, userLanguage, model);
             }
         }
 

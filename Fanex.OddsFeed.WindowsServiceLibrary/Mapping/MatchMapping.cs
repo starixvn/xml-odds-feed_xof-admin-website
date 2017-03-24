@@ -51,7 +51,7 @@
                 temp.MatchOddsList = matchOddsList.AsParallel().Where(i => i.MatchId == row.MatchId).ToList();
                 matchListResult.Add(temp);
             });
-
+            
             return matchListResult;
         }
 
@@ -129,7 +129,7 @@
                     });
                 }
             }
-
+            
             return betChoices;
         }
 

@@ -177,7 +177,6 @@
             ViewBag.BetTypesCol2 = bettypes.ColumnTwo;
             ViewBag.BetTypesCol3 = bettypes.ColumnThree;
 
-            
             var countries = _userService.GetCountries(username);
             ViewBag.CountriesCol1 = countries.ColumnOne;
             ViewBag.CountriesCol2 = countries.ColumnTwo;
