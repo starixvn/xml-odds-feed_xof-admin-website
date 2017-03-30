@@ -112,14 +112,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CouchbaseN1QL.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CouchbaseN1QL.Designer.cs">
-      <DependentUpon>CouchbaseN1QL.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FakeDataV2.cs" />
-    <Compile Include="FakeDataV1.cs" />
     <Compile Include="ItemResult.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -127,20 +119,14 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="LeagueDocumentTest.cs" />
     <Compile Include="LogFormcs.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="LogFormcs.Designer.cs">
       <DependentUpon>LogFormcs.cs</DependentUpon>
     </Compile>
-    <Compile Include="N1QLV2.cs" />
-    <Compile Include="N1QLV1.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="CouchbaseN1QL.resx">
-      <DependentUpon>CouchbaseN1QL.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
