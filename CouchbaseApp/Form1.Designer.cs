@@ -37,7 +37,6 @@
             this.cbVersionFullchain = new System.Windows.Forms.ComboBox();
             this.cbMatchOutright = new System.Windows.Forms.ComboBox();
             this.cbNumberVersion = new System.Windows.Forms.ComboBox();
-            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnVersionFullChain
@@ -80,6 +79,7 @@
             // 
             // textBox1
             // 
+            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox1.Location = new System.Drawing.Point(122, 85);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
@@ -189,22 +189,11 @@
             this.cbNumberVersion.Size = new System.Drawing.Size(121, 21);
             this.cbNumberVersion.TabIndex = 10;
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(604, 52);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 11;
-            this.button1.Text = "Test";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1378, 806);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.cbNumberVersion);
             this.Controls.Add(this.cbMatchOutright);
             this.Controls.Add(this.cbVersionFullchain);
@@ -232,7 +221,6 @@
         private System.Windows.Forms.ComboBox cbVersionFullchain;
         private System.Windows.Forms.ComboBox cbMatchOutright;
         private System.Windows.Forms.ComboBox cbNumberVersion;
-        private System.Windows.Forms.Button button1;
     }
 }
 

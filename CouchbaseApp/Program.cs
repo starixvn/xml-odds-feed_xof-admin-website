@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -16,19 +17,10 @@ namespace CouchbaseApp
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            if (args == null || args[0] == "1")
+
+            using (var form = new Form1())
             {
-                using (var form1 = new Form1())
-                {
-                    Application.Run(form1);
-                }
-            }
-            else
-            {
-                using (var logF = new LogFormcs())
-                {
-                    Application.Run(logF);
-                }
+                Application.Run(form);
             }
         }
     }

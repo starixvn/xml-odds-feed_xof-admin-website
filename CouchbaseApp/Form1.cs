@@ -2,18 +2,25 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using Couchbase;
-using Fanex.Data.Configuration;
+using Couchbase.Configuration.Client;
+using Fanex.OddsFeed.Common.Configurations;
 using Fanex.OddsFeed.Common.DTO;
-using Fanex.OddsFeed.WindowsServiceLibrary.Services;
 using Newtonsoft.Json;
 
 namespace CouchbaseApp
 {
     public partial class Form1 : Form
     {
+        private readonly Cluster _cluster;
+
         public Form1()
         {
             InitializeComponent();
+
+            _cluster = new Cluster(new ClientConfiguration
+            {
+                Servers = new List<Uri> { new Uri(AppSettings.CouchbaseServer) }
+            });
         }
 
         private void btnVersionFullChain_Click(object sender, EventArgs e)
@@ -24,11 +31,24 @@ namespace CouchbaseApp
                 return;
             }
 
-            //using (var cache = new CouchbaseClient())
-            //{
-            //    var data =  cache.Get(cbVersionFullchain.Text);
-            //    textBox1.Text = data.ToString();
-            //}
+            if (cbVersionFullchain.Text.Equals("apollocurrent", StringComparison.InvariantCultureIgnoreCase))
+            {
+                Print<int>(AppSettings.BucketOddsFeed, CacheKeys.CurrentKey(AppSettings.CachePrefix));
+            }
+            else
+            {
+                Print<bool>(AppSettings.BucketOddsFeed, CacheKeys.FullChainKey(AppSettings.CachePrefix));
+            }
+        }
+
+        private void Print<T>(string bucketName, string key)
+        {
+            using (var bucket = _cluster.OpenBucket(bucketName))
+            {
+                var data = bucket.Get<T>(key);
+
+                textBox1.Text = data.Value.ToString();
+            }
         }
 
         private void btnMatchOutright_Click(object sender, EventArgs e)
@@ -39,26 +59,31 @@ namespace CouchbaseApp
                 return;
             }
 
-            var version = string.IsNullOrEmpty(cbNumberVersion.Text) ? 0 : Convert.ToInt32(cbNumberVersion.Text);
-            var key = $"{cbMatchOutright.Text}{version}";
+            var version = string.IsNullOrEmpty(cbNumberVersion.Text) ? "0" : cbNumberVersion.Text;
 
-            //using (var cache = new CouchbaseClient())
-            //{
-            //    HandleData(cache.Get(key), cbMatchOutright.Text);
-            //}
+            switch (cbMatchOutright.Text)
+            {
+                case "apolloevents":
+                    HandleData<IList<Outright>>(AppSettings.BucketOutrights, version);
+                    break;
+                case "apollolivematchs":
+                    HandleData<IList<Match>>(AppSettings.BucketLiveMatches, version);
+                    break;
+                case "apollodeadballmatches":
+                    HandleData<IList<Match>>(AppSettings.BucketDeadMatches, version);
+                    break;
+            }
         }
 
-        private void HandleData(object data, string cbKey)
+        private void HandleData<T>(string bucketName, string key)
         {
-            if (cbKey.Equals("apolloevents", StringComparison.OrdinalIgnoreCase))
+            using (var bucket = _cluster.OpenBucket(bucketName))
             {
-                var outrights = data as IEnumerable<Outright>;
-                ParseToForm(outrights);
-            }
-            else
-            {
-                var matches = data as IEnumerable<Match>;
-                ParseToForm(matches);
+                var result = bucket.Get<T>(key);
+                if (result.Success)
+                {
+                    ParseToForm(result.Value);
+                }
             }
         }
 
@@ -72,12 +97,6 @@ namespace CouchbaseApp
             {
                 textBox1.Text = string.Empty;
             }
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            var oddsFeedService = new WindowsOddsFeedService();
-            oddsFeedService.Update(1);
         }
     }
 }
