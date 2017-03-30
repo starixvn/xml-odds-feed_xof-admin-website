@@ -84,19 +84,29 @@
 
             if (liveMatches.Any())
             {
-                liveMatchesTimeStamp = liveMatches.Where(m => _matchFilter
-                    .FilterMatch(m, model))
-                    .Max(m => m.MatchOddsList.Where(o => _matchFilter.FilterBetType(o, model)).Max(o => o.TimeStamp));
+                liveMatchesTimeStamp = GetMaxTimeStampMatches(model, liveMatches);
             }
 
             if (deadMatches.Any())
             {
-                deadMatchesTimeStamp = deadMatches.Where(m => _matchFilter
-                    .FilterMatch(m, model))
-                    .Max(m => m.MatchOddsList.Where(o => _matchFilter.FilterBetType(o, model)).Max(o => o.TimeStamp));
+                deadMatchesTimeStamp = GetMaxTimeStampMatches(model, deadMatches);
             }
 
             return Math.Max(liveMatchesTimeStamp, deadMatchesTimeStamp);
+        }
+
+        private int GetMaxTimeStampMatches(OddsFeedsModel model, IList<Match> matches)
+        {
+            var matchFilter = matches.Where(m => _matchFilter.FilterMatch(m, model));
+
+            return matchFilter.Any() ? matchFilter.Max(m => GetMaxTimeStampOdds(model, m.MatchOddsList)) : 0;
+        }
+
+        private int GetMaxTimeStampOdds(OddsFeedsModel model, IList<MatchOdds> matchOddsList)
+        {
+            var matchOddsFilter = matchOddsList.Where(o => _matchFilter.FilterBetType(o, model));
+
+            return matchOddsFilter.Any() ? matchOddsFilter.Max(o => o.TimeStamp) : 0;
         }
 
         private static bool IsShownOutright(OddsFeedsModel model)

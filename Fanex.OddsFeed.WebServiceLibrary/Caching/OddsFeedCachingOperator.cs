@@ -65,8 +65,6 @@
             {
                 LogService.Error(exception.Message, exception);
             }
-
-            GC.SuppressFinalize(this);
         }
 
         private IList<T> Get<T>(string bucketName, string key)
