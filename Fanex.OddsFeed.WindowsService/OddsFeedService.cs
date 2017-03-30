@@ -61,8 +61,6 @@
                     _timer.Stop();
                     _timer.Dispose();
                 }
-
-                Reset();
             }
             catch (Exception exception)
             {
