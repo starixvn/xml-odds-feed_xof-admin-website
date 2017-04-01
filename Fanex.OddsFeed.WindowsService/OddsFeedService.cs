@@ -70,10 +70,11 @@
 
         private void BackgroundTimerElapsed(object sender, ElapsedEventArgs e)
         {
-            _timer.Stop();
-
+            var isUnderMaintenance = false;
             try
             {
+                _timer.Stop();
+
                 var isSuccessful = _oddsFeedService.Update(_currentVersion);
 
                 if (isSuccessful)
@@ -89,18 +90,20 @@
             catch (Exception exception)
             {
                 LogService.Error("BackgroundTimerElapsed -- " + GetExceptionMessage(exception), exception);
-
-                if (_maintenanceService.IsUnderMaintenance())
+                isUnderMaintenance = _maintenanceService.IsUnderMaintenance();
+            }
+            finally
+            {
+                if (isUnderMaintenance)
                 {
                     var underMaintenanceTime = _maintenanceService.GetUnderMaintenanceTime();
                     var umFrom = DateTime.ParseExact(underMaintenanceTime.From, "HH:mm", CultureInfo.InvariantCulture);
                     var umTo = DateTime.ParseExact(underMaintenanceTime.To, "HH:mm", CultureInfo.InvariantCulture);
-
                     System.Threading.Thread.Sleep(umTo - umFrom);
                 }
+                _timer.Start();
             }
 
-            _timer.Start();
         }
 
         private void Reset()
@@ -134,11 +137,6 @@
                 _currentVersion = 0;
                 _oddsFeedService.StoreFullChain();
             }
-        }
-
-        private bool IsDownTime()
-        {
-            return _maintenanceService.IsUnderMaintenance();
         }
     }
 }

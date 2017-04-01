@@ -12,58 +12,73 @@
     using Couchbase;
     using Couchbase.Configuration.Client;
     using Mapping;
+    using Couchbase.Core;
+    using System.Runtime.Caching;
 
     public class WindowsOddsFeedService : IWindowsOddsFeedService
     {
         private readonly string _cachePrefix;
         private readonly IMatchMapping _matchMapping;
         private readonly IOutrightMapping _outrightMapping;
-        private readonly Cluster _cluster;
+        private readonly IList<Uri> _couchBaseServerList;
+        private ClientConfiguration _couchBaseClientConfig;
 
         public WindowsOddsFeedService()
         {
             _cachePrefix = AppSettings.CachePrefix;
             _matchMapping = new MatchMapping();
             _outrightMapping = new OutrightMapping();
-
-            _cluster = new Cluster(new ClientConfiguration
+            _couchBaseServerList = new List<Uri> { new Uri(AppSettings.CouchbaseServer) };
+            _couchBaseClientConfig = new ClientConfiguration
             {
                 Servers = new List<Uri> { new Uri(AppSettings.CouchbaseServer) }
-            });
+
+            };
         }
 
         public void Reset()
         {
-            Store(AppSettings.BucketOddsFeed, AppSettings.BetTypeSchemaKey, new List<BetTypeSchema>());
-            Store(AppSettings.BucketOddsFeed, CacheKeys.CurrentKey(_cachePrefix), 0);
-            Store(AppSettings.BucketOddsFeed, CacheKeys.FullChainKey(_cachePrefix), false);
+            using (var cluster = new Cluster(_couchBaseClientConfig))
+            {
+                Store(cluster, AppSettings.BucketOddsFeed, AppSettings.BetTypeSchemaKey, new List<BetTypeSchema>());
+                Store(cluster, AppSettings.BucketOddsFeed, CacheKeys.CurrentKey(_cachePrefix), 0);
+                Store(cluster, AppSettings.BucketOddsFeed, CacheKeys.FullChainKey(_cachePrefix), false);
+            }
         }
 
         public bool StoreFullChain()
         {
-            return Store(AppSettings.BucketOddsFeed, CacheKeys.FullChainKey(_cachePrefix), true);
+            using (var cluster = new Cluster(_couchBaseClientConfig))
+            {
+                return Store(cluster, AppSettings.BucketOddsFeed, CacheKeys.FullChainKey(_cachePrefix), true);
+            }
         }
 
-        
+
         public bool Update(int currentVersion)
         {
             var result = false;
 
-            var betTypeSchemas = GetBetTypeSchemas();
-            var liveMatches = GetLiveMatches(betTypeSchemas);
-            var deadBallMatches = GetDeadballMatches(betTypeSchemas);
-            var outrights = GetOutrights();
+            using (var cluster = new Cluster(_couchBaseClientConfig))
+            {
 
-            result = Store(AppSettings.BucketOddsFeed, CacheKeys.CurrentKey(_cachePrefix), currentVersion);
+                var betTypeSchemas = GetBetTypeSchemas(cluster);
+                var liveMatches = GetLiveMatches(betTypeSchemas);
+                var deadBallMatches = GetDeadballMatches(betTypeSchemas);
+                var outrights = GetOutrights();
 
-            result = result && Store(AppSettings.BucketLiveMatches, currentVersion.ToString(), liveMatches);
-            result = result && Store(AppSettings.BucketDeadMatches, currentVersion.ToString(), deadBallMatches);
-            result = result && Store(AppSettings.BucketOutrights, currentVersion.ToString(), outrights);
 
-            return result;
+                result = Store(cluster, AppSettings.BucketOddsFeed, CacheKeys.CurrentKey(_cachePrefix), currentVersion);
+
+                result = result && Store(cluster, AppSettings.BucketLiveMatches, currentVersion.ToString(), liveMatches);
+                result = result && Store(cluster, AppSettings.BucketDeadMatches, currentVersion.ToString(), deadBallMatches);
+                result = result && Store(cluster, AppSettings.BucketOutrights, currentVersion.ToString(), outrights);
+
+                return result;
+            }
         }
 
-        private IList<Match> GetLiveMatches(IList<BetTypeSchema> betTypeSchemas) 
+        private IList<Match> GetLiveMatches(IList<BetTypeSchema> betTypeSchemas)
         {
             using (var liveOdds = DbAccess.GetLiveOddsData())
             {
@@ -135,32 +150,35 @@
             return oddsFlexGroups;
         }
 
-        private IList<BetTypeSchema> GetBetTypeSchemas()
+        private IList<BetTypeSchema> GetBetTypeSchemas(ICluster cluster)
         {
-            using (var bucket = _cluster.OpenBucket(AppSettings.BucketOddsFeed))
+
+
+            using (var bucket = cluster.OpenBucket(AppSettings.BucketOddsFeed))
             {
-                var document = bucket.GetDocument<dynamic>(AppSettings.BetTypeSchemaKey);
-                var schemas = document.Content as IList<BetTypeSchema>;
+                var document = bucket.Get<IList<BetTypeSchema>>(AppSettings.BetTypeSchemaKey);
 
-                if (schemas == null || !schemas.Any())
+                if (document == null || !document.Value.Any())
                 {
-                    schemas = JsonHelper.GetBetTypeSchemas(AppSettings.BetTypeSchemaPath);
+                    var newValue = JsonHelper.GetBetTypeSchemas(AppSettings.BetTypeSchemaPath);
 
-                    if (schemas != null)
+                    if (newValue != null)
                     {
-                        bucket.Upsert(new Document<dynamic> { Id = AppSettings.BetTypeSchemaKey, Content = schemas });
+                        bucket.Upsert(AppSettings.BetTypeSchemaKey, newValue);
 
-                        return schemas;
+                        return newValue;
                     }
+                    return new List<BetTypeSchema>();
                 }
 
-                return schemas;
+                return document.Value;
             }
+
         }
 
-        private bool Store<T>(string bucketName, string key, T value)
+        private bool Store<T>(ICluster cluster, string bucketName, string key, T value)
         {
-            using (var bucket = _cluster.OpenBucket(bucketName))
+            using (var bucket = cluster.OpenBucket(bucketName))
             {
                 var upsert = bucket.Upsert(key, value);
 
