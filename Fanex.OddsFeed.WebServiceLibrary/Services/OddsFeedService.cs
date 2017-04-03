@@ -61,7 +61,7 @@
                 IsSupportedSimplifiedChinese = StringHelper.ContainInList(model.UserProfile.Languages, "zh-CN")
             };
         }
-        
+
         private void AppendMatches(
             StringBuilder oddsFeedNode,
             IList<Match> liveMatches,
@@ -154,15 +154,19 @@
                 case 1:
                     oddsTypeName = "Malay";
                     break;
+
                 case 2:
                     oddsTypeName = "HongKong";
                     break;
+
                 case 3:
                     oddsTypeName = "Decimal";
                     break;
+
                 case 4:
                     oddsTypeName = "Indo";
                     break;
+
                 case 5:
                     oddsTypeName = "US";
                     break;

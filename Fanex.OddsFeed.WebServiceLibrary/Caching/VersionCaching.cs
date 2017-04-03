@@ -42,7 +42,7 @@
             };
         }
 
-        private int GetRightVersion(int delayTime, int currentVersion, bool isFullChain)
+        private static int GetRightVersion(int delayTime, int currentVersion, bool isFullChain)
         {
             var rightVersion = currentVersion - (delayTime / (AppSettings.Interval / 1000));
 

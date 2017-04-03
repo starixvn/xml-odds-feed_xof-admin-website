@@ -13,11 +13,9 @@
     public class OddsFeedCachingOperator : IOddsFeedCachingOperator
     {
         private readonly IVersionCaching _versionCaching;
-        private readonly IList<Uri> _couchBaseServerList;
         private ClientConfiguration _couchBaseClientConfig;
         public OddsFeedCachingOperator()
         {
-            _couchBaseServerList = new List<Uri> { new Uri(AppSettings.CouchbaseServer) };
             _couchBaseClientConfig = new ClientConfiguration
             {
                 Servers = new List<Uri> { new Uri(AppSettings.CouchbaseServer) }
@@ -64,7 +62,7 @@
 
 
 
-        private IList<T> Get<T>(ICluster cluster, string bucketName, string key)
+        private static IList<T> Get<T>(ICluster cluster, string bucketName, string key)
         {
             using (var bucket = cluster.OpenBucket(bucketName))
             {

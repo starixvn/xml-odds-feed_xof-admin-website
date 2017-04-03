@@ -23,6 +23,7 @@
             _userService = new UserService();
         }
 
+        [OutputCache(Duration = 5, Location = System.Web.UI.OutputCacheLocation.Server, VaryByParam = "username")]
         public ActionResult Index(string username)
         {
             var userQuery = RequestHelper.GetFilter(Request);
@@ -104,7 +105,7 @@
             {
                 return Content(GetDowntimeContent());
             }
-            
+
             var domainName = RequestHelper.DomainName(Request.ServerVariables);
             var ipAddress = GetClientIpAddress();
             var authenticatedPartner = GetAuthenticatedPartner(username, domainName, ipAddress);

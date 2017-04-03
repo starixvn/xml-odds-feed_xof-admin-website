@@ -14,7 +14,7 @@
     {
         private Timer _timer;
         private int _currentVersion;
-        private int _totalVersion;
+        private readonly int _totalVersion;
 
         private readonly IWindowsOddsFeedService _oddsFeedService;
         private readonly IMaintenanceService _maintenanceService;
@@ -60,6 +60,10 @@
                     _timer.Enabled = false;
                     _timer.Stop();
                     _timer.Dispose();
+                }
+                if (_oddsFeedService != null)
+                {
+                    _oddsFeedService.CloseCouchbaseClient();
                 }
             }
             catch (Exception exception)
