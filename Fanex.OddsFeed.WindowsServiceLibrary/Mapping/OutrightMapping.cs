@@ -32,7 +32,7 @@
             return events;
         }
 
-        private void AddOutrightOdds(DataRow row, SafeList<Outright> outrights, OutrightOdds outrightOdds)
+        private static void AddOutrightOdds(DataRow row, SafeList<Outright> outrights, OutrightOdds outrightOdds)
         {
             var currentLeagueId = Convert.ToInt32(row["LeagueID"]);
                 var existedOutright = outrights.FirstOrDefault(o => o.EventId == currentLeagueId);
