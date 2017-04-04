@@ -1,5 +1,6 @@
 ﻿namespace Fanex.OddsFeed.WebService.Controllers
 {
+    using System;
     using System.Text;
     using System.Web.Mvc;
     using OddsFeed.Common.Configurations;
@@ -22,13 +23,9 @@
             _userService = new UserService();
         }
 
+        [OutputCache(Duration = 5, Location = System.Web.UI.OutputCacheLocation.Server, VaryByParam = "username")]
         public ActionResult Index(string username)
         {
-            if (IsDownTime())
-            {
-                return XmlContent(GetDowntimeContent());
-            }
-
             var userQuery = RequestHelper.GetFilter(Request);
 
             if (RequestHelper.IsOverLimitedOptions(userQuery))
@@ -49,7 +46,7 @@
                     UserProfile = authenticatedPartner.UserProfile,
                     UserQuery = userQuery,
                     IpAddress = ipAddress,
-                    TimeStamp = HttpContext.Request["t"]
+                    TimeStamp = Convert.ToInt32(HttpContext.Request["t"])
                 }));
         }
 
@@ -81,7 +78,7 @@
                 UserProfile = authenticatedPartner.UserProfile,
                 UserQuery = new UserQuery(),
                 IpAddress = ipAddress,
-                TimeStamp = HttpContext.Request["t"],
+                TimeStamp = Convert.ToInt32(HttpContext.Request["t"]),
                 IsSample = true
             });
 
@@ -108,7 +105,7 @@
             {
                 return Content(GetDowntimeContent());
             }
-            
+
             var domainName = RequestHelper.DomainName(Request.ServerVariables);
             var ipAddress = GetClientIpAddress();
             var authenticatedPartner = GetAuthenticatedPartner(username, domainName, ipAddress);
@@ -125,7 +122,7 @@
                 UserProfile = authenticatedPartner.UserProfile,
                 UserQuery = new UserQuery(),
                 IpAddress = ipAddress,
-                TimeStamp = HttpContext.Request["t"],
+                TimeStamp = Convert.ToInt32(HttpContext.Request["t"]),
                 IsSample = true
             });
 
@@ -181,7 +178,6 @@
             ViewBag.BetTypesCol2 = bettypes.ColumnTwo;
             ViewBag.BetTypesCol3 = bettypes.ColumnThree;
 
-            
             var countries = _userService.GetCountries(username);
             ViewBag.CountriesCol1 = countries.ColumnOne;
             ViewBag.CountriesCol2 = countries.ColumnTwo;

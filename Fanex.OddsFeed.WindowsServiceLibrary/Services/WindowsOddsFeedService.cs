@@ -3,29 +3,30 @@
     using System;
     using System.Collections.Generic;
     using System.Data;
-    using System.Diagnostics;
     using System.Linq;
-    using System.Threading;
     using Common;
     using Common.Configurations;
     using Common.DTO;
     using Common.Helpers;
     using Common.Schemas;
     using Couchbase;
-    using Enyim.Caching.Memcached;
-    using Logging;
+    using Couchbase.Configuration.Client;
+    using Couchbase.Core;
     using Mapping;
 
     public class WindowsOddsFeedService : IWindowsOddsFeedService
     {
-        private readonly int _numberTries;
         private readonly string _cachePrefix;
         private readonly IMatchMapping _matchMapping;
         private readonly IOutrightMapping _outrightMapping;
 
+        private static readonly ICluster _cluster = new Cluster(new ClientConfiguration
+        {
+            Servers = new List<Uri> { new Uri(AppSettings.CouchbaseServer) }
+        });
+
         public WindowsOddsFeedService()
         {
-            _numberTries = AppSettings.NumberTries;
             _cachePrefix = AppSettings.CachePrefix;
             _matchMapping = new MatchMapping();
             _outrightMapping = new OutrightMapping();
@@ -33,63 +34,52 @@
 
         public void Reset()
         {
-            StoreData(AppSettings.BetTypeSchemaKey, new List<BetTypeSchema>(), 0);
-            StoreData(CacheKeys.CurrentKey(_cachePrefix), 0, _numberTries);
-            StoreData(CacheKeys.FullChainKey(_cachePrefix), false, _numberTries);
+            Store(AppSettings.BucketOddsFeed, AppSettings.BetTypeSchemaKey, new List<BetTypeSchema>());
+            Store(AppSettings.BucketOddsFeed, CacheKeys.CurrentKey(_cachePrefix), 0);
+            Store(AppSettings.BucketOddsFeed, CacheKeys.FullChainKey(_cachePrefix), false);
         }
 
         public bool StoreFullChain()
         {
-            return StoreData(CacheKeys.FullChainKey(_cachePrefix), true, _numberTries);
+            return Store(AppSettings.BucketOddsFeed, CacheKeys.FullChainKey(_cachePrefix), true);
         }
 
         public bool Update(int currentVersion)
         {
             var result = false;
 
-            try
-            {
+            var betTypeSchemas = GetBetTypeSchemas();
+            var liveMatches = GetLiveMatches(betTypeSchemas);
+            var deadBallMatches = GetDeadballMatches(betTypeSchemas);
+            var outrights = GetOutrights();
 
-                var betTypeSchemas = GetBetTypeSchemas();
-                var liveMatches = GetLiveMatches(betTypeSchemas);
-                var deadBallMatches = GetDeadballMatches(betTypeSchemas);
-                var outrights = GetOutrights();
+            result = Store(AppSettings.BucketOddsFeed, CacheKeys.CurrentKey(_cachePrefix), currentVersion);
 
-                result = StoreData(CacheKeys.CurrentKey(_cachePrefix), currentVersion, _numberTries);
-                result = result && StoreData(CacheKeys.LiveMatchKey(_cachePrefix, currentVersion), liveMatches, _numberTries);
-                result = result && StoreData(CacheKeys.DeadballMatchKey(_cachePrefix, currentVersion), deadBallMatches, _numberTries);
-                result = result && StoreData(CacheKeys.OutrightKey(_cachePrefix, currentVersion), outrights, _numberTries);
+            result = result && Store(AppSettings.BucketLiveMatches, currentVersion.ToString(), liveMatches);
+            result = result && Store(AppSettings.BucketDeadMatches, currentVersion.ToString(), deadBallMatches);
+            result = result && Store(AppSettings.BucketOutrights, currentVersion.ToString(), outrights);
 
-                return result;
-            }
-            catch (Exception exception)
-            {
-                var innerExceptionMessage = exception.InnerException == null ? "No inner" : exception.InnerException.Message;
-                var message = $"Main error: {exception.Message}. Inner error:{innerExceptionMessage} - stackstrace:{exception.StackTrace}";
+            return result;
 
-                LogService.Error(message, exception);
-            }
-
-            return true;
         }
 
-        private IEnumerable<Match> GetLiveMatches(IList<BetTypeSchema> betTypeSchemas) 
+        private IList<Match> GetLiveMatches(IList<BetTypeSchema> betTypeSchemas)
         {
             using (var liveOdds = DbAccess.GetLiveOddsData())
             {
-                return _matchMapping.GetMatches(liveOdds.Tables[0], betTypeSchemas, true, GetOddsFlexGroups(liveOdds.Tables[1]));
+                return _matchMapping.GetMatches(liveOdds.Tables[0], betTypeSchemas, GetOddsFlexGroups(liveOdds.Tables[1]), true);
             }
         }
 
-        private IEnumerable<Match> GetDeadballMatches(IList<BetTypeSchema> betTypeSchemas)
+        private IList<Match> GetDeadballMatches(IList<BetTypeSchema> betTypeSchemas)
         {
             using (var deadballOdds = DbAccess.GetDeadballOddsData())
             {
-                return _matchMapping.GetMatches(deadballOdds.Tables[0], betTypeSchemas, false, GetOddsFlexGroups(deadballOdds.Tables[1]));
+                return _matchMapping.GetMatches(deadballOdds.Tables[0], betTypeSchemas, GetOddsFlexGroups(deadballOdds.Tables[1]), false);
             }
         }
 
-        private IEnumerable<Outright> GetOutrights()
+        private IList<Outright> GetOutrights()
         {
             using (var outrightOdds = DbAccess.GetOutrightOddsData())
             {
@@ -145,84 +135,44 @@
             return oddsFlexGroups;
         }
 
-        public static IList<BetTypeSchema> GetBetTypeSchemas()
+        private static IList<BetTypeSchema> GetBetTypeSchemas()
         {
-            using (var cache = new CouchbaseClient())
+            using (var bucket = _cluster.OpenBucket(AppSettings.BucketOddsFeed))
             {
-                var schemas = cache.Get<IList<BetTypeSchema>>(AppSettings.BetTypeSchemaKey);
+                var document = bucket.Get<IList<BetTypeSchema>>(AppSettings.BetTypeSchemaKey);
 
-                if (schemas == null || schemas.Count == 0)
+                if (document == null || !document.Value.Any())
                 {
-                    schemas = JsonHelper.GetBetTypeSchemas(AppSettings.BetTypeSchemaPath);
+                    var newValue = JsonHelper.GetBetTypeSchemas(AppSettings.BetTypeSchemaPath);
 
-                    if (schemas != null)
+                    if (newValue != null)
                     {
-                        cache.Store(StoreMode.Set, AppSettings.BetTypeSchemaKey, schemas);
+                        bucket.Upsert(AppSettings.BetTypeSchemaKey, newValue);
+
+                        return newValue;
                     }
+                    return new List<BetTypeSchema>();
                 }
 
-                return schemas;
+                return document.Value;
             }
         }
 
-        private static bool StoreData(string key, object data, int numberTries)
+        private static bool Store<T>(string bucketName, string key, T value)
         {
-            var result = false;
-
-            try
+            using (var bucket = _cluster.OpenBucket(bucketName))
             {
-                if (data != null)
-                {
-                    result = TryStore(key, data, numberTries);
-                }
-            }
-            catch (Exception exception)
-            {
-                LogService.Error($"Couchbase error! --- Interrupted while trying to set.  Exception:{exception.Message}", exception);
-            }
+                var upsert = bucket.Upsert(key, value);
 
-            return result;
+                return upsert.Success;
+            }
         }
 
-        private static bool TryStore(string key, object data, int numberTries)
+        public void CloseCouchbaseClient()
         {
-            var result = false;
-            var backOffExpired = 0;
-
-            using (var cacheClient = new CouchbaseClient())
+            if (_cluster != null)
             {
-                do
-                {
-                    result = cacheClient.Store(StoreMode.Set, key, data);
-
-                    if (result)
-                    {
-                        break;
-                    }
-
-                    if (backOffExpired > 0)
-                    {
-                        var backOffMilliseconds = Math.Min(1000, Math.Pow(2, backOffExpired));
-
-                        Thread.Sleep((int)backOffMilliseconds);
-
-                        LogService.Error($"Couchbase error! --- Backing off, tries so far: {backOffExpired}");
-                    }
-                    else
-                    {
-                        LogService.Error("Couchbase error!");
-                    }
-
-                    backOffExpired++;
-
-                } while (backOffExpired < numberTries);
-
-                if (!result && (backOffExpired > numberTries))
-                {
-                    throw new ApplicationException($"Could not perform a set after {numberTries} tries.");
-                }
-
-                return result;
+                _cluster.Dispose();
             }
         }
     }

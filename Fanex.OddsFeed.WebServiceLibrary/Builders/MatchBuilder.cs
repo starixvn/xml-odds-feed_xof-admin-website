@@ -24,149 +24,82 @@
             _matchFilter = new MatchFilter();
         }
 
-        public void AddMatchesNode(
-            StringBuilder oddsFeedNode,
-            OddsData oddsData,
-            OddsFeedsModel model,
-            UserLanguage userLanguage,
-            DateTime lastUpdate)
-        {
-            var changeTime = !string.IsNullOrEmpty(model.TimeStamp);
-            var timeStamp = changeTime ? int.Parse(model.TimeStamp) : 0;
-            var hasSupportLiveMatch = HasSupportedLiveMatch(model.UserProfile, oddsData.LiveMatches);
-            var hasSupportDeadballMatch = HasSupportedDeadBallMatch(model.UserProfile, oddsData.DeadballMatches);
-
-            var matchesTimeStamp = GetMatchesTimeStamp(
-                oddsData.LiveMatches,
-                oddsData.DeadballMatches, 
-                hasSupportLiveMatch, 
-                hasSupportDeadballMatch, 
-                model,
-                changeTime, 
-                timeStamp);
-
-            AppendBeginMatches(oddsFeedNode, model, matchesTimeStamp, lastUpdate);
-
-            if (hasSupportLiveMatch)
-            {
-                AppendMatchNodes(oddsFeedNode, oddsData.LiveMatches, model, userLanguage, changeTime, timeStamp);
-            }
-
-            if (hasSupportDeadballMatch)
-            {
-                AppendMatchNodes(oddsFeedNode, oddsData.DeadballMatches, model, userLanguage, changeTime, timeStamp);
-            }
-
-            oddsFeedNode.Append("</matches>");
-        }
-
-        private static bool HasSupportedLiveMatch(UserProfile userProfile, IEnumerable<Match> matches)
-        {
-            return userProfile.OddsType != null 
-                && userProfile.OddsType.Contains(OddsTypeLiveMatch)
-                && matches.Any();
-        }
-
-        private static bool HasSupportedDeadBallMatch(UserProfile userProfile, IEnumerable<Match> matches)
-        {
-            return userProfile.OddsType != null 
-                && userProfile.OddsType.Contains(OddsTypeDeadBallMatch)
-                && matches.Any();
-        }
-
-        private static void AppendBeginMatches(
-            StringBuilder oddsFeedNode,
-            OddsFeedsModel model,
-            int matchesTimeStamp,
-            DateTime lastUpdate)
-        {
-            if (matchesTimeStamp > 0)
-            {
-                oddsFeedNode
-                    .Append($"<matches lastupdate=\"{lastUpdate}\" timestamp=\"{matchesTimeStamp}\" oddstype=\"{GetOddsTypeName(model.UserProfile.OddRegion)}\">");
-            }
-            else
-            {
-                oddsFeedNode.Append("<matches>");
-            }
-        }
-
-        private void AppendMatchNodes(
+        public void AppendMatchNodes(
             StringBuilder oddsFeedNode,
             IList<Match> matches,
-            OddsFeedsModel model,
             UserLanguage userLanguage,
-            bool changeTime,
-            int timeStamp)
+            OddsFeedsModel model)
         {
             if (model.IsSample)
             {
-                AppendMatchNode(oddsFeedNode, matches.ElementAt(0), model, userLanguage, changeTime, timeStamp);
+                AppendSampleMatchNode(oddsFeedNode, matches, userLanguage, model);
             }
             else
             {
-                var filterMatches = matches.Where(m => _matchFilter.FilterMatch(m, model.UserProfile, model.UserQuery));
-
-                foreach (var match in filterMatches)
+                foreach (var match in matches.Where(m => _matchFilter.FilterMatch(m, model)))
                 {
-                    var matchOddsList = match.MatchOddsList
-                                        .Where(m => _matchFilter.FilterBetType(model.UserProfile, model.UserQuery, model.IsSample, changeTime, timeStamp, m));
+                    var matchOddsList = match.MatchOddsList.Where(odds => _matchFilter.FilterBetType(odds, model));
 
-                    if (!matchOddsList.Any())
+                    if (matchOddsList.Any())
                     {
-                        continue;
-                    }
-
-                    var matchTimeStamp = matchOddsList.Max(m => m.TimeStamp);
-
-                    if (CheckMatchTimeStamp(matchTimeStamp, changeTime, timeStamp))
-                    {
-                        AppendMatchNode(oddsFeedNode, match, model, userLanguage, changeTime, timeStamp);
+                        AppendMatchNode(oddsFeedNode, match, matchOddsList, userLanguage, model);
                     }
                 }
+            }
+        }
+
+        private void AppendSampleMatchNode(
+            StringBuilder oddsFeedNode, 
+            IList<Match> matches,
+            UserLanguage userLanguage,
+            OddsFeedsModel model)
+        {
+            if(matches.Any())
+            {
+                AppendMatchNode(oddsFeedNode, matches.FirstOrDefault(), matches.FirstOrDefault().MatchOddsList, userLanguage, model);
             }
         }
 
         private void AppendMatchNode(
             StringBuilder oddsFeedNode,
             Match match,
-            OddsFeedsModel model,
+            IEnumerable<MatchOdds> matchOddsList,
             UserLanguage userLanguage,
-            bool changeTime,
-            int timeStamp)
+            OddsFeedsModel model)
         {
             AppendBeginMatch(oddsFeedNode, match, userLanguage);
-            AppendBookieNode(oddsFeedNode, match, model, changeTime, timeStamp);
+            AppendBookieNode(oddsFeedNode, match, matchOddsList, model);
             oddsFeedNode.Append("</match>");
         }
 
         private static void AppendBeginMatch(StringBuilder oddsFeedNode, Match match, UserLanguage userLanguage)
         {
-            var isRunning = match.IsLive ? LiveStatus : DeadBallStatus;
+            var running = match.IsLive ? 1 : 0;
+
             oddsFeedNode.Append($"<match id=\"{match.MatchId}\" ");
 
             AppendLeague(oddsFeedNode, match, userLanguage);
             AppendHomeTeam(oddsFeedNode, match, userLanguage);
             AppendAwayTeam(oddsFeedNode, match, userLanguage);
 
-            oddsFeedNode.Append($"mt=\"{match.KickOfTime}\" sport=\"{SecurityElement.Escape(match.SportName)}\" running=\"{isRunning}\">");
+            oddsFeedNode.Append($"mt=\"{match.KickOfTime}\" sport=\"{SecurityElement.Escape(match.SportName)}\" running=\"{running}\">");
         }
 
         private static void AppendLeague(StringBuilder oddsFeedNode, Match match, UserLanguage userLanguage)
         {
             if (userLanguage.IsSupportedEnglish)
             {
-                oddsFeedNode.Append($"ge=\"{SecurityElement.Escape(match.LeagueEnglish)}\" ");
+                oddsFeedNode.Append($"ge=\"{SecurityElement.Escape(match.LeagueEn)}\" ");
             }
 
             if (userLanguage.IsSupportedTraditionalChinese)
             {
-                oddsFeedNode.Append($"gt=\"{SecurityElement.Escape(match.LeagueTraditionalChinese)}\" ");
+                oddsFeedNode.Append($"gt=\"{SecurityElement.Escape(match.LeagueTw)}\" ");
             }
 
             if (userLanguage.IsSupportedSimplifiedChinese)
             {
-                oddsFeedNode.Append($"gs=\"{SecurityElement.Escape(match.LeagueSimplifiedChinese)}\" ");
+                oddsFeedNode.Append($"gs=\"{SecurityElement.Escape(match.LeagueCn)}\" ");
             }
         }
 
@@ -174,17 +107,17 @@
         {
             if (userLanguage.IsSupportedEnglish)
             {
-                oddsFeedNode.Append($"he=\"{SecurityElement.Escape(match.HomeEnglish)}\" ");
+                oddsFeedNode.Append($"he=\"{SecurityElement.Escape(match.HomeEn)}\" ");
             }
 
             if (userLanguage.IsSupportedTraditionalChinese)
             {
-                oddsFeedNode.Append($"ht=\"{SecurityElement.Escape(match.HomeTraditionalChinese)}\" ");
+                oddsFeedNode.Append($"ht=\"{SecurityElement.Escape(match.HomeTw)}\" ");
             }
 
             if (userLanguage.IsSupportedSimplifiedChinese)
             {
-                oddsFeedNode.Append($"hs=\"{SecurityElement.Escape(match.HomeSimplifiedChinese)}\" ");
+                oddsFeedNode.Append($"hs=\"{SecurityElement.Escape(match.HomeCn)}\" ");
             }
         }
 
@@ -192,153 +125,50 @@
         {
             if (userLanguage.IsSupportedEnglish)
             {
-                oddsFeedNode.Append($"ae=\"{SecurityElement.Escape(match.AwayEnglish)}\" ");
+                oddsFeedNode.Append($"ae=\"{SecurityElement.Escape(match.AwayEn)}\" ");
             }
 
             if (userLanguage.IsSupportedTraditionalChinese)
             {
-                oddsFeedNode.Append($"at=\"{SecurityElement.Escape(match.AwayTraditionalChinese)}\" ");
+                oddsFeedNode.Append($"at=\"{SecurityElement.Escape(match.AwayTw)}\" ");
             }
 
             if (userLanguage.IsSupportedSimplifiedChinese)
             {
-                oddsFeedNode.Append($"as=\"{SecurityElement.Escape(match.AwaySimplifiedChinese)}\" ");
+                oddsFeedNode.Append($"as=\"{SecurityElement.Escape(match.AwayCn)}\" ");
             }
         }
 
-        private void AppendBookieNode(
-           StringBuilder matchesNode,
-           Match match,
-           OddsFeedsModel model,
-           bool changeTime,
-           int timeStamp)
+        private void AppendBookieNode(StringBuilder matchesNode, Match match, IEnumerable<MatchOdds> matchOddsList, OddsFeedsModel model)
         {
             matchesNode.Append($"<bookie name=\"{model.BookieName}\" simp=\"{model.BookieName}\" trad=\"{model.BookieName}\">");
-            AppendOddNodeList(matchesNode, match.MatchOddsList, model, changeTime, timeStamp);
+            AppendOddNodeList(matchesNode, matchOddsList, model.UserProfile.OddRegion);
             matchesNode.Append("</bookie>");
         }
 
-        private void AppendOddNodeList(
-            StringBuilder oddsFeedNode,
-            IEnumerable<MatchOdds> matchOddsNodes,
-            OddsFeedsModel model,
-            bool changeTime,
-            int timeStamp)
+        private void AppendOddNodeList(StringBuilder oddsFeedNode, IEnumerable<MatchOdds> matchOddsNodes, int oddsRegion)
         {
             foreach (var matchOddsNode in matchOddsNodes)
             {
-                if (_matchFilter.FilterBetType(model.UserProfile, model.UserQuery, model.IsSample, changeTime, timeStamp, matchOddsNode))
-                {
-                    AppendOdd(oddsFeedNode, model.UserProfile, matchOddsNode);
-                }
+                AppendOdd(oddsFeedNode, matchOddsNode, oddsRegion);
             }
         }
 
-        private static void AppendOdd(StringBuilder oddsFeedNode, UserProfile userProfile, MatchOdds matchOddsNode)
+        private static void AppendOdd(StringBuilder oddsFeedNode, MatchOdds matchOddsNode, int oddsRegion)
         {
             oddsFeedNode.Append($"<odd t=\"{matchOddsNode.Tag}\"");
 
             foreach (var betChoice in matchOddsNode.BetChoices)
             {
-                oddsFeedNode.Append($" {betChoice.Code}=\"{ConvertOdds(userProfile, betChoice)}\"");
+                oddsFeedNode.Append($" {betChoice.Code}=\"{ConvertOdds(oddsRegion, betChoice)}\"");
             }
 
             oddsFeedNode.Append($" time=\"{matchOddsNode.Time}\" timestamp=\"{matchOddsNode.TimeStamp}\" />");
         }
 
-        private static string ConvertOdds(UserProfile UserProfile, BetChoice betChoice)
+        private static string ConvertOdds(int oddsRegion, BetChoice betChoice)
         {
-            return betChoice.NotConvert ? betChoice.Value : OddsConverter.ConvertOdds(UserProfile.OddRegion, Convert.ToDecimal(betChoice.Value)).ToString();
-        }
-
-        private int GetMatchesTimeStamp(
-            IEnumerable<Match> liveMatches,
-            IEnumerable<Match> deadballMatches,
-            bool hasSupportLiveMatch,
-            bool hasSupportDeadballMatch,
-            OddsFeedsModel model,
-            bool changeTime,
-            int timeStamp)
-        {
-            var liveTimeStamp = 0;
-            var deadballTimeStamp = 0;
-
-            if (hasSupportLiveMatch)
-            {
-                liveTimeStamp = GetMaxTimeStamp(liveMatches, model, changeTime, timeStamp);
-            }
-
-            if (hasSupportDeadballMatch)
-            {
-                deadballTimeStamp = GetMaxTimeStamp(deadballMatches, model, changeTime, timeStamp);
-            }
-
-            return Math.Max(liveTimeStamp, deadballTimeStamp);
-        }
-
-        private int GetMaxTimeStamp(
-            IEnumerable<Match> matches,
-            OddsFeedsModel model,
-            bool changeTime,
-            int timeStamp)
-        {
-            var maxTimeStamp = 0;
-            var filterMatches = matches.Where(m => _matchFilter.FilterMatch(m, model.UserProfile, model.UserQuery));
-
-            foreach (var match in filterMatches)
-            {
-                var matchOddsList = match.MatchOddsList
-                    .Where(m => _matchFilter.FilterBetType(model.UserProfile, model.UserQuery, model.IsSample, changeTime, timeStamp, m));
-
-                if (!matchOddsList.Any())
-                {
-                    continue;
-                }
-
-                var matchTimeStamp = matchOddsList.Max(m => m.TimeStamp);
-
-                if (CheckMatchTimeStamp(matchTimeStamp, changeTime, timeStamp))
-                {
-                    maxTimeStamp = Math.Max(maxTimeStamp, matchTimeStamp);
-                }
-            }
-
-            return maxTimeStamp;
-        }
-
-        private static bool CheckMatchTimeStamp(int matchTimeStamp, bool changeTime, int timeStamp)
-        {
-            return !changeTime || matchTimeStamp > timeStamp;
-        }
-
-        private static string GetOddsTypeName(int oddsTypeId)
-        {
-            var oddsTypeName = string.Empty;
-
-            switch (oddsTypeId)
-            {
-                case 1:
-                    oddsTypeName = "Malay";
-                    break;
-                case 2:
-                    oddsTypeName = "HongKong";
-                    break;
-                case 3:
-                    oddsTypeName = "Decimal";
-                    break;
-                case 4:
-                    oddsTypeName = "Indo";
-                    break;
-                case 5:
-                    oddsTypeName = "US";
-                    break;
-
-                default:
-                    oddsTypeName = "Malay";
-                    break;
-            }
-
-            return oddsTypeName;
+            return betChoice.NotConvert ? betChoice.Value : OddsConverter.ConvertOdds(oddsRegion, Convert.ToDecimal(betChoice.Value)).ToString();
         }
     }
 }

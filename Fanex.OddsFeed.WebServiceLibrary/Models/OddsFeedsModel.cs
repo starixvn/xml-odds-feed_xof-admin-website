@@ -14,7 +14,7 @@
 
         public string IpAddress { get; set; }
 
-        public string TimeStamp { get; set; }
+        public int TimeStamp { get; set; }
 
         public bool IsSample { get; set; }
 

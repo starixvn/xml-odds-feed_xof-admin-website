@@ -22,7 +22,7 @@
 
         private static bool FilterByLeague(UserQuery userQuery, Outright outright)
         {
-            return userQuery.Leagues == null || userQuery.Leagues.Count == 0 || StringHelper.ContainInList(userQuery.Leagues, outright.EventEnglish);
+            return userQuery.Leagues == null || userQuery.Leagues.Count == 0 || StringHelper.ContainInList(userQuery.Leagues, outright.EventEn);
         }
 
         private static bool FilterByCountry(UserProfile userProfile, UserQuery userQuery, Outright outright)
@@ -39,7 +39,7 @@
         private static bool FilterByKeyWord(UserProfile userProfile, Outright outright)
         {
             return string.IsNullOrEmpty(userProfile.OutrightsKeyword) 
-                || StringHelper.Contain(outright.EventEnglish, userProfile.OutrightsKeyword);
+                || StringHelper.Contain(outright.EventEn, userProfile.OutrightsKeyword);
         }
     }
 }

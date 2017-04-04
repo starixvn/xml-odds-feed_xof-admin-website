@@ -9,7 +9,14 @@
 
     public class BetTypeService : IBetTypeService
     {
-        private IEnumerable<BetTypeSchema> _betTypeSchemas;
+        private readonly IOddsFeedCachingOperator _oddsFeedCachingOperator;
+
+        private IList<BetTypeSchema> _betTypeSchemas;
+
+        public BetTypeService()
+        {
+            _oddsFeedCachingOperator = new OddsFeedCachingOperator();
+        }
 
         public string GetBetTypeNameById(int betTypeId)
         {
@@ -25,11 +32,11 @@
                 schema => new BetType { BetTypeName = schema.Tag, IsChildBetType = schema.IsChildBetType });
         }
 
-        private IEnumerable<BetTypeSchema> GetBetTypeSchemas()
+        private IList<BetTypeSchema> GetBetTypeSchemas()
         {
             if (_betTypeSchemas == null)
             {
-                _betTypeSchemas = OddFeedDataCachingOperator.GetBetTypeSchemas();
+                _betTypeSchemas = _oddsFeedCachingOperator.GetBetTypes();
             }
 
             return _betTypeSchemas;

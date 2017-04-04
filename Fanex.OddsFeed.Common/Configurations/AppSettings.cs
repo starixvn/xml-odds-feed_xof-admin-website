@@ -180,5 +180,45 @@
                 return ConfigurationManager.AppSettings["FromMail"].ToString();
             }
         }
+
+        public static string CouchbaseServer
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["CouchbaseServer"].ToString();
+            }
+        }
+
+        public static string BucketOddsFeed
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["Bucket.OddsFeed"].ToString();
+            }
+        }
+
+        public static string BucketOutrights
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["Bucket.Outrights"].ToString();
+            }
+        }
+
+        public static string BucketLiveMatches
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["Bucket.LiveMatches"].ToString();
+            }
+        }
+
+        public static string BucketDeadMatches
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["Bucket.DeadMatches"].ToString();
+            }
+        }
     }
 }

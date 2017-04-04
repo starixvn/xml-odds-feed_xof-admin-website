@@ -1,17 +1,16 @@
 ﻿namespace Fanex.OddsFeed.WebServiceLibrary.Builders
 {
-    using System;
+    using System.Collections.Generic;
     using System.Text;
     using Common.DTO;
     using Models;
 
     public interface IMatchBuilder
     {
-        void AddMatchesNode(
+        void AppendMatchNodes(
             StringBuilder oddsFeedNode,
-            OddsData oddsData,
-            OddsFeedsModel model,
+            IList<Match> matches,
             UserLanguage userLanguage,
-            DateTime lastUpdate);
+            OddsFeedsModel model);
     }
 }

@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Data;
     using System.Linq;
-    using System.Threading.Tasks;
     using Common.Converters;
     using Common.DTO;
     using Common.Schemas;
@@ -12,52 +11,47 @@
 
     public class MatchMapping : IMatchMapping
     {
-        public SafeList<Match> GetMatches(
+        public IList<Match> GetMatches(
             DataTable dataTable,
             IEnumerable<BetTypeSchema> schemas,
-            bool isLive,
-            IEnumerable<OddsFlexGroup> oddsFlexs)
+            IEnumerable<OddsFlexGroup> oddsFlexs,
+            bool isLive)
         {
             var matchList = new SafeList<Match>();
             var matchOddsList = new SafeList<MatchOdds>();
-            Partitioner<DataRow> partionerList = Partitioner.Create(dataTable.AsEnumerable().ToList(), true);
+
+            var partionerList = Partitioner.Create(dataTable.AsEnumerable().ToList(), true);
             
-                var tempRows = from row in partionerList.AsParallel()
-                            select row;
+            var tempRows = from row in partionerList.AsParallel() select row;
 
-                tempRows.ForAll((row) =>
+            tempRows.ForAll((row) =>
+            {
+                var matchOdds = GetMatchOdds(schemas, row, oddsFlexs);
+                var match = CreateMatch(row, isLive);
+                if (matchOdds != null)
                 {
-                    var matchOdds = GetMatchOdds(schemas, row, oddsFlexs);
-                    var match = CreateMatch(row, isLive);
-                    if (matchOdds != null)
-                    {
-                        matchOddsList.Add(matchOdds);
-                    }
+                    matchOddsList.Add(matchOdds);
+                }
 
-                    if (match != null)
-                    {
-                        matchList.Add(match);
-                    }
-                });
-
-                var matchListResult = new SafeList<Match>();
-
-           
-                var partitionerMatchList = Partitioner.Create(matchList, true);
-
-                var matchListById = from row in partitionerMatchList.AsParallel()
-                                    group row by row.MatchId into g
-                                    select new { MatchId = g.Key, FirstMatch = g.FirstOrDefault() };
-
-                matchListById.ForAll((row) =>
+                if (match != null)
                 {
+                    matchList.Add(match);
+                }
+            });
 
-                    var temp = row.FirstMatch;
-                    temp.MatchOddsList = matchOddsList.AsParallel().Where(i => i.MatchId == row.MatchId).ToList();
-                    matchListResult.Add(temp);
+            var matchListResult = new SafeList<Match>();
+            var partitionerMatchList = Partitioner.Create(matchList, true);
+            var matchListById = from row in partitionerMatchList.AsParallel()
+                                group row by row.MatchId into g
+                                select new { MatchId = g.Key, FirstMatch = g.FirstOrDefault() };
 
-                });
-
+            matchListById.ForAll((row) =>
+            {
+                var temp = row.FirstMatch;
+                temp.MatchOddsList = matchOddsList.AsParallel().Where(i => i.MatchId == row.MatchId).ToList();
+                matchListResult.Add(temp);
+            });
+            
             return matchListResult;
         }
 
@@ -69,19 +63,18 @@
                 SportName = row["SportTypeName"].ToString(),
                 SportId = Convert.ToInt32(row["SportType"]),
                 KickOfTime = Convert.ToDateTime(row["KickOffTime"].ToString()),
-                HomeEnglish = row["Home"].ToString(),
-                HomeTraditionalChinese = row["HomeCN"].ToString(),
-                HomeSimplifiedChinese = row["HomeC_UNI"].ToString(),
-                AwayEnglish = row["Away"].ToString(),
-                AwayTraditionalChinese = row["AwayCN"].ToString(),
-                AwaySimplifiedChinese = row["AwayC_UNI"].ToString(),
+                HomeEn = row["Home"].ToString(),
+                HomeTw = row["HomeCN"].ToString(),
+                HomeCn = row["HomeC_UNI"].ToString(),
+                AwayEn = row["Away"].ToString(),
+                AwayTw = row["AwayCN"].ToString(),
+                AwayCn = row["AwayC_UNI"].ToString(),
                 LeagueId = Convert.ToInt32(row["LeagueID"]),
-                LeagueEnglish = row["LeagueName"].ToString(),
-                LeagueTraditionalChinese = row["LeagueNameCN"].ToString(),
-                LeagueSimplifiedChinese = row["LeagueNameC_UNI"].ToString(),
+                LeagueEn = row["LeagueName"].ToString(),
+                LeagueTw = row["LeagueNameCN"].ToString(),
+                LeagueCn = row["LeagueNameC_UNI"].ToString(),
                 CountryCode = row["CountryCode"].ToString(),
-                IsLive = isLive,
-                TimeStamp = Convert.ToInt32(row["TimeStamp"])
+                IsLive = isLive
             };
         }
 
@@ -107,12 +100,12 @@
             };
         }
 
-        private static IEnumerable<BetChoice> GetNormalBetChoices(BetTypeSchema schema, DataRow row)
+        private static IList<BetChoice> GetNormalBetChoices(BetTypeSchema schema, DataRow row)
         {
             return schema.Reserve == null ? MapBetChoices(schema.BetChoices, row) : MapBetChoicesReserve(schema, row);
         }
 
-        private static IEnumerable<BetChoice> GetOddsFlexBetChoices(BetTypeSchema schema, DataRow row, IEnumerable<OddsFlexGroup> oddFlexGroups)
+        private static IList<BetChoice> GetOddsFlexBetChoices(BetTypeSchema schema, DataRow row, IEnumerable<OddsFlexGroup> oddFlexGroups)
         {
             var betChoices = new List<BetChoice>();
             var oddsId = Convert.ToInt32(row["oddsid"]);
@@ -136,11 +129,11 @@
                     });
                 }
             }
-
+            
             return betChoices;
         }
 
-        private static IEnumerable<BetChoice> MapBetChoices(IEnumerable<BetChoiceSchema> betChoiceSchemas, DataRow row)
+        private static IList<BetChoice> MapBetChoices(IEnumerable<BetChoiceSchema> betChoiceSchemas, DataRow row)
         {
             var betChoices = new List<BetChoice>();
 
@@ -171,7 +164,7 @@
             return betChoices;
         }
 
-        private static IEnumerable<BetChoice> MapBetChoicesReserve(BetTypeSchema betTypeSchema, DataRow row)
+        private static IList<BetChoice> MapBetChoicesReserve(BetTypeSchema betTypeSchema, DataRow row)
         {
             var betChoices = new List<BetChoice>();
             var betChoice1 = betTypeSchema.BetChoices.ElementAt(1);

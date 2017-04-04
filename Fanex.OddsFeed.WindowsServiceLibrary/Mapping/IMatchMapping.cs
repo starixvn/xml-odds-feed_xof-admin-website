@@ -7,10 +7,10 @@
 
     public interface IMatchMapping
     {
-        SafeList<Match> GetMatches(
+        IList<Match> GetMatches(
             DataTable dataTable,
             IEnumerable<BetTypeSchema> schemas,
-            bool isLive,
-            IEnumerable<OddsFlexGroup> oddsFlexs);
+            IEnumerable<OddsFlexGroup> oddsFlexs,
+            bool isLive);
     }
 }

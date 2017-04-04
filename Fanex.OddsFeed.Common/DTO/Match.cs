@@ -1,34 +1,64 @@
 ﻿namespace Fanex.OddsFeed.Common.DTO
 {
-    using global::System;
-    using global::System.Collections.Generic;
+    using System;
+    using System.Collections.Generic;
+    using Newtonsoft.Json;
 
     [Serializable]
-    public class Match
+    public class LeagueDocument
+    {
+        public int Version { get; set; }
+
+        public int LeagueId { get; set; }
+
+        public string LeagueEn { get; set; }
+
+        public string LeagueTw { get; set; }
+
+        public string LeagueCn { get; set; }
+
+        public int SportId { get; set; }
+
+        public string SportName { get; set; }
+
+        public string CountryCode { get; set; }
+
+        public IList<Match> Matches { get; set; }
+    }
+
+    [Serializable]
+    public class MatchToMap
     {
         public int MatchId { get; set; }
 
         public int LeagueId { get; set; }
 
-        public string LeagueEnglish { get; set; }
+        [JsonProperty("LeagueEnglish")]
+        public string LeagueEn { get; set; }
 
-        public string LeagueTraditionalChinese { get; set; }
+        [JsonProperty("LeagueTraditionalChinese")]
+        public string LeagueTw { get; set; }
 
-        public string LeagueSimplifiedChinese { get; set; }
+        [JsonProperty("LeagueSimplifiedChinese")]
+        public string LeagueCn { get; set; }
 
-        public string HomeEnglish { get; set; }
+        [JsonProperty("HomeEnglish")]
+        public string HomeEn { get; set; }
 
-        public string HomeTraditionalChinese { get; set; }
+        [JsonProperty("HomeTraditionalChinese")]
+        public string HomeTw { get; set; }
 
-        public string HomeSimplifiedChinese { get; set; }
+        [JsonProperty("HomeSimplifiedChinese")]
+        public string HomeCn { get; set; }
 
-        public string AwayEnglish { get; set; }
+        [JsonProperty("AwayEnglish")]
+        public string AwayEn { get; set; }
 
-        public string AwayTraditionalChinese { get; set; }
+        [JsonProperty("AwayTraditionalChinese")]
+        public string AwayTw { get; set; }
 
-        public string AwaySimplifiedChinese { get; set; }
-
-        public int TimeStamp { get; set; }
+        [JsonProperty("AwaySimplifiedChinese")]
+        public string AwayCn { get; set; }
 
         public int SportId { get; set; }
 
@@ -38,15 +68,47 @@
 
         public DateTime KickOfTime { get; set; }
 
-        public bool IsRunning { get; set; }
+        public int TimeStamp { get; set; }
+
+        public IList<MatchOdds> MatchOddsList { get; set; }
+    }
+
+    [Serializable]
+    public class Match
+    {
+        public int MatchId { get; set; }
+
+        public int LeagueId { get; set; }
+
+        public string LeagueEn { get; set; }
+
+        public string LeagueTw { get; set; }
+
+        public string LeagueCn { get; set; }
+
+        public string HomeEn { get; set; }
+
+        public string HomeTw { get; set; }
+
+        public string HomeCn { get; set; }
+
+        public string AwayEn { get; set; }
+
+        public string AwayTw { get; set; }
+
+        public string AwayCn { get; set; }
+
+        public int SportId { get; set; }
+
+        public string SportName { get; set; }
+
+        public string CountryCode { get; set; }
+
+        public DateTime KickOfTime { get; set; }
+
+        public int TimeStamp { get; set; }
 
         public bool IsLive { get; set; }
-
-        public string BookieNameEnglish { get; set; }
-
-        public string BookieNameTraditionalChinese { get; set; }
-
-        public string BookieNameSimplifiedChinese { get; set; }
 
         public IList<MatchOdds> MatchOddsList { get; set; }
     }

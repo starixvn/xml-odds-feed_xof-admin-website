@@ -1,10 +1,10 @@
 ﻿namespace Fanex.OddsFeed.WindowsService
 {
     using System;
+    using System.Globalization;
     using System.ServiceProcess;
     using System.Timers;
     using Common.Configurations;
-    using Couchbase;
     using Logging;
     using ONEbook.UM.Services;
     using ONEbook.UM.Services.Impl;
@@ -14,7 +14,7 @@
     {
         private Timer _timer;
         private int _currentVersion;
-        private int _totalVersion;
+        private readonly int _totalVersion;
 
         private readonly IWindowsOddsFeedService _oddsFeedService;
         private readonly IMaintenanceService _maintenanceService;
@@ -61,9 +61,10 @@
                     _timer.Stop();
                     _timer.Dispose();
                 }
-
-                Reset();
-
+                if (_oddsFeedService != null)
+                {
+                    _oddsFeedService.CloseCouchbaseClient();
+                }
             }
             catch (Exception exception)
             {
@@ -71,38 +72,42 @@
             }
         }
 
-        private void BackgroundTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
+        private void BackgroundTimerElapsed(object sender, ElapsedEventArgs e)
         {
-            _timer.Stop();
-
+            var isUnderMaintenance = false;
             try
             {
-                if (!_maintenanceService.IsUnderMaintenance())
+                _timer.Stop();
+
+                var isSuccessful = _oddsFeedService.Update(_currentVersion);
+
+                if (isSuccessful)
                 {
-                    var isSuccessful = _oddsFeedService.Update(_currentVersion);
-
-                    if (isSuccessful)
-                    {
-                        _currentVersion++;
-                        UpdateCurrentVersion();
-                    }
-                    else
-                    {
-                        LogService.Error("IP address seems to have changed OR Cache on CouchBase is full. Please restart OddsFeedWindowService ! ");
-
-                        using (var cacheClient = new CouchbaseClient())
-                        {
-                            cacheClient.FlushAll();
-                        }
-                    }
+                    _currentVersion++;
+                    UpdateCurrentVersion();
+                }
+                else
+                {
+                    LogService.Error("IP address seems to have changed OR Cache on CouchBase is full. Please restart OddsFeedWindowService!");
                 }
             }
             catch (Exception exception)
             {
-                LogService.Error("BackgroundTimerElapsed -- " + GetExceptionMessage(exception));
+                LogService.Error("BackgroundTimerElapsed -- " + GetExceptionMessage(exception), exception);
+                isUnderMaintenance = _maintenanceService.IsUnderMaintenance();
+            }
+            finally
+            {
+                if (isUnderMaintenance)
+                {
+                    var underMaintenanceTime = _maintenanceService.GetUnderMaintenanceTime();
+                    var umFrom = DateTime.ParseExact(underMaintenanceTime.From, "HH:mm", CultureInfo.InvariantCulture);
+                    var umTo = DateTime.ParseExact(underMaintenanceTime.To, "HH:mm", CultureInfo.InvariantCulture);
+                    System.Threading.Thread.Sleep(umTo - umFrom);
+                }
+                _timer.Start();
             }
 
-            _timer.Start();
         }
 
         private void Reset()
@@ -136,11 +141,6 @@
                 _currentVersion = 0;
                 _oddsFeedService.StoreFullChain();
             }
-        }
-
-        private bool IsDownTime()
-        {
-            return _maintenanceService.IsUnderMaintenance();
         }
     }
 }

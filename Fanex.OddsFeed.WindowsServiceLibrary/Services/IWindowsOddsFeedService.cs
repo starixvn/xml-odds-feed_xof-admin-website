@@ -7,5 +7,7 @@
         bool StoreFullChain();
 
         bool Update(int currentVersion);
+        void CloseCouchbaseClient();
+
     }
 }

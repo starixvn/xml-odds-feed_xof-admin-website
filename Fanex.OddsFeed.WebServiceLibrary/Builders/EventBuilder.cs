@@ -59,17 +59,17 @@
 
             if (userLanguage.IsSupportedEnglish)
             {
-                oddsFeedNode.Append($"ge=\"{SecurityElement.Escape(match.LeagueEnglish)}\" ");
+                oddsFeedNode.Append($"ge=\"{SecurityElement.Escape(match.LeagueEn)}\" ");
             }
 
             if (userLanguage.IsSupportedTraditionalChinese)
             {
-                oddsFeedNode.Append($"gt=\"{SecurityElement.Escape(match.LeagueTraditionalChinese)}\" ");
+                oddsFeedNode.Append($"gt=\"{SecurityElement.Escape(match.LeagueTw)}\" ");
             }
 
             if (userLanguage.IsSupportedSimplifiedChinese)
             {
-                oddsFeedNode.Append($"gs=\"{SecurityElement.Escape(match.LeagueSimplifiedChinese)}\" ");
+                oddsFeedNode.Append($"gs=\"{SecurityElement.Escape(match.LeagueCn)}\" ");
             }
 
             oddsFeedNode.Append($"sport=\"{SecurityElement.Escape(match.SportName)}\">");
@@ -79,17 +79,17 @@
         {
             if (userLanguage.IsSupportedEnglish)
             {
-                oddsFeedNode.Append($"he=\"{SecurityElement.Escape(match.HomeEnglish)}\" ");
+                oddsFeedNode.Append($"he=\"{SecurityElement.Escape(match.HomeEn)}\" ");
             }
 
             if (userLanguage.IsSupportedTraditionalChinese)
             {
-                oddsFeedNode.Append($"ht=\"{SecurityElement.Escape(match.HomeTraditionalChinese)}\" ");
+                oddsFeedNode.Append($"ht=\"{SecurityElement.Escape(match.HomeTw)}\" ");
             }
 
             if (userLanguage.IsSupportedSimplifiedChinese)
             {
-                oddsFeedNode.Append($"hs=\"{SecurityElement.Escape(match.HomeSimplifiedChinese)}\" ");
+                oddsFeedNode.Append($"hs=\"{SecurityElement.Escape(match.HomeCn)}\" ");
             }
         }
 
@@ -97,17 +97,17 @@
         {
             if (userLanguage.IsSupportedEnglish)
             {
-                oddsFeedNode.Append($"ae=\"{SecurityElement.Escape(match.AwayEnglish)}\" ");
+                oddsFeedNode.Append($"ae=\"{SecurityElement.Escape(match.AwayEn)}\" ");
             }
 
             if (userLanguage.IsSupportedTraditionalChinese)
             {
-                oddsFeedNode.Append($"at=\"{SecurityElement.Escape(match.AwayTraditionalChinese)}\" ");
+                oddsFeedNode.Append($"at=\"{SecurityElement.Escape(match.AwayTw)}\" ");
             }
 
             if (userLanguage.IsSupportedSimplifiedChinese)
             {
-                oddsFeedNode.Append($"as=\"{SecurityElement.Escape(match.AwaySimplifiedChinese)}\" ");
+                oddsFeedNode.Append($"as=\"{SecurityElement.Escape(match.AwayCn)}\" ");
             }
         }
 
@@ -129,17 +129,17 @@
 
             if (userLanguage.IsSupportedEnglish)
             {
-                oddsFeedNode.Append($"ge=\"{SecurityElement.Escape(outright.EventEnglish)}\" ");
+                oddsFeedNode.Append($"ge=\"{SecurityElement.Escape(outright.EventEn)}\" ");
             }
 
             if (userLanguage.IsSupportedTraditionalChinese)
             {
-                oddsFeedNode.Append($"gt=\"{SecurityElement.Escape(outright.EventTraditionalChinese)}\" ");
+                oddsFeedNode.Append($"gt=\"{SecurityElement.Escape(outright.EventTw)}\" ");
             }
 
             if (userLanguage.IsSupportedSimplifiedChinese)
             {
-                oddsFeedNode.Append($"gs=\"{SecurityElement.Escape(outright.EventSimplifiedChinese)}\" ");
+                oddsFeedNode.Append($"gs=\"{SecurityElement.Escape(outright.EventCn)}\" ");
             }
 
             oddsFeedNode.Append($"mt=\"{outright.Time}\" sport=\"{SecurityElement.Escape(outright.SportName)}\">");
@@ -151,17 +151,17 @@
 
             if (userLanguage.IsSupportedEnglish)
             {
-                oddsFeedNode.Append($"te=\"{SecurityElement.Escape(outrightOdds.OddNameEnglish)}\" ");
+                oddsFeedNode.Append($"te=\"{SecurityElement.Escape(outrightOdds.OddNameEn)}\" ");
             }
 
             if (userLanguage.IsSupportedTraditionalChinese)
             {
-                oddsFeedNode.Append($"tt=\"{SecurityElement.Escape(outrightOdds.OddNameTraditionalChinese)}\" ");
+                oddsFeedNode.Append($"tt=\"{SecurityElement.Escape(outrightOdds.OddNameTw)}\" ");
             }
 
             if (userLanguage.IsSupportedSimplifiedChinese)
             {
-                oddsFeedNode.Append($"ts=\"{SecurityElement.Escape(outrightOdds.OddNameSimplifiedChinese)}\" ");
+                oddsFeedNode.Append($"ts=\"{SecurityElement.Escape(outrightOdds.OddNameCn)}\" ");
             }
 
             oddsFeedNode.Append($"/>");
