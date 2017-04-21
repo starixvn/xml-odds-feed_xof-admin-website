@@ -9,13 +9,6 @@
 
 namespace Fanex.OddsFeed.Admin.Controllers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Configuration;
-    using System.Data;
-    using System.Linq;
-    using System.Text;
-    using System.Web.Mvc;
     using Common;
     using Fanex.NAP.Core.Configuration;
     using Fanex.NAP.Core.Web;
@@ -25,6 +18,13 @@ namespace Fanex.OddsFeed.Admin.Controllers
     using Fanex.OddsFeed.Core.Service.Interface;
     using Fanex.OddsFeed.Core.Web.Context;
     using Fanex.OddsFeed.Core.Web.Session;
+    using System;
+    using System.Collections.Generic;
+    using System.Configuration;
+    using System.Data;
+    using System.Linq;
+    using System.Text;
+    using System.Web.Mvc;
 
     /// <summary>
     /// Class BaseController.
@@ -38,7 +38,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
         //protected readonly string Environment = NapSettings.Settings.Environment;
 
         //protected readonly int SiteId = NapSettings.Settings.SiteId;
-               
+
         protected readonly ICurrentContext CurrentContext;
 
         protected readonly ICurrentSession CurrentSession;
@@ -47,7 +47,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
         //private int _issiteLogin = NapSettings.Settings.IsSiteLogin;
 
-        private ViewFlags _viewFlags;   
+        private ViewFlags _viewFlags;
 
         public BaseController()
         {
@@ -79,7 +79,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
                                                     "/Dashboard/ShowDashboard'><span class='xicon home'></span>Home</a>"
                                                 };
 
-            ViewBag.NavigationHome = string.Join(null, navigationHome);                
+            ViewBag.NavigationHome = string.Join(null, navigationHome);
         }
 
         protected ViewFlags ViewFlags
@@ -119,7 +119,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
             {
                 CurrentSession.SystemId = systemId;
                 CurrentSession.SystemName = systemName;
-                ServiceContext.SystemId = systemId;        
+                ServiceContext.SystemId = systemId;
             }
 
             if (CurrentSession.ActionName.ToLower().Contains("edit")
@@ -225,7 +225,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 var cacheInterval = Converter.ToInt(config.Where(m => m.Text == "CacheInterval").ToList()[0].Value, 0);
                 var numberOfCacheVersion = Converter.ToInt(config.Where(m => m.Text == "NumberOfCacheVersion").ToList()[0].Value, 0);
 
-                for (int i = 0; i <= numberOfCacheVersion * cacheInterval; i += 5)
+                for (int i = 0; i <= (numberOfCacheVersion - 2) * cacheInterval; i += cacheInterval)
                 {
                     delayTimeList.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
                 }
@@ -233,7 +233,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
             return delayTimeList;
         }
-         
+
         #endregion
     }
 }
