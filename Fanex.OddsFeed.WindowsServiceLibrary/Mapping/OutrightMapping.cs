@@ -1,11 +1,9 @@
 ﻿namespace Fanex.OddsFeed.WindowsServiceLibrary.Mapping
 {
+    using Common.DTO;
     using System;
-    using System.Collections.Generic;
     using System.Data;
     using System.Linq;
-    using System.Threading.Tasks;
-    using Common.DTO;
 
     public class OutrightMapping : IOutrightMapping
     {
@@ -28,24 +26,24 @@
                 }
             });
 
-           
+
             return events;
         }
 
         private static void AddOutrightOdds(DataRow row, SafeList<Outright> outrights, OutrightOdds outrightOdds)
         {
             var currentLeagueId = Convert.ToInt32(row["LeagueID"]);
-                var existedOutright = outrights.FirstOrDefault(o => o.EventId == currentLeagueId);
+            var existedOutright = outrights.FirstOrDefault(o => o.EventId == currentLeagueId);
 
-                if (existedOutright != null)
-                {
-                    existedOutright.OutrightOddsList.Add(outrightOdds);
-                }
-                else
-                {
-                    outrights.Add(GetOutright(row, currentLeagueId, outrightOdds));
-                }
-            
+            if (existedOutright != null)
+            {
+                existedOutright.OutrightOddsList.Add(outrightOdds);
+            }
+            else
+            {
+                outrights.Add(GetOutright(row, currentLeagueId, outrightOdds));
+            }
+
         }
 
         private static Outright GetOutright(DataRow row, int leagueId, OutrightOdds eventOdds)
@@ -54,8 +52,8 @@
             {
                 EventId = leagueId,
                 EventEn = row["LeagueName"].ToString(),
-                EventTw = row["LeagueNameCN"].ToString(),
-                EventCn = row["LeagueNameC_UNI"].ToString(),
+                EventTw = row["LeagueNameC_UNI"].ToString(),
+                EventCn = row["LeagueNameCN"].ToString(),
                 SportId = Convert.ToInt32(row["SportID"]),
                 SportName = row["LeagueNameTC"].ToString(),
                 CountryCode = row["CountryCode"].ToString(),
@@ -70,8 +68,8 @@
             {
                 OddsId = Convert.ToInt32(row["OrID"]),
                 OddNameEn = row["TeamName"].ToString(),
-                OddNameTw = row["TeamNameCN"].ToString(),
-                OddNameCn = row["TeamNameC_UNI"].ToString(),
+                OddNameTw = row["TeamNameC_UNI"].ToString(),
+                OddNameCn = row["TeamNameCN"].ToString(),
                 Value = Convert.ToDecimal(row["Odds"])
             };
         }
