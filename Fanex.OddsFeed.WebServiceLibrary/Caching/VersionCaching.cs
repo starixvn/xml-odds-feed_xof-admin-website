@@ -1,10 +1,10 @@
 ﻿namespace Fanex.OddsFeed.WebServiceLibrary.Caching
 {
-    using System;
     using Couchbase.Core;
     using Fanex.OddsFeed.Common.Configurations;
     using Fanex.OddsFeed.Common.DTO;
     using Fanex.OddsFeed.WebServiceLibrary.Models;
+    using System;
 
     public class VersionCaching : IVersionCaching
     {
@@ -44,7 +44,7 @@
 
         private static int GetRightVersion(int delayTime, int currentVersion, bool isFullChain)
         {
-            var rightVersion = currentVersion - (delayTime / (AppSettings.Interval / 1000));
+            var rightVersion = currentVersion - (delayTime / AppSettings.Interval);
 
             if (isFullChain)
             {

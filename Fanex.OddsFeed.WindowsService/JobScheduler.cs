@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using Fanex.OddsFeed.Common.Configurations;
+﻿using Fanex.OddsFeed.Common.Configurations;
 using Fanex.OddsFeed.WindowsServiceLibrary.Services;
 using ONEbook.UM.Services;
 using Quartz;
 using Quartz.Impl;
+using System.Collections.Generic;
 
 namespace Fanex.OddsFeed.WindowsService
 {
@@ -14,7 +14,7 @@ namespace Fanex.OddsFeed.WindowsService
 
         public JobScheduler()
         {
-            _interval = AppSettings.Interval / 1000;
+            _interval = AppSettings.Interval;
             _scheduler = StdSchedulerFactory.GetDefaultScheduler();
         }
 
