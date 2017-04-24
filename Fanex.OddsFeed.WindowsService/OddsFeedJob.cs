@@ -1,10 +1,10 @@
-﻿using Fanex.Logging;
+﻿using System;
+using Fanex.Logging;
 using Fanex.OddsFeed.Common.Configurations;
 using Fanex.OddsFeed.WindowsServiceLibrary.Services;
 using NLog;
 using ONEbook.UM.Services;
 using Quartz;
-using System;
 
 namespace Fanex.OddsFeed.WindowsService
 {
@@ -19,7 +19,7 @@ namespace Fanex.OddsFeed.WindowsService
         {
             var startTime = DateTime.Now;
             var isSuccessful = false;
-            JobDataMap dataMap = context.JobDetail.JobDataMap;
+            var dataMap = context.JobDetail.JobDataMap;
             _oddsFeedService = (IWindowsOddsFeedService)dataMap.Get("oddsFeedService");
             _maintenanceService = (IMaintenanceService)dataMap.Get("maintenanceService");
 

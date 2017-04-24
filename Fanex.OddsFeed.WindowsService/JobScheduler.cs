@@ -1,9 +1,9 @@
-﻿using Fanex.OddsFeed.Common.Configurations;
+﻿using System.Collections.Generic;
+using Fanex.OddsFeed.Common.Configurations;
 using Fanex.OddsFeed.WindowsServiceLibrary.Services;
 using ONEbook.UM.Services;
 using Quartz;
 using Quartz.Impl;
-using System.Collections.Generic;
 
 namespace Fanex.OddsFeed.WindowsService
 {
@@ -11,7 +11,6 @@ namespace Fanex.OddsFeed.WindowsService
     {
         private readonly int _interval;
         private readonly IScheduler _scheduler;
-
 
         public JobScheduler()
         {
@@ -21,7 +20,7 @@ namespace Fanex.OddsFeed.WindowsService
 
         public void Start(IWindowsOddsFeedService oddsFeedService, IMaintenanceService maintenanceService)
         {
-            IJobDetail job = JobBuilder.Create<OddsFeedJob>()
+            var job = JobBuilder.Create<OddsFeedJob>()
                 .UsingJobData(new JobDataMap(new Dictionary<string, IWindowsOddsFeedService>()
                 {
                     { "oddsFeedService", oddsFeedService}
@@ -32,7 +31,7 @@ namespace Fanex.OddsFeed.WindowsService
                 }))
                 .Build();
 
-            ITrigger trigger = TriggerBuilder.Create()
+            var trigger = TriggerBuilder.Create()
                    .WithSimpleSchedule(a => a.WithIntervalInSeconds(_interval)
                    .RepeatForever())
                    .Build();
