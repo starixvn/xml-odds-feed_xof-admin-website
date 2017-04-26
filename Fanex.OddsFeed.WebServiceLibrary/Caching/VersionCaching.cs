@@ -48,7 +48,7 @@
 
             if (isFullChain)
             {
-                return rightVersion > 0 ? rightVersion : AppSettings.TotalVersion - Math.Abs(rightVersion);
+                return rightVersion > -1 ? rightVersion : AppSettings.TotalVersion - Math.Abs(rightVersion);
             }
 
             return rightVersion > -1 ? rightVersion : -1;
