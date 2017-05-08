@@ -53,8 +53,7 @@
             var currentVersion = 0;
             using (var bucket = cluster.OpenBucket(_oddsFeedBucket))
             {
-                var get = bucket.GetDocument<int>(_currentVersionKey);
-                currentVersion = get.Document.Content;
+                currentVersion = bucket.Get<int>(_currentVersionKey).Value;
             }
 
             return currentVersion < 0 ? 0 : currentVersion;
@@ -62,14 +61,10 @@
 
         private static bool IsFullChain(ICluster cluster)
         {
-            var isFullChain = false;
             using (var bucket = cluster.OpenBucket(_oddsFeedBucket))
             {
-                var get = bucket.GetDocument<bool>(_isFullChainKey);
-                isFullChain = get.Document.Content;
+                return bucket.Get<bool>(_isFullChainKey).Value;
             }
-
-            return isFullChain;
         }
     }
 }

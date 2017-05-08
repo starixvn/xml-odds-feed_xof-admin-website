@@ -167,15 +167,10 @@
 
         private static int GetCurrentVersion(ICluster cluster)
         {
-            var currentVersion = 0;
-
             using (var bucket = cluster.OpenBucket(_oddsFeedBucket))
             {
-                var get = bucket.GetDocument<int>(_currentVersionKey);
-                currentVersion = get.Document.Content;
+                return bucket.Get<int>(_currentVersionKey).Value;
             }
-
-            return currentVersion;
         }
     }
 }
