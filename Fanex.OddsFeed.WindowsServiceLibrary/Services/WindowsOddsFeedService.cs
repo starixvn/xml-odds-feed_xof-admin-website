@@ -16,35 +16,23 @@
 
     public class WindowsOddsFeedService : IWindowsOddsFeedService
     {
-        private readonly string _cachePrefix;
-        private readonly IMatchMapping _matchMapping;
-        private readonly IOutrightMapping _outrightMapping;
-
-        private static readonly ICluster _cluster = new Cluster(new ClientConfiguration
-        {
-            Servers = new List<Uri> { new Uri(AppSettings.CouchbaseServer) }
-        });
-
-        public WindowsOddsFeedService()
-        {
-            _cachePrefix = AppSettings.CachePrefix;
-            _matchMapping = new MatchMapping();
-            _outrightMapping = new OutrightMapping();
-        }
+        private static readonly string _cachePrefix = AppSettings.CachePrefix;
+        private static readonly string _oddsFeedBucket = AppSettings.BucketOddsFeed;
+        private static readonly List<Uri> _couchBaseServer = new List<Uri> { new Uri(AppSettings.CouchbaseServer) };
+        private static readonly string _currentVersionKey = CacheKeys.CurrentKey(AppSettings.CachePrefix);
+        private static int _totalVersion = AppSettings.TotalVersion;
 
         public void Reset()
         {
-            Store(AppSettings.BucketOddsFeed, AppSettings.BetTypeSchemaKey, new List<BetTypeSchema>());
-            Store(AppSettings.BucketOddsFeed, CacheKeys.CurrentKey(_cachePrefix), 0);
-            Store(AppSettings.BucketOddsFeed, CacheKeys.FullChainKey(_cachePrefix), false);
+            using (var cluster = new Cluster(new ClientConfiguration { Servers = _couchBaseServer }))
+            {
+                Store(cluster, AppSettings.BucketOddsFeed, AppSettings.BetTypeSchemaKey, new List<BetTypeSchema>());
+                Store(cluster, AppSettings.BucketOddsFeed, CacheKeys.CurrentKey(_cachePrefix), -1);
+                Store(cluster, AppSettings.BucketOddsFeed, CacheKeys.FullChainKey(_cachePrefix), false);
+            }
         }
 
-        public bool StoreFullChain()
-        {
-            return Store(AppSettings.BucketOddsFeed, CacheKeys.FullChainKey(_cachePrefix), true);
-        }
-
-        public bool Update(int currentVersion)
+        public bool Update()
         {
             var result = false;
 
@@ -53,52 +41,55 @@
             var deadBallMatches = GetDeadballMatches(betTypeSchemas);
             var outrights = GetOutrights();
 
-            result = Store(AppSettings.BucketOddsFeed, CacheKeys.CurrentKey(_cachePrefix), currentVersion);
+            using (var cluster = new Cluster(new ClientConfiguration { Servers = _couchBaseServer }))
+            {
+                var currentVersion = GetCurrentVersion(cluster) + 1;
+                if (currentVersion == _totalVersion)
+                {
+                    currentVersion = 0;
+                }
+                var versionKey = currentVersion.ToString();
 
-            result = result && Store(AppSettings.BucketLiveMatches, currentVersion.ToString(), liveMatches);
-            result = result && Store(AppSettings.BucketDeadMatches, currentVersion.ToString(), deadBallMatches);
-            result = result && Store(AppSettings.BucketOutrights, currentVersion.ToString(), outrights);
+                result = Store(cluster, AppSettings.BucketOddsFeed, CacheKeys.CurrentKey(_cachePrefix), currentVersion);
+
+                result &= Store(cluster, AppSettings.BucketLiveMatches, versionKey, liveMatches);
+                result &= Store(cluster, AppSettings.BucketDeadMatches, versionKey, deadBallMatches);
+                result &= Store(cluster, AppSettings.BucketOutrights, versionKey, outrights);
+
+                if (result && currentVersion == _totalVersion - 1)
+                {
+                    result &= Store(cluster, AppSettings.BucketOddsFeed, CacheKeys.FullChainKey(_cachePrefix), true);
+                }
+            }
 
             return result;
-
         }
 
-        private IList<Match> GetLiveMatches(IList<BetTypeSchema> betTypeSchemas)
+        private static IList<Match> GetLiveMatches(IList<BetTypeSchema> betTypeSchemas)
         {
             using (var liveOdds = DbAccess.GetLiveOddsData())
             {
-                return _matchMapping.GetMatches(liveOdds.Tables[0], betTypeSchemas, GetOddsFlexGroups(liveOdds.Tables[1]), true);
+                var matchMapping = new MatchMapping();
+                return matchMapping.GetMatches(liveOdds.Tables[0], betTypeSchemas, GetOddsFlexGroups(liveOdds.Tables[1]), true);
             }
         }
 
-        private IList<Match> GetDeadballMatches(IList<BetTypeSchema> betTypeSchemas)
+        private static IList<Match> GetDeadballMatches(IList<BetTypeSchema> betTypeSchemas)
         {
             using (var deadballOdds = DbAccess.GetDeadballOddsData())
             {
-                return _matchMapping.GetMatches(deadballOdds.Tables[0], betTypeSchemas, GetOddsFlexGroups(deadballOdds.Tables[1]), false);
+                var matchMapping = new MatchMapping();
+                return matchMapping.GetMatches(deadballOdds.Tables[0], betTypeSchemas, GetOddsFlexGroups(deadballOdds.Tables[1]), false);
             }
         }
 
-        private IList<Outright> GetOutrights()
+        private static IList<Outright> GetOutrights()
         {
             using (var outrightOdds = DbAccess.GetOutrightOddsData())
             {
-                return _outrightMapping.GetOutrights(outrightOdds);
+                var outrightMapping = new OutrightMapping();
+                return outrightMapping.GetOutrights(outrightOdds);
             }
-        }
-
-        private static IEnumerable<OddsFlex> GetOddFlexs(DataTable table)
-        {
-            return table.AsEnumerable()
-                .Select(
-                row => new OddsFlex
-                {
-                    BetChoice = row["betChoice"].ToString(),
-                    BetType = Convert.ToInt32(row["bettype"]),
-                    OddId = Convert.ToInt32(row["oddsid"]),
-                    Odds = Convert.ToDecimal(row["odds"]),
-                    OddsInfo = row["OddsInfo"].ToString()
-                }).ToList();
         }
 
         private static IEnumerable<OddsFlexGroup> GetOddsFlexGroups(DataTable table)
@@ -137,30 +128,33 @@
 
         private static IList<BetTypeSchema> GetBetTypeSchemas()
         {
-            using (var bucket = _cluster.OpenBucket(AppSettings.BucketOddsFeed))
+            using (var cluster = new Cluster(new ClientConfiguration { Servers = _couchBaseServer }))
             {
-                var document = bucket.Get<IList<BetTypeSchema>>(AppSettings.BetTypeSchemaKey);
-
-                if (document == null || !document.Value.Any())
+                using (var bucket = cluster.OpenBucket(AppSettings.BucketOddsFeed))
                 {
-                    var newValue = JsonHelper.GetBetTypeSchemas(AppSettings.BetTypeSchemaPath);
+                    var document = bucket.Get<IList<BetTypeSchema>>(AppSettings.BetTypeSchemaKey);
 
-                    if (newValue != null)
+                    if (document == null || !document.Value.Any())
                     {
-                        bucket.Upsert(AppSettings.BetTypeSchemaKey, newValue);
+                        var newValue = JsonHelper.GetBetTypeSchemas(AppSettings.BetTypeSchemaPath);
 
-                        return newValue;
+                        if (newValue != null)
+                        {
+                            bucket.Upsert(AppSettings.BetTypeSchemaKey, newValue);
+
+                            return newValue;
+                        }
+                        return new List<BetTypeSchema>();
                     }
-                    return new List<BetTypeSchema>();
-                }
 
-                return document.Value;
+                    return document.Value;
+                }
             }
         }
 
-        private static bool Store<T>(string bucketName, string key, T value)
+        private static bool Store<T>(ICluster cluster, string bucketName, string key, T value)
         {
-            using (var bucket = _cluster.OpenBucket(bucketName))
+            using (var bucket = cluster.OpenBucket(bucketName))
             {
                 var upsert = bucket.Upsert(key, value);
 
@@ -168,12 +162,17 @@
             }
         }
 
-        public void CloseCouchbaseClient()
+        private static int GetCurrentVersion(ICluster cluster)
         {
-            if (_cluster != null)
+            var currentVersion = 0;
+
+            using (var bucket = cluster.OpenBucket(_oddsFeedBucket))
             {
-                _cluster.Dispose();
+                var get = bucket.GetDocument<int>(_currentVersionKey);
+                currentVersion = get.Document.Content;
             }
+
+            return currentVersion;
         }
     }
 }

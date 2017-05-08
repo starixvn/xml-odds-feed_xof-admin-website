@@ -21,13 +21,13 @@ namespace Fanex.OddsFeed.WindowsService
         public void Start(IWindowsOddsFeedService oddsFeedService, IMaintenanceService maintenanceService)
         {
             var job = JobBuilder.Create<OddsFeedJob>()
-                .UsingJobData(new JobDataMap(new Dictionary<string, IWindowsOddsFeedService>()
+                .UsingJobData(new JobDataMap(new Dictionary<string, IWindowsOddsFeedService>
                 {
-                    { "oddsFeedService", oddsFeedService}
+                    { nameof(oddsFeedService), oddsFeedService}
                 }))
-                .UsingJobData(new JobDataMap(new Dictionary<string, IMaintenanceService>()
+                .UsingJobData(new JobDataMap(new Dictionary<string, IMaintenanceService>
                 {
-                    { "maintenanceService", maintenanceService}
+                    { nameof(maintenanceService), maintenanceService}
                 }))
                 .Build();
 

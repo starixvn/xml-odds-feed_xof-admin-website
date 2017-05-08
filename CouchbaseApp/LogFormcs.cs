@@ -45,7 +45,7 @@ namespace CouchbaseApp
             {
                 counter++;
 
-                if (_oddsFeedService.Update(1))
+                if (_oddsFeedService.Update())
                 {
                     //view.Items.Add(new ListViewItem(new string[] 
                     //{

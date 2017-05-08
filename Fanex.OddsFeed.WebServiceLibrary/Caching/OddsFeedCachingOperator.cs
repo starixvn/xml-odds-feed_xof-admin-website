@@ -12,24 +12,17 @@
 
     public class OddsFeedCachingOperator : IOddsFeedCachingOperator
     {
-        private readonly IVersionCaching _versionCaching;
-        private ClientConfiguration _couchBaseClientConfig;
-        public OddsFeedCachingOperator()
+        private static readonly ClientConfiguration _couchBaseClientConfig = new ClientConfiguration
         {
-            _couchBaseClientConfig = new ClientConfiguration
-            {
-                Servers = new List<Uri> { new Uri(AppSettings.CouchbaseServer) }
-
-            };
-
-            _versionCaching = new VersionCaching();
-        }
+            Servers = new List<Uri> { new Uri(AppSettings.CouchbaseServer) }
+        };
 
         public OddsData GetOddsData(OddsFeedsModel model, bool isGetOutright, bool isGetLiveMatch, bool isGetDeadballMatch)
         {
             using (var cluster = new Cluster(_couchBaseClientConfig))
             {
-                var cacheVersion = _versionCaching.GetRightVersion(cluster, model);
+                var versionCaching = new VersionCaching();
+                var cacheVersion = versionCaching.GetRightVersion(cluster, model);
 
                 var outrights = isGetOutright
                     ? Get<Outright>(cluster, AppSettings.BucketOutrights, cacheVersion.CurrentVersionOutright.ToString()) :
@@ -59,8 +52,6 @@
                 return Get<BetTypeSchema>(cluster, AppSettings.BucketOddsFeed, AppSettings.BetTypeSchemaKey);
             }
         }
-
-
 
         private static IList<T> Get<T>(ICluster cluster, string bucketName, string key)
         {

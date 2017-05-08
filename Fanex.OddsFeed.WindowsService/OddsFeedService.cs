@@ -30,7 +30,7 @@
             try
             {
                 _fileLogger.Trace("OddsFeedService: OnStart");
-                 Reset();
+                Reset();
                 _scheduler.Start(_oddsFeedService, _maintenanceService);
             }
             catch (Exception exception)
@@ -45,7 +45,6 @@
             {
                 _fileLogger.Trace("OddsFeedService: OnStop");
                 _scheduler.Stop();
-                _oddsFeedService.CloseCouchbaseClient();
             }
             catch (Exception exception)
             {
@@ -55,11 +54,7 @@
 
         private void Reset()
         {
-            OddsFeedStatus.Reset();
-            if (!_maintenanceService.IsUnderMaintenance())
-            {
-                _oddsFeedService.Reset();
-            }
+            _oddsFeedService.Reset();
         }
 
         private static string GetExceptionMessage(Exception exception)

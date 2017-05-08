@@ -68,13 +68,13 @@
             switch (errorCode)
             {
                 case 0:
-                    return Success;                        
-                case 1:
-                    return FailedBadOddsId;                        
+                    return Success;
+
                 case 2:
-                    return SuccessAndAlready;                      
+                    return SuccessAndAlready;
+
                 default:
-                    return FailedBadOddsId;                        
+                    return FailedBadOddsId;
             }
         }
     }

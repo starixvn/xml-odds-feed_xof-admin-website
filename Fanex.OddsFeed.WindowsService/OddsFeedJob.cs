@@ -1,19 +1,16 @@
-﻿using Fanex.Logging;
+﻿using System;
+using Fanex.Logging;
 using Fanex.OddsFeed.Common.Configurations;
 using Fanex.OddsFeed.WindowsServiceLibrary.Services;
 using NLog;
 using ONEbook.UM.Services;
 using Quartz;
-using System;
 
 namespace Fanex.OddsFeed.WindowsService
 {
     public class OddsFeedJob : IJob
     {
-        private static NLog.Logger _logger = LogManager.GetCurrentClassLogger();
-        private static int _totalVersion = AppSettings.TotalVersion;
-        private IWindowsOddsFeedService _oddsFeedService;
-        private IMaintenanceService _maintenanceService;
+        private readonly NLog.Logger _fileLogger = LogManager.GetCurrentClassLogger();
 
         public void Execute(IJobExecutionContext context)
         {
@@ -23,23 +20,17 @@ namespace Fanex.OddsFeed.WindowsService
             try
             {
                 var dataMap = context.JobDetail.JobDataMap;
-                _oddsFeedService = (IWindowsOddsFeedService)dataMap.Get("oddsFeedService");
-                _maintenanceService = (IMaintenanceService)dataMap.Get("maintenanceService");
+                var _oddsFeedService = (IWindowsOddsFeedService)dataMap.Get("oddsFeedService");
+                var _maintenanceService = (IMaintenanceService)dataMap.Get("maintenanceService");
 
-                if (OddsFeedStatus.IsOddsFeedRunning || _maintenanceService.IsUnderMaintenance())
+                if (_maintenanceService.IsUnderMaintenance())
                 {
-                    _logger.Trace("Running: " + OddsFeedStatus.IsOddsFeedRunning);
+                    _fileLogger.Trace("UM Time");
                     return;
                 }
 
-                OddsFeedStatus.IsOddsFeedRunning = true;
-                isSuccessful = _oddsFeedService.Update(OddsFeedStatus.CurrentVersion);
-                if (isSuccessful)
-                {
-                    OddsFeedStatus.CurrentVersion++;
-                    UpdateCurrentVersion();
-                }
-                else
+                isSuccessful = _oddsFeedService.Update();
+                if (!isSuccessful)
                 {
                     LogService.Error("IP address seems to have changed OR Cache on CouchBase is full. Please restart OddsFeedWindowService!");
                 }
@@ -50,17 +41,7 @@ namespace Fanex.OddsFeed.WindowsService
             }
             finally
             {
-                _logger.Trace("Time: " + (DateTime.Now - startTime) + ", Success: " + isSuccessful);
-                OddsFeedStatus.IsOddsFeedRunning = false;
-            }
-        }
-
-        private void UpdateCurrentVersion()
-        {
-            if (OddsFeedStatus.CurrentVersion == _totalVersion)
-            {
-                OddsFeedStatus.CurrentVersion = 0;
-                _oddsFeedService.StoreFullChain();
+                _fileLogger.Trace("Time: " + (DateTime.Now - startTime) + ", Success: " + isSuccessful);
             }
         }
 

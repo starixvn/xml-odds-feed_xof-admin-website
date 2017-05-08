@@ -162,7 +162,6 @@
     <Compile Include="OddsFeedService.Designer.cs">
       <DependentUpon>OddsFeedService.cs</DependentUpon>
     </Compile>
-    <Compile Include="OddsFeedStatus.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>

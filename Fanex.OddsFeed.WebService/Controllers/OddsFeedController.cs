@@ -1,11 +1,10 @@
 ﻿namespace Fanex.OddsFeed.WebService.Controllers
 {
-    using OddsFeed.Common.Configurations;
-    using OddsFeed.Common.DTO;
     using System;
     using System.Text;
-    using System.Threading.Tasks;
     using System.Web.Mvc;
+    using OddsFeed.Common.Configurations;
+    using OddsFeed.Common.DTO;
     using WebServiceLibrary;
     using WebServiceLibrary.Helpers;
     using WebServiceLibrary.Models;
@@ -25,7 +24,7 @@
         }
 
         [OutputCache(Duration = 5, Location = System.Web.UI.OutputCacheLocation.Server, VaryByParam = "username")]
-        public async Task<ActionResult> Index(string username)
+        public ActionResult Index(string username)
         {
             var userQuery = RequestHelper.GetFilter(Request);
 
@@ -40,7 +39,7 @@
 
             return !string.IsNullOrEmpty(authenticatedPartner.Error)
                 ? XmlContent(authenticatedPartner.Error)
-                : XmlContent(await GetOddsFeedAsync(new OddsFeedsModel
+                : XmlContent(GetOddsFeed(new OddsFeedsModel
                 {
                     BookieName = authenticatedPartner.SystemName,
                     DomainName = domainName,
@@ -190,11 +189,6 @@
         }
 
         private string GetOddsFeed(OddsFeedsModel model)
-        {
-            return _oddsFeedService.BuildXmlDocument(model);
-        }
-
-        private async Task<string> GetOddsFeedAsync(OddsFeedsModel model)
         {
             return _oddsFeedService.BuildXmlDocument(model);
         }

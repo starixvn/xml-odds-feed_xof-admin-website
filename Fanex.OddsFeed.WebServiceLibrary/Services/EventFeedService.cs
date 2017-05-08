@@ -1,17 +1,17 @@
 ﻿namespace Fanex.OddsFeed.WebServiceLibrary.Services
 {
+    using System.Linq;
+    using System.Text;
     using Builders;
     using Caching;
     using Common.DTO;
-    using System.Linq;
-    using System.Text;
     using Common.Helpers;
     using Models;
 
     public class EventFeedService : IEventFeedService
     {
-        private UserProfile _userProfile;
-        private EventBuilder _eventBuilder;
+        private readonly UserProfile _userProfile;
+        private readonly EventBuilder _eventBuilder;
         private readonly IOddsFeedCachingOperator _oddsFeedCachingOperator;
 
         public EventFeedService(UserProfile userProfile)
