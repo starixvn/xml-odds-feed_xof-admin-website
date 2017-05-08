@@ -1,12 +1,12 @@
 ﻿namespace Fanex.OddsFeed.WindowsService
 {
+    using System;
+    using System.ServiceProcess;
     using Common.Configurations;
     using Logging;
     using NLog;
     using ONEbook.UM.Services;
     using ONEbook.UM.Services.Impl;
-    using System;
-    using System.ServiceProcess;
     using WindowsServiceLibrary.Services;
 
     public partial class OddsFeedService : ServiceBase
@@ -14,7 +14,7 @@
         private readonly IWindowsOddsFeedService _oddsFeedService;
         private readonly IMaintenanceService _maintenanceService;
         private readonly JobScheduler _scheduler;
-        private static NLog.Logger _logger;
+        private readonly NLog.Logger _fileLogger;
 
         public OddsFeedService()
         {
@@ -22,15 +22,15 @@
             _oddsFeedService = new WindowsOddsFeedService();
             _maintenanceService = new MaintenanceService();
             _scheduler = new JobScheduler();
-            _logger = LogManager.GetCurrentClassLogger();
+            _fileLogger = LogManager.GetCurrentClassLogger();
         }
 
         protected override void OnStart(string[] args)
         {
             try
             {
-                _logger.Trace("OddsFeedService: OnStart");
-                Reset();
+                _fileLogger.Trace("OddsFeedService: OnStart");
+                 Reset();
                 _scheduler.Start(_oddsFeedService, _maintenanceService);
             }
             catch (Exception exception)
@@ -43,7 +43,7 @@
         {
             try
             {
-                _logger.Trace("OddsFeedService: OnStop");
+                _fileLogger.Trace("OddsFeedService: OnStop");
                 _scheduler.Stop();
                 _oddsFeedService.CloseCouchbaseClient();
             }
