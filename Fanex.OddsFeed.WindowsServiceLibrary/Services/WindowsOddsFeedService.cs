@@ -18,6 +18,9 @@
     {
         private static readonly string _cachePrefix = AppSettings.CachePrefix;
         private static readonly string _oddsFeedBucket = AppSettings.BucketOddsFeed;
+        private static readonly string _liveMatchBucket = AppSettings.BucketLiveMatches;
+        private static readonly string _deadMatchBucket = AppSettings.BucketDeadMatches;
+        private static readonly string _outRightBucket = AppSettings.BucketOutrights;
         private static readonly List<Uri> _couchBaseServer = new List<Uri> { new Uri(AppSettings.CouchbaseServer) };
         private static readonly string _currentVersionKey = CacheKeys.CurrentKey(AppSettings.CachePrefix);
         private static int _totalVersion = AppSettings.TotalVersion;
@@ -26,9 +29,9 @@
         {
             using (var cluster = new Cluster(new ClientConfiguration { Servers = _couchBaseServer }))
             {
-                Store(cluster, AppSettings.BucketOddsFeed, AppSettings.BetTypeSchemaKey, new List<BetTypeSchema>());
-                Store(cluster, AppSettings.BucketOddsFeed, CacheKeys.CurrentKey(_cachePrefix), -1);
-                Store(cluster, AppSettings.BucketOddsFeed, CacheKeys.FullChainKey(_cachePrefix), false);
+                Store(cluster, _oddsFeedBucket, AppSettings.BetTypeSchemaKey, new List<BetTypeSchema>());
+                Store(cluster, _oddsFeedBucket, CacheKeys.CurrentKey(_cachePrefix), -1);
+                Store(cluster, _oddsFeedBucket, CacheKeys.FullChainKey(_cachePrefix), false);
             }
         }
 
@@ -50,15 +53,15 @@
                 }
                 var versionKey = currentVersion.ToString();
 
-                result = Store(cluster, AppSettings.BucketOddsFeed, CacheKeys.CurrentKey(_cachePrefix), currentVersion);
+                result = Store(cluster, _oddsFeedBucket, CacheKeys.CurrentKey(_cachePrefix), currentVersion);
 
-                result &= Store(cluster, AppSettings.BucketLiveMatches, versionKey, liveMatches);
-                result &= Store(cluster, AppSettings.BucketDeadMatches, versionKey, deadBallMatches);
-                result &= Store(cluster, AppSettings.BucketOutrights, versionKey, outrights);
+                result &= Store(cluster, _liveMatchBucket, versionKey, liveMatches);
+                result &= Store(cluster, _deadMatchBucket, versionKey, deadBallMatches);
+                result &= Store(cluster, _outRightBucket, versionKey, outrights);
 
                 if (result && currentVersion == _totalVersion - 1)
                 {
-                    result &= Store(cluster, AppSettings.BucketOddsFeed, CacheKeys.FullChainKey(_cachePrefix), true);
+                    result &= Store(cluster, _oddsFeedBucket, CacheKeys.FullChainKey(_cachePrefix), true);
                 }
             }
 
@@ -130,7 +133,7 @@
         {
             using (var cluster = new Cluster(new ClientConfiguration { Servers = _couchBaseServer }))
             {
-                using (var bucket = cluster.OpenBucket(AppSettings.BucketOddsFeed))
+                using (var bucket = cluster.OpenBucket(_oddsFeedBucket))
                 {
                     var document = bucket.Get<IList<BetTypeSchema>>(AppSettings.BetTypeSchemaKey);
 
