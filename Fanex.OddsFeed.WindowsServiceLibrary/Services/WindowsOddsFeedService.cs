@@ -1,9 +1,5 @@
 ﻿namespace Fanex.OddsFeed.WindowsServiceLibrary.Services
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Data;
-    using System.Linq;
     using Common;
     using Common.Configurations;
     using Common.DTO;
@@ -13,6 +9,10 @@
     using Couchbase.Configuration.Client;
     using Couchbase.Core;
     using Mapping;
+    using System;
+    using System.Collections.Generic;
+    using System.Data;
+    using System.Linq;
 
     public class WindowsOddsFeedService : IWindowsOddsFeedService
     {
@@ -137,7 +137,7 @@
                 {
                     var document = bucket.Get<IList<BetTypeSchema>>(AppSettings.BetTypeSchemaKey);
 
-                    if (document == null || !document.Value.Any())
+                    if (document == null || document.Value == null || !document.Value.Any())
                     {
                         var newValue = JsonHelper.GetBetTypeSchemas(AppSettings.BetTypeSchemaPath);
 
