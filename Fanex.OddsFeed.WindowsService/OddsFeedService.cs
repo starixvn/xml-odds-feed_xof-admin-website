@@ -30,7 +30,7 @@
             try
             {
                 _fileLogger.Trace("OddsFeedService: OnStart");
-                Reset();
+                _oddsFeedService.Reset();
                 _scheduler.Start(_oddsFeedService, _maintenanceService);
             }
             catch (Exception exception)
@@ -50,11 +50,6 @@
             {
                 LogService.Error("OnStop -- " + GetExceptionMessage(exception));
             }
-        }
-
-        private void Reset()
-        {
-            _oddsFeedService.Reset();
         }
 
         private static string GetExceptionMessage(Exception exception)
