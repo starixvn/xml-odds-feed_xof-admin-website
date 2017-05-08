@@ -1,10 +1,10 @@
-﻿using System;
-using Fanex.Logging;
+﻿using Fanex.Logging;
 using Fanex.OddsFeed.Common.Configurations;
 using Fanex.OddsFeed.WindowsServiceLibrary.Services;
 using NLog;
 using ONEbook.UM.Services;
 using Quartz;
+using System;
 
 namespace Fanex.OddsFeed.WindowsService
 {
@@ -19,18 +19,19 @@ namespace Fanex.OddsFeed.WindowsService
         {
             var startTime = DateTime.Now;
             var isSuccessful = false;
-            var dataMap = context.JobDetail.JobDataMap;
-            _oddsFeedService = (IWindowsOddsFeedService)dataMap.Get("oddsFeedService");
-            _maintenanceService = (IMaintenanceService)dataMap.Get("maintenanceService");
-
-            if (OddsFeedStatus.IsOddsFeedRunning || _maintenanceService.IsUnderMaintenance())
-            {
-                _logger.Trace("Running: " + OddsFeedStatus.IsOddsFeedRunning);
-                return;
-            }
 
             try
             {
+                var dataMap = context.JobDetail.JobDataMap;
+                _oddsFeedService = (IWindowsOddsFeedService)dataMap.Get("oddsFeedService");
+                _maintenanceService = (IMaintenanceService)dataMap.Get("maintenanceService");
+
+                if (OddsFeedStatus.IsOddsFeedRunning || _maintenanceService.IsUnderMaintenance())
+                {
+                    _logger.Trace("Running: " + OddsFeedStatus.IsOddsFeedRunning);
+                    return;
+                }
+
                 OddsFeedStatus.IsOddsFeedRunning = true;
                 isSuccessful = _oddsFeedService.Update(OddsFeedStatus.CurrentVersion);
                 if (isSuccessful)
@@ -45,7 +46,7 @@ namespace Fanex.OddsFeed.WindowsService
             }
             catch (Exception exception)
             {
-                LogService.Error("BackgroundTimerElapsed -- " + GetExceptionMessage(exception), exception);
+                LogService.Error("OddsFeedJob:Execute -- " + GetExceptionMessage(exception), exception);
             }
             finally
             {
