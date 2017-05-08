@@ -147,6 +147,7 @@
 
                             return newValue;
                         }
+
                         return new List<BetTypeSchema>();
                     }
 
