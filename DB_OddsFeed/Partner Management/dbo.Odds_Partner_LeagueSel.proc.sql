@@ -18,6 +18,7 @@ AS
  *    
  * Revisions: 
  *	- 20160307@Bobby: #53539 - Correct country code when value is all & league keyword & odds type & outright list
+ *	- 20170504@Bobby: Update language
  *
  * Param's Explanation:   
  */  
@@ -192,8 +193,8 @@ BEGIN
 	-- final result
 	SELECT DISTINCT l.leagueid
 		, l.leaguename
-		, l.leaguenamecn AS leaguenameCh
-		, l.[leaguenamec_uni] AS leaguenameCs
+		, l.leaguenamecn AS leaguenameCs
+		, l.[leaguenamec_uni] AS leaguenameCh
 		, l.sporttype
 		, s.SportName
 	FROM bodb02.dbo.league l WITH (NOLOCK)
@@ -212,8 +213,6 @@ BEGIN
 
 	RETURN
 END  
-
 GO
 GRANT EXECUTE ON [Odds_Partner_LeagueSel] To [bodbAdminNet]
 GO
-EXEC [Odds_Partner_LeagueSel] 'aff001'

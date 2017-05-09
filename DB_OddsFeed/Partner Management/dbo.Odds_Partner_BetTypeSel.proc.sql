@@ -17,6 +17,8 @@ AS
  * DB  : DBODDSFEED.bodb_oddsfeed
  *    
  * Revisions:       
+ *	- 20170504@Bobby: Update language
+ *
  * Param's Explanation:   
  */  
 BEGIN  
@@ -51,8 +53,8 @@ BEGIN
 	-- final result
 	SELECT bt.typeid
 		, bt.typenamee 
-		, bt.typenamecn AS typenameCh
-		, bt.typenamec_uni AS typenameCs
+		, bt.typenamecn AS typenameCs
+		, bt.typenamec_uni AS typenameCh
 		
 	FROM bodb02.dbo.bettype bt WITH (NOLOCK)
 	WHERE bt.typeid IN (SELECT val FROM dbo.strSplit(@bettypes,','))
@@ -63,4 +65,3 @@ END
 GO
 GRANT EXECUTE ON [Odds_Partner_BetTypeSel] To [bodbAdminNet]
 GO
-EXEC [dbo].[Odds_Partner_BetTypeSel] 'betdaq'
