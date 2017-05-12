@@ -1,13 +1,13 @@
 ﻿namespace Fanex.OddsFeed.WindowsServiceLibrary.Mapping
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Data;
-    using System.Linq;
     using Common.Converters;
     using Common.DTO;
     using Common.Schemas;
+    using System;
     using System.Collections.Concurrent;
+    using System.Collections.Generic;
+    using System.Data;
+    using System.Linq;
 
     public class MatchMapping : IMatchMapping
     {
@@ -21,7 +21,7 @@
             var matchOddsList = new SafeList<MatchOdds>();
 
             var partionerList = Partitioner.Create(dataTable.AsEnumerable().ToList(), true);
-            
+
             var tempRows = from row in partionerList.AsParallel() select row;
 
             tempRows.ForAll((row) =>
@@ -51,7 +51,7 @@
                 temp.MatchOddsList = matchOddsList.AsParallel().Where(i => i.MatchId == row.MatchId).ToList();
                 matchListResult.Add(temp);
             });
-            
+
             return matchListResult;
         }
 
@@ -64,15 +64,15 @@
                 SportId = Convert.ToInt32(row["SportType"]),
                 KickOfTime = Convert.ToDateTime(row["KickOffTime"].ToString()),
                 HomeEn = row["Home"].ToString(),
-                HomeTw = row["HomeCN"].ToString(),
-                HomeCn = row["HomeC_UNI"].ToString(),
+                HomeTw = row["HomeC_UNI"].ToString(),
+                HomeCn = row["HomeCN"].ToString(),
                 AwayEn = row["Away"].ToString(),
-                AwayTw = row["AwayCN"].ToString(),
-                AwayCn = row["AwayC_UNI"].ToString(),
+                AwayTw = row["AwayC_UNI"].ToString(),
+                AwayCn = row["AwayCN"].ToString(),
                 LeagueId = Convert.ToInt32(row["LeagueID"]),
                 LeagueEn = row["LeagueName"].ToString(),
-                LeagueTw = row["LeagueNameCN"].ToString(),
-                LeagueCn = row["LeagueNameC_UNI"].ToString(),
+                LeagueTw = row["LeagueNameC_UNI"].ToString(),
+                LeagueCn = row["LeagueNameCN"].ToString(),
                 CountryCode = row["CountryCode"].ToString(),
                 IsLive = isLive
             };
@@ -129,7 +129,7 @@
                     });
                 }
             }
-            
+
             return betChoices;
         }
 

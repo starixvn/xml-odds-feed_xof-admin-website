@@ -151,10 +151,6 @@
 
             switch (oddsTypeId)
             {
-                case 1:
-                    oddsTypeName = "Malay";
-                    break;
-
                 case 2:
                     oddsTypeName = "HongKong";
                     break;

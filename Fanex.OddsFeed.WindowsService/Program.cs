@@ -14,16 +14,12 @@
         public static void Main()
         {
             DbSettingProviderManager.Current.Start();
-            using (var feedService = new OddsFeedService())
-            {
-                ServiceBase[] servicesToRun;
-                servicesToRun = new ServiceBase[]
-                {
-                feedService
-                };
-                ServiceBase.Run(servicesToRun);
+            var servicesToRun = new ServiceBase[]
+              {
+                      new OddsFeedService()
+              };
 
-            }
+            ServiceBase.Run(servicesToRun);
         }
     }
 }

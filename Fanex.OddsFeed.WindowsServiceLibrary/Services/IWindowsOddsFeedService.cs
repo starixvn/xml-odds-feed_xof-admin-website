@@ -4,10 +4,6 @@
     {
         void Reset();
 
-        bool StoreFullChain();
-
-        bool Update(int currentVersion);
-        void CloseCouchbaseClient();
-
+        bool Update();
     }
 }
