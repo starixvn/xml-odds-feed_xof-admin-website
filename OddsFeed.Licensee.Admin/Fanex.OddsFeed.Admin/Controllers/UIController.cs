@@ -11,14 +11,12 @@ namespace Fanex.OddsFeed.Admin.Controllers
     using Fanex.Caching;
     using Fanex.OddsFeed.Core.Criteria.Administrator;
     using Fanex.OddsFeed.Core.Service.Impl;
-    using ONEbook.UM.Filters;
     using System.Collections.Generic;
     using System.Web.Mvc;
     /// <summary>
     /// Class UIController.
     /// </summary>
     ////[Authorize]
-    [CheckUMFilter]
     public class UIController : BaseController
     {
         /// <summary>
