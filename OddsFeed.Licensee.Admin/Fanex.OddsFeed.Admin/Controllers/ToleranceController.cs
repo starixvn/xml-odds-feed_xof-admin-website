@@ -8,45 +8,42 @@
 // </history>
 namespace Fanex.OddsFeed.Admin.Controllers
 {
-    using System.Net;
-    using System.Web.Mvc;    
     using Fanex.OddsFeed.Core;
+    using System.Web.Mvc;
 
     /// <summary>
     /// Class ToleranceController.
     /// </summary>
     public class ToleranceController : BaseController
-    {        
+    {
         //// GET: /Tolerance/
 
         #region 404 ERROR
-        
+
         public ActionResult Error404()
         {
-            Response.StatusCode = (int)HttpStatusCode.NotFound;
             return View();
         }
         #endregion
 
         #region UNEXPECTED ERROR
-        
+
         public ActionResult UnexpectedError()
         {
-            Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             return View();
         }
         #endregion
 
         #region UNDER MAINTAINANCE
-        
+
         public ActionResult UnderMaintainance(string timeFrom = "", string timeTo = "")
         {
             ViewBag.UmtFrom = timeFrom;
             ViewBag.UmtTo = timeTo;
 
-            return View();                
+            return View();
         }
-        
+
         public bool IsUnderMaintainance()
         {
             var startTime = string.Empty;
