@@ -15,7 +15,6 @@ namespace Fanex.OddsFeed.Admin
     using Fanex.OddsFeed.Core.Web.Context;
     using ONEbook.UM.Filters;
     using System;
-    using System.Configuration;
     using System.Web;
     using System.Web.Mvc;
     using System.Web.Optimization;
@@ -32,7 +31,7 @@ namespace Fanex.OddsFeed.Admin
         {
             AreaRegistration.RegisterAllAreas();
 
-            //GlobalFilters.Filters.Add(new CheckUMFilter());
+            GlobalFilters.Filters.Add(new CheckUMFilter());
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
@@ -59,30 +58,7 @@ namespace Fanex.OddsFeed.Admin
         protected void Application_Error(object sender, EventArgs e)
         {
             var ex = Server.GetLastError().GetBaseException();
-            Response.Clear();
-            Server.ClearError();
-
-            if (ex is HttpException)
-            {
-                if (((HttpException)ex).GetHttpCode() == 404)
-                {
-                    Response.Redirect(_context.FullDomainName + "/Error404.html");
-                }
-
-                return;
-            }
-
-            if (ConfigurationManager.AppSettings["IsShowError"].ToString().Equals("1"))
-            {
-                Response.Write(ex.Message);
-            }
-            else
-            {
-                LogService.Error(ex.Message, ex);
-
-                // by default, redirect to unhandled error page
-                Response.Redirect(_context.FullDomainName + "/UncatchedError.html");
-            }
+            LogService.Error(ex.Message, ex);
         }
     }
 }

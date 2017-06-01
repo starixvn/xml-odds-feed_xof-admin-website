@@ -496,7 +496,6 @@
     <Content Include="App_Themes\Default\themes\base\jquery.ui.theme.css" />
     <Content Include="App_Themes\Default\tinymce.css" />
     <Content Include="App_Themes\Default\workingcalendars.css" />
-    <Content Include="Error404.html" />
     <Content Include="Scripts\Affiliate\EditAffiliateInfo.js" />
     <Content Include="Scripts\Dashboard\Dashboard.js" />
     <Content Include="Scripts\Fanex.Grid\Copy of Fanex.Grid.js" />
@@ -897,7 +896,6 @@
     <Content Include="Scripts\Views\team.management.js" />
     <Content Include="Scripts\Views\_employee.search.in.company.js" />
     <Content Include="Scripts\Views\_employee.search.in.team.js" />
-    <Content Include="UncatchedError.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -1075,6 +1073,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Tolerance\Error404.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Tolerance\UnexpectedError.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
