@@ -150,6 +150,17 @@
                         NotConvert = true
                     });
                 }
+                else if (betChoiceSchema.IsResourceX || betChoiceSchema.IsResourceY)
+                {
+                    var resourceId = Convert.ToString(row["resourceID"]);
+                    var index = betChoiceSchema.IsResourceX ? 0 : 2;
+                    betChoices.Add(new BetChoice
+                    {
+                        Code = betChoiceSchema.MatchAttribute,
+                        Value = (resourceId.Count() >= 4) ? resourceId.Substring(index, 2) : string.Empty,
+                        NotConvert = true
+                    });
+                }
                 else
                 {
                     betChoices.Add(new BetChoice

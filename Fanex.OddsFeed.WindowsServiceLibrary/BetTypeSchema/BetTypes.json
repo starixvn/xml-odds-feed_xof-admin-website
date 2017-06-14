@@ -3796,11 +3796,11 @@
     "BetChoices": [
       {
         "MatchAttribute": "y",
-        "DataAttribute": "odds.cs00"
+        "DataAttribute": "cs00"
       },
       {
         "MatchAttribute": "n",
-        "DataAttribute": "odds.cs01"
+        "DataAttribute": "cs01"
       }
     ]
   },
@@ -4655,7 +4655,7 @@
         "DataAttribute": "cs11"
       },
       {
-        "MatchAttribute": "h21+",
+        "MatchAttribute": "h21",
         "DataAttribute": "cs12"
       },
       {
@@ -4683,7 +4683,7 @@
         "DataAttribute": "cs24"
       },
       {
-        "MatchAttribute": "a21+",
+        "MatchAttribute": "a21",
         "DataAttribute": "cs30"
       }
     ]
@@ -4713,7 +4713,7 @@
         "DataAttribute": "cs05"
       },
       {
-        "MatchAttribute": "h26+",
+        "MatchAttribute": "h26",
         "DataAttribute": "cs11"
       },
       {
@@ -4737,7 +4737,7 @@
         "DataAttribute": "cs22"
       },
       {
-        "MatchAttribute": "a26+",
+        "MatchAttribute": "a26",
         "DataAttribute": "cs23"
       }
     ]
@@ -4798,7 +4798,8 @@
       },
       {
         "MatchAttribute": "x",
-        "DataAttribute": "ResourceID"
+        "DataAttribute": "ResourceID",
+        "IsResource": true
       }
     ]
   },
@@ -4816,7 +4817,8 @@
       },
       {
         "MatchAttribute": "x",
-        "DataAttribute": "ResourceID"
+        "DataAttribute": "ResourceID",
+        "IsResource": true
       }
     ]
   },
@@ -4845,7 +4847,7 @@
         "DataAttribute": "cs05"
       },
       {
-        "MatchAttribute": "H26+",
+        "MatchAttribute": "H26",
         "DataAttribute": "cs11"
       },
       {
@@ -4873,7 +4875,7 @@
         "DataAttribute": "cs23"
       },
       {
-        "MatchAttribute": "A26+",
+        "MatchAttribute": "A26",
         "DataAttribute": "cs24"
       }
     ]
@@ -4892,7 +4894,8 @@
       },
       {
         "MatchAttribute": "x",
-        "DataAttribute": "ResourceID"
+        "DataAttribute": "ResourceID",
+        "IsResource": true
       }
     ]
   },
@@ -4910,7 +4913,8 @@
       },
       {
         "MatchAttribute": "x",
-        "DataAttribute": "ResourceID"
+        "DataAttribute": "ResourceID",
+        "IsResource": true
       }
     ]
   },
@@ -4928,7 +4932,8 @@
       },
       {
         "MatchAttribute": "x",
-        "DataAttribute": "ResourceID"
+        "DataAttribute": "ResourceID",
+        "IsResource": true
       }
     ]
   },
@@ -4946,7 +4951,8 @@
       },
       {
         "MatchAttribute": "x",
-        "DataAttribute": "ResourceID"
+        "DataAttribute": "ResourceID",
+        "IsResource": true
       }
     ]
   },
@@ -4964,11 +4970,13 @@
       },
       {
         "MatchAttribute": "x",
-        "DataAttribute": "ResourceID.x"
+        "DataAttribute": "ResourceID.x",
+        "IsResourceX":  true
       },
       {
         "MatchAttribute": "y",
-        "DataAttribute": "ResourceID.yy"
+        "DataAttribute": "ResourceID.yy",
+        "IsResourceY":  true
       }
     ]
   },
@@ -4985,7 +4993,7 @@
         "DataAttribute": "cs02"
       },
       {
-        "MatchAttribute": "h9+",
+        "MatchAttribute": "h9",
         "DataAttribute": "cs03"
       },
       {
@@ -5001,7 +5009,7 @@
         "DataAttribute": "cs11"
       },
       {
-        "MatchAttribute": "a9+",
+        "MatchAttribute": "a9",
         "DataAttribute": "cs12"
       }
     ]
@@ -5020,7 +5028,8 @@
       },
       {
         "MatchAttribute": "x",
-        "DataAttribute": "ResourceID"
+        "DataAttribute": "ResourceID",
+        "IsResource": true
       }
     ]
   },
@@ -5038,7 +5047,8 @@
       },
       {
         "MatchAttribute": "x",
-        "DataAttribute": "ResourceID"
+        "DataAttribute": "ResourceID",
+        "IsResource": true
       }
     ]
   },
@@ -5056,7 +5066,8 @@
       },
       {
         "MatchAttribute": "x",
-        "DataAttribute": "ResourceID"
+        "DataAttribute": "ResourceID",
+        "IsResource": true
       }
     ]
   }

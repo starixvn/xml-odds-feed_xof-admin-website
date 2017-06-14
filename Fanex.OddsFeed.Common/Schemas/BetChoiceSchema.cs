@@ -12,5 +12,9 @@
         public bool NotConvert { get; set; }
 
         public bool IsResource { get; set; }
+
+        public bool IsResourceX { get; set; }
+
+        public bool IsResourceY { get; set; }
     }
 }
