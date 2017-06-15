@@ -4883,7 +4883,15 @@
   {
     "BetTypeId": 609,
     "Tag": "bkb_609",
+    "Reserve": {
+      "FirstHdp": "hdp1",
+      "SecondHdp": "hdp2"
+    },    
     "BetChoices": [
+       {
+        "MatchAttribute": "h1",
+        "NotConvert": true
+      },
       {
         "MatchAttribute": "h",
         "DataAttribute": "odds1a"
@@ -4903,6 +4911,11 @@
     "BetTypeId": 610,
     "Tag": "bkb_610",
     "BetChoices": [
+      {
+        "MatchAttribute": "h",
+        "DataAttribute": "hdp1",
+        "NotConvert": true
+      },
       {
         "MatchAttribute": "o",
         "DataAttribute": "odds1a"
@@ -5019,6 +5032,11 @@
     "Tag": "bkb_615",
     "BetChoices": [
       {
+        "MatchAttribute": "h",
+        "DataAttribute": "hdp1",
+        "NotConvert": true
+      },
+      {
         "MatchAttribute": "o",
         "DataAttribute": "odds1a"
       },
@@ -5037,6 +5055,11 @@
     "BetTypeId": 616,
     "Tag": "bkb_616",
     "BetChoices": [
+      {
+        "MatchAttribute": "h",
+        "DataAttribute": "hdp1",
+        "NotConvert": true
+      },
       {
         "MatchAttribute": "o",
         "DataAttribute": "odds1a"
