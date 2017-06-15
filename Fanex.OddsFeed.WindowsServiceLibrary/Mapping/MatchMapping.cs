@@ -218,6 +218,7 @@
                 {
                     Code = resourceBetChoice.MatchAttribute,
                     Value = Convert.ToString(row["resourceID"]),
+                    NotConvert = true
                 });
             }
         }
