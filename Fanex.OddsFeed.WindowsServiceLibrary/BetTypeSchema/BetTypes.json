@@ -4827,55 +4827,55 @@
     "Tag": "bkb_608",
     "BetChoices": [
       {
-        "MatchAttribute": "H1-5",
+        "MatchAttribute": "h1-5",
         "DataAttribute": "cs01"
       },
       {
-        "MatchAttribute": "H6-10",
+        "MatchAttribute": "h6-10",
         "DataAttribute": "cs02"
       },
       {
-        "MatchAttribute": "H11-15",
+        "MatchAttribute": "h11-15",
         "DataAttribute": "cs03"
       },
       {
-        "MatchAttribute": "H16-20",
+        "MatchAttribute": "h16-20",
         "DataAttribute": "cs04"
       },
       {
-        "MatchAttribute": "H21-25",
+        "MatchAttribute": "h21-25",
         "DataAttribute": "cs05"
       },
       {
-        "MatchAttribute": "H26",
+        "MatchAttribute": "h26",
         "DataAttribute": "cs11"
       },
       {
-        "MatchAttribute": "D",
+        "MatchAttribute": "d",
         "DataAttribute": "cs12"
       },
       {
-        "MatchAttribute": "A1-5",
+        "MatchAttribute": "a1-5",
         "DataAttribute": "cs13"
       },
       {
-        "MatchAttribute": "A6-10",
+        "MatchAttribute": "a6-10",
         "DataAttribute": "cs14"
       },
       {
-        "MatchAttribute": "A11-15",
+        "MatchAttribute": "a11-15",
         "DataAttribute": "cs21"
       },
       {
-        "MatchAttribute": "A16-20",
+        "MatchAttribute": "a16-20",
         "DataAttribute": "cs22"
       },
       {
-        "MatchAttribute": "A21-25",
+        "MatchAttribute": "a21-25",
         "DataAttribute": "cs23"
       },
       {
-        "MatchAttribute": "A26",
+        "MatchAttribute": "a26",
         "DataAttribute": "cs24"
       }
     ]
