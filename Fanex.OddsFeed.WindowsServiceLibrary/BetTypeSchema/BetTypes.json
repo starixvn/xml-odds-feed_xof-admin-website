@@ -5027,8 +5027,8 @@
       },
       {
         "MatchAttribute": "x",
-        "DataAttribute": "ResourceID.x",
-        "IsResourceX":  true
+        "DataAttribute": "ResourceID",
+        "IsResource": true
       }
     ]
   },
