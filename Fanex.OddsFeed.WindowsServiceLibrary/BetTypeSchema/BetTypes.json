@@ -4889,11 +4889,11 @@
     },    
     "BetChoices": [
        {
-        "MatchAttribute": "h1",
+        "MatchAttribute": "h",
         "NotConvert": true
       },
       {
-        "MatchAttribute": "h",
+        "MatchAttribute": "home",
         "DataAttribute": "odds1a"
       },
       {
@@ -5024,6 +5024,11 @@
       {
         "MatchAttribute": "a9",
         "DataAttribute": "cs12"
+      },
+      {
+        "MatchAttribute": "x",
+        "DataAttribute": "ResourceID.x",
+        "IsResourceX":  true
       }
     ]
   },
