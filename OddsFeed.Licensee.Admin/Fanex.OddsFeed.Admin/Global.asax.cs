@@ -25,36 +25,19 @@ namespace Fanex.OddsFeed.Admin
     /// </summary>    
     public class MvcApplication : HttpApplication
     {
-        private ICurrentContext _context = new CurrentContext();
 
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
 
             GlobalFilters.Filters.Add(new CheckUMFilter());
-            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             DbSettingProviderManager.Current.Start();
         }
 
-        ////Hide this function: due to RecheckinLogin called with a interval of 5 seconds
-        ////protected void Session_End(object sender, EventArgs e)
-        ////{
-        ////    AuthConfig.SignOut();
-        ////}
-
-        ////protected void Application_AuthenticateRequest(object sender, EventArgs e)
-        ////{
-        ////    //AuthConfig.RegisterAuth(Context);
-        ////}
-
-        /// <summary>
-        /// Handles the Error event of the Application control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+       
         protected void Application_Error(object sender, EventArgs e)
         {
             var ex = Server.GetLastError().GetBaseException();

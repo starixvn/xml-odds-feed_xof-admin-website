@@ -536,7 +536,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
         [Compress]
         public JsonResult GetAffiliateList(GetAffiliateByNameCriteria criteria)
         {
-            var serializer = new JavaScriptSerializer();
             criteria.SystemId = CurrentSession.SystemId;
             criteria.UserName = (criteria.UserName == null || criteria.UserName == "Username") ? string.Empty : criteria.UserName.Trim();
             criteria.PageIndex++;
@@ -613,7 +612,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
             criteria.SystemId = CurrentSession.SystemId;
             criteria.PageIndex++;
 
-            var serializer = new JavaScriptSerializer();
             var dr = _affiliateService.GetPartnerRequestStatisticReturnDataCollection(criteria);
             var result = FanexGridHelper.DataForFanexGrid(dr);
             return Json(result, JsonRequestBehavior.AllowGet);
