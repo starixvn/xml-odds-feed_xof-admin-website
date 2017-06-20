@@ -58,6 +58,12 @@ namespace Fanex.OddsFeed.Admin
         protected void Application_Error(object sender, EventArgs e)
         {
             var ex = Server.GetLastError().GetBaseException();
+            var httpException = ex as HttpException;
+            if (httpException != null && httpException.ErrorCode == 404)
+            {
+                return;
+            }
+
             LogService.Error(ex.Message, ex);
         }
     }
