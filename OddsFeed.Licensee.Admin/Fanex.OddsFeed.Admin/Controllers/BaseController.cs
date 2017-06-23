@@ -195,7 +195,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
         /// Build virtual path for xml URLs.
         /// </summary>
         /// <returns>The virtual path.</returns>
-        public string GetVirtualPath()
+        public static string GetVirtualPath()
         {
             var feedUrlPath = ConfigurationManager.AppSettings["FeedUrlPath"].ToString();
             if (!string.IsNullOrEmpty(feedUrlPath))

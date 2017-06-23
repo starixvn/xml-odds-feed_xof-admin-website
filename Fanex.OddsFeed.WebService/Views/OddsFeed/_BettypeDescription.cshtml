@@ -997,7 +997,7 @@
                 <li>h1: Price for Home & 1 Goal</li>
                 <li>h2: Price for Home & 2 Goals</li>
                 <li>h3: Price for Home & 3 Goals up</li>
-                <li>d: Price for S.Draw</li>
+                <li>d: Price for Any Score Draw (Exclude 0-0)</li>
                 <li>a1: Price for Away & 1 Goal</li>
                 <li>a2: Price for Away & 2 Goals</li>
                 <li>a3: Price for Away & 3 Goals up</li>
@@ -1532,6 +1532,16 @@
             </ul>
         </li>
     }
+    @if (Model.BetTypes == null || Model.BetTypes.Contains(225))
+    {
+        <li>
+            t="nxt1yn" : Next 1 Minute Set Piece
+            <ul>
+                <li>y: Price for Set Piece-Yes</li>
+                <li>n: Price for Set Piece-No</li>                
+            </ul>
+        </li>
+    }
     @if (Model.BetTypes == null || Model.BetTypes.Contains(401))
     {
         <li>
@@ -1728,7 +1738,7 @@
             <ul>
                 <li>h1: Price for Home to win by 1 goal</li>
                 <li>h2: Price for Home to win by 2up goals</li>
-                <li>d: Price for Score Draw</li>
+                <li>d: Price for Any Score Draw (Exclude 0-0)</li>
                 <li>a1: Price for Away to win by 1 goal</li>
                 <li>a2: Away to win by 2up goals</li>
                 <li>ng: No Goal</li>
@@ -1784,3 +1794,226 @@
             </ul>
         </li>
     }
+@if (Model.BetTypes == null || Model.BetTypes.Contains(601))
+{
+    <li>
+        t="bkb_601" : Winning Margin 14 Way
+        <ul>
+            <li>h1-2: Price for Home to win by 1 - 2 points</li>
+            <li>h3-6: Price for Home to win by 3 - 6 points</li>
+            <li>h7-9: Price for Home to win by 7 - 9 points</li>
+            <li>h10-13: Price for Home to win by 10 - 13 points</li>
+            <li>h14-16: Price for Home to win by 14 - 16 points</li>
+            <li>h17-20: Price for Home to win by 17 - 20 points</li>
+            <li>h21+: Price for Home to win by 21+ points</li>
+            <li>a1-2: Price for Away to win by 1 - 2 points</li>
+            <li>a3-6: Price for Away to win by 3 - 6 points</li>
+            <li>a7-9: Price for Away to win by 7 - 9 points</li>
+            <li>a10-13: Price for Away to win by 10 - 13 points</li>
+            <li>a14-16: Price for Away to win by 14 - 16 points</li>
+            <li>a17-20: Price for Away to win by 17 - 20 points</li>
+            <li>a21+: Price for Away to win by 21+ points</li>
+        </ul>
+    </li>
+}
+@if (Model.BetTypes == null || Model.BetTypes.Contains(602))
+{
+    <li>
+        t="bkb_602" : Winning Margin 12 Way
+        <ul>
+            <li>h1-5: Price for Home to win by 1 - 5 points</li>
+            <li>h6-10: Price for Home to win by 6 - 10 points</li>
+            <li>h11-15: Price for Home to win by 11 - 15 points</li>
+            <li>h16-20: Price for Home to win by 16 - 20 points</li>
+            <li>h21-25: Price for Home to win by 21 - 25 points</li>
+            <li>h26+: Price for Home to win by 26+ points</li>
+            <li>a1-5: Price for Away to win by 1 - 5 points</li>
+            <li>a6-10: Price for Away to win by 6 - 10 points</li>
+            <li>a11-15: Price for Away to win by 11 - 15 points</li>
+            <li>a16-20: Price for Away to win by 16 - 20 points</li>
+            <li>a21-25: Price for Away to win by 21 - 25 points</li>
+            <li>a26+: Price for Away to win by 26+ points</li>
+        </ul>
+    </li>
+}
+@if (Model.BetTypes == null || Model.BetTypes.Contains(603))
+{
+    <li>
+        t="bkb_603" : Which team to score the highest quarter
+        <ul>
+            <li>h: Price for Home</li>
+            <li>a: Price for Away</li>            
+        </ul>
+    </li>
+}
+@if (Model.BetTypes == null || Model.BetTypes.Contains(604))
+{
+    <li>
+        t="bkb_604" : Which team to score the first basket
+        <ul>
+            <li>h: Price for Home First</li>
+            <li>a: Price for Away First</li>
+        </ul>
+    </li>
+}
+@if (Model.BetTypes == null || Model.BetTypes.Contains(605))
+{
+    <li>
+        t="bkb_605" : Which team to score the last basket
+        <ul>
+            <li>h: Price for Home Last</li>
+            <li>a: Price for Away Last</li>
+        </ul>
+    </li>
+}
+@if (Model.BetTypes == null || Model.BetTypes.Contains(606))
+{
+    <li>
+        t="bkb_606" : 1H Race to X Points
+        <ul>
+            <li>h: Price for Home</li>
+            <li>a: Price for Away</li>
+            <li>x: Points</li>
+        </ul>
+    </li>
+}
+@if (Model.BetTypes == null || Model.BetTypes.Contains(607))
+{
+    <li>
+        t="bkb_607" : 2H Race to X Points
+        <ul>
+            <li>h: Price for Home</li>
+            <li>a: Price for Away</li>
+            <li>x: Points</li>
+        </ul>
+    </li>
+}
+@if (Model.BetTypes == null || Model.BetTypes.Contains(608))
+{
+    <li>
+        t="bkb_608" : 1H Winning Margin 12 Way
+        <ul>
+            <li>h1-5: Price for Home to win by 1 - 5 points</li>
+            <li>h6-10: Price for Home to win by 6 - 10 points</li>
+            <li>h11-15: Price for Home to win by 11 - 15 points</li>
+            <li>h16-20: Price for Home to win by 16 - 20 points</li>
+            <li>h21-25: Price for Home to win by 21 - 25 points</li>
+            <li>h26+: Price for Home to win by 26+ points</li>
+            <li>d: Price for Draw</li>
+            <li>a1-5: Price for Away to win by 1 - 5 points</li>
+            <li>a6-10: Price for Away to win by 6 - 10 points</li>
+            <li>a11-15: Price for Away to win by 11 - 15 points</li>
+            <li>a16-20: Price for Away to win by 16 - 20 points</li>
+            <li>a21-25: Price for Away to win by 21 - 25 points</li>
+            <li>a26+: Price for Away to win by 26+ points</li>
+        </ul>
+    </li>
+}
+@if (Model.BetTypes == null || Model.BetTypes.Contains(609))
+{
+    <li>
+        t="bkb_609" : Quarter X Handicap
+        <ul>
+            <li>h: Handicap line</li>
+            <li>home: Price for Home</li>
+            <li>a: Price for Away</li>
+            <li>x: Quarter number</li>
+        </ul>
+    </li>
+}
+@if (Model.BetTypes == null || Model.BetTypes.Contains(610))
+{
+    <li>
+        t="bkb_610" : Quarter X Over Under
+        <ul>
+            <li>h: Over/Under line</li>
+            <li>o: Price for Over</li>
+            <li>u: Price for Under</li>
+            <li>x: Quarter number</li>
+        </ul>
+    </li>
+}
+@if (Model.BetTypes == null || Model.BetTypes.Contains(611))
+{
+    <li>
+        t="bkb_611" : Quarter X Odd Even
+        <ul>
+            <li>o: Price for Odd</li>
+            <li>u: Price for Even</li>
+            <li>x: Quarter number</li>
+        </ul>
+    </li>
+}
+@if (Model.BetTypes == null || Model.BetTypes.Contains(612))
+{
+    <li>
+        t="bkb_612" : Quarter X Moneyline
+        <ul>
+            <li>h: Price for Home</li>
+            <li>a: Price for Away</li>
+            <li>x: Quarter number</li>
+        </ul>
+    </li>
+}
+@if (Model.BetTypes == null || Model.BetTypes.Contains(613))
+{
+    <li>
+        t="bkb_613" : Quarter X Race to Y Points
+        <ul>
+            <li>h: Price for Home</li>
+            <li>a: Price for Away</li>
+            <li>x: Quarter number</li>
+            <li>y: Points</li>
+        </ul>
+    </li>
+}
+@if (Model.BetTypes == null || Model.BetTypes.Contains(614))
+{
+    <li>
+        t="bkb_614" : Quarter X Winning Margin 7 Way
+        <ul>
+            <li>h1-4: Price for Home to win by 1 - 4 points</li>
+            <li>h5-8: Price for Home to win by 5 - 8 points</li>
+            <li>h9+: Price for Home to win by 9+ points</li>
+            <li>d: Price for Draw</li>
+            <li>a1-4: Price for Away to win by 1 - 4 points</li>
+            <li>a5-8: Price for Away to win by 5 - 8 points</li>
+            <li>a9+: Price for Away to win by 9+ points</li>
+        </ul>
+    </li>
+}
+@if (Model.BetTypes == null || Model.BetTypes.Contains(615))
+{
+    <li>
+        t="bkb_615" : Quarter X Home Team Over Under
+        <ul>
+            <li>h: Over/Under line</li>
+            <li>o: Price for Over</li>
+            <li>u: Price for Under</li>
+            <li>x: Quarter number</li>
+        </ul>
+    </li>
+}
+@if (Model.BetTypes == null || Model.BetTypes.Contains(616))
+{
+    <li>
+        t="bkb_616" : Quarter X Away Team Over Under
+        <ul>
+            <li>h: Over/Under line</li>
+            <li>o: Price for Over</li>
+            <li>u: Price for Under</li>
+            <li>x: Quarter number</li>
+        </ul>
+    </li>
+}
+@if (Model.BetTypes == null || Model.BetTypes.Contains(617))
+{
+    <li>
+        t="bkb_617" : Quarter X Which team to score the last basket
+        <ul>
+            <li>h: Price for Home</li>
+            <li>a: Price for Away</li>
+            <li>x: Quarter number</li>
+        </ul>
+    </li>
+}

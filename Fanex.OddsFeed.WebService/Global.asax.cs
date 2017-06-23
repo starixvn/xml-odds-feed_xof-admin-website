@@ -54,30 +54,26 @@
         protected void Application_Error(object sender, EventArgs e)
         {
             var ex = Server.GetLastError();
-
-            if (ex != null && !(ex is HttpException) && !(ex is FormatException))
+            var httpException = ex as HttpException;
+            if (httpException != null && httpException.ErrorCode == 404)
             {
-                var message = new string[]
-                {
+                Response.Redirect("~/PageNotFound.html");
+
+                return;
+            }
+
+            var message = new string[]
+            {
                     "ENVIRONMENT: " + AppSettings.Environment,
                     "ERROR: " + ex.Message,
                     "SOURCE: " + ex.Source,
                     "TARGETSITE: " + ex.TargetSite,
                     "STACKTRACE: " + ex.StackTrace
-                };
+            };
 
-                LogService.Error(string.Join(Environment.NewLine, message), ex);
-            }
+            LogService.Error(string.Join(Environment.NewLine, message), ex);
 
-            ////Show friendly errors
-            if (ex is HttpException || ex is FormatException)
-            {
-                Response.Redirect("~/PageNotFound.html");
-            }
-            else
-            {
-                Response.Redirect("~/Errors/Index");
-            }
+            Response.Redirect("~/Errors/Index");
         }
 
         #region Private register routes methods
