@@ -60,11 +60,11 @@
                 {
                     Server.ClearError();
                     Response.Redirect("~/PageNotFound.html");
-
-                    return;
                 }
-
-                LogHelper.Log(ex);
+                else
+                {
+                    LogHelper.Log(ex);
+                }
             }
 
             Response.Redirect("~/Errors/Index");
