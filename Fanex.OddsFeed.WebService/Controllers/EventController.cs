@@ -10,12 +10,12 @@
         public ActionResult Index(string username)
         {
             var domain = RequestHelper.DomainName(Request.ServerVariables);
-            var data = GetEventFeed(username, HttpContext.Request["t"], domain);
+            var data = GetEventFeed(username, domain);
 
             return XmlContent(data);
         }
 
-        private string GetEventFeed(string username, string timestamp, string domain, bool isSample = false, bool outrights = true)
+        private string GetEventFeed(string username, string domain, bool isSample = false, bool outrights = true)
         {
             if (string.IsNullOrEmpty(username))
             {

@@ -12,11 +12,13 @@ namespace Fanex.OddsFeed.Admin.Controllers
 {
     using Fanex.OddsFeed.Core.Web.Attribute;
     using System.Web.Mvc;
+    using App_Start;
 
     /// <summary>
     /// Class HomeController.
     /// </summary>
     [IsAuthorize]
+    [CustomHandleError]
     public class HomeController : Controller
     {
         public ActionResult Index()

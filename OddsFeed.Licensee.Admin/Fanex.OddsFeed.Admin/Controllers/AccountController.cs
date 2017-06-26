@@ -10,10 +10,9 @@
 namespace Fanex.OddsFeed.Admin.Controllers
 {
     using System.Web.Mvc;
+    using App_Start;
 
-    /// <summary>
-    /// Account Controller class.
-    /// </summary>
+    [CustomHandleError]
     public class AccountController : Controller
     {
         //// GET: /Account/

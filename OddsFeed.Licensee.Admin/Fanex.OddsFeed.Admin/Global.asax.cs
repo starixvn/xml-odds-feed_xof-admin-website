@@ -9,45 +9,48 @@
 
 namespace Fanex.OddsFeed.Admin
 {
-    using Fanex.Data.Configuration;
-    using Fanex.Logging;
-    using Fanex.OddsFeed.Admin.App_Start;
-    using Fanex.OddsFeed.Core.Web.Context;
-    using ONEbook.UM.Filters;
     using System;
     using System.Web;
     using System.Web.Mvc;
     using System.Web.Optimization;
     using System.Web.Routing;
+    using Core.Helpers;
+    using Fanex.Data.Configuration;
+    using Fanex.OddsFeed.Admin.App_Start;
+    using ONEbook.UM.Filters;
 
     /// <summary>
     /// Class MVCApplication.
-    /// </summary>    
+    /// </summary>
     public class MvcApplication : HttpApplication
     {
-
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
 
             GlobalFilters.Filters.Add(new CheckUMFilter());
+            GlobalFilters.Filters.Add(new CustomHandleErrorAttribute());
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             DbSettingProviderManager.Current.Start();
         }
 
-       
         protected void Application_Error(object sender, EventArgs e)
         {
             var ex = Server.GetLastError().GetBaseException();
             var httpException = ex as HttpException;
             if (httpException != null && httpException.ErrorCode == 404)
             {
-                return;
+                Server.ClearError();
+                Response.Redirect("~/Tolerance/Error404");
             }
+            else
+            {
+                LogHelper.Log(ex);
 
-            LogService.Error(ex.Message, ex);
+                Response.Redirect("~/Tolerance/UnexpectedError");
+            }
         }
     }
 }

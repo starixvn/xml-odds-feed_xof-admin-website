@@ -5,7 +5,7 @@
     using System.Web.Mvc;
     using System.Web.Routing;
     using Common.Configurations;
-    using Fanex.Logging;
+    using Common.Helpers;
 
     public class MvcApplication : HttpApplication
     {
@@ -45,33 +45,27 @@
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
-
+            GlobalFilters.Filters.Add(new HandleErrorAttribute());
             RegisterRoutes(RouteTable.Routes);
-
             Data.Configuration.DbSettingProviderManager.Current.Start();
         }
 
         protected void Application_Error(object sender, EventArgs e)
         {
             var ex = Server.GetLastError();
-            var httpException = ex as HttpException;
-            if (httpException != null && httpException.ErrorCode == 404)
-            {
-                Response.Redirect("~/PageNotFound.html");
 
-                return;
+            if (ex is HttpUnhandledException)
+            {
+                if (ex is HttpException && ((HttpException)ex).ErrorCode == 404)
+                {
+                    Server.ClearError();
+                    Response.Redirect("~/PageNotFound.html");
+                }
+                else
+                {
+                    LogHelper.Log(ex);
+                }
             }
-
-            var message = new string[]
-            {
-                    "ENVIRONMENT: " + AppSettings.Environment,
-                    "ERROR: " + ex.Message,
-                    "SOURCE: " + ex.Source,
-                    "TARGETSITE: " + ex.TargetSite,
-                    "STACKTRACE: " + ex.StackTrace
-            };
-
-            LogService.Error(string.Join(Environment.NewLine, message), ex);
 
             Response.Redirect("~/Errors/Index");
         }

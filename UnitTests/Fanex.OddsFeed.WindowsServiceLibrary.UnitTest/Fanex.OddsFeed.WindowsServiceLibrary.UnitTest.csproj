@@ -62,10 +62,6 @@
       <Project>{0B1C255E-FDE1-4D4C-BB5E-6C5738815F84}</Project>
       <Name>Fanex.OddsFeed.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Fanex.OddsFeed.WindowsServiceLibrary\Fanex.OddsFeed.WindowsServiceLibrary.csproj">
-      <Project>{1b61123e-4c16-4a72-b1e1-4d2268de109b}</Project>
-      <Name>Fanex.OddsFeed.WindowsServiceLibrary</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
