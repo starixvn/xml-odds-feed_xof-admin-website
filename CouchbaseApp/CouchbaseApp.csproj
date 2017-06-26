@@ -176,10 +176,6 @@
       <Project>{0b1c255e-fde1-4d4c-bb5e-6c5738815f84}</Project>
       <Name>Fanex.OddsFeed.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Fanex.OddsFeed.WindowsServiceLibrary\Fanex.OddsFeed.WindowsServiceLibrary.csproj">
-      <Project>{1b61123e-4c16-4a72-b1e1-4d2268de109b}</Project>
-      <Name>Fanex.OddsFeed.WindowsServiceLibrary</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\Local\SpNames.xml">
