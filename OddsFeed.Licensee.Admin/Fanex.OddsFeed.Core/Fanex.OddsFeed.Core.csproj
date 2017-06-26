@@ -278,6 +278,7 @@
     <Compile Include="Domain\IUser.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Helpers\DataCollection.cs" />
+    <Compile Include="Helpers\LogHelper.cs" />
     <Compile Include="Model\MissingPartnersProfile.cs" />
     <Compile Include="Model\PartnersProfile.cs" />
     <Compile Include="Model\OddsFeedActionResult.cs" />
