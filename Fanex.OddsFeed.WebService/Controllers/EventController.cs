@@ -15,7 +15,7 @@
             return XmlContent(data);
         }
 
-        private string GetEventFeed(string username, string timestamp, string domain, bool isSample = false, bool outrights = true)
+        private string GetEventFeed(string username , string domain, bool isSample = false, bool outrights = true)
         {
             if (string.IsNullOrEmpty(username))
             {

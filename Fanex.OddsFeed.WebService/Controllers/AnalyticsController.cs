@@ -9,30 +9,6 @@
 
     public class AnalyticsController : Controller
     {
-        public ActionResult Cache()
-        {
-            var totalVersion = AppSettings.TotalVersion;
-            var currentVersion = 1;// OddFeedDataCachingOperator.GetCurrentVersion();
-            var isFullChain = true;// OddFeedDataCachingOperator.IsFullChain();
-            var result = new StringBuilder();
-
-            result.AppendFormat("<h3>Current version: {0}, Full chain: {1}</h3>", currentVersion, isFullChain);
-            
-            for (var version = 0; version < totalVersion; version++)
-            {
-                var matches = new SafeList<Match>();// OddFeedDataCachingOperator.GetMatchs(version);
-                var outrights = new SafeList<Outright>(); // OddFeedDataCachingOperator.GetOutRight(version);
-
-                var matchCount = matches == null ? 0 : matches.Count;
-                var outrightCount = outrights == null ? 0 : outrights.Count;
-
-                result.AppendFormat("<h3>Version: {0}, match: {1}, event: {2}</h3>", version, matchCount, outrightCount);
-            }
-
-            ViewBag.Result = result.ToString();
-
-            return View();
-        }
 
         public ActionResult Email()
         {

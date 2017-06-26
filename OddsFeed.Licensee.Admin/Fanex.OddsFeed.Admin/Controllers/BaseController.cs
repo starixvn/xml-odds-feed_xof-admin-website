@@ -9,6 +9,14 @@
 
 namespace Fanex.OddsFeed.Admin.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Configuration;
+    using System.Data;
+    using System.Linq;
+    using System.Text;
+    using System.Web.Mvc;
+    using App_Start;
     using Common;
     using Fanex.NAP.Core.Configuration;
     using Fanex.NAP.Core.Web;
@@ -18,34 +26,19 @@ namespace Fanex.OddsFeed.Admin.Controllers
     using Fanex.OddsFeed.Core.Service.Interface;
     using Fanex.OddsFeed.Core.Web.Context;
     using Fanex.OddsFeed.Core.Web.Session;
-    using System;
-    using System.Collections.Generic;
-    using System.Configuration;
-    using System.Data;
-    using System.Linq;
-    using System.Text;
-    using System.Web.Mvc;
 
-    /// <summary>
-    /// Class BaseController.
-    /// </summary>    
+    [CustomHandleError]
     public class BaseController : Controller
     {
         protected const string EmptyString = "";
 
         protected const int NapAdminId = 1;
 
-        //protected readonly string Environment = NapSettings.Settings.Environment;
-
-        //protected readonly int SiteId = NapSettings.Settings.SiteId;
-
         protected readonly ICurrentContext CurrentContext;
 
         protected readonly ICurrentSession CurrentSession;
 
         protected readonly IServiceContext ServiceContext;
-
-        //private int _issiteLogin = NapSettings.Settings.IsSiteLogin;
 
         private ViewFlags _viewFlags;
 
@@ -234,6 +227,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
             return delayTimeList;
         }
 
-        #endregion
+        #endregion Common
     }
 }

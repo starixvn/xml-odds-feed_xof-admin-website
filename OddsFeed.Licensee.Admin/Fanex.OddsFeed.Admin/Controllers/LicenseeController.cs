@@ -7,9 +7,7 @@
 //   <change who="Phillip.Truong" date="2013.2.7">Created</change>
 // </history>
 
-/// <summary>
-/// The Controllers namespace.
-/// </summary>
+
 namespace Fanex.OddsFeed.Admin.Controllers
 {
     using Fanex.OddsFeed.Core;

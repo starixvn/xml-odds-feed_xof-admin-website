@@ -2,6 +2,7 @@
 {
     using System.Text;
     using System.Web.Mvc;
+    using App_Start;
     using OddsFeed.Common.DTO;
     using ONEbook.UM.Models;
     using ONEbook.UM.Services;
@@ -11,6 +12,7 @@
     using WebServiceLibrary.Helpers;
     using WebServiceLibrary.Repositories;
 
+    [CustomHandleError]
     public class BaseController : Controller
     {
         private readonly IMaintenanceService _maintenanceService;
