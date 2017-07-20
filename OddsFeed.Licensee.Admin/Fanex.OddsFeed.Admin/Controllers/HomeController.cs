@@ -18,7 +18,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
     /// Class HomeController.
     /// </summary>
     [IsAuthorize]
-    [CustomHandleError]
     public class HomeController : Controller
     {
         public ActionResult Index()

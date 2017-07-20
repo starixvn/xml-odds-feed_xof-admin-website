@@ -27,7 +27,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
     using Fanex.OddsFeed.Core.Web.Context;
     using Fanex.OddsFeed.Core.Web.Session;
 
-    [CustomHandleError]
     public class BaseController : Controller
     {
         protected const string EmptyString = "";
