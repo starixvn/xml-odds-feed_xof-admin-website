@@ -13,7 +13,7 @@ namespace Fanex.OddsFeed.Admin.App_Start
     {
         public override void OnException(ExceptionContext filterContext)
         {
-            var is404Error = filterContext.Exception is HttpException
+            var is404Error = filterContext.Exception != null && filterContext.Exception is HttpException
                 && ((HttpException)filterContext.Exception).ErrorCode == 404;
 
             if (!is404Error)
