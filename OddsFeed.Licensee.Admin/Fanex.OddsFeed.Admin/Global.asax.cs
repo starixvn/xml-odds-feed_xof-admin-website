@@ -29,7 +29,6 @@ namespace Fanex.OddsFeed.Admin
             AreaRegistration.RegisterAllAreas();
 
             GlobalFilters.Filters.Add(new CheckUMFilter());
-            GlobalFilters.Filters.Add(new CustomHandleErrorAttribute());
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
