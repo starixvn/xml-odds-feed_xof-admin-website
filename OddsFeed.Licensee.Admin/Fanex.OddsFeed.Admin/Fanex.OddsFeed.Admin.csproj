@@ -238,6 +238,22 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\combres.xml" />
+    <Content Include="App_Data\MNL\CompanyIPSpNames.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App_Data\MNL\DomainSpNames.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App_Data\MNL\LicenseeSpNames.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App_Data\MNL\SpNames.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="App_Data\Pro\CompanyIPSpNames.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -1079,6 +1095,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Tolerance\UnexpectedError.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web.MNL.ConnectionString.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web.MNL.config">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
