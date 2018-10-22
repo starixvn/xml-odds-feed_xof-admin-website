@@ -10,20 +10,17 @@
 namespace Fanex.OddsFeed.Core.Web.Context
 {
     using System;
-    using System.Collections.Specialized;
     using System.Configuration;
-    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Net;
     using System.Web;
-    using Fanex.Common.Extensions;
 
     /// <summary>
     /// Class CurrentContext.
     /// </summary>
     public class CurrentContext : ICurrentContext
     {
-        private const string _CONFIGNAPHUBSITEID = "SiteId";       
+        private const string _CONFIGNAPHUBSITEID = "SiteId";
 
         public string IP
         {
@@ -167,16 +164,17 @@ namespace Fanex.OddsFeed.Core.Web.Context
                 var port = variables["SERVER_PORT"];
                 var protocol = HttpContext.Current.Request.IsSecureConnection ? "https://" : "http://";
 
-                var fulldomain = protocol + domain;                
+                var fulldomain = protocol + domain;
 
                 if (!ConfigurationManager.AppSettings["Environment"].ToString().Equals("Production", StringComparison.OrdinalIgnoreCase)
-                    && !ConfigurationManager.AppSettings["Environment"].ToString().Equals("UAT", StringComparison.OrdinalIgnoreCase))
+                    && !ConfigurationManager.AppSettings["Environment"].ToString().Equals("UAT", StringComparison.OrdinalIgnoreCase)
+                    && !ConfigurationManager.AppSettings["Environment"].ToString().Equals("SIT", StringComparison.OrdinalIgnoreCase))
                 {
                     fulldomain = fulldomain + ":" + port;
                 }
 
                 fulldomain = fulldomain + (HttpRuntime.AppDomainAppVirtualPath == "/" ? string.Empty : HttpRuntime.AppDomainAppVirtualPath);
-                return fulldomain;                
+                return fulldomain;
             }
         }
 
