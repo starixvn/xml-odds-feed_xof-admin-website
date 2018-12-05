@@ -26,7 +26,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
     using System.Data;
     using System.Linq;
     using System.Web.Mvc;
-    using System.Web.Script.Serialization;
     /// <summary>
     /// Class AffiliateController.
     /// </summary>
@@ -755,8 +754,25 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
             criteria.Creator = CurrentSession.UserId;
 
+            UpdateSportIDListForCricket(criteria);
             CustomizeUpdateProfile(ref criteria);
         }
+
+        private void UpdateSportIDListForCricket(UpdateProfileCriteria criteria)
+        {
+            var sportList = criteria.SportIDList.Split(',').ToList();
+            if (sportList.Contains("27"))
+            {
+                sportList.Add("50");
+            }
+            else
+            {
+                sportList.Remove("50");
+            }
+
+            criteria.SportIDList = String.Join(",", sportList.ToArray());
+        }
+
 
         /// <summary>
         /// Customize for inserting the affiliate's profile.
@@ -1225,7 +1241,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
             ////Sport
             var sports = _affiliateService.GetSportBySystemId();
-            ViewBag.SportList = sports;
+            ViewBag.SportList = sports.Where(s => s.Value != "50");
             if (criteria.SportIDList.Equals("all"))
             {
                 criteria.SportIDList = string.Join(",", sports.Select(item => item.Value));
