@@ -736,6 +736,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
             criteria.LeagueKeyword = criteria.LeagueKeyword ?? string.Empty;
             criteria.LeagueKeyword_O = criteria.LeagueKeyword_O ?? string.Empty;
 
+            criteria.SportIDList = UpdateSportIDListForCricket(criteria.SportIDList);
             CustomizeInsertProfile(ref criteria);
         }
 
@@ -754,13 +755,13 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
             criteria.Creator = CurrentSession.UserId;
 
-            UpdateSportIDListForCricket(criteria);
+            criteria.SportIDList = UpdateSportIDListForCricket(criteria.SportIDList);
             CustomizeUpdateProfile(ref criteria);
         }
 
-        private void UpdateSportIDListForCricket(UpdateProfileCriteria criteria)
+        private string UpdateSportIDListForCricket(string sportIDList)
         {
-            var sportList = criteria.SportIDList.Split(',').ToList();
+            var sportList = sportIDList.Split(',').ToList();
             if (sportList.Contains("27"))
             {
                 sportList.Add("50");
@@ -770,7 +771,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 sportList.Remove("50");
             }
 
-            criteria.SportIDList = String.Join(",", sportList.ToArray());
+            return String.Join(",", sportList.ToArray());
         }
 
 
