@@ -957,7 +957,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
             ViewBag.DelayTimeList = GenerateDelayTime(_affiliateService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "Config" }, false));
             ////Sport
             var sports = _affiliateService.GetSelectList(new GetSupportedSportCriteria());
-            ViewBag.SportList = sports;
+            ViewBag.SportList = UpdateSportListForCricket(sports);
             if (criteria.SportIDList.Equals("all"))
             {
                 criteria.SportIDList = string.Join(",", sports.Select(item => item.Value));
@@ -1048,7 +1048,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
             ViewBag.DelayTimeList = GenerateDelayTime(config);
             ////Sport
             var sports = _affiliateService.GetSelectList(new GetSupportedSportCriteria());
-            ViewBag.SportList = sports;
+            ViewBag.SportList = UpdateSportListForCricket(sports);
             if (criteria.SportIDList.Equals("all"))
             {
                 criteria.SportIDList = string.Join(",", sports.Select(item => item.Value));
@@ -1219,7 +1219,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
             ViewBag.CountriesList = _affiliateService.GetCountryBySystemId();
 
             ////Sport                    
-            ViewBag.SportList = _affiliateService.GetSportBySystemId();
+            ViewBag.SportList = UpdateSportListForCricket(_affiliateService.GetSportBySystemId());
         }
 
         /// <summary>
@@ -1241,7 +1241,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
             ////Sport
             var sports = _affiliateService.GetSportBySystemId();
-            ViewBag.SportList = sports.Where(s => s.Value != "50");
+            ViewBag.SportList = UpdateSportListForCricket(sports);
             if (criteria.SportIDList.Equals("all"))
             {
                 criteria.SportIDList = string.Join(",", sports.Select(item => item.Value));
@@ -1262,6 +1262,11 @@ namespace Fanex.OddsFeed.Admin.Controllers
             {
                 criteria.CountryCodeList = string.Join(",", countries.Select(item => item.Value));
             }
+        }
+
+        private IEnumerable<SelectListItem> UpdateSportListForCricket(IEnumerable<SelectListItem> sports)
+        {
+            return sports.Where(s => s.Value != "50");
         }
 
         #endregion
