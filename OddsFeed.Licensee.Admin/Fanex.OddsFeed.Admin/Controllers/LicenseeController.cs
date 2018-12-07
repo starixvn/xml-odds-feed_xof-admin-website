@@ -382,6 +382,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
         public ActionResult GetLeague(GetLeagueCriteria criteria)
         {
+            criteria.SportIDList = UpdateSportIDListForCricket(criteria.SportIDList);
             ViewBag.LeagueList = _licenseeService.GetSelectList(criteria);
 
             return PartialView("_LeaguePartialView", criteria);
@@ -389,6 +390,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
         public ActionResult GetOutright(GetOutRightCriteria criteria)
         {
+            criteria.SportIDList = UpdateSportIDListForCricket(criteria.SportIDList);
             ViewBag.OutrightList = _licenseeService.GetSelectList(criteria);
 
             return PartialView("_OutRightPartialView", criteria);
@@ -796,6 +798,11 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
         private string UpdateSportIDListForCricket(string sportIDList)
         {
+            if (sportIDList == null)
+            {
+                return null;
+            }
+
             var sportList = sportIDList.Split(',').ToList();
             if (sportList.Contains("27"))
             {
