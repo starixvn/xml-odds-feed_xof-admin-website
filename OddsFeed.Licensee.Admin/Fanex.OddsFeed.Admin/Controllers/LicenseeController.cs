@@ -804,11 +804,11 @@ namespace Fanex.OddsFeed.Admin.Controllers
             }
 
             var sportList = sportIDList.Split(',').ToList();
-            if (sportList.Contains("27"))
+            if (sportList.Contains("27") && !sportList.Contains("50"))
             {
                 sportList.Add("50");
             }
-            else
+            else if (!sportList.Contains("27") && sportList.Contains("50"))
             {
                 sportList.Remove("50");
             }
