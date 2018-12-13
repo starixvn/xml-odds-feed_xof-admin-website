@@ -105,7 +105,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
             ViewBag.CountriesList = _licenseeService.GetSelectList(new GetAllCountryCriteria());
 
             ////Sport
-            ViewBag.SportList = _licenseeService.GetSelectList(new GetSupportedSportCriteria());
+            ViewBag.SportList = UpdateSportListForCricket(_licenseeService.GetSelectList(new GetSupportedSportCriteria()));
 
             ////Language
             ViewBag.LanguageIDList = _licenseeService.GetSelectList(new GetAllLanguageCriteria());
@@ -137,6 +137,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
             criteria.LeagueKeyword = criteria.LeagueKeyword ?? string.Empty;
             criteria.LeagueKeyword_O = criteria.LeagueKeyword_O ?? string.Empty;
 
+            criteria.SportIDList = UpdateSportIDListForCricket(criteria.SportIDList);
             var res = _licenseeService.UpdateData(criteria);
             return (int)res.Code;
         }
@@ -318,6 +319,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
         public JsonResult EditProfilePost(EditLicenseeProfileCriteria criteria)
         {
             criteria.BetTypeIDList = criteria.BetTypeIDList ?? string.Empty;
+            criteria.SportIDList = UpdateSportIDListForCricket(criteria.SportIDList);
 
             if (criteria.IsForceUpdate)
             {
@@ -380,6 +382,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
         public ActionResult GetLeague(GetLeagueCriteria criteria)
         {
+            criteria.SportIDList = UpdateSportIDListForCricket(criteria.SportIDList);
             ViewBag.LeagueList = _licenseeService.GetSelectList(criteria);
 
             return PartialView("_LeaguePartialView", criteria);
@@ -387,6 +390,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
         public ActionResult GetOutright(GetOutRightCriteria criteria)
         {
+            criteria.SportIDList = UpdateSportIDListForCricket(criteria.SportIDList);
             ViewBag.OutrightList = _licenseeService.GetSelectList(criteria);
 
             return PartialView("_OutRightPartialView", criteria);
@@ -744,7 +748,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
             ViewBag.DelayTimeList = GenerateDelayTime(config);
             ////Sport
             var sports = _affiliateService.GetSelectList(new GetSupportedSportCriteria());
-            ViewBag.SportList = sports;
+            ViewBag.SportList = UpdateSportListForCricket(sports);
             if (criteria.SportIDList.Equals("all"))
             {
                 criteria.SportIDList = string.Join(",", sports.Select(item => item.Value));
@@ -787,6 +791,30 @@ namespace Fanex.OddsFeed.Admin.Controllers
             }
         }
 
+        private IEnumerable<SelectListItem> UpdateSportListForCricket(IEnumerable<SelectListItem> sports)
+        {
+            return sports.Where(s => s.Value != "50");
+        }
+
+        private string UpdateSportIDListForCricket(string sportIDList)
+        {
+            if (sportIDList == null)
+            {
+                return null;
+            }
+
+            var sportList = sportIDList.Split(',').ToList();
+            if (sportList.Contains("27") && !sportList.Contains("50"))
+            {
+                sportList.Add("50");
+            }
+            else if (!sportList.Contains("27") && sportList.Contains("50"))
+            {
+                sportList.Remove("50");
+            }
+
+            return String.Join(",", sportList.ToArray());
+        }
         #endregion               
     }
 }
