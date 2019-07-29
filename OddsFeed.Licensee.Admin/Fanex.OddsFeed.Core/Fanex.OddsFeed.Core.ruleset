@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RuleSet Name="SonarQube - Nexus / XML Odds Feed Admin Site Nexcel CSharp" ToolsVersion="15.0">
+  <Include Path="..\..\.sonarlint\xmloddsfeedadminsitecsharp.ruleset" Action="Default" />
+</RuleSet>
