@@ -13,14 +13,13 @@ namespace Fanex.OddsFeed.Core.Service.Interface
     using System.Data;
     using System.Diagnostics.CodeAnalysis;
     using System.Web.Mvc;
-    using Fanex.OddsFeed.Core.Business;
+    using Data.Repository;
     using Fanex.OddsFeed.Core.Criteria.Affiliate;
     using Fanex.OddsFeed.Core.Domain;
     using Fanex.OddsFeed.Core.Helpers;
     using Fanex.OddsFeed.Core.Model;
-    using Fanex.OddsFeed.Core.Model.ValueObject;
     using Fanex.OddsFeed.Framework.Data;
-    using Data.Repository;
+
     [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Reviewed")]
     public interface IAffiliateService : IBaseService
     {
@@ -34,8 +33,8 @@ namespace Fanex.OddsFeed.Core.Service.Interface
 
         bool GetStatusById(int id);
 
-        IEnumerable<SelectListItem> GetDomain(            
-            bool? isActive = null, 
+        IEnumerable<SelectListItem> GetDomain(
+            bool? isActive = null,
             bool? isOddsDomain = null,
             int selectedId = 0);
 
@@ -71,7 +70,7 @@ namespace Fanex.OddsFeed.Core.Service.Interface
         IEnumerable<SelectListItem> GetBettypeByAffId(
             int partnerId);
 
-        IEnumerable<SelectListItem> GetBettypeBySystemId(            
+        IEnumerable<SelectListItem> GetBettypeBySystemId(
             int selectedId = 0);
 
         IEnumerable<SelectListItem> GetCountryBySystemId(
@@ -90,8 +89,8 @@ namespace Fanex.OddsFeed.Core.Service.Interface
             string selectedId = "");
 
         IEnumerable<SelectListItem> GetLanguageByAffId(
-           int partnerId);        
-                
+           int partnerId);
+
         IList<Affiliate> GetAllAffiliates();
 
         IList<Affiliate> GetBySystemId(byte systemId);

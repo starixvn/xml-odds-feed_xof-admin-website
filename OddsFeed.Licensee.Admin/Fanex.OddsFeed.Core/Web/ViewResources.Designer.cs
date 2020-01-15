@@ -19,7 +19,7 @@ namespace Fanex.OddsFeed.Core.Web {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class ViewResources {
@@ -1438,6 +1438,15 @@ namespace Fanex.OddsFeed.Core.Web {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Internal Server Error!.
+        /// </summary>
+        public static string InternalErrorMessage {
+            get {
+                return ResourceManager.GetString("InternalErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid Username or Password.
         /// </summary>
         public static string Invalid_Username_or_Password {
@@ -1708,6 +1717,24 @@ namespace Fanex.OddsFeed.Core.Web {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Major Markets.
+        /// </summary>
+        public static string MajorMarkets {
+            get {
+                return ResourceManager.GetString("MajorMarkets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Major Sports.
+        /// </summary>
+        public static string MajorSports {
+            get {
+                return ResourceManager.GetString("MajorSports", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Manage.
         /// </summary>
         public static string Manage {
@@ -1803,6 +1830,24 @@ namespace Fanex.OddsFeed.Core.Web {
         public static string Menu_Item_Name {
             get {
                 return ResourceManager.GetString("Menu_Item_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Minor Markets.
+        /// </summary>
+        public static string MinorMarkets {
+            get {
+                return ResourceManager.GetString("MinorMarkets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Minor Sports.
+        /// </summary>
+        public static string MinorSports {
+            get {
+                return ResourceManager.GetString("MinorSports", resourceCulture);
             }
         }
         
@@ -2343,6 +2388,15 @@ namespace Fanex.OddsFeed.Core.Web {
         public static string Submit {
             get {
                 return ResourceManager.GetString("Submit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Successfully!.
+        /// </summary>
+        public static string SuccessfulMessage {
+            get {
+                return ResourceManager.GetString("SuccessfulMessage", resourceCulture);
             }
         }
         

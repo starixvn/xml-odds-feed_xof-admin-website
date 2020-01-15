@@ -16,7 +16,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
     using System.Linq;
     using System.Text;
     using System.Web.Mvc;
-    using App_Start;
     using Common;
     using Fanex.NAP.Core.Configuration;
     using Fanex.NAP.Core.Web;
@@ -32,6 +31,8 @@ namespace Fanex.OddsFeed.Admin.Controllers
         protected const string EmptyString = "";
 
         protected const int NapAdminId = 1;
+
+        protected const int DefaultMinDate = 2000;
 
         protected readonly ICurrentContext CurrentContext;
 
@@ -58,18 +59,17 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 IsReCheckin = NapSettings.Settings.EnableReCheckIn
             };
 
-            ViewBag.MinDate = new DateTime(2000, 1, 1);
+            ViewBag.MinDate = new DateTime(DefaultMinDate, 1, 1);
             ViewBag.MaxDate = DateTime.Now;
 
             ViewBag.CurrentTheme = "Default";
             ViewBag.IsDashboard = false;
 
-            var navigationHome = new string[]
-                                                {
-                                                    "<a class='step' href='",
-                                                    ViewBag.CurrentDomain,
-                                                    "/Dashboard/ShowDashboard'><span class='xicon home'></span>Home</a>"
-                                                };
+            var navigationHome = new string[] {
+                    "<a class='step' href='",
+                    ViewBag.CurrentDomain,
+                    "/Dashboard/ShowDashboard'><span class='xicon home'></span>Home</a>"
+                };
 
             ViewBag.NavigationHome = string.Join(null, navigationHome);
         }
@@ -78,7 +78,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
         {
             get
             {
-                return ViewBag.ViewFlags;
+                return _viewFlags;
             }
 
             set
@@ -114,16 +114,11 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 ServiceContext.SystemId = systemId;
             }
 
-            if (CurrentSession.ActionName.ToLower().Contains("edit")
+            return CurrentSession.ActionName.ToLower().Contains("edit")
                 || CurrentSession.ActionName.ToLower().Contains("reset")
-                || CurrentSession.ActionName.ToLower().Contains("assign"))
-            {
-                return RedirectToAction(CurrentSession.ActionName, CurrentSession.ControllerName, new { id = 0 });
-            }
-            else
-            {
-                return RedirectToAction(CurrentSession.ActionName, CurrentSession.ControllerName);
-            }
+                || CurrentSession.ActionName.ToLower().Contains("assign") 
+                    ? RedirectToAction(CurrentSession.ActionName, CurrentSession.ControllerName, new { id = 0 }) 
+                    : RedirectToAction(CurrentSession.ActionName, CurrentSession.ControllerName);
         }
 
         public static string DataForAutoComplete(DataTable dt, string fieldName)
@@ -189,13 +184,13 @@ namespace Fanex.OddsFeed.Admin.Controllers
         /// <returns>The virtual path.</returns>
         public static string GetVirtualPath()
         {
-            var feedUrlPath = ConfigurationManager.AppSettings["FeedUrlPath"].ToString();
+            var feedUrlPath = ConfigurationManager.AppSettings["FeedUrlPath"];
             if (!string.IsNullOrEmpty(feedUrlPath))
             {
                 feedUrlPath += "/";
             }
 
-            var virtualPathWebService = ConfigurationManager.AppSettings["VirtualPathWebService"].ToString();
+            var virtualPathWebService = ConfigurationManager.AppSettings["VirtualPathWebService"];
             if (!string.IsNullOrEmpty(virtualPathWebService))
             {
                 virtualPathWebService += "/";
@@ -217,7 +212,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 var cacheInterval = Converter.ToInt(config.Where(m => m.Text == "CacheInterval").ToList()[0].Value, 0);
                 var numberOfCacheVersion = Converter.ToInt(config.Where(m => m.Text == "NumberOfCacheVersion").ToList()[0].Value, 0);
 
-                for (int i = 0; i <= (numberOfCacheVersion - 2) * cacheInterval; i += cacheInterval)
+                for (int i = cacheInterval; i <= (numberOfCacheVersion - 1) * cacheInterval; i += cacheInterval)
                 {
                     delayTimeList.Add(new SelectListItem { Text = i.ToString(), Value = i.ToString() });
                 }

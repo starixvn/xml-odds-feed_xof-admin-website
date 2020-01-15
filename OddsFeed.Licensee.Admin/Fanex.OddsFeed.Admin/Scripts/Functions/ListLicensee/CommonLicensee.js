@@ -3,7 +3,7 @@
         addRow(IPFrom, IPTo);
     });
 
-    //step 2            
+    //step 2
     $('#btnRight').click(function () {
         !$('#ListDomain option:selected').remove().appendTo('#AssignedDomainList');
         showingDomainList();
@@ -47,43 +47,42 @@ function ShowHideMarket(action) {
         //if ($("#marketsFlag").val() != "") {
         $("#Market").show();
         //}
-
     }
     else {
         $("#chkAllMarkets").attr('checked', false);
         $(".chkMarket").attr('checked', false);
         $("#Market").hide();
     }
-//    if (action == 'add') {
-//        if ($('#OddsType2:checked').length + $('#OddsType4:checked').length > 0) {
-//            $("#chkAllMarkets").attr('checked', false);
-//            $(".chkMarket").attr('checked', false);
-//            $("#Market").show();
-//        }
-//        else {
-//            $("#Market").hide();
-//        }
-//    }
-//    else {
-//        if ($('#OddsType2:checked').length + $('#OddsType4:checked').length > 0) {
-//            $("#Market").show();
-//        }
-//        else {
-//            $("#chkAllMarkets").attr('checked', false);
-//            $(".chkMarket").attr('checked', false);
-//            $("#Market").hide();
-//        }
-//    }
+    //    if (action == 'add') {
+    //        if ($('#OddsType2:checked').length + $('#OddsType4:checked').length > 0) {
+    //            $("#chkAllMarkets").attr('checked', false);
+    //            $(".chkMarket").attr('checked', false);
+    //            $("#Market").show();
+    //        }
+    //        else {
+    //            $("#Market").hide();
+    //        }
+    //    }
+    //    else {
+    //        if ($('#OddsType2:checked').length + $('#OddsType4:checked').length > 0) {
+    //            $("#Market").show();
+    //        }
+    //        else {
+    //            $("#chkAllMarkets").attr('checked', false);
+    //            $(".chkMarket").attr('checked', false);
+    //            $("#Market").hide();
+    //        }
+    //    }
 };
 
 function addRow(IPFrom, IPTo) {
     //validate IP
     var valid = OddsFeedAdminManager.validateIP('add');
 
-    //check maximum number of IP 
+    //check maximum number of IP
     if (valid) {
         var numberOfIPs = OddsFeedAdminManager.MaximumNumberOfIPs;
-        valid = OddsFeedAdminManager.validateNumberOfIP('add', numberOfIPs, 'IpTable');     
+        valid = OddsFeedAdminManager.validateNumberOfIP('add', numberOfIPs, 'IpTable');
     }
 
     //add new IP row
@@ -124,11 +123,11 @@ function removeRow(obj, IPFromOld, IPToOld) {
         IPToOld = $(columns[1]).children()[0].value;
     }
 
-//    //check validation
-//    var valid = OddsFeedAdminManager.validateUpdatingIP('remove', IPFromOld, IPToOld);
-//    if (!valid) {
-//        return;
-//    }
+    //    //check validation
+    //    var valid = OddsFeedAdminManager.validateUpdatingIP('remove', IPFromOld, IPToOld);
+    //    if (!valid) {
+    //        return;
+    //    }
 
     confirm('Do you want to delete this IP range?', function () {
         $(obj).closest("tr").remove();
@@ -256,7 +255,7 @@ function SaveIPSetting(obj, IPFromOld, IPToOld) {
     //check validation
     valid = OddsFeedAdminManager.validateUpdatingIP('save', inputFrom, inputTo);
 
-    //check maximum number of IP 
+    //check maximum number of IP
     if (valid) {
         var numberOfIPs = OddsFeedAdminManager.MaximumNumberOfIPs; // size of  (smallint)
         valid = OddsFeedAdminManager.validateNumberOfIP('save', numberOfIPs, 'IpTable');
@@ -286,6 +285,22 @@ function GetErrorMessage(errCode) {
 }
 
 function CheckBoxListEvent(chkAll, chkItems, isCheckAll, callback) {
+    var paras = arguments;
+
+    InitCheckBoxList(chkAll, chkItems, isCheckAll);
+    CheckItemsEvent(chkAll, chkItems, callback, paras);
+    CheckAllListEvent(chkAll, chkItems, callback, paras);
+}
+
+function CheckBoxListEventWithConfirm(chkAll, chkItems, isCheckAll, callback) {
+    var paras = arguments;
+
+    InitCheckBoxList(chkAll, chkItems, isCheckAll);
+    CheckItemsEvent(chkAll, chkItems, callback, paras);
+    CheckAllListEventWithConfirm(chkAll, chkItems, callback, paras);
+}
+
+function InitCheckBoxList(chkAll, chkItems, isCheckAll) {
     if (isCheckAll != undefined) {
         var optionItems = $("." + chkItems);
         if (optionItems && optionItems.length) {
@@ -302,21 +317,9 @@ function CheckBoxListEvent(chkAll, chkItems, isCheckAll, callback) {
             $('#' + chkAll).attr("checked", false);
         }
     }
+}
 
-    var paras = arguments;
-    $('#' + chkAll).click(function () {
-        if ($('#' + chkAll).is(":checked")) {
-            $("." + chkItems).each(function () { this.checked = true; });
-        }
-        else {
-            $("." + chkItems).each(function () { this.checked = false; });
-        }
-
-        if (jQuery.isFunction(callback))
-            callback(paras[4], paras[5], paras[6], paras[7]);
-
-    });
-
+function CheckItemsEvent(chkAll, chkItems, callback, paras) {
     $("." + chkItems).click(function () {
         if ($('.' + chkItems + ':checked').length != 0 && ($('.' + chkItems + ':checked').length == $("." + chkItems).length)) {
             $('#' + chkAll).attr("checked", true);
@@ -327,10 +330,44 @@ function CheckBoxListEvent(chkAll, chkItems, isCheckAll, callback) {
 
         if (jQuery.isFunction(callback))
             callback(paras[4], paras[5], paras[6], paras[7]);
-
     });
+}
 
+function CheckAllListEvent(chkAll, chkItems, callback, paras) {
+    $('#' + chkAll).click(function () {
+        if ($('#' + chkAll).is(":checked")) {
+            $("." + chkItems).each(function () { this.checked = true; });
+        }
+        else {
+            $("." + chkItems).each(function () { this.checked = false; });
+        }
 
+        if (jQuery.isFunction(callback))
+            callback(paras[4], paras[5], paras[6], paras[7]);
+    });
+}
+
+function CheckAllListEventWithConfirm(chkAll, chkItems, callback, paras) {
+    $('#' + chkAll).click(function () {
+        var chkAllBtn = this;
+
+        if ($('#' + chkAll).is(":checked")) {
+            chkAllBtn.checked = false;
+            confirm('YOU ARE SELECTING ALL SELECTIONS, SO THE ODDS SERVICES MAY RETURN DATA SLOWLY! Are you sure to continue?', function () {
+                $("." + chkItems).each(function () { this.checked = true; });
+                chkAllBtn.checked = true;
+
+                if (jQuery.isFunction(callback))
+                    callback(paras[4], paras[5], paras[6], paras[7]);
+            });
+        }
+        else {
+            $("." + chkItems).each(function () { this.checked = false; });
+
+            if (jQuery.isFunction(callback))
+                callback(paras[4], paras[5], paras[6], paras[7]);
+        }
+    });
 }
 
 //function GetLeagueOutright(sportItemList, countryItemList, leagueElement, outrightElement) {
@@ -376,7 +413,8 @@ function CheckBoxListEvent(chkAll, chkItems, isCheckAll, callback) {
 //}
 
 function GetLeagueOutright(formID, leagueElement, outrightElement) {
-    $('#SportIDList').val(GetDropDownCheckBoxListValue('chkSport'));
+    var sportIdList = GetIdList('chkMajorSport', 'chkMinorSport');
+    $('#SportIDList').val(sportIdList);
 
     $('#CountryCodeList').val(GetDropDownCheckBoxListValue('chkCountry'));
 
@@ -395,7 +433,7 @@ function GetLeagueOutright(formID, leagueElement, outrightElement) {
 
             $('#LeagueKeyword').keyup();
 
-            CheckBoxListEvent('chkAllLeagues', 'chkLeague', true);            
+            CheckBoxListEvent('chkAllLeagues', 'chkLeague', true);
         },
         error: function (xhr, status, err) {
         }
@@ -465,7 +503,7 @@ function CheckValidationStep3() {
 
     $('#LanguageList').val(GetDropDownCheckBoxListValue('language'));
 
-    $('#SportIDList').val(GetDropDownCheckBoxListValue('chkSport'));
+    $('#SportIDList').val(GetIdList('chkMajorSport', 'chkMinorSport'));
 
     $('#CountryCodeList').val(GetDropDownCheckBoxListValue('chkCountry'));
 
@@ -473,10 +511,10 @@ function CheckValidationStep3() {
 
     $('#OutRightIDList').val(GetDropDownCheckBoxListValue('chkOutright'));
 
-    $('#BetTypeIDList').val(GetDropDownCheckBoxListValue('chkMarket'));
+    $('#BetTypeIDList').val(GetIdList('chkMajorMarket', 'chkMinorMarket'));
 
     // Validation
-    if ($('#OddsType').val().length == 0) {        
+    if ($('#OddsType').val().length == 0) {
         $("#errorStep3").append("<ul><li>" + viewResources.Error_Require_OddType + "</li></ul>")
         $('#errorStep3').removeClass('hidden');
         $('input[id^="OddsType"]').not('[id$="Flag"]').addClass('error');
@@ -496,23 +534,23 @@ function CheckValidationStep3() {
     //Check number of IP is required
     if ($('#NumberOfIPs').val() == "") {
         $("#errorStep3").append("<ul><li>" + viewResources.Error_Require_NumberOfIPs + "</li></ul>")
-                        .removeClass('hidden');
+            .removeClass('hidden');
         $('#NumberOfIPs').addClass('error');
-        $('.content_scroll').eq(0).animate({ scrollTop: 0 }, 1000); ;
+        $('.content_scroll').eq(0).animate({ scrollTop: 0 }, 1000);;
         return false;
     }
 
-    //Check maximum number of IP (32767)            
-    var numberOfIPs = parseInt($('#NumberOfIPs').val()); //at step3            
+    //Check maximum number of IP (32767)
+    var numberOfIPs = parseInt($('#NumberOfIPs').val()); //at step3
     if (numberOfIPs > OddsFeedAdminManager.MaximumNumberOfIPs) {
         $("#errorStep3").append("<ul><li>" + viewResources.MaximumNumberOfIPs.replace("{MaximumNumberOfIPs}", OddsFeedAdminManager.MaximumNumberOfIPs) + "</li></ul>")
-                        .removeClass('hidden');
+            .removeClass('hidden');
         $('#NumberOfIPs').addClass('error');
-        $('.content_scroll').eq(0).animate({ scrollTop: 0 }, 1000); ;
+        $('.content_scroll').eq(0).animate({ scrollTop: 0 }, 1000);;
         return false;
-    }  
+    }
 
-    if ($('#LanguageList').val().length == 0) {        
+    if ($('#LanguageList').val().length == 0) {
         $("#errorStep3").append("<ul><li>" + viewResources.Error_Require_Language + "</li></ul>")
         $('#errorStep3').removeClass('hidden');
         $('input[id^="LanguageList"]').not('[id$="Flag"]').addClass('error');
@@ -528,7 +566,7 @@ function CheckValidationStep3() {
         return false;
     }
 
-    if ($('#CountryCodeList').val().length == 0) {        
+    if ($('#CountryCodeList').val().length == 0) {
         $("#errorStep3").append("<ul><li>" + viewResources.Error_Require_Country + "</li></ul>")
         $('#errorStep3').removeClass('hidden');
         $('#CountryCodeList').parent('div').addClass('error');
@@ -536,7 +574,7 @@ function CheckValidationStep3() {
         return false;
     }
 
-    if ($('.chkLeague:checked').length == 0) {        
+    if ($('.chkLeague:checked').length == 0) {
         $("#errorStep3").append("<ul><li>" + viewResources.Error_Require_League + "</li></ul>")
         $('#errorStep3').removeClass('hidden');
         $('#LeagueIDList').parent('div').addClass('error');
@@ -545,7 +583,7 @@ function CheckValidationStep3() {
     }
 
     if ($('.chkOutright:checked').length == 0) {
-        $("#errorStep3").append("<ul><li>" + viewResources.Error_Require_Outright + "</li></ul>")        
+        $("#errorStep3").append("<ul><li>" + viewResources.Error_Require_Outright + "</li></ul>")
         $('#errorStep3').removeClass('hidden');
         $('#OutRightIDList').parent('div').addClass('error');
         $('.content_scroll').eq(0).animate({ scrollTop: 0 }, 1000);
@@ -555,17 +593,32 @@ function CheckValidationStep3() {
     //If Deadball or Liveball is selected then check if at least a market(bettype) is selected
     if ($.inArray('2', $('#OddsType').val()) > -1 || $.inArray('4', $('#OddsType').val()) > -1) {
         if ($('#BetTypeIDList').val().length == 0) {
-            $("#errorStep3").append("<ul><li>" + viewResources.Error_Require_Market + "</li></ul>")            
+            $("#errorStep3").append("<ul><li>" + viewResources.Error_Require_Market + "</li></ul>")
             $('#errorStep3').removeClass('hidden');
             $('#BetTypeIDList').parent('div').addClass('error');
             $('.content_scroll').eq(0).animate({ scrollTop: 0 }, 1000);
             return false;
         }
-    }  
+    }
 
     return true;
 }
 
 function OpenDialog(id, licenseeID) {
     $("#" + id).dialog("open");
+}
+
+function GetIdList(marjorClass, minorClass) {
+    var minorIDList = GetDropDownCheckBoxListValue(minorClass);
+    var majorIDList = GetDropDownCheckBoxListValue(marjorClass);
+    var idList = majorIDList;
+
+    if (minorIDList != '') {
+        if (majorIDList != '')
+            idList = majorIDList + ',' + minorIDList;
+        else
+            idList = minorIDList;
+    }
+
+    return idList;
 }

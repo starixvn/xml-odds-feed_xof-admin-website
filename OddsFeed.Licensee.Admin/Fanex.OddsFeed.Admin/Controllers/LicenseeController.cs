@@ -7,9 +7,14 @@
 //   <change who="Phillip.Truong" date="2013.2.7">Created</change>
 // </history>
 
-
 namespace Fanex.OddsFeed.Admin.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Data;
+    using System.Linq;
+    using System.Text;
+    using System.Web.Mvc;
     using Fanex.OddsFeed.Core;
     using Fanex.OddsFeed.Core.Criteria.Affiliate;
     using Fanex.OddsFeed.Core.Criteria.Licensee;
@@ -18,17 +23,16 @@ namespace Fanex.OddsFeed.Admin.Controllers
     using Fanex.OddsFeed.Core.Service.Interface;
     using Fanex.OddsFeed.Core.Web;
     using Fanex.OddsFeed.Core.Web.Attribute;
-    using System;
-    using System.Collections.Generic;
-    using System.Data;
-    using System.Linq;
-    using System.Web.Mvc;
+
     /// <summary>
     /// Class LicenseeController.
     /// </summary>
     [IsAuthorize]
     public class LicenseeController : BaseController
     {
+        private const string MajorGroup = "Major";
+        private const string MinorGroup = "Minor";
+
         #region Members
 
         /// <summary>
@@ -41,7 +45,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
         /// </summary>
         private readonly IAffiliateService _affiliateService;
 
-        #endregion
+        #endregion Members
 
         #region Constructors
 
@@ -58,20 +62,16 @@ namespace Fanex.OddsFeed.Admin.Controllers
         /// </summary>
         /// <param name="licenseeService">The licensee service.</param>
         /// <param name="affiliateService">The affiliate service.</param>
-        public LicenseeController(ILicenseeService licenseeService = null, IAffiliateService affiliateService = null)
+        public LicenseeController(ILicenseeService licenseeService, IAffiliateService affiliateService)
         {
             _licenseeService = licenseeService ?? new LicenseeService { ServiceContext = ServiceContext };
             _affiliateService = affiliateService ?? new AffiliateService { ServiceContext = ServiceContext };
         }
 
-        #endregion
+        #endregion Constructors
 
         #region AddNew
 
-        /// <summary>
-        /// Display the adding licensee page.
-        /// </summary>
-        /// <returns>The page for adding licensee.</returns>
         [HttpGet]
         public ActionResult Add()
         {
@@ -99,13 +99,20 @@ namespace Fanex.OddsFeed.Admin.Controllers
             });
 
             ////Market
-            ViewBag.BettypesList = _licenseeService.GetSelectList(new GetSupportedBettypeCriteria());
+            var bettypes = _affiliateService.GetSelectListWithGroup(new GetSupportedBettypeCriteria());
+
+            ViewBag.MajorBettypesList = bettypes.Where(betType => betType.Group.Name == MajorGroup);
+            ViewBag.MinorBettypesList = bettypes.Where(betType => betType.Group.Name == MinorGroup);
 
             ////Country
             ViewBag.CountriesList = _licenseeService.GetSelectList(new GetAllCountryCriteria());
 
             ////Sport
-            ViewBag.SportList = UpdateSportListForCricket(_licenseeService.GetSelectList(new GetSupportedSportCriteria()));
+            var sports = _affiliateService.GetSelectListWithGroup(new GetSupportedSportCriteria());
+            var sportList = UpdateSportListForCricket(sports);
+
+            ViewBag.MajorSportList = sportList.Where(sport => sport.Group.Name == MajorGroup);
+            ViewBag.MinorSportList = sportList.Where(sport => sport.Group.Name == MinorGroup);
 
             ////Language
             ViewBag.LanguageIDList = _licenseeService.GetSelectList(new GetAllLanguageCriteria());
@@ -142,9 +149,10 @@ namespace Fanex.OddsFeed.Admin.Controllers
             return (int)res.Code;
         }
 
-        #endregion
+        #endregion AddNew
 
         #region Edit
+
         /// <summary>
         /// Edits the licensee.
         /// </summary>
@@ -239,16 +247,16 @@ namespace Fanex.OddsFeed.Admin.Controllers
             }
 
             var licensee = _licenseeService.GetDataSet(new GetLicenseeSettingByLicenseeIDCriteria { SystemID = criteria.SystemID });
-            var listIPFrom = string.Empty;
-            var listIPTo = string.Empty;
+            var listIPFrom = new StringBuilder();
+            var listIPTo = new StringBuilder();
             foreach (DataRow row in licensee.Tables[0].Rows)
             {
-                listIPFrom += row["IPFrom"].ToString() + ",";
-                listIPTo += row["IPTo"].ToString() + ",";
+                listIPFrom.Append(row["IPFrom"] + ",");
+                listIPTo.Append(row["IPTo"] + ",");
             }
 
-            criteria.ListIPFrom = listIPFrom.Trim(',');
-            criteria.ListIPTo = listIPTo.Trim(',');
+            criteria.ListIPFrom = listIPFrom.ToString().Trim(',');
+            criteria.ListIPTo = listIPTo.ToString().Trim(',');
 
             ////Domain
             var selectedDomains = _licenseeService.GetSelectList(new GetDomainBySystemIDCriteria
@@ -330,7 +338,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 var missingPartnersProfile = GetMissingProfile(criteria);
                 if (IsMissingProfile(missingPartnersProfile))
                 {
-                    // Assign a error code in case some affiliates under this licensee have the number of selections greater than the current licensee's profile                     
+                    // Assign a error code in case some affiliates under this licensee have the number of selections greater than the current licensee's profile
                     CustomizeMissProfileData(criteria, ref missingPartnersProfile);
                     return Json(missingPartnersProfile, JsonRequestBehavior.AllowGet);
                 }
@@ -353,19 +361,27 @@ namespace Fanex.OddsFeed.Admin.Controllers
             criteria.IpFromOld = string.IsNullOrEmpty(criteria.IpFromOld) ? string.Empty : criteria.IpFromOld;
             criteria.IpToOld = string.IsNullOrEmpty(criteria.IpToOld) ? string.Empty : criteria.IpToOld;
 
+            var resultMessage = string.Empty;
             var result = _licenseeService.Update(criteria);
-            if (result != null && result.IsSuccessful)
+            if (result != null)
             {
                 ViewBag.Success = true;
-                return Json("Successfully!", JsonRequestBehavior.AllowGet);
+                resultMessage = result.IsSuccessful
+                    ? ViewResources.SuccessfulMessage
+                    : result.Message;
+            }
+            else
+            {
+                resultMessage = ViewResources.InternalErrorMessage;
             }
 
-            return Json((string)result.Message, JsonRequestBehavior.AllowGet);
+            return Json(resultMessage, JsonRequestBehavior.AllowGet);
         }
 
-        #endregion
+        #endregion Edit
 
         #region Get
+
         /// <summary>
         /// Lists the licensee.
         /// </summary>
@@ -447,6 +463,8 @@ namespace Fanex.OddsFeed.Admin.Controllers
         /// <returns>The content of licensee requests detail.</returns>
         public string GetLicenseeRequestsDetail(RequestStatisticCriteria criteria, string date, int year)
         {
+            const int numberDaysInWeek = 7;
+
             if (!string.IsNullOrEmpty(date))
             {
                 var dateStart = new DateTime();
@@ -458,7 +476,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
                         dt = dt.AddDays(-(int)dt.DayOfWeek);
 
                         dateStart = dt.AddDays(1);
-                        dateEnd = dt.AddDays(7);
+                        dateEnd = dt.AddDays(numberDaysInWeek);
                         break;
 
                     case "Year":
@@ -516,15 +534,18 @@ namespace Fanex.OddsFeed.Admin.Controllers
         /// <returns><c>true</c> if 0, <c>false</c> otherwise.</returns>
         public bool CheckExistLicenseeName(CheckExistLicenseeCriteria criteria)
         {
+            const int DefaultPageSize = 10;
+
             criteria.PageIndex = 1;
-            criteria.PageSize = 10;
+            criteria.PageSize = DefaultPageSize;
             var res = _licenseeService.GetDataSet(criteria);
             return res.Tables[0].Rows.Count == 0;
         }
 
-        #endregion
+        #endregion Get
 
         #region Delete
+
         /// <summary>
         /// Deletes the licensee.
         /// </summary>
@@ -561,14 +582,14 @@ namespace Fanex.OddsFeed.Admin.Controllers
             else
             {
                 deleteResult.IsSuccess = false;
-                deleteResult.ErrorCode = result.Code;
-                deleteResult.ResultMessage = result.Message;
+                deleteResult.ErrorCode = result != null ? result.Code : 1;
+                deleteResult.ResultMessage = result != null ? result.Message : ViewResources.InternalErrorMessage;
             }
 
             return Json(deleteResult, JsonRequestBehavior.AllowGet);
         }
 
-        #endregion
+        #endregion Delete
 
         #region Common
 
@@ -607,70 +628,74 @@ namespace Fanex.OddsFeed.Admin.Controllers
         /// <returns><c>true</c> if is missing profile; otherwise, <c>false</c>.</returns>
         private bool IsMissingProfile(MissingPartnersProfile missingPartnersProfile)
         {
-            return !string.IsNullOrEmpty(missingPartnersProfile.AffsOddsType)
-                    || !string.IsNullOrEmpty(missingPartnersProfile.AffsLanguageList)
-                    || !string.IsNullOrEmpty(missingPartnersProfile.AffsSportIDList)
-                    || !string.IsNullOrEmpty(missingPartnersProfile.AffsCountryCodeList)
-                    || !string.IsNullOrEmpty(missingPartnersProfile.AffsLeagueIDList)
-                    || !string.IsNullOrEmpty(missingPartnersProfile.AffsOutrightIDList)
-                    || !string.IsNullOrEmpty(missingPartnersProfile.AffsBettypeIDList);
+            StringBuilder missingSummary = new StringBuilder();
+            missingSummary.Append(missingPartnersProfile.AffsOddsType);
+            missingSummary.Append(missingPartnersProfile.AffsLanguageList);
+            missingSummary.Append(missingPartnersProfile.AffsSportIDList);
+            missingSummary.Append(missingPartnersProfile.AffsCountryCodeList);
+            missingSummary.Append(missingPartnersProfile.AffsLeagueIDList);
+            missingSummary.Append(missingPartnersProfile.AffsOutrightIDList);
+            missingSummary.Append(missingPartnersProfile.AffsBettypeIDList);
+
+            return !string.IsNullOrEmpty(missingSummary.ToString());
         }
 
-        /// <summary>
-        /// Customizes the miss profile data.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        /// <param name="missingPartnersProfile">The missing partners profile.</param>
-        private void CustomizeMissProfileData(EditLicenseeProfileCriteria criteria, ref MissingPartnersProfile missingPartnersProfile)
+        private static void CustomizeMissProfileData(EditLicenseeProfileCriteria criteria, ref MissingPartnersProfile missingPartnersProfile)
         {
-            missingPartnersProfile.ErrCode = 10701;
+            const int defaultErrCode = 10701;
+
+            missingPartnersProfile.ErrCode = defaultErrCode;
 
             missingPartnersProfile.AffsOddsType = string.IsNullOrEmpty(missingPartnersProfile.AffsOddsType)
                                                                 ? criteria.OddsType : missingPartnersProfile.AffsOddsType + "," + criteria.OddsType;
             missingPartnersProfile.AffsLanguageList = string.IsNullOrEmpty(missingPartnersProfile.AffsLanguageList)
-                                                                    ? criteria.LanguageList : missingPartnersProfile.AffsLanguageList + "," + criteria.LanguageList;
+                                                                    ? criteria.LanguageList
+                                                                    : missingPartnersProfile.AffsLanguageList + "," + criteria.LanguageList;
             missingPartnersProfile.AffsSportIDList = string.IsNullOrEmpty(missingPartnersProfile.AffsSportIDList)
                                                                 ? criteria.SportIDList : missingPartnersProfile.AffsSportIDList + "," + criteria.SportIDList;
             missingPartnersProfile.AffsCountryCodeList = string.IsNullOrEmpty(missingPartnersProfile.AffsCountryCodeList)
-                                                                        ? criteria.CountryCodeList : missingPartnersProfile.AffsCountryCodeList + "," + criteria.CountryCodeList;
+                                                                        ? criteria.CountryCodeList
+                                                                        : missingPartnersProfile.AffsCountryCodeList + "," + criteria.CountryCodeList;
             missingPartnersProfile.AffsLeagueIDList = string.IsNullOrEmpty(missingPartnersProfile.AffsLeagueIDList)
-                                                                    ? criteria.LeagueIDList : missingPartnersProfile.AffsLeagueIDList + "," + criteria.LeagueIDList;
+                                                                    ? criteria.LeagueIDList
+                                                                    : missingPartnersProfile.AffsLeagueIDList + "," + criteria.LeagueIDList;
             missingPartnersProfile.AffsOutrightIDList = string.IsNullOrEmpty(missingPartnersProfile.AffsOutrightIDList)
-                                                                    ? criteria.OutRightIDList : missingPartnersProfile.AffsOutrightIDList + "," + criteria.OutRightIDList;
+                                                                    ? criteria.OutRightIDList
+                                                                    : missingPartnersProfile.AffsOutrightIDList + "," + criteria.OutRightIDList;
             missingPartnersProfile.AffsBettypeIDList = string.IsNullOrEmpty(missingPartnersProfile.AffsBettypeIDList)
-                                                                    ? criteria.BetTypeIDList : missingPartnersProfile.AffsBettypeIDList + "," + criteria.BetTypeIDList;
+                                                                    ? criteria.BetTypeIDList
+                                                                    : missingPartnersProfile.AffsBettypeIDList + "," + criteria.BetTypeIDList;
 
-            if (missingPartnersProfile.AffsSportIDList.Contains("all"))
-            {
-                missingPartnersProfile.AffsSportIDList = "all";
-            }
-
-            if (missingPartnersProfile.AffsCountryCodeList.Contains("all"))
-            {
-                missingPartnersProfile.AffsCountryCodeList = "all";
-            }
-
-            if (missingPartnersProfile.AffsLeagueIDList.Contains("all"))
-            {
-                missingPartnersProfile.AffsLeagueIDList = "all";
-            }
-
-            if (missingPartnersProfile.AffsOutrightIDList.Contains("all"))
-            {
-                missingPartnersProfile.AffsOutrightIDList = "all";
-            }
-
-            if (missingPartnersProfile.AffsBettypeIDList.Contains("all"))
-            {
-                missingPartnersProfile.AffsBettypeIDList = "all";
-            }
+            MinimizeMissProfileData(ref missingPartnersProfile);
         }
 
-        /// <summary>
-        /// Saves the licensee profile.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        /// <returns>Represents a JSON-formatted content for saving.</returns>
+        private static void MinimizeMissProfileData(ref MissingPartnersProfile missingProfile)
+        {
+            if (missingProfile.AffsSportIDList.Contains("all"))
+            {
+                missingProfile.AffsSportIDList = "all";
+            }
+
+            if (missingProfile.AffsCountryCodeList.Contains("all"))
+            {
+                missingProfile.AffsCountryCodeList = "all";
+            }
+
+            if (missingProfile.AffsLeagueIDList.Contains("all"))
+            {
+                missingProfile.AffsLeagueIDList = "all";
+            }
+
+            if (missingProfile.AffsOutrightIDList.Contains("all"))
+            {
+                missingProfile.AffsOutrightIDList = "all";
+            }
+
+            if (missingProfile.AffsBettypeIDList.Contains("all"))
+            {
+                missingProfile.AffsBettypeIDList = "all";
+            }
+        }
         private JsonResult SaveLicenseeProfile(EditLicenseeProfileCriteria criteria)
         {
             criteria.Creator = CurrentSession.UserId;
@@ -747,19 +772,27 @@ namespace Fanex.OddsFeed.Admin.Controllers
             var config = _licenseeService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "Config" }, false);
             ViewBag.DelayTimeList = GenerateDelayTime(config);
             ////Sport
-            var sports = _affiliateService.GetSelectList(new GetSupportedSportCriteria());
-            ViewBag.SportList = UpdateSportListForCricket(sports);
+            var sports = _affiliateService.GetSelectListWithGroup(new GetSupportedSportCriteria());
+            var sportList = UpdateSportListForCricket(sports);
             if (criteria.SportIDList.Equals("all"))
             {
                 criteria.SportIDList = string.Join(",", sports.Select(item => item.Value));
             }
+
+            ViewBag.MajorSportList = sportList.Where(sport => sport.Group.Name == "Major");
+            ViewBag.MinorSportList = sportList.Where(sport => sport.Group.Name == "Minor");
+
             ////Market
-            var bettypes = _affiliateService.GetSelectList(new GetSupportedBettypeCriteria());
-            ViewBag.BettypesList = bettypes;
+            var bettypes = _affiliateService.GetSelectListWithGroup(new GetSupportedBettypeCriteria());
+
             if (criteria.BetTypeIDList.Equals("all"))
             {
                 criteria.BetTypeIDList = string.Join(",", bettypes.Select(item => item.Value));
             }
+
+            ViewBag.MajorBettypesList = bettypes.Where(betType => betType.Group.Name == "Major");
+            ViewBag.MinorBettypesList = bettypes.Where(betType => betType.Group.Name == "Minor");
+
             ////Country
             var countries = _affiliateService.GetSelectList(new GetAllCountryCriteria());
             ViewBag.CountriesList = countries;
@@ -791,12 +824,12 @@ namespace Fanex.OddsFeed.Admin.Controllers
             }
         }
 
-        private IEnumerable<SelectListItem> UpdateSportListForCricket(IEnumerable<SelectListItem> sports)
+        private static IEnumerable<SelectListItem> UpdateSportListForCricket(IEnumerable<SelectListItem> sports)
         {
             return sports.Where(s => s.Value != "50");
         }
 
-        private string UpdateSportIDListForCricket(string sportIDList)
+        private static string UpdateSportIDListForCricket(string sportIDList)
         {
             if (sportIDList == null)
             {
@@ -808,13 +841,16 @@ namespace Fanex.OddsFeed.Admin.Controllers
             {
                 sportList.Add("50");
             }
-            else if (!sportList.Contains("27") && sportList.Contains("50"))
+
+            if (!sportList.Contains("27") && sportList.Contains("50"))
             {
                 sportList.Remove("50");
             }
 
             return String.Join(",", sportList.ToArray());
         }
-        #endregion               
+
+        #endregion Common
+
     }
 }

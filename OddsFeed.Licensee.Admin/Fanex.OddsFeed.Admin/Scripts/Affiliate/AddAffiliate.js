@@ -59,7 +59,13 @@ function AddAffilliate() {
     });
 
     var sports = "";
-    $('.chkSport').each(function () {
+    $('.chkMajorSport').each(function () {
+        if (this.checked) {
+            sports += $(this).val() + ",";
+        }
+    });
+
+    $('.chkMinorSport').each(function () {
         if (this.checked) {
             sports += $(this).val() + ",";
         }
@@ -73,12 +79,16 @@ function AddAffilliate() {
     });
 
     var markets = "";
-    $('.chkMarket').each(function () {
+    $('.chkMajorMarket').each(function () {
         if (this.checked) {
             markets += $(this).val() + ",";
         }
     });
-
+    $('.chkMinorMarket').each(function () {
+        if (this.checked) {
+            markets += $(this).val() + ",";
+        }
+    });
     //for Account Manager
     var leagues = "";
     $('.chkLeague').each(function () {

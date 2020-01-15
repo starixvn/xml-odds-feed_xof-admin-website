@@ -12,39 +12,36 @@ namespace Fanex.OddsFeed.Core.Service.Impl
     using System;
     using System.Collections.Generic;
     using System.Data;
-    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Web.Mvc;
+    using Data.Repository;
     using Fanex.Caching;
     using Fanex.Common.Helper;
     using Fanex.Databank.Repositories;
-    using Fanex.Logging;
-    using Fanex.OddsFeed.Core.Business;
+    using Fanex.OddsFeed.Core.Command;
     using Fanex.OddsFeed.Core.Criteria.Affiliate;
-    using Fanex.OddsFeed.Core.Criteria.Misc;
     using Fanex.OddsFeed.Core.Domain;
     using Fanex.OddsFeed.Core.Helpers;
     using Fanex.OddsFeed.Core.Model;
-    using Fanex.OddsFeed.Core.Model.ValueObject;
     using Fanex.OddsFeed.Core.Repository.Impl;
     using Fanex.OddsFeed.Core.Repository.Interface;
     using Fanex.OddsFeed.Core.Service.Interface;
     using Fanex.OddsFeed.Framework.Data;
-    using Data.Repository;
+
     /// <summary>
     /// Class AffiliateService.
-    /// </summary>    
+    /// </summary>
     public class AffiliateService : BaseService, IAffiliateService
     {
         #region members
-        
+
         private readonly PartnerIPRepository _partnerIpRepository;
-        private readonly PartnerStatisticRepository _partnerStatisticRepository;        
-        private readonly IAffiliateRepository _affilliateRepository;        
-        private readonly SelectListRepository _selectListRepository;        
+        private readonly PartnerStatisticRepository _partnerStatisticRepository;
+        private readonly IAffiliateRepository _affilliateRepository;
+        private readonly SelectListRepository _selectListRepository;
         private readonly ICache _cache;
 
-        #endregion
+        #endregion members
 
         #region ctors
 
@@ -78,7 +75,7 @@ namespace Fanex.OddsFeed.Core.Service.Impl
             _cache = cache ?? CacheService.CreateInstance(CacheType.MemoryCache);
         }
 
-        #endregion
+        #endregion ctors
 
         #region Get
 
@@ -203,7 +200,7 @@ namespace Fanex.OddsFeed.Core.Service.Impl
             {
                 // check parameters
                 Check.Argument.IsNotNull(criteria, "criteria");
-                
+
                 if (criteria.IsValid())
                 {
                     return _affilliateRepository.ReturnDataCollection(criteria);
@@ -569,7 +566,7 @@ namespace Fanex.OddsFeed.Core.Service.Impl
 
                 if (criteria.IsValid())
                 {
-                    return _selectListRepository.Get(criteria).OrderBy(s => s.Text);
+                    return _selectListRepository.GetWithGroup(criteria).OrderBy(s => s.Text);
                 }
             }
             catch (Exception ex)
@@ -677,7 +674,7 @@ namespace Fanex.OddsFeed.Core.Service.Impl
 
                 if (criteria.IsValid())
                 {
-                    return _selectListRepository.Get(criteria).OrderBy(s => s.Text);
+                    return _selectListRepository.GetWithGroup(criteria).OrderBy(s => s.Text);
                 }
             }
             catch (Exception ex)
@@ -852,18 +849,12 @@ namespace Fanex.OddsFeed.Core.Service.Impl
             return null;
         }
 
-        #endregion
+        #endregion Get
 
         #region Insert/Update
 
-        /// <summary>
-        /// Inserts the specified criteria.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        /// <returns>ICommand Result.</returns>
         public ICommandResult Insert(InsertAffiliateCriteria criteria)
         {
-            // check parameters
             Check.Argument.IsNotNull(criteria, "criteria");
 
             try
@@ -888,6 +879,12 @@ namespace Fanex.OddsFeed.Core.Service.Impl
         /// <returns>ICommand Result.</returns>
         public ICommandResult Update(CriteriaBase criteria)
         {
+            ICommandResult result = new CommandResult
+            {
+                Code = 1,
+                Message = "Internal Server Error !"
+            };
+
             // check parameters
             Check.Argument.IsNotNull(criteria, "criteria");
 
@@ -895,7 +892,7 @@ namespace Fanex.OddsFeed.Core.Service.Impl
             {
                 if (criteria.IsValid())
                 {
-                    return _affilliateRepository.Update(criteria);
+                    result = _affilliateRepository.Update(criteria);
                 }
             }
             catch (Exception ex)
@@ -903,10 +900,10 @@ namespace Fanex.OddsFeed.Core.Service.Impl
                 HandleException(ex);
             }
 
-            return null;
+            return result;
         }
 
-        #endregion
+        #endregion Insert/Update
 
         #region Delete
 
@@ -935,6 +932,6 @@ namespace Fanex.OddsFeed.Core.Service.Impl
             return null;
         }
 
-        #endregion
+        #endregion Delete
     }
 }

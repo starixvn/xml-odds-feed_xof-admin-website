@@ -353,8 +353,8 @@ var affiliateManager = {
 
         if (updateParams.SportIDList.length == 0) {
             $("#errorStep3").append("<ul><li>" + viewResources.Error_Require_Sport + "</li></ul>")
-                        .removeClass('hidden');
-            $('.chkSport').parent().parent().addClass('error');
+                .removeClass('hidden');
+            $('.chkMinorSport').parent().parent().parent().addClass('error');
             $('.content_scroll').eq(0).animate({ scrollTop: 0 }, 1000); ;
             return false;
         }
@@ -372,7 +372,7 @@ var affiliateManager = {
             if (updateParams.BetTypeIDList.length == 0) {
                 $("#errorStep3").append("<ul><li>" + viewResources.Error_Require_Market + "</li></ul>")
                     .removeClass('hidden');
-                $('.chkMarket').parent().parent().addClass('error');
+                $('.chkMajorMarket').parent().parent().parent().addClass('error');
                 //$('.content_scroll').eq(0).animate({ scrollTop: 0 }, 1000); ;
                 return false;
             }
@@ -401,5 +401,19 @@ var affiliateManager = {
         }
 
         return true;
-    }  
+    },
+    GetIdList : function (marjorClass, minorClass) {
+        var minorIDList = affiliateManager.GetDropDownCheckBoxListValue(minorClass);
+        var majorIDList = affiliateManager.GetDropDownCheckBoxListValue(marjorClass);
+        var idList = majorIDList;
+
+        if (minorIDList != '') {
+            if (majorIDList != '')
+                idList = majorIDList + ',' + minorIDList;
+            else
+                idList = minorIDList;
+        }
+
+        return idList;
+    }
 }

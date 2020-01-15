@@ -6,13 +6,15 @@
     }
 
     //Sport checkboxes
-    CheckBoxListEvent('chkAllSports', 'chkSport', undefined, GetLeagueOutright, 'formAffiliate', "League", 'Outrights');
+    CheckBoxListEvent('chkAllMajorSports', 'chkMajorSport', undefined, GetLeagueOutright, 'formAffiliate', "League", 'Outrights');
+    CheckBoxListEventWithConfirm('chkAllMinorSports', 'chkMinorSport', undefined, GetLeagueOutright, 'formAffiliate', "League", 'Outrights');
 
     //Country checkboxes
     CheckBoxListEvent('chkAllCountries', 'chkCountry', undefined, GetLeagueOutright, 'formAffiliate', "League", 'Outrights');
 
     //Market checkboxes
-    CheckBoxListEvent('chkAllMarkets', 'chkMarket', undefined);
+    CheckBoxListEvent('chkAllMajorMarkets', 'chkMajorMarket', undefined);
+    CheckBoxListEventWithConfirm('chkAllMinorMarkets', 'chkMinorMarket', undefined);
 
     // Show Martket options if "Deadball or Live" is selected    
     ShowHideMarket('add');
@@ -54,11 +56,11 @@
             OddsType: affiliateManager.GetDropDownCheckBoxListValue('oddstype'),
             NumberOfIPs: $("#NumberOfIPs").val(),
             LanguageList: affiliateManager.GetDropDownCheckBoxListValue('language'),
-            SportIDList: affiliateManager.GetDropDownCheckBoxListValue('chkSport'),
+            SportIDList: affiliateManager.GetIdList('chkMajorSport', 'chkMinorSport'),
             CountryCodeList: affiliateManager.GetDropDownCheckBoxListValue('chkCountry'),
             LeagueIDList: affiliateManager.GetDropDownCheckBoxListValue('chkLeague'),
             OutRightIDList: affiliateManager.GetDropDownCheckBoxListValue('chkOutright'),
-            BetTypeIDList: affiliateManager.GetDropDownCheckBoxListValue('chkMarket')
+            BetTypeIDList: affiliateManager.GetIdList('chkMajorMarket', 'chkMinorMarket')
         };
 
         var isValid = affiliateManager.CheckValidation_OddsProfile(addParams);
@@ -82,14 +84,14 @@ function SetDefault() {
     $(".language").attr('checked', true); //check all languages when adding new aff    
 
     //Sport checkboxes    
-    $(".chkSport").attr('checked', true); //check all sports when adding new aff
-    $('#chkAllSports').attr("checked", true);
+    $(".chkMajorSport").attr('checked', true); //check all sports when adding new aff
+    $('#chkMajorAllSports').attr("checked", true);
 
     //Country checkboxes            
     $(".chkCountry").attr('checked', true); //check all countries when adding new aff
     $('#chkAllCountries').attr("checked", true);
 
     //Market checkboxes        
-    $(".chkMarket").attr('checked', true); //check all markets when adding new aff
-    $('#chkAllMarkets').attr("checked", true);
+    $(".chkMajorMarket").attr('checked', true); //check all markets when adding new aff
+    $('#chkMajorAllMarkets').attr("checked", true);
 }

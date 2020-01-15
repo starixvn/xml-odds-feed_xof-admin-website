@@ -10,11 +10,8 @@
 namespace Fanex.OddsFeed.Core.Configuration
 {
     using System.Configuration;
-    using System.Diagnostics.CodeAnalysis;
 
-    /// <summary>
-    /// Custom config for NAP.
-    /// </summary>       
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Critical Bug", "S4275:Getters and setters should access the expected fields", Justification = "<Pending>")]
     public class NapSettings : ConfigurationSection
     {
         #region consts
@@ -26,9 +23,9 @@ namespace Fanex.OddsFeed.Core.Configuration
         private const string __LB_URL = "LBUrl";
         private const string __UM = "UM";
 
-        #endregion
+        #endregion consts
 
-        private static NapSettings _settings = ConfigurationManager.GetSection(__NAP_SETTINGS) as NapSettings;
+        private static readonly NapSettings _settings = ConfigurationManager.GetSection(__NAP_SETTINGS) as NapSettings;
 
         public static NapSettings Settings
         {

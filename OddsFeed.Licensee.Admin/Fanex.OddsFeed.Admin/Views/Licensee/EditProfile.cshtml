@@ -100,13 +100,27 @@
                 @Html.Raw(ViewResources.HtmlTemplate_InputRequiredSymbol)
             </div>
             <div class="row3">
+                @Html.HiddenFor(m => m.SportIDList)
+
                 <div class="grid4" style="line-height: 170px; text-align: right">
-                    @Html.LabelFor(m => m.SportIDList, "Sports", new { @for = "chkAllSports" })
-                    <input type="checkbox" id="chkAllSports" />
+                    <label for="chkAllMajorSports">
+                        @ViewResources.MajorSports
+                        <input class="hidden" type="checkbox" id="chkAllMajorSports"/>
+                    </label>
                 </div>
-                <div class="grid7 checkbox-list">
-                    @Html.CheckBoxDropDownListFor(m => m.SportIDList, (IEnumerable<SelectListItem>)ViewBag.SportList, new { @class = "chkSport" }, false)
-                    @Html.HiddenFor(m => m.SportIDList)
+                <div class="grid7" style="line-height: 170px; text-align: left">
+                    <label class="font-normal">
+                        @Html.CheckBoxListFor(m => m.SportIDList, ViewBag.MajorSportList as IEnumerable<SelectListItem>, new { @Class = "chkMajorSport"}, false)
+                    </label>
+                </div>
+                <div class="grid4" style="line-height: 170px; text-align: right">
+                    <label for="chkAllSports">
+                        @ViewResources.MinorSports
+                    </label><input type="checkbox" id="chkAllMinorSports"/>
+                </div>
+                <div class="grid7" style="text-align: left; border-style: solid; border-width: 1px;
+                    border-color: #C8C8C8; overflow: scroll">
+                    @Html.CheckBoxDropDownListFor(m => m.SportIDList, ViewBag.MinorSportList as IEnumerable<SelectListItem>, new { @Class = "chkMinorSport"}, false)
                 </div>
                 <div class="grid3" style="line-height: 170px; text-align: left">
                     @Html.CheckBoxFor(m => m.SportIDListFlag)
@@ -155,13 +169,24 @@
            })
             </div>
             <div id="Market" class="row3">
+                @Html.HiddenFor(m => m.BetTypeIDList)
                 <div class="grid4" style="line-height: 170px; text-align: right">
-                    @Html.LabelFor(m => m.BetTypeIDList, "Markets", new { @for = "chkAllMarkets" })
-                    <input type="checkbox" id="chkAllMarkets" />
+                    <label for="chkAllMajorMarkets">
+                        @ViewResources.MajorMarkets
+                    </label><input type="checkbox" id="chkAllMajorMarkets"/>
                 </div>
-                <div class="grid7 checkbox-list">
-                    @Html.CheckBoxDropDownListFor(m => m.BetTypeIDList, (IEnumerable<SelectListItem>)ViewBag.BettypesList, new { @class = "chkMarket" }, false)
-                    @Html.HiddenFor(m => m.BetTypeIDList)
+                <div class="grid7" style="text-align: left; border-style: solid; border-width: 1px;
+                    border-color: #C8C8C8; overflow: scroll">
+                    @Html.CheckBoxDropDownListFor(m => m.BetTypeIDList, ViewBag.MajorBettypesList as IEnumerable<SelectListItem>, new { @Class = "chkMajorMarket"}, false)
+                </div>
+                <div class="grid4" style="line-height: 170px; text-align: right">
+                    <label for="chkAllMinorMarkets">
+                        @ViewResources.MinorMarkets
+                    </label><input type="checkbox" id="chkAllMinorMarkets" />
+                </div>
+                <div class="grid7" style="text-align: left; border-style: solid; border-width: 1px;
+                    border-color: #C8C8C8; overflow: scroll">
+                    @Html.CheckBoxDropDownListFor(m => m.BetTypeIDList, ViewBag.MinorBettypesList as IEnumerable<SelectListItem>, new { @Class = "chkMinorMarket"}, false)
                 </div>
                 <div class="grid3" style="line-height: 170px; text-align: left">
                     @Html.CheckBoxFor(m => m.BettypeIDListFlag)

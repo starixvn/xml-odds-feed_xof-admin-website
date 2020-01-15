@@ -11,9 +11,6 @@ namespace Fanex.OddsFeed.Core.Command
 {
     using Fanex.OddsFeed.Framework.Data;
 
-    /// <summary>
-    /// Class CommandResult.
-    /// </summary>
     public class CommandResult : CommandResultBase
     {
         public override bool IsSuccessful

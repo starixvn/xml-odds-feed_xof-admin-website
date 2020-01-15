@@ -12,11 +12,9 @@ namespace Fanex.OddsFeed.Core
     using System.Collections;
     using System.Collections.Generic;
     using System.ComponentModel;
-    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Linq;
     using System.Linq.Expressions;
-    using System.Reflection;
     using System.Text;
     using System.Web;
     using System.Web.Mvc;
@@ -26,7 +24,7 @@ namespace Fanex.OddsFeed.Core
 
     /// <summary>
     /// Class Extensions.
-    /// </summary>        
+    /// </summary>
     ////[SuppressMessage(
     ////     "StyleCop.CSharp.StylecopPlus.Rules",
     ////     "SP2101:MethodMustNotContainMoreLinesThan",
@@ -122,43 +120,31 @@ namespace Fanex.OddsFeed.Core
 
             if (listOfValues != null)
             {
-                // Create a radio button for each item in the list 
+                // Create a radio button for each item in the list
                 foreach (SelectListItem item in listOfValues)
                 {
-                    // Generate an id to be given to the radio button field 
+                    // Generate an id to be given to the radio button field
                     var id = string.Format("{0}_{1}", metaData.PropertyName, item.Value);
 
-                    // Create and populate a radio button using the existing html helpers 
+                    // Create and populate a radio button using the existing html helpers
                     var label = htmlHelper.Label(id, HttpUtility.HtmlEncode(item.Text));
                     var radio = htmlHelper.RadioButtonFor(expression, item.Value, new { id = id }).ToHtmlString();
 
-                    // Create the html string that will be returned to the client 
+                    // Create the html string that will be returned to the client
                     // e.g. <input data-val="true" data-val-required="You must select an option" id="TestRadio_1" name="TestRadio" type="radio" value="1" />
-                    // <label for="TestRadio_1">Line1</label> 
+                    // <label for="TestRadio_1">Line1</label>
                     sb.AppendFormat("<div class=\"radioButton\">{0}{1}</div>", radio, label);
                 }
             }
 
             return MvcHtmlString.Create(sb.ToString());
         }
-    
+
         public static MvcForm BeginGetForm(this HtmlHelper htmlHelper)
         {
             return htmlHelper.BeginForm(null, null, FormMethod.Get);
         }
 
-        /// <summary>
-        /// Generate date picker.
-        /// </summary>
-        /// <param name="htmlHelper">The HTML helper.</param>
-        /// <param name="name">The name for generate.</param>
-        /// <param name="date">The date for generate.</param>
-        /// <param name="minDate">The minimum date.</param>
-        /// <param name="maxDate">The maximum date.</param>
-        /// <param name="formatDate">The format date.</param>
-        /// <param name="unavailDates">The unavailable dates.</param>
-        /// <returns>Object MVCHtmlString.</returns>
-        /// <exception cref="System.ArgumentNullException">FormatDate cannot be null.</exception>
         public static MvcHtmlString DatePicker(
             this HtmlHelper htmlHelper,
             string name,
@@ -168,14 +154,19 @@ namespace Fanex.OddsFeed.Core
             string formatDate = "dd MMM, yyyy",
             IEnumerable<DateTime> unavailDates = null)
         {
+            const string formatDateForTextBox = "yyyy/MM/dd";
+
             if (string.IsNullOrWhiteSpace(formatDate))
             {
-                throw new ArgumentNullException("formatDate cannot be null");
+                throw new ArgumentNullException(nameof(formatDate));
             }
 
-            var disabledDate = (unavailDates != null && unavailDates.Count() > 0)
+            var disabledDate = (unavailDates != null && unavailDates.Any())
                 ? string.Join(",", unavailDates.Select(d => d.ToString("dd MMM yyyy")))
                 : string.Empty;
+
+            string formatedMinDate = minDate != null && minDate != DateTime.MinValue ? ((DateTime)minDate).ToString(formatDateForTextBox) : "null";
+            string formatedMaxDate = minDate != null && minDate != DateTime.MinValue ? ((DateTime)minDate).ToString(formatDateForTextBox) : "null";
 
             var textbox = htmlHelper.TextBox(
                 name,
@@ -183,9 +174,9 @@ namespace Fanex.OddsFeed.Core
                 new
                 {
                     @class = "datepicker",
-                    mindate = minDate != null && minDate != DateTime.MinValue ? ((DateTime)minDate).ToString("yyyy/MM/dd") : "null",
-                    maxdate = maxDate != null && maxDate != DateTime.MinValue ? ((DateTime)maxDate).ToString("yyyy/MM/dd") : "null",
-                    disabledDate = disabledDate
+                    mindate = formatedMinDate,
+                    maxdate = formatedMaxDate,
+                    disabledDate
                 });
 
             return MvcHtmlString.Create(textbox.ToString());
@@ -247,7 +238,7 @@ namespace Fanex.OddsFeed.Core
         {
             if (string.IsNullOrWhiteSpace(formatDate))
             {
-                throw new ArgumentNullException("formatDate cannot be null");
+                throw new ArgumentNullException(nameof(formatDate));
             }
 
             var mindate = minDate != null && minDate != DateTime.MinValue ? ((DateTime)minDate).ToString("yyyy/MM/dd") : "null";
@@ -288,7 +279,7 @@ namespace Fanex.OddsFeed.Core
 
             return html.WeekPicker(metaData.PropertyName, value, minDate, maxDate, formatDate);
         }
-        
+
         /// <summary>
         /// Month the picker.
         /// </summary>
@@ -303,8 +294,9 @@ namespace Fanex.OddsFeed.Core
             int currentMonth,
             object htmlAttributes = null)
         {
+            const int toMonth = 12;
+
             var list = new List<SelectListItem>();
-            var toMonth = 12;
             for (var i = 1; i <= toMonth; i++)
             {
                 list.Add(new SelectListItem
@@ -396,8 +388,8 @@ namespace Fanex.OddsFeed.Core
             var metaData = ModelMetadata.FromLambdaExpression(expression, html.ViewData);
             var currentYear = (int)metaData.Model;
             return html.YearPicker(metaData.PropertyName, fromYear, currentYear, htmlAttributes);
-        }        
-        
+        }
+
         /// <summary>
         /// Gets the enumerate description.
         /// </summary>
@@ -410,14 +402,7 @@ namespace Fanex.OddsFeed.Core
 
             var attributes = (DescriptionAttribute[])fi.GetCustomAttributes(typeof(DescriptionAttribute), false);
 
-            if ((attributes != null) && (attributes.Length > 0))
-            {
-                return attributes[0].Description;
-            }
-            else
-            {
-                return value.ToString();
-            }
+            return (attributes != null) && (attributes.Length > 0) ? attributes[0].Description : value.ToString();
         }
 
         /// <summary>
@@ -482,7 +467,7 @@ namespace Fanex.OddsFeed.Core
         {
             var arr = stringList.Split(new char[] { ',' });
             return arr.Any(a => str.Contains(a));
-        }        
+        }
 
         /// <summary>
         /// Renders the section.
@@ -564,7 +549,7 @@ namespace Fanex.OddsFeed.Core
             var fullHtmlFieldName = htmlHelper.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(name);
             if (string.IsNullOrEmpty(fullHtmlFieldName))
             {
-                throw new ArgumentException("name cannot be null or empty.", "name");
+                throw new ArgumentException("name cannot be null or empty.", nameof(name));
             }
 
             var selectListFromViewData = false;
@@ -576,7 +561,7 @@ namespace Fanex.OddsFeed.Core
 
             if (selectList == null)
             {
-                throw new ArgumentNullException("selectList");
+                throw new ArgumentNullException(nameof(selectList));
             }
 
             object values = null;
@@ -610,7 +595,7 @@ namespace Fanex.OddsFeed.Core
 
             return MvcHtmlString.Create(sb.ToString());
         }
-       
+
         /// <summary>
         /// CheckBoxes the list for.
         /// </summary>
@@ -690,7 +675,8 @@ namespace Fanex.OddsFeed.Core
 
             return CheckBoxList(htmlHelper, ExpressionHelper.GetExpressionText(expression), selectList, htmlAttributes, showNameAttribute);
         }
-        #endregion
+
+        #endregion CheckBoxList
 
         #region CheckBoxDropDownList
 
@@ -757,7 +743,7 @@ namespace Fanex.OddsFeed.Core
             var fullHtmlFieldName = htmlHelper.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(name);
             if (string.IsNullOrEmpty(fullHtmlFieldName))
             {
-                throw new ArgumentException("name cannot be null or empty.", "name");
+                throw new ArgumentException("name cannot be null or empty.", nameof(name));
             }
 
             var selectListFromViewData = false;
@@ -769,7 +755,7 @@ namespace Fanex.OddsFeed.Core
 
             if (selectList == null)
             {
-                throw new ArgumentNullException("selectList");
+                throw new ArgumentNullException(nameof(selectList));
             }
 
             object values = null;
@@ -777,7 +763,7 @@ namespace Fanex.OddsFeed.Core
             if (htmlHelper.ViewData.ModelState.TryGetValue(fullHtmlFieldName, out state) && (state.Value != null))
             {
                 var stateValue = state.Value.ConvertTo(typeof(string)).ToString();
-                values = stateValue.Contains(",") ? stateValue.Split(',') : state.Value.ConvertTo(typeof(string[]), null);                
+                values = stateValue.Contains(",") ? stateValue.Split(',') : state.Value.ConvertTo(typeof(string[]), null);
             }
 
             if (!selectListFromViewData && (values == null))
@@ -787,7 +773,7 @@ namespace Fanex.OddsFeed.Core
 
             if (values != null)
             {
-                selectList = CreateListItems(selectList, values);                
+                selectList = CreateListItems(selectList, values);
             }
 
             var sb = new StringBuilder();
@@ -800,7 +786,7 @@ namespace Fanex.OddsFeed.Core
             }
 
             return MvcHtmlString.Create(sb.ToString());
-        }     
+        }
 
         /// <summary>
         /// CheckBoxes the drop down list for.
@@ -887,10 +873,10 @@ namespace Fanex.OddsFeed.Core
             return CheckBoxDropDownList(htmlHelper, ExpressionHelper.GetExpressionText(expression), selectList, htmlAttributes, showNameAttribute);
         }
 
-        #endregion
+        #endregion CheckBoxDropDownList
 
         #region Business
-     
+
         public static string ToFormatedDate(this DateTime? date)
         {
             if (date.HasValue)
@@ -900,12 +886,12 @@ namespace Fanex.OddsFeed.Core
 
             return string.Empty;
         }
-   
+
         public static string ToFormatedDate(this DateTime date)
         {
             return date.ToString("dd MMM, yyyy hh:mm tt");
         }
-    
+
         public static string ToShortFormatedDate(this DateTime? date)
         {
             if (date.HasValue)
@@ -915,13 +901,13 @@ namespace Fanex.OddsFeed.Core
 
             return string.Empty;
         }
-      
+
         public static string ToShortFormatedDate(this DateTime date)
         {
             var dateStr = date.ToString(@"dd MMM, yyyy - HH") + "h" + date.ToString(@"mm\'");
             return dateStr;
         }
-       
+
         public static string ToMonthAndDayFormatedDate(this DateTime? date)
         {
             if (date.HasValue)
@@ -931,12 +917,12 @@ namespace Fanex.OddsFeed.Core
 
             return string.Empty;
         }
-    
+
         public static string ToMonthAndDayFormatedDate(this DateTime date)
         {
             return date.ToString("dd-MMM");
         }
-       
+
         public static string ToMonthAndYearFormatedDate(this DateTime? date)
         {
             if (date.HasValue)
@@ -946,17 +932,17 @@ namespace Fanex.OddsFeed.Core
 
             return string.Empty;
         }
-      
+
         public static string ToMonthAndYearFormatedDate(this DateTime date)
         {
             return date.ToString("MMM-yyyy");
         }
-     
+
         public static string ToDateMonthYearFormatedDate(this DateTime date)
         {
             return date.ToString("dd MMM, yyyy");
         }
-       
+
         public static string ToDateMonthYearFormatedDate(this DateTime? date)
         {
             if (date.HasValue)
@@ -1007,7 +993,7 @@ namespace Fanex.OddsFeed.Core
             return SelectExtensions.DropDownListFor(htmlHelper, expression, selectList, htmlAttributes);
         }
 
-        #endregion
+        #endregion Business
 
         #region Private Methods
 
@@ -1084,7 +1070,7 @@ namespace Fanex.OddsFeed.Core
 
             label.InnerHtml = item.Text;
 
-            sb.Append("<div>" + input.ToString(TagRenderMode.SelfClosing) + label.ToString() + "</div>");
+            sb.Append("<div>" + input.ToString(TagRenderMode.SelfClosing) + label + "</div>");
         }
 
         /// <summary>
@@ -1095,8 +1081,7 @@ namespace Fanex.OddsFeed.Core
         /// <returns>Object IEnumerable{SelectListItem}.</returns>
         private static IEnumerable<SelectListItem> CreateListItems(IEnumerable<SelectListItem> selectList, object values)
         {
-            var valueList = values is string[]
-            ? values as string[]
+            var valueList = values is string[]? values as string[]
             : values.ToString().Split(new[] { ',' });
 
             var source = values as IEnumerable;
@@ -1160,6 +1145,6 @@ namespace Fanex.OddsFeed.Core
             sb.Append(label.ToString());
         }
 
-        #endregion
+        #endregion Private Methods
     }
 }

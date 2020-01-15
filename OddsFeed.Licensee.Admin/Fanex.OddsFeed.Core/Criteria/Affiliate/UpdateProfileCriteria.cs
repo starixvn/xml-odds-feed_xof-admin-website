@@ -9,12 +9,11 @@
 
 namespace Fanex.OddsFeed.Core.Criteria.Affiliate
 {
-    using System.Diagnostics.CodeAnalysis;
-    using Fanex.OddsFeed.Framework.Data;
     using Data.Repository;
+
     /// <summary>
     /// Class UpdateProfileCriteria.
-    /// </summary>    
+    /// </summary>
     public class UpdateProfileCriteria : CriteriaBase
     {
         public UpdateProfileCriteria()
@@ -25,13 +24,13 @@ namespace Fanex.OddsFeed.Core.Criteria.Affiliate
 
         public int Creator { get; set; }
 
-        public int PartnerID { get; set; }        
+        public int PartnerID { get; set; }
 
         public string OddsType { get; set; }
 
         public string OddsRegion { get; set; }
 
-        public string LanguageList { get; set; }        
+        public string LanguageList { get; set; }
 
         public string SportIDList { get; set; }
 
@@ -72,7 +71,6 @@ namespace Fanex.OddsFeed.Core.Criteria.Affiliate
         public int ErrCode { get; set; }
 
         public string ErrMsg { get; set; }
-        
 
         // Ignored
         [SpParam(Ignored = true)]

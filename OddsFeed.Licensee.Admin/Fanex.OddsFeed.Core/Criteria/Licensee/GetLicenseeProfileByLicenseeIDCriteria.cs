@@ -9,12 +9,8 @@
 
 namespace Fanex.OddsFeed.Core.Criteria.Licensee
 {
-    using System;
-    using Fanex.OddsFeed.Framework.Data;
     using Data.Repository;
-    /// <summary>
-    /// Class GetLicenseeProfileByLicenseeIDCriteria.
-    /// </summary>
+
     public class GetLicenseeProfileByLicenseeIDCriteria : CriteriaBase
     {
         public short SystemID { get; set; }

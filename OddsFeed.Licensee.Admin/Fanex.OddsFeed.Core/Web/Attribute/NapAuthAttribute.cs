@@ -9,20 +9,16 @@
 
 namespace Fanex.OddsFeed.Core.Web.Attribute
 {
-    using System;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Web;
     using System.Web.Mvc;
     using System.Web.Security;
     using Fanex.OddsFeed.Core.Business;
     using Fanex.OddsFeed.Core.Service.Impl;
     using Fanex.OddsFeed.Core.Service.Interface;
-    using Fanex.OddsFeed.Core.Web.Auth;    
     using Fanex.OddsFeed.Core.Web.Context;
 
     /// <summary>
     /// Class NapAUTHAttribute.
-    /// </summary>    
+    /// </summary>
     public class NapAuthAttribute : AuthorizeAttribute
     {
         #region Member
@@ -30,10 +26,10 @@ namespace Fanex.OddsFeed.Core.Web.Attribute
         private static readonly int _SiteId = Configuration.NapSettings.Settings.SiteId;
 
         private static readonly IUserService _UserService = new UserService();
-        
+
         private static readonly CurrentContext _CurrentContext = new CurrentContext();
 
-        #endregion
+        #endregion Member
 
         #region Properties
 
@@ -41,7 +37,7 @@ namespace Fanex.OddsFeed.Core.Web.Attribute
 
         public Constant.Policy Policy { get; set; }
 
-        #endregion
+        #endregion Properties
 
         ////public override void OnAuthorization(AuthorizationContext filterContext)
         ////{
@@ -71,7 +67,7 @@ namespace Fanex.OddsFeed.Core.Web.Attribute
 
         ////        if (CheckFunctionAuthorization(principal.AuthInfo.UserId))
         ////        {
-        ////            // allow access 
+        ////            // allow access
         ////            // log access function here
         ////            //#region write log function
 

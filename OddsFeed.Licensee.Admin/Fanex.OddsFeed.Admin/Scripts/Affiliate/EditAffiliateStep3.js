@@ -1,21 +1,22 @@
 ﻿$(document).ready(function () {
-
     if ($("#isAccountManagerPermission").val() == "") {
         SetDefault();
     }
 
     //Sport checkboxes
-    CheckBoxListEvent('chkAllSports', 'chkSport', undefined, GetLeagueOutright, 'formAffiliate', "League", 'Outrights');
+    CheckBoxListEvent('chkAllMajorSports', 'chkMajorSport', undefined, GetLeagueOutright, 'formAffiliate', "League", 'Outrights');
+    CheckBoxListEventWithConfirm('chkAllMinorSports', 'chkMinorSport', undefined, GetLeagueOutright, 'formAffiliate', "League", 'Outrights');
     //Country checkboxes
     CheckBoxListEvent('chkAllCountries', 'chkCountry', undefined, GetLeagueOutright, 'formAffiliate', "League", 'Outrights');
     //Market checkboxes
-    CheckBoxListEvent('chkAllMarkets', 'chkMarket', undefined);
+    CheckBoxListEvent('chkAllMajorMarkets', 'chkMajorMarket', undefined);
+    CheckBoxListEventWithConfirm('chkAllMinorMarkets', 'chkMinorMarket', undefined);
 
     // Show Martket options if "Deadball or Live" is selected
     ShowHideMarket('edit');
 
     $(".oddstype").click(function () {
-        if ($("#oddsTypeFlag").val() != "") {            
+        if ($("#oddsTypeFlag").val() != "") {
             var id = this.id;
             if (id != 'OddsType8')//NOT Outright
             {
@@ -43,6 +44,7 @@
 
     $("#editStep3Save").click(function () {
         $(".result-message-box").addClass("hidden");
+
         // Refresh values
         var updateParams = {
             PartnerID: $("#PartnerID").val(),
@@ -50,16 +52,16 @@
             OddsRegion: $("#slOddsStyle option:selected").val(),
             DeadballDelayTimes: $("#DeadballDelayTimes").length > 0 ? $("#DeadballDelayTimes").val() : "",
             LiveDelayTimes: $("#LiveDelayTimes").length > 0 ? $("#LiveDelayTimes").val() : "",
-            OutrightDelayTimes: $("#OutrightDelayTimes").length > 0 ? $("#OutrightDelayTimes").val() :"",
+            OutrightDelayTimes: $("#OutrightDelayTimes").length > 0 ? $("#OutrightDelayTimes").val() : "",
             NumberOfIPs: $("#NumberOfIPs").val(),
             LanguageList: affiliateManager.GetDropDownCheckBoxListValue('language'),
-            SportIDList: affiliateManager.GetDropDownCheckBoxListValue('chkSport'),
+            SportIDList: affiliateManager.GetIdList('chkMajorSport', 'chkMinorSport'),
             CountryCodeList: affiliateManager.GetDropDownCheckBoxListValue('chkCountry'),
-            BetTypeIDList: affiliateManager.GetDropDownCheckBoxListValue('chkMarket'),
+            BetTypeIDList: affiliateManager.GetIdList('chkMajorMarket', 'chkMinorMarket'),
             LeagueIDList: $("#chkAllLeagues").length > 0 ? affiliateManager.GetDropDownCheckBoxListValue('chkLeague') : "",
-            OutRightIDList: $("#chkAllOutrights").length > 0 ? affiliateManager.GetDropDownCheckBoxListValue('chkOutright') : "",            
+            OutRightIDList: $("#chkAllOutrights").length > 0 ? affiliateManager.GetDropDownCheckBoxListValue('chkOutright') : "",
             LeagueKeyword: $("#LeagueKeyword").length > 0 ? $("#LeagueKeyword").val() : "",
-            LeagueKeyword_O: $("#LeagueKeyword_O").length > 0? $("#LeagueKeyword_O").val() : "",
+            LeagueKeyword_O: $("#LeagueKeyword_O").length > 0 ? $("#LeagueKeyword_O").val() : "",
             OddsTypeFlag: $("#oddsTypeFlag").val() == "value",
             OddsRegionFlag: $("#oddsStyleFlag").val() == "value",
             LanguageListFlag: $("#languagesFlag").val() == "value",
@@ -84,7 +86,7 @@
             cache: false,
             beforeSend: function (xhr) {
             },
-            success: function (result) {                
+            success: function (result) {
                 $('body').removeClass('wait');
                 $('input:button[value="Save"]').attr('disabled', false);
 
@@ -101,8 +103,7 @@
 });
 //--------------------------------------------------------------------------------------------------------------------
 
-function SetDefault() {    
+function SetDefault() {
     //oddsStyle
-    $('#slOddsStyle option:not(:selected)').attr('disabled', $("#oddsStyleFlag").val() == "");    
+    $('#slOddsStyle option:not(:selected)').attr('disabled', $("#oddsStyleFlag").val() == "");
 }
-

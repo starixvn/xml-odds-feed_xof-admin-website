@@ -16,6 +16,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
     using Fanex.OddsFeed.Core.Web.Attribute;
     using System;
     using System.Data;
+    using System.Text;
     using System.Web.Mvc;
 
     /// <summary>
@@ -160,18 +161,13 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
         #region Private Methods
 
-        /// <summary>
-        /// Generates the log in information table.
-        /// </summary>
-        /// <param name="ds">The data set.</param>
-        /// <returns>The content of log information table.</returns>
-        private string GenerateLogInInfoTable(DataSet ds)
+        private static string GenerateLogInInfoTable(DataSet ds)
         {
-            var htmlStr = "<table id=\"logininfotable\"><tr><th>Last login time</th><th>Last login IP</th></tr>";
+            StringBuilder htmlStr = new StringBuilder("<table id=\"logininfotable\"><tr><th>Last login time</th><th>Last login IP</th></tr>");
 
             if (ds == null || ds.Tables.Count == 0)
             {
-                htmlStr += "<tr><td colspan=2>There is no data.</td></tr>";
+                htmlStr.Append("<tr><td colspan=2>There is no data.</td></tr>");
             }
             else
             {
@@ -180,20 +176,20 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
                 for (int i = 0; i < rowCounter; i++)
                 {
-                    var htmlElement = new string[]
-                                                    {
-                                                        "<tr><td>",
-                                                        dt.Rows[i]["LastLoginTime"] == null ? string.Empty : dt.Rows[i]["LastLoginTime"].ToString(),
-                                                        "</td><td>",
-                                                        dt.Rows[i]["IP"] == null ? string.Empty : dt.Rows[i]["IP"].ToString(),
-                                                        "</td></tr>"
-                                                    };
-                    htmlStr += string.Join(null, htmlElement);
+                    var htmlElement = new[] {
+                        "<tr><td>",
+                        dt.Rows[i]["LastLoginTime"] == null ? string.Empty : dt.Rows[i]["LastLoginTime"].ToString(),
+                        "</td><td>",
+                        dt.Rows[i]["IP"] == null ? string.Empty : dt.Rows[i]["IP"].ToString(),
+                        "</td></tr>"
+                    };
+                    htmlStr.Append(string.Join(null, htmlElement));
                 }
             }
 
-            htmlStr += "</table>";
-            return htmlStr;
+            htmlStr.Append("</table>");
+
+            return htmlStr.ToString();
         }
 
         #endregion

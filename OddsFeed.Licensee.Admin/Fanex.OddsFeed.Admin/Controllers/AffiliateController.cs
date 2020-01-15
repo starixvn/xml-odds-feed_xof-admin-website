@@ -12,6 +12,12 @@
 /// </summary>
 namespace Fanex.OddsFeed.Admin.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Data;
+    using System.Linq;
+    using System.Text;
+    using System.Web.Mvc;
     using Fanex.OddsFeed.Core;
     using Fanex.OddsFeed.Core.Criteria.Affiliate;
     using Fanex.OddsFeed.Core.Criteria.Licensee;
@@ -21,11 +27,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
     using Fanex.OddsFeed.Core.Service.Interface;
     using Fanex.OddsFeed.Core.Web;
     using Fanex.OddsFeed.Core.Web.Attribute;
-    using System;
-    using System.Collections.Generic;
-    using System.Data;
-    using System.Linq;
-    using System.Web.Mvc;
+
     /// <summary>
     /// Class AffiliateController.
     /// </summary>
@@ -36,6 +38,9 @@ namespace Fanex.OddsFeed.Admin.Controllers
     ////     Justification = "Reviewed. Suppression is OK here.")]
     public class AffiliateController : BaseController
     {
+        private const string MajorGroup = "Major";
+        private const string MinorGroup = "Minor";
+
         #region Members
 
         /// <summary>
@@ -48,7 +53,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
         /// </summary>
         private readonly ILicenseeService _licenseeService;
 
-        #endregion
+        #endregion Members
 
         #region Constructors
 
@@ -67,16 +72,16 @@ namespace Fanex.OddsFeed.Admin.Controllers
         /// <param name="userService">The user service.</param>
         /// <param name="licenseeService">The licensee service.</param>
         public AffiliateController(
-                                        IAffiliateService affiliateService = null,
-                                        IUserService userService = null,
-                                        ILicenseeService licenseeService = null)
+                                        IAffiliateService affiliateService,
+                                        IUserService userService,
+                                        ILicenseeService licenseeService)
         {
             _affiliateService = affiliateService ?? new AffiliateService { ServiceContext = ServiceContext };
             ////_userService = userService ?? new UserService();
             _licenseeService = licenseeService ?? new LicenseeService { ServiceContext = ServiceContext };
         }
 
-        #endregion
+        #endregion Constructors
 
         #region Add New
 
@@ -96,7 +101,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
             ViewData["slAssignedDomain"] = domainList;
             ViewData["slDomain"] = new List<SelectListItem>();
 
-            ////Profile                
+            ////Profile
             var licenseeProfile = _affiliateService.GetDataSet(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = CurrentSession.SystemId });
             if (licenseeProfile != null && licenseeProfile.Tables.Count > 0 && licenseeProfile.Tables[0].Rows.Count > 0)
             {
@@ -148,7 +153,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
             else
             {
                 actionResult.IsSuccess = false;
-                actionResult.ResultMessage = result.Message;
+                actionResult.ResultMessage = result != null ? result.Message : ViewResources.InternalErrorMessage;
             }
 
             return Json(actionResult, JsonRequestBehavior.AllowGet);
@@ -186,9 +191,10 @@ namespace Fanex.OddsFeed.Admin.Controllers
             return Json(checkResult, JsonRequestBehavior.AllowGet);
         }
 
-        #endregion
+        #endregion Add New
 
         #region Edit
+
         /// <summary>
         /// Display the affiliate info page for editing.
         /// </summary>
@@ -256,7 +262,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 else
                 {
                     actionResult.IsSuccess = false;
-                    actionResult.ResultMessage = result.Message;
+                    actionResult.ResultMessage = result != null ? result.Message : ViewResources.InternalErrorMessage;
                 }
             }
 
@@ -286,7 +292,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 ViewBag.NumberOfIPs = int.Parse(affiliateProfile.Tables[0].Rows[0]["NumberOfIPs"].ToString());
             }
 
-            ////Domain             
+            ////Domain
             var domainSelList = _affiliateService.GetDomainByAffId(id);
             ViewData["slAssignedDomain"] = domainSelList;
 
@@ -313,16 +319,16 @@ namespace Fanex.OddsFeed.Admin.Controllers
         public JsonResult EditSetting(int affId, string domains, string listIPs)
         {
             var actionResult = new OddsFeedActionResult();
-            var fromIPs = string.Empty;
-            var toIPs = string.Empty;
+            StringBuilder fromIPs = new StringBuilder();
+            StringBuilder toIPs = new StringBuilder();
 
             if (!string.IsNullOrEmpty(listIPs))
             {
                 var arrIps = listIPs.Split(',');
                 for (int i = 0; i < arrIps.Length; i += 2)
                 {
-                    fromIPs += arrIps[i] + ",";
-                    toIPs += arrIps[i + 1] + ",";
+                    fromIPs.Append(arrIps[i] + ",");
+                    toIPs.Append(arrIps[i + 1] + ",");
                 }
             }
 
@@ -330,8 +336,8 @@ namespace Fanex.OddsFeed.Admin.Controllers
             {
                 PartnerID = affId,
                 Domains = domains,
-                IpsFrom = fromIPs,
-                IpsTo = toIPs
+                IpsFrom = fromIPs.ToString(),
+                IpsTo = toIPs.ToString()
             };
 
             var result = _affiliateService.Update(criteria);
@@ -345,7 +351,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
             else
             {
                 actionResult.IsSuccess = false;
-                actionResult.ResultMessage = result.Message;
+                actionResult.ResultMessage = result != null ? result.Message : ViewResources.InternalErrorMessage;
             }
 
             return Json(actionResult, JsonRequestBehavior.AllowGet);
@@ -377,11 +383,11 @@ namespace Fanex.OddsFeed.Admin.Controllers
             {
                 ViewBag.Success = true;
                 ViewBag.PartnerID = criteria.PartnerID;
-                return "Successfully!";
+                return ViewResources.SuccessfulMessage;
             }
             else
             {
-                return result.Message;
+                return result != null ? result.Message : ViewResources.InternalErrorMessage;
             }
         }
 
@@ -408,8 +414,8 @@ namespace Fanex.OddsFeed.Admin.Controllers
             else
             {
                 deleteResult.IsSuccess = false;
-                deleteResult.ErrorCode = result.Code;
-                deleteResult.ResultMessage = result.Message;
+                deleteResult.ErrorCode = result != null ? result.Code : 1;
+                deleteResult.ResultMessage = result != null ? result.Message : ViewResources.InternalErrorMessage;
             }
 
             return Json(deleteResult, JsonRequestBehavior.AllowGet);
@@ -429,8 +435,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 return RedirectToAction("List", "Affiliate");
             }
 
-            var sportIDList = string.Empty;
-            var countryCodeList = string.Empty;
             var criteria = new UpdateProfileCriteria { PartnerID = id };
             ViewBag.CurrentUser = " of \"" + name + "\"";
 
@@ -487,21 +491,16 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 else
                 {
                     actionResult.IsSuccess = false;
-                    actionResult.ResultMessage = result.Message;
+                    actionResult.ResultMessage = result != null ? result.Message : ViewResources.InternalErrorMessage;
                 }
             }
 
             return Json(actionResult, JsonRequestBehavior.AllowGet);
         }
 
-        /// <summary>
-        /// Editing the affiliate's active status.
-        /// </summary>
-        /// <param name="affId">The affiliate's id.</param>
-        /// <param name="status">The affiliate's active status.</param>
-        /// <returns>Return "Successfully!" if success else return the error message.</returns>
         public string EditActive(int affId, bool status)
         {
+            var resultMessage = string.Empty;
             var criteria = new UpdateActiveCriteria
             {
                 PartnerID = affId,
@@ -511,10 +510,19 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
             var result = _affiliateService.Update(criteria);
 
-            return (result != null && result.IsSuccessful) ? "Successfully!" : result.Message;
+            if(result != null)
+            {
+                resultMessage = result.IsSuccessful ? ViewResources.SuccessfulMessage : result.Message;
+            }
+            else
+            {
+                resultMessage = ViewResources.InternalErrorMessage;
+            }
+
+            return resultMessage;
         }
 
-        #endregion
+        #endregion Edit
 
         #region Get
 
@@ -675,7 +683,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 "http://" + domainURL.Replace("http://", string.Empty) + "/" + GetVirtualPath() + affiliateName + "/oddsfeed.xml";
         }
 
-        #endregion
+        #endregion Get
 
         #region Delete
 
@@ -686,6 +694,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
         /// <returns>Return "Successfully!" if success else the error message.</returns>
         public string Delete(int affId)
         {
+            var resultMessage = string.Empty;
             var criteria = new DeleteAffiliateCriteria
             {
                 Creator = CurrentSession.UserId,
@@ -694,12 +703,19 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
             var result = _affiliateService.Delete(criteria);
 
-            return result != null && result.IsSuccessful
-                ? "Successfully!"
-                : result.Message;
+            if(result != null)
+            {
+                resultMessage = result.IsSuccessful ? ViewResources.SuccessfulMessage : result.Message;
+            }
+            else
+            {
+                resultMessage = ViewResources.InternalErrorMessage;
+            }
+
+            return resultMessage;
         }
 
-        #endregion        
+        #endregion Delete
 
         #region Common
 
@@ -709,23 +725,23 @@ namespace Fanex.OddsFeed.Admin.Controllers
         /// <param name="criteria">The affiliate's criteria.</param>
         private void CustomizeDataBeforeAddNew(ref InsertAffiliateCriteria criteria)
         {
-            var fromIPs = string.Empty;
-            var toIPs = string.Empty;
+            StringBuilder fromIPs = new StringBuilder();
+            StringBuilder toIPs = new StringBuilder();
 
             if (!string.IsNullOrEmpty(criteria.IpsFrom))
             {
                 var arrIps = criteria.IpsFrom.Split(',');
                 for (int i = 0; i < arrIps.Length; i += 2)
                 {
-                    fromIPs += arrIps[i] + ",";
-                    toIPs += arrIps[i + 1] + ",";
+                    fromIPs.Append(arrIps[i] + ",");
+                    toIPs.Append(arrIps[i + 1] + ",");
                 }
             }
 
             criteria.SystemID = CurrentSession.SystemId;
             criteria.Creator = CurrentSession.UserId;
-            criteria.IpsFrom = fromIPs;
-            criteria.IpsTo = toIPs;
+            criteria.IpsFrom = fromIPs.ToString();
+            criteria.IpsTo = toIPs.ToString();
             criteria.Ip = CurrentContext.IP;
             criteria.Content = criteria.Content ?? string.Empty;
             criteria.Note = criteria.Note ?? string.Empty;
@@ -767,18 +783,19 @@ namespace Fanex.OddsFeed.Admin.Controllers
             }
 
             var sportList = sportIDList.Split(',').ToList();
+
             if (sportList.Contains("27") && !sportList.Contains("50"))
             {
                 sportList.Add("50");
             }
-            else if (!sportList.Contains("27") && sportList.Contains("50"))
+
+            if (!sportList.Contains("27") && sportList.Contains("50"))
             {
                 sportList.Remove("50");
             }
 
             return String.Join(",", sportList.ToArray());
         }
-
 
         /// <summary>
         /// Customize for inserting the affiliate's profile.
@@ -961,20 +978,29 @@ namespace Fanex.OddsFeed.Admin.Controllers
             ViewBag.OddsStyleList = _affiliateService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "OddsRegion" }, false);
             ViewBag.LanguageIDList = _affiliateService.GetSelectList(new GetAllLanguageCriteria());
             ViewBag.DelayTimeList = GenerateDelayTime(_affiliateService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "Config" }, false));
+
             ////Sport
-            var sports = _affiliateService.GetSelectList(new GetSupportedSportCriteria());
-            ViewBag.SportList = UpdateSportListForCricket(sports);
+            var sports = _affiliateService.GetSelectListWithGroup(new GetSupportedSportCriteria());
+            var sportList = UpdateSportListForCricket(sports);
             if (criteria.SportIDList.Equals("all"))
             {
                 criteria.SportIDList = string.Join(",", sports.Select(item => item.Value));
             }
+
+            ViewBag.MajorSportList = sportList.Where(sport => sport.Group.Name == MajorGroup);
+            ViewBag.MinorSportList = sportList.Where(sport => sport.Group.Name == MinorGroup);
+
             ////Market
-            var bettypes = _affiliateService.GetSelectList(new GetSupportedBettypeCriteria());
-            ViewBag.BettypesList = bettypes;
+            var bettypes = _affiliateService.GetSelectListWithGroup(new GetSupportedBettypeCriteria());
+
             if (criteria.BetTypeIDList.Equals("all"))
             {
                 criteria.BetTypeIDList = string.Join(",", bettypes.Select(item => item.Value));
             }
+
+            ViewBag.MajorBettypesList = bettypes.Where(betType => betType.Group.Name == MajorGroup);
+            ViewBag.MinorBettypesList = bettypes.Where(betType => betType.Group.Name == MinorGroup);
+
             ////Country
             var countries = _affiliateService.GetSelectList(new GetAllCountryCriteria());
             ViewBag.CountriesList = countries;
@@ -1022,7 +1048,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 criteria.LiveDelayTimes = delayTimes.Length > 1 ? delayTimes[1] : "0";
                 criteria.OutrightDelayTimes = delayTimes.Length > 2 ? delayTimes[2] : "0";
 
-                criteria.NumberOfIPs = row["NumberOfIPs"].GetType() != typeof(DBNull) ? (short)row["NumberOfIPs"] : (short)0;
+                criteria.NumberOfIPs = !(row["NumberOfIPs"] is DBNull) ? (short)row["NumberOfIPs"] : (short)0;
                 criteria.LeagueKeyword = row["LeagueKeyword"].ToString();
                 criteria.LeagueKeyword_O = row["LeagueKeyword_O"].ToString();
                 criteria.LeagueIDList = row["LeagueIDList"].ToString();
@@ -1041,10 +1067,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
             }
         }
 
-        /// <summary>
-        /// Profile for editing an affiliate with account manager role.
-        /// </summary>
-        /// <param name="criteria">The affiliate's profile.</param>
         private void ProfileForEditAffiliateWithAccountManagerRole(ref UpdateProfileCriteria criteria)
         {
             ViewBag.OddsTypeList = _affiliateService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "OddsType" }, false);
@@ -1053,19 +1075,27 @@ namespace Fanex.OddsFeed.Admin.Controllers
             var config = _affiliateService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "Config" }, false);
             ViewBag.DelayTimeList = GenerateDelayTime(config);
             ////Sport
-            var sports = _affiliateService.GetSelectList(new GetSupportedSportCriteria());
-            ViewBag.SportList = UpdateSportListForCricket(sports);
+            var sports = _affiliateService.GetSelectListWithGroup(new GetSupportedSportCriteria());
+            var sportList = UpdateSportListForCricket(sports);
             if (criteria.SportIDList.Equals("all"))
             {
                 criteria.SportIDList = string.Join(",", sports.Select(item => item.Value));
             }
+
+            ViewBag.MajorSportList = sportList.Where(sport => sport.Group.Name == MajorGroup);
+            ViewBag.MinorSportList = sportList.Where(sport => sport.Group.Name == MinorGroup);
+
             ////Market
-            var bettypes = _affiliateService.GetSelectList(new GetSupportedBettypeCriteria());
-            ViewBag.BettypesList = bettypes;
+            var bettypes = _affiliateService.GetSelectListWithGroup(new GetSupportedBettypeCriteria());
+
             if (criteria.BetTypeIDList.Equals("all"))
             {
                 criteria.BetTypeIDList = string.Join(",", bettypes.Select(item => item.Value));
             }
+
+            ViewBag.MajorBettypesList = bettypes.Where(betType => betType.Group.Name == MajorGroup);
+            ViewBag.MinorBettypesList = bettypes.Where(betType => betType.Group.Name == MinorGroup);
+
             ////Country
             var countries = _affiliateService.GetSelectList(new GetAllCountryCriteria());
             ViewBag.CountriesList = countries;
@@ -1097,7 +1127,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
             }
         }
 
-        #endregion
+        #endregion Account Manager
 
         #region LicenseeAdmin/Sub-Acc
 
@@ -1212,20 +1242,25 @@ namespace Fanex.OddsFeed.Admin.Controllers
                                                     false)
                                             .Where(item => item.Text != "Live" || (item.Text == "Live" && IsAccountManagerRole()));
 
-            ////OddsStyle                    
+            ////OddsStyle
             ViewBag.OddsStyleList = _affiliateService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "OddsRegion" }, false);
 
             ////Language
             ViewBag.LanguageIDList = _affiliateService.GetLanguageBySystemId();
 
-            ////Market                    
-            ViewBag.BettypesList = _affiliateService.GetBettypeBySystemId();
+            ////Market
+            var bettypesList = _affiliateService.GetBettypeBySystemId();
+            ViewBag.MajorBetTypesList = bettypesList.Where(bettype => bettype.Group.Name == MajorGroup);
+            ViewBag.MinorBetTypesList = bettypesList.Where(bettype => bettype.Group.Name == MinorGroup);
 
-            ////Country                    
+            ////Country
             ViewBag.CountriesList = _affiliateService.GetCountryBySystemId();
 
-            ////Sport                    
-            ViewBag.SportList = UpdateSportListForCricket(_affiliateService.GetSportBySystemId());
+            ////Sport
+            var sportList = UpdateSportListForCricket(_affiliateService.GetSportBySystemId());
+            ViewBag.MajorSportList = sportList.Where(sport => sport.Group.Name == MajorGroup);
+            ViewBag.MinorSportList = sportList.Where(sport => sport.Group.Name == MinorGroup);
+
         }
 
         /// <summary>
@@ -1239,27 +1274,31 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 .GetSelectList(new GetTypeSettingCriteria { SystemID = CurrentSession.SystemId, Type = "OddsType" }, false)
                 .Where(item => item.Text != "Live" || (item.Text == "Live" && IsAccountManagerRole()));
 
-            ////OddsStyle                    
+            ////OddsStyle
             ViewBag.OddsStyleList = _affiliateService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "OddsRegion" }, false);
 
             ////Language
             ViewBag.LanguageIDList = _affiliateService.GetLanguageBySystemId();
 
             ////Sport
-            var sports = _affiliateService.GetSportBySystemId();
-            ViewBag.SportList = UpdateSportListForCricket(sports);
+            var sports = UpdateSportListForCricket(_affiliateService.GetSportBySystemId());
             if (criteria.SportIDList.Equals("all"))
             {
                 criteria.SportIDList = string.Join(",", sports.Select(item => item.Value));
             }
+            ViewBag.MajorSportList = sports.Where(sport => sport.Group.Name == MajorGroup);
+            ViewBag.MinorSportList = sports.Where(sport => sport.Group.Name == MinorGroup);
+
 
             ////Market
             var bettypes = _affiliateService.GetBettypeBySystemId();
-            ViewBag.BettypesList = bettypes;
             if (criteria.BetTypeIDList.Equals("all"))
             {
                 criteria.BetTypeIDList = string.Join(",", bettypes.Select(item => item.Value));
             }
+            ViewBag.MajorBetTypesList = bettypes.Where(betType => betType.Group.Name == MajorGroup);
+            ViewBag.MinorBetTypesList = bettypes.Where(betType => betType.Group.Name == MinorGroup);
+
 
             ////Country
             var countries = _affiliateService.GetCountryBySystemId();
@@ -1274,9 +1313,8 @@ namespace Fanex.OddsFeed.Admin.Controllers
         {
             return sports.Where(s => s.Value != "50");
         }
+        #endregion LicenseeAdmin/Sub-Acc
 
-        #endregion
-
-        #endregion
+        #endregion Common
     }
 }

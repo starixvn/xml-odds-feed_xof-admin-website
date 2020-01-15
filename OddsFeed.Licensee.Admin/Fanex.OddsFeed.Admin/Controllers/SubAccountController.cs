@@ -8,6 +8,11 @@
 // </history>
 namespace Fanex.OddsFeed.Admin.Controllers
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Web;
+    using System.Web.Mvc;
+    using System.Web.Script.Serialization;
     using Fanex.Common;
     using Fanex.OddsFeed.Core.Business;
     using Fanex.OddsFeed.Core.Criteria.Administrator;
@@ -19,11 +24,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
     using Fanex.OddsFeed.Core.Service.Interface;
     using Fanex.OddsFeed.Core.Web;
     using Fanex.OddsFeed.Core.Web.Attribute;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Web;
-    using System.Web.Mvc;
-    using System.Web.Script.Serialization;
+
     /// <summary>
     /// Class SubAccountController.
     /// </summary>
@@ -37,7 +38,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
         /// </summary>
         private readonly ISubAccService _subAccService;
 
-        #endregion
+        #endregion Members
 
         #region Constructors
 
@@ -58,7 +59,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
             _subAccService = subAccService ?? new SubAccService { ServiceContext = ServiceContext };
         }
 
-        #endregion
+        #endregion Constructors
 
         #region Add
 
@@ -133,7 +134,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
             return Json(checkResult, JsonRequestBehavior.AllowGet);
         }
 
-        #endregion
+        #endregion Add
 
         #region Get
 
@@ -183,7 +184,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
             return DataForAutoComplete(top10AffList, "username");
         }
 
-        #endregion
+        #endregion Get
 
         #region Edit
 
@@ -271,7 +272,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
             var result = _subAccService.Update(criteria);
 
             return result != null && result.IsSuccessful
-                ? "Successfully!"
+                ? ViewResources.SuccessfulMessage
                 : result.Message;
         }
 
@@ -412,7 +413,8 @@ namespace Fanex.OddsFeed.Admin.Controllers
             ViewBag.CurrentUser = " of \"" + criteria.SubAccountName + "\"";
             return View(criteria);
         }
-        #endregion
+
+        #endregion Edit
 
         #region Del
 
@@ -431,11 +433,11 @@ namespace Fanex.OddsFeed.Admin.Controllers
             var result = _subAccService.Delete(criteria);
 
             return result != null && result.IsSuccessful
-                ? "Successfully!"
+                ? ViewResources.SuccessfulMessage
                 : result.Message;
         }
 
-        #endregion
+        #endregion Del
 
         #region AssignLicensee
 
@@ -549,6 +551,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
             }
         }
 
-        #endregion
+        #endregion Private methods
     }
 }

@@ -1,13 +1,15 @@
 ﻿$(document).ready(function () {
     $("#errorStep3").addClass("hidden");
     //Sport checkboxes
-    CheckBoxListEvent('chkAllSports', 'chkSport', undefined, GetLeagueOutright, 'formLicensee', "League", 'Outrights');
+    CheckBoxListEvent('chkAllMajorSports', 'chkMajorSport', undefined, GetLeagueOutright, 'formLicensee', "League", 'Outrights');
+    CheckBoxListEventWithConfirm('chkAllMinorSports', 'chkMinorSport', undefined, GetLeagueOutright, 'formLicensee', "League", 'Outrights');
 
     //    //Country checkboxes
     CheckBoxListEvent('chkAllCountries', 'chkCountry', undefined, GetLeagueOutright, 'formLicensee', "League", 'Outrights');
 
     //    //Market checkboxes
-    CheckBoxListEvent('chkAllMarkets', 'chkMarket', false);
+    CheckBoxListEvent('chkAllMajorMarkets', 'chkMajorMarket', false);
+    CheckBoxListEventWithConfirm('chkAllMinorMarkets', 'chkMinorMarket', false);
 
     //hide market options
     $("#Market").hide();

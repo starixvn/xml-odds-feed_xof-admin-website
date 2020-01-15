@@ -1011,4 +1011,22 @@
   <data name="MaximumNumberOfIPs" xml:space="preserve">
     <value>Maximum number of IPs = {MaximumNumberOfIPs}</value>
   </data>
+  <data name="MajorMarkets" xml:space="preserve">
+    <value>Major Markets</value>
+  </data>
+  <data name="MajorSports" xml:space="preserve">
+    <value>Major Sports</value>
+  </data>
+  <data name="MinorMarkets" xml:space="preserve">
+    <value>Minor Markets</value>
+  </data>
+  <data name="MinorSports" xml:space="preserve">
+    <value>Minor Sports</value>
+  </data>
+  <data name="InternalErrorMessage" xml:space="preserve">
+    <value>Internal Server Error!</value>
+  </data>
+  <data name="SuccessfulMessage" xml:space="preserve">
+    <value>Successfully!</value>
+  </data>
 </root>

@@ -12,6 +12,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
     using Fanex.OddsFeed.Core.Criteria.Administrator;
     using Fanex.OddsFeed.Core.Service.Impl;
     using System.Collections.Generic;
+    using System.Text;
     using System.Web.Mvc;
     /// <summary>
     /// Class UIController.
@@ -92,15 +93,15 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 UserId = CurrentSession.UserId
             });
 
-            var strSystemList = string.Empty;
+            var strSystemList = new StringBuilder();
             foreach (var system in allSystemList)
             {
-                strSystemList += system.Value + "," + system.Text + ";";
+                strSystemList.Append(system.Value + "," + system.Text + ";");
             }
 
-            CurrentSession.SystemList = strSystemList;
+            CurrentSession.SystemList = strSystemList.ToString();
             var systemList = new List<SelectListItem>();
-            var systems = strSystemList.Split(';');
+            var systems = strSystemList.ToString().Split(';');
             foreach (string system in systems)
             {
                 if (!string.IsNullOrEmpty(system))

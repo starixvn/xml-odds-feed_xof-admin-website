@@ -32,6 +32,8 @@ namespace Fanex.OddsFeed.Core.Service.Interface
 
         IEnumerable<SelectListItem> GetSelectList(ICriteria criteria, bool order = true, string selectedValue = "");
 
+        IEnumerable<SelectListItem> GetSelectListWithGroup(ICriteria criteria, bool order = true, string selectedValue = "");
+
         DataCollection GetData(ICriteria criteria);
 
         DataSet GetDataSet(ICriteria criteria);

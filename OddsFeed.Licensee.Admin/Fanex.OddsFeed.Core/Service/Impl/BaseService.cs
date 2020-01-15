@@ -82,6 +82,11 @@ namespace Fanex.OddsFeed.Core.Service.Impl
             return _selectListRepository.Get(criteria, order, selectedValue);
         }
 
+        public IEnumerable<SelectListItem> GetSelectListWithGroup(ICriteria criteria, bool order = true, string selectedValue = "")
+        {
+            return _selectListRepository.GetWithGroup(criteria, order, selectedValue);
+        }
+
         public DataCollection GetData(ICriteria criteria)
         {
             return this._baseRepository.ReturnDataCollection(criteria);
