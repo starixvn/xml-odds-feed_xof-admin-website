@@ -29,8 +29,6 @@ namespace Fanex.OddsFeed.Core.Service.Interface
 
         IDataReader GetAffiliateListReturnDataReader(byte systemId, string name);
 
-        DataCollection GetAffiliateListReturnDataCollection(GetAffiliateByNameCriteria criteria);
-
         bool GetStatusById(int id);
 
         IEnumerable<SelectListItem> GetDomain(
@@ -102,5 +100,7 @@ namespace Fanex.OddsFeed.Core.Service.Interface
         ICommandResult Delete(CriteriaBase criteria);
 
         DataCollection GetAffiliateListReturnDataCollection(CheckExistAffiliateCriteria criteria);
+
+        DataCollection GetAffiliateListReturnDataCollection(GetAffiliateByNameCriteria criteria);
     }
 }

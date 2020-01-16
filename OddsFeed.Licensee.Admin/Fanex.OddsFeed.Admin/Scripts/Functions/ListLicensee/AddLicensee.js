@@ -42,7 +42,7 @@ function AddLicensee() {
 
     $('#LanguageList').val(GetDropDownCheckBoxListValue('language'));
 
-    $('#SportIDList').val(GetIdList('chkMajorSport', 'chkMinorSport'));
+    $('#SportIDList').val(GetIdList('chkAllMajorSports', 'chkAllMinorSports', 'chkMajorSport', 'chkMinorSport'));
 
     $('#CountryCodeList').val(GetDropDownCheckBoxListValue('chkCountry'));
 
@@ -50,7 +50,7 @@ function AddLicensee() {
 
     $('#OutRightIDList').val(GetDropDownCheckBoxListValue('chkOutright'));
 
-    $('#BetTypeIDList').val(GetIdList('chkMajorMarket', 'chkMinorMarket'));
+    $('#BetTypeIDList').val(GetIdList('chkAllMajorMarkets', 'chkAllMinorMarkets', 'chkMajorMarket', 'chkMinorMarket'));
 
     // Refresh values
     var updateParams = {        

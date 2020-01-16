@@ -40,6 +40,8 @@ namespace Fanex.OddsFeed.Admin.Controllers
     {
         private const string MajorGroup = "Major";
         private const string MinorGroup = "Minor";
+        private const string OddsRegion = "OddsRegion";
+        private const string NumberOfIPs = "NumberOfIPs";
 
         #region Members
 
@@ -510,7 +512,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
             var result = _affiliateService.Update(criteria);
 
-            if(result != null)
+            if (result != null)
             {
                 resultMessage = result.IsSuccessful ? ViewResources.SuccessfulMessage : result.Message;
             }
@@ -703,7 +705,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
             var result = _affiliateService.Delete(criteria);
 
-            if(result != null)
+            if (result != null)
             {
                 resultMessage = result.IsSuccessful ? ViewResources.SuccessfulMessage : result.Message;
             }
@@ -1260,7 +1262,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
             var sportList = UpdateSportListForCricket(_affiliateService.GetSportBySystemId());
             ViewBag.MajorSportList = sportList.Where(sport => sport.Group.Name == MajorGroup);
             ViewBag.MinorSportList = sportList.Where(sport => sport.Group.Name == MinorGroup);
-
         }
 
         /// <summary>
@@ -1289,7 +1290,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
             ViewBag.MajorSportList = sports.Where(sport => sport.Group.Name == MajorGroup);
             ViewBag.MinorSportList = sports.Where(sport => sport.Group.Name == MinorGroup);
 
-
             ////Market
             var bettypes = _affiliateService.GetBettypeBySystemId();
             if (criteria.BetTypeIDList.Equals("all"))
@@ -1298,7 +1298,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
             }
             ViewBag.MajorBetTypesList = bettypes.Where(betType => betType.Group.Name == MajorGroup);
             ViewBag.MinorBetTypesList = bettypes.Where(betType => betType.Group.Name == MinorGroup);
-
 
             ////Country
             var countries = _affiliateService.GetCountryBySystemId();
@@ -1313,6 +1312,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
         {
             return sports.Where(s => s.Value != "50");
         }
+
         #endregion LicenseeAdmin/Sub-Acc
 
         #endregion Common

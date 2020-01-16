@@ -203,15 +203,11 @@ namespace Fanex.OddsFeed.Core
              IEnumerable<DateTime> unavailDates = null)
         {
             var metaData = ModelMetadata.FromLambdaExpression(expression, html.ViewData);
-            DateTime? value = DateTime.Now;
+            DateTime? value = null;
 
             if (metaData.Model is DateTime? || metaData.Model is DateTime)
             {
                 value = (DateTime?)metaData.Model;
-            }
-            else
-            {
-                value = null;
             }
 
             return html.DatePicker(metaData.PropertyName, value, minDate, maxDate, formatDate, unavailDates);

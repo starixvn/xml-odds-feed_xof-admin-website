@@ -19,9 +19,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
     using System.Text;
     using System.Web.Mvc;
 
-    /// <summary>
-    /// Class DashboardController.
-    /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S109:Magic numbers should not be used", Justification = "<Pending>")]
     [IsAuthorize]
     public class DashboardController : BaseController
     {
@@ -65,9 +63,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
         }
 
         #region Account Statistics
-        /// <summary>
-        /// Gets the account statistics.
-        /// </summary>
         public void GetAccountStatistics()
         {
             var criteria = new GetAccountStatisticsCriteria

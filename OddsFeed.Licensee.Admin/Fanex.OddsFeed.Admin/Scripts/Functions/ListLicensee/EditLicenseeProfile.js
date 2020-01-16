@@ -61,7 +61,6 @@
 });
 
 function UpdateLicenseeProfile(isForceUpdate) {
-
     // Refresh values
     var updateParams = {
         SystemID: $("#SystemID").val(),
@@ -72,11 +71,11 @@ function UpdateLicenseeProfile(isForceUpdate) {
         OutrightDelayTimes: $("#OutrightDelayTimes").val(),
         NumberOfIPs: $("#NumberOfIPs").val(),
         LanguageList: GetDropDownCheckBoxListValue('language'),
-        SportIDList: GetIdList('chkMajorSport', 'chkMinorSport'),
+        SportIDList: GetIdList('chkAllMajorSports', 'chkAllMinorSports', 'chkMajorSport', 'chkMinorSport'),
         CountryCodeList: $("#chkAllCountries").is(':checked') ? "all" : GetDropDownCheckBoxListValue('chkCountry'),
         LeagueIDList: $("#chkAllLeagues").is(':checked') ? "all" : GetDropDownCheckBoxListValue('chkLeague'),
         OutRightIDList: $("#chkAllOutrights").is(':checked') ? "all" : GetDropDownCheckBoxListValue('chkOutright'),
-        BetTypeIDList: GetIdList('chkMajorMarket', 'chkMinorMarket'),
+        BetTypeIDList: GetIdList('chkAllMajorMarkets', 'chkAllMinorMarkets', 'chkMajorMarket', 'chkMinorMarket'),
         LeagueKeyword: $("#LeagueKeyword").val(),
         LeagueKeyword_O: $("#LeagueKeyword_O").val(),
         ApplyAllCurrentAffiliates: $("#ApplyAllCurrentAffiliates").is(':checked'),

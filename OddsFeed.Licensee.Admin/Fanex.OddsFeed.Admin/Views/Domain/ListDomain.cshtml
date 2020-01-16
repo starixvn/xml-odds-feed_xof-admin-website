@@ -29,37 +29,40 @@
     </script>
 }
 <div class="infor">
-    <span class="infor-ic">&nbsp;</span><span class="infor-text">The list of xml odds feed domains.</span></div>
+    <span class="infor-ic">&nbsp;</span><span class="infor-text">The list of xml odds feed domains.</span>
+</div>
 <div class="newline">
-    &nbsp;</div>
+    &nbsp;
+</div>
 <div id="success-message-box" class="success-message-box hidden">
 </div>
 <div class="listdomain-result-message-box hidden">
 </div>
 <div>
     <form id="myForm" method="get" action="/request/dailyview">
-    @Html.HiddenFor(s => s.PageSize)
-    @Html.HiddenFor(s => s.PageIndex)
-    @Html.HiddenFor(s => s.PageCount)
-    <div class="container_24 bunhat">
-        <div class="grid_3 gridlabel">
-            @Html.LabelFor(s => s.DomainName, "Domain Name")
-            @Html.HiddenFor(s => s.DomainId)
+        @Html.HiddenFor(s => s.PageSize)
+        @Html.HiddenFor(s => s.PageIndex)
+        @Html.HiddenFor(s => s.PageCount)
+        <div class="container_24 bunhat">
+            <div class="grid_3 gridlabel">
+                @Html.LabelFor(s => s.DomainName, "Domain Name")
+                @Html.HiddenFor(s => s.DomainId)
+            </div>
+            <div class="grid_8">
+                @Html.TextBoxFor(s => s.DomainName, new { @onkeyup = "StartAutoSuggesttion()" })
+            </div>
+            <div class="grid_2">
+                <input type="button" value="Search" onclick="Submit()">
+            </div>
+            <div class="grid_2">
+                <input type="button" id="AddDomain" value="Add Domain" style="width: auto;" onclick="btnAddDomainClick();" />
+            </div>
         </div>
-        <div class="grid_8">
-            @Html.TextBoxFor(s => s.DomainName, new { @onkeyup = "StartAutoSuggesttion()" })
-        </div>
-        <div class="grid_2">
-            <input type="button" value="Search" onclick="Submit()">
-        </div>
-        <div class="grid_2">
-            <input type="button" id="AddDomain" value="Add Domain" style="width: auto;" onclick="btnAddDomainClick();" />
-        </div>
-    </div>
     </form>
 </div>
 <div class="newline">
-    &nbsp;</div>
+    &nbsp;
+</div>
 <div id="SearchResult" class="freegrid  content-grid">
 </div>
 <br />

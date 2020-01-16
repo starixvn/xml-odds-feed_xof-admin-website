@@ -413,7 +413,7 @@ function CheckAllListEventWithConfirm(chkAll, chkItems, callback, paras) {
 //}
 
 function GetLeagueOutright(formID, leagueElement, outrightElement) {
-    var sportIdList = GetIdList('chkMajorSport', 'chkMinorSport');
+    var sportIdList = GetIdList('chkAllMajorSport', 'chkAllMinorSport', 'chkMajorSport', 'chkMinorSport', false);
     $('#SportIDList').val(sportIdList);
 
     $('#CountryCodeList').val(GetDropDownCheckBoxListValue('chkCountry'));
@@ -503,7 +503,7 @@ function CheckValidationStep3() {
 
     $('#LanguageList').val(GetDropDownCheckBoxListValue('language'));
 
-    $('#SportIDList').val(GetIdList('chkMajorSport', 'chkMinorSport'));
+    $('#SportIDList').val(GetIdList('chkAllMajorSports', 'chkAllMinorSports', 'chkMajorSport', 'chkMinorSport'));
 
     $('#CountryCodeList').val(GetDropDownCheckBoxListValue('chkCountry'));
 
@@ -511,7 +511,7 @@ function CheckValidationStep3() {
 
     $('#OutRightIDList').val(GetDropDownCheckBoxListValue('chkOutright'));
 
-    $('#BetTypeIDList').val(GetIdList('chkMajorMarket', 'chkMinorMarket'));
+    $('#BetTypeIDList').val(GetIdList('chkAllMajorMarkets', 'chkAllMinorMarkets', 'chkMajorMarket', 'chkMinorMarket'));
 
     // Validation
     if ($('#OddsType').val().length == 0) {
@@ -608,7 +608,11 @@ function OpenDialog(id, licenseeID) {
     $("#" + id).dialog("open");
 }
 
-function GetIdList(marjorClass, minorClass) {
+function GetIdList(chkAllMajorId, chkAllMinorId, marjorClass, minorClass, isMinimize = true) {
+    if (isMinimize && $("#" + chkAllMajorId).is(':checked') && $("#" + chkAllMinorId).is(':checked')) {
+        return "all";
+    }
+
     var minorIDList = GetDropDownCheckBoxListValue(minorClass);
     var majorIDList = GetDropDownCheckBoxListValue(marjorClass);
     var idList = majorIDList;
