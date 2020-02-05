@@ -9,16 +9,14 @@
 namespace Fanex.OddsFeed.Core.Web
 {
     using System;
-    using System.Collections.Generic;
     using System.Data;
-    using System.Diagnostics.CodeAnalysis;        
-    using System.Drawing;
+    using System.Diagnostics.CodeAnalysis;
     using System.Text;
     using Fanex.OddsFeed.Core.Helpers;
 
     /// <summary>
     /// Generate data grid from data table.
-    /// </summary>    
+    /// </summary>
     [SuppressMessage(
          "StyleCop.CSharp.StylecopPlus.Rules",
          "SP2101:MethodMustNotContainMoreLinesThan",
@@ -86,7 +84,7 @@ namespace Fanex.OddsFeed.Core.Web
 
             if (col != null && col.Data != null && col.Data.Tables.Count > 0)
             {
-                var dt = col.Data.Tables[0];                
+                var dt = col.Data.Tables[0];
                 foreach (DataRow row in dt.Rows)
                 {
                     if (!flag)
@@ -122,7 +120,7 @@ namespace Fanex.OddsFeed.Core.Web
                 if (dt.Rows.Count > 0)
                 {
                     builder.Remove(builder.Length - 1, 1);
-                }                
+                }
             }
 
             builder.Append("]");
@@ -155,7 +153,7 @@ namespace Fanex.OddsFeed.Core.Web
 
             if (col != null && col.Data != null && col.Data.Tables.Count > 0)
             {
-                var dt = col.Data.Tables[0];               
+                var dt = col.Data.Tables[0];
                 foreach (DataRow row in dt.Rows)
                 {
                     if (!flag)
@@ -198,7 +196,7 @@ namespace Fanex.OddsFeed.Core.Web
                 if (dt.Rows.Count > 0)
                 {
                     builder.Remove(builder.Length - 1, 1);
-                }                
+                }
             }
 
             builder.Append("]");

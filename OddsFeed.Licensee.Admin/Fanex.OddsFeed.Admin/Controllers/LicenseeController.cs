@@ -771,6 +771,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
             ViewBag.LanguageIDList = _licenseeService.GetSelectList(new GetAllLanguageCriteria());
             var config = _licenseeService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "Config" }, false);
             ViewBag.DelayTimeList = GenerateDelayTime(config);
+
             ////Sport
             var sports = _affiliateService.GetSelectListWithGroup(new GetSupportedSportCriteria());
             var sportList = UpdateSportListForCricket(sports);

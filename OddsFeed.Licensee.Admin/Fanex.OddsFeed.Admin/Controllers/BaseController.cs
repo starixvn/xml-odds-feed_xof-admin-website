@@ -20,6 +20,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
     using Fanex.NAP.Core.Configuration;
     using Fanex.NAP.Core.Web;
     using Fanex.OddsFeed.Core.Business;
+    using Fanex.OddsFeed.Core.Criteria.Affiliate;
     using Fanex.OddsFeed.Core.Model.ValueObject;
     using Fanex.OddsFeed.Core.Service.Impl;
     using Fanex.OddsFeed.Core.Service.Interface;
@@ -40,6 +41,8 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
         protected readonly IServiceContext ServiceContext;
 
+        protected readonly IBaseService baseService;
+
         private ViewFlags _viewFlags;
 
         public BaseController()
@@ -53,6 +56,8 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 SystemId = this.CurrentSession.SystemId,
                 Ip = this.CurrentContext.IP
             };
+
+            baseService = new BaseService();
 
             ViewFlags = new ViewFlags
             {
@@ -178,10 +183,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
         #region Common
 
-        /// <summary>
-        /// Build virtual path for xml URLs.
-        /// </summary>
-        /// <returns>The virtual path.</returns>
         public static string GetVirtualPath()
         {
             var feedUrlPath = ConfigurationManager.AppSettings["FeedUrlPath"];
@@ -199,11 +200,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
             return virtualPathWebService + feedUrlPath;
         }
 
-        /// <summary>
-        /// Generate the delay time structure from config value.
-        /// </summary>
-        /// <param name="config">The config value.  {"CacheInterval", "NumberOfCacheVersion"}. </param>
-        /// <returns>The delay time structure.</returns>
         public List<SelectListItem> GenerateDelayTime(IEnumerable<SelectListItem> config)
         {
             var delayTimeList = new List<SelectListItem>();
@@ -221,6 +217,11 @@ namespace Fanex.OddsFeed.Admin.Controllers
             return delayTimeList;
         }
 
+        public int GetMaxNumberOfIPs()
+        {
+            var config = baseService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "Config" }, false);
+            return Converter.ToInt(config.Where(m => m.Text == "MaximumNumberOfIPs").ToList()[0].Value, 0);
+        }
         #endregion Common
     }
 }

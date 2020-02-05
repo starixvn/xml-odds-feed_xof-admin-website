@@ -9,16 +9,15 @@
 
 namespace Fanex.OddsFeed.Core.Criteria.Affiliate
 {
-    using System.Diagnostics.CodeAnalysis;
-    using Fanex.OddsFeed.Framework.Data;
     using Data.Repository;
+
     /// <summary>
     /// Class GetTypeSettingCriteria.
-    /// </summary>    
+    /// </summary>
     public class GetTypeSettingCriteria : CriteriaBase
     {
         public GetTypeSettingCriteria()
-        {            
+        {
         }
 
         public byte SystemID { get; set; }

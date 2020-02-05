@@ -84,7 +84,7 @@
                 <div class="grid4" style="text-align: right">
                     @Html.LabelFor(m => m.NumberOfIPs, "Number of IPs")
                 </div>
-                @Html.TextBoxFor(m => m.NumberOfIPs, new { @style = "width: 50px" })
+                @Html.TextBoxFor(m => m.NumberOfIPs, new { @style = "width: 50px", @min = 0 })
                  <div class="grid1" style="float: none;">
                     @Html.Raw(ViewResources.HtmlTemplate_InputRequiredSymbol)
                 </div>

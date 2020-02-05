@@ -81,7 +81,7 @@ function addRow(IPFrom, IPTo) {
 
     //check maximum number of IP
     if (valid) {
-        var numberOfIPs = OddsFeedAdminManager.MaximumNumberOfIPs;
+        var numberOfIPs = OddsFeedAdminManager.getMaximumNumberOfIPs();
         valid = OddsFeedAdminManager.validateNumberOfIP('add', numberOfIPs, 'IpTable');
     }
 
@@ -257,7 +257,7 @@ function SaveIPSetting(obj, IPFromOld, IPToOld) {
 
     //check maximum number of IP
     if (valid) {
-        var numberOfIPs = OddsFeedAdminManager.MaximumNumberOfIPs; // size of  (smallint)
+        var numberOfIPs = OddsFeedAdminManager.getMaximumNumberOfIPs();
         valid = OddsFeedAdminManager.validateNumberOfIP('save', numberOfIPs, 'IpTable');
     }
 
@@ -542,8 +542,9 @@ function CheckValidationStep3() {
 
     //Check maximum number of IP (32767)
     var numberOfIPs = parseInt($('#NumberOfIPs').val()); //at step3
-    if (numberOfIPs > OddsFeedAdminManager.MaximumNumberOfIPs) {
-        $("#errorStep3").append("<ul><li>" + viewResources.MaximumNumberOfIPs.replace("{MaximumNumberOfIPs}", OddsFeedAdminManager.MaximumNumberOfIPs) + "</li></ul>")
+    var maxNumOfIPs = OddsFeedAdminManager.getMaximumNumberOfIPs();
+    if (numberOfIPs > maxNumOfIPs) {
+        $("#errorStep3").append("<ul><li>" + viewResources.MaximumNumberOfIPs.replace("{MaximumNumberOfIPs}", maxNumOfIPs) + "</li></ul>")
             .removeClass('hidden');
         $('#NumberOfIPs').addClass('error');
         $('.content_scroll').eq(0).animate({ scrollTop: 0 }, 1000);;

@@ -319,10 +319,11 @@ var affiliateManager = {
                 return false;
             }
 
-            //Check maximum number of IP (32767)            
-            var numberOfIPs = parseInt(updateParams.NumberOfIPs); //at step3            
-            if (numberOfIPs > OddsFeedAdminManager.MaximumNumberOfIPs) {
-                $("#errorStep3").append("<ul><li>" + viewResources.MaximumNumberOfIPs.replace("{MaximumNumberOfIPs}", OddsFeedAdminManager.MaximumNumberOfIPs) + "</li></ul>")                
+            //Check maximum number of IP          
+            var numberOfIPs = parseInt(updateParams.NumberOfIPs); //at step3
+            var maxNumOfIPs = OddsFeedAdminManager.getMaximumNumberOfIPs();
+            if (numberOfIPs > maxNumOfIPs) {
+                $("#errorStep3").append("<ul><li>" + viewResources.MaximumNumberOfIPs.replace("{MaximumNumberOfIPs}", maxNumOfIPs) + "</li></ul>")                
                         .removeClass('hidden');
                 $('#NumberOfIPs').addClass('error');
                 $('.content_scroll').eq(0).animate({ scrollTop: 0 }, 1000); ;

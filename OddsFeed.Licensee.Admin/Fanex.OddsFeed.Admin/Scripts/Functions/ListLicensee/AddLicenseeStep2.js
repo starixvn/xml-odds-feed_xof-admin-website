@@ -6,7 +6,7 @@
 
         //check maximum number of IP 
         if (valid) {
-            var numberOfIPs = OddsFeedAdminManager.MaximumNumberOfIPs;
+            var numberOfIPs = OddsFeedAdminManager.getMaximumNumberOfIPs();
             valid = OddsFeedAdminManager.validateNumberOfIP('add', numberOfIPs, 'IpTable');
         }
 
@@ -37,7 +37,7 @@
 
         //check maximum number of IP 
         if (valid) {
-            var numberOfIPs = OddsFeedAdminManager.MaximumNumberOfIPs;
+            var numberOfIPs = OddsFeedAdminManager.getMaximumNumberOfIPs();
             valid = OddsFeedAdminManager.validateNumberOfIP('save', numberOfIPs, 'IpTable');
         }
 

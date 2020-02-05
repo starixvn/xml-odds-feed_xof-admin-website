@@ -7,9 +7,6 @@
 //   <change who="Thai.Tran" date="2013.1.7">Created</change>
 // </history>
 
-/// <summary>
-/// The Controllers namespace.
-/// </summary>
 namespace Fanex.OddsFeed.Admin.Controllers
 {
     using System;
@@ -18,6 +15,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
     using System.Linq;
     using System.Text;
     using System.Web.Mvc;
+    using Fanex.Common;
     using Fanex.OddsFeed.Core;
     using Fanex.OddsFeed.Core.Criteria.Affiliate;
     using Fanex.OddsFeed.Core.Criteria.Licensee;
@@ -146,16 +144,24 @@ namespace Fanex.OddsFeed.Admin.Controllers
             var actionResult = new OddsFeedActionResult();
             CustomizeDataBeforeAddNew(ref criteria);
 
-            var result = _affiliateService.Insert(criteria);
-            if (result != null && result.IsSuccessful)
+            if(IsValidListOfIPs(criteria.IpsFrom, criteria.IpsTo))
             {
-                actionResult.IsSuccess = true;
-                actionResult.ResultMessage = ViewResources.ActionResult_AddAffiliateSuccess;
+                var result = _affiliateService.Insert(criteria);
+                if (result != null && result.IsSuccessful)
+                {
+                    actionResult.IsSuccess = true;
+                    actionResult.ResultMessage = ViewResources.ActionResult_AddAffiliateSuccess;
+                }
+                else
+                {
+                    actionResult.IsSuccess = false;
+                    actionResult.ResultMessage = result != null ? result.Message : ViewResources.InternalErrorMessage;
+                }
             }
             else
             {
                 actionResult.IsSuccess = false;
-                actionResult.ResultMessage = result != null ? result.Message : ViewResources.InternalErrorMessage;
+                actionResult.ResultMessage = ViewResources.Error_InvalidInput;
             }
 
             return Json(actionResult, JsonRequestBehavior.AllowGet);
@@ -334,26 +340,34 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 }
             }
 
-            var criteria = new UpdateSettingCriteria
+            if(!IsValidListOfIPs(fromIPs.ToString(), toIPs.ToString()))
             {
-                PartnerID = affId,
-                Domains = domains,
-                IpsFrom = fromIPs.ToString(),
-                IpsTo = toIPs.ToString()
-            };
-
-            var result = _affiliateService.Update(criteria);
-            if (result != null && result.IsSuccessful)
-            {
-                ViewBag.Success = true;
-                ViewBag.PartnerID = criteria.PartnerID;
-                actionResult.IsSuccess = true;
-                actionResult.ResultMessage = ViewResources.ActionResult_UpdateAffiliateInfoSuccess;
+                actionResult.IsSuccess = false;
+                actionResult.ResultMessage = ViewResources.Error_InvalidInput;
             }
             else
             {
-                actionResult.IsSuccess = false;
-                actionResult.ResultMessage = result != null ? result.Message : ViewResources.InternalErrorMessage;
+                var criteria = new UpdateSettingCriteria
+                {
+                    PartnerID = affId,
+                    Domains = domains,
+                    IpsFrom = fromIPs.ToString(),
+                    IpsTo = toIPs.ToString()
+                };
+
+                var result = _affiliateService.Update(criteria);
+                if (result != null && result.IsSuccessful)
+                {
+                    ViewBag.Success = true;
+                    ViewBag.PartnerID = criteria.PartnerID;
+                    actionResult.IsSuccess = true;
+                    actionResult.ResultMessage = ViewResources.ActionResult_UpdateAffiliateInfoSuccess;
+                }
+                else
+                {
+                    actionResult.IsSuccess = false;
+                    actionResult.ResultMessage = result != null ? result.Message : ViewResources.InternalErrorMessage;
+                }
             }
 
             return Json(actionResult, JsonRequestBehavior.AllowGet);
@@ -720,6 +734,27 @@ namespace Fanex.OddsFeed.Admin.Controllers
         #endregion Delete
 
         #region Common
+
+        private bool IsValidListOfIPs(string ipsFrom, string ipsTo)
+        {
+            uint totalIPs = 0;
+            var arrIpsFrom = ipsFrom.Split(',');
+            var arrIpsTo = ipsTo.Split(',');
+
+            var config = baseService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "Config" }, false);
+            var maxNumOfIPs = Converter.ToInt(config.Where(m => m.Text == "MaximumNumberOfIPs").ToList()[0].Value, 0);
+
+            for (int i = 0; i < arrIpsFrom.Length; i++)
+            {
+                var ipFrom = Utilities.ConvertIPToUint(arrIpsFrom[i]);
+                var ipTo = Utilities.ConvertIPToUint(arrIpsTo[i]);
+
+                if(ipTo > 0 && ipFrom > 0)
+                    totalIPs += ipTo - ipFrom + 1;
+            }
+
+            return totalIPs <= maxNumOfIPs;
+        }
 
         /// <summary>
         /// Customize data before inserting an affiliate.
