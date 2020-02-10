@@ -89,6 +89,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
             //// Config
             var config = _licenseeService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "Config" }, false);
             ViewBag.DelayTimeList = GenerateDelayTime(config);
+            ViewBag.NumberOfIPs = GetMaxNumberOfIPsFromConfig(config);
 
             ////Domain
             ViewBag.DomainList = _licenseeService.GetSelectList(new GetAllDomainCriteria

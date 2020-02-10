@@ -122,10 +122,7 @@
         
         public static DateTime FirstDayOfWeek(DateTime dayInWeek, CultureInfo cultureInfo = null)
         {
-            if (cultureInfo == null)
-            {
-                cultureInfo = CultureInfo.CurrentCulture;
-            }
+            cultureInfo = cultureInfo ?? CultureInfo.CurrentCulture;
 
             var firstDay = cultureInfo.DateTimeFormat.FirstDayOfWeek;
             var firstDayInWeek = dayInWeek.Date;

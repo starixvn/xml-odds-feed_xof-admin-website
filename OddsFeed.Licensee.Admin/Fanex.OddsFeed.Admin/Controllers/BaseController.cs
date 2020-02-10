@@ -217,6 +217,11 @@ namespace Fanex.OddsFeed.Admin.Controllers
             return delayTimeList;
         }
 
+        public int GetMaxNumberOfIPsFromConfig(IEnumerable<SelectListItem> config)
+        {
+            return Converter.ToInt(config.Where(m => m.Text == "MaximumNumberOfIPs").ToList()[0].Value, 0);
+        }
+
         public int GetMaxNumberOfIPs()
         {
             var config = baseService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "Config" }, false);

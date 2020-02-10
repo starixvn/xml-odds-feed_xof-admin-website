@@ -131,13 +131,18 @@
     </div>
     <div id="step2" class="step hide">
         <h2>
-            Step 2: Authentication Settings</h2>
+            Step 2: Authentication Settings
+        </h2>
         <h3>
             Each affiliate can only access our XML Odds Feeds data under allowed list of domains
             and IPs
         </h3>
         <h3>
-            @Html.Raw(ViewResources.HtmlTemplate_InputRequired)</h3>
+            @Html.Raw(ViewResources.HtmlTemplate_InputRequired)
+        </h3>
+        <h3 id="errorStep2_NumberOfIPs">
+            Maximum number of IPs = @ViewBag.NumberOfIPs
+        </h3>
         <div id="errorStep2" class="validation-summary-errors hidden" data-valmsg-summary="true">
         </div>
         <div class="form2" style="width: auto;">
@@ -199,22 +204,27 @@
             <div id="IpDiv" class="row2" style="margin-top: 35px;">
                 <div class="grid2" style="line-height: 70px; text-align: center">
                     <label for="id2">
-                        @ViewResources.IP</label></div>
+                        @ViewResources.IP
+                    </label>
+                </div>
                 <div class="grid8">
                     <table id="IpTable" style="width: 100%">
                         <thead>
                             <tr>
                                 <th style="width: 40%">
                                     <label style="text-align: center">
-                                        @ViewResources.IPFrom</label>
+                                        @ViewResources.IPFrom
+                                    </label>
                                 </th>
                                 <th style="width: 40%">
                                     <label style="text-align: center">
-                                        @ViewResources.IPTo</label>
+                                        @ViewResources.IPTo
+                                    </label>
                                 </th>
                                 <th style="width: 10%">
                                     <label style="text-align: center">
-                                        @ViewResources.Action</label>
+                                        @ViewResources.Action
+                                    </label>
                                     <span id="addNewIP" title="Add" class="action addnew"></span>
                                 </th>
                             </tr>
@@ -230,7 +240,7 @@
                                 <td>
                                     @* <span style="padding-left: 54px"></span><span class="action save" onclick="SaveIPSetting(this)">
                                     </span>*@ <span style="padding-left: 30px"></span><span title="Delete" class="action del"
-                                        onclick="removeRowTemporary(this);"></span>
+                                                                                            onclick="removeRowTemporary(this);"></span>
                                 </td>
                             </tr>
                         </tbody>
