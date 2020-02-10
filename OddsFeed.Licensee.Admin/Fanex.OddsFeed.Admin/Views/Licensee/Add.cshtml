@@ -336,6 +336,10 @@
                     border-color: #C8C8C8; overflow: scroll">
                     @Html.CheckBoxDropDownListFor(m => m.SportIDList, ViewBag.MinorSportList as IEnumerable<SelectListItem>, new { @Class = "chkMinorSport" }, false)
                 </div>
+                <div class="grid3" style="line-height: 170px; text-align: left">
+                    @Html.CheckBoxFor(m => m.SportIDListFlag)
+                    @Html.LabelFor(m => m.SportIDListFlag, "Editable", new { @Class = "font-normal" })
+                </div>
                 <div class="grid1" style="line-height: 170px;">
                     @Html.Raw(ViewResources.HtmlTemplate_InputRequiredSymbol)
                 </div>
