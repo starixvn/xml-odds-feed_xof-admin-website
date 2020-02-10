@@ -4,11 +4,11 @@
     CheckBoxListEvent('chkAllMajorSports', 'chkMajorSport', true, GetLeagueOutright, 'formLicensee', "League", 'Outrights');
     CheckBoxListEventWithConfirm('chkAllMinorSports', 'chkMinorSport', undefined, GetLeagueOutright, 'formLicensee', "League", 'Outrights');
 
-    //    //Country checkboxes
+    //Country checkboxes
     CheckBoxListEvent('chkAllCountries', 'chkCountry', undefined, GetLeagueOutright, 'formLicensee', "League", 'Outrights');
 
-    //    //Market checkboxes
-    CheckBoxListEvent('chkAllMajorMarkets', 'chkMajorMarket', false);
+    //Market checkboxes
+    CheckBoxListEvent('chkAllMajorMarkets', 'chkMajorMarket', true);
     CheckBoxListEventWithConfirm('chkAllMinorMarkets', 'chkMinorMarket', false);
 
     //hide market options
