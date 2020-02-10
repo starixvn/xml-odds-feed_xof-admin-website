@@ -1,7 +1,7 @@
 ﻿$(document).ready(function () {
     $("#errorStep3").addClass("hidden");
     //Sport checkboxes
-    CheckBoxListEvent('chkAllMajorSports', 'chkMajorSport', undefined, GetLeagueOutright, 'formLicensee', "League", 'Outrights');
+    CheckBoxListEvent('chkAllMajorSports', 'chkMajorSport', true, GetLeagueOutright, 'formLicensee', "League", 'Outrights');
     CheckBoxListEventWithConfirm('chkAllMinorSports', 'chkMinorSport', undefined, GetLeagueOutright, 'formLicensee', "League", 'Outrights');
 
     //    //Country checkboxes
