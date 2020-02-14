@@ -266,6 +266,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
             });
 
             ViewBag.SelectedDomainList = selectedDomains;
+            ViewBag.NumberOfIPs = GetMaxNumberOfIPs();
             ViewBag.DomainList = _licenseeService.GetSelectList(new GetAllDomainCriteria
             {
                 SystemID = 0,

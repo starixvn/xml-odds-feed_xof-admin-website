@@ -3,6 +3,8 @@
     showingDomainList();
     var listIPFrom = $('#ListIPFrom').val();
     var listIPTo = $('#ListIPTo').val();
+    $("#errorStep2_NumberOfIPs").removeClass("validation-summary-errors");
+    $('#IpTable').removeClass('error');
 
     if (!(listIPFrom == "" || listIPFrom == undefined || listIPTo == "" || listIPTo == undefined)) {
         $('#IpTable').find('tbody').find('tr').remove();
