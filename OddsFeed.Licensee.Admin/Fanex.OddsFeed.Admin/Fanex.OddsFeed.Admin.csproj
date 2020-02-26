@@ -322,7 +322,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="App_Themes\Default\960.css" />
-    <Content Include="App_Themes\Default\account.css" />
     <Content Include="App_Themes\Default\Administrator\Administrator.css" />
     <Content Include="App_Themes\Default\Affiliate\AffiliateEdit.css" />
     <Content Include="App_Themes\Default\Dashboard\Dashboard.css" />
@@ -351,15 +350,7 @@
     <Content Include="App_Themes\Default\Images\view-btn.png" />
     <Content Include="App_Themes\Default\Images\view-xml-urls.png" />
     <Content Include="App_Themes\Default\Licensee\LicenseeEdit.css" />
-    <Content Include="App_Themes\Default\criteriapanel.css" />
-    <Content Include="App_Themes\Default\employee.create.css" />
-    <Content Include="App_Themes\Default\employee.defaultschedule.css" />
-    <Content Include="App_Themes\Default\employee.detail.css" />
-    <Content Include="App_Themes\Default\employee.edit.css" />
-    <Content Include="App_Themes\Default\employee.monthschedule.css" />
-    <Content Include="App_Themes\Default\fixtable.css" />
     <Content Include="App_Themes\Default\font.css" />
-    <Content Include="App_Themes\Default\fullcalendar.css" />
     <Content Include="App_Themes\Default\home.css" />
     <Content Include="App_Themes\Default\Images\action-ico.png" />
     <Content Include="App_Themes\Default\Images\ajax-loader.gif" />
@@ -484,20 +475,6 @@
     <Content Include="App_Themes\Default\jquery.fixedheadertable.css" />
     <Content Include="App_Themes\Default\jquery.fixedheadertable.theme.css" />
     <Content Include="App_Themes\Default\login.css" />
-    <Content Include="App_Themes\Default\memo.details.css" />
-    <Content Include="App_Themes\Default\memo.edit.css" />
-    <Content Include="App_Themes\Default\menu.css" />
-    <Content Include="App_Themes\Default\mgr.requests.css" />
-    <Content Include="App_Themes\Default\monPickr-0.0.3.css" />
-    <Content Include="App_Themes\Default\myrequest.css" />
-    <Content Include="App_Themes\Default\report.attendance.css" />
-    <Content Include="App_Themes\Default\report.requestmonitoring.css" />
-    <Content Include="App_Themes\Default\report.timesheet.css" />
-    <Content Include="App_Themes\Default\report.totalworkinghours.css" />
-    <Content Include="App_Themes\Default\request.changeshift.css" />
-    <Content Include="App_Themes\Default\request.checkinout.css" />
-    <Content Include="App_Themes\Default\request.css" />
-    <Content Include="App_Themes\Default\request.leave.css" />
     <Content Include="App_Themes\Default\site.css" />
     <Content Include="App_Themes\Default\style.css" />
     <Content Include="App_Themes\Default\table.css" />
@@ -529,8 +506,6 @@
     <Content Include="App_Themes\Default\themes\base\jquery.ui.slider.css" />
     <Content Include="App_Themes\Default\themes\base\jquery.ui.tabs.css" />
     <Content Include="App_Themes\Default\themes\base\jquery.ui.theme.css" />
-    <Content Include="App_Themes\Default\tinymce.css" />
-    <Content Include="App_Themes\Default\workingcalendars.css" />
     <Content Include="Scripts\Affiliate\EditAffiliateInfo.js" />
     <Content Include="Scripts\Dashboard\Dashboard.js" />
     <Content Include="Scripts\Fanex.Grid\Copy of Fanex.Grid.js" />

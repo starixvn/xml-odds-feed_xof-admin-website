@@ -9,23 +9,11 @@
 
 namespace Fanex.OddsFeed.Core.Web.Attribute
 {
-    using Fanex.OddsFeed.Core;
     using System.Web.Mvc;
     using System.Web.Routing;
 
-    /// <summary>
-    /// Class IsUnderMaintenanceAttribute.
-    /// </summary>    
     public class IsUnderMaintainanceAttribute : ActionFilterAttribute
     {
-        public IsUnderMaintainanceAttribute()
-        {
-        }
-
-        /// <summary>
-        /// Called by the ASP.NET MVC framework before the action method executes.
-        /// </summary>
-        /// <param name="filterContext">The filter context.</param>
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             var startTime = string.Empty;
@@ -34,13 +22,13 @@ namespace Fanex.OddsFeed.Core.Web.Attribute
             if (Utilities.GetDownTime(out startTime, out endTime))
             {
                 filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(
-                                                                                                                    new
-                                                                                                                    {
-                                                                                                                        action = "UnderMaintainance",
-                                                                                                                        controller = "Tolerance",
-                                                                                                                        timeFrom = startTime,
-                                                                                                                        timeTo = endTime
-                                                                                                                    }));
+                new
+                {
+                    action = "UnderMaintainance",
+                    controller = "Tolerance",
+                    timeFrom = startTime,
+                    timeTo = endTime
+                }));
             }
         }
     }

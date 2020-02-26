@@ -26,69 +26,41 @@ namespace Fanex.OddsFeed.Admin.Controllers
     using Fanex.OddsFeed.Core.Web;
     using Fanex.OddsFeed.Core.Web.Attribute;
 
-    /// <summary>
-    /// Class AffiliateController.
-    /// </summary>
     [IsAuthorize]
-    ////[SuppressMessage(
-    ////     "StyleCop.CSharp.StylecopPlus.Rules",
-    ////     "SP2101:MethodMustNotContainMoreLinesThan",
-    ////     Justification = "Reviewed. Suppression is OK here.")]
     public class AffiliateController : BaseController
     {
         private const string MajorGroup = "Major";
         private const string MinorGroup = "Minor";
-        private const string OddsRegion = "OddsRegion";
-        private const string NumberOfIPs = "NumberOfIPs";
+        private const string OddsRegionColumn = "OddsRegion";
+        private const string NumberOfIPsColumn = "NumberOfIPs";
 
         #region Members
 
-        /// <summary>
-        /// The _affiliate service.
-        /// </summary>
         private readonly IAffiliateService _affiliateService;
 
-        /// <summary>
-        /// The _licensee service.
-        /// </summary>
         private readonly ILicenseeService _licenseeService;
 
         #endregion Members
 
         #region Constructors
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AffiliateController"/> class.
-        /// </summary>
         public AffiliateController()
             : this(null, null, null)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AffiliateController"/> class.
-        /// </summary>
-        /// <param name="affiliateService">The affiliate service.</param>
-        /// <param name="userService">The user service.</param>
-        /// <param name="licenseeService">The licensee service.</param>
         public AffiliateController(
                                         IAffiliateService affiliateService,
                                         IUserService userService,
                                         ILicenseeService licenseeService)
         {
             _affiliateService = affiliateService ?? new AffiliateService { ServiceContext = ServiceContext };
-            ////_userService = userService ?? new UserService();
             _licenseeService = licenseeService ?? new LicenseeService { ServiceContext = ServiceContext };
         }
 
         #endregion Constructors
 
         #region Add New
-
-        /// <summary>
-        /// Display the adding affiliate page.
-        /// </summary>
-        /// <returns>The page for adding affiliate.</returns>
         [HttpGet]
         public ActionResult Add()
         {
@@ -106,7 +78,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
             if (licenseeProfile != null && licenseeProfile.Tables.Count > 0 && licenseeProfile.Tables[0].Rows.Count > 0)
             {
                 var row = licenseeProfile.Tables[0].Rows[0];
-                criteria.OddsRegion = row["OddsRegion"].ToString();
+                criteria.OddsRegion = row[OddsRegionColumn].ToString();
                 criteria.NumberOfIPs = (short)row["NumberOfIPs"];
                 ////Delay Times
                 var delayTimes = row["DelayTimes"].ToString().Split(',');
@@ -126,7 +98,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
             }
             else
             {
-                ////Sub-Acc
                 AddAffiliateWithSubAccountRole();
             }
 
@@ -460,7 +431,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
             {
                 var row = affiliateProfile.Tables[0].Rows[0];
                 criteria.OddsType = row["OddsType"].ToString();
-                criteria.OddsRegion = row["OddsRegion"].ToString();
+                criteria.OddsRegion = row[OddsRegionColumn].ToString();
                 criteria.LanguageList = row["LanguageList"].ToString();
                 criteria.SportIDList = row["SportIDList"].ToString();
                 criteria.CountryCodeList = row["CountryCodeList"].ToString();
@@ -750,7 +721,9 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 var ipTo = Utilities.ConvertIPToUint(arrIpsTo[i]);
 
                 if(ipTo > 0 && ipFrom > 0)
+                {
                     totalIPs += ipTo - ipFrom + 1;
+                }
             }
 
             return totalIPs <= maxNumOfIPs;

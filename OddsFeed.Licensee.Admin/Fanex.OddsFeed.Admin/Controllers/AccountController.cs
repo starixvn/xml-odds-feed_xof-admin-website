@@ -10,12 +10,9 @@
 namespace Fanex.OddsFeed.Admin.Controllers
 {
     using System.Web.Mvc;
-    using App_Start;
 
     public class AccountController : Controller
     {
-        //// GET: /Account/
-
         public ActionResult Index()
         {
             return View();
