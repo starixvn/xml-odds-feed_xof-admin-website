@@ -13,11 +13,11 @@
 @section Styles
 {
     <link rel="Stylesheet" type="text/css" href="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/App_Themes/Default/Licensee/LicenseeCss")" />
-    <link rel="Stylesheet" type="text/css" href="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/App_Themes/Default/Functions/ListLicensee/ListLicenseeCss")" />
+    <link rel="Stylesheet" type="text/css" href="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/App_Themes/Default/Affiliate/AffiliateCss")" />
 }
 @section Scripts
 {
-    <script type="text/javascript" src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/Scripts/Functions/ListLicensee/AddLicenseeJs")" ></script>
+    <script type="text/javascript" src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/Scripts/Functions/ListLicensee/AddLicenseeJs")"></script>
     <script type="text/javascript">
         var viewResources = {
             Error_LicenseeNameContent: '@ViewResources.Error_LicenseeNameContent',
@@ -25,7 +25,7 @@
             Error_LicenseeNameLength: '@ViewResources.Error_LicenseeNameLength',
             Error_Licensee_Existed: '@ViewResources.Error_Licensee_Existed',
             Error_EmailRequired: '@ViewResources.Error_EmailRequired',
-            Error_EmailContent: '@ViewResources.Error_EmailContent',            
+            Error_EmailContent: '@ViewResources.Error_EmailContent',
             Error_Require_OddType: '@ViewResources.Error_Require_OddType',
             Error_Require_Deadball_or_Outright: '@ViewResources.Error_Require_Deadball_or_Outright',
             Error_Require_Language: '@ViewResources.Error_Require_Language',
@@ -35,41 +35,58 @@
             Error_Require_League: '@ViewResources.Error_Require_League',
             Error_Require_Outright: '@ViewResources.Error_Require_Outright',
             Error_Require_NumberOfIPs: '@ViewResources.Error_Require_NumberOfIPs',
-            MaximumNumberOfIPs: '@ViewResources.MaximumNumberOfIPs'             
+            MaximumNumberOfIPs: '@ViewResources.MaximumNumberOfIPs'
         };
     </script>
 }
 <div class="infor">
-    <span class="infor-ic">&nbsp;</span><span class="infor-text">The wizard will help you
-        to create a new licensee in your licensee system.</span></div>
+    <span class="infor-ic">&nbsp;</span><span class="infor-text">
+        The wizard will help you
+        to create a new licensee in your licensee system.
+    </span>
+</div>
 <div class="newline">
-    &nbsp;</div>
+    &nbsp;
+</div>
 <div class="result-message-box hidden">
 </div>
 <div class="step-reg">
     <div id="panelStep1" class="step-active licensee-info-settings">
-        <span class="firstLetter">1</span><span class="normal">Licensee<br />
-            Information Settings</span></div>
+        <span class="firstLetter">1</span><span class="normal">
+            Licensee<br />
+            Information Settings
+        </span>
+    </div>
     <div id="panelStep2" class="step-inactive">
-        <span class="firstLetter">2</span><span class="normal">Authentication<br />
-            Settings</span></div>
+        <span class="firstLetter">2</span><span class="normal">
+            Authentication<br />
+            Settings
+        </span>
+    </div>
     <div id="panelStep3" class="step-inactive">
-        <span class="firstLetter">3</span><span class="normal">Odds Profile<br />
-            Settings</span></div>
+        <span class="firstLetter">3</span><span class="normal">
+            Odds Profile<br />
+            Settings
+        </span>
+    </div>
 </div>
 <div class="newline">
-    &nbsp;</div>
+    &nbsp;
+</div>
 @using (Html.BeginForm("Home", "Index", FormMethod.Post, new { id = "formLicensee" }))
 {
     <div id="step1" class="step">
         <h2>
-            Step 1: Licensee Information Settings</h2>
+            Step 1: Licensee Information Settings
+        </h2>
         <h3>
-            @Html.Raw(ViewResources.HtmlTemplate_InputRequireds)</h3>
+            @Html.Raw(ViewResources.HtmlTemplate_InputRequireds)
+        </h3>
         <div id="errorStep1" class="validation-summary-errors hidden" data-valmsg-summary="true">
         </div>
         <div class="newline">
-            &nbsp;</div>
+            &nbsp;
+        </div>
         <div class="form" style="width: auto;">
             <div class="row licensee-name">
                 <div class="grid3">
@@ -239,8 +256,8 @@
                                 </td>
                                 <td>
                                     @* <span style="padding-left: 54px"></span><span class="action save" onclick="SaveIPSetting(this)">
-                                    </span>*@ <span style="padding-left: 30px"></span><span title="Delete" class="action del"
-                                                                                            onclick="removeRowTemporary(this);"></span>
+                                        </span>*@ <span style="padding-left: 30px"></span><span title="Delete" class="action del"
+                                                                                                onclick="removeRowTemporary(this);"></span>
                                 </td>
                             </tr>
                         </tbody>
@@ -266,12 +283,15 @@
     </div>
     <div id="step3" class="step hide">
         <h2>
-            Step 3: Odds Profile Settings</h2>
+            Step 3: Odds Profile Settings
+        </h2>
         <h3>
             Odds profile will show which data (sports, markets, ...) affiliate should have in
-            their xml stream.</h3>
+            their xml stream.
+        </h3>
         <h3>
-            @Html.Raw(ViewResources.HtmlTemplate_InputRequireds)</h3>
+            @Html.Raw(ViewResources.HtmlTemplate_InputRequireds)
+        </h3>
         <div id="errorStep3" class="validation-summary-errors" data-valmsg-summary="true">
         </div>
         <div class="form2" style="width: auto;">
@@ -309,9 +329,9 @@
                     @Html.LabelFor(m => m.NumberOfIPs, "Number of IPs")
                 </div>
                 @Html.TextBoxFor(m => m.NumberOfIPs, new { @style = "width: 50px", @min = 0 })
-                 <div class="grid1" style="float: none;">
-                @Html.Raw(ViewResources.HtmlTemplate_InputRequiredSymbol)
-            </div>
+                <div class="grid1" style="float: none;">
+                    @Html.Raw(ViewResources.HtmlTemplate_InputRequiredSymbol)
+                </div>
             </div>
             <div class="row">
                 <div class="grid4" style="text-align: right">
@@ -342,9 +362,14 @@
                         @ViewResources.MinorSports
                     </label><input type="checkbox" id="chkAllMinorSports" />
                 </div>
-                <div class="grid7" style="text-align: left; border-style: solid; border-width: 1px;
-                    border-color: #C8C8C8; overflow: scroll">
-                    @Html.CheckBoxDropDownListFor(m => m.SportIDList, ViewBag.MinorSportList as IEnumerable<SelectListItem>, new { @Class = "chkMinorSport" }, false)
+                <div class="grid7">
+                    <div class="checkbox-filter">
+                        <label>Search </label>
+                        <input id="minorSport-filter" />
+                    </div>
+                    <div class="grid7 checkbox-list">
+                        @Html.CheckBoxDropDownListFor(m => m.SportIDList, ViewBag.MinorSportList as IEnumerable<SelectListItem>, new { @Class = "chkMinorSport" }, false)
+                    </div>
                 </div>
                 <div class="grid3" style="line-height: 170px; text-align: left">
                     @Html.CheckBoxFor(m => m.SportIDListFlag)
@@ -359,9 +384,15 @@
                     @Html.LabelFor(m => m.CountryCodeList, "Countries", new { @for = "chkAllCountries" })
                     <input type="checkbox" id="chkAllCountries" />
                 </div>
-                <div class="grid7 checkbox-list">
-                    @Html.CheckBoxDropDownList("chkCountry", (IEnumerable<SelectListItem>)ViewBag.CountriesList, new { @class = "chkCountry" }, false)
-                    @Html.HiddenFor(m => m.CountryCodeList)
+                <div class="grid7">
+                    <div class="checkbox-filter">
+                        <label>Search </label>
+                        <input id="country-filter" />
+                    </div>
+                    <div class="grid7 checkbox-list">
+                        @Html.CheckBoxDropDownListFor(m => m.CountryCodeList, (IEnumerable<SelectListItem>)ViewBag.CountriesList, new { @class = "chkCountry" }, false)
+                        @Html.HiddenFor(m => m.CountryCodeList)
+                    </div>
                 </div>
                 <div class="grid3" style="line-height: 170px; text-align: left">
                     @Html.CheckBoxFor(m => m.CountryCodeListFlag)
@@ -382,7 +413,7 @@
                LeagueKeywordFlag = Model.LeagueKeywordFlag
            })
             </div>
-            <div id="Outrights" class="row3">
+            <div id="Outrights" class="row3" style="max-height: 210px">
                 @Html.Partial("_OutrightPartialView", new GetOutRightCriteria()
            {
                SportIDList = Model.SportIDList,
@@ -399,18 +430,28 @@
                         @ViewResources.MajorMarkets
                     </label><input type="checkbox" id="chkAllMajorMarkets" />
                 </div>
-                <div class="grid7" style="text-align: left; border-style: solid; border-width: 1px;
-                    border-color: #C8C8C8; overflow: scroll">
-                    @Html.CheckBoxDropDownListFor(m => m.BetTypeIDList, ViewBag.MajorBettypesList as IEnumerable<SelectListItem>, new { @Class = "chkMajorMarket" }, false)
+                <div class="grid7">
+                    <div class="checkbox-filter">
+                        <label>Search </label>
+                        <input id="majormarket-filter" />
+                    </div>
+                    <div class="grid7 checkbox-list">
+                        @Html.CheckBoxDropDownListFor(m => m.BetTypeIDList, ViewBag.MajorBettypesList as IEnumerable<SelectListItem>, new { @Class = "chkMajorMarket" }, false)
+                    </div>
                 </div>
                 <div class="grid4" style="line-height: 170px; text-align: right">
                     <label for="chkAllMinorMarkets">
                         @ViewResources.MinorMarkets
                     </label><input type="checkbox" id="chkAllMinorMarkets" />
                 </div>
-                <div class="grid7" style="text-align: left; border-style: solid; border-width: 1px;
-                    border-color: #C8C8C8; overflow: scroll">
-                    @Html.CheckBoxDropDownListFor(m => m.BetTypeIDList, ViewBag.MinorBettypesList as IEnumerable<SelectListItem>, new { @Class = "chkMinorMarket" }, false)
+                <div class="grid7">
+                    <div class="checkbox-filter">
+                        <label>Search </label>
+                        <input id="minorMarket-filter" />
+                    </div>
+                    <div class="grid7 checkbox-list">
+                        @Html.CheckBoxDropDownListFor(m => m.BetTypeIDList, ViewBag.MinorBettypesList as IEnumerable<SelectListItem>, new { @Class = "chkMinorMarket" }, false)
+                    </div>
                 </div>
                 <div class="grid3" style="line-height: 170px; text-align: left">
                     @Html.CheckBoxFor(m => m.BettypeIDListFlag)

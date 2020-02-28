@@ -227,3 +227,32 @@ select.request
 {
     margin-left:-25px;    
 }
+
+.checkbox-list {
+    background: #fff;
+    text-align: left; 
+    border-style: solid;
+    border-width: 1px; 
+    border-color: #C8C8C8;
+    overflow: scroll;
+    max-height: 210px;
+}
+
+.checkbox-filter {
+    text-align: left;
+    margin-left: 5px;
+    border-style: solid;
+    border-width: 1px 1px 0px 1px;
+    border-color: #C8C8C8;
+    padding: 5px;
+    vertical-align: middle;
+    width: 320px;
+}
+
+.row3 {
+    height: 250px;
+}
+
+.input-filter {
+    padding: 0 3px;
+}

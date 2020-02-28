@@ -5,7 +5,7 @@
     //ViewBag.LeagueList = ViewBag.LeagueList ?? new List<SelectListItem>();
     ViewBag.LeagueList = Model.ViewBagLeagueList ?? (ViewBag.LeagueList ?? new List<SelectListItem>());
 }
-<div class="grid4" style="height: 170px; text-align: right">
+<div class="grid4" style="height: 270px; text-align: right">
     <br />
     <br />
     <br />
@@ -17,9 +17,15 @@
     @*@Html.CheckBoxFor(m => m.LeagueKeywordFlag)
     @Html.LabelFor(m => m.LeagueKeywordFlag, "Editable", new { @Class = "font-normal" })*@
 </div>
-<div class="grid7 checkbox-list">
-    @Html.CheckBoxDropDownListFor(m => m.LeagueIDList, (IEnumerable<SelectListItem>)ViewBag.LeagueList, new { @class = "chkLeague" }, false)
-    @Html.HiddenFor(m => m.LeagueIDList)
+<div class="grid7">
+    <div class="checkbox-filter">
+        <label>Search </label>
+        <input id="league-filter" />
+    </div>
+    <div class="grid7 checkbox-list">
+        @Html.CheckBoxDropDownListFor(m => m.LeagueIDList, (IEnumerable<SelectListItem>)ViewBag.LeagueList, new { @class = "chkLeague" }, false)
+        @Html.HiddenFor(m => m.LeagueIDList)
+    </div>
 </div>
 @*<div class="grid3">
 </div>*@

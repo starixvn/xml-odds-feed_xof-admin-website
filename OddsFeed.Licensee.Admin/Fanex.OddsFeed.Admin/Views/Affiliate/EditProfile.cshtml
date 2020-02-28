@@ -149,9 +149,14 @@
                         @ViewResources.MinorSports
                     </label><input type="checkbox" id="chkAllMinorSports" isdisabled=@(ViewBag.SportsFlag ? "" : "disabled") />
                 </div>
-                <div class="grid7" style="text-align: left; border-style: solid; border-width: 1px;
-                    border-color: #C8C8C8; overflow: scroll">
-                    @Html.CheckBoxDropDownListFor(m => m.SportIDList, ViewBag.MinorSportList as IEnumerable<SelectListItem>, new { @Class = "chkMinorSport", @isDisabled = @ViewBag.SportsFlag ? "" : "disabled" }, false)
+                <div class="grid7">
+                    <div class="checkbox-filter">
+                        <label>Search </label>
+                        <input id="minorSport-filter" />
+                    </div>
+                    <div class="grid7 checkbox-list">
+                        @Html.CheckBoxDropDownListFor(m => m.SportIDList, ViewBag.MinorSportList as IEnumerable<SelectListItem>, new { @Class = "chkMinorSport" }, false)
+                    </div>
                 </div>
                 <div class="grid1" style="line-height: 150px; text-align: left">
                     @Html.Raw(ViewResources.HtmlTemplate_InputRequiredSymbol)
@@ -162,10 +167,15 @@
                     <label for="chkAllCountries">
                         @ViewResources.Countries</label><input type="checkbox" id="chkAllCountries" isdisabled = @(ViewBag.CountriesFlag ? "" : "disabled")  />
                 </div>
-                <div class="grid7" style="text-align: left; border-style: solid; border-width: 1px;
-                    border-color: #C8C8C8; overflow: scroll">
-                    @Html.CheckBoxDropDownListFor(m => m.CountryCodeList, ViewBag.CountriesList as IEnumerable<SelectListItem>, new { @Class = "chkCountry", @isDisabled = @ViewBag.CountriesFlag ? "" : "disabled" }, false)
-                    @Html.HiddenFor(m => m.CountryCodeList)
+                <div class="grid7">
+                    <div class="checkbox-filter">
+                        <label>Search </label>
+                        <input id="country-filter" />
+                    </div>
+                    <div class="grid7 checkbox-list">
+                        @Html.CheckBoxDropDownListFor(m => m.CountryCodeList, (IEnumerable<SelectListItem>)ViewBag.CountriesList, new { @class = "chkCountry" }, false)
+                        @Html.HiddenFor(m => m.CountryCodeList)
+                    </div>
                 </div>
                 <div class="grid1" style="line-height: 150px; text-align: left">
                     @Html.Raw(ViewResources.HtmlTemplate_InputRequiredSymbol)
@@ -183,7 +193,7 @@
                    ViewBagLeagueList = ViewBag.LeagueList
                })
                 </div>
-                <div id="Outrights" class="row3">
+                <div id="Outrights" class="row3" style="max-height: 210px">
                     @Html.Partial("_OutrightPartialView", new Fanex.OddsFeed.Core.Criteria.Licensee.GetOutRightCriteria()
                {
                    SportIDList = Model.SportIDList,
@@ -200,18 +210,28 @@
                     @ViewResources.MajorMarkets
                 </label><input type="checkbox" id="chkAllMajorMarkets" isdisabled=@(ViewBag.MarketsFlag ? "" : "disabled") />
             </div>
-            <div class="grid7" style="text-align: left; border-style: solid; border-width: 1px;
-                    border-color: #C8C8C8; overflow: scroll">
-                @Html.CheckBoxDropDownListFor(m => m.BetTypeIDList, ViewBag.MajorBettypesList as IEnumerable<SelectListItem>, new { @Class = "chkMajorMarket", @isDisabled = @ViewBag.MarketsFlag ? "" : "disabled" }, false)
+            <div class="grid7">
+                <div class="checkbox-filter">
+                    <label>Search </label>
+                    <input id="majormarket-filter" />
+                </div>
+                <div class="grid7 checkbox-list">
+                    @Html.CheckBoxDropDownListFor(m => m.BetTypeIDList, ViewBag.MajorBettypesList as IEnumerable<SelectListItem>, new { @Class = "chkMajorMarket" }, false)
+                </div>
             </div>
             <div class="grid4" style="line-height: 170px; text-align: right">
                 <label for="chkAllMinorMarkets">
                     @ViewResources.MinorMarkets
                 </label><input type="checkbox" id="chkAllMinorMarkets" isdisabled=@(ViewBag.MarketsFlag ? "" : "disabled") />
             </div>
-            <div class="grid7" style="text-align: left; border-style: solid; border-width: 1px;
-                    border-color: #C8C8C8; overflow: scroll">
-                @Html.CheckBoxDropDownListFor(m => m.BetTypeIDList, ViewBag.MinorBettypesList as IEnumerable<SelectListItem>, new { @Class = "chkMinorMarket", @isDisabled = @ViewBag.MarketsFlag ? "" : "disabled" }, false)
+            <div class="grid7">
+                <div class="checkbox-filter">
+                    <label>Search </label>
+                    <input id="minorMarket-filter" />
+                </div>
+                <div class="grid7 checkbox-list">
+                    @Html.CheckBoxDropDownListFor(m => m.BetTypeIDList, ViewBag.MinorBettypesList as IEnumerable<SelectListItem>, new { @Class = "chkMinorMarket" }, false)
+                </div>
             </div>
             <div class="grid1" style="line-height: 150px; text-align: left">
                 @Html.Raw(ViewResources.HtmlTemplate_InputRequiredSymbol)

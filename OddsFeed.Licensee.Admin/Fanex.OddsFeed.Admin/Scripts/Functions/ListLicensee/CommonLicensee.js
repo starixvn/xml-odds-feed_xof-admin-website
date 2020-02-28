@@ -31,11 +31,21 @@
     });
 
     $('#LeagueKeyword').keyup(function () {
-        return LeagueFilter($(this).val(), 'LeagueIDList');
+        return HightlightByKeyword($(this).val(), 'LeagueIDList');
     });
     $('#LeagueKeyword_O').keyup(function () {
-        return LeagueFilter($(this).val(), 'OutRightIDList');
+        return HightlightByKeyword($(this).val(), 'OutRightIDList');
     });
+
+    var filters = [
+        'minorSport-filter',
+        'country-filter',
+        'majormarket-filter',
+        'minorMarket-filter',
+        'league-filter'
+    ];
+
+    InitFilters(filters);
 });
 
 function ShowHideMarket(action) {
@@ -370,48 +380,6 @@ function CheckAllListEventWithConfirm(chkAll, chkItems, callback, paras) {
     });
 }
 
-//function GetLeagueOutright(sportItemList, countryItemList, leagueElement, outrightElement) {
-//    var sports = GetDropDownCheckBoxListValue(sportItemList);
-
-//    var countries = GetDropDownCheckBoxListValue(countryItemList);
-//    var league = GetDropDownCheckBoxListValue('chkLeague');
-//    $.ajax({
-//        url: 'GetLeague',
-//        type: 'POST',
-//        data: "SportIDList=" + sports + "&CountryCodeList= " + countries + "&LeagueKeyword=" + $('#LeagueKeyword').val() + "&LeagueKeywordFlag=" + $('#LeagueKeywordFlag').val() + "&LeagueIDList=" + league + "&LeagueIDListFlag=" + $('#LeagueIDListFlag').val(),
-//        dataType: 'html',
-//        cache: false,
-//        success: function (result) {
-//            $('#' + leagueElement).html(result);
-//            $('#LeagueKeyword').keyup(function () {
-//                return LeagueFilter($(this).val(), 'LeagueIDList');
-//            });
-
-//            CheckBoxListEvent('chkAllLeagues', 'chkLeague');
-//        },
-//        error: function (xhr, status, err) {
-//        }
-//    });
-
-//    $.ajax({
-//        url: 'GetOutRight',
-//        type: 'POST',
-//        data: "SportIDList=" + sports + "&CountryCodeList= " + countries,
-//        dataType: 'html',
-//        cache: false,
-//        success: function (result) {
-//            $('#' + outrightElement).html(result);
-//            $('#LeagueKeyword_O').keyup(function () {
-//                return LeagueFilter($(this).val(), 'OutRightIDList');
-//            });
-
-//            CheckBoxListEvent('chkAllOutrights', 'chkOutright');
-//        },
-//        error: function (xhr, status, err) {
-//        }
-//    });
-//}
-
 function GetLeagueOutright(formID, leagueElement, outrightElement) {
     var sportIdList = GetIdList('chkAllMajorSport', 'chkAllMinorSport', 'chkMajorSport', 'chkMinorSport', false);
     $('#SportIDList').val(sportIdList);
@@ -428,7 +396,12 @@ function GetLeagueOutright(formID, leagueElement, outrightElement) {
             $('#' + leagueElement).html(result);
             $('#LeagueKeyword').unbind("keyup");
             $('#LeagueKeyword').keyup(function () {
-                return LeagueFilter($(this).val(), 'LeagueIDList');
+                return HightlightByKeyword($(this).val(), 'LeagueIDList');
+            });
+
+            $('#league-filter').unbind("keyup");
+            $('#league-filter').keyup(function () {
+                return InitFilterSearchEvent($(this));
             });
 
             $('#LeagueKeyword').keyup();
@@ -447,11 +420,11 @@ function GetLeagueOutright(formID, leagueElement, outrightElement) {
         cache: false,
         success: function (result) {
             $('#' + outrightElement).html(result);
+
             $('#LeagueKeyword_O').unbind("keyup");
             $('#LeagueKeyword_O').keyup(function () {
-                return LeagueFilter($(this).val(), 'OutRightIDList');
+                return HightlightByKeyword($(this).val(), 'OutRightIDList');
             });
-
             $('#LeagueKeyword_O').keyup();
 
             CheckBoxListEvent('chkAllOutrights', 'chkOutright', true);
@@ -461,17 +434,40 @@ function GetLeagueOutright(formID, leagueElement, outrightElement) {
     });
 }
 
-function LeagueFilter(LeagueKeyword, prefix) {
+function HightlightByKeyword(LeagueKeyword, prefix) {
     $('label[for^="' + prefix + '"]').not($('label[for="' + prefix + 'Flag"]')).not($('label[for="' + prefix + '"]')).each(function () {
         if (LeagueKeyword == undefined || LeagueKeyword == "") {
             $(this).parent('div').css('color', 'black');
         } else {
             if ($(this).html().toLowerCase().indexOf(LeagueKeyword.toLowerCase()) != -1) {
                 $(this).parent('div').css('color', 'red');
-                //            $(this).parent('div').show();
             } else {
                 $(this).parent('div').css('color', 'black');
-                //            $(this).parent('div').hide();
+            }
+        }
+    });
+}
+
+function InitFilters(filters) {
+    filters.forEach(function (filter) {
+        $('#' + filter).keyup(function () {
+            return InitFilterSearchEvent($(this));
+        });
+    });
+}
+
+function InitFilterSearchEvent(filter) {
+    var keyword = filter.val();
+    var checkList = filter.parent('div').parent('div').find('.checkbox-list label');
+
+    checkList.each(function () {
+        if (keyword == undefined || keyword == '') {
+            $(this).parent('div').show()
+        } else {
+            if ($(this).html().toLowerCase().indexOf(keyword.toLowerCase()) != -1) {
+                $(this).parent('div').show()
+            } else {
+                $(this).parent('div').hide()
             }
         }
     });
