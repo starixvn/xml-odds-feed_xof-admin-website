@@ -25,14 +25,28 @@ namespace Fanex.OddsFeed.Admin.Controllers
     using Fanex.OddsFeed.Core.Service.Interface;
     using Fanex.OddsFeed.Core.Web;
     using Fanex.OddsFeed.Core.Web.Attribute;
+    using System.Diagnostics.CodeAnalysis;
 
+    [SuppressMessage("Major Code Smell", "S109:Magic numbers should not be used", Justification = "<Pending>")]
+    [SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex", Justification = "<Pending>")]
     [IsAuthorize]
     public class AffiliateController : BaseController
     {
         private const string MajorGroup = "Major";
         private const string MinorGroup = "Minor";
-        private const string OddsRegionColumn = "OddsRegion";
-        private const string NumberOfIPsColumn = "NumberOfIPs";
+        private const string URLPrefix = "http://";
+        private const string DefaultController = "Affiliate";
+        private const string OddsRegionSettingType = "OddsRegion";
+        private const string OddsTypeSettingType = "OddsType";
+        private const string OddsRegionCollumn = "OddsRegion";
+        private const string OddsTypeCollumn = "OddsType";
+        private const string NumberOfIpsCollumn = "NumberOfIPs";
+        private const string LanguageListFlagCollumn = "LanguageListFlag";
+        private const string CountryCodeListFlagCollumn = "CountryCodeListFlag";
+        private const string BettypeIDListFlagCollumn = "BettypeIDListFlag";
+        private const string SportIDListFlagCollumn = "SportIDListFlag";
+        private const string OddsTypeFlagCollumn = "OddsTypeFlag";
+        private const string OddsRegionFlagCollumn = "OddsRegionFlag";
 
         #region Members
 
@@ -61,6 +75,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
         #endregion Constructors
 
         #region Add New
+
         [HttpGet]
         public ActionResult Add()
         {
@@ -68,8 +83,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
             ViewBag.VirtualPath = GetVirtualPath();
 
             ////Domain
-            IEnumerable<SelectListItem> domainList = new List<SelectListItem>();
-            domainList = _affiliateService.GetDomain();
+            var domainList = _affiliateService.GetDomain();
             ViewData["slAssignedDomain"] = domainList;
             ViewData["slDomain"] = new List<SelectListItem>();
 
@@ -78,8 +92,8 @@ namespace Fanex.OddsFeed.Admin.Controllers
             if (licenseeProfile != null && licenseeProfile.Tables.Count > 0 && licenseeProfile.Tables[0].Rows.Count > 0)
             {
                 var row = licenseeProfile.Tables[0].Rows[0];
-                criteria.OddsRegion = row[OddsRegionColumn].ToString();
-                criteria.NumberOfIPs = (short)row["NumberOfIPs"];
+                criteria.OddsRegion = row[OddsRegionCollumn].ToString();
+                criteria.NumberOfIPs = (short)row[NumberOfIpsCollumn];
                 ////Delay Times
                 var delayTimes = row["DelayTimes"].ToString().Split(',');
                 criteria.DeadballDelayTimes = delayTimes.Length > 0 ? delayTimes[0] : "0";
@@ -104,18 +118,13 @@ namespace Fanex.OddsFeed.Admin.Controllers
             return View(criteria);
         }
 
-        /// <summary>
-        /// Add new an affiliate.
-        /// </summary>
-        /// <param name="criteria">The affiliate's criteria.</param>
-        /// <returns>Represents a JSON-formatted content for adding.</returns>
         [HttpPost]
         public JsonResult AddNew(InsertAffiliateCriteria criteria)
         {
             var actionResult = new OddsFeedActionResult();
             CustomizeDataBeforeAddNew(ref criteria);
 
-            if(IsValidListOfIPs(criteria.IpsFrom, criteria.IpsTo))
+            if (IsValidListOfIPs(criteria.IpsFrom, criteria.IpsTo))
             {
                 var result = _affiliateService.Insert(criteria);
                 if (result != null && result.IsSuccessful)
@@ -138,11 +147,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
             return Json(actionResult, JsonRequestBehavior.AllowGet);
         }
 
-        /// <summary>
-        /// Check exist an affiliate.
-        /// </summary>
-        /// <param name="criteria">The affiliate's criteria.</param>
-        /// <returns>Represents a JSON-formatted content for checking.</returns>
         [HttpPost]
         public JsonResult CheckExistAffiliate(InsertAffiliateCriteria criteria)
         {
@@ -174,18 +178,12 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
         #region Edit
 
-        /// <summary>
-        /// Display the affiliate info page for editing.
-        /// </summary>
-        /// <param name="id">The affiliate's id.</param>
-        /// <param name="userName">The affiliate's username.</param>
-        /// <returns>The page for editing the affiliate.</returns>
         [HttpGet]
         public ActionResult EditAffiliateInfo(int id, string userName)
         {
             if (id == 0)
             {
-                return RedirectToAction("List", "Affiliate");
+                return RedirectToAction("List", DefaultController);
             }
 
             var criteria = new UpdateAffiliateCriteria
@@ -216,11 +214,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
             return View(criteria);
         }
 
-        /// <summary>
-        /// Editing the affiliate's info.
-        /// </summary>
-        /// <param name="criteria">The affiliate's criteria.</param>
-        /// <returns>Represents a JSON-formatted content for editing.</returns>
         [HttpPost]
         public JsonResult EditAffiliateInfo(UpdateAffiliateCriteria criteria)
         {
@@ -248,18 +241,12 @@ namespace Fanex.OddsFeed.Admin.Controllers
             return Json(actionResult, JsonRequestBehavior.AllowGet);
         }
 
-        /// <summary>
-        /// Display the affiliate setting page for editing.
-        /// </summary>
-        /// <param name="id">The affiliate's id.</param>
-        /// <param name="name">The affiliate's name.</param>
-        /// <returns>The page for editing affiliate's setting.</returns>
         [HttpGet]
         public ActionResult EditSetting(int id, string name)
         {
             if (id == 0)
             {
-                return RedirectToAction("List", "Affiliate");
+                return RedirectToAction("List", DefaultController);
             }
 
             ViewBag.CurrentUser = " of \"" + name + "\"";
@@ -268,7 +255,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
             var affiliateProfile = _affiliateService.GetDataSet(new GetAffiliateProfileByIDCriteria { PartnerID = id });
             if (affiliateProfile != null && affiliateProfile.Tables.Count > 0 && affiliateProfile.Tables[0].Rows.Count > 0)
             {
-                ViewBag.NumberOfIPs = int.Parse(affiliateProfile.Tables[0].Rows[0]["NumberOfIPs"].ToString());
+                ViewBag.NumberOfIPs = int.Parse(affiliateProfile.Tables[0].Rows[0][NumberOfIpsCollumn].ToString());
             }
 
             ////Domain
@@ -280,20 +267,11 @@ namespace Fanex.OddsFeed.Admin.Controllers
             ViewData["slDomain"] = domainList;
 
             ////IP
-            IList<PartnerIP> listIPs = new List<PartnerIP>();
-            listIPs = _affiliateService.GetPartnerIpByAffId(id);
-            ViewBag.IpList = listIPs;
+            ViewBag.IpList = _affiliateService.GetPartnerIpByAffId(id);
 
             return View();
         }
 
-        /// <summary>
-        /// Editing the affiliate's setting.
-        /// </summary>
-        /// <param name="affId">The affiliate's id.</param>
-        /// <param name="domains">The list of domains.</param>
-        /// <param name="listIPs">The list of IP.</param>
-        /// <returns>Represents a JSON-formatted content for editing.</returns>
         [HttpPost]
         public JsonResult EditSetting(int affId, string domains, string listIPs)
         {
@@ -311,7 +289,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 }
             }
 
-            if(!IsValidListOfIPs(fromIPs.ToString(), toIPs.ToString()))
+            if (!IsValidListOfIPs(fromIPs.ToString(), toIPs.ToString()))
             {
                 actionResult.IsSuccess = false;
                 actionResult.ResultMessage = ViewResources.Error_InvalidInput;
@@ -344,15 +322,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
             return Json(actionResult, JsonRequestBehavior.AllowGet);
         }
 
-        /// <summary>
-        /// Editing the affiliate's IP.
-        /// </summary>
-        /// <param name="affId">The affiliate's id.</param>
-        /// <param name="fromIP">The IP from.</param>
-        /// <param name="toIP">The IP to.</param>
-        /// <param name="fromIPOld">The old IP from.</param>
-        /// <param name="toIPOld">The old IP to.</param>
-        /// <returns>Return "Successfully!" if success else return the error message.</returns>
         [HttpPost]
         public string EditIPSetting(int affId, string fromIP, string toIP, string fromIPOld, string toIPOld)
         {
@@ -378,11 +347,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
             }
         }
 
-        /// <summary>
-        /// Editing the affiliate's IP range.
-        /// </summary>
-        /// <param name="criteria">The affiliate's IP range criteria.</param>
-        /// <returns>Represents a JSON-formatted content for editing.</returns>
         [HttpPost]
         public JsonResult DeleteIPRange_EditSetting_Partner(DeleteSettingIP_AffiliateCriteria criteria)
         {
@@ -408,18 +372,12 @@ namespace Fanex.OddsFeed.Admin.Controllers
             return Json(deleteResult, JsonRequestBehavior.AllowGet);
         }
 
-        /// <summary>
-        /// Display the affiliate's profile for editing.
-        /// </summary>
-        /// <param name="id">The affiliate's id.</param>
-        /// <param name="name">The affiliate's name.</param>
-        /// <returns>The page for editing.</returns>
         [HttpGet]
         public ActionResult EditProfile(int id, string name)
         {
             if (id == 0)
             {
-                return RedirectToAction("List", "Affiliate");
+                return RedirectToAction("List", DefaultController);
             }
 
             var criteria = new UpdateProfileCriteria { PartnerID = id };
@@ -430,8 +388,8 @@ namespace Fanex.OddsFeed.Admin.Controllers
             if (affiliateProfile != null && affiliateProfile.Tables.Count > 0 && affiliateProfile.Tables[0].Rows.Count > 0)
             {
                 var row = affiliateProfile.Tables[0].Rows[0];
-                criteria.OddsType = row["OddsType"].ToString();
-                criteria.OddsRegion = row[OddsRegionColumn].ToString();
+                criteria.OddsType = row[OddsTypeCollumn].ToString();
+                criteria.OddsRegion = row[OddsRegionCollumn].ToString();
                 criteria.LanguageList = row["LanguageList"].ToString();
                 criteria.SportIDList = row["SportIDList"].ToString();
                 criteria.CountryCodeList = row["CountryCodeList"].ToString();
@@ -456,11 +414,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
             return View(criteria);
         }
 
-        /// <summary>
-        /// Editing the affiliate's profile.
-        /// </summary>
-        /// <param name="criteria">The affiliate's criteria.</param>
-        /// <returns>Represents a JSON-formatted content for editing.</returns>
         [HttpPost]
         public JsonResult EditProfile(UpdateProfileCriteria criteria)
         {
@@ -522,11 +475,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
             return View("AffiliateList");
         }
 
-        /// <summary>
-        /// Display the list of affiliates.
-        /// </summary>
-        /// <param name="criteria">The criteria for displaying.</param>
-        /// <returns>Represents a JSON-formatted content for displaying.</returns>
         [Compress]
         public JsonResult GetAffiliateList(GetAffiliateByNameCriteria criteria)
         {
@@ -586,19 +534,14 @@ namespace Fanex.OddsFeed.Admin.Controllers
             return View("AffiliateRequest", new RequestStatisticCriteria());
         }
 
-        /// <summary>
-        /// Display the request statistic of affiliate.
-        /// </summary>
-        /// <param name="criteria">The request statistic criteria.</param>
-        /// <returns>Represents a JSON-formatted content of request statistic.</returns>
         public JsonResult GetPartnerRequestStatistic(RequestStatisticCriteria criteria)
         {
-            if (string.IsNullOrEmpty(criteria.PartnerName) || criteria.PartnerName.ToLower() == ViewResources.Affiliate_Name.ToLower())
+            if (string.IsNullOrEmpty(criteria.PartnerName) || criteria.PartnerName.ToLowerInvariant() == ViewResources.Affiliate_Name.ToLowerInvariant())
             {
                 criteria.PartnerName = string.Empty;
             }
 
-            if (string.IsNullOrEmpty(criteria.DomainName) || criteria.DomainName.ToLower() == ViewResources.Domain_Name.ToLower())
+            if (string.IsNullOrEmpty(criteria.DomainName) || criteria.DomainName.ToLowerInvariant() == ViewResources.Domain_Name.ToLowerInvariant())
             {
                 criteria.DomainName = string.Empty;
             }
@@ -611,18 +554,12 @@ namespace Fanex.OddsFeed.Admin.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        /// <summary>
-        /// Display xml URLs of affiliate.
-        /// </summary>
-        /// <param name="id">The affiliate's id.</param>
-        /// <param name="name">The affiliate's name.</param>
-        /// <returns>The xml URLs page.</returns>
         [HttpGet]
         public ActionResult ViewXMLURLs_Edit(int id, string name)
         {
             if (id == 0)
             {
-                return RedirectToAction("List", "Affiliate");
+                return RedirectToAction("List", DefaultController);
             }
 
             ViewBag.CurrentUser = " for \"" + name + "\"";
@@ -631,54 +568,31 @@ namespace Fanex.OddsFeed.Admin.Controllers
             return View();
         }
 
-        /// <summary>
-        /// Gets the XML odds feed link.
-        /// </summary>
-        /// <param name="domainURL">The domain URL.</param>
-        /// <param name="affiliateName">Name of the affiliate.</param>
-        /// <returns>The XML odds feed link. </returns>
         public string GetXMLOddsFeedLink(string domainURL, string affiliateName)
         {
             return string.IsNullOrEmpty(domainURL) ?
                 string.Empty :
-                "http://" + domainURL.Replace("http://", string.Empty) + "/" + GetVirtualPath() + affiliateName + "/odds.xml";
+                URLPrefix + domainURL.Replace(URLPrefix, string.Empty) + "/" + GetVirtualPath() + affiliateName + "/odds.xml";
         }
 
-        /// <summary>
-        /// Gets the XML odds feed_ help link.
-        /// </summary>
-        /// <param name="domainURL">The domain URL.</param>
-        /// <param name="affiliateName">Name of the affiliate.</param>
-        /// <returns>The XML odds feed link. </returns>
         public string GetXMLOddsFeed_HelpLink(string domainURL, string affiliateName)
         {
             return string.IsNullOrEmpty(domainURL) ?
                 string.Empty :
-                "http://" + domainURL.Replace("http://", string.Empty) + "/" + GetVirtualPath() + affiliateName + "/help.htm";
+                URLPrefix + domainURL.Replace(URLPrefix, string.Empty) + "/" + GetVirtualPath() + affiliateName + "/help.htm";
         }
 
-        /// <summary>
-        /// Gets the XML odds feed link.
-        /// </summary>
-        /// <param name="domainURL">The domain URL.</param>
-        /// <param name="affiliateName">Name of the affiliate.</param>
-        /// <returns>The XML odds feed link. </returns>
         public string GetBetRadarLink(string domainURL, string affiliateName)
         {
             return string.IsNullOrEmpty(domainURL) ?
                 string.Empty :
-                "http://" + domainURL.Replace("http://", string.Empty) + "/" + GetVirtualPath() + affiliateName + "/oddsfeed.xml";
+                URLPrefix + domainURL.Replace(URLPrefix, string.Empty) + "/" + GetVirtualPath() + affiliateName + "/oddsfeed.xml";
         }
 
         #endregion Get
 
         #region Delete
 
-        /// <summary>
-        /// Delete the affiliate.
-        /// </summary>
-        /// <param name="affId">The affiliate's id.</param>
-        /// <returns>Return "Successfully!" if success else the error message.</returns>
         public string Delete(int affId)
         {
             var resultMessage = string.Empty;
@@ -713,14 +627,14 @@ namespace Fanex.OddsFeed.Admin.Controllers
             var arrIpsTo = ipsTo.Split(',');
 
             var config = baseService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "Config" }, false);
-            var maxNumOfIPs = Converter.ToInt(config.Where(m => m.Text == "MaximumNumberOfIPs").ToList()[0].Value, 0);
+            var maxNumOfIPs = Converter.ToInt(config.Where(m => m.Text == "MaximumNumberOfIPs").ToList()[0].Value);
 
             for (int i = 0; i < arrIpsFrom.Length; i++)
             {
                 var ipFrom = Utilities.ConvertIPToUint(arrIpsFrom[i]);
                 var ipTo = Utilities.ConvertIPToUint(arrIpsTo[i]);
 
-                if(ipTo > 0 && ipFrom > 0)
+                if (ipTo > 0 && ipFrom > 0)
                 {
                     totalIPs += ipTo - ipFrom + 1;
                 }
@@ -729,10 +643,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
             return totalIPs <= maxNumOfIPs;
         }
 
-        /// <summary>
-        /// Customize data before inserting an affiliate.
-        /// </summary>
-        /// <param name="criteria">The affiliate's criteria.</param>
         private void CustomizeDataBeforeAddNew(ref InsertAffiliateCriteria criteria)
         {
             StringBuilder fromIPs = new StringBuilder();
@@ -766,10 +676,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
             CustomizeInsertProfile(ref criteria);
         }
 
-        /// <summary>
-        /// Customize data before editing affiliate's profile.
-        /// </summary>
-        /// <param name="criteria">The affiliate's profile criteria.</param>
         private void CustomizeDataBeforeEditProfile(ref UpdateProfileCriteria criteria)
         {
             criteria.OddsType = criteria.OddsType ?? string.Empty;
@@ -785,7 +691,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
             CustomizeUpdateProfile(ref criteria);
         }
 
-        private string UpdateSportIDListForCricket(string sportIDList)
+        private static string UpdateSportIDListForCricket(string sportIDList)
         {
             if (sportIDList == null)
             {
@@ -807,10 +713,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
             return String.Join(",", sportList.ToArray());
         }
 
-        /// <summary>
-        /// Customize for inserting the affiliate's profile.
-        /// </summary>
-        /// <param name="criteria">The affiliate's profile criteria.</param>
         private void CustomizeInsertProfile(ref InsertAffiliateCriteria criteria)
         {
             if (!string.IsNullOrEmpty(criteria.LeagueIDList))
@@ -864,10 +766,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
             }
         }
 
-        /// <summary>
-        /// Customize for editing the affiliate's profile.
-        /// </summary>
-        /// <param name="criteria">The affiliate's profile criteria.</param>
         private void CustomizeUpdateProfile(ref UpdateProfileCriteria criteria)
         {
             if (!string.IsNullOrEmpty(criteria.LeagueIDList))
@@ -921,15 +819,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
             }
         }
 
-        /// <summary>
-        /// Views the bag for flags.
-        /// </summary>
-        /// <param name="oddsTypeFlag">If set to <c>true</c> [odds type flag].</param>
-        /// <param name="oddsStyleFlag">If set to <c>true</c> [odds style flag].</param>
-        /// <param name="languagesFlag">If set to <c>true</c> [languages flag].</param>
-        /// <param name="sportsFlag">If set to <c>true</c> [sports flag].</param>
-        /// <param name="countriesFlag">If set to <c>true</c> [countries flag].</param>
-        /// <param name="marketsFlag">If set to <c>true</c> [markets flag].</param>
         private void ViewBagForFlags(
             bool oddsTypeFlag,
             bool oddsStyleFlag,
@@ -948,18 +837,13 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
         #region Account Manager
 
-        /// <summary>
-        /// The sub method for adding an affiliate with account manager role.
-        /// </summary>
-        /// <param name="licenseeProfile">The profile of the licensee which new affiliate belongs to.</param>
-        /// <param name="criteria">The affiliate's criteria.</param>
         private void AddAffiliateWithAccountManagerRole(DataSet licenseeProfile, ref InsertAffiliateCriteria criteria)
         {
             if (licenseeProfile != null && licenseeProfile.Tables.Count > 0 && licenseeProfile.Tables[0].Rows.Count > 0)
             {
                 var row = licenseeProfile.Tables[0].Rows[0];
 
-                criteria.OddsType = row["OddsType"].ToString();
+                criteria.OddsType = row[OddsTypeCollumn].ToString();
                 criteria.LanguageList = row["LanguageList"].ToString();
                 criteria.SportIDList = row["SportIDList"].ToString();
                 criteria.CountryCodeList = row["CountryCodeList"].ToString();
@@ -969,7 +853,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 criteria.LeagueKeyword = row["LeagueKeyword"].ToString();
                 criteria.LeagueKeyword_O = row["LeagueKeyword_O"].ToString();
 
-                ViewBag.NumberOfIPs = int.Parse(row["NumberOfIPs"].ToString());
+                ViewBag.NumberOfIPs = int.Parse(row[NumberOfIpsCollumn].ToString());
 
                 ViewBagForFlags(true, true, true, true, true, true);
 
@@ -977,15 +861,11 @@ namespace Fanex.OddsFeed.Admin.Controllers
             }
         }
 
-        /// <summary>
-        /// Profile for adding new affiliate with account manager role.
-        /// </summary>
-        /// <param name="criteria">The affiliate's criteria.</param>
         private void ProfileForAddAffiliateWithAccountManagerRole(ref InsertAffiliateCriteria criteria)
         {
-            ViewBag.OddsTypeList = _affiliateService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "OddsType" }, false)
+            ViewBag.OddsTypeList = _affiliateService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = OddsTypeSettingType }, false)
                                                                   .Where(item => item.Text != "Live" || (item.Text == "Live" && IsAccountManagerRole()));
-            ViewBag.OddsStyleList = _affiliateService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "OddsRegion" }, false);
+            ViewBag.OddsStyleList = _affiliateService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = OddsRegionSettingType }, false);
             ViewBag.LanguageIDList = _affiliateService.GetSelectList(new GetAllLanguageCriteria());
             ViewBag.DelayTimeList = GenerateDelayTime(_affiliateService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "Config" }, false));
 
@@ -1042,11 +922,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
             }
         }
 
-        /// <summary>
-        /// Get affiliate's profile with account manager role.
-        /// </summary>
-        /// <param name="affiliateProfile">The affiliate's profile.</param>
-        /// <param name="criteria">The affiliate's criteria.</param>
         private void GetAffiliateProfileWithAccountManageRole(DataSet affiliateProfile, ref UpdateProfileCriteria criteria)
         {
             if (affiliateProfile != null && affiliateProfile.Tables.Count > 0 && affiliateProfile.Tables[0].Rows.Count > 0)
@@ -1058,7 +933,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 criteria.LiveDelayTimes = delayTimes.Length > 1 ? delayTimes[1] : "0";
                 criteria.OutrightDelayTimes = delayTimes.Length > 2 ? delayTimes[2] : "0";
 
-                criteria.NumberOfIPs = !(row["NumberOfIPs"] is DBNull) ? (short)row["NumberOfIPs"] : (short)0;
+                criteria.NumberOfIPs = !(row[NumberOfIpsCollumn] is DBNull) ? (short)row[NumberOfIpsCollumn] : (short)0;
                 criteria.LeagueKeyword = row["LeagueKeyword"].ToString();
                 criteria.LeagueKeyword_O = row["LeagueKeyword_O"].ToString();
                 criteria.LeagueIDList = row["LeagueIDList"].ToString();
@@ -1070,7 +945,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
             if (licenseeProfile != null && licenseeProfile.Tables.Count > 0 && licenseeProfile.Tables[0].Rows.Count > 0)
             {
                 var row = licenseeProfile.Tables[0].Rows[0];
-                ViewBag.NumberOfIPs = int.Parse(row["NumberOfIPs"].ToString());
+                ViewBag.NumberOfIPs = int.Parse(row[NumberOfIpsCollumn].ToString());
                 ViewBagForFlags(true, true, true, true, true, true);
 
                 ProfileForEditAffiliateWithAccountManagerRole(ref criteria);
@@ -1079,8 +954,8 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
         private void ProfileForEditAffiliateWithAccountManagerRole(ref UpdateProfileCriteria criteria)
         {
-            ViewBag.OddsTypeList = _affiliateService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "OddsType" }, false);
-            ViewBag.OddsStyleList = _affiliateService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "OddsRegion" }, false);
+            ViewBag.OddsTypeList = _affiliateService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = OddsTypeSettingType }, false);
+            ViewBag.OddsStyleList = _affiliateService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = OddsRegionSettingType }, false);
             ViewBag.LanguageIDList = _affiliateService.GetSelectList(new GetAllLanguageCriteria());
             var config = _affiliateService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "Config" }, false);
             ViewBag.DelayTimeList = GenerateDelayTime(config);
@@ -1141,55 +1016,44 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
         #region LicenseeAdmin/Sub-Acc
 
-        /// <summary>
-        /// The sub method for adding an affiliate with licensee admin role.
-        /// </summary>
-        /// <param name="licenseeProfile">The profile of the licensee which new affiliate belongs to.</param>
         private void AddAffiliateWithLicenseeAdminRole(DataSet licenseeProfile)
         {
             if (licenseeProfile != null && licenseeProfile.Tables.Count > 0 && licenseeProfile.Tables[0].Rows.Count > 0)
             {
                 var row = licenseeProfile.Tables[0].Rows[0];
-                var oddStyles = row["OddsType"].ToString();
-                ViewBag.NumberOfIPs = int.Parse(row["NumberOfIPs"].ToString());
+                var oddStyles = row[OddsTypeCollumn].ToString();
+                ViewBag.NumberOfIPs = int.Parse(row[NumberOfIpsCollumn].ToString());
                 ViewBagForFlags(
-                                        bool.Parse(row["OddsTypeFlag"].ToString()),
-                                        bool.Parse(row["OddsRegionFlag"].ToString()),
-                                        bool.Parse(row["LanguageListFlag"].ToString()),
-                                        bool.Parse(row["SportIDListFlag"].ToString()),
-                                        bool.Parse(row["CountryCodeListFlag"].ToString()),
-                                        bool.Parse(row["BettypeIDListFlag"].ToString()) && (oddStyles != "8" && oddStyles != string.Empty));
+                                        bool.Parse(row[OddsTypeFlagCollumn].ToString()),
+                                        bool.Parse(row[OddsRegionFlagCollumn].ToString()),
+                                        bool.Parse(row[LanguageListFlagCollumn].ToString()),
+                                        bool.Parse(row[SportIDListFlagCollumn].ToString()),
+                                        bool.Parse(row[CountryCodeListFlagCollumn].ToString()),
+                                        bool.Parse(row[BettypeIDListFlagCollumn].ToString()) && (oddStyles != "8" && oddStyles != string.Empty));
 
                 ProfileForAddAffiliateWithLicenseeAdminAndSubAccountRole();
             }
         }
 
-        /// <summary>
-        /// Get affiliate's profile with licensee admin role.
-        /// </summary>
-        /// <param name="criteria">The affiliate's profile.</param>
         private void GetAffiliateProfileWithLicenseeAdminRole(ref UpdateProfileCriteria criteria)
         {
             var licenseeProfile = _affiliateService.GetDataSet(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = CurrentSession.SystemId });
             if (licenseeProfile != null && licenseeProfile.Tables.Count > 0 && licenseeProfile.Tables[0].Rows.Count > 0)
             {
                 var row = licenseeProfile.Tables[0].Rows[0];
-                var oddStyles = row["OddsType"].ToString();
-                ViewBag.NumberOfIPs = int.Parse(row["NumberOfIPs"].ToString());
-                ViewBag.OddsTypeFlag = bool.Parse(row["OddsTypeFlag"].ToString());
-                ViewBag.OddsStyleFlag = bool.Parse(row["OddsRegionFlag"].ToString());
-                ViewBag.LanguagesFlag = bool.Parse(row["LanguageListFlag"].ToString());
-                ViewBag.SportsFlag = bool.Parse(row["SportIDListFlag"].ToString());
-                ViewBag.CountriesFlag = bool.Parse(row["CountryCodeListFlag"].ToString());
-                ViewBag.MarketsFlag = bool.Parse(row["BettypeIDListFlag"].ToString()) && (oddStyles != "8" && oddStyles != string.Empty);
+                var oddStyles = row[OddsTypeCollumn].ToString();
+                ViewBag.NumberOfIPs = int.Parse(row[NumberOfIpsCollumn].ToString());
+                ViewBag.OddsTypeFlag = bool.Parse(row[OddsTypeFlagCollumn].ToString());
+                ViewBag.OddsStyleFlag = bool.Parse(row[OddsRegionFlagCollumn].ToString());
+                ViewBag.LanguagesFlag = bool.Parse(row[LanguageListFlagCollumn].ToString());
+                ViewBag.SportsFlag = bool.Parse(row[SportIDListFlagCollumn].ToString());
+                ViewBag.CountriesFlag = bool.Parse(row[CountryCodeListFlagCollumn].ToString());
+                ViewBag.MarketsFlag = bool.Parse(row[BettypeIDListFlagCollumn].ToString()) && (oddStyles != "8" && oddStyles != string.Empty);
 
                 ProfileForEditAffiliateWithLicenseeAdminAndSubAccountRole(ref criteria);
             }
         }
 
-        /// <summary>
-        /// The sub method for adding an affiliate with sub account role.
-        /// </summary>
         private void AddAffiliateWithSubAccountRole()
         {
             var userProfile = _affiliateService.GetDataSet(new UserGetPermissionCriteria
@@ -1201,23 +1065,19 @@ namespace Fanex.OddsFeed.Admin.Controllers
             if (userProfile != null && userProfile.Tables.Count > 0 && userProfile.Tables[0].Rows.Count > 0)
             {
                 var row = userProfile.Tables[0].Rows[0];
-                ViewBag.NumberOfIPs = int.Parse(row["NumberOfIPs"].ToString());
+                ViewBag.NumberOfIPs = int.Parse(row[NumberOfIpsCollumn].ToString());
                 ViewBagForFlags(
-                                       bool.Parse(row["OddsTypeFlag"].ToString()),
-                                       bool.Parse(row["OddsRegionFlag"].ToString()),
-                                       bool.Parse(row["LanguageListFlag"].ToString()),
-                                       bool.Parse(row["SportIDListFlag"].ToString()),
-                                       bool.Parse(row["CountryCodeListFlag"].ToString()),
-                                       bool.Parse(row["BettypeIDListFlag"].ToString()));
+                                       bool.Parse(row[OddsTypeFlagCollumn].ToString()),
+                                       bool.Parse(row[OddsRegionFlagCollumn].ToString()),
+                                       bool.Parse(row[LanguageListFlagCollumn].ToString()),
+                                       bool.Parse(row[SportIDListFlagCollumn].ToString()),
+                                       bool.Parse(row[CountryCodeListFlagCollumn].ToString()),
+                                       bool.Parse(row[BettypeIDListFlagCollumn].ToString()));
 
                 ProfileForAddAffiliateWithLicenseeAdminAndSubAccountRole();
             }
         }
 
-        /// <summary>
-        /// Get affiliate's profile with sub account role.
-        /// </summary>
-        /// <param name="criteria">The affiliate's profile.</param>
         private void GetAffiliateProfileWithSubAccountRole(ref UpdateProfileCriteria criteria)
         {
             var userProfile = _affiliateService.GetDataSet(new UserGetPermissionCriteria
@@ -1229,31 +1089,28 @@ namespace Fanex.OddsFeed.Admin.Controllers
             if (userProfile != null && userProfile.Tables.Count > 0 && userProfile.Tables[0].Rows.Count > 0)
             {
                 var row = userProfile.Tables[0].Rows[0];
-                ViewBag.NumberOfIPs = int.Parse(row["NumberOfIPs"].ToString());
-                ViewBag.OddsTypeFlag = bool.Parse(row["OddsTypeFlag"].ToString());
-                ViewBag.OddsStyleFlag = bool.Parse(row["OddsRegionFlag"].ToString());
-                ViewBag.LanguagesFlag = bool.Parse(row["LanguageListFlag"].ToString());
-                ViewBag.SportsFlag = bool.Parse(row["SportIDListFlag"].ToString());
-                ViewBag.CountriesFlag = bool.Parse(row["CountryCodeListFlag"].ToString());
-                ViewBag.MarketsFlag = bool.Parse(row["BettypeIDListFlag"].ToString());
+                ViewBag.NumberOfIPs = int.Parse(row[NumberOfIpsCollumn].ToString());
+                ViewBag.OddsTypeFlag = bool.Parse(row[OddsTypeFlagCollumn].ToString());
+                ViewBag.OddsStyleFlag = bool.Parse(row[OddsRegionFlagCollumn].ToString());
+                ViewBag.LanguagesFlag = bool.Parse(row[LanguageListFlagCollumn].ToString());
+                ViewBag.SportsFlag = bool.Parse(row[SportIDListFlagCollumn].ToString());
+                ViewBag.CountriesFlag = bool.Parse(row[CountryCodeListFlagCollumn].ToString());
+                ViewBag.MarketsFlag = bool.Parse(row[BettypeIDListFlagCollumn].ToString());
 
                 ProfileForEditAffiliateWithLicenseeAdminAndSubAccountRole(ref criteria);
             }
         }
 
-        /// <summary>
-        /// Profile for adding an affiliate with licensee admin and sub account role.
-        /// </summary>
         private void ProfileForAddAffiliateWithLicenseeAdminAndSubAccountRole()
         {
             ////OddsType
             ViewBag.OddsTypeList = _affiliateService.GetSelectList(
-                                                    new GetTypeSettingCriteria { SystemID = CurrentSession.SystemId, Type = "OddsType" },
-                                                    false)
-                                            .Where(item => item.Text != "Live" || (item.Text == "Live" && IsAccountManagerRole()));
+                    new GetTypeSettingCriteria { SystemID = CurrentSession.SystemId, Type = OddsTypeSettingType },
+                    false)
+                .Where(item => item.Text != "Live" || (item.Text == "Live" && IsAccountManagerRole()));
 
             ////OddsStyle
-            ViewBag.OddsStyleList = _affiliateService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "OddsRegion" }, false);
+            ViewBag.OddsStyleList = _affiliateService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = OddsRegionSettingType }, false);
 
             ////Language
             ViewBag.LanguageIDList = _affiliateService.GetLanguageBySystemId();
@@ -1272,19 +1129,15 @@ namespace Fanex.OddsFeed.Admin.Controllers
             ViewBag.MinorSportList = sportList.Where(sport => sport.Group.Name == MinorGroup);
         }
 
-        /// <summary>
-        /// Profile for editing an affiliate with licensee admin and sub account role.
-        /// </summary>
-        /// <param name="criteria">The affiliate's profile.</param>
         private void ProfileForEditAffiliateWithLicenseeAdminAndSubAccountRole(ref UpdateProfileCriteria criteria)
         {
             ////OddsType
             ViewBag.OddsTypeList = _affiliateService
-                .GetSelectList(new GetTypeSettingCriteria { SystemID = CurrentSession.SystemId, Type = "OddsType" }, false)
+                .GetSelectList(new GetTypeSettingCriteria { SystemID = CurrentSession.SystemId, Type = OddsTypeSettingType }, false)
                 .Where(item => item.Text != "Live" || (item.Text == "Live" && IsAccountManagerRole()));
 
             ////OddsStyle
-            ViewBag.OddsStyleList = _affiliateService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "OddsRegion" }, false);
+            ViewBag.OddsStyleList = _affiliateService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = OddsRegionSettingType }, false);
 
             ////Language
             ViewBag.LanguageIDList = _affiliateService.GetLanguageBySystemId();
@@ -1316,7 +1169,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
             }
         }
 
-        private IEnumerable<SelectListItem> UpdateSportListForCricket(IEnumerable<SelectListItem> sports)
+        private static IEnumerable<SelectListItem> UpdateSportListForCricket(IEnumerable<SelectListItem> sports)
         {
             return sports.Where(s => s.Value != "50");
         }

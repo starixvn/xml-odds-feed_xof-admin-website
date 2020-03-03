@@ -1029,4 +1029,7 @@
   <data name="SuccessfulMessage" xml:space="preserve">
     <value>Successfully!</value>
   </data>
+  <data name="ActionResult_EmptyResultError" xml:space="preserve">
+    <value>Internal Server Error</value>
+  </data>
 </root>

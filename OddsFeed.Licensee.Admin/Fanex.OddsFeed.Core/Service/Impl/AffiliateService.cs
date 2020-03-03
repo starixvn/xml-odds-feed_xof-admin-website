@@ -240,18 +240,6 @@ namespace Fanex.OddsFeed.Core.Service.Impl
                 if (criteria.IsValid())
                 {
                     return _selectListRepository.Get(criteria).OrderBy(s => s.Text);
-
-                    ////IEnumerable<DomainSetting> domainList = _domainRepository.Fetch(criteria).OrderBy(s => s.Name);
-
-                    ////if (domainList != null)
-                    ////{
-                    ////    return domainList.Select(s => new SelectListItem
-                    ////    {
-                    ////        Text = s.Name,
-                    ////        Value = s.Id.ToString(),
-                    ////        Selected = s.Id == selectedId
-                    ////    }).ToList();
-                    ////}
                 }
             }
             catch (Exception ex)
@@ -259,7 +247,7 @@ namespace Fanex.OddsFeed.Core.Service.Impl
                 HandleException(ex);
             }
 
-            return null;
+            return new List<SelectListItem>();
         }
 
         /// <summary>
@@ -332,7 +320,7 @@ namespace Fanex.OddsFeed.Core.Service.Impl
                 HandleException(ex);
             }
 
-            return null;
+            return new List<PartnerIP>();
         }
 
         /// <summary>

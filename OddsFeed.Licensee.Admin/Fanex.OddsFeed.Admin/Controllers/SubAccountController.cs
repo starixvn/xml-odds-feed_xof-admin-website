@@ -25,35 +25,25 @@ namespace Fanex.OddsFeed.Admin.Controllers
     using Fanex.OddsFeed.Core.Web;
     using Fanex.OddsFeed.Core.Web.Attribute;
 
-    /// <summary>
-    /// Class SubAccountController.
-    /// </summary>
+
     [IsAuthorize]
     public class SubAccountController : BaseController
     {
         #region Members
 
-        /// <summary>
-        /// The _sub account service.
-        /// </summary>
+ 
         private readonly ISubAccService _subAccService;
 
         #endregion Members
 
         #region Constructors
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SubAccountController"/> class.
-        /// </summary>
         public SubAccountController()
             : this(null)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SubAccountController"/> class.
-        /// </summary>
-        /// <param name="subAccService">The sub account service.</param>
+
         public SubAccountController(ISubAccService subAccService = null)
         {
             _subAccService = subAccService ?? new SubAccService { ServiceContext = ServiceContext };
@@ -66,7 +56,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
         [HttpGet]
         public ActionResult Add()
         {
-            if (!this.HasEditPermission(CurrentSession.UserRole))
+            if (!HasEditPermission(CurrentSession.UserRole))
             {
                 return this.NoAuthorization();
             }
@@ -76,11 +66,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
             return View();
         }
 
-        /// <summary>
-        /// Adds a sub account.
-        /// </summary>
-        /// <param name="criteria">The sub account's criteria.</param>
-        /// <returns>Represents a JSON-formatted content for adding.</returns>
         [HttpPost]
         public JsonResult Add(InsertSubAccCriteria criteria)
         {
@@ -100,19 +85,22 @@ namespace Fanex.OddsFeed.Admin.Controllers
             }
             else
             {
-                actionResult.IsSuccess = false;
-                actionResult.ResultMessage = result.Message;
+                if (result != null)
+                {
+                    actionResult.IsSuccess = false;
+                    actionResult.ResultMessage = result.Message;
+                }
+                else
+                {
+                    actionResult.IsSuccess = false;
+                    actionResult.ResultMessage = ViewResources.ActionResult_EmptyResultError;
+                }
             }
 
             ViewBag.SystemList = _subAccService.GetSelectList(new GetSystemCriteria());
             return Json(actionResult, JsonRequestBehavior.AllowGet);
         }
 
-        /// <summary>
-        /// Checks the exist sub account.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        /// <returns>Represents a JSON-formatted content for checking.</returns>
         [HttpPost]
         public JsonResult CheckExistSubAccount(InsertSubAccCriteria criteria)
         {
@@ -141,7 +129,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
         [HttpGet]
         public ActionResult List()
         {
-            if (!this.HasEditPermission(CurrentSession.UserRole))
+            if (!HasEditPermission(CurrentSession.UserRole))
             {
                 return this.NoAuthorization();
             }
@@ -149,11 +137,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
             return View("SubAccList");
         }
 
-        /// <summary>
-        /// Gets the sub account list.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        /// <returns>Represents a JSON-formatted content.</returns>
         public JsonResult GetSubAccountList(GetSubAccByNameCriteria criteria)
         {
             var serializer = new JavaScriptSerializer();
@@ -166,11 +149,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        /// <summary>
-        /// List existed sub account.
-        /// </summary>
-        /// <param name="username">The user name for searching.</param>
-        /// <returns>The sub account list.</returns>
         public string ListExistedSubAccount(string username)
         {
             var criteria = new GetTop10SubAccCriteria
@@ -188,16 +166,9 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
         #region Edit
 
-        /// <summary>
-        /// Edits the sub account information.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <param name="userName">Name of the user.</param>
-        /// <returns>Action Result.</returns>
-        [HttpGet]
         public ActionResult EditSubAccInfo(int id, string userName)
         {
-            if (!this.HasEditPermission(CurrentSession.UserRole))
+            if (!HasEditPermission(CurrentSession.UserRole))
             {
                 return this.NoAuthorization();
             }
@@ -255,14 +226,10 @@ namespace Fanex.OddsFeed.Admin.Controllers
             return Json(actionResult, JsonRequestBehavior.AllowGet);
         }
 
-        /// <summary>
-        /// Edits the active.
-        /// </summary>
-        /// <param name="userId">The user identifier.</param>
-        /// <param name="isActive">The user's active.</param>
-        /// <returns>Return "Successfully!" if success else return error message. </returns>
         public string EditActive(int userId, bool isActive)
         {
+            var resultMessage = ViewResources.ActionResult_EmptyResultError;
+
             var criteria = new UpdateActiveSubAccCriteria
             {
                 SubAccountID = userId,
@@ -271,21 +238,18 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
             var result = _subAccService.Update(criteria);
 
-            return result != null && result.IsSuccessful
-                ? ViewResources.SuccessfulMessage
-                : result.Message;
+            if (result != null)
+            {
+                resultMessage = result.IsSuccessful ? ViewResources.SuccessfulMessage : result.Message;
+            }
+
+            return resultMessage;
         }
 
-        /// <summary>
-        /// Display the password reset page.
-        /// </summary>
-        /// <param name="id">The user identifier.</param>
-        /// <param name="userName">Name of the user.</param>
-        /// <returns>The password reset page.</returns>
         [HttpGet]
         public ActionResult ResetPassword(int id, string userName)
         {
-            if (!this.HasEditPermission(CurrentSession.UserRole))
+            if (!HasEditPermission(CurrentSession.UserRole))
             {
                 return this.NoAuthorization();
             }
@@ -304,11 +268,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
             return View(criteria);
         }
 
-        /// <summary>
-        /// Resets the password.
-        /// </summary>
-        /// <param name="criteria">The user's criteria.</param>
-        /// <returns>Represents a JSON-formatted content of updating.</returns>
         [HttpPost]
         public JsonResult ResetPassword(ResetPassSubAccCriteria criteria)
         {
@@ -325,15 +284,17 @@ namespace Fanex.OddsFeed.Admin.Controllers
                     criteria.Password = Cryptography.CfsEnCode(HttpUtility.HtmlEncode(criteria.Password.Trim()));
                     var result = _subAccService.Update(criteria);
 
-                    if (result != null && result.IsSuccessful)
+                    if(result != null)
                     {
-                        actionResult.IsSuccess = true;
-                        actionResult.ResultMessage = ViewResources.ActionResult_UpdatePasswordSuccess;
+                        actionResult.IsSuccess = result.IsSuccessful;
+                        actionResult.ResultMessage = result.IsSuccessful 
+                            ? ViewResources.ActionResult_UpdatePasswordSuccess 
+                            : result.Message;
                     }
                     else
                     {
                         actionResult.IsSuccess = false;
-                        actionResult.ResultMessage = result.Message;
+                        actionResult.ResultMessage = ViewResources.ActionResult_EmptyResultError;
                     }
                 }
             }
@@ -341,12 +302,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
             return Json(actionResult, JsonRequestBehavior.AllowGet);
         }
 
-        /// <summary>
-        /// Edits the permission.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <param name="userName">Name of the user.</param>
-        /// <returns>The page for editing the permission.</returns>
         [HttpGet]
         public ActionResult EditPermission(int id, string userName)
         {
@@ -386,11 +341,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
             return View(criteria);
         }
 
-        /// <summary>
-        /// Edits the permission.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        /// <returns>Action Result.</returns>
         [HttpPost]
         public ActionResult EditPermission(EditPermissionSubAccCriteria criteria)
         {
@@ -404,7 +354,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 }
                 else
                 {
-                    ViewBag.Error = result.Message;
+                    ViewBag.Error = result != null ? result.Message : ViewResources.ActionResult_EmptyResultError;
                 }
             }
 
@@ -418,13 +368,10 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
         #region Del
 
-        /// <summary>
-        /// Deletes the specified user identifier.
-        /// </summary>
-        /// <param name="userId">The user identifier.</param>
-        /// <returns>Return "Successfully!" if success else return error message.</returns>
         public string Delete(int userId)
         {
+            var resultMessage = ViewResources.ActionResult_EmptyResultError;
+
             var criteria = new DeleteSubAccCriteria
             {
                 SubAccountID = userId
@@ -432,21 +379,18 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
             var result = _subAccService.Delete(criteria);
 
-            return result != null && result.IsSuccessful
-                ? ViewResources.SuccessfulMessage
-                : result.Message;
+            if(result != null)
+            {
+                resultMessage = result.IsSuccessful ? ViewResources.SuccessfulMessage : result.Message;
+            }
+
+            return resultMessage;
         }
 
         #endregion Del
 
         #region AssignLicensee
 
-        /// <summary>
-        /// Assigns the licensee.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <param name="username">The username.</param>
-        /// <returns>Action Result.</returns>
         [HttpGet]
         public ActionResult AssignLicensee(int id, string username)
         {
@@ -455,7 +399,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 return RedirectToAction("List", "SubAccount");
             }
 
-            if (!this.HasEditPermission(CurrentSession.UserRole))
+            if (!HasEditPermission(CurrentSession.UserRole))
             {
                 return this.NoAuthorization();
             }
@@ -473,7 +417,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 SystemList = _subAccService.GetSelectList(new GetSystemByUserIDCriteria() { UserID = id, IgnoreIsActive = false }).Select(item => item.Value).ToArray()
             };
 
-            if (!this.HasEditPermission(CurrentSession.UserRole))
+            if (!HasEditPermission(CurrentSession.UserRole))
             {
                 ViewBag.HasEditPermission = false;
                 ViewBag.Error = ViewResources.You_have_no_authorization;
@@ -482,18 +426,13 @@ namespace Fanex.OddsFeed.Admin.Controllers
             return View(criteria);
         }
 
-        /// <summary>
-        /// Assigns the licensee.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        /// <returns>Action Result.</returns>
         [HttpPost]
         public ActionResult AssignLicensee(AssignLicensee_SubAccCriteria criteria)
         {
             criteria.Creator = CurrentSession.UserId;
             criteria.IP = CurrentContext.IP;
 
-            if (!this.HasEditPermission(CurrentSession.UserRole))
+            if (!HasEditPermission(CurrentSession.UserRole))
             {
                 ViewBag.Success = false;
                 ViewBag.Error = ViewResources.You_have_no_authorization;
@@ -522,18 +461,15 @@ namespace Fanex.OddsFeed.Admin.Controllers
             return View(criteria);
         }
 
-        private bool HasEditPermission(int userRole)
+        private static bool HasEditPermission(int userRole)
         {
-            return !(userRole == (int)Constant.UserRole.LicenseeSubAccount);
+            return userRole != (int)Constant.UserRole.LicenseeSubAccount;
         }
 
         #endregion AssignLicensee
 
         #region Private methods
 
-        /// <summary>
-        /// Views the bag flags.
-        /// </summary>
         private void ViewBagFlags()
         {
             var flags = _subAccService.GetDataSet(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = CurrentSession.SystemId });

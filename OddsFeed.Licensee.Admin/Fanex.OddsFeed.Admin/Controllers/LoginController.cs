@@ -31,7 +31,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
         /// <summary>
         /// The _user service.
         /// </summary>
-        private IUserService _userService;
+        private readonly IUserService _userService;
 
         #endregion
 
@@ -285,8 +285,8 @@ namespace Fanex.OddsFeed.Admin.Controllers
             ////get systemId
             var systemIdNameList = criteria.SystemIdNameList.Split(';');
             var firstSystem = systemIdNameList[0] != null ? systemIdNameList[0].Split(',') : null;
-            var systemId = firstSystem != null & !string.IsNullOrEmpty(firstSystem[0]) ? Convert.ToByte(firstSystem[0]) : Convert.ToByte(0);
-            var systemName = firstSystem != null & !string.IsNullOrEmpty(firstSystem[1]) ? Convert.ToString(firstSystem[1]) : string.Empty;
+            var systemId = firstSystem != null && !string.IsNullOrEmpty(firstSystem[0]) ? Convert.ToByte(firstSystem[0]) : Convert.ToByte(0);
+            var systemName = firstSystem != null && !string.IsNullOrEmpty(firstSystem[1]) ? Convert.ToString(firstSystem[1]) : string.Empty;
 
             var criteriaProfile = new UserGetProfileCriteria
             {

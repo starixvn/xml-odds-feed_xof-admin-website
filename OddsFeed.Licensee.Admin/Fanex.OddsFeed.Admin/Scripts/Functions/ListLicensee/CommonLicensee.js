@@ -363,13 +363,26 @@ function CheckAllListEventWithConfirm(chkAll, chkItems, callback, paras) {
 
         if ($('#' + chkAll).is(":checked")) {
             chkAllBtn.checked = false;
-            confirm('YOU ARE SELECTING ALL SELECTIONS, SO THE ODDS SERVICES MAY RETURN DATA SLOWLY! Are you sure to continue?', function () {
+
+            var showModal = IsShowConfirmModal(chkAll, chkItems);
+
+            if (showModal) {
+                confirm('YOU ARE SELECTING ALL SELECTIONS, SO THE ODDS SERVICES MAY RETURN DATA SLOWLY! Are you sure to continue?', function () {
+                    $("." + chkItems).each(function () { this.checked = true; });
+                    chkAllBtn.checked = true;
+
+                    if (jQuery.isFunction(callback))
+                        callback(paras[4], paras[5], paras[6], paras[7]);
+                });
+            }
+            else {
                 $("." + chkItems).each(function () { this.checked = true; });
                 chkAllBtn.checked = true;
 
                 if (jQuery.isFunction(callback))
                     callback(paras[4], paras[5], paras[6], paras[7]);
-            });
+            }
+            
         }
         else {
             $("." + chkItems).each(function () { this.checked = false; });
@@ -378,6 +391,27 @@ function CheckAllListEventWithConfirm(chkAll, chkItems, callback, paras) {
                 callback(paras[4], paras[5], paras[6], paras[7]);
         }
     });
+}
+
+function IsShowConfirmModal(chkAllClassName, chkItems) {
+    var result = false;
+
+    if (chkAllClassName === 'chkAllMinorSports') {
+        var checkedItemCount = $('.' + chkItems).length;
+        $('.chkMajorSport').each(function () {
+            if (this.checked) {
+                checkedItemCount++;
+            }
+        });
+
+        result = checkedItemCount > 1;
+    }
+
+    if (chkAllClassName === 'chkAllMinorMarkets') {
+        result = $('.' + chkItems).length > 1;
+    }
+
+    return result;
 }
 
 function GetLeagueOutright(formID, leagueElement, outrightElement) {

@@ -346,10 +346,13 @@
                     @Html.CheckBoxListFor(m => m.SportIDList, ViewBag.MajorSportList as IEnumerable<SelectListItem>, new { @Class = "chkMajorSport", @isDisabled = @ViewBag.SportsFlag ? "" : "disabled" }, false)
                 </label>
             </div>
+            @{ 
+                var minorSports = ViewBag.MinorSportList as IEnumerable<SelectListItem>;
+            }
             <div class="grid4" style="line-height: 170px; text-align: right">
                 <label for="chkAllSports">
                     @ViewResources.MinorSports
-                </label><input type="checkbox" id="chkAllMinorSports" isdisabled=@(ViewBag.SportsFlag ? "" : "disabled") />
+                </label><input type="checkbox" id="chkAllMinorSports" isdisabled=@(ViewBag.SportsFlag && minorSports.Any() ? "" : "disabled") />
             </div>
             <div class="grid7">
                 <div class="checkbox-filter">
@@ -357,7 +360,7 @@
                     <input id="minorSport-filter" />
                 </div>
                 <div class="grid7 checkbox-list">
-                    @Html.CheckBoxDropDownListFor(m => m.SportIDList, ViewBag.MinorSportList as IEnumerable<SelectListItem>, new { @Class = "chkMinorSport" }, false)
+                    @Html.CheckBoxDropDownListFor(m => m.SportIDList, ViewBag.MinorSportList as IEnumerable<SelectListItem>, new { @Class = "chkMinorSport", @isDisabled = @ViewBag.SportsFlag ? "" : "disabled" }, false)
                 </div>
             </div>
             <div class="grid1" style="line-height: 150px; text-align: left">
@@ -407,10 +410,14 @@
             </div>
         }
     <div id="Market" class="row3">
+        @{
+            var minorMarkets = ViewBag.MinorBettypesList as IEnumerable<SelectListItem>;
+            var majorMarkets = (ViewBag.MajorBettypesList as IEnumerable<SelectListItem>);
+        }
         <div class="grid4" style="line-height: 170px; text-align: right">
             <label for="chkAllMajorMarkets">
                 @ViewResources.MajorMarkets
-            </label><input type="checkbox" id="chkAllMajorMarkets" isdisabled=@(ViewBag.MarketsFlag ? "" : "disabled") />
+            </label><input type="checkbox" id="chkAllMajorMarkets" isdisabled=@(ViewBag.MarketsFlag && majorMarkets.Any() ? "" : "disabled") />
         </div>
         <div class="grid7">
             <div class="checkbox-filter">
@@ -418,13 +425,13 @@
                 <input id="majormarket-filter" />
             </div>
             <div class="grid7 checkbox-list">
-                @Html.CheckBoxDropDownListFor(m => m.BetTypeIDList, ViewBag.MajorBettypesList as IEnumerable<SelectListItem>, new { @Class = "chkMajorMarket" }, false)
+                @Html.CheckBoxDropDownListFor(m => m.BetTypeIDList, majorMarkets, new { @Class = "chkMajorMarket", @isDisabled = @ViewBag.MarketsFlag ? "" : "disabled" }, false)
             </div>
         </div>
         <div class="grid4" style="line-height: 170px; text-align: right">
             <label for="chkAllMinorMarkets">
                 @ViewResources.MinorMarkets
-            </label><input type="checkbox" id="chkAllMinorMarkets" isdisabled=@(ViewBag.MarketsFlag ? "" : "disabled") />
+            </label><input type="checkbox" id="chkAllMinorMarkets" isdisabled=@(ViewBag.MarketsFlag && minorMarkets.Any() ? "" : "disabled") />
         </div>
         <div class="grid7">
             <div class="checkbox-filter">
@@ -432,7 +439,7 @@
                 <input id="minorMarket-filter" />
             </div>
             <div class="grid7 checkbox-list">
-                @Html.CheckBoxDropDownListFor(m => m.BetTypeIDList, ViewBag.MinorBettypesList as IEnumerable<SelectListItem>, new { @Class = "chkMinorMarket" }, false)
+                @Html.CheckBoxDropDownListFor(m => m.BetTypeIDList, minorMarkets, new { @Class = "chkMinorMarket", @isDisabled = @ViewBag.SportsFlag ? "" : "disabled" }, false)
             </div>
         </div>
         <div class="grid1" style="line-height: 150px; text-align: left">

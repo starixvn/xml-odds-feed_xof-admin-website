@@ -97,6 +97,15 @@ namespace Fanex.OddsFeed.Core.Web {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Internal Server Error.
+        /// </summary>
+        public static string ActionResult_EmptyResultError {
+            get {
+                return ResourceManager.GetString("ActionResult_EmptyResultError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The domain has been added successfully!.
         /// </summary>
         public static string ActionResult_Success_AddDomain {
