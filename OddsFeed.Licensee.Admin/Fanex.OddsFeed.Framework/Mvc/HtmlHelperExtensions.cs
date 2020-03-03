@@ -60,9 +60,11 @@ namespace Fanex.OddsFeed.Framework.Mvc
             Check.Argument.IsNotNull(formatDate, "formateDate");
             Check.Argument.IsNotNull(clientFormateDate, "clientFormateDate");
 
-            if (maxDate == null || !maxDate.HasValue)
+            var textBoxMaxDate = maxDate;
+
+            if (!textBoxMaxDate.HasValue)
             {
-                maxDate = DateTime.Now;
+                textBoxMaxDate = DateTime.Now;
             }
 
             var textbox = htmlHelper.TextBox(
@@ -74,23 +76,12 @@ namespace Fanex.OddsFeed.Framework.Mvc
                     mindate = minDate != null && minDate != DateTime.MinValue
                     ? ((DateTime)minDate).ToString(clientFormateDate)
                     : "null",
-                    maxdate = ((DateTime)maxDate).ToString(clientFormateDate)
+                    maxdate = ((DateTime)textBoxMaxDate).ToString(clientFormateDate)
                 });
 
             return MvcHtmlString.Create(textbox.ToString());
         }
 
-        /// <summary>
-        /// <see cref="DatePicker"/>
-        /// </summary>
-        /// <typeparam name="TModel">The type of the model.</typeparam>
-        /// <typeparam name="TValue">The type of the value.</typeparam>
-        /// <param name="html">The HTML.</param>
-        /// <param name="expression">The expression.</param>
-        /// <param name="minDate">The min date.</param>
-        /// <param name="maxDate">The max date.</param>
-        /// <param name="formatDate">The format date.</param>
-        /// <returns>Return the date picker.</returns>
         public static MvcHtmlString DatePickerFor<TModel, TValue>(
             this HtmlHelper<TModel> html, 
             Expression<Func<TModel, TValue>> expression, 
@@ -99,15 +90,11 @@ namespace Fanex.OddsFeed.Framework.Mvc
             string formatDate = "MMM dd, yyyy")
         {
             var metaData = ModelMetadata.FromLambdaExpression(expression, html.ViewData);
-            DateTime? value = DateTime.Now;
+            DateTime? value = null;
 
             if (metaData.Model is DateTime?)
             {
                 value = (DateTime?)metaData.Model;
-            }
-            else
-            {
-                value = null;
             }
 
             return html.DatePicker(metaData.PropertyName, value, minDate, maxDate, formatDate);
@@ -181,7 +168,7 @@ namespace Fanex.OddsFeed.Framework.Mvc
         {
             ////currentYear = currentYear ?? DateTime.Now.Year;
             var list = new List<SelectListItem>();
-            var endMonth = 12; ////(currentYear.Value < DateTime.Now.Year) ? 12 : DateTime.Now.Month;
+            const byte endMonth = 12; ////(currentYear.Value < DateTime.Now.Year) ? 12 : DateTime.Now.Month;
             
             for (var i = endMonth; i >= 1; i--)
             {
@@ -198,24 +185,13 @@ namespace Fanex.OddsFeed.Framework.Mvc
             return MvcHtmlString.Create(dropDownList.ToString());
         }
 
-        /// <summary>
-        /// Month picker for.
-        /// </summary>
-        /// <typeparam name="TModel">The type of the model.</typeparam>
-        /// <typeparam name="TValue">The type of the value.</typeparam>
-        /// <param name="html">The HTML.</param>
-        /// <param name="expression">The expression.</param>
-        /// <param name="currentMonth">The current month.</param>
-        /// <param name="htmlAttributes">The HTML attributes.</param>
-        /// <returns>Return the month picker.</returns>
         public static MvcHtmlString MonthPickerFor<TModel, TValue>(
             this HtmlHelper<TModel> html,
             Expression<Func<TModel, TValue>> expression,
-            int currentMonth, 
             object htmlAttributes = null)
         {
             var metaData = ModelMetadata.FromLambdaExpression(expression, html.ViewData);
-            currentMonth = (int)metaData.Model;
+            var currentMonth = (int)metaData.Model;
 
             return html.MonthPicker(metaData.PropertyName, currentMonth, htmlAttributes);
         }

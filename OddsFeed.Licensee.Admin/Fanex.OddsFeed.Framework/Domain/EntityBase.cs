@@ -12,11 +12,6 @@ namespace Fanex.OddsFeed.Framework.Domain
 {
     using System;
 
-    /// <summary>
-    /// Base entity.
-    /// </summary>
-    /// <typeparam name="TId">The type of the id.</typeparam>
-    /// <typeparam name="TName">The type of the name.</typeparam>
     public abstract class EntityBase<TId, TName> : IEntity<TId, TName>
     {
         private TId _id;
@@ -31,7 +26,7 @@ namespace Fanex.OddsFeed.Framework.Domain
 
             set
             {
-                if (value == null)
+                if (object.Equals(value, default(TId)))
                 {
                     throw new ArgumentNullException("value", "The id property cannot be set to null.");
                 }               

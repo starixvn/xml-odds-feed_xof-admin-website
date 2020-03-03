@@ -10,6 +10,7 @@
     using System.Linq;
     using System.Net;
     using System.Security.Cryptography;
+    using System.Text;
     using System.Text.RegularExpressions;
     using System.Web;
     using System.Web.Mvc;
@@ -295,32 +296,30 @@
             return string.Empty;
         }
 
-        /// <summary>
-        /// Check items in Ids are exist in list.
-        /// </summary>
-        /// <param name="ids">Example Ids = "1,323,12".</param>
-        /// <param name="list">Example list = "1,4".</param>
-        /// <returns>Result is False "because Ids miss 4".</returns>
         public static bool IsExistInSelectListItem(string ids, IEnumerable<SelectListItem> list)
         {
+            var result = false;
             var arrayStr1 = ids.Split(',');
 
-            var str = string.Empty;
+            var strBuilder = new StringBuilder();
             foreach (SelectListItem item in list)
             {
-                str += item.Value + ",";
+                strBuilder.Append(item.Value + ",");
             }
+
+            var str = strBuilder.ToString();
 
             if (!string.IsNullOrEmpty(str))
             {
                 str = str.Substring(0, str.Length - 1);
+
+                var arrayStr2 = str.Split(',');
+                var arrayDiff = arrayStr2.Except(arrayStr1);
+
+                result = !arrayDiff.Any();
             }
 
-            var arrayStr2 = str.Split(',');
-
-            var arrayDiff = arrayStr2.Except(arrayStr1);
-
-            return arrayDiff.Count() == 0;
+            return result;
         }
         #endregion
 

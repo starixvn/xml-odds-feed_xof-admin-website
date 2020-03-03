@@ -13,23 +13,16 @@ namespace Fanex.OddsFeed.Framework.Extensions
     using System;
     using System.Collections.Generic;
     using System.Data;
-    using System.Diagnostics.CodeAnalysis;
     using Fanex.Common.Extensions;
 
-    /// <summary>
-    /// Class DataTableExtension.
-    /// </summary>    
     public static class DataTableExtension
     {
-        /// <summary>
-        /// List of type will be check for column is numeric or not.
-        /// </summary>
-        public static readonly List<Type> NumericTypes = new List<Type> 
-        { 
-            typeof(byte), typeof(decimal), 
-            typeof(double), typeof(short), 
-            typeof(int), typeof(long), 
-            typeof(sbyte), typeof(float), 
+        private static readonly List<Type> NumericTypes = new List<Type>
+        {
+            typeof(byte), typeof(decimal),
+            typeof(double), typeof(short),
+            typeof(int), typeof(long),
+            typeof(sbyte), typeof(float),
             typeof(uint),
             typeof(ulong)
         };

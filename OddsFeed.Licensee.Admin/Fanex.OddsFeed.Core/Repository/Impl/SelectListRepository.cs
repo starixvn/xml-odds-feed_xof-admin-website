@@ -104,14 +104,7 @@ namespace Fanex.Databank.Repositories
             return result;
         }
 
-        /// <summary>
-        /// Public function convert data reader to SelectListItem.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        /// <param name="order">If True then (Value, Text). Else (Text, Value). </param>
-        /// <param name="selectedValue">The selected value.</param>
-        /// <returns>IEnumerable of Select List Item with Group.</returns>
-        public IEnumerable<SelectListItem> GetWithGroup(ICriteria criteria, bool order = true, string selectedValue = "")
+        public static IEnumerable<SelectListItem> GetWithGroup(ICriteria criteria, bool order = true, string selectedValue = "")
         {
             var result = new List<SelectListItem>();
             using (ObjectDb objectDb = new ObjectDb(criteria.GetSettingKey()))

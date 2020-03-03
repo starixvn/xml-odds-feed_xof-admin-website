@@ -119,10 +119,10 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 ServiceContext.SystemId = systemId;
             }
 
-            return CurrentSession.ActionName.ToLower().Contains("edit")
-                || CurrentSession.ActionName.ToLower().Contains("reset")
-                || CurrentSession.ActionName.ToLower().Contains("assign") 
-                    ? RedirectToAction(CurrentSession.ActionName, CurrentSession.ControllerName, new { id = 0 }) 
+            return CurrentSession.ActionName.ToLowerInvariant().Contains("edit")
+                || CurrentSession.ActionName.ToLowerInvariant().Contains("reset")
+                || CurrentSession.ActionName.ToLowerInvariant().Contains("assign")
+                    ? RedirectToAction(CurrentSession.ActionName, CurrentSession.ControllerName, new { id = 0 })
                     : RedirectToAction(CurrentSession.ActionName, CurrentSession.ControllerName);
         }
 
@@ -219,14 +219,15 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
         public int GetMaxNumberOfIPsFromConfig(IEnumerable<SelectListItem> config)
         {
-            return Converter.ToInt(config.Where(m => m.Text == "MaximumNumberOfIPs").ToList()[0].Value, 0);
+            return Converter.ToInt(config.Where(m => m.Text == "MaximumNumberOfIPs").ToList()[0].Value);
         }
 
         public int GetMaxNumberOfIPs()
         {
             var config = baseService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "Config" }, false);
-            return Converter.ToInt(config.Where(m => m.Text == "MaximumNumberOfIPs").ToList()[0].Value, 0);
+            return Converter.ToInt(config.Where(m => m.Text == "MaximumNumberOfIPs").ToList()[0].Value);
         }
+
         #endregion Common
     }
 }

@@ -9,8 +9,7 @@
 
 namespace Fanex.OddsFeed.Core.Web.Session
 {
-    using System;    
-    using System.Diagnostics.CodeAnalysis;
+    using System;
     using System.Web;
 
     /// <summary>
@@ -40,9 +39,9 @@ namespace Fanex.OddsFeed.Core.Web.Session
 
         public const string CONTROLLERNAME = "ControllerName";
 
-        public const string ACTIONNAME = "ActionName";        
+        public const string ACTIONNAME = "ActionName";
 
-        #endregion Constants
+        #endregion const
 
         /// <summary>
         /// Gets or sets the username.
@@ -242,7 +241,7 @@ namespace Fanex.OddsFeed.Core.Web.Session
             {
                 HttpContext.Current.Session[ACTIONNAME] = value;
             }
-        }   
+        }
 
         public void ClearAll()
         {
@@ -251,6 +250,6 @@ namespace Fanex.OddsFeed.Core.Web.Session
                 HttpContext.Current.Session.Clear();
                 HttpContext.Current.Session.Abandon();
             }
-        }       
+        }
     }
 }

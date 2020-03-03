@@ -25,44 +25,36 @@ namespace Fanex.OddsFeed.Core.Web.Attribute
         public override void OnAuthorization(AuthorizationContext filterContext)
         {
             base.OnAuthorization(filterContext);
-
-            try
+            if (filterContext.HttpContext == null)
             {
-                if (filterContext.HttpContext == null)
-                {
-                    return;
-                }
-
-                if (!CheckSessionAuthorization())
-                {
-                    var response = filterContext.HttpContext.Response;
-
-                    if (filterContext.HttpContext.Request.IsAjaxRequest())
-                    {
-                        response.Buffer = true;
-                        response.StatusCode = 403; // Unauthorized status code
-                        response.Write("<center><b>" + ViewResources.UnauthorizeMsg + "</b></center>");
-                        response.Flush();
-                        response.Close();
-                        response.End();
-                    }
-                    else
-                    {
-                        response.Redirect("~/userlogin/login");
-                    }
-                }
+                return;
             }
-            catch
+
+            if (!CheckSessionAuthorization())
             {
-                throw;
+                var response = filterContext.HttpContext.Response;
+
+                if (filterContext.HttpContext.Request.IsAjaxRequest())
+                {
+                    response.Buffer = true;
+                    response.StatusCode = 403; // Unauthorized status code
+                    response.Write("<center><b>" + ViewResources.UnauthorizeMsg + "</b></center>");
+                    response.Flush();
+                    response.Close();
+                    response.End();
+                }
+                else
+                {
+                    response.Redirect("~/userlogin/login");
+                }
             }
         }
 
-        private bool CheckSessionAuthorization()
+        private static bool CheckSessionAuthorization()
         {
             ICurrentSession session = new CurrentSession();
 
-            if (session == null || string.IsNullOrEmpty(session.Username))
+            if (string.IsNullOrEmpty(session.Username))
             {
                 return false;
             }

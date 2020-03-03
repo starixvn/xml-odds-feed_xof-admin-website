@@ -307,27 +307,13 @@ namespace Fanex.OddsFeed.Core
             return MvcHtmlString.Create(dropDownList.ToString());
         }
 
-        /// <summary>
-        /// Month the picker for.
-        /// </summary>
-        /// <typeparam name="TModel">The type of the t model.</typeparam>
-        /// <typeparam name="TValue">The type of the t value.</typeparam>
-        /// <param name="html">The HTML for generate.</param>
-        /// <param name="expression">The expression.</param>
-        /// <param name="currentMonth">The current month.</param>
-        /// <param name="htmlAttributes">The HTML attributes.</param>
-        /// <returns>Object MVCHtmlString.</returns>
         public static MvcHtmlString MonthPickerFor<TModel, TValue>(
             this HtmlHelper<TModel> html,
             Expression<Func<TModel, TValue>> expression,
-            int currentMonth,
-            ////int? currentYear,
-            ////DateTime? minDate = null,
-            ////DateTime? maxDate = null,
             object htmlAttributes = null)
         {
             var metaData = ModelMetadata.FromLambdaExpression(expression, html.ViewData);
-            currentMonth = (int)metaData.Model;
+            var currentMonth = (int)metaData.Model;
 
             return html.MonthPicker(metaData.PropertyName, currentMonth, htmlAttributes);
         }
@@ -524,17 +510,6 @@ namespace Fanex.OddsFeed.Core
             return CheckBoxList(htmlHelper, name, selectList, HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
         }
 
-        /// <summary>
-        /// CheckBoxes the list.
-        /// </summary>
-        /// <param name="htmlHelper">The HTML helper.</param>
-        /// <param name="name">The name for generate.</param>
-        /// <param name="selectList">The select list.</param>
-        /// <param name="htmlAttributes">The HTML attributes.</param>
-        /// <param name="showNameAttribute">If set to <c>true</c> [show name attribute].</param>
-        /// <returns>Object MVCHtmlString.</returns>
-        /// <exception cref="System.ArgumentException">Name cannot be null or empty.;name.</exception>
-        /// <exception cref="System.ArgumentNullException">Object selectList.</exception>
         public static MvcHtmlString CheckBoxList(
             this HtmlHelper htmlHelper,
             string name,
@@ -542,6 +517,7 @@ namespace Fanex.OddsFeed.Core
             IDictionary<string, object> htmlAttributes,
             bool showNameAttribute = true)
         {
+            var checkBoxItems = selectList;
             var fullHtmlFieldName = htmlHelper.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(name);
             if (string.IsNullOrEmpty(fullHtmlFieldName))
             {
@@ -551,11 +527,11 @@ namespace Fanex.OddsFeed.Core
             var selectListFromViewData = false;
             if (selectList == null)
             {
-                selectList = htmlHelper.ViewData.Eval(fullHtmlFieldName) as IEnumerable<SelectListItem>;
+                checkBoxItems = htmlHelper.ViewData.Eval(fullHtmlFieldName) as IEnumerable<SelectListItem>;
                 selectListFromViewData = true;
             }
 
-            if (selectList == null)
+            if (checkBoxItems == null)
             {
                 throw new ArgumentNullException(nameof(selectList));
             }
@@ -576,7 +552,7 @@ namespace Fanex.OddsFeed.Core
 
             if (values != null)
             {
-                selectList = CreateListItems(selectList, values);
+                checkBoxItems = CreateListItems(checkBoxItems, values);
             }
 
             var sb = new StringBuilder();
@@ -584,7 +560,7 @@ namespace Fanex.OddsFeed.Core
 
             htmlAttributes.Remove("checked");
 
-            foreach (var item in selectList)
+            foreach (var item in checkBoxItems)
             {
                 CreateCheckBox(name, htmlAttributes, showNameAttribute, fullHtmlFieldName, sb, item);
             }
@@ -592,14 +568,6 @@ namespace Fanex.OddsFeed.Core
             return MvcHtmlString.Create(sb.ToString());
         }
 
-        /// <summary>
-        /// CheckBoxes the list for.
-        /// </summary>
-        /// <typeparam name="TModel">The type of the t model.</typeparam>
-        /// <typeparam name="TProperty">The type of the t property.</typeparam>
-        /// <param name="htmlHelper">The HTML helper.</param>
-        /// <param name="expression">The expression.</param>
-        /// <returns>Object MVCHtmlString.</returns>
         public static MvcHtmlString CheckBoxListFor<TModel, TProperty>(
             this HtmlHelper<TModel> htmlHelper,
             Expression<Func<TModel, TProperty>> expression)

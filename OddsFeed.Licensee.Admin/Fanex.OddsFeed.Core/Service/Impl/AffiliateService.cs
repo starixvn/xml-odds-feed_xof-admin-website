@@ -45,22 +45,11 @@ namespace Fanex.OddsFeed.Core.Service.Impl
 
         #region ctors
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AffiliateService"/> class.
-        /// </summary>
         public AffiliateService()
             : this(null, null, null, null, null)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AffiliateService"/> class.
-        /// </summary>
-        /// <param name="partnerIpRepository">The partner IP repository.</param>
-        /// <param name="affilliateRepository">The affiliate repository.</param>
-        /// <param name="partnerStatisticRepository">The partner statistic repository.</param>
-        /// <param name="selectListRepository">The select list repository.</param>
-        /// <param name="cache">The cache.</param>
         public AffiliateService(
                                     PartnerIPRepository partnerIpRepository,
                                     IAffiliateRepository affilliateRepository,
@@ -79,23 +68,11 @@ namespace Fanex.OddsFeed.Core.Service.Impl
 
         #region Get
 
-        /// <summary>
-        /// Gets the by identifier.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <returns>Object IAffiliate.</returns>
-        /// <exception cref="System.NotImplementedException">Object NotImplementedException.</exception>
         public IAffiliate GetById(int id)
         {
             throw new NotImplementedException();
         }
 
-        /// <summary>
-        /// Gets the by name and system identifier.
-        /// </summary>
-        /// <param name="systemId">The system identifier.</param>
-        /// <param name="name">The affiliate name.</param>
-        /// <returns>IList {Affiliate}.</returns>
         public IList<Affiliate> GetByNameAndSystemId(byte systemId, string name)
         {
             try
@@ -135,12 +112,6 @@ namespace Fanex.OddsFeed.Core.Service.Impl
             return null;
         }
 
-        /// <summary>
-        /// Gets the affiliate list return data reader.
-        /// </summary>
-        /// <param name="systemId">The system identifier.</param>
-        /// <param name="name">The affiliate name.</param>
-        /// <returns>IData Reader.</returns>
         public IDataReader GetAffiliateListReturnDataReader(byte systemId, string name)
         {
             try
@@ -164,11 +135,6 @@ namespace Fanex.OddsFeed.Core.Service.Impl
             return null;
         }
 
-        /// <summary>
-        /// Gets the affiliate list return data collection.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        /// <returns>Data Collection.</returns>
         public DataCollection GetAffiliateListReturnDataCollection(GetAffiliateByNameCriteria criteria)
         {
             try
@@ -189,11 +155,6 @@ namespace Fanex.OddsFeed.Core.Service.Impl
             return null;
         }
 
-        /// <summary>
-        /// Gets the affiliate list return data collection.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        /// <returns>Data Collection.</returns>
         public DataCollection GetAffiliateListReturnDataCollection(CheckExistAffiliateCriteria criteria)
         {
             try
@@ -219,13 +180,6 @@ namespace Fanex.OddsFeed.Core.Service.Impl
             throw new NotImplementedException();
         }
 
-        /// <summary>
-        /// Gets the domain.
-        /// </summary>
-        /// <param name="isActive">If set to <c>true</c> [is active].</param>
-        /// <param name="isOddsDomain">If set to <c>true</c> [is odds domain].</param>
-        /// <param name="selectedId">The selected identifier.</param>
-        /// <returns>IEnumerable {SelectListItem}.</returns>
         public IEnumerable<SelectListItem> GetDomain(bool? isActive = null, bool? isOddsDomain = null, int selectedId = 0)
         {
             try
@@ -250,14 +204,6 @@ namespace Fanex.OddsFeed.Core.Service.Impl
             return new List<SelectListItem>();
         }
 
-        /// <summary>
-        /// Gets the domain by affiliate identifier.
-        /// </summary>
-        /// <param name="partnerId">The partner identifier.</param>
-        /// <param name="isActive">If set to <c>true</c> [is active].</param>
-        /// <param name="isOddsDomain">If set to <c>true</c> [is odds domain].</param>
-        /// <param name="selectedId">The selected identifier.</param>
-        /// <returns>IEnumerable {SelectListItem}.</returns>
         public IEnumerable<SelectListItem> GetDomainByAffId(
             int partnerId,
             bool? isActive = null,
@@ -286,11 +232,6 @@ namespace Fanex.OddsFeed.Core.Service.Impl
             return null;
         }
 
-        /// <summary>
-        /// Gets the partner IP by affiliate identifier.
-        /// </summary>
-        /// <param name="partnerId">The partner identifier.</param>
-        /// <returns>IList {PartnerIP}.</returns>
         public IList<PartnerIP> GetPartnerIpByAffId(int partnerId)
         {
             try
@@ -323,11 +264,6 @@ namespace Fanex.OddsFeed.Core.Service.Impl
             return new List<PartnerIP>();
         }
 
-        /// <summary>
-        /// Gets the partner request statistic.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        /// <returns>IEnumerable {RequestStatistic}.</returns>
         public IEnumerable<RequestStatistic> GetPartnerRequestStatistic(RequestStatisticCriteria criteria)
         {
             try
@@ -350,11 +286,6 @@ namespace Fanex.OddsFeed.Core.Service.Impl
             return null;
         }
 
-        /// <summary>
-        /// Gets the partner request statistic return data reader.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        /// <returns>Object IDataReader.</returns>
         public IDataReader GetPartnerRequestStatisticReturnDataReader(RequestStatisticCriteria criteria)
         {
             try
@@ -375,11 +306,6 @@ namespace Fanex.OddsFeed.Core.Service.Impl
             return null;
         }
 
-        /// <summary>
-        /// Gets the partner request statistic return data collection.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        /// <returns>Data Collection.</returns>
         public DataCollection GetPartnerRequestStatisticReturnDataCollection(RequestStatisticCriteria criteria)
         {
             try
@@ -400,11 +326,6 @@ namespace Fanex.OddsFeed.Core.Service.Impl
             return null;
         }
 
-        /// <summary>
-        /// Gets the odds type by affiliate identifier.
-        /// </summary>
-        /// <param name="partnerId">The partner identifier.</param>
-        /// <returns>IEnumerable {SelectListItem}.</returns>
         public IEnumerable<SelectListItem> GetOddsTypeByAffId(int partnerId)
         {
             try
@@ -428,11 +349,6 @@ namespace Fanex.OddsFeed.Core.Service.Impl
             return null;
         }
 
-        /// <summary>
-        /// Gets the type of the odds.
-        /// </summary>
-        /// <param name="selectedId">The selected identifier.</param>
-        /// <returns>IEnumerable {SelectListItem}.</returns>
         public IEnumerable<SelectListItem> GetOddsType(int selectedId = 0)
         {
             try
@@ -456,11 +372,6 @@ namespace Fanex.OddsFeed.Core.Service.Impl
             return null;
         }
 
-        /// <summary>
-        /// Gets the current odds style by affiliate identifier.
-        /// </summary>
-        /// <param name="partnerId">The partner identifier.</param>
-        /// <returns>System String.</returns>
         public string GetCurrentOddsStyleByAffId(int partnerId)
         {
             try
@@ -483,11 +394,6 @@ namespace Fanex.OddsFeed.Core.Service.Impl
             return null;
         }
 
-        /// <summary>
-        /// Gets the odds style.
-        /// </summary>
-        /// <param name="selectedId">The selected identifier.</param>
-        /// <returns>IEnumerable {SelectListItem}.</returns>
         public IEnumerable<SelectListItem> GetOddsStyle(int selectedId = 0)
         {
             try
@@ -511,11 +417,6 @@ namespace Fanex.OddsFeed.Core.Service.Impl
             return null;
         }
 
-        /// <summary>
-        /// Gets the BETTYPE by affiliate identifier.
-        /// </summary>
-        /// <param name="partnerId">The partner identifier.</param>
-        /// <returns>IEnumerable {SelectListItem}.</returns>
         public IEnumerable<SelectListItem> GetBettypeByAffId(int partnerId)
         {
             try
@@ -538,11 +439,6 @@ namespace Fanex.OddsFeed.Core.Service.Impl
             return null;
         }
 
-        /// <summary>
-        /// Gets the BETTYPE by system identifier.
-        /// </summary>
-        /// <param name="selectedId">The selected identifier.</param>
-        /// <returns>IEnumerable {SelectListItem}.</returns>
         public IEnumerable<SelectListItem> GetBettypeBySystemId(int selectedId = 0)
         {
             try
@@ -554,7 +450,7 @@ namespace Fanex.OddsFeed.Core.Service.Impl
 
                 if (criteria.IsValid())
                 {
-                    return _selectListRepository.GetWithGroup(criteria).OrderBy(s => s.Text);
+                    return SelectListRepository.GetWithGroup(criteria).OrderBy(s => s.Text);
                 }
             }
             catch (Exception ex)
@@ -565,11 +461,6 @@ namespace Fanex.OddsFeed.Core.Service.Impl
             return null;
         }
 
-        /// <summary>
-        /// Gets the country by affiliate identifier.
-        /// </summary>
-        /// <param name="partnerId">The partner identifier.</param>
-        /// <returns>IEnumerable {SelectListItem}.</returns>
         public IEnumerable<SelectListItem> GetCountryByAffId(int partnerId)
         {
             try
@@ -592,11 +483,6 @@ namespace Fanex.OddsFeed.Core.Service.Impl
             return null;
         }
 
-        /// <summary>
-        /// Gets the country by system identifier.
-        /// </summary>
-        /// <param name="selectedId">The selected identifier.</param>
-        /// <returns>IEnumerable {SelectListItem}.</returns>
         public IEnumerable<SelectListItem> GetCountryBySystemId(string selectedId = "")
         {
             try
@@ -619,11 +505,6 @@ namespace Fanex.OddsFeed.Core.Service.Impl
             return null;
         }
 
-        /// <summary>
-        /// Gets the sport by affiliate identifier.
-        /// </summary>
-        /// <param name="partnerId">The partner identifier.</param>
-        /// <returns>IEnumerable {SelectListItem}.</returns>
         public IEnumerable<SelectListItem> GetSportByAffId(int partnerId)
         {
             try
@@ -646,11 +527,6 @@ namespace Fanex.OddsFeed.Core.Service.Impl
             return null;
         }
 
-        /// <summary>
-        /// Gets the sport by system identifier.
-        /// </summary>
-        /// <param name="selectedId">The selected identifier.</param>
-        /// <returns>IEnumerable {SelectListItem}.</returns>
         public IEnumerable<SelectListItem> GetSportBySystemId(byte selectedId = 0)
         {
             try
@@ -662,7 +538,7 @@ namespace Fanex.OddsFeed.Core.Service.Impl
 
                 if (criteria.IsValid())
                 {
-                    return _selectListRepository.GetWithGroup(criteria).OrderBy(s => s.Text);
+                    return SelectListRepository.GetWithGroup(criteria).OrderBy(s => s.Text);
                 }
             }
             catch (Exception ex)
@@ -673,11 +549,6 @@ namespace Fanex.OddsFeed.Core.Service.Impl
             return null;
         }
 
-        /// <summary>
-        /// Gets the language by system identifier.
-        /// </summary>
-        /// <param name="selectedId">The selected identifier.</param>
-        /// <returns>IEnumerable {SelectListItem}.</returns>
         public IEnumerable<SelectListItem> GetLanguageBySystemId(string selectedId = "")
         {
             try
@@ -700,11 +571,6 @@ namespace Fanex.OddsFeed.Core.Service.Impl
             return null;
         }
 
-        /// <summary>
-        /// Gets the language by affiliate identifier.
-        /// </summary>
-        /// <param name="partnerId">The partner identifier.</param>
-        /// <returns>IEnumerable {SelectListItem}.</returns>
         public IEnumerable<SelectListItem> GetLanguageByAffId(int partnerId)
         {
             try
@@ -727,10 +593,6 @@ namespace Fanex.OddsFeed.Core.Service.Impl
             return null;
         }
 
-        /// <summary>
-        /// Gets all affiliates.
-        /// </summary>
-        /// <returns>IList {Affiliate}.</returns>
         public IList<Affiliate> GetAllAffiliates()
         {
             try
@@ -768,11 +630,6 @@ namespace Fanex.OddsFeed.Core.Service.Impl
             return null;
         }
 
-        /// <summary>
-        /// Gets the by system identifier.
-        /// </summary>
-        /// <param name="systemId">The system identifier.</param>
-        /// <returns>IList {Affiliate}.</returns>
         public IList<Affiliate> GetBySystemId(byte systemId)
         {
             try
@@ -812,11 +669,6 @@ namespace Fanex.OddsFeed.Core.Service.Impl
             return null;
         }
 
-        /// <summary>
-        /// Gets the top10 affiliate return data set.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        /// <returns>The DataSet.</returns>
         public DataSet GetTop10AffReturnDataSet(GetTop10AffiliateCriteria criteria)
         {
             try
@@ -860,11 +712,6 @@ namespace Fanex.OddsFeed.Core.Service.Impl
             return null;
         }
 
-        /// <summary>
-        /// Updates the specified criteria.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        /// <returns>ICommand Result.</returns>
         public ICommandResult Update(CriteriaBase criteria)
         {
             ICommandResult result = new CommandResult
@@ -895,11 +742,6 @@ namespace Fanex.OddsFeed.Core.Service.Impl
 
         #region Delete
 
-        /// <summary>
-        /// Deletes the specified criteria.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        /// <returns>ICommand Result.</returns>
         public ICommandResult Delete(CriteriaBase criteria)
         {
             // check parameters
