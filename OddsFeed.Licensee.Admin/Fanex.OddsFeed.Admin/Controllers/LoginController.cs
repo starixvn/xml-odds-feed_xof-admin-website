@@ -307,7 +307,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
             CurrentSession.SystemName = systemName;
             CurrentSession.SystemList = criteria.SystemIdNameList;
 
-            CurrentSession.SessionId = Session.SessionID.ToString();
+            CurrentSession.SessionId = Session.SessionID;
 
             ////CreateAuthInfo(user);            
         }

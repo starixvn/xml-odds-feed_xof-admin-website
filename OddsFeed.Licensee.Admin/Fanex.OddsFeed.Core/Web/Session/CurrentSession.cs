@@ -37,9 +37,9 @@ namespace Fanex.OddsFeed.Core.Web.Session
 
         public const string INTERNALMENUITEMDIC = "InternalMenuItemList";
 
-        public const string CONTROLLERNAME = "ControllerName";
+        public const string SESSIONCONTROLLERNAME = "ControllerName";
 
-        public const string ACTIONNAME = "ActionName";
+        public const string SESSIONACTIONNAME = "ActionName";
 
         #endregion const
 
@@ -203,23 +203,19 @@ namespace Fanex.OddsFeed.Core.Web.Session
             }
         }
 
-        /// <summary>
-        /// Gets or sets the name of the controller.
-        /// </summary>
-        /// <value>The name of the controller.</value>
         public string ControllerName
         {
             get
             {
                 return
                 (HttpContext.Current != null)
-                ? Convert.ToString(HttpContext.Current.Session[CONTROLLERNAME])
+                ? Convert.ToString(HttpContext.Current.Session[SESSIONCONTROLLERNAME])
                 : string.Empty;
             }
 
             set
             {
-                HttpContext.Current.Session[CONTROLLERNAME] = value;
+                HttpContext.Current.Session[SESSIONCONTROLLERNAME] = value;
             }
         }
 
@@ -233,13 +229,13 @@ namespace Fanex.OddsFeed.Core.Web.Session
             {
                 return
                 (HttpContext.Current != null)
-                ? Convert.ToString(HttpContext.Current.Session[ACTIONNAME])
+                ? Convert.ToString(HttpContext.Current.Session[SESSIONACTIONNAME])
                 : string.Empty;
             }
 
             set
             {
-                HttpContext.Current.Session[ACTIONNAME] = value;
+                HttpContext.Current.Session[SESSIONACTIONNAME] = value;
             }
         }
 

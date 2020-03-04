@@ -18,12 +18,10 @@ namespace Fanex.OddsFeed.Core.Web.Attribute
     /// </summary>    
     public class NapSuperAuthAttribute : AuthorizeAttribute
     {
-        /// <summary>
-        /// Called when a process requests authorization.
-        /// </summary>
-        /// <param name="filterContext">The filter context, which encapsulates information for using <see cref="T:System.Web.Mvc.AuthorizeAttribute" />.</param>
         public override void OnAuthorization(AuthorizationContext filterContext)
         {
+            const int unauthorizedStatusCode = 403;
+
             base.OnAuthorization(filterContext);
             if (filterContext.HttpContext == null)
             {
@@ -37,7 +35,7 @@ namespace Fanex.OddsFeed.Core.Web.Attribute
                 if (filterContext.HttpContext.Request.IsAjaxRequest())
                 {
                     response.Buffer = true;
-                    response.StatusCode = 403; // Unauthorized status code
+                    response.StatusCode = unauthorizedStatusCode;
                     response.Write("<center><b>" + ViewResources.UnauthorizeMsg + "</b></center>");
                     response.Flush();
                     response.Close();

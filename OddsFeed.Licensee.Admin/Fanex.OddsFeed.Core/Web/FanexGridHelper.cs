@@ -130,7 +130,7 @@ namespace Fanex.OddsFeed.Core.Web
             builder.Append("{");
             builder.Append("totalItem:");
             builder.Append("\"");
-            builder.Append(col.TotalItem.ConvertToString());
+            builder.Append(col != null ? col.TotalItem.ConvertToString() : string.Empty);
             builder.Append("\"");
             builder.Append("}");
             builder.Append("]");
@@ -205,7 +205,7 @@ namespace Fanex.OddsFeed.Core.Web
             builder.Append("{");
             builder.Append("totalItem:");
             builder.Append("\"");
-            builder.Append(col.TotalItem.ConvertToString());
+            builder.Append(col != null ? col.TotalItem.ConvertToString() : string.Empty);
             builder.Append("\"");
             builder.Append("}");
             builder.Append("]");

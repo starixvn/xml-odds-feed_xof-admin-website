@@ -686,17 +686,6 @@ namespace Fanex.OddsFeed.Core
             return CheckBoxDropDownList(htmlHelper, name, selectList, HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes), showNameAttribute);
         }
 
-        /// <summary>
-        /// CheckBoxes the drop down list.
-        /// </summary>
-        /// <param name="htmlHelper">The HTML helper.</param>
-        /// <param name="name">The name for generate.</param>
-        /// <param name="selectList">The select list.</param>
-        /// <param name="htmlAttributes">The HTML attributes.</param>
-        /// <param name="showNameAttribute">If set to <c>true</c> [show name attribute].</param>
-        /// <returns>Object MVCHtmlString.</returns>
-        /// <exception cref="System.ArgumentException">Name cannot be null or empty.;name.</exception>
-        /// <exception cref="System.ArgumentNullException">Exception name selectList.</exception>
         public static MvcHtmlString CheckBoxDropDownList(
             this HtmlHelper htmlHelper,
             string name,
@@ -704,6 +693,7 @@ namespace Fanex.OddsFeed.Core
             IDictionary<string, object> htmlAttributes,
             bool showNameAttribute = true)
         {
+            var checkBoxList = selectList;
             var fullHtmlFieldName = htmlHelper.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(name);
             if (string.IsNullOrEmpty(fullHtmlFieldName))
             {
@@ -711,13 +701,13 @@ namespace Fanex.OddsFeed.Core
             }
 
             var selectListFromViewData = false;
-            if (selectList == null)
+            if (checkBoxList == null)
             {
-                selectList = htmlHelper.ViewData.Eval(fullHtmlFieldName) as IEnumerable<SelectListItem>;
+                checkBoxList = htmlHelper.ViewData.Eval(fullHtmlFieldName) as IEnumerable<SelectListItem>;
                 selectListFromViewData = true;
             }
 
-            if (selectList == null)
+            if (checkBoxList == null)
             {
                 throw new ArgumentNullException(nameof(selectList));
             }
@@ -737,14 +727,14 @@ namespace Fanex.OddsFeed.Core
 
             if (values != null)
             {
-                selectList = CreateListItems(selectList, values);
+                checkBoxList = CreateListItems(checkBoxList, values);
             }
 
             var sb = new StringBuilder();
             htmlAttributes = (htmlAttributes == null) ? new RouteValueDictionary() : new RouteValueDictionary(htmlAttributes);
             htmlAttributes.Remove("checked");
 
-            foreach (var item in selectList)
+            foreach (var item in checkBoxList)
             {
                 CreateCheckBoxInsideDiv(name, htmlAttributes, showNameAttribute, fullHtmlFieldName, sb, item);
             }

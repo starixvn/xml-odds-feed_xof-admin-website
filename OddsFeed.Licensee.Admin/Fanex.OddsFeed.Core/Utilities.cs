@@ -332,7 +332,7 @@
         public static bool GetDownTime(out string startTime, out string endTime)
         {
             startTime = endTime = null;
-            var timeCacheUM = 10; ////second
+            const int timeCacheUM = 10; ////second
             var isUM = false;
             if (HttpContext.Current.Cache["IsUM"] == null)
             {
