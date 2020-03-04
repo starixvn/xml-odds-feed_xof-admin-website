@@ -9,13 +9,12 @@
 
 namespace Fanex.OddsFeed.Core.Web.Attribute
 {
-    using System.Diagnostics.CodeAnalysis;
     using System.Web.Mvc;
     using Fanex.OddsFeed.Core.Web.Session;
 
     /// <summary>
     /// Class NapSuperAUTHAttribute.
-    /// </summary>    
+    /// </summary>
     public class NapSuperAuthAttribute : AuthorizeAttribute
     {
         public override void OnAuthorization(AuthorizationContext filterContext)
