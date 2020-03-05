@@ -427,6 +427,7 @@ function CheckAllListEventWithConfirm(chkAll, chkItems, callback, paras) {
 
 function IsShowConfirmModal(chkAllClassName, chkItems) {
     var checkedItems = 0;
+    const uncheckItems = $('.' + chkItems + ':not(:checked)').length; 
 
     if (chkAllClassName === 'chkAllMinorSports') {
         checkedItems = $('.' + chkItems + ':checked').length;
@@ -442,7 +443,7 @@ function IsShowConfirmModal(chkAllClassName, chkItems) {
     }
 
     return (($('#' + chkAllClassName).is(':not(:checked)') && checkedItems === 2)
-        || ($('#' + chkAllClassName).is(':checked') && checkedItems <= 1));;
+        || ($('#' + chkAllClassName).is(':checked') && checkedItems <= 1 && (uncheckItems + checkedItems) >= 2));;
 }
 
 function HandleConfirmModal() {
