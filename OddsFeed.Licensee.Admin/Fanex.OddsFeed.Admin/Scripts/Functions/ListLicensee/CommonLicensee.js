@@ -306,7 +306,7 @@ function CheckBoxListEventWithConfirm(chkAll, chkItems, isCheckAll, callback) {
     var paras = arguments;
 
     InitCheckBoxList(chkAll, chkItems, isCheckAll);
-    CheckItemsEvent(chkAll, chkItems, callback, paras);
+    CheckItemsEventWithConfirm(chkAll, chkItems, callback, paras);
     CheckAllListEventWithConfirm(chkAll, chkItems, callback, paras);
 }
 
@@ -343,6 +343,36 @@ function CheckItemsEvent(chkAll, chkItems, callback, paras) {
     });
 }
 
+function CheckItemsEventWithConfirm(chkAll, chkItems, callback, paras) {
+    $("." + chkItems).click(function () {
+        var chkItem = this;
+
+        if (chkItem.checked) {
+            var showModal = IsShowConfirmModal(chkAll, chkItems);
+
+            if (showModal) {
+                const messageFor = chkAll === 'chkAllMinorSports' ? 'SPORT' : 'MINOR MARKET';
+
+                chkItem.checked = false;
+                confirm('YOU ARE SELECTING MORE THAN 1 ' + messageFor + ', SO THE ODDS SERVICES MAY RETURN DATA SLOWLY! Are you sure to continue?',
+                    function () {
+                        chkItem.checked = true;
+                    });
+            }
+
+            if ($('.' + chkItems + ':checked').length != 0 && ($('.' + chkItems + ':checked').length == $("." + chkItems).length)) {
+                $('#' + chkAll).attr("checked", true);
+            }
+            
+        } else {
+            $('#' + chkAll).attr("checked", false);
+        }
+        
+        if (jQuery.isFunction(callback))
+            callback(paras[4], paras[5], paras[6], paras[7]);
+    });
+}
+
 function CheckAllListEvent(chkAll, chkItems, callback, paras) {
     $('#' + chkAll).click(function () {
         if ($('#' + chkAll).is(":checked")) {
@@ -362,18 +392,20 @@ function CheckAllListEventWithConfirm(chkAll, chkItems, callback, paras) {
         var chkAllBtn = this;
 
         if ($('#' + chkAll).is(":checked")) {
-            chkAllBtn.checked = false;
-
             var showModal = IsShowConfirmModal(chkAll, chkItems);
 
             if (showModal) {
-                confirm('YOU ARE SELECTING ALL SELECTIONS, SO THE ODDS SERVICES MAY RETURN DATA SLOWLY! Are you sure to continue?', function () {
-                    $("." + chkItems).each(function () { this.checked = true; });
-                    chkAllBtn.checked = true;
+                const messageFor = chkAll === 'chkAllMinorSports' ? 'SPORT' : 'MINOR MARKET';
+                chkAllBtn.checked = false;
 
-                    if (jQuery.isFunction(callback))
-                        callback(paras[4], paras[5], paras[6], paras[7]);
-                });
+                confirm('YOU ARE SELECTING MORE THAN 1 ' + messageFor + ', SO THE ODDS SERVICES MAY RETURN DATA SLOWLY! Are you sure to continue?',
+                    function () {
+                        $("." + chkItems).each(function () { this.checked = true; });
+                        chkAllBtn.checked = true;
+
+                        if (jQuery.isFunction(callback))
+                            callback(paras[4], paras[5], paras[6], paras[7]);
+                    });
             }
             else {
                 $("." + chkItems).each(function () { this.checked = true; });
@@ -394,24 +426,27 @@ function CheckAllListEventWithConfirm(chkAll, chkItems, callback, paras) {
 }
 
 function IsShowConfirmModal(chkAllClassName, chkItems) {
-    var result = false;
+    var checkedItems = 0;
 
     if (chkAllClassName === 'chkAllMinorSports') {
-        var checkedItemCount = $('.' + chkItems).length;
+        checkedItems = $('.' + chkItems + ':checked').length;
         $('.chkMajorSport').each(function () {
             if (this.checked) {
-                checkedItemCount++;
+                checkedItems++;
             }
         });
-
-        result = checkedItemCount > 1;
     }
 
     if (chkAllClassName === 'chkAllMinorMarkets') {
-        result = $('.' + chkItems).length > 1;
+        checkedItems = $('.' + chkItems + ':checked').length;
     }
 
-    return result;
+    return (($('#' + chkAllClassName).is(':not(:checked)') && checkedItems === 2)
+        || ($('#' + chkAllClassName).is(':checked') && checkedItems <= 1));;
+}
+
+function HandleConfirmModal() {
+    
 }
 
 function GetLeagueOutright(formID, leagueElement, outrightElement) {
