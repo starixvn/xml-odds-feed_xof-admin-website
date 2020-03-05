@@ -166,7 +166,7 @@ namespace Fanex.OddsFeed.Core
                 : string.Empty;
 
             string formatedMinDate = minDate != null && minDate != DateTime.MinValue ? ((DateTime)minDate).ToString(formatDateForTextBox) : "null";
-            string formatedMaxDate = minDate != null && minDate != DateTime.MinValue ? ((DateTime)minDate).ToString(formatDateForTextBox) : "null";
+            string formatedMaxDate = maxDate != null && maxDate != DateTime.MaxValue ? ((DateTime)maxDate).ToString(formatDateForTextBox) : "null";
 
             var textbox = htmlHelper.TextBox(
                 name,
@@ -314,6 +314,17 @@ namespace Fanex.OddsFeed.Core
         {
             var metaData = ModelMetadata.FromLambdaExpression(expression, html.ViewData);
             var currentMonth = (int)metaData.Model;
+
+            return html.MonthPicker(metaData.PropertyName, currentMonth, htmlAttributes);
+        }
+
+        public static MvcHtmlString MonthPickerFor<TModel, TValue>(
+            this HtmlHelper<TModel> html,
+            Expression<Func<TModel, TValue>> expression,
+            int currentMonth,
+            object htmlAttributes = null)
+        {
+            var metaData = ModelMetadata.FromLambdaExpression(expression, html.ViewData);
 
             return html.MonthPicker(metaData.PropertyName, currentMonth, htmlAttributes);
         }
