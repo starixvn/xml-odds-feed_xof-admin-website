@@ -184,28 +184,6 @@ namespace Fanex.OddsFeed.Framework.Mvc
 
             return MvcHtmlString.Create(dropDownList.ToString());
         }
-
-        public static MvcHtmlString MonthPickerFor<TModel, TValue>(
-            this HtmlHelper<TModel> html,
-            Expression<Func<TModel, TValue>> expression,
-            object htmlAttributes = null)
-        {
-            var metaData = ModelMetadata.FromLambdaExpression(expression, html.ViewData);
-            var currentMonth = (int)metaData.Model;
-
-            return html.MonthPicker(metaData.PropertyName, currentMonth, htmlAttributes);
-        }
-
-        public static MvcHtmlString MonthPickerFor<TModel, TValue>(
-            this HtmlHelper<TModel> html,
-            Expression<Func<TModel, TValue>> expression,
-            int currentMonth,
-            object htmlAttributes = null)
-        {
-            var metaData = ModelMetadata.FromLambdaExpression(expression, html.ViewData);
-
-            return html.MonthPicker(metaData.PropertyName, currentMonth, htmlAttributes);
-        }
         #endregion
     }
 }
