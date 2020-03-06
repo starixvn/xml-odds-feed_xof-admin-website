@@ -278,7 +278,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
             }
 
             var result = _adminService.UpdateAdminInfo(criteria);
-            if (result == null || result.IsSuccessful)
+            if (result == null || !result.IsSuccessful)
             {
                 actionResult.IsSuccess = false;
                 if (result != null)
