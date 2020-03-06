@@ -439,7 +439,7 @@
                 <input id="minorMarket-filter" />
             </div>
             <div class="grid7 checkbox-list">
-                @Html.CheckBoxDropDownListFor(m => m.BetTypeIDList, minorMarkets, new { @Class = "chkMinorMarket", @isDisabled = @ViewBag.SportsFlag ? "" : "disabled" }, false)
+                @Html.CheckBoxDropDownListFor(m => m.BetTypeIDList, minorMarkets, new { @Class = "chkMinorMarket", @isDisabled = @ViewBag.MarketsFlag ? "" : "disabled" }, false)
             </div>
         </div>
         <div class="grid1" style="line-height: 150px; text-align: left">
