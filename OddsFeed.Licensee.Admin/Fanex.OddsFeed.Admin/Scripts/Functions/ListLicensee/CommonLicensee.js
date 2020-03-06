@@ -357,6 +357,10 @@ function CheckItemsEventWithConfirm(chkAll, chkItems, callback, paras) {
                 confirm('YOU ARE SELECTING MORE THAN 1 ' + messageFor + ', SO THE ODDS SERVICES MAY RETURN DATA SLOWLY! Are you sure to continue?',
                     function () {
                         chkItem.checked = true;
+
+                        if ($('.' + chkItems + ':checked').length != 0 && ($('.' + chkItems + ':checked').length == $("." + chkItems).length)) {
+                            $('#' + chkAll).attr("checked", true);
+                        }
                     });
             }
 
