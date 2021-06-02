@@ -240,6 +240,22 @@
     <Compile Include="Utility\LoginCaptcha.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\AWS\CompanyIPSpNames.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App_Data\AWS\DomainSpNames.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App_Data\AWS\LicenseeSpNames.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App_Data\AWS\SpNames.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="App_Data\combres.xml" />
     <Content Include="App_Data\MNL\CompanyIPSpNames.xml">
       <SubType>Designer</SubType>
@@ -257,19 +273,19 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="App_Data\Pro\CompanyIPSpNames.xml">
+    <Content Include="App_Data\PROD\CompanyIPSpNames.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="App_Data\Pro\DomainSpNames.xml">
+    <Content Include="App_Data\PROD\DomainSpNames.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="App_Data\Pro\LicenseeSpNames.xml">
+    <Content Include="App_Data\PROD\LicenseeSpNames.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="App_Data\Pro\SpNames.xml">
+    <Content Include="App_Data\PROD\SpNames.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -1023,7 +1039,7 @@
     <Content Include="Views\Affiliate\ViewXMLURLs_Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Web.PRO.config">
+    <Content Include="Web.PROD.config">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -1041,7 +1057,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Web.PRO.ConnectionString.config">
+    <Content Include="Web.PROD.ConnectionString.config">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -1064,6 +1080,14 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Web.AWS.config">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Web.AWS.ConnectionString.config">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Web.SIT.ConnectionString.config">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -1073,6 +1097,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
