@@ -1,0 +1,34 @@
+﻿namespace Fanex.OddsFeed.Core.Helpers
+{
+    using System;
+<<<<<<< HEAD
+=======
+    using System.Configuration;
+>>>>>>> 000 - change to sentry config
+    using Logging;
+
+    public static class LogHelper
+    {
+        public static void Log(Exception exception)
+        {
+            var message = new[]
+            {
+<<<<<<< HEAD
+                "ERROR: " + exception.Message,
+                "SOURCE: " + exception.Source,
+                "TARGETSITE: " + exception.TargetSite,
+                "STACKTRACE: " + exception.StackTrace
+            };
+=======
+                            "ENVIRONMENT: " + ConfigurationManager.AppSettings["Environment"],
+                            "ERROR: " + exception.Message,
+                            "SOURCE: " + exception.Source,
+                            "TARGETSITE: " + exception.TargetSite,
+                            "STACKTRACE: " + exception.StackTrace
+                };
+>>>>>>> 000 - change to sentry config
+
+            LogService.Error(string.Join(Environment.NewLine, message), exception);
+        }
+    }
+}

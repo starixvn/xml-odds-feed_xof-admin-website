@@ -9,6 +9,7 @@
         {
             var message = new[]
             {
+                            "ENVIRONMENT: " + ConfigurationManager.AppSettings["Environment"],
                 "ERROR: " + exception.Message,
                 "SOURCE: " + exception.Source,
                 "TARGETSITE: " + exception.TargetSite,

@@ -10,14 +10,21 @@
 namespace Fanex.OddsFeed.Admin
 {
     using System;
+    using System.Configuration;
     using System.Web;
     using System.Web.Mvc;
     using System.Web.Optimization;
     using System.Web.Routing;
     using Core.Helpers;
     using Fanex.Data.Configuration;
+    using Fanex.Logging;
+    using Fanex.Logging.Extensions;
+    using Fanex.Logging.Extensions.Database;
+    using Fanex.Logging.Extensions.Web;
+    using Fanex.Logging.Sentry.RavenClient;
     using Fanex.OddsFeed.Admin.App_Start;
     using ONEbook.UM.Filters;
+    using SharpRaven;
 
     /// <summary>
     /// Class MVCApplication.
@@ -26,6 +33,17 @@ namespace Fanex.OddsFeed.Admin
     {
         protected void Application_Start()
         {
+            LogManager
+                   .SetDefaultLogCategory(ConfigurationManager.AppSettings["SentryDNS"])
+                   .Use(new SentryLogging(new SentryEngineOptions
+                   {
+                       Dsn = new Dsn(ConfigurationManager.AppSettings["SentryDNS"])
+                   }));
+
+            ExceptionHandler
+                .UseConfig(new LoggingConfiguration())
+                .UseGetDbExceptionInfo(DatabaseInfoGetters.GetDbExceptionInfo);
+
             AreaRegistration.RegisterAllAreas();
 
             GlobalFilters.Filters.Add(new CheckUMFilter());
