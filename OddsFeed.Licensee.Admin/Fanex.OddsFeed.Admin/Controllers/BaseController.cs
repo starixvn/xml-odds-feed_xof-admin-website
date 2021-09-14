@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="BaseController.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Thai.Tran" date="2013.1.7">Created</change>
-// </history>
-
-namespace Fanex.OddsFeed.Admin.Controllers
+﻿namespace Fanex.OddsFeed.Admin.Controllers
 {
     using System;
     using System.Collections.Generic;
@@ -16,9 +7,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
     using System.Linq;
     using System.Text;
     using System.Web.Mvc;
-    using Common;
-    using Fanex.NAP.Core.Configuration;
-    using Fanex.NAP.Core.Web;
+    using Fanex.Common;
     using Fanex.OddsFeed.Core.Business;
     using Fanex.OddsFeed.Core.Criteria.Affiliate;
     using Fanex.OddsFeed.Core.Model.ValueObject;
@@ -43,8 +32,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
         protected readonly IBaseService baseService;
 
-        private ViewFlags _viewFlags;
-
         public BaseController()
         {
             CurrentContext = new CurrentContext();
@@ -58,11 +45,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
             };
 
             baseService = new BaseService();
-
-            ViewFlags = new ViewFlags
-            {
-                IsReCheckin = NapSettings.Settings.EnableReCheckIn
-            };
 
             ViewBag.MinDate = new DateTime(DefaultMinDate, 1, 1);
             ViewBag.MaxDate = DateTime.Now;
@@ -79,36 +61,12 @@ namespace Fanex.OddsFeed.Admin.Controllers
             ViewBag.NavigationHome = string.Join(null, navigationHome);
         }
 
-        protected ViewFlags ViewFlags
-        {
-            get
-            {
-                return _viewFlags;
-            }
-
-            set
-            {
-                ViewBag.ViewFlags = _viewFlags = value;
-            }
-        }
-
-        /// <summary>
-        /// Get Error Message in Resource by ErrorCode.
-        /// </summary>
-        /// <param name="errCode">Error code.</param>
-        /// <returns>Error message.</returns>
         public string GetMessage(int errCode)
         {
             var msg = Resources.Lang.ResourceManager.GetString("Msg" + errCode.ToString());
             return msg ?? errCode.ToString();
         }
 
-        /// <summary>
-        /// The method to handle URL when switch licensee in dropdown.
-        /// </summary>
-        /// <param name="systemId">The system id.</param>
-        /// <param name="systemName">The system name.</param>
-        /// <returns>The page corresponding to URL.</returns>
         [HttpGet]
         public ActionResult Home(byte systemId = 0, string systemName = "")
         {
@@ -138,13 +96,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
             return builder.ToString();
         }
 
-        /// <summary>
-        /// Create a JSON-formatted for data source.
-        /// </summary>
-        /// <param name="dt">The data table as data source.</param>
-        /// <param name="valueName">String to retrieve the content of column value-Name from data table.</param>
-        /// <param name="labelName">String to retrieve the content of column label-Name from data table.</param>
-        /// <returns>Represents a JSON-formatted content.</returns>
         public JsonResult JsonForAutoComplete(DataTable dt, string valueName, string labelName)
         {
             var list = new List<JSONSource>();

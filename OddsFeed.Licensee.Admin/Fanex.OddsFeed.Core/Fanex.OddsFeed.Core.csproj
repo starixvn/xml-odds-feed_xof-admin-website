@@ -156,7 +156,6 @@
     </Compile>
     <Compile Include="Command\CommandResult.cs" />
     <Compile Include="Command\ICommand.cs" />
-    <Compile Include="Configuration\NapSettings.cs" />
     <Compile Include="Criteria\Administrator\CheckExistAdministratorCriteria.cs" />
     <Compile Include="Criteria\Administrator\GetAllSystemsCriteria.cs" />
     <Compile Include="Criteria\Administrator\GetAllSystemsByUserIdCriteria.cs" />
@@ -354,8 +353,6 @@
     <Compile Include="Utilities.cs" />
     <Compile Include="Web\Attribute\CompressAttribute.cs" />
     <Compile Include="Web\Attribute\IsUnderMaintainanceAttribute.cs" />
-    <Compile Include="Web\Attribute\NapAuthAttribute.cs" />
-    <Compile Include="Web\Attribute\NapSuperAuthAttribute.cs" />
     <Compile Include="Web\Auth\AuthInfo.cs" />
     <Compile Include="Web\Auth\INapPrincipal.cs" />
     <Compile Include="Web\Attribute\IsAuthorizeAttribute.cs" />
@@ -404,7 +401,9 @@
       <Name>Fanex.OddsFeed.Framework</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Configuration\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
