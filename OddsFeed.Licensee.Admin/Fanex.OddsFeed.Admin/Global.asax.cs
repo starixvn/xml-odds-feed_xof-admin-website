@@ -51,9 +51,6 @@ namespace Fanex.OddsFeed.Admin
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             DbSettingProviderManager.Current.Start();
-
-            var ex = new Exception("This is test loging admin web");
-            LogHelper.Log(ex);
         }
 
         protected void Application_Error(object sender, EventArgs e)
