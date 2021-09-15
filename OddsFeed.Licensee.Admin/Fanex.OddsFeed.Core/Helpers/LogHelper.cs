@@ -1,6 +1,7 @@
 ﻿namespace Fanex.OddsFeed.Core.Helpers
 {
     using System;
+    using System.Configuration;
     using Logging;
 
     public static class LogHelper
@@ -9,7 +10,7 @@
         {
             var message = new[]
             {
-                            "ENVIRONMENT: " + ConfigurationManager.AppSettings["Environment"],
+                "ENVIRONMENT: " + ConfigurationManager.AppSettings["Environment"],
                 "ERROR: " + exception.Message,
                 "SOURCE: " + exception.Source,
                 "TARGETSITE: " + exception.TargetSite,
