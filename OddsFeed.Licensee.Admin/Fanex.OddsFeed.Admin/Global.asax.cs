@@ -11,11 +11,11 @@ namespace Fanex.OddsFeed.Admin
 {
     using System;
     using System.Configuration;
+    using System.Diagnostics;
     using System.Web;
     using System.Web.Mvc;
     using System.Web.Optimization;
     using System.Web.Routing;
-    using Core.Helpers;
     using Fanex.Data.Configuration;
     using Fanex.Logging;
     using Fanex.Logging.Extensions;
@@ -56,18 +56,7 @@ namespace Fanex.OddsFeed.Admin
         protected void Application_Error(object sender, EventArgs e)
         {
             var ex = Server.GetLastError().GetBaseException();
-            var httpException = ex as HttpException;
-            if (httpException != null && httpException.ErrorCode == 404)
-            {
-                Server.ClearError();
-                Response.Redirect("~/Tolerance/Error404");
-            }
-            else
-            {
-                LogHelper.Log(ex);
-
-                Response.Redirect("~/Tolerance/UnexpectedError");
-            }
+            ExceptionHandler.Handle(ex, TraceEventType.Error);
         }
     }
 }
