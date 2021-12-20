@@ -1086,6 +1086,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Fanex.OddsFeed.Admin.ruleset" />
+    <Content Include="Web.Local.config">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Web.MNL.ConnectionString.config">
       <SubType>Designer</SubType>
     </None>
