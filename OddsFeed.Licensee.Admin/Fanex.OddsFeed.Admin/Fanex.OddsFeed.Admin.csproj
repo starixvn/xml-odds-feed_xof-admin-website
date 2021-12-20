@@ -250,6 +250,9 @@
     <Compile Include="Utility\LoginCaptcha.cs" />
   </ItemGroup>
   <ItemGroup>
+    <AdditionalFiles Include="..\..\.sonarlint\xmloddsfeedadminsite\CSharp\SonarLint.xml">
+      <Link>SonarLint.xml</Link>
+    </AdditionalFiles>
     <Content Include="App_Data\AWS\CompanyIPSpNames.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -1107,7 +1110,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Analyzer Include="..\..\packages\SonarAnalyzer.CSharp.8.22.0.31243\analyzers\Google.Protobuf.dll" />
+    <Analyzer Include="..\..\packages\SonarAnalyzer.CSharp.8.22.0.31243\analyzers\SonarAnalyzer.CFG.dll" />
+    <Analyzer Include="..\..\packages\SonarAnalyzer.CSharp.8.22.0.31243\analyzers\SonarAnalyzer.CSharp.dll" />
+    <Analyzer Include="..\..\packages\SonarAnalyzer.CSharp.8.22.0.31243\analyzers\SonarAnalyzer.dll" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
