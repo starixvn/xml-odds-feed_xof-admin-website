@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="CurrentContext.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Anders.Le" date="2012.8.2">Created</change>
-// </history>
-
-namespace Fanex.OddsFeed.Core.Web.Context
+﻿namespace Fanex.OddsFeed.Core.Web.Context
 {
     using System;
     using System.Configuration;
@@ -15,13 +6,8 @@ namespace Fanex.OddsFeed.Core.Web.Context
     using System.Net;
     using System.Web;
 
-    /// <summary>
-    /// Class CurrentContext.
-    /// </summary>
     public class CurrentContext : ICurrentContext
     {
-        private const string _CONFIGNAPHUBSITEID = "SiteId";
-
         public string IP
         {
             get
@@ -46,43 +32,6 @@ namespace Fanex.OddsFeed.Core.Web.Context
             }
         }
 
-        ////public string IP
-        ////{
-        ////    get
-        ////    {
-        ////        string ip = string.Empty;
-
-        ////        foreach (IPAddress itemIPA in Dns.GetHostAddresses(HttpContext.Current.Request.UserHostAddress))
-        ////        {
-        ////            if (itemIPA.AddressFamily.ToString().Equals("InterNetwork"))
-        ////            {
-        ////                ip = itemIPA.ToString();
-        ////                break;
-        ////            }
-        ////        }
-
-        ////        if (!ip.IsNullOrTrimEmpty())
-        ////        {
-        ////            return ip;
-        ////        }
-
-        ////        foreach (IPAddress itemIPA in Dns.GetHostAddresses(Dns.GetHostName()))
-        ////        {
-        ////            if (itemIPA.AddressFamily.ToString().Equals("InterNetwork"))
-        ////            {
-        ////                ip = itemIPA.ToString();
-        ////                break;
-        ////            }
-        ////        }
-
-        ////        return ip.Trim();
-        ////    }
-        ////}
-
-        /// <summary>
-        /// Gets the i p4 address.
-        /// </summary>
-        /// <value>The i p4 address.</value>
         public string IP4Address
         {
             get
@@ -116,10 +65,6 @@ namespace Fanex.OddsFeed.Core.Web.Context
             }
         }
 
-        /// <summary>
-        /// Gets the i p6 address.
-        /// </summary>
-        /// <value>The i p6 address.</value>
         public string IP6Address
         {
             get
@@ -150,10 +95,6 @@ namespace Fanex.OddsFeed.Core.Web.Context
             }
         }
 
-        /// <summary>
-        /// Gets the full name of the domain.
-        /// </summary>
-        /// <value>The full name of the domain.</value>
         public string FullDomainName
         {
             get
@@ -168,7 +109,8 @@ namespace Fanex.OddsFeed.Core.Web.Context
 
                 if (!ConfigurationManager.AppSettings["Environment"].ToString().Equals("Production", StringComparison.OrdinalIgnoreCase)
                     && !ConfigurationManager.AppSettings["Environment"].ToString().Equals("UAT", StringComparison.OrdinalIgnoreCase)
-                    && !ConfigurationManager.AppSettings["Environment"].ToString().Equals("SIT", StringComparison.OrdinalIgnoreCase))
+                    && !ConfigurationManager.AppSettings["Environment"].ToString().Equals("SIT", StringComparison.OrdinalIgnoreCase)
+                    && !ConfigurationManager.AppSettings["Environment"].ToString().Equals("Local", StringComparison.OrdinalIgnoreCase))
                 {
                     fulldomain = fulldomain + ":" + port;
                 }
@@ -198,11 +140,6 @@ namespace Fanex.OddsFeed.Core.Web.Context
             }
         }
 
-        /// <summary>
-        /// Resolves the culture.
-        /// </summary>
-        /// <param name="request">The request.</param>
-        /// <returns>Object CultureInfo.</returns>
         private static CultureInfo ResolveCulture(HttpRequest request)
         {
             var languages = request.UserLanguages;

@@ -1,22 +1,9 @@
 ﻿namespace Fanex.OddsFeed.Admin.App_Start
 {
-    using System.Diagnostics.CodeAnalysis;
     using System.Web.Optimization;
 
-    /// <summary>
-    /// Class BundleConfig.
-    /// </summary>    
-    [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1123:DoNotPlaceRegionsWithinElements", Justification = "Reviewed.")]
-    [SuppressMessage(
-           "StyleCop.CSharp.StylecopPlus.Rules",
-           "SP2101:MethodMustNotContainMoreLinesThan",
-           Justification = "Reviewed. Suppression is OK here.")]    
-    public class BundleConfig
+    public static class BundleConfig
     {
-        /// <summary>
-        /// Registers the bundles.
-        /// </summary>
-        /// <param name="bundles">The bundles.</param>
         public static void RegisterBundles(BundleCollection bundles)
         {
             BundleTable.EnableOptimizations = true;

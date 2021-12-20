@@ -1,13 +1,8 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="LoginController.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Thai.Tran" date="2012.8.28">Create</change>
-// </history>
-namespace Fanex.OddsFeed.Admin.Controllers
+﻿namespace Fanex.OddsFeed.Admin.Controllers
 {
+    using System;
+    using System.Web;
+    using System.Web.Mvc;
     using Fanex.Common;
     using Fanex.Common.Extensions;
     using Fanex.OddsFeed.Admin.Utility;
@@ -16,43 +11,22 @@ namespace Fanex.OddsFeed.Admin.Controllers
     using Fanex.OddsFeed.Core.Service.Impl;
     using Fanex.OddsFeed.Core.Service.Interface;
     using Fanex.OddsFeed.Core.Web;
-    using Fanex.OddsFeed.Core.Web.Session;
-    using System;
-    using System.Web;
-    using System.Web.Mvc;
 
-    /// <summary>
-    /// Class LoginController.
-    /// </summary>
     public class LoginController : BaseController
     {
         #region members
 
-        /// <summary>
-        /// The _user service.
-        /// </summary>
         private readonly IUserService _userService;
 
         #endregion
 
         #region ctors
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="LoginController"/> class.
-        /// </summary>
-        public LoginController()
-            : this(null, null)
+        public LoginController() : this(null)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="LoginController"/> class.
-        /// </summary>
-        /// <param name="userService">The user service.</param>
-        /// <param name="currentSession">The current session.</param>
-        public LoginController(
-            IUserService userService,
-            ICurrentSession currentSession)
+        public LoginController(IUserService userService)
         {
             _userService = userService ?? new UserService();
         }
@@ -74,11 +48,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
             return View();
         }
 
-        /// <summary>
-        /// User login.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        /// <returns>Represents a JSON-formatted content of logging.</returns>
         [HttpPost]
         public JsonResult Index(UserLoginUserCriteria criteria)
         {
@@ -135,8 +104,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
             {
                 OnUserId = CurrentSession.OnUserId
             });
-            ////FormsAuthentication.SignOut();
-            ////Response.Cookies.Clear();            
             CurrentSession.ClearAll();
         }
 
@@ -159,10 +126,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
         #endregion
 
         #region Update Password
-        /// <summary>
-        /// Display the page for updating user password.
-        /// </summary>
-        /// <returns>The user password updating page.</returns>
+
         [HttpGet]
         public ActionResult UpdateUserPassword()
         {
@@ -187,11 +151,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
             return View(criteria);
         }
 
-        /// <summary>
-        /// Updates the user password post.
-        /// </summary>
-        /// <param name="criteria">The user's criteria.</param>
-        /// <returns>Represents a JSON-formatted content of updating.</returns>
         [HttpPost]
         public JsonResult UpdateUserPasswordPost(UpdatePasswordUserCriteria criteria)
         {
@@ -216,21 +175,13 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
             return Json(actionResult, JsonRequestBehavior.AllowGet);
         }
+
         #endregion
 
         #region Private methods
 
-        /// <summary>
-        /// Customizes the data before login.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        /// <param name="password">The password.</param>
         private void CustomizeDataBeforeLogin(ref UserLoginUserCriteria criteria, string password)
         {
-            ////var domain = new Uri(HttpContext.Request.Url.AbsoluteUri).GetLeftPart(UriPartial.Authority).Replace("www", "");
-            ////string loginIp = (Dns.GetHostEntry(Dns.GetHostName()).AddressList.FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetwork)
-            ////?? new IPAddress(new byte[] { 127, 0, 0, 1 })).ToString();
-
             password = Cryptography.CfsEnCode(HttpUtility.HtmlEncode(password));
             criteria.UserPwd = password;
             criteria.LoginDomain = CurrentContext.DomainName;
@@ -243,12 +194,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
             criteria.Platform = CurrentContext.Platform;
         }
 
-        /// <summary>
-        /// Customizes the data after login.
-        /// </summary>
-        /// <param name="criteria">The user's criteria.</param>
-        /// <param name="user">The login user.</param>
-        /// <param name="actionResult">The action result.</param>
         private void CustomizeDataAfterLogin(UserLoginUserCriteria criteria, User user, ref OddsFeedActionResult actionResult)
         {
             switch (criteria.ErrCode)
@@ -275,11 +220,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
             }
         }
 
-        /// <summary>
-        /// Saves the user session.
-        /// </summary>
-        /// <param name="criteria">The user criteria.</param>
-        /// <param name="user">The login user.</param>
         private void SaveUserSession(UserLoginUserCriteria criteria, User user)
         {
             ////get systemId
@@ -308,9 +248,8 @@ namespace Fanex.OddsFeed.Admin.Controllers
             CurrentSession.SystemList = criteria.SystemIdNameList;
 
             CurrentSession.SessionId = Session.SessionID;
-
-            ////CreateAuthInfo(user);            
         }
+
         #endregion
     }
 }

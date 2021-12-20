@@ -1,14 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OddsFeed_Licensee", "OddsFeed_Licensee", "{B2DBB333-7992-409B-9658-424A6F05A685}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5F5AE872-FBC1-493A-9D3F-1C4A49A52CE7}"
-	ProjectSection(SolutionItems) = preProject
-		OddsFeed.Licensee.Admin\Fanex.OddsFeed.Admin\Settings.StyleCop = OddsFeed.Licensee.Admin\Fanex.OddsFeed.Admin\Settings.StyleCop
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fanex.OddsFeed.Admin", "OddsFeed.Licensee.Admin\Fanex.OddsFeed.Admin\Fanex.OddsFeed.Admin.csproj", "{45398518-B314-471B-8A26-F01757EBD4FD}"
 EndProject
@@ -74,5 +69,6 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.0\lib\NET35;packages\Unity.Interception.2.1.505.0\lib\NET35;packages\EnterpriseLibrary.Common.5.0.505.0\lib\NET35;packages\EnterpriseLibrary.Caching.5.0.505.0\lib\NET35;packages\EnterpriseLibrary.Data.5.0.505.0\lib\NET35;packages\EnterpriseLibrary.Logging.5.0.505.0\lib\NET35
+		SolutionGuid = {F7DAA045-3345-4A73-A7A0-56F21D8F36A8}
 	EndGlobalSection
 EndGlobal

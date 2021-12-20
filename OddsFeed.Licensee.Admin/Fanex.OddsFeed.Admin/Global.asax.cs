@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="Global.asax.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Edward.Nguyen" date="2012.10.29">Style Cop</change>
-// </history>
-
-namespace Fanex.OddsFeed.Admin
+﻿namespace Fanex.OddsFeed.Admin
 {
     using System;
     using System.Configuration;
@@ -26,9 +17,6 @@ namespace Fanex.OddsFeed.Admin
     using ONEbook.UM.Filters;
     using SharpRaven;
 
-    /// <summary>
-    /// Class MVCApplication.
-    /// </summary>
     public class MvcApplication : HttpApplication
     {
         protected void Application_Start()

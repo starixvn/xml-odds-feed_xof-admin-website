@@ -1,14 +1,4 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="DataTableExtension.cs" company="Microsoft">
-// TODO: Update copyright text.
-// </copyright>
-// -----------------------------------------------------------------------
-// <history>
-//   <change who="Ricky.Nguyen" date="2012.6.26">Created</change>
-//   <change who="Anders.Le" date="2012.6.26">Check Stylecop</change>
-// </history>
-
-namespace Fanex.OddsFeed.Framework.Extensions
+﻿namespace Fanex.OddsFeed.Framework.Extensions
 {
     using System;
     using System.Collections.Generic;
@@ -27,11 +17,6 @@ namespace Fanex.OddsFeed.Framework.Extensions
             typeof(ulong)
         };
 
-        /// <summary>
-        /// Check DataColum is Numeric.
-        /// </summary>
-        /// <param name="col">DataColum object.</param>
-        /// <returns>Is Numeric or Not.</returns>
         public static bool IsNumeric(this DataColumn col)
         {
             if (col == null)
@@ -42,10 +27,6 @@ namespace Fanex.OddsFeed.Framework.Extensions
             return NumericTypes.Contains(col.DataType);
         }
 
-        /// <summary>
-        /// This function will add a new row which contains the sum of column number.
-        /// </summary>
-        /// <param name="dataTable">Table is added new row.</param>
         public static void AddSumRow(this DataTable dataTable)
         {
             var newDataRow = dataTable.NewRow();
@@ -68,9 +49,12 @@ namespace Fanex.OddsFeed.Framework.Extensions
                         {
                             sumOfColumn += valueOfCell;
                         }
-                        else if (row[column].ToString().IsNullOrTrimEmpty())
-                        { // If row has nothing, set 0 value for it
-                            row[column] = 0;
+                        else
+                        {
+                            if (row[column].ToString().IsNullOrTrimEmpty())
+                            { // If row has nothing, set 0 value for it
+                                row[column] = 0;
+                            }
                         }
                     }
 

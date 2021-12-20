@@ -1,32 +1,15 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="LicenseeRequestCriteria.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Thai.Tran" date="2013.03.06">Created</change>
-// </history>
-
-namespace Fanex.OddsFeed.Core.Criteria.Licensee
+﻿namespace Fanex.OddsFeed.Core.Criteria.Licensee
 {
     using System;
     using System.ComponentModel.DataAnnotations;
-    using System.Diagnostics.CodeAnalysis;
     using Fanex.OddsFeed.Core.Model;
-    using Fanex.OddsFeed.Framework.Data;
     using Data.Repository;
-    /// <summary>
-    /// Class LicenseeRequestCriteria.
-    /// </summary>
+
     public class LicenseeRequestCriteria : CriteriaBase
-    {        
+    {
         private DateTime _dateStart;
-        
         private DateTime _dateEnd;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="LicenseeRequestCriteria"/> class.
-        /// </summary>
         public LicenseeRequestCriteria()
             : this(DateTime.Now)
         {
@@ -35,10 +18,10 @@ namespace Fanex.OddsFeed.Core.Criteria.Licensee
         public LicenseeRequestCriteria(DateTime dateEnd)
         {
             this.DateStart = dateEnd;
-            this.DateEnd = dateEnd;                        
+            this.DateEnd = dateEnd;
 
             this.Month = dateEnd.Month;
-            this.Year = dateEnd.Year;            
+            this.Year = dateEnd.Year;
         }
         
         public int? LicenseeId { get; set; }
@@ -46,11 +29,7 @@ namespace Fanex.OddsFeed.Core.Criteria.Licensee
         public string SystemName { get; set; }
 
         public PeriodType PeriodOption { get; set; }
-        
-        /// <summary>
-        /// Gets or sets DateStart.
-        /// </summary>
-        /// <value>Return (year, month, day).</value>
+
         [Required]
         public DateTime DateStart
         {
@@ -61,10 +40,13 @@ namespace Fanex.OddsFeed.Core.Criteria.Licensee
                     // select month period
                     this._dateStart = new DateTime(this.Year, this.Month, 1);
                 }
-                else if (this.PeriodOption == PeriodType.Year)
+                else
                 {
-                    // select year period
-                    this._dateStart = new DateTime(this.Year, 1, 1);
+                    if (this.PeriodOption == PeriodType.Year)
+                    {
+                        // select year period
+                        this._dateStart = new DateTime(this.Year, 1, 1);
+                    }
                 }
 
                 return this._dateStart;
@@ -76,10 +58,6 @@ namespace Fanex.OddsFeed.Core.Criteria.Licensee
             }
         }
 
-        /// <summary>
-        /// Gets or sets DateEnd.
-        /// </summary>
-        /// <value>Return (year, month, day).</value>
         public DateTime DateEnd
         {
             get
@@ -89,10 +67,15 @@ namespace Fanex.OddsFeed.Core.Criteria.Licensee
                     // select month period
                     this._dateEnd = new DateTime(this.Year, this.Month, 1).AddMonths(1).AddDays(-1);
                 }
-                else if (this.PeriodOption == PeriodType.Year)
+                else
                 {
-                    // select year period
-                    this._dateEnd = new DateTime(this.Year, 12, 31);
+                    if (this.PeriodOption == PeriodType.Year)
+                    {
+                        // select year period
+                        const byte December = 12;
+                        const byte LastDayOfMonth = 31;
+                        this._dateEnd = new DateTime(this.Year, December, LastDayOfMonth);
+                    }
                 }
 
                 return this._dateEnd;
@@ -123,10 +106,6 @@ namespace Fanex.OddsFeed.Core.Criteria.Licensee
         [SpParam(Ignored = true)]
         public int Month { get; set; }
 
-        /// <summary>
-        /// Gets or sets Year.
-        /// </summary>
-        /// <value>Return Year.</value>
         [SpParam(Ignored = true)]
         public int Year { get; set; }
 
@@ -135,13 +114,9 @@ namespace Fanex.OddsFeed.Core.Criteria.Licensee
             return "Odds_Licensee_Statistic_Sel";
         }
 
-        /// <summary>
-        /// Check data's constrains.
-        /// </summary>
-        /// <returns>True: valid; False: invalid.</returns>
         public override bool IsValid()
         {
             return this.DateStart <= this.DateEnd;
-        }           
+        }
     }
 }

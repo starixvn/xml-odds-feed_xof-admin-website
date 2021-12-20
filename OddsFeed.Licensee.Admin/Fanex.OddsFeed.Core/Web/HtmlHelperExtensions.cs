@@ -1,17 +1,9 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="HtmlHelperExtensions.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Anders.Le" date="2012.8.2">Created</change>
-// </history>
-
+﻿
 namespace Fanex.OddsFeed.Core.Web
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
+
     using System.Linq.Expressions;
     using System.Text;
     using System.Web;
@@ -20,30 +12,9 @@ namespace Fanex.OddsFeed.Core.Web
     using Fanex.Common.Helper;
     using Fanex.OddsFeed.Core.Business;
 
-    ////public static class BundleHelper
-    ////{
-    ////    public static IHtmlString RenderScript(string path)
-    ////    {
-    ////        string virtualPath = path.Substring(0, path.Length - 3);
-    ////        BundleTable.Bundles.Add(new ScriptBundle(virtualPath).Include(path));
-
-    ////        return Scripts.Render(virtualPath);
-    ////    }
-    ////}
-
-    /// <summary>
-    /// HTML Helpers.
-    /// </summary>    
     public static class HtmlHelperExtensions
     {
         #region Truncate
-       /// <summary>
-       /// Truncates a string if it is longer than a given length.
-       /// </summary>
-       /// <param name="htmlHelper">The html helper.</param>
-       /// <param name="value">The value truncated.</param>
-       /// <param name="length">The length to truncate.</param>
-       /// <returns>The string after truncated.</returns>
         public static IHtmlString Truncate(this HtmlHelper htmlHelper, string value, int length)
         {
             var builder = new TagBuilder("a");
@@ -66,8 +37,7 @@ namespace Fanex.OddsFeed.Core.Web
             string name,
             IEnumerable<SelectListItem> items)
         {
-            object htmlAttributes = null;
-            return helper.RadioButtonList(name, items, htmlAttributes);
+            return helper.RadioButtonList(name, items, null);
         }
 
         public static IHtmlString RadioButtonList(
@@ -79,14 +49,6 @@ namespace Fanex.OddsFeed.Core.Web
             return helper.RadioButtonList(name, items, (IDictionary<string, object>)HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
         }
 
-        /// <summary>
-        /// RadioButtons the list.
-        /// </summary>
-        /// <param name="helper">The helper.</param>
-        /// <param name="name">The radio button name.</param>
-        /// <param name="items">The items of radio button.</param>
-        /// <param name="htmlAttributes">The HTML attributes.</param>
-        /// <returns>Object IHtmlString.</returns>
         public static IHtmlString RadioButtonList(
             this HtmlHelper helper,
             string name,
@@ -121,20 +83,9 @@ namespace Fanex.OddsFeed.Core.Web
             Expression<Func<TModel, TProperty>> expression,
             IEnumerable<SelectListItem> items)
         {
-            object htmlAttributes = null;
-            return helper.RadioButtonListFor(expression, items, htmlAttributes);
+            return helper.RadioButtonListFor(expression, items, null);
         }
 
-        /// <summary>
-        /// RadioButtons the list for.
-        /// </summary>
-        /// <typeparam name="TModel">The type of the t model.</typeparam>
-        /// <typeparam name="TProperty">The type of the t property.</typeparam>
-        /// <param name="helper">The helper.</param>
-        /// <param name="expression">The expression.</param>
-        /// <param name="items">The items.</param>
-        /// <param name="htmlAttributes">The HTML attributes.</param>
-        /// <returns>Object IHtmlString.</returns>
         public static IHtmlString RadioButtonListFor<TModel, TProperty>(
             this HtmlHelper<TModel> helper,
             Expression<Func<TModel, TProperty>> expression,
@@ -147,16 +98,6 @@ namespace Fanex.OddsFeed.Core.Web
                 (IDictionary<string, object>)HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
         }
 
-        /// <summary>
-        /// RadioButtons the list for.
-        /// </summary>
-        /// <typeparam name="TModel">The type of the t model.</typeparam>
-        /// <typeparam name="TProperty">The type of the t property.</typeparam>
-        /// <param name="helper">The helper.</param>
-        /// <param name="expression">The expression.</param>
-        /// <param name="items">The items.</param>
-        /// <param name="htmlAttributes">The HTML attributes.</param>
-        /// <returns>Object IHtmlString.</returns>
         public static IHtmlString RadioButtonListFor<TModel, TProperty>(
             this HtmlHelper<TModel> helper,
             Expression<Func<TModel, TProperty>> expression,
@@ -190,14 +131,6 @@ namespace Fanex.OddsFeed.Core.Web
         #endregion
 
         #region DateTime
-        /// <summary>
-        /// Converts the value of the current System.DateTime object to its equivalent string
-        /// representation using the specified format.
-        /// </summary>
-        /// <param name="value">The date need to format.</param>
-        /// <param name="dateFormat">The date format.</param>
-        /// <param name="timeFormat">The time format.</param>
-        /// <returns>The full date string.</returns>
         public static IHtmlString ToFullDateString(
             this DateTime value,
             string dateFormat = "MMM dd, yyyy",
@@ -211,11 +144,6 @@ namespace Fanex.OddsFeed.Core.Web
         }
         #endregion
 
-        /// <summary>
-        /// Converts the value of the user level to its equivalent string representation.
-        /// </summary>
-        /// <param name="value">The level of user.</param>
-        /// <returns>Return user level.</returns>
         public static IHtmlString ToUserLevel(this int value)
         {
             string level;
@@ -239,11 +167,6 @@ namespace Fanex.OddsFeed.Core.Web
             return new HtmlString(level);
         }
 
-        /// <summary>
-        /// Decode xml of [f_EncodeXMLValue].
-        /// </summary>
-        /// <param name="value">The xml value.</param>
-        /// <returns>The decode xml.</returns>
         public static string DecodeXMLValue(this string value)
         {
             if (!string.IsNullOrEmpty(value))
