@@ -1,21 +1,21 @@
 ﻿$(document).ready(function () {
-    $("#errorStep3").addClass("hidden");
+    $('#errorStep3').addClass('hidden');
     //Sport checkboxes
-    CheckBoxListEvent('chkAllMajorSports', 'chkMajorSport', true, GetLeagueOutright, 'formLicensee', "League", 'Outrights');
-    CheckBoxListEventWithConfirm('chkAllMinorSports', 'chkMinorSport', undefined, GetLeagueOutright, 'formLicensee', "League", 'Outrights');
+    CheckBoxListEvent('chkAllMajorSports', 'chkMajorSport', true, GetLeagueOutright, 'formLicensee', 'League', 'Outrights');
+    CheckBoxListEventWithConfirm('chkAllMinorSports', 'chkMinorSport', undefined, GetLeagueOutright, 'formLicensee', 'League', 'Outrights');
 
     //Country checkboxes
-    CheckBoxListEvent('chkAllCountries', 'chkCountry', undefined, GetLeagueOutright, 'formLicensee', "League", 'Outrights');
+    CheckBoxListEvent('chkAllCountries', 'chkCountry', undefined, GetLeagueOutright, 'formLicensee', 'League', 'Outrights');
 
     //Market checkboxes
     CheckBoxListEvent('chkAllMajorMarkets', 'chkMajorMarket', true);
     CheckBoxListEventWithConfirm('chkAllMinorMarkets', 'chkMinorMarket', false);
 
     //hide market options
-    $("#Market").hide();
+    $('#Market').hide();
 
     // Show Martket options if "Deadball or Live" is selected
-    $(".oddstype").click(function () {
+    $('.oddstype').click(function () {
         var id = this.id;
         if (id != 'OddsType8')//NOT Outright
         {
@@ -23,16 +23,16 @@
         } 
     });
 
-    $("#step3Previous").click(function () {
-        $("div.step-active").attr("class", "step-inactive");
-        $("#panelStep2").attr("class", "step-active");
+    $('#step3Previous').click(function () {
+        $('div.step-active').attr('class', 'step-inactive');
+        $('#panelStep2').attr('class', 'step-active');
 
-        $(".result-message-box").addClass("hidden");
-        $("div.step").hide();
-        $("#step2").show();
+        $('.result-message-box').addClass('hidden');
+        $('div.step').hide();
+        $('#step2').show();
     });
 
-    $("#step3Done").click(function () {
+    $('#step3Done').click(function () {
         AddLicensee();
     });
 });

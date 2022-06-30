@@ -1,11 +1,11 @@
 ﻿$(document).ready(function () {
-    //    //step 1    
+    // step 1
     $('#errorStep1').addClass('hidden');
 
     $('#AddExistingLicensee').click(function () {
         $('#errorStep1').addClass('hidden');
-        $("#SystemName").removeClass("error");
-        if ($(this).is(':checked')) {
+        $('#SystemName').removeClass('error');
+        if ($(this).prop('checked')) {
             $('.licensee-name').hide();
             $('.licensee-selection').show();
         } else {
@@ -17,14 +17,12 @@
     $('#SystemName').focusout(function () {
         RefreshErrorBox();
         if (CheckSystemNameValidation()) {
-            if ($('#errorStep1').is(":visible")) {
+            if ($('#errorStep1').is(':visible')) {
                 $('#errorStep1').addClass('hidden');
-                //                $('#errorStep1').hide('fast');
             }
         } else {
-            if (!$('#errorStep1').is(":visible")) {
+            if (!$('#errorStep1').is(':visible')) {
                 $('#errorStep1').removeClass('hidden');
-                //                $('#errorStep1').show('fast');
             }
         }
     });
@@ -32,32 +30,30 @@
     $('#ContactEmail').focusout(function () {
         RefreshErrorBox();
         if (CheckEmailValidation()) {
-            if ($('#errorStep1').is(":visible")) {
+            if ($('#errorStep1').is(':visible')) {
                 $('#errorStep1').addClass('hidden');
-                //                $('#errorStep1').hide('fast');
             }
         } else {
-            if (!$('#errorStep1').is(":visible")) {
+            if (!$('#errorStep1').is(':visible')) {
                 $('#errorStep1').removeClass('hidden');
-                //                $('#errorStep1').show('fast');
             }
         }
     });
 
-    $("#step1Next").click(function () {
-        if ($('#AddExistingLicensee').is(':checked')) {
-            $("#SystemName").val($('#LicenseeID>option:selected').text());
+    $('#step1Next').click(function () {
+        if ($('#AddExistingLicensee').prop('checked')) {
+            $('#SystemName').val($('#LicenseeID>option:selected').text());
         }
 
         var ret = CheckValidation();
 
         if (ret) {
             $('#errorStep1').addClass('hidden');
-            $("div.step-active").attr("class", "step-inactive licensee-info-settings");
-            $("#panelStep2").attr("class", "step-active");
+            $('div.step-active').attr('class', 'step-inactive licensee-info-settings');
+            $('#panelStep2').attr('class', 'step-active');
 
-            $("div.step").hide();
-            $("#step2").show();
+            $('div.step').hide();
+            $('#step2').show();
 
             showingDomainList();
         }
@@ -72,15 +68,15 @@
 function RefreshErrorBox() {
     // Refresh error box
     $('#errorStep1').addClass('hidden');
-    $("#errorStep1").html("")
-    $(".error").removeClass('error');
+    $('#errorStep1').html('');
+    $('.error').removeClass('error');
 }
 
 function CheckValidation() {
     RefreshErrorBox();
 
     var res1 = CheckSystemNameValidation();
-    var res2 = CheckEmailValidation();    
+    var res2 = CheckEmailValidation();
     return res1 && res2;
 }
 
@@ -90,33 +86,30 @@ function CheckSystemNameValidation() {
     var validateRegex = OddsFeedAdminManager.Enums.ValidateRegex;
 
     //validate name
-    var name = $("#SystemName").val();
+    var name = $('#SystemName').val();
     name = $.trim(name);
-    if (name == "" || name == undefined) {
-        //$("#nameReqErr").show('fast');
-        $("#errorStep1").append("<ul><li>" + viewResources.Error_LicenseeNameRequired + "</li></ul>");
+    if (name == '' || name == undefined) {
+        $('#errorStep1').append('<ul><li>' + viewResources.Error_LicenseeNameRequired + '</li></ul>');
         $('#errorStep1').removeClass('hidden');
         $('#SystemName').addClass('error');
         return false;
     }
 
     if (name.length > 50 || name.length < 2) {
-        //$("#nameLengErr").show('fast');
-        $("#errorStep1").append("<ul><li>" + viewResources.Error_LicenseeNameLength + "</li></ul>");
+        $('#errorStep1').append('<ul><li>' + viewResources.Error_LicenseeNameLength + '</li></ul>');
         $('#errorStep1').removeClass('hidden');
         $('#SystemName').addClass('error');
         return false;
     }
 
     if (!validateRegex.NameField.test(name)) {
-        //        $("#nameInvalidErr").show('fast');
-        $("#errorStep1").append("<ul><li>" + viewResources.Error_LicenseeNameContent + "</li></ul>");
+        $('#errorStep1').append('<ul><li>' + viewResources.Error_LicenseeNameContent + '</li></ul>');
         $('#errorStep1').removeClass('hidden');
         $('#SystemName').addClass('error');
         return false;
     }
 
-    if ($('#AddExistingLicensee').is(':checked') == false) {
+    if (!$('#AddExistingLicensee').prop('checked')) {
         $.ajax({
             url: 'CheckExistLicenseeName',
             type: 'POST',
@@ -126,16 +119,14 @@ function CheckSystemNameValidation() {
             cache: false,
             success: function (errCode) {
                 if (errCode == 'False') {
-                    //                $('#errorStep1').find('li').hide('fast');
-                    //                $("#nameExistedErr").show('fast');
                     $('#errorStep1').addClass('hidden');
-                    $("#errorStep1").html("")
-                    $("#errorStep1").append("<ul><li>" + viewResources.Error_Licensee_Existed + "</li></ul>");
+                    $('#errorStep1').html('')
+                    $('#errorStep1').append('<ul><li>' + viewResources.Error_Licensee_Existed + '</li></ul>');
                     $('#errorStep1').removeClass('hidden');
                     $('#SystemName').addClass('error');
                     res = false;
                 } else {
-                    $("#nameExistedErr").hide('fast');
+                    $('#nameExistedErr').hide('fast');
                 }
             },
             error: function (xhr, status, err) {
@@ -143,23 +134,23 @@ function CheckSystemNameValidation() {
         });
     }
 
-    return res;    
+    return res;
 }
 
 function CheckEmailValidation() {
     var validateRegex = OddsFeedAdminManager.Enums.ValidateRegex;
 
-    var contactEmail = $("#ContactEmail").val();
+    var contactEmail = $('#ContactEmail').val();
     contactEmail = $.trim(contactEmail);
-    if (contactEmail == "" || contactEmail == undefined) {
-        $("#errorStep1").append("<ul><li>" + viewResources.Error_EmailRequired + "</li></ul>");
+    if (contactEmail == '' || contactEmail == undefined) {
+        $('#errorStep1').append('<ul><li>' + viewResources.Error_EmailRequired + '</li></ul>');
         $('#errorStep1').removeClass('hidden');
         $('#ContactEmail').addClass('error');
         return false;
     }
 
     if (!validateRegex.EmailField.test(contactEmail)) {
-        $("#errorStep1").append("<ul><li>" + viewResources.Error_EmailContent + "</li></ul>");
+        $('#errorStep1').append('<ul><li>' + viewResources.Error_EmailContent + '</li></ul>');
         $('#errorStep1').removeClass('hidden');
         $('#ContactEmail').addClass('error');
         return false;

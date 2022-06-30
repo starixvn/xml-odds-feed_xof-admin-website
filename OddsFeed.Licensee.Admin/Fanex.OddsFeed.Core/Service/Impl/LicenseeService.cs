@@ -1,55 +1,26 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="LicenseeService.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Phillip.Truong" date="2013.2.7">Created</change>
-// </history>
-
-namespace Fanex.OddsFeed.Core.Service.Impl
+﻿namespace Fanex.OddsFeed.Core.Service.Impl
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
     using Fanex.Common.Helper;
     using Fanex.OddsFeed.Core.Criteria.Licensee;
-    using Fanex.OddsFeed.Core.Criteria.Misc;
     using Fanex.OddsFeed.Core.Model;
     using Fanex.OddsFeed.Core.Repository.Impl;
     using Fanex.OddsFeed.Core.Repository.Interface;
     using Fanex.OddsFeed.Core.Service.Interface;
     using Fanex.OddsFeed.Framework.Data;
     using Data.Repository;
-    /// <summary>
-    /// Class LicenseeService.
-    /// </summary>    
+    using System.Collections.Generic;
+    using System.Web.Mvc;
+
     public class LicenseeService : BaseService, ILicenseeService
     {
-        #region members
-
         private readonly ILicenseeRepository _licenseeRepository;
 
-        #endregion
-
-        #region ctors
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="LicenseeService"/> class.
-        /// </summary>
         public LicenseeService()
         {
             _licenseeRepository = _licenseeRepository ?? new LicenseeRepository();
         }
 
-        #endregion
-
-        #region methods
-
-        /// <summary>
-        /// Gets the current odds style by system identifier.
-        /// </summary>
-        /// <param name="systemId">The system identifier.</param>
-        /// <returns>Object System.String.</returns>
         public string GetCurrentOddsStyleBySystemId(int systemId)
         {
             try
@@ -72,12 +43,7 @@ namespace Fanex.OddsFeed.Core.Service.Impl
             return null;
         }
 
-        /// <summary>
-        /// Updates the specified criteria.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        /// <returns>Object ICommandResult.</returns>
-         public ICommandResult Update(CriteriaBase criteria)
+        public ICommandResult Update(CriteriaBase criteria)
         {
             // check parameters
             Check.Argument.IsNotNull(criteria, "criteria");
@@ -97,60 +63,61 @@ namespace Fanex.OddsFeed.Core.Service.Impl
             return null;
         }
 
-         /// <summary>
-         /// Gets the active by system identifier.
-         /// </summary>
-         /// <param name="systemId">The system identifier.</param>
-         /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-         public bool GetActiveBySystemId(int systemId)
-         {
-             try
-             {
-                 var criteria = new GetActivateByLicenseeIDCriteria
-                 {
-                     SystemID = systemId
-                 };
+        public bool GetActiveBySystemId(int systemId)
+        {
+            try
+            {
+                var criteria = new GetActivateByLicenseeIDCriteria
+                {
+                    SystemID = systemId
+                };
 
-                 if (criteria.IsValid())
-                 {
-                     return bool.Parse(BaseRepository.ReturnSingleValue(criteria).ToString());
-                 }
-             }
-             catch (Exception ex)
-             {
-                 HandleException(ex);
-             }
+                if (criteria.IsValid())
+                {
+                    return bool.Parse(BaseRepository.ReturnSingleValue(criteria).ToString());
+                }
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
 
-             return false;
-         }
+            return false;
+        }
 
-         /// <summary>
-         /// Gets the profile all partners by system identifier.
-         /// </summary>
-         /// <param name="systemId">The system identifier.</param>
-         /// <returns>Object PartnersProfile.</returns>
-         public PartnersProfile GetProfileAllPartnersBySystemId(int systemId)
-         {             
-             try
-             {
-                 var criteria = new GetProfileAllPartnersBySystemIdCriteria
-                 {
-                     SystemID = systemId
-                 };
+        public PartnersProfile GetProfileAllPartnersBySystemId(int systemId)
+        {
+            try
+            {
+                var criteria = new GetProfileAllPartnersBySystemIdCriteria
+                {
+                    SystemID = systemId
+                };
 
-                 if (criteria.IsValid())
-                 {
-                     return _licenseeRepository.GetProfileAllPartnersBySystemId(criteria);
-                 }
-             }
-             catch (Exception ex)
-             {
-                 HandleException(ex);
-             }
+                if (criteria.IsValid())
+                {
+                    return _licenseeRepository.GetProfileAllPartnersBySystemId(criteria);
+                }
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
 
-             return null;
-         }
+            return null;
+        }
 
-        #endregion
+        public IList<SelectListItem> GetResultDelayTimeList()
+        {
+            return new List<SelectListItem>
+            {
+                new SelectListItem { Value = "5", Text = "5" },
+                new SelectListItem { Value = "10", Text = "10" },
+                new SelectListItem { Value = "15", Text = "15" },
+                new SelectListItem { Value = "20", Text = "20" },
+                new SelectListItem { Value = "25", Text = "25" },
+                new SelectListItem { Value = "30", Text = "30" }
+            };
+        }
     }
 }

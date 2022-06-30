@@ -1,12 +1,11 @@
 ﻿@using Fanex.OddsFeed.Core.Web
-@using Fanex.OddsFeed.Core
 @using System.Linq;
 @using System.Web.Mvc;
 @{
-    ViewBag.Title = "XML Odds Feed URLs";
+    ViewBag.Title = "XML Feed URLs";
     ViewBag.Nav = base.ViewBag.NavigationHome +
                          "<a class='step' href='" + base.ViewBag.CurrentDomain + "/Affiliate/List'>Affiliate list</a>" +
-                         "<span class='step'>" + ViewBag.Title + ViewBag.CurrentUser + "</span>";
+                         "<span class='step'>" + string.Format("{0} for \"{1}\"", ViewBag.Title, ViewBag.AffiliateName) + "</span>";
 
 }
 @section Breadcrumb {
@@ -14,7 +13,7 @@
 }
 @section Styles
 {
-    <link rel="Stylesheet" type="text/css" href="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/App_Themes/Default/Affiliate/AffiliateCss")" />
+    <link rel="Stylesheet" type="text/css" href="@BundleTable.Bundles.ResolveBundleUrl("~/App_Themes/Default/Affiliate/AffiliateCss")" />
     <style>
         .block-seration {
             height: 10px;
@@ -32,14 +31,10 @@
 }
 <div id="editStep3">
     <div class="infor">
-        <span class="infor-ic"></span><span class="infor-text">
-            Please send the below XML Odds
-            Feed links to affiliate.
-        </span>
+        <span class="infor-ic"></span>
+        <span class="infor-text">Please send the below XML Feed links to affiliate.</span>
     </div>
-    <div class="newline">
-        &nbsp;
-    </div>
+    <div class="newline">&nbsp;</div>
     @{
         var domainSelList = ((IEnumerable<SelectListItem>)ViewBag.AssignedDomain).ToList();
         var affiliateController = new Fanex.OddsFeed.Admin.Controllers.AffiliateController();
@@ -65,20 +60,16 @@
                     {
                         displayURL = affiliateController.GetBetRadarLink(domainSelList[0].Text, ViewBag.AffiliateName);
                         <div class="row">
-                            <div class="grid5">
-                                @ViewBag.AffiliateName URL
-                            </div>
-                            <a href="@displayURL">@displayURL</a>
+                            <div class="grid7">@ViewBag.AffiliateName URL</div>
+                            <div class="grid9"><a href="@displayURL">@displayURL</a></div>
                         </div>
 
                         for (var i = 1; i < domainSelListLength; i++)
                         {
                             displayURL = affiliateController.GetBetRadarLink(domainSelList[i].Text, ViewBag.AffiliateName);
                             <div class="row">
-                                <div class="grid5">
-                                    @ViewBag.AffiliateName URL (Backup)
-                                </div>
-                                <a href="@displayURL">@displayURL</a>
+                                <div class="grid7">@ViewBag.AffiliateName URL (Backup)</div>
+                                <div class="grid9"><a href="@displayURL">@displayURL</a></div>
                             </div>
                         }
                     }
@@ -86,25 +77,17 @@
                     displayURL = affiliateController.GetXMLOddsFeedLink(domainSelList[0].Text, ViewBag.AffiliateName);
                     helpURL = affiliateController.GetXMLOddsFeed_HelpLink(domainSelList[0].Text, ViewBag.AffiliateName);
                     <div class="row">
-                        <div class="grid5">
-                            XML Odds Feed Main URL
-                        </div>
+                        <div class="grid7">XML Odds Feed Main URL</div>
                         <div class="grid9"><a href="@displayURL">@displayURL</a></div>
-                        <div class="grid5 br">
-                            XML for support sports
-                        </div>
+                        <div class="grid7">XML Result Feed Main URL for Cricket</div>
+                        <div class="grid9"><a href="@displayURL.Replace("odds.xml", "cricket/result.xml")">@displayURL.Replace("odds.xml", "cricket/result.xml")</a></div>
+                        <div class="grid7 br">XML for support sports</div>
                         <div class="grid9"><a href="@displayURL.Replace("odds.xml", "sports.xml")">@displayURL.Replace("odds.xml", "sports.xml")</a></div>
-                        <div class="grid5 br">
-                            XML for support leagues
-                        </div>
+                        <div class="grid7 br">XML for support leagues</div>
                         <div class="grid9"><a href="@displayURL.Replace("odds.xml", "leagues.xml")">@displayURL.Replace("odds.xml", "leagues.xml")</a></div>
-                        <div class="grid5 br">
-                            XML for support bettypes
-                        </div>
+                        <div class="grid7 br">XML for support bettypes</div>
                         <div class="grid9"><a href="@displayURL.Replace("odds.xml", "bettypes.xml")">@displayURL.Replace("odds.xml", "bettypes.xml")</a></div>
-                        <div class="grid5 br">
-                            How to implement
-                        </div>
+                        <div class="grid7 br">How to implement</div>
                         <div class="grid9"><a href="@helpURL">@helpURL</a></div>
                     </div>
 
@@ -114,27 +97,19 @@
                         helpURL = affiliateController.GetXMLOddsFeed_HelpLink(domainSelList[i].Text, ViewBag.AffiliateName);
                         <div class="block-seration">&nbsp;</div>
                         <div class="row br">
-                            <div class="grid5">
-                                XML Odds Feed URL (Backup)
-                            </div>
+                            <div class="grid7">XML Odds Feed URL (Backup)</div>
                             <div class="grid9"><a href="@displayURL">@displayURL</a></div>
-                            <div class="grid5 br">
-                                XML for support sports (Backup)
-                            </div>
+                            <div class="grid7">XML Result Feed Main URL for Cricket (Backup)</div>
+                            <div class="grid9"><a href="@displayURL.Replace("odds.xml", "cricket/result.xml")">@displayURL.Replace("odds.xml", "cricket/result.xml")</a></div>
+                            <div class="grid7 br">XML for support sports (Backup)</div>
                             <div class="grid9"><a href="@displayURL.Replace("odds.xml", "sports.xml")">@displayURL.Replace("odds.xml", "sports.xml")</a></div>
-                            <div class="grid5 br">
-                                XML for support leagues (Backup)
-                            </div>
+                            <div class="grid7 br">XML for support leagues (Backup)</div>
                             <div class="grid9"><a href="@displayURL.Replace("odds.xml", "leagues.xml")">@displayURL.Replace("odds.xml", "leagues.xml")</a></div>
-                            <div class="grid5 br">
-                                XML for support bettypes (Backup)
-                            </div>
+                            <div class="grid7 br">XML for support bettypes (Backup)</div>
                             <div class="grid9"><a href="@displayURL.Replace("odds.xml", "bettypes.xml")">@displayURL.Replace("odds.xml", "bettypes.xml")</a></div>
-                            <div class="grid5 br">
-                                How to implement (Backup)
-                            </div>
+                            <div class="grid7 br">How to implement (Backup)</div>
                             <div class="grid9"><a href="@helpURL">@helpURL</a></div>
-                                </div>
+                        </div>
                     }
                 }
             }

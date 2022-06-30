@@ -1032,4 +1032,19 @@
   <data name="ActionResult_EmptyResultError" xml:space="preserve">
     <value>Internal Server Error</value>
   </data>
+  <data name="Deadball" xml:space="preserve">
+    <value>Deadball</value>
+  </data>
+  <data name="NumberOfIPs" xml:space="preserve">
+    <value>Number of IPs</value>
+  </data>
+  <data name="OddsDelayTime" xml:space="preserve">
+    <value>Odds Delay Time</value>
+  </data>
+  <data name="Outright" xml:space="preserve">
+    <value>Outright</value>
+  </data>
+  <data name="ResultDelayTime" xml:space="preserve">
+    <value>Result Delay Time</value>
+  </data>
 </root>

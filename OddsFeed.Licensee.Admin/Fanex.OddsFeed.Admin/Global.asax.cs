@@ -22,7 +22,7 @@
         protected void Application_Start()
         {
             LogManager
-                   .SetDefaultLogCategory(ConfigurationManager.AppSettings["SentryDNS"])
+                   .SetDefaultLogCategory(ConfigurationManager.AppSettings["SentryCategory"])
                    .Use(new SentryLogging(new SentryEngineOptions
                    {
                        Dsn = new Dsn(ConfigurationManager.AppSettings["SentryDNS"])

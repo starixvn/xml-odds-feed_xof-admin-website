@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="LicenseeController.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Phillip.Truong" date="2013.2.7">Created</change>
-// </history>
-
-namespace Fanex.OddsFeed.Admin.Controllers
+﻿namespace Fanex.OddsFeed.Admin.Controllers
 {
     using System;
     using System.Collections.Generic;
@@ -24,51 +15,25 @@ namespace Fanex.OddsFeed.Admin.Controllers
     using Fanex.OddsFeed.Core.Web;
     using Fanex.OddsFeed.Core.Web.Attribute;
 
-    /// <summary>
-    /// Class LicenseeController.
-    /// </summary>
     [IsAuthorize]
     public class LicenseeController : BaseController
     {
         private const string MajorGroup = "Major";
         private const string MinorGroup = "Minor";
 
-        #region Members
-
-        /// <summary>
-        /// The _licensee service.
-        /// </summary>
         private readonly ILicenseeService _licenseeService;
-
-        /// <summary>
-        /// The _affiliate service.
-        /// </summary>
         private readonly IAffiliateService _affiliateService;
 
-        #endregion Members
-
-        #region Constructors
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="LicenseeController"/> class.
-        /// </summary>
         public LicenseeController()
             : this(null, null)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="LicenseeController"/> class.
-        /// </summary>
-        /// <param name="licenseeService">The licensee service.</param>
-        /// <param name="affiliateService">The affiliate service.</param>
         public LicenseeController(ILicenseeService licenseeService, IAffiliateService affiliateService)
         {
             _licenseeService = licenseeService ?? new LicenseeService { ServiceContext = ServiceContext };
             _affiliateService = affiliateService ?? new AffiliateService { ServiceContext = ServiceContext };
         }
-
-        #endregion Constructors
 
         #region AddNew
 
@@ -80,18 +45,19 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 return this.NoAuthorization();
             }
 
-            ////OddsType
+            // OddsType
             ViewBag.OddsTypeList = _licenseeService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "OddsType" }, false);
 
-            ////OddsStyle
+            // OddsStyle
             ViewBag.OddsStyleList = _licenseeService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "OddsRegion" }, false);
 
-            //// Config
+            // Config
             var config = _licenseeService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "Config" }, false);
             ViewBag.DelayTimeList = GenerateDelayTime(config);
+            ViewBag.ResultDelayTimeList = _licenseeService.GetResultDelayTimeList();
             ViewBag.NumberOfIPs = GetMaxNumberOfIPsFromConfig(config);
 
-            ////Domain
+            // Domain
             ViewBag.DomainList = _licenseeService.GetSelectList(new GetAllDomainCriteria
             {
                 SystemID = 0,
@@ -99,37 +65,32 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 IsOddsDomain = null
             });
 
-            ////Market
+            // Market
             var bettypes = _affiliateService.GetSelectListWithGroup(new GetSupportedBettypeCriteria());
 
             ViewBag.MajorBettypesList = bettypes.Where(betType => betType.Group.Name == MajorGroup);
             ViewBag.MinorBettypesList = bettypes.Where(betType => betType.Group.Name == MinorGroup);
 
-            ////Country
+            // Country
             ViewBag.CountriesList = _licenseeService.GetSelectList(new GetAllCountryCriteria());
 
-            ////Sport
+            // Sport
             var sports = _affiliateService.GetSelectListWithGroup(new GetSupportedSportCriteria());
             var sportList = UpdateSportListForCricket(sports);
 
             ViewBag.MajorSportList = sportList.Where(sport => sport.Group.Name == MajorGroup);
             ViewBag.MinorSportList = sportList.Where(sport => sport.Group.Name == MinorGroup);
 
-            ////Language
+            // Language
             ViewBag.LanguageIDList = _licenseeService.GetSelectList(new GetAllLanguageCriteria());
 
-            //// Licensees
+            // Licensees
             ViewBag.LicenseesList = _licenseeService.GetSelectList("Odds_LicenseeSel");
 
             var criteria = new CreateLicenseeCriteria();
             return View(criteria);
         }
 
-        /// <summary>
-        /// Insert licensee.
-        /// </summary>
-        /// <param name="criteria">The licensee's criteria.</param>
-        /// <returns>Return 0 if success else return error code.</returns>
         public int CreateLicensee(CreateLicenseeCriteria criteria)
         {
             if (!criteria.AddExistingLicensee)
@@ -154,11 +115,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
         #region Edit
 
-        /// <summary>
-        /// Edits the licensee.
-        /// </summary>
-        /// <param name="criteria">The licensee's criteria.</param>
-        /// <returns>Return 0 if success else return error code.</returns>
         public int EditLicensee(EditLicenseeCriteria criteria)
         {
             criteria.Creator = CurrentSession.UserId;
@@ -167,11 +123,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
             return (int)res.Code;
         }
 
-        /// <summary>
-        /// Edits the active.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        /// <returns>Return 0 if success else return error code.</returns>
         public int EditActive(UpdateLicenseeActiveCriteria criteria)
         {
             criteria.Creator = CurrentSession.UserId;
@@ -180,11 +131,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
             return (int)res.Code;
         }
 
-        /// <summary>
-        /// Display the page for editing the licensee's info.
-        /// </summary>
-        /// <param name="criteria">The licensee's info.</param>
-        /// <returns>The licensee editing page.</returns>
         [HttpGet]
         public ActionResult EditLicenseeInfo(EditLicenseeInfoCriteria criteria)
         {
@@ -193,28 +139,10 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 return this.NoAuthorization();
             }
 
-            ////var licensee = _licenseeService.GetDataSet(new GetLicenseeByLicenseeIDCriteria() { SystemID = criteria.SystemID });
-            ////if (licensee != null && licensee.Tables.Count > 0 && licensee.Tables[0].Rows.Count > 0)
-            ////{
-            ////    DataRow row = licensee.Tables[0].Rows[0];
-            ////    criteria.SystemName = row["SystemName"].ToString();
-            ////    criteria.LicenseeID = int.Parse(row["LicenseeID"].ToString());
-            ////    //criteria.IsActive = bool.Parse(row["IsActive"].ToString());
-            ////    //criteria.AddExistingLicensee = criteria.LicenseeID != 0;
-
-            ////    //ViewBag.LicenseesList = _licenseeService.GetSelectList("Odds_LicenseeSel");
-            ////    ViewBag.CurrentSystem = " of \"" + criteria.SystemName + "\"";
-            ////}
-
             ViewBag.CurrentSystem = " of \"" + criteria.SystemName + "\"";
             return View(criteria);
         }
 
-        /// <summary>
-        /// Edit licensee's profile.
-        /// </summary>
-        /// <param name="criteria">The licensee's info.</param>
-        /// <returns>Return 0 if success else return error code.</returns>
         [HttpPost]
         public int EditLicenseeInfoPost(EditLicenseeInfoCriteria criteria)
         {
@@ -229,11 +157,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
             return (int)res.Code;
         }
 
-        /// <summary>
-        /// Display the licensee's setting page for editing.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        /// <returns>The page for editing.</returns>
         [HttpGet]
         public ActionResult EditSetting(EditLicenseeSettingCriteria criteria)
         {
@@ -279,11 +202,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
             return View(criteria);
         }
 
-        /// <summary>
-        /// Edits the licensee's setting.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        /// <returns>Return 0 if success else return error code.</returns>
         [HttpPost]
         public int EditSettingPost(EditLicenseeSettingCriteria criteria)
         {
@@ -293,11 +211,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
             return (int)res.Code;
         }
 
-        /// <summary>
-        /// Displays the licensee's profile for editing.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        /// <returns>The page for editing.</returns>
         [HttpGet]
         public ActionResult EditProfile(EditLicenseeProfileCriteria criteria)
         {
@@ -320,11 +233,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
             return View(criteria);
         }
 
-        /// <summary>
-        /// Edits the licensee's profile.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        /// <returns>Represents a JSON-formatted content for editing.</returns>
         [HttpPost]
         public JsonResult EditProfilePost(EditLicenseeProfileCriteria criteria)
         {
@@ -351,11 +259,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
             }
         }
 
-        /// <summary>
-        /// Updates the IP range_ edit setting.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        /// <returns>Represents a JSON-formatted content for editing.</returns>
         [HttpPost]
         public JsonResult UpdateIPRange_EditSetting(UpdateSettingIP_LicenseeCriteria criteria)
         {
@@ -384,10 +287,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
         #region Get
 
-        /// <summary>
-        /// Lists the licensee.
-        /// </summary>
-        /// <returns>The licensee list page.</returns>
         public ActionResult ListLicensee()
         {
             if (!this.IsAccountManagerRole())
@@ -414,11 +313,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
             return PartialView("_OutRightPartialView", criteria);
         }
 
-        /// <summary>
-        /// Display the licensees match with name.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        /// <returns>Represents a JSON-formatted content.</returns>
         public JsonResult GetLicenseeByName(GetLicenseeByPageCriteria criteria)
         {
             criteria.PageIndex++;
@@ -456,21 +350,14 @@ namespace Fanex.OddsFeed.Admin.Controllers
             return FanexGridHelper.DataForFanexGrid(dr);
         }
 
-        /// <summary>
-        /// Gets the licensee requests detail.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        /// <param name="date">The date of request.</param>
-        /// <param name="year">The year of request.</param>
-        /// <returns>The content of licensee requests detail.</returns>
         public string GetLicenseeRequestsDetail(RequestStatisticCriteria criteria, string date, int year)
         {
             const int numberDaysInWeek = 7;
 
             if (!string.IsNullOrEmpty(date))
             {
-                var dateStart = new DateTime();
-                var dateEnd = new DateTime();
+                DateTime dateStart;
+                DateTime dateEnd;
                 switch (criteria.PeriodOption.ToString())
                 {
                     case "Week":
@@ -502,11 +389,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
             return FanexGridHelper.DataForFanexGrid(dr);
         }
 
-        /// <summary>
-        /// Lists the existed systems.
-        /// </summary>
-        /// <param name="systemName">Name of the system.</param>
-        /// <returns>Represents a JSON-formatted content.</returns>
         public JsonResult ListExistedSystems(string systemName)
         {
             var criteria = new GetTop10LicenseeCriteria
@@ -529,11 +411,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
             return DataForAutoComplete(top10SystemList, "SystemName");
         }
 
-        /// <summary>
-        /// Checks the name of the exist licensee.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        /// <returns><c>true</c> if 0, <c>false</c> otherwise.</returns>
         public bool CheckExistLicenseeName(CheckExistLicenseeCriteria criteria)
         {
             const int DefaultPageSize = 10;
@@ -548,11 +425,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
         #region Delete
 
-        /// <summary>
-        /// Deletes the licensee.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        /// <returns>Return 0 if success else return error code.</returns>
         public int DeleteLicensee(DeleteLicenseeCriteria criteria)
         {
             criteria.Creator = CurrentSession.UserId;
@@ -561,11 +433,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
             return (int)res.Code;
         }
 
-        /// <summary>
-        /// Edits the IP range.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        /// <returns>Represents a JSON-formatted content.</returns>
         [HttpPost]
         public JsonResult DeleteIPRange_EditSetting(DeleteSettingIP_LicenseeCriteria criteria)
         {
@@ -595,11 +462,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
         #region Common
 
-        /// <summary>
-        /// Gets the missing profile.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        /// <returns>The structure of MissingPartnersProfile.</returns>
         private MissingPartnersProfile GetMissingProfile(EditLicenseeProfileCriteria criteria)
         {
             var missingProfile = new MissingPartnersProfile();
@@ -610,25 +472,20 @@ namespace Fanex.OddsFeed.Admin.Controllers
             missingProfile.AffsOddsType = Utilities.ProducesDifferenceTwoString(partnerProfile.AffsOddsType, criteria.OddsType);
             missingProfile.AffsLanguageList = Utilities.ProducesDifferenceTwoString(partnerProfile.AffsLanguageList, criteria.LanguageList);
             missingProfile.AffsSportIDList = criteria.SportIDList == "all"
-                                                      ? string.Empty : Utilities.ProducesDifferenceTwoString(partnerProfile.AffsSportIDList, criteria.SportIDList);
+                ? string.Empty : Utilities.ProducesDifferenceTwoString(partnerProfile.AffsSportIDList, criteria.SportIDList);
             missingProfile.AffsCountryCodeList = criteria.CountryCodeList == "all"
-                                                            ? string.Empty : Utilities.ProducesDifferenceTwoString(partnerProfile.AffsCountryCodeList, criteria.CountryCodeList);
+                ? string.Empty : Utilities.ProducesDifferenceTwoString(partnerProfile.AffsCountryCodeList, criteria.CountryCodeList);
             missingProfile.AffsLeagueIDList = criteria.LeagueIDList == "all"
-                                                        ? string.Empty : Utilities.ProducesDifferenceTwoString(partnerProfile.AffsLeagueIDList, criteria.LeagueIDList);
+                ? string.Empty : Utilities.ProducesDifferenceTwoString(partnerProfile.AffsLeagueIDList, criteria.LeagueIDList);
             missingProfile.AffsOutrightIDList = criteria.OutRightIDList == "all"
-                                                          ? string.Empty : Utilities.ProducesDifferenceTwoString(partnerProfile.AffsOutrightIDList, criteria.OutRightIDList);
+                ? string.Empty : Utilities.ProducesDifferenceTwoString(partnerProfile.AffsOutrightIDList, criteria.OutRightIDList);
             missingProfile.AffsBettypeIDList = criteria.BetTypeIDList == "all"
-                                                          ? string.Empty : Utilities.ProducesDifferenceTwoString(partnerProfile.AffsBettypeIDList, criteria.BetTypeIDList);
+                ? string.Empty : Utilities.ProducesDifferenceTwoString(partnerProfile.AffsBettypeIDList, criteria.BetTypeIDList);
 
             return missingProfile;
         }
 
-        /// <summary>
-        /// Determines whether is missing profile.
-        /// </summary>
-        /// <param name="missingPartnersProfile">The missing partners profile.</param>
-        /// <returns><c>true</c> if is missing profile; otherwise, <c>false</c>.</returns>
-        private bool IsMissingProfile(MissingPartnersProfile missingPartnersProfile)
+        private static bool IsMissingProfile(MissingPartnersProfile missingPartnersProfile)
         {
             StringBuilder missingSummary = new StringBuilder();
             missingSummary.Append(missingPartnersProfile.AffsOddsType);
@@ -649,24 +506,19 @@ namespace Fanex.OddsFeed.Admin.Controllers
             missingPartnersProfile.ErrCode = defaultErrCode;
 
             missingPartnersProfile.AffsOddsType = string.IsNullOrEmpty(missingPartnersProfile.AffsOddsType)
-                                                                ? criteria.OddsType : missingPartnersProfile.AffsOddsType + "," + criteria.OddsType;
+                ? criteria.OddsType : missingPartnersProfile.AffsOddsType + "," + criteria.OddsType;
             missingPartnersProfile.AffsLanguageList = string.IsNullOrEmpty(missingPartnersProfile.AffsLanguageList)
-                                                                    ? criteria.LanguageList
-                                                                    : missingPartnersProfile.AffsLanguageList + "," + criteria.LanguageList;
+                ? criteria.LanguageList : missingPartnersProfile.AffsLanguageList + "," + criteria.LanguageList;
             missingPartnersProfile.AffsSportIDList = string.IsNullOrEmpty(missingPartnersProfile.AffsSportIDList)
-                                                                ? criteria.SportIDList : missingPartnersProfile.AffsSportIDList + "," + criteria.SportIDList;
+                ? criteria.SportIDList : missingPartnersProfile.AffsSportIDList + "," + criteria.SportIDList;
             missingPartnersProfile.AffsCountryCodeList = string.IsNullOrEmpty(missingPartnersProfile.AffsCountryCodeList)
-                                                                        ? criteria.CountryCodeList
-                                                                        : missingPartnersProfile.AffsCountryCodeList + "," + criteria.CountryCodeList;
+                ? criteria.CountryCodeList : missingPartnersProfile.AffsCountryCodeList + "," + criteria.CountryCodeList;
             missingPartnersProfile.AffsLeagueIDList = string.IsNullOrEmpty(missingPartnersProfile.AffsLeagueIDList)
-                                                                    ? criteria.LeagueIDList
-                                                                    : missingPartnersProfile.AffsLeagueIDList + "," + criteria.LeagueIDList;
+                ? criteria.LeagueIDList : missingPartnersProfile.AffsLeagueIDList + "," + criteria.LeagueIDList;
             missingPartnersProfile.AffsOutrightIDList = string.IsNullOrEmpty(missingPartnersProfile.AffsOutrightIDList)
-                                                                    ? criteria.OutRightIDList
-                                                                    : missingPartnersProfile.AffsOutrightIDList + "," + criteria.OutRightIDList;
+                ? criteria.OutRightIDList : missingPartnersProfile.AffsOutrightIDList + "," + criteria.OutRightIDList;
             missingPartnersProfile.AffsBettypeIDList = string.IsNullOrEmpty(missingPartnersProfile.AffsBettypeIDList)
-                                                                    ? criteria.BetTypeIDList
-                                                                    : missingPartnersProfile.AffsBettypeIDList + "," + criteria.BetTypeIDList;
+                ? criteria.BetTypeIDList : missingPartnersProfile.AffsBettypeIDList + "," + criteria.BetTypeIDList;
 
             MinimizeMissProfileData(ref missingPartnersProfile);
         }
@@ -698,6 +550,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 missingProfile.AffsBettypeIDList = "all";
             }
         }
+
         private JsonResult SaveLicenseeProfile(EditLicenseeProfileCriteria criteria)
         {
             criteria.Creator = CurrentSession.UserId;
@@ -712,10 +565,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
             return Json(missingPartnersProfile, JsonRequestBehavior.AllowGet);
         }
 
-        /// <summary>
-        /// Gets the licensee profile.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
         private void GetLicenseeProfile(ref EditLicenseeProfileCriteria criteria)
         {
             var licensee = _licenseeService.GetDataSet(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = criteria.SystemID });
@@ -727,7 +576,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 criteria.BettypeIDListFlag = bool.Parse(row["BettypeIDListFlag"].ToString());
                 criteria.CountryCodeList = row["CountryCodeList"].ToString();
                 criteria.CountryCodeListFlag = bool.Parse(row["CountryCodeListFlag"].ToString());
-                var delayTimes = row["DelayTimes"].ToString().Split(',');
+                var delayTimes = row["OddsDelayTimes"].ToString().Split(',');
                 if (delayTimes.Length >= 1)
                 {
                     criteria.DeadballDelayTimes = delayTimes[0];
@@ -743,7 +592,11 @@ namespace Fanex.OddsFeed.Admin.Controllers
                     criteria.OutrightDelayTimes = delayTimes[2];
                 }
 
-                criteria.DelayTimesFlag = bool.Parse(row["DelayTimesFlag"].ToString());
+                criteria.OddsDelayTimesFlag = bool.Parse(row["OddsDelayTimesFlag"].ToString());
+
+                criteria.ResultDelayTimes = row["ResultDelayTimes"].ToString();
+                criteria.ResultDelayTimesFlag = bool.Parse(row["ResultDelayTimesFlag"].ToString());
+
                 criteria.LanguageList = row["LanguageList"].ToString();
                 criteria.LanguageListFlag = bool.Parse(row["LanguageListFlag"].ToString());
                 criteria.LeagueIDList = row["LeagueIDList"].ToString();
@@ -762,10 +615,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
             }
         }
 
-        /// <summary>
-        /// Declare view bags for edit licensee profile.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
         private void ViewBagForEditLicenseeProfile(ref EditLicenseeProfileCriteria criteria)
         {
             ViewBag.OddsTypeList = _licenseeService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "OddsType" }, false);
@@ -773,6 +622,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
             ViewBag.LanguageIDList = _licenseeService.GetSelectList(new GetAllLanguageCriteria());
             var config = _licenseeService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "Config" }, false);
             ViewBag.DelayTimeList = GenerateDelayTime(config);
+            ViewBag.ResultDelayTimeList = _licenseeService.GetResultDelayTimeList();
 
             ////Sport
             var sports = _affiliateService.GetSelectListWithGroup(new GetSupportedSportCriteria());

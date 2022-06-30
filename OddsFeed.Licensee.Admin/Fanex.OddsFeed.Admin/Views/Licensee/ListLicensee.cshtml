@@ -4,8 +4,7 @@
 @model Fanex.OddsFeed.Core.Criteria.Licensee.GetLicenseeByPageCriteria
 @{
     ViewBag.Title = "Licensee List";
-    ViewBag.Nav = base.ViewBag.NavigationHome +
-                         "<span class='step'>" + ViewBag.Title + "</span>";
+    ViewBag.Nav = base.ViewBag.NavigationHome + "<span class='step'>" + ViewBag.Title + "</span>";
 }
 @section Breadcrumb {
     @Html.Raw(ViewBag.Nav)
@@ -21,11 +20,10 @@
     <script src="@BundleTable.Bundles.ResolveBundleUrl("~/Scripts/Functions/ListLicensee/ListLicenseeJs")"></script>
 }
 <div class="infor">
-    <span class="infor-ic">&nbsp;</span><span class="infor-text">The list of licensees.</span></div>
-<div class="newline">
-    &nbsp;</div>
-<div class="result-message-box hidden">
+    <span class="infor-ic">&nbsp;</span><span class="infor-text">The list of licensees.</span>
 </div>
+<div class="newline">&nbsp;</div>
+<div class="result-message-box hidden"></div>
 <div>
     <form id="myForm" method="get" action="/request/dailyview">
     <div class="container_24 bunhat">
@@ -45,25 +43,14 @@
     </form>
 </div>
 <br />
-<div id="SearchResult" class="freegrid  content-grid">
-</div>
+<div id="SearchResult" class="freegrid  content-grid"></div>
 
 <!-- active confirmation dialog -->
 <div id="activeLicenseeDialog" title="LICENSEE ADMIN"  style="display: none">
     <p>Do you want to activate this licensee ?</p>
     <br />
-    <p>    
-        <input type="checkbox" id="isActiveAllAffiliate"/><label for="isActiveAllAffiliate" style="font-weight:normal">Activate all affiliates also</label>         
+    <p>
+        <input type="checkbox" id="isActiveAllAffiliate" />
+        <label for="isActiveAllAffiliate" style="font-weight:normal">Activate all affiliates also</label>
     </p>
 </div>
-
-@*<div id="dialog-form" title="Create Licensee">
-    <p class="validateTips">
-        </p>
-    @Html.Partial("LicenseeCreate")
-</div>
-<div id="dialog-form-edit" title="Edit Licensee">
-    <p class="validateTips">
-        </p>
-    @Html.Partial("LicenseeEdit")
-</div>*@

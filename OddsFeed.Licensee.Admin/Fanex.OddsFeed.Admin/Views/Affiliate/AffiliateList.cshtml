@@ -3,9 +3,8 @@
 @using System.Web.Optimization
 @model Fanex.OddsFeed.Core.Criteria.Affiliate.GetAffiliateByNameCriteria
 @{
-    ViewBag.Title = "Affiliate List";    
-    ViewBag.Nav = base.ViewBag.NavigationHome +                     
-                         "<span class='step'>" + ViewBag.Title + "</span>";
+    ViewBag.Title = "Affiliate List";
+    ViewBag.Nav = base.ViewBag.NavigationHome + "<span class='step'>" + ViewBag.Title + "</span>";
     
 }
 @section Breadcrumb {
@@ -39,7 +38,5 @@
     <input type="button" value="Search" onclick="OnSearch();" />
 </div>
 </form>
-<div class="newline">
-    &nbsp;</div>
-<div id="SearchResult" class="freegrid  content-grid">
-</div>
+<div class="newline">&nbsp;</div>
+<div id="SearchResult" class="freegrid  content-grid"></div>

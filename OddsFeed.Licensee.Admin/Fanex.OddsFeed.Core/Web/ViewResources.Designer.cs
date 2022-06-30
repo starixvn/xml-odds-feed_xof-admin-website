@@ -682,6 +682,15 @@ namespace Fanex.OddsFeed.Core.Web {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Deadball.
+        /// </summary>
+        public static string Deadball {
+            get {
+                return ResourceManager.GetString("Deadball", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Default.
         /// </summary>
         public static string Default {
@@ -2005,6 +2014,15 @@ namespace Fanex.OddsFeed.Core.Web {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Number of IPs.
+        /// </summary>
+        public static string NumberOfIPs {
+            get {
+                return ResourceManager.GetString("NumberOfIPs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Odds format.
         /// </summary>
         public static string Odds_format {
@@ -2019,6 +2037,15 @@ namespace Fanex.OddsFeed.Core.Web {
         public static string Odds_type {
             get {
                 return ResourceManager.GetString("Odds_type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Odds Delay Time.
+        /// </summary>
+        public static string OddsDelayTime {
+            get {
+                return ResourceManager.GetString("OddsDelayTime", resourceCulture);
             }
         }
         
@@ -2073,6 +2100,15 @@ namespace Fanex.OddsFeed.Core.Web {
         public static string Order {
             get {
                 return ResourceManager.GetString("Order", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Outright.
+        /// </summary>
+        public static string Outright {
+            get {
+                return ResourceManager.GetString("Outright", resourceCulture);
             }
         }
         
@@ -2271,6 +2307,15 @@ namespace Fanex.OddsFeed.Core.Web {
         public static string ResetPwdSuccessMsg {
             get {
                 return ResourceManager.GetString("ResetPwdSuccessMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Result Delay Time.
+        /// </summary>
+        public static string ResultDelayTime {
+            get {
+                return ResourceManager.GetString("ResultDelayTime", resourceCulture);
             }
         }
         

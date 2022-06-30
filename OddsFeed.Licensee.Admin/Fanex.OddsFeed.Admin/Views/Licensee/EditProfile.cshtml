@@ -3,17 +3,17 @@
 @using Fanex.OddsFeed.Core.Criteria.Licensee;
 @model EditLicenseeProfileCriteria
 @{
-    ViewBag.Title = " Edit Licensee Odds Profile";
+    ViewBag.Title = " Edit Licensee Profile";
     ViewBag.Nav = base.ViewBag.NavigationHome +
-                             "<a class='step' href='" + base.ViewBag.CurrentDomain + "/Licensee/ListLicensee'>Licensee list</a>" +
-                             "<span class='step'>" + ViewBag.Title + ViewBag.CurrentSystem + "</span>";
+        "<a class='step' href='" + base.ViewBag.CurrentDomain + "/Licensee/ListLicensee'>Licensee list</a>" +
+        "<span class='step'>" + ViewBag.Title + ViewBag.CurrentSystem + "</span>";
 }
 @section Breadcrumb {
     @Html.Raw(ViewBag.Nav)
 }
 @section Styles
 {
-    <link rel="Stylesheet" type="text/css" href="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/App_Themes/Default/Affiliate/AffiliateCss")" />
+    <link rel="Stylesheet" type="text/css" href="@BundleTable.Bundles.ResolveBundleUrl("~/App_Themes/Default/Affiliate/AffiliateCss")" />
 }
 @section Scripts
 {
@@ -39,25 +39,18 @@
     <div id="step3" class="step">
         <div class="infor">
             <span class="infor-ic"></span><span class="infor-text">
-                Odds profile will show which
-                data (sports, markets, ...) affiliate should have in their xml stream.
+                Profile will show which data (sports, markets, results, ...) affiliate should have in their xml stream.
             </span>
         </div>
-        <h3>
-            @Html.Raw(ViewResources.HtmlTemplate_InputRequireds)
-        </h3>
-        <div class="newline">
-            &nbsp;
-        </div>
-        <div id="errorStep3" class="validation-summary-errors hidden" data-valmsg-summary="true">
-        </div>
-        <div class="result-message-box hidden">
-        </div>
+        <h3>@Html.Raw(ViewResources.HtmlTemplate_InputRequireds)</h3>
+        <div class="newline">&nbsp;</div>
+        <div id="errorStep3" class="validation-summary-errors hidden" data-valmsg-summary="true"></div>
+        <div class="result-message-box hidden"></div>
         <div class="form2" style="width: auto;">
             @Html.HiddenFor(m => m.SystemID)
             <div class="row">
                 <div class="grid4" style="text-align: right">
-                    @Html.LabelFor(m => m.OddsType, "Odds Type")
+                    @Html.LabelFor(m => m.OddsType, ViewResources.OddsType)
                 </div>
                 @Html.CheckBoxListFor(m => m.OddsType, (IEnumerable<SelectListItem>)ViewBag.OddsTypeList, new { @Class = "oddstype" }, false)
                 @Html.HiddenFor(m => m.OddsType)
@@ -67,7 +60,7 @@
             </div>
             <div class="row">
                 <div class="grid4" style="text-align: right">
-                    @Html.LabelFor(m => m.OddsRegion, "Odds Format")
+                    @Html.LabelFor(m => m.OddsRegion, ViewResources.OddsStyle)
                 </div>
                 @Html.DropDownListFor(m => m.OddsRegion, (IEnumerable<SelectListItem>)ViewBag.OddsStyleList)
                 @Html.CheckBoxFor(m => m.OddsRegionFlag)
@@ -75,18 +68,26 @@
             </div>
             <div class="row">
                 <div class="grid4" style="text-align: right">
-                    @Html.LabelFor(m => m.DelayTimes, "Delay Time")
+                    @Html.LabelFor(m => m.OddsDelayTimes, ViewResources.OddsDelayTime)
                 </div>
-                @Html.LabelFor(m => m.DeadballDelayTimes, "Deadball", new { @class = "font-normal" })
-                @Html.DropDownListFor(m => m.DeadballDelayTimes, (IEnumerable<SelectListItem>)ViewBag.DelayTimeList, new { @style = "width: 50px" })
-                @Html.LabelFor(m => m.LiveDelayTimes, "Live", new { @class = "font-normal" })
-                @Html.DropDownListFor(m => m.LiveDelayTimes, (IEnumerable<SelectListItem>)ViewBag.DelayTimeList, new { @style = "width: 50px" })
-                @Html.LabelFor(m => m.OutrightDelayTimes, "Outright", new { @class = "font-normal" })
-                @Html.DropDownListFor(m => m.OutrightDelayTimes, (IEnumerable<SelectListItem>)ViewBag.DelayTimeList, new { @style = "width: 50px" })
+                <div class="grid7">
+                    @Html.LabelFor(m => m.DeadballDelayTimes, ViewResources.Deadball, new { @class = "font-normal" })
+                    @Html.DropDownListFor(m => m.DeadballDelayTimes, (IEnumerable<SelectListItem>)ViewBag.DelayTimeList, new { @style = "width: 50px" })
+                    @Html.LabelFor(m => m.LiveDelayTimes, "Live", new { @class = "font-normal" })
+                    @Html.DropDownListFor(m => m.LiveDelayTimes, (IEnumerable<SelectListItem>)ViewBag.DelayTimeList, new { @style = "width: 50px" })
+                    @Html.LabelFor(m => m.OutrightDelayTimes, ViewResources.Outright, new { @class = "font-normal" })
+                    @Html.DropDownListFor(m => m.OutrightDelayTimes, (IEnumerable<SelectListItem>)ViewBag.DelayTimeList, new { @style = "width: 50px" })
+                </div>
+                <div class="grid4" style="text-align: right">
+                    @Html.LabelFor(m => m.ResultDelayTimes, ViewResources.ResultDelayTime)
+                </div>
+                <div class="grid7">
+                    @Html.DropDownListFor(m => m.ResultDelayTimes, (IEnumerable<SelectListItem>)ViewBag.ResultDelayTimeList, new { @style = "width: 50px" })
+                </div>
             </div>
             <div class="row">
                 <div class="grid4" style="text-align: right">
-                    @Html.LabelFor(m => m.NumberOfIPs, "Number of IPs")
+                    @Html.LabelFor(m => m.NumberOfIPs, ViewResources.NumberOfIPs)
                 </div>
                 @Html.TextBoxFor(m => m.NumberOfIPs, new { @style = "width: 50px", @min = 0 })
                 <div class="grid1" style="float: none;">
@@ -95,7 +96,7 @@
             </div>
             <div class="row">
                 <div class="grid4" style="text-align: right">
-                    @Html.LabelFor(m => m.LanguageList, "Languages")
+                    @Html.LabelFor(m => m.LanguageList, ViewResources.Languages)
                 </div>
                 @Html.CheckBoxListFor(m => m.LanguageList, (IEnumerable<SelectListItem>)ViewBag.LanguageIDList, new { @Class = "language" }, false)
                 @Html.HiddenFor(m => m.LanguageList)
@@ -114,13 +115,15 @@
                 </div>
                 <div class="grid7" style="line-height: 270px; text-align: left">
                     <label class="font-normal">
-                        @Html.CheckBoxListFor(m => m.SportIDList, ViewBag.MajorSportList as IEnumerable<SelectListItem>, new { @Class = "chkMajorSport" }, false)
+                        @Html.CheckBoxListFor(m => m.SportIDList,
+                            ViewBag.MajorSportList as IEnumerable<SelectListItem>,
+                            new { @Class = "chkMajorSport" },
+                            false)
                     </label>
                 </div>
                 <div class="grid4" style="line-height: 270px; text-align: right">
-                    <label for="chkAllSports">
-                        @ViewResources.MinorSports
-                    </label><input type="checkbox" id="chkAllMinorSports" />
+                    <label for="chkAllSports">@ViewResources.MinorSports</label>
+                    <input type="checkbox" id="chkAllMinorSports" />
                 </div>
                 <div class="grid7">
                     <div class="checkbox-filter">
@@ -128,7 +131,10 @@
                         <input id="minorSport-filter" />
                     </div>
                     <div class="grid7 checkbox-list">
-                        @Html.CheckBoxDropDownListFor(m => m.SportIDList, ViewBag.MinorSportList as IEnumerable<SelectListItem>, new { @Class = "chkMinorSport" }, false)
+                        @Html.CheckBoxDropDownListFor(m => m.SportIDList,
+                            ViewBag.MinorSportList as IEnumerable<SelectListItem>,
+                            new { @Class = "chkMinorSport" },
+                            false)
                     </div>
                 </div>
                 <div class="grid3" style="line-height: 270px; text-align: left">
@@ -150,7 +156,10 @@
                         <input id="country-filter" />
                     </div>
                     <div class="grid7 checkbox-list">
-                        @Html.CheckBoxDropDownListFor(m => m.CountryCodeList, (IEnumerable<SelectListItem>)ViewBag.CountriesList, new { @class = "chkCountry" }, false)
+                        @Html.CheckBoxDropDownListFor(m => m.CountryCodeList,
+                            (IEnumerable<SelectListItem>)ViewBag.CountriesList,
+                            new { @class = "chkCountry" },
+                            false)
                         @Html.HiddenFor(m => m.CountryCodeList)
                     </div>
                 </div>
@@ -163,32 +172,31 @@
                 </div>
             </div>
             <div id="League" class="row3">
-                @Html.Partial("_LeaguePartialView", new GetLeagueCriteria()
-           {
-               SportIDList = Model.SportIDList,
-               LeagueIDList = Model.LeagueIDList,
-               LeagueIDListFlag = Model.LeagueIDListFlag,
-               CountryCodeList = Model.CountryCodeList,
-               LeagueKeyword = Model.LeagueKeyword,
-               LeagueKeywordFlag = Model.LeagueKeywordFlag
-           })
+                @Html.Partial("_LeaguePartialView", new GetLeagueCriteria
+                {
+                    SportIDList = Model.SportIDList,
+                    LeagueIDList = Model.LeagueIDList,
+                    LeagueIDListFlag = Model.LeagueIDListFlag,
+                    CountryCodeList = Model.CountryCodeList,
+                    LeagueKeyword = Model.LeagueKeyword,
+                    LeagueKeywordFlag = Model.LeagueKeywordFlag
+                })
             </div>
             <div id="Outrights" class="row3" style="max-height: 210px">
-                @Html.Partial("_OutrightPartialView", new GetOutRightCriteria()
-           {
-               SportIDList = Model.SportIDList,
-               OutRightIDList = Model.OutRightIDList,
-               CountryCodeList = Model.CountryCodeList,
-               LeagueKeyword_O = Model.LeagueKeyword_O,
-               LeagueKeyword_OFlag = Model.LeagueKeyword_OFlag
-           })
+                @Html.Partial("_OutrightPartialView", new GetOutRightCriteria
+                {
+                    SportIDList = Model.SportIDList,
+                    OutRightIDList = Model.OutRightIDList,
+                    CountryCodeList = Model.CountryCodeList,
+                    LeagueKeyword_O = Model.LeagueKeyword_O,
+                    LeagueKeyword_OFlag = Model.LeagueKeyword_OFlag
+                })
             </div>
             <div id="Market" class="row3">
                 @Html.HiddenFor(m => m.BetTypeIDList)
                 <div class="grid4" style="line-height: 270px; text-align: right">
-                    <label for="chkAllMajorMarkets">
-                        @ViewResources.MajorMarkets
-                    </label><input type="checkbox" id="chkAllMajorMarkets" />
+                    <label for="chkAllMajorMarkets">@ViewResources.MajorMarkets</label>
+                    <input type="checkbox" id="chkAllMajorMarkets" />
                 </div>
                 <div class="grid7">
                     <div class="checkbox-filter">
@@ -196,13 +204,15 @@
                         <input id="majormarket-filter" />
                     </div>
                     <div class="grid7 checkbox-list">
-                        @Html.CheckBoxDropDownListFor(m => m.BetTypeIDList, ViewBag.MajorBettypesList as IEnumerable<SelectListItem>, new { @Class = "chkMajorMarket" }, false)
+                        @Html.CheckBoxDropDownListFor(m => m.BetTypeIDList,
+                            ViewBag.MajorBettypesList as IEnumerable<SelectListItem>,
+                            new { @Class = "chkMajorMarket" },
+                            false)
                     </div>
                 </div>
                 <div class="grid4" style="line-height: 270px; text-align: right">
-                    <label for="chkAllMinorMarkets">
-                        @ViewResources.MinorMarkets
-                    </label><input type="checkbox" id="chkAllMinorMarkets" />
+                    <label for="chkAllMinorMarkets">@ViewResources.MinorMarkets</label>
+                    <input type="checkbox" id="chkAllMinorMarkets" />
                 </div>
                 <div class="grid7">
                     <div class="checkbox-filter">
@@ -210,7 +220,10 @@
                         <input id="minorMarket-filter" />
                     </div>
                     <div class="grid7 checkbox-list">
-                        @Html.CheckBoxDropDownListFor(m => m.BetTypeIDList, ViewBag.MinorBettypesList as IEnumerable<SelectListItem>, new { @Class = "chkMinorMarket" }, false)
+                        @Html.CheckBoxDropDownListFor(m => m.BetTypeIDList,
+                            ViewBag.MinorBettypesList as IEnumerable<SelectListItem>,
+                            new { @Class = "chkMinorMarket" },
+                            false)
                     </div>
                 </div>
                 <div class="grid3" style="line-height: 270px; text-align: left">
@@ -225,12 +238,13 @@
                 <div class="grid3"></div>
                 <div class="grid7">
                     @Html.CheckBoxFor(m => m.ApplyAllCurrentAffiliates)
-                    @Html.LabelFor(m => m.ApplyAllCurrentAffiliates, "Apply this profile for all current affiliates under", new { @Style = "color:Red" })
+                    @Html.LabelFor(m => m.ApplyAllCurrentAffiliates,
+                        "Apply this profile for all current affiliates under",
+                        new { @Style = "color:Red" })
                 </div>
             </div>
             <div class="row">
-                <div class="grid4">
-                </div>
+                <div class="grid4"></div>
                 <div class="grid2">
                     <input id="step3Cancel" type="button" value="Cancel" class="cancel" />
                 </div>

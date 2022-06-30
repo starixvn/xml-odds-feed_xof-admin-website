@@ -1,27 +1,9 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="UpdateProfileCriteria.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Thai.Tran" date="2013.01.09">Created</change>
-// </history>
-
-namespace Fanex.OddsFeed.Core.Criteria.Affiliate
+﻿namespace Fanex.OddsFeed.Core.Criteria.Affiliate
 {
     using Data.Repository;
 
-    /// <summary>
-    /// Class UpdateProfileCriteria.
-    /// </summary>
     public class UpdateProfileCriteria : CriteriaBase
     {
-        public UpdateProfileCriteria()
-        {
-            ErrCode = 0;
-            ErrMsg = string.Empty;
-        }
-
         public int Creator { get; set; }
 
         public int PartnerID { get; set; }
@@ -44,13 +26,7 @@ namespace Fanex.OddsFeed.Core.Criteria.Affiliate
 
         public string LeagueKeyword_O { get; set; }
 
-        public string DelayTimes
-        {
-            get
-            {
-                return string.Join(",", this.DeadballDelayTimes, this.LiveDelayTimes, this.OutrightDelayTimes);
-            }
-        }
+        public string OddsDelayTimes => string.Join(",", this.DeadballDelayTimes, this.LiveDelayTimes, this.OutrightDelayTimes);
 
         public string OutRightIDList { get; set; }
 
@@ -82,18 +58,10 @@ namespace Fanex.OddsFeed.Core.Criteria.Affiliate
         [SpParam(Ignored = true)]
         public string OutrightDelayTimes { get; set; }
 
-        public override string GetSettingKey()
-        {
-            return "Odds_Partner_Upd_Profile";
-        }
+        public string ResultDelayTimes { get; set; }
 
-        /// <summary>
-        /// Check data's constrains.
-        /// </summary>
-        /// <returns>True: valid; False: invalid.</returns>
-        public override bool IsValid()
-        {
-            return true;
-        }
+        public override string GetSettingKey() => "Odds_Partner_Upd_Profile";
+
+        public override bool IsValid() => true;
     }
 }

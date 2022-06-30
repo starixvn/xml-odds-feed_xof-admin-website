@@ -1,13 +1,13 @@
 ﻿$(document).ready(function () {
-    if ($("#isAccountManagerPermission").val() == "") {
+    if ($('#isAccountManagerPermission').val() == '') {
         SetDefault();
     }
 
     //Sport checkboxes
-    CheckBoxListEvent('chkAllMajorSports', 'chkMajorSport', undefined, GetLeagueOutright, 'formAffiliate', "League", 'Outrights');
-    CheckBoxListEventWithConfirm('chkAllMinorSports', 'chkMinorSport', undefined, GetLeagueOutright, 'formAffiliate', "League", 'Outrights');
+    CheckBoxListEvent('chkAllMajorSports', 'chkMajorSport', undefined, GetLeagueOutright, 'formAffiliate', 'League', 'Outrights');
+    CheckBoxListEventWithConfirm('chkAllMinorSports', 'chkMinorSport', undefined, GetLeagueOutright, 'formAffiliate', 'League', 'Outrights');
     //Country checkboxes
-    CheckBoxListEvent('chkAllCountries', 'chkCountry', undefined, GetLeagueOutright, 'formAffiliate', "League", 'Outrights');
+    CheckBoxListEvent('chkAllCountries', 'chkCountry', undefined, GetLeagueOutright, 'formAffiliate', 'League', 'Outrights');
     //Market checkboxes
     CheckBoxListEvent('chkAllMajorMarkets', 'chkMajorMarket', undefined);
     CheckBoxListEventWithConfirm('chkAllMinorMarkets', 'chkMinorMarket', undefined);
@@ -15,8 +15,8 @@
     // Show Martket options if "Deadball or Live" is selected
     ShowHideMarket('edit');
 
-    $(".oddstype").click(function () {
-        if ($("#oddsTypeFlag").val() != "") {
+    $('.oddstype').click(function () {
+        if ($('#oddsTypeFlag').val() != '') {
             var id = this.id;
             if (id != 'OddsType8')//NOT Outright
             {
@@ -28,7 +28,7 @@
         }
     });
 
-    if ($("#isAccountManagerPermission").val() != "") {
+    if ($('#isAccountManagerPermission').val() != '') {
         //League
         CheckBoxListEvent('chkAllLeagues', 'chkLeague', undefined);
         $('#LeagueKeyword').keyup();
@@ -38,50 +38,50 @@
         $('#LeagueKeyword_O').keyup();
     }
 
-    $('input[isdisabled="disabled"]').prop("disabled", true);
-    $('input[isdisabled!="disabled"]').prop("disabled", false);
-    //$('input[isdisabled="disabled"]').attr("disabled", "disabled");
+    $('input[isdisabled="disabled"]').prop('disabled', true);
+    $('input[isdisabled!="disabled"]').prop('disabled', false);
 
-    $("#editStep3Save").click(function () {
-        $(".result-message-box").addClass("hidden");
+    $('#editStep3Save').click(function () {
+        $('.result-message-box').addClass('hidden');
 
         // Refresh values
         var updateParams = {
-            PartnerID: $("#PartnerID").val(),
+            PartnerID: $('#PartnerID').val(),
             OddsType: affiliateManager.GetDropDownCheckBoxListValue('oddstype'),
-            OddsRegion: $("#slOddsStyle option:selected").val(),
-            DeadballDelayTimes: $("#DeadballDelayTimes").length > 0 ? $("#DeadballDelayTimes").val() : "",
-            LiveDelayTimes: $("#LiveDelayTimes").length > 0 ? $("#LiveDelayTimes").val() : "",
-            OutrightDelayTimes: $("#OutrightDelayTimes").length > 0 ? $("#OutrightDelayTimes").val() : "",
-            NumberOfIPs: $("#NumberOfIPs").val(),
+            OddsRegion: $('#slOddsStyle option:selected').val(),
+            DeadballDelayTimes: $('#DeadballDelayTimes').length > 0 ? $('#DeadballDelayTimes').val() : '',
+            LiveDelayTimes: $('#LiveDelayTimes').length > 0 ? $('#LiveDelayTimes').val() : '',
+            OutrightDelayTimes: $('#OutrightDelayTimes').length > 0 ? $('#OutrightDelayTimes').val() : '',
+            ResultDelayTimes: $('#ResultDelayTimes').length > 0 ? $('#ResultDelayTimes').val() : '',
+            NumberOfIPs: $('#NumberOfIPs').val(),
             LanguageList: affiliateManager.GetDropDownCheckBoxListValue('language'),
             SportIDList: affiliateManager.GetIdList('chkMajorSport', 'chkMinorSport'),
             CountryCodeList: affiliateManager.GetDropDownCheckBoxListValue('chkCountry'),
             BetTypeIDList: affiliateManager.GetIdList('chkMajorMarket', 'chkMinorMarket'),
-            LeagueIDList: $("#chkAllLeagues").length > 0 ? affiliateManager.GetDropDownCheckBoxListValue('chkLeague') : "",
-            OutRightIDList: $("#chkAllOutrights").length > 0 ? affiliateManager.GetDropDownCheckBoxListValue('chkOutright') : "",
-            LeagueKeyword: $("#LeagueKeyword").length > 0 ? $("#LeagueKeyword").val() : "",
-            LeagueKeyword_O: $("#LeagueKeyword_O").length > 0 ? $("#LeagueKeyword_O").val() : "",
-            OddsTypeFlag: $("#oddsTypeFlag").val() == "value",
-            OddsRegionFlag: $("#oddsStyleFlag").val() == "value",
-            LanguageListFlag: $("#languagesFlag").val() == "value",
-            SportIDListFlag: $("#sportsFlag").val() == "value",
-            CountryCodeListFlag: $("#countriesFlag").val() == "value",
-            BetTypeIDListFlag: $("#marketsFlag").val() == "value"
+            LeagueIDList: $('#chkAllLeagues').length > 0 ? affiliateManager.GetDropDownCheckBoxListValue('chkLeague') : '',
+            OutRightIDList: $('#chkAllOutrights').length > 0 ? affiliateManager.GetDropDownCheckBoxListValue('chkOutright') : '',
+            LeagueKeyword: $('#LeagueKeyword').length > 0 ? $('#LeagueKeyword').val() : '',
+            LeagueKeyword_O: $('#LeagueKeyword_O').length > 0 ? $('#LeagueKeyword_O').val() : '',
+            OddsTypeFlag: $('#oddsTypeFlag').val() == 'value',
+            OddsRegionFlag: $('#oddsStyleFlag').val() == 'value',
+            LanguageListFlag: $('#languagesFlag').val() == 'value',
+            SportIDListFlag: $('#sportsFlag').val() == 'value',
+            CountryCodeListFlag: $('#countriesFlag').val() == 'value',
+            BetTypeIDListFlag: $('#marketsFlag').val() == 'value'
         };
 
         var isValid = affiliateManager.CheckValidation_OddsProfile(updateParams);
         if (!isValid) {
             return;
         }
-        $("body").addClass("wait");
+        $('body').addClass('wait');
         $('input:button[value="Save"]').attr('disabled', true);
 
         $.ajax({
             type: 'POST',
             url: 'EditProfile',
-            dataType: "json",
-            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(updateParams),
             cache: false,
             beforeSend: function (xhr) {
@@ -90,10 +90,10 @@
                 $('body').removeClass('wait');
                 $('input:button[value="Save"]').attr('disabled', false);
 
-                var success = result != null && result.IsSuccess == true;
-                OddsFeedAdminManager.informActionResult(result, $("#editStep3 .result-message-box"));
+                var success = result != null && result.IsSuccess;
+                OddsFeedAdminManager.informActionResult(result, $('#editStep3 .result-message-box'));
                 if (success) {
-                    OddsFeedAdminManager.confirmAfterSuccess(currentDomainURL + "/Affiliate/List");
+                    OddsFeedAdminManager.confirmAfterSuccess(currentDomainURL + '/Affiliate/List');
                 }
             },
             error: function (xhr, status, err) {
@@ -105,5 +105,5 @@
 
 function SetDefault() {
     //oddsStyle
-    $('#slOddsStyle option:not(:selected)').attr('disabled', $("#oddsStyleFlag").val() == "");
+    $('#slOddsStyle option:not(:selected)').attr('disabled', $('#oddsStyleFlag').val() == '');
 }

@@ -98,10 +98,10 @@ function Search() {
             };
 
             for (var i = 0; i < gridOptions.bodyRows.length; i++) {
-                // Modify "Active" column                
+                // Modify "Active" column
                 gridOptions.bodyRows[i].Columns[3].Row = i;
                 gridOptions.bodyRows[i].Columns[3].CustomCellRender = ActiveColumn;
-                                
+
                 // Modify "Action" column
                 gridOptions.bodyRows[i].Columns =  OddsFeedAdminManager.insertAtIndex(
                     gridOptions.bodyRows[i].Columns,
@@ -161,9 +161,6 @@ function ActionColumn(cell, cellFormated) {
 function ShowAction(cellRow) {
     var partnerId = gridOptions.bodyRows[cellRow].Columns[1].Value;
     var userName = gridOptions.bodyRows[cellRow].Columns[2].Value;
-    var site = gridOptions.bodyRows[cellRow].Columns[4].Value;
-    var email = gridOptions.bodyRows[cellRow].Columns[9].Value;
-    var note = gridOptions.bodyRows[cellRow].Columns[11].Value;
 
     _affId = partnerId;
     _affName = userName;
@@ -206,7 +203,7 @@ function ShowAction(cellRow) {
                 }
             },
             editProfile: {
-                name: "Edit odds profile",
+                name: "Edit profile",
                 className: "iconOddProfile",
                 callback: function (key, opt) {
                     var updateParam = $.param({

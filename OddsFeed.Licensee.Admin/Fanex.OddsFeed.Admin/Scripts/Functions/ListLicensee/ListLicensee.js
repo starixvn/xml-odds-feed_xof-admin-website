@@ -4,8 +4,8 @@ var _isActive = false;
 var _contactEmail = "";
 
 var gridOptions
-    , PageIndex = 0
-    , PageSize = 10;
+    ,PageIndex = 0
+    ,PageSize = 10;
 
 $(document).ready(function () {
     var gridOptions;
@@ -63,7 +63,7 @@ function Submit() {
                 gridExpandHeight: 150,
                 allowTruncate: true,
                 enableHiddenColumns: false,
-                hiddenColumns: [1], 
+                hiddenColumns: [1],
                 showPager: true,
                 customPager: true,
                 pagerOption: {
@@ -72,13 +72,12 @@ function Submit() {
                     totalItem: result[1].totalItem,
                     itemsPerPageArray: [10, 20, 50, 100, 500],
                     pagerSelectCallBack: ReRenderAfterPaged
-                },
-                allowTruncate: true
+                }
             };
 
             // Add function column
             for (var i = 0; i < gridOptions.bodyRows.length; i++) {
-                // Modify "Active" column                
+                // Modify "Active" column
                 gridOptions.bodyRows[i].Columns[3].Row = i;
                 gridOptions.bodyRows[i].Columns[3].CustomCellRender = ActiveColumn;
 
@@ -87,7 +86,6 @@ function Submit() {
                     gridOptions.bodyRows[i].Columns,
                     3,
                     { Name: "Action", Row: i });
-                //                gridOptions.bodyRows[i].Columns.push({ Name: "Action", Row: i });
                 gridOptions.bodyRows[i].Columns[3].CustomCellRender = ActionColumn;
             }
 
@@ -118,7 +116,7 @@ function ActionColumn(cell, cellFormated) {
     var licenseeId = gridOptions.bodyRows[cell.Row].Columns[1].Value;
     var licenseeName = gridOptions.bodyRows[cell.Row].Columns[2].Value;
     var isActive = gridOptions.bodyRows[cell.Row].Columns[4].Value;
-    var contactEmail = gridOptions.bodyRows[cell.Row].Columns[8].Value;    
+    var contactEmail = gridOptions.bodyRows[cell.Row].Columns[8].Value;
 
     return "<div class='btn-action licenseeId_" + licenseeId + "' onclick=\"javascript:ShowAction('" + licenseeId + "','" + licenseeName + "','" + isActive +  "','" + contactEmail + "');\"></div>";
 }
@@ -163,7 +161,7 @@ function ShowAction(systemID, systemName, isActive, contactEmail) {
 
     $.contextMenu({
         selector: '.btn-action.licenseeId_' + systemID,
-        items: {            
+        items: {
             deleteAffiliate: {
                 name: "Delete this licensee",
                 height: 25,
@@ -199,7 +197,7 @@ function ShowAction(systemID, systemName, isActive, contactEmail) {
                 }
             },
             editProfile: {
-                name: "Edit odds profile",
+                name: "Edit profile",
                 className: "iconOddProfile",
                 callback: function (key, opt) {
                     var urlParam = $.param({
