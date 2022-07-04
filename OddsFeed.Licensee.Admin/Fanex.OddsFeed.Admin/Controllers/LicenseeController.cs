@@ -266,7 +266,7 @@
             criteria.IpFromOld = string.IsNullOrEmpty(criteria.IpFromOld) ? string.Empty : criteria.IpFromOld;
             criteria.IpToOld = string.IsNullOrEmpty(criteria.IpToOld) ? string.Empty : criteria.IpToOld;
 
-            var resultMessage = string.Empty;
+            string resultMessage;
             var result = _licenseeService.Update(criteria);
             if (result != null)
             {

@@ -16,10 +16,8 @@
     using Fanex.OddsFeed.Core.Service.Interface;
     using Fanex.OddsFeed.Core.Web;
     using Fanex.OddsFeed.Core.Web.Attribute;
-    using System.Diagnostics.CodeAnalysis;
 
-    [SuppressMessage("Major Code Smell", "S109:Magic numbers should not be used", Justification = "<Pending>")]
-    [SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex", Justification = "<Pending>")]
+#pragma warning disable S1541 // Methods and properties should not be too complex
     [IsAuthorize]
     public class AffiliateController : BaseController
     {
@@ -38,9 +36,10 @@
         private const string SportIDListFlagCollumn = "SportIDListFlag";
         private const string OddsTypeFlagCollumn = "OddsTypeFlag";
         private const string OddsRegionFlagCollumn = "OddsRegionFlag";
+        private const byte OutrightDelayTimesIndex = 2;
 
-        private readonly IAffiliateService _affiliateService;
-        private readonly ILicenseeService _licenseeService;
+        private readonly IAffiliateService affiliateService;
+        private readonly ILicenseeService licenseeService;
 
         public AffiliateController()
             : this(null, null)
@@ -51,8 +50,8 @@
             IAffiliateService affiliateService,
             ILicenseeService licenseeService)
         {
-            _affiliateService = affiliateService ?? new AffiliateService { ServiceContext = ServiceContext };
-            _licenseeService = licenseeService ?? new LicenseeService { ServiceContext = ServiceContext };
+            this.affiliateService = affiliateService ?? new AffiliateService { ServiceContext = ServiceContext };
+            this.licenseeService = licenseeService ?? new LicenseeService { ServiceContext = ServiceContext };
         }
 
         #region Add New
@@ -64,22 +63,23 @@
             ViewBag.VirtualPath = GetVirtualPath();
 
             // Domain
-            var domainList = _affiliateService.GetDomain();
+            var domainList = affiliateService.GetDomain();
             ViewData["slAssignedDomain"] = domainList;
             ViewData["slDomain"] = new List<SelectListItem>();
 
             // Profile
-            var licenseeProfile = _affiliateService.GetDataSet(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = CurrentSession.SystemId });
+            var licenseeProfile = affiliateService.GetDataSet(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = CurrentSession.SystemId });
             if (licenseeProfile != null && licenseeProfile.Tables.Count > 0 && licenseeProfile.Tables[0].Rows.Count > 0)
             {
                 var row = licenseeProfile.Tables[0].Rows[0];
                 criteria.OddsRegion = row[OddsRegionCollumn].ToString();
                 criteria.NumberOfIPs = (short)row[NumberOfIpsCollumn];
+
                 // Delay Times
                 var delayTimes = row["OddsDelayTimes"].ToString().Split(',');
                 criteria.DeadballDelayTimes = delayTimes.Length > 0 ? delayTimes[0] : "0";
                 criteria.LiveDelayTimes = delayTimes.Length > 1 ? delayTimes[1] : "0";
-                criteria.OutrightDelayTimes = delayTimes.Length > 2 ? delayTimes[2] : "0";
+                criteria.OutrightDelayTimes = delayTimes.Length > OutrightDelayTimesIndex ? delayTimes[OutrightDelayTimesIndex] : "0";
                 criteria.ResultDelayTimes = row["ResultDelayTimes"].ToString();
             }
 
@@ -108,7 +108,7 @@
 
             if (IsValidListOfIPs(criteria.IpsFrom, criteria.IpsTo))
             {
-                var result = _affiliateService.Insert(criteria);
+                var result = affiliateService.Insert(criteria);
                 if (result != null && result.IsSuccessful)
                 {
                     actionResult.IsSuccess = true;
@@ -139,7 +139,7 @@
                 return Json(checkResult, JsonRequestBehavior.AllowGet);
             }
 
-            var res = this._affiliateService.GetAffiliateListReturnDataCollection(new CheckExistAffiliateCriteria
+            var res = affiliateService.GetAffiliateListReturnDataCollection(new CheckExistAffiliateCriteria
             {
                 UserName = criteria.UserName,
                 PageIndex = 1,
@@ -174,7 +174,7 @@
                 UserName = userName
             };
 
-            var dr = _affiliateService.GetAffiliateListReturnDataCollection(new GetAffiliateByNameCriteria
+            var dr = affiliateService.GetAffiliateListReturnDataCollection(new GetAffiliateByNameCriteria
             {
                 SystemId = CurrentSession.SystemId,
                 UserName = userName,
@@ -207,7 +207,7 @@
                 criteria.Website = criteria.Website ?? string.Empty;
                 criteria.Note = criteria.Note ?? string.Empty;
 
-                var result = _affiliateService.Update(criteria);
+                var result = affiliateService.Update(criteria);
                 if (result != null && result.IsSuccessful)
                 {
                     actionResult.IsSuccess = true;
@@ -234,22 +234,22 @@
             ViewBag.CurrentUser = " of \"" + name + "\"";
             ViewBag.AffId = id;
 
-            var affiliateProfile = _affiliateService.GetDataSet(new GetAffiliateProfileByIDCriteria { PartnerID = id });
+            var affiliateProfile = affiliateService.GetDataSet(new GetAffiliateProfileByIDCriteria { PartnerID = id });
             if (affiliateProfile != null && affiliateProfile.Tables.Count > 0 && affiliateProfile.Tables[0].Rows.Count > 0)
             {
                 ViewBag.NumberOfIPs = int.Parse(affiliateProfile.Tables[0].Rows[0][NumberOfIpsCollumn].ToString());
             }
 
-            ////Domain
-            var domainSelList = _affiliateService.GetDomainByAffId(id);
+            // Domain
+            var domainSelList = affiliateService.GetDomainByAffId(id);
             ViewData["slAssignedDomain"] = domainSelList;
 
-            var domainList = _affiliateService.GetDomain();
+            var domainList = affiliateService.GetDomain();
             domainList = domainList.Where(d => !domainSelList.Any(s => s.Value == d.Value)).ToList();
             ViewData["slDomain"] = domainList;
 
-            ////IP
-            ViewBag.IpList = _affiliateService.GetPartnerIpByAffId(id);
+            // IP
+            ViewBag.IpList = affiliateService.GetPartnerIpByAffId(id);
 
             return View();
         }
@@ -258,13 +258,14 @@
         public JsonResult EditSetting(int affId, string domains, string listIPs)
         {
             var actionResult = new OddsFeedActionResult();
-            StringBuilder fromIPs = new StringBuilder();
-            StringBuilder toIPs = new StringBuilder();
+            var fromIPs = new StringBuilder();
+            var toIPs = new StringBuilder();
 
             if (!string.IsNullOrEmpty(listIPs))
             {
                 var arrIps = listIPs.Split(',');
-                for (int i = 0; i < arrIps.Length; i += 2)
+                const byte Iterator = 2;
+                for (int i = 0; i < arrIps.Length; i += Iterator)
                 {
                     fromIPs.Append(arrIps[i] + ",");
                     toIPs.Append(arrIps[i + 1] + ",");
@@ -286,7 +287,7 @@
                     IpsTo = toIPs.ToString()
                 };
 
-                var result = _affiliateService.Update(criteria);
+                var result = affiliateService.Update(criteria);
                 if (result != null && result.IsSuccessful)
                 {
                     ViewBag.Success = true;
@@ -316,7 +317,7 @@
                 IpToOld = toIPOld
             };
 
-            var result = _affiliateService.Update(criteria);
+            var result = affiliateService.Update(criteria);
             if (result != null && result.IsSuccessful)
             {
                 ViewBag.Success = true;
@@ -338,7 +339,7 @@
             criteria.IPToOld = string.IsNullOrEmpty(criteria.IPToOld) ? string.Empty : criteria.IPToOld;
             criteria.IP = CurrentContext.IP;
 
-            var result = this._affiliateService.Update(criteria);
+            var result = affiliateService.Update(criteria);
             if (result != null && result.IsSuccessful)
             {
                 deleteResult.IsSuccess = true;
@@ -366,7 +367,7 @@
             ViewBag.CurrentUser = $" of \"{name}\"";
 
             // Profile
-            var affiliateProfile = _affiliateService.GetDataSet(new GetAffiliateProfileByIDCriteria { PartnerID = id });
+            var affiliateProfile = affiliateService.GetDataSet(new GetAffiliateProfileByIDCriteria { PartnerID = id });
             if (affiliateProfile != null && affiliateProfile.Tables.Count > 0 && affiliateProfile.Tables[0].Rows.Count > 0)
             {
                 var row = affiliateProfile.Tables[0].Rows[0];
@@ -404,7 +405,7 @@
             {
                 CustomizeDataBeforeEditProfile(ref criteria);
 
-                var result = _affiliateService.Update(criteria);
+                var result = affiliateService.Update(criteria);
                 if (result != null && result.IsSuccessful)
                 {
                     actionResult.IsSuccess = true;
@@ -430,7 +431,7 @@
                 Creator = CurrentSession.UserId
             };
 
-            var result = _affiliateService.Update(criteria);
+            var result = affiliateService.Update(criteria);
 
             if (result != null)
             {
@@ -453,7 +454,7 @@
         public ActionResult List()
         {
             ViewBag.SystemName = CurrentSession.SystemName;
-            ViewBag.IsActivateSystem = _licenseeService.GetActiveBySystemId(CurrentSession.SystemId);
+            ViewBag.IsActivateSystem = licenseeService.GetActiveBySystemId(CurrentSession.SystemId);
             return View("AffiliateList");
         }
 
@@ -464,7 +465,7 @@
             criteria.UserName = (criteria.UserName == null || criteria.UserName == "Username") ? string.Empty : criteria.UserName.Trim();
             criteria.PageIndex++;
 
-            var dr = _affiliateService.GetAffiliateListReturnDataCollection(criteria);
+            var dr = affiliateService.GetAffiliateListReturnDataCollection(criteria);
             var result = FanexGridHelper.DataForFanexGrid_PreventContainQuote(dr);
 
             return Json(result, JsonRequestBehavior.AllowGet);
@@ -477,7 +478,7 @@
                 SystemId = CurrentSession.SystemId,
                 Username = username
             };
-            var top10AffList = _affiliateService.GetTop10AffReturnDataSet(criteria).Tables[0];
+            var top10AffList = affiliateService.GetTop10AffReturnDataSet(criteria).Tables[0];
             return DataForAutoComplete(top10AffList, "username");
         }
 
@@ -488,7 +489,7 @@
                 SystemId = CurrentSession.SystemId,
                 Username = username
             };
-            var top10DomainList = _affiliateService.GetDataSet(criteria).Tables[0];
+            var top10DomainList = affiliateService.GetDataSet(criteria).Tables[0];
             return JsonForAutoComplete(top10DomainList, "PartnerID", "UserName");
         }
 
@@ -499,7 +500,7 @@
                 SystemId = CurrentSession.SystemId,
                 DomainName = domainName
             };
-            var top10DomainList = _affiliateService.GetDataSet(criteria).Tables[0];
+            var top10DomainList = affiliateService.GetDataSet(criteria).Tables[0];
             return JsonForAutoComplete(top10DomainList, "DomainID", "DomainName");
         }
 
@@ -531,7 +532,7 @@
             criteria.SystemId = CurrentSession.SystemId;
             criteria.PageIndex++;
 
-            var dr = _affiliateService.GetPartnerRequestStatisticReturnDataCollection(criteria);
+            var dr = affiliateService.GetPartnerRequestStatisticReturnDataCollection(criteria);
             var result = FanexGridHelper.DataForFanexGrid(dr);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
@@ -546,7 +547,7 @@
 
             ViewBag.CurrentUser = name;
             ViewBag.AffiliateName = name;
-            ViewBag.AssignedDomain = _affiliateService.GetDomainByAffId(id);
+            ViewBag.AssignedDomain = affiliateService.GetDomainByAffId(id);
             return View();
         }
 
@@ -577,14 +578,14 @@
 
         public string Delete(int affId)
         {
-            var resultMessage = string.Empty;
+            string resultMessage;
             var criteria = new DeleteAffiliateCriteria
             {
                 Creator = CurrentSession.UserId,
                 PartnerID = affId
             };
 
-            var result = _affiliateService.Delete(criteria);
+            var result = affiliateService.Delete(criteria);
 
             if (result != null)
             {
@@ -633,7 +634,8 @@
             if (!string.IsNullOrEmpty(criteria.IpsFrom))
             {
                 var arrIps = criteria.IpsFrom.Split(',');
-                for (int i = 0; i < arrIps.Length; i += 2)
+                const byte Iterator = 2;
+                for (int i = 0; i < arrIps.Length; i += Iterator)
                 {
                     fromIPs.Append(arrIps[i] + ",");
                     toIPs.Append(arrIps[i + 1] + ",");
@@ -700,7 +702,7 @@
             if (!string.IsNullOrEmpty(criteria.LeagueIDList))
             {
                 var leagues =
-                    _affiliateService.GetSelectList(new GetLeagueCriteria { SportIDList = criteria.SportIDList, CountryCodeList = criteria.CountryCodeList });
+                    affiliateService.GetSelectList(new GetLeagueCriteria { SportIDList = criteria.SportIDList, CountryCodeList = criteria.CountryCodeList });
                 if (Utilities.IsExistInSelectListItem(criteria.LeagueIDList, leagues))
                 {
                     criteria.LeagueIDList = "all";
@@ -709,7 +711,7 @@
 
             if (!string.IsNullOrEmpty(criteria.OutRightIDList))
             {
-                var outrights = _affiliateService.GetSelectList(new GetOutRightCriteria
+                var outrights = affiliateService.GetSelectList(new GetOutRightCriteria
                 {
                     SportIDList = criteria.SportIDList,
                     CountryCodeList = criteria.CountryCodeList
@@ -722,7 +724,7 @@
 
             if (!string.IsNullOrEmpty(criteria.SportIDList))
             {
-                var sports = _affiliateService.GetSelectList(new GetSupportedSportCriteria());
+                var sports = affiliateService.GetSelectList(new GetSupportedSportCriteria());
                 if (Utilities.IsExistInSelectListItem(criteria.SportIDList, sports))
                 {
                     criteria.SportIDList = "all";
@@ -731,7 +733,7 @@
 
             if (!string.IsNullOrEmpty(criteria.CountryCodeList))
             {
-                var countries = _affiliateService.GetSelectList(new GetAllCountryCriteria());
+                var countries = affiliateService.GetSelectList(new GetAllCountryCriteria());
                 if (Utilities.IsExistInSelectListItem(criteria.CountryCodeList, countries))
                 {
                     criteria.CountryCodeList = "all";
@@ -740,7 +742,7 @@
 
             if (!string.IsNullOrEmpty(criteria.BetTypeIDList))
             {
-                var bettypes = _affiliateService.GetSelectList(new GetSupportedBettypeCriteria());
+                var bettypes = affiliateService.GetSelectList(new GetSupportedBettypeCriteria());
                 if (Utilities.IsExistInSelectListItem(criteria.BetTypeIDList, bettypes))
                 {
                     criteria.BetTypeIDList = "all";
@@ -752,7 +754,7 @@
         {
             if (!string.IsNullOrEmpty(criteria.LeagueIDList))
             {
-                var leagues = _affiliateService.GetSelectList(new GetLeagueCriteria
+                var leagues = affiliateService.GetSelectList(new GetLeagueCriteria
                     {
                         SportIDList = criteria.SportIDList,
                         CountryCodeList = criteria.CountryCodeList
@@ -765,7 +767,7 @@
 
             if (!string.IsNullOrEmpty(criteria.OutRightIDList))
             {
-                var outrights = _affiliateService.GetSelectList(new GetOutRightCriteria
+                var outrights = affiliateService.GetSelectList(new GetOutRightCriteria
                 {
                     SportIDList = criteria.SportIDList,
                     CountryCodeList = criteria.CountryCodeList
@@ -778,7 +780,7 @@
 
             if (!string.IsNullOrEmpty(criteria.SportIDList))
             {
-                var sports = _affiliateService.GetSelectList(new GetSupportedSportCriteria());
+                var sports = affiliateService.GetSelectList(new GetSupportedSportCriteria());
                 if (Utilities.IsExistInSelectListItem(criteria.SportIDList, sports))
                 {
                     criteria.SportIDList = "all";
@@ -787,7 +789,7 @@
 
             if (!string.IsNullOrEmpty(criteria.CountryCodeList))
             {
-                var countries = _affiliateService.GetSelectList(new GetAllCountryCriteria());
+                var countries = affiliateService.GetSelectList(new GetAllCountryCriteria());
                 if (Utilities.IsExistInSelectListItem(criteria.CountryCodeList, countries))
                 {
                     criteria.CountryCodeList = "all";
@@ -796,7 +798,7 @@
 
             if (!string.IsNullOrEmpty(criteria.BetTypeIDList))
             {
-                var bettypes = _affiliateService.GetSelectList(new GetSupportedBettypeCriteria());
+                var bettypes = affiliateService.GetSelectList(new GetSupportedBettypeCriteria());
                 if (Utilities.IsExistInSelectListItem(criteria.BetTypeIDList, bettypes))
                 {
                     criteria.BetTypeIDList = "all";
@@ -848,15 +850,15 @@
 
         private void ProfileForAddAffiliateWithAccountManagerRole(ref InsertAffiliateCriteria criteria)
         {
-            ViewBag.OddsTypeList = _affiliateService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = OddsTypeSettingType }, false)
+            ViewBag.OddsTypeList = affiliateService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = OddsTypeSettingType }, false)
                 .Where(item => item.Text != "Live" || (item.Text == "Live" && IsAccountManagerRole()));
-            ViewBag.OddsStyleList = _affiliateService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = OddsRegionSettingType }, false);
-            ViewBag.LanguageIDList = _affiliateService.GetSelectList(new GetAllLanguageCriteria());
-            ViewBag.DelayTimeList = GenerateDelayTime(_affiliateService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "Config" }, false));
-            ViewBag.ResultDelayTimeList = _licenseeService.GetResultDelayTimeList();
+            ViewBag.OddsStyleList = affiliateService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = OddsRegionSettingType }, false);
+            ViewBag.LanguageIDList = affiliateService.GetSelectList(new GetAllLanguageCriteria());
+            ViewBag.DelayTimeList = GenerateDelayTime(affiliateService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "Config" }, false));
+            ViewBag.ResultDelayTimeList = licenseeService.GetResultDelayTimeList();
 
-            ////Sport
-            var sports = _affiliateService.GetSelectListWithGroup(new GetSupportedSportCriteria());
+            // Sport
+            var sports = affiliateService.GetSelectListWithGroup(new GetSupportedSportCriteria());
             var sportList = UpdateSportListForCricket(sports);
             if (criteria.SportIDList.Equals("all"))
             {
@@ -866,8 +868,8 @@
             ViewBag.MajorSportList = sportList.Where(sport => sport.Group.Name == MajorGroup);
             ViewBag.MinorSportList = sportList.Where(sport => sport.Group.Name == MinorGroup);
 
-            ////Market
-            var bettypes = _affiliateService.GetSelectListWithGroup(new GetSupportedBettypeCriteria());
+            // Market
+            var bettypes = affiliateService.GetSelectListWithGroup(new GetSupportedBettypeCriteria());
 
             if (criteria.BetTypeIDList.Equals("all"))
             {
@@ -877,15 +879,16 @@
             ViewBag.MajorBettypesList = bettypes.Where(betType => betType.Group.Name == MajorGroup);
             ViewBag.MinorBettypesList = bettypes.Where(betType => betType.Group.Name == MinorGroup);
 
-            ////Country
-            var countries = _affiliateService.GetSelectList(new GetAllCountryCriteria());
+            // Country
+            var countries = affiliateService.GetSelectList(new GetAllCountryCriteria());
             ViewBag.CountriesList = countries;
             if (criteria.CountryCodeList.Equals("all"))
             {
                 criteria.CountryCodeList = string.Join(",", countries.Select(item => item.Value));
             }
-            //// League
-            var leagues = _affiliateService.GetSelectList(new GetLeagueCriteria
+
+            // League
+            var leagues = affiliateService.GetSelectList(new GetLeagueCriteria
             {
                 SportIDList = criteria.SportIDList,
                 CountryCodeList = criteria.CountryCodeList
@@ -895,8 +898,9 @@
             {
                 criteria.LeagueIDList = string.Join(",", leagues.Select(item => item.Value));
             }
-            ////OutRight
-            var outrights = _affiliateService.GetSelectList(new GetOutRightCriteria
+
+            // OutRight
+            var outrights = affiliateService.GetSelectList(new GetOutRightCriteria
             {
                 SportIDList = criteria.SportIDList,
                 CountryCodeList = criteria.CountryCodeList
@@ -913,11 +917,11 @@
             if (affiliateProfile != null && affiliateProfile.Tables.Count > 0 && affiliateProfile.Tables[0].Rows.Count > 0)
             {
                 var row = affiliateProfile.Tables[0].Rows[0];
-                ////Delay Times
+                // Delay Times
                 var delayTimes = row["OddsDelayTimes"].ToString().Split(',');
                 criteria.DeadballDelayTimes = delayTimes.Length > 0 ? delayTimes[0] : "0";
                 criteria.LiveDelayTimes = delayTimes.Length > 1 ? delayTimes[1] : "0";
-                criteria.OutrightDelayTimes = delayTimes.Length > 2 ? delayTimes[2] : "0";
+                criteria.OutrightDelayTimes = delayTimes.Length > OutrightDelayTimesIndex ? delayTimes[OutrightDelayTimesIndex] : "0";
                 criteria.ResultDelayTimes = row["ResultDelayTimes"].ToString();
 
                 criteria.NumberOfIPs = !(row[NumberOfIpsCollumn] is DBNull) ? (short)row[NumberOfIpsCollumn] : (short)0;
@@ -928,7 +932,7 @@
                 ViewBag.ActualNumberOfIps = int.Parse(row["ActualNumberOfIps"].ToString());
             }
 
-            var licenseeProfile = _affiliateService.GetDataSet(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = CurrentSession.SystemId });
+            var licenseeProfile = affiliateService.GetDataSet(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = CurrentSession.SystemId });
             if (licenseeProfile != null && licenseeProfile.Tables.Count > 0 && licenseeProfile.Tables[0].Rows.Count > 0)
             {
                 var row = licenseeProfile.Tables[0].Rows[0];
@@ -941,14 +945,14 @@
 
         private void ProfileForEditAffiliateWithAccountManagerRole(ref UpdateProfileCriteria criteria)
         {
-            ViewBag.OddsTypeList = _affiliateService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = OddsTypeSettingType }, false);
-            ViewBag.OddsStyleList = _affiliateService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = OddsRegionSettingType }, false);
-            ViewBag.LanguageIDList = _affiliateService.GetSelectList(new GetAllLanguageCriteria());
-            var config = _affiliateService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "Config" }, false);
+            ViewBag.OddsTypeList = affiliateService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = OddsTypeSettingType }, false);
+            ViewBag.OddsStyleList = affiliateService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = OddsRegionSettingType }, false);
+            ViewBag.LanguageIDList = affiliateService.GetSelectList(new GetAllLanguageCriteria());
+            var config = affiliateService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "Config" }, false);
             ViewBag.DelayTimeList = GenerateDelayTime(config);
-            ViewBag.ResultDelayTimeList = _licenseeService.GetResultDelayTimeList();
-            ////Sport
-            var sports = _affiliateService.GetSelectListWithGroup(new GetSupportedSportCriteria());
+            ViewBag.ResultDelayTimeList = licenseeService.GetResultDelayTimeList();
+            // Sport
+            var sports = affiliateService.GetSelectListWithGroup(new GetSupportedSportCriteria());
             var sportList = UpdateSportListForCricket(sports);
             if (criteria.SportIDList.Equals("all"))
             {
@@ -958,8 +962,8 @@
             ViewBag.MajorSportList = sportList.Where(sport => sport.Group.Name == MajorGroup);
             ViewBag.MinorSportList = sportList.Where(sport => sport.Group.Name == MinorGroup);
 
-            ////Market
-            var bettypes = _affiliateService.GetSelectListWithGroup(new GetSupportedBettypeCriteria());
+            // Market
+            var bettypes = affiliateService.GetSelectListWithGroup(new GetSupportedBettypeCriteria());
 
             if (criteria.BetTypeIDList.Equals("all"))
             {
@@ -969,15 +973,16 @@
             ViewBag.MajorBettypesList = bettypes.Where(betType => betType.Group.Name == MajorGroup);
             ViewBag.MinorBettypesList = bettypes.Where(betType => betType.Group.Name == MinorGroup);
 
-            ////Country
-            var countries = _affiliateService.GetSelectList(new GetAllCountryCriteria());
+            // Country
+            var countries = affiliateService.GetSelectList(new GetAllCountryCriteria());
             ViewBag.CountriesList = countries;
             if (criteria.CountryCodeList.Equals("all"))
             {
                 criteria.CountryCodeList = string.Join(",", countries.Select(item => item.Value));
             }
-            //// League
-            var leagues = _affiliateService.GetSelectList(new GetLeagueCriteria
+
+            // League
+            var leagues = affiliateService.GetSelectList(new GetLeagueCriteria
             {
                 SportIDList = criteria.SportIDList,
                 CountryCodeList = criteria.CountryCodeList
@@ -987,8 +992,9 @@
             {
                 criteria.LeagueIDList = string.Join(",", leagues.Select(item => item.Value));
             }
-            ////OutRight
-            var outrights = _affiliateService.GetSelectList(new GetOutRightCriteria
+
+            // OutRight
+            var outrights = affiliateService.GetSelectList(new GetOutRightCriteria
             {
                 SportIDList = criteria.SportIDList,
                 CountryCodeList = criteria.CountryCodeList
@@ -1025,7 +1031,7 @@
 
         private void GetAffiliateProfileWithLicenseeAdminRole(ref UpdateProfileCriteria criteria)
         {
-            var licenseeProfile = _affiliateService.GetDataSet(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = CurrentSession.SystemId });
+            var licenseeProfile = affiliateService.GetDataSet(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = CurrentSession.SystemId });
             if (licenseeProfile != null && licenseeProfile.Tables.Count > 0 && licenseeProfile.Tables[0].Rows.Count > 0)
             {
                 var row = licenseeProfile.Tables[0].Rows[0];
@@ -1044,7 +1050,7 @@
 
         private void AddAffiliateWithSubAccountRole()
         {
-            var userProfile = _affiliateService.GetDataSet(new UserGetPermissionCriteria
+            var userProfile = affiliateService.GetDataSet(new UserGetPermissionCriteria
             {
                 SystemID = CurrentSession.SystemId,
                 UserID = CurrentSession.UserId
@@ -1068,7 +1074,7 @@
 
         private void GetAffiliateProfileWithSubAccountRole(ref UpdateProfileCriteria criteria)
         {
-            var userProfile = _affiliateService.GetDataSet(new UserGetPermissionCriteria
+            var userProfile = affiliateService.GetDataSet(new UserGetPermissionCriteria
             {
                 SystemID = CurrentSession.SystemId,
                 UserID = CurrentSession.UserId
@@ -1091,47 +1097,47 @@
 
         private void ProfileForAddAffiliateWithLicenseeAdminAndSubAccountRole()
         {
-            ////OddsType
-            ViewBag.OddsTypeList = _affiliateService.GetSelectList(
+            // OddsType
+            ViewBag.OddsTypeList = affiliateService.GetSelectList(
                     new GetTypeSettingCriteria { SystemID = CurrentSession.SystemId, Type = OddsTypeSettingType },
                     false)
                 .Where(item => item.Text != "Live" || (item.Text == "Live" && IsAccountManagerRole()));
 
-            ////OddsStyle
-            ViewBag.OddsStyleList = _affiliateService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = OddsRegionSettingType }, false);
+            // OddsStyle
+            ViewBag.OddsStyleList = affiliateService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = OddsRegionSettingType }, false);
 
-            ////Language
-            ViewBag.LanguageIDList = _affiliateService.GetLanguageBySystemId();
+            // Language
+            ViewBag.LanguageIDList = affiliateService.GetLanguageBySystemId();
 
-            ////Market
-            var bettypesList = _affiliateService.GetBettypeBySystemId();
+            // Market
+            var bettypesList = affiliateService.GetBettypeBySystemId();
             ViewBag.MajorBetTypesList = bettypesList.Where(bettype => bettype.Group.Name == MajorGroup);
             ViewBag.MinorBetTypesList = bettypesList.Where(bettype => bettype.Group.Name == MinorGroup);
 
-            ////Country
-            ViewBag.CountriesList = _affiliateService.GetCountryBySystemId();
+            // Country
+            ViewBag.CountriesList = affiliateService.GetCountryBySystemId();
 
-            ////Sport
-            var sportList = UpdateSportListForCricket(_affiliateService.GetSportBySystemId());
+            // Sport
+            var sportList = UpdateSportListForCricket(affiliateService.GetSportBySystemId());
             ViewBag.MajorSportList = sportList.Where(sport => sport.Group.Name == MajorGroup);
             ViewBag.MinorSportList = sportList.Where(sport => sport.Group.Name == MinorGroup);
         }
 
         private void ProfileForEditAffiliateWithLicenseeAdminAndSubAccountRole(ref UpdateProfileCriteria criteria)
         {
-            ////OddsType
-            ViewBag.OddsTypeList = _affiliateService
+            // OddsType
+            ViewBag.OddsTypeList = affiliateService
                 .GetSelectList(new GetTypeSettingCriteria { SystemID = CurrentSession.SystemId, Type = OddsTypeSettingType }, false)
                 .Where(item => item.Text != "Live" || (item.Text == "Live" && IsAccountManagerRole()));
 
-            ////OddsStyle
-            ViewBag.OddsStyleList = _affiliateService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = OddsRegionSettingType }, false);
+            // OddsStyle
+            ViewBag.OddsStyleList = affiliateService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = OddsRegionSettingType }, false);
 
-            ////Language
-            ViewBag.LanguageIDList = _affiliateService.GetLanguageBySystemId();
+            // Language
+            ViewBag.LanguageIDList = affiliateService.GetLanguageBySystemId();
 
-            ////Sport
-            var sports = UpdateSportListForCricket(_affiliateService.GetSportBySystemId());
+            // Sport
+            var sports = UpdateSportListForCricket(affiliateService.GetSportBySystemId());
             if (criteria.SportIDList.Equals("all"))
             {
                 criteria.SportIDList = string.Join(",", sports.Select(item => item.Value));
@@ -1139,8 +1145,8 @@
             ViewBag.MajorSportList = sports.Where(sport => sport.Group.Name == MajorGroup);
             ViewBag.MinorSportList = sports.Where(sport => sport.Group.Name == MinorGroup);
 
-            ////Market
-            var bettypes = _affiliateService.GetBettypeBySystemId();
+            // Market
+            var bettypes = affiliateService.GetBettypeBySystemId();
             if (criteria.BetTypeIDList.Equals("all"))
             {
                 criteria.BetTypeIDList = string.Join(",", bettypes.Select(item => item.Value));
@@ -1148,8 +1154,8 @@
             ViewBag.MajorBetTypesList = bettypes.Where(betType => betType.Group.Name == MajorGroup);
             ViewBag.MinorBetTypesList = bettypes.Where(betType => betType.Group.Name == MinorGroup);
 
-            ////Country
-            var countries = _affiliateService.GetCountryBySystemId();
+            // Country
+            var countries = affiliateService.GetCountryBySystemId();
             ViewBag.CountriesList = countries;
             if (criteria.CountryCodeList.Equals("all"))
             {
