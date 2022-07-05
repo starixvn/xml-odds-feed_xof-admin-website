@@ -657,7 +657,12 @@
             criteria.LeagueKeyword_O = criteria.LeagueKeyword_O ?? string.Empty;
 
             criteria.SportIDList = UpdateSportIDListForCricket(criteria.SportIDList);
-            CustomizeInsertProfile(ref criteria);
+            criteria.SportIDList = GetSportIds(criteria.SportIDList);
+
+            criteria.BetTypeIDList = GetBetTypeIds(criteria.BetTypeIDList);
+            criteria.LeagueIDList = GetLeagueIds(criteria.SportIDList, criteria.CountryCodeList, criteria.LeagueIDList);
+            criteria.OutRightIDList = GetOutRightIds(criteria.SportIDList, criteria.CountryCodeList, criteria.OutRightIDList);
+            criteria.CountryCodeList = GetCountryCodes(criteria.CountryCodeList);
         }
 
         private void CustomizeDataBeforeEditProfile(ref UpdateProfileCriteria criteria)
@@ -672,7 +677,12 @@
             criteria.Creator = CurrentSession.UserId;
 
             criteria.SportIDList = UpdateSportIDListForCricket(criteria.SportIDList);
-            CustomizeUpdateProfile(ref criteria);
+            criteria.SportIDList = GetSportIds(criteria.SportIDList);
+
+            criteria.LeagueIDList = GetLeagueIds(criteria.SportIDList, criteria.CountryCodeList, criteria.LeagueIDList);
+            criteria.OutRightIDList = GetOutRightIds(criteria.SportIDList, criteria.CountryCodeList, criteria.OutRightIDList);
+            criteria.CountryCodeList = GetCountryCodes(criteria.CountryCodeList);
+            criteria.BetTypeIDList = GetBetTypeIds(criteria.BetTypeIDList);
         }
 
         private static string UpdateSportIDListForCricket(string sportIDList)
@@ -697,113 +707,82 @@
             return string.Join(",", sportList.ToArray());
         }
 
-        private void CustomizeInsertProfile(ref InsertAffiliateCriteria criteria)
+        private string GetLeagueIds(string sportIds, string countryCodes, string leagueIds)
         {
-            if (!string.IsNullOrEmpty(criteria.LeagueIDList))
-            {
-                var leagues =
-                    affiliateService.GetSelectList(new GetLeagueCriteria { SportIDList = criteria.SportIDList, CountryCodeList = criteria.CountryCodeList });
-                if (Utilities.IsExistInSelectListItem(criteria.LeagueIDList, leagues))
-                {
-                    criteria.LeagueIDList = "all";
-                }
-            }
-
-            if (!string.IsNullOrEmpty(criteria.OutRightIDList))
-            {
-                var outrights = affiliateService.GetSelectList(new GetOutRightCriteria
-                {
-                    SportIDList = criteria.SportIDList,
-                    CountryCodeList = criteria.CountryCodeList
-                });
-                if (Utilities.IsExistInSelectListItem(criteria.OutRightIDList, outrights))
-                {
-                    criteria.OutRightIDList = "all";
-                }
-            }
-
-            if (!string.IsNullOrEmpty(criteria.SportIDList))
-            {
-                var sports = affiliateService.GetSelectList(new GetSupportedSportCriteria());
-                if (Utilities.IsExistInSelectListItem(criteria.SportIDList, sports))
-                {
-                    criteria.SportIDList = "all";
-                }
-            }
-
-            if (!string.IsNullOrEmpty(criteria.CountryCodeList))
-            {
-                var countries = affiliateService.GetSelectList(new GetAllCountryCriteria());
-                if (Utilities.IsExistInSelectListItem(criteria.CountryCodeList, countries))
-                {
-                    criteria.CountryCodeList = "all";
-                }
-            }
-
-            if (!string.IsNullOrEmpty(criteria.BetTypeIDList))
-            {
-                var bettypes = affiliateService.GetSelectList(new GetSupportedBettypeCriteria());
-                if (Utilities.IsExistInSelectListItem(criteria.BetTypeIDList, bettypes))
-                {
-                    criteria.BetTypeIDList = "all";
-                }
-            }
-        }
-
-        private void CustomizeUpdateProfile(ref UpdateProfileCriteria criteria)
-        {
-            if (!string.IsNullOrEmpty(criteria.LeagueIDList))
+            if (!string.IsNullOrWhiteSpace(leagueIds))
             {
                 var leagues = affiliateService.GetSelectList(new GetLeagueCriteria
-                    {
-                        SportIDList = criteria.SportIDList,
-                        CountryCodeList = criteria.CountryCodeList
-                    });
-                if (Utilities.IsExistInSelectListItem(criteria.LeagueIDList, leagues))
                 {
-                    criteria.LeagueIDList = "all";
+                    SportIDList = sportIds,
+                    CountryCodeList = countryCodes
+                });
+                if (Utilities.IsExistInSelectListItem(leagueIds, leagues))
+                {
+                    return "all";
                 }
             }
 
-            if (!string.IsNullOrEmpty(criteria.OutRightIDList))
+            return leagueIds;
+        }
+
+        private string GetOutRightIds(string sportIds, string countryCodes, string outRightIds)
+        {
+            if (!string.IsNullOrWhiteSpace(outRightIds))
             {
                 var outrights = affiliateService.GetSelectList(new GetOutRightCriteria
                 {
-                    SportIDList = criteria.SportIDList,
-                    CountryCodeList = criteria.CountryCodeList
+                    SportIDList = sportIds,
+                    CountryCodeList = countryCodes
                 });
-                if (Utilities.IsExistInSelectListItem(criteria.OutRightIDList, outrights))
+                if (Utilities.IsExistInSelectListItem(outRightIds, outrights))
                 {
-                    criteria.OutRightIDList = "all";
+                    return "all";
                 }
             }
 
-            if (!string.IsNullOrEmpty(criteria.SportIDList))
+            return outRightIds;
+        }
+
+        private string GetSportIds(string sportIds)
+        {
+            if (!string.IsNullOrWhiteSpace(sportIds))
             {
                 var sports = affiliateService.GetSelectList(new GetSupportedSportCriteria());
-                if (Utilities.IsExistInSelectListItem(criteria.SportIDList, sports))
+                if (Utilities.IsExistInSelectListItem(sportIds, sports))
                 {
-                    criteria.SportIDList = "all";
+                    return "all";
                 }
             }
 
-            if (!string.IsNullOrEmpty(criteria.CountryCodeList))
+            return sportIds;
+        }
+
+        private string GetCountryCodes(string countryCodes)
+        {
+            if (!string.IsNullOrWhiteSpace(countryCodes))
             {
                 var countries = affiliateService.GetSelectList(new GetAllCountryCriteria());
-                if (Utilities.IsExistInSelectListItem(criteria.CountryCodeList, countries))
+                if (Utilities.IsExistInSelectListItem(countryCodes, countries))
                 {
-                    criteria.CountryCodeList = "all";
+                    return "all";
                 }
             }
 
-            if (!string.IsNullOrEmpty(criteria.BetTypeIDList))
+            return countryCodes;
+        }
+
+        private string GetBetTypeIds(string betTypeIds)
+        {
+            if (!string.IsNullOrWhiteSpace(betTypeIds))
             {
                 var bettypes = affiliateService.GetSelectList(new GetSupportedBettypeCriteria());
-                if (Utilities.IsExistInSelectListItem(criteria.BetTypeIDList, bettypes))
+                if (Utilities.IsExistInSelectListItem(betTypeIds, bettypes))
                 {
-                    criteria.BetTypeIDList = "all";
+                    return "all";
                 }
             }
+
+            return betTypeIds;
         }
 
         private void ViewBagForFlags(
@@ -973,14 +952,6 @@
             ViewBag.MajorBettypesList = bettypes.Where(betType => betType.Group.Name == MajorGroup);
             ViewBag.MinorBettypesList = bettypes.Where(betType => betType.Group.Name == MinorGroup);
 
-            // Country
-            var countries = affiliateService.GetSelectList(new GetAllCountryCriteria());
-            ViewBag.CountriesList = countries;
-            if (criteria.CountryCodeList.Equals("all"))
-            {
-                criteria.CountryCodeList = string.Join(",", countries.Select(item => item.Value));
-            }
-
             // League
             var leagues = affiliateService.GetSelectList(new GetLeagueCriteria
             {
@@ -991,6 +962,14 @@
             if (criteria.LeagueIDList.Equals("all"))
             {
                 criteria.LeagueIDList = string.Join(",", leagues.Select(item => item.Value));
+            }
+
+            // Country
+            var countries = affiliateService.GetSelectList(new GetAllCountryCriteria());
+            ViewBag.CountriesList = countries;
+            if (criteria.CountryCodeList.Equals("all"))
+            {
+                criteria.CountryCodeList = string.Join(",", countries.Select(item => item.Value));
             }
 
             // OutRight
