@@ -1,6 +1,7 @@
 ﻿namespace Fanex.OddsFeed.Admin.Controllers
 {
     using System.Data;
+    using System.Text;
     using System.Web.Mvc;
     using Fanex.OddsFeed.Core.Criteria.CompanyIP;
     using Fanex.OddsFeed.Core.Model;
@@ -20,19 +21,19 @@
 
             var criteria = new InsertCompanyIPsCriteria();
             var companyIPs = baseService.GetDataSet(new GetAllCompanyIPCriteria());
-            var listIPFrom = string.Empty;
-            var listIPTo = string.Empty;
-            var listDescription = string.Empty;
+            var listIPFrom = new StringBuilder();
+            var listIPTo = new StringBuilder();
+            var listDescription = new StringBuilder();
             foreach (DataRow row in companyIPs.Tables[0].Rows)
             {
-                listIPFrom += row["IPFrom"].ToString() + ",";
-                listIPTo += row["IPTo"].ToString() + ",";
-                listDescription += row["Description"].ToString() + '\n';
+                listIPFrom.AppendFormat("{0},", row["IPFrom"].ToString());
+                listIPTo.AppendFormat("{0},", row["IPTo"].ToString());
+                listDescription.AppendFormat("{0}\n", row["Description"].ToString());
             }
 
-            criteria.ListIPFrom = listIPFrom.Trim(',');
-            criteria.ListIPTo = listIPTo.Trim(',');
-            criteria.ListDescription = listDescription.Trim(',');
+            criteria.ListIPFrom = listIPFrom.ToString().Trim(',');
+            criteria.ListIPTo = listIPTo.ToString().Trim(',');
+            criteria.ListDescription = listDescription.ToString().Trim(',');
 
             return View(criteria);
         }

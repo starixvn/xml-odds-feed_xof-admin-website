@@ -1,8 +1,11 @@
-﻿namespace Fanex.OddsFeed.Core.Service.Impl
+﻿namespace Fanex.OddsFeed.Core.Service
 {
+    using System.Collections.Generic;
     using System.Data;
     using Fanex.OddsFeed.Core.Criteria.Dashboard;
     using Fanex.OddsFeed.Core.Helpers;
+    using Fanex.OddsFeed.Core.Model.Report;
+    using Fanex.OddsFeed.Core.Service.Impl;
     using Fanex.OddsFeed.Core.Service.Interface;
 
     public class DashboardService : IDashboardService
@@ -18,24 +21,22 @@
             this.baseService = baseService ?? new BaseService();
         }
 
-        public DataSet GetAccountStatisticsDataSet(GetAccountStatisticsCriteria criteria)
+        public AccountStatistic GetAccountStatistics(byte systemId)
         {
-            if (criteria.IsValid())
+            var criteria = new GetAccountStatisticsCriteria
             {
-                return baseService.GetDataSet(criteria);
-            }
-
-            return null;
+                SystemID = systemId
+            };
+            return baseService.GetDataEntity<AccountStatistic>(criteria);
         }
 
-        public DataSet GetLoginInfoReturnDataSet(GetLoginInfoCriteria criteria)
+        public IEnumerable<LoginInfoStatistic> GetLoginInfo(int userId)
         {
-            if (criteria.IsValid())
+            var criteria = new GetLoginInfoCriteria
             {
-                return baseService.GetDataSet(criteria);
-            }
-
-            return null;
+                UserID = userId
+            };
+            return baseService.GetData<LoginInfoStatistic>(criteria);
         }
 
         public DataCollection GetCurrentOnlineUserReturnDataCollection(GetCurrentOnlineUserCriteria criteria)

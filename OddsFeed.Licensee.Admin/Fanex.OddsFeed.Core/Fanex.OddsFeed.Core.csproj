@@ -285,6 +285,8 @@
     <Compile Include="Model\OddsFeedActionResult.cs" />
     <Compile Include="Model\Affiliate.cs" />
     <Compile Include="Model\Licensee.cs" />
+    <Compile Include="Model\Report\AccountStatistic.cs" />
+    <Compile Include="Model\Report\LoginInfoStatistic.cs" />
     <Compile Include="Model\ValueObject\Bettype.cs" />
     <Compile Include="Model\ValueObject\JSONSource.cs" />
     <Compile Include="Model\ValueObject\Language.cs" />

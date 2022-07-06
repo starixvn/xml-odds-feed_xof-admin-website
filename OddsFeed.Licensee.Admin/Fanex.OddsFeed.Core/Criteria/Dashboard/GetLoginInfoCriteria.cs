@@ -1,26 +1,10 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="GetLoginInfoCriteria.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Long.Luu" date="2013.03.05">Created</change>
-// </history>
-
-namespace Fanex.OddsFeed.Core.Criteria.Dashboard
+﻿namespace Fanex.OddsFeed.Core.Criteria.Dashboard
 {
     using System.ComponentModel.DataAnnotations;
-    using Framework.Data;
     using Data.Repository;
-    /// <summary>
-    /// Class GetLoginInfoCriteria.
-    /// </summary>
+
     public class GetLoginInfoCriteria : CriteriaBase
     {
-        public GetLoginInfoCriteria()
-        {
-        }
-
         [Required]
         public int UserID { get; set; }
 
@@ -30,18 +14,8 @@ namespace Fanex.OddsFeed.Core.Criteria.Dashboard
 
         public int RowCount { get; set; }
 
-        public override string GetSettingKey()
-        {
-            return "Odds_Dashboard_LastLogin";
-        }
+        public override string GetSettingKey() => "Odds_Dashboard_LastLogin";
 
-        /// <summary>
-        /// Check data's constrains.
-        /// </summary>
-        /// <returns>True: valid; False: invalid.</returns>
-        public override bool IsValid()
-        {
-            return true;
-        }
+        public override bool IsValid() => true;
     }
 }

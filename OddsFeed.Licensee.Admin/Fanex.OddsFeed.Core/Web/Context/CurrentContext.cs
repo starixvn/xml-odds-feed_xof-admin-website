@@ -71,12 +71,7 @@
                 // try to get IP from proxy (if any)
                 var ip = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
 
-                if (!string.IsNullOrEmpty(ip))
-                {
-                    var ipsRange = ip.Split(',');
-                    var trueIP = ipsRange[0].Trim();
-                }
-                else
+                if (string.IsNullOrWhiteSpace(ip))
                 {
                     // in case client request is not from any proxy
                     ip = HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
@@ -114,7 +109,7 @@
                     fulldomain = fulldomain + ":" + port;
                 }
 
-                fulldomain = fulldomain + (HttpRuntime.AppDomainAppVirtualPath == "/" ? string.Empty : HttpRuntime.AppDomainAppVirtualPath);
+                fulldomain += (HttpRuntime.AppDomainAppVirtualPath == "/" ? string.Empty : HttpRuntime.AppDomainAppVirtualPath);
                 return fulldomain;
             }
         }
@@ -134,8 +129,7 @@
             get
             {
                 var regionInfo = ResolveCountry(HttpContext.Current.Request);
-
-                return regionInfo == null ? null : regionInfo.GeoId.ToString(CultureInfo.InvariantCulture);
+                return regionInfo?.GeoId.ToString(CultureInfo.InvariantCulture);
             }
         }
 

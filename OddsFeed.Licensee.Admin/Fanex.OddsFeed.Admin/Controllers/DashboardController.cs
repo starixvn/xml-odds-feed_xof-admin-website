@@ -1,28 +1,28 @@
 ﻿namespace Fanex.OddsFeed.Admin.Controllers
 {
     using System;
-    using System.Data;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Text;
     using System.Web.Mvc;
     using Fanex.OddsFeed.Core.Criteria.Dashboard;
-    using Fanex.OddsFeed.Core.Service.Impl;
-    using Fanex.OddsFeed.Core.Service.Interface;
+    using Fanex.OddsFeed.Core.Model.Report;
+    using Fanex.OddsFeed.Core.Service;
     using Fanex.OddsFeed.Core.Web;
     using Fanex.OddsFeed.Core.Web.Attribute;
 
     [IsAuthorize]
     public class DashboardController : BaseController
     {
-        private readonly IDashboardService _dashboardService;
+        private readonly IDashboardService dashboardService;
 
-        public DashboardController()
-            : this(null)
+        public DashboardController() : this(null)
         {
         }
 
         public DashboardController(IDashboardService dashboardService)
         {
-            _dashboardService = dashboardService ?? new DashboardService();
+            this.dashboardService = dashboardService ?? new DashboardService();
         }
 
 
@@ -30,39 +30,10 @@
         public ActionResult ShowDashboard()
         {
             ViewBag.IsDashboard = true;
-            ViewBag.LastReqName = string.Empty;
-            GetAccountStatistics();
-            return View();
-        }
-
-        #region Account Statistics
-        public void GetAccountStatistics()
-        {
-            var criteria = new GetAccountStatisticsCriteria
-            {
-                SystemID = currentSession.SystemId
-            };
-
-            var ds = _dashboardService.GetAccountStatisticsDataSet(criteria);
-            if (ds != null && ds.Tables[0] != null && ds.Tables[0].Rows.Count > 0)
-            {
-                var row = ds.Tables[0].Rows[0];
-                var lastRequestName = row[4].ToString();
-
-                ViewBag.TotalAff = row[0].ToString();
-                ViewBag.TotalSubAcc = row[1].ToString();
-                ViewBag.TotalAffTodayReq = row[2].ToString();
-                ViewBag.TotalAffMonthReq = row[3].ToString();
-                ViewBag.LastReqName = lastRequestName;
-                ViewBag.ShowLastReqName = lastRequestName.Length > 10 ? lastRequestName.Substring(0, 10) + "..." : lastRequestName;
-                ViewBag.LastReqTime = row[5].ToString();
-                ViewBag.LastReqIP = row[6].ToString();
-            }
-
             ViewBag.UserName = currentSession.SystemName;
+            AccountStatistic data = dashboardService.GetAccountStatistics(currentSession.SystemId);
+            return View(data);
         }
-
-        #endregion
 
         #region Login Information
 
@@ -71,11 +42,11 @@
         {
             var criteria = new GetLoginInfoCriteria
             {
-                UserID = currentSession.UserId,
+                UserID = currentSession.UserId
             };
             criteria.PageIndex++;
-            var ds = _dashboardService.GetLoginInfoReturnDataSet(criteria);
-            return GenerateLogInInfoTable(ds);
+            IEnumerable<LoginInfoStatistic> data = dashboardService.GetLoginInfo(currentSession.UserId);
+            return GenerateLogInInfoTable(data);
         }
 
         #endregion
@@ -93,7 +64,7 @@
                 PageIndex = Convert.ToInt16(pageIndex) + 1,
                 PageSize = Convert.ToInt16(pageSize)
             };
-            var dr = _dashboardService.GetCurrentOnlineUserReturnDataCollection(criteria);
+            var dr = dashboardService.GetCurrentOnlineUserReturnDataCollection(criteria);
             return FanexGridHelper.DataForFanexGrid(dr);
         }
 
@@ -112,7 +83,7 @@
                 PageIndex = Convert.ToInt16(pageIndex) + 1,
                 PageSize = Convert.ToInt16(pageSize)
             };
-            var dr = _dashboardService.GetRecentActivitiesReturnDataCollection(criteria);
+            var dr = dashboardService.GetRecentActivitiesReturnDataCollection(criteria);
             return FanexGridHelper.DataForFanexGrid_PreventContainQuote(dr);
         }
 
@@ -120,26 +91,23 @@
 
         #region Private Methods
 
-        private static string GenerateLogInInfoTable(DataSet ds)
+        private static string GenerateLogInInfoTable(IEnumerable<LoginInfoStatistic> records)
         {
-            StringBuilder htmlStr = new StringBuilder("<table id=\"logininfotable\"><tr><th>Last login time</th><th>Last login IP</th></tr>");
+            var htmlStr = new StringBuilder("<table id=\"logininfotable\"><tr><th>Last login time</th><th>Last login IP</th></tr>");
 
-            if (ds == null || ds.Tables.Count == 0)
+            if (records == null || !records.Any())
             {
                 htmlStr.Append("<tr><td colspan=2>There is no data.</td></tr>");
             }
             else
             {
-                var dt = ds.Tables[0];
-                var rowCounter = dt.Rows.Count;
-
-                for (int i = 0; i < rowCounter; i++)
+                foreach (var record in records)
                 {
                     var htmlElement = new[] {
                         "<tr><td>",
-                        dt.Rows[i]["LastLoginTime"] == null ? string.Empty : dt.Rows[i]["LastLoginTime"].ToString(),
+                        record.LastLoginTime,
                         "</td><td>",
-                        dt.Rows[i]["IP"] == null ? string.Empty : dt.Rows[i]["IP"].ToString(),
+                        record.IP,
                         "</td></tr>"
                     };
                     htmlStr.Append(string.Join(null, htmlElement));

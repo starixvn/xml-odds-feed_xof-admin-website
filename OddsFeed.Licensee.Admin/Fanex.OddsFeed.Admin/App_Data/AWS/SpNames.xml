@@ -1,189 +1,162 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Functions>
-  <Function Name="Affiliate">    
-    <Setting Key="Odds_Delete_Setting_IP_Partner" SpName="Odds_Delete_Setting_IP_Partner" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
-    </Setting>
-    <Setting Key="Odds_Top10Domain_Sel" SpName="Odds_Top10Domain_Sel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
-    </Setting>
-    <Setting Key="Odds_Top10Partner_Sel" SpName="Odds_Top10Partner_Sel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
-    </Setting>
-    <Setting Key="Odds_Language_SelByPartnerId" SpName="Odds_Language_SelByPartnerId" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
-      <Mapping DataField="Code" ObjectProperty="Id" />
-      <Mapping DataField="Name_EN" ObjectProperty="Name" />
-    </Setting>
-    <Setting Key="Odds_SystemSettingsSelByPartnerId" SpName="Odds_SystemSettingsSelByPartnerId" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
-      <Mapping DataField="Key" ObjectProperty="Name" />
-      <Mapping DataField="Value" ObjectProperty="Value" />
-    </Setting>
-    <Setting Key="Odds_OddsStyleSelByPartnerId" SpName="Odds_OddsStyleSelByPartnerId" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
-      <Mapping DataField="Key" ObjectProperty="Name" />
-      <Mapping DataField="Value" ObjectProperty="Value" />
-    </Setting>
-    <Setting Key="Odds_OddsStyleSelBySystemId" SpName="Odds_OddsStyleSelBySystemId" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
-      <Mapping DataField="Key" ObjectProperty="Name" />
-      <Mapping DataField="Value" ObjectProperty="Value" />
-    </Setting>
-    <Setting Key="Odds_SystemSettingsSel" SpName="Odds_SystemSettingsSel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
-      <Mapping DataField="Key" ObjectProperty="Name" />
-      <Mapping DataField="Value" ObjectProperty="Value" />
-    </Setting>
-    <Setting Key="Odds_Partner_Statistic_Sel" SpName="Odds_Partner_Statistic_Sel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
-    </Setting>
-    <Setting Key="Odds_Partner_SelByName" SpName="Odds_Partner_SelByName" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
-      <Mapping DataField="PartnerId" ObjectProperty="Id" />
-      <Mapping DataField="UserName" ObjectProperty="Name" />
-    </Setting>
-    <Setting Key="Odds_Partner_GetAll" SpName="Odds_Partner_GetAll" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
-      <Mapping DataField="PartnerId" ObjectProperty="Id" />
-      <Mapping DataField="UserName" ObjectProperty="Name" />
-    </Setting>
-    <Setting Key="Odds_Partner_GetBySytemId" SpName="Odds_Partner_GetBySytemId" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
-      <Mapping DataField="PartnerId" ObjectProperty="Id" />
-      <Mapping DataField="UserName" ObjectProperty="Name" />
-    </Setting>
-    <Setting Key="Odds_Domain_Sel" SpName="Odds_Domain_Sel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
-      <Mapping DataField="DomainID" ObjectProperty="Id" />
-      <Mapping DataField="DomainName" ObjectProperty="Name" />
-    </Setting>
-    <Setting Key="Odds_Domain_GetAll" SpName="Odds_Domain_GetAll" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
-      <Mapping DataField="DomainID" ObjectProperty="Id" />
-      <Mapping DataField="DomainName" ObjectProperty="Name" />
-    </Setting>
-    <Setting Key="Odds_Domain_SelByPartnerId" SpName="Odds_Domain_SelByPartnerId" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
-      <Mapping DataField="DomainID" ObjectProperty="Id" />
-      <Mapping DataField="DomainName" ObjectProperty="Name" />
-    </Setting>
-    <Setting Key="Odds_Ip_SelByPartnerId" SpName="Odds_Ip_SelByPartnerId" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
-      <Mapping DataField="PartnerID" ObjectProperty="Id" />
-    </Setting>
-    <Setting Key="Odds_BetTypeSel" SpName="Odds_BetTypeSel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
-      <Mapping DataField="typeid" ObjectProperty="Id" />
-      <Mapping DataField="typenamee" ObjectProperty="Name" />
-    </Setting>
-    <Setting Key="Odds_BettypeSelByPartnerId" SpName="Odds_BettypeSelByPartnerId" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
-      <Mapping DataField="typeid" ObjectProperty="Id" />
-      <Mapping DataField="typenamee" ObjectProperty="Name" />
-    </Setting>
+    <Function Name="Affiliate">
+        <Setting Key="Odds_Delete_Setting_IP_Partner" SpName="Odds_Delete_Setting_IP_Partner" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+        <Setting Key="Odds_Top10Domain_Sel" SpName="Odds_Top10Domain_Sel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+        <Setting Key="Odds_Top10Partner_Sel" SpName="Odds_Top10Partner_Sel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+        <Setting Key="Odds_Language_SelByPartnerId" SpName="Odds_Language_SelByPartnerId" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
+            <Mapping DataField="Code" ObjectProperty="Id" />
+            <Mapping DataField="Name_EN" ObjectProperty="Name" />
+        </Setting>
+        <Setting Key="Odds_SystemSettingsSelByPartnerId" SpName="Odds_SystemSettingsSelByPartnerId" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
+            <Mapping DataField="Key" ObjectProperty="Name" />
+            <Mapping DataField="Value" ObjectProperty="Value" />
+        </Setting>
+        <Setting Key="Odds_OddsStyleSelByPartnerId" SpName="Odds_OddsStyleSelByPartnerId" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
+            <Mapping DataField="Key" ObjectProperty="Name" />
+            <Mapping DataField="Value" ObjectProperty="Value" />
+        </Setting>
+        <Setting Key="Odds_OddsStyleSelBySystemId" SpName="Odds_OddsStyleSelBySystemId" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
+            <Mapping DataField="Key" ObjectProperty="Name" />
+            <Mapping DataField="Value" ObjectProperty="Value" />
+        </Setting>
+        <Setting Key="Odds_SystemSettingsSel" SpName="Odds_SystemSettingsSel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
+            <Mapping DataField="Key" ObjectProperty="Name" />
+            <Mapping DataField="Value" ObjectProperty="Value" />
+        </Setting>
+        <Setting Key="Odds_Partner_Statistic_Sel" SpName="Odds_Partner_Statistic_Sel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+        <Setting Key="Odds_Partner_SelByName" SpName="Odds_Partner_SelByName" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
+            <Mapping DataField="PartnerId" ObjectProperty="Id" />
+            <Mapping DataField="UserName" ObjectProperty="Name" />
+        </Setting>
+        <Setting Key="Odds_Partner_GetAll" SpName="Odds_Partner_GetAll" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
+            <Mapping DataField="PartnerId" ObjectProperty="Id" />
+            <Mapping DataField="UserName" ObjectProperty="Name" />
+        </Setting>
+        <Setting Key="Odds_Partner_GetBySytemId" SpName="Odds_Partner_GetBySytemId" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
+            <Mapping DataField="PartnerId" ObjectProperty="Id" />
+            <Mapping DataField="UserName" ObjectProperty="Name" />
+        </Setting>
+        <Setting Key="Odds_Domain_Sel" SpName="Odds_Domain_Sel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
+            <Mapping DataField="DomainID" ObjectProperty="Id" />
+            <Mapping DataField="DomainName" ObjectProperty="Name" />
+        </Setting>
+        <Setting Key="Odds_Domain_GetAll" SpName="Odds_Domain_GetAll" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
+            <Mapping DataField="DomainID" ObjectProperty="Id" />
+            <Mapping DataField="DomainName" ObjectProperty="Name" />
+        </Setting>
+        <Setting Key="Odds_Domain_SelByPartnerId" SpName="Odds_Domain_SelByPartnerId" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
+            <Mapping DataField="DomainID" ObjectProperty="Id" />
+            <Mapping DataField="DomainName" ObjectProperty="Name" />
+        </Setting>
+        <Setting Key="Odds_Ip_SelByPartnerId" SpName="Odds_Ip_SelByPartnerId" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
+            <Mapping DataField="PartnerID" ObjectProperty="Id" />
+        </Setting>
+        <Setting Key="Odds_BetTypeSel" SpName="Odds_BetTypeSel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
+            <Mapping DataField="typeid" ObjectProperty="Id" />
+            <Mapping DataField="typenamee" ObjectProperty="Name" />
+        </Setting>
+        <Setting Key="Odds_BettypeSelByPartnerId" SpName="Odds_BettypeSelByPartnerId" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
+            <Mapping DataField="typeid" ObjectProperty="Id" />
+            <Mapping DataField="typenamee" ObjectProperty="Name" />
+        </Setting>
+        <Setting Key="Odds_CountrySel" SpName="Odds_CountrySel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
+            <Mapping DataField="CountryCode" ObjectProperty="Id" />
+            <Mapping DataField="CountryName" ObjectProperty="Name" />
+        </Setting>
+        <Setting Key="Odds_CountrySelByPartnerId" SpName="Odds_CountrySelByPartnerId" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
+            <Mapping DataField="CountryCode" ObjectProperty="Id" />
+            <Mapping DataField="CountryName" ObjectProperty="Name" />
+        </Setting>
+        <Setting Key="Odds_SportSel" SpName="Odds_SportSel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
+            <Mapping DataField="SportType" ObjectProperty="Id" />
+            <Mapping DataField="SportName" ObjectProperty="Name" />
+        </Setting>
+        <Setting Key="Odds_SportSelByPartnerId" SpName="Odds_SportSelByPartnerId" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
+            <Mapping DataField="SportType" ObjectProperty="Id" />
+            <Mapping DataField="SportName" ObjectProperty="Name" />
+        </Setting>
+        <Setting Key="Odds_LanguageSel" SpName="Odds_LanguageSel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
+            <Mapping DataField="Code" ObjectProperty="Id" />
+            <Mapping DataField="Name_EN" ObjectProperty="Name" />
+        </Setting>
+        <Setting Key="Odds_Partner_Ins" SpName="Odds_Partner_Ins" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+        <Setting Key="Odds_Partner_Upd_Info" SpName="Odds_Partner_Upd_Info" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+        <Setting Key="Odds_Partner_Upd_Setting" SpName="Odds_Partner_Upd_Setting" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+        <Setting Key="Odds_Partner_Upd_Setting_IP" SpName="Odds_Partner_Upd_Setting_IP" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+        <Setting Key="Odds_Partner_Upd_Profile" SpName="Odds_Partner_Upd_Profile" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+        <Setting Key="Odds_Partner_Upd_Active" SpName="Odds_Partner_Upd_Active" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+        <Setting Key="Odds_Partner_Del" SpName="Odds_Partner_Del" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+        <Setting Key="Odds_Partner_CheckExist" SpName="Odds_Partner_CheckExist" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
+            <Mapping DataField="PartnerId" ObjectProperty="Id" />
+            <Mapping DataField="UserName" ObjectProperty="Name" />
+        </Setting>
+        <Setting Key="Odds_PartnerProfileSelByID" SpName="Odds_PartnerProfileSelByID" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+    </Function>
 
-    <Setting Key="Odds_CountrySel" SpName="Odds_CountrySel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
-      <Mapping DataField="CountryCode" ObjectProperty="Id" />
-      <Mapping DataField="CountryName" ObjectProperty="Name" />
-    </Setting>
-    <Setting Key="Odds_CountrySelByPartnerId" SpName="Odds_CountrySelByPartnerId" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
-      <Mapping DataField="CountryCode" ObjectProperty="Id" />
-      <Mapping DataField="CountryName" ObjectProperty="Name" />
-    </Setting>
-    <Setting Key="Odds_SportSel" SpName="Odds_SportSel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
-      <Mapping DataField="SportType" ObjectProperty="Id" />
-      <Mapping DataField="SportName" ObjectProperty="Name" />
-    </Setting>
-    <Setting Key="Odds_SportSelByPartnerId" SpName="Odds_SportSelByPartnerId" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
-      <Mapping DataField="SportType" ObjectProperty="Id" />
-      <Mapping DataField="SportName" ObjectProperty="Name" />
-    </Setting>
+    <!-- SP mapping for Administrator-->
+    <Function Name="Administrator">
+        <Setting Key="Odds_Admin_Ins" SpName="Odds_Admin_Ins" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+        <Setting Key="Odds_Admin_Sel" SpName="Odds_Admin_Sel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+        <Setting Key="Odds_Admin_Del" SpName="Odds_Admin_Del" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+        <Setting Key="Odds_Admin_UpdInfo" SpName="Odds_Admin_UpdInfo" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+        <Setting Key="Odds_Admin_UpdPwd" SpName="Odds_Admin_UpdPwd" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+        <Setting Key="Odds_Admin_UpdSystem" SpName="Odds_Admin_UpdSystem" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+        <Setting Key="Odds_System_Sel" SpName="Odds_System_Sel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+        <Setting Key="Odds_System_SelByUserID" SpName="Odds_System_SelByUserID" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+        <Setting Key="Odds_ExistedAdmin_Sel" SpName="Odds_ExistedAdmin_Sel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+        <Setting Key="Odds_Role_Sel" SpName="Odds_Role_Sel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+        <Setting Key="Odds_Top10Admin_Sel" SpName="Odds_Top10Admin_Sel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+        <Setting Key="Odds_AdminList_Top10_Sel" SpName="Odds_AdminList_Top10_Sel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+        <Setting Key="Odds_Admin_CheckExist" SpName="Odds_Admin_CheckExist" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+        <Setting Key="Odds_AdminSystem_SelAll" SpName="Odds_AdminSystem_SelAll" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+    </Function>
+    <!-- End SP mapping for Administrator-->
 
-    <Setting Key="Odds_LanguageSel" SpName="Odds_LanguageSel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
-      <Mapping DataField="Code" ObjectProperty="Id" />
-      <Mapping DataField="Name_EN" ObjectProperty="Name" />
-    </Setting>
-    <Setting Key="Odds_Partner_Ins" SpName="Odds_Partner_Ins" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
-    </Setting>
-    <Setting Key="Odds_Partner_Upd_Info" SpName="Odds_Partner_Upd_Info" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
-    </Setting>
-    <Setting Key="Odds_Partner_Upd_Setting" SpName="Odds_Partner_Upd_Setting" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
-    </Setting>
-    <Setting Key="Odds_Partner_Upd_Setting_IP" SpName="Odds_Partner_Upd_Setting_IP" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
-    </Setting>
-    <Setting Key="Odds_Partner_Upd_Profile" SpName="Odds_Partner_Upd_Profile" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
-    </Setting>
-    <Setting Key="Odds_Partner_Upd_Active" SpName="Odds_Partner_Upd_Active" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
-    </Setting>
-    <Setting Key="Odds_Partner_Del" SpName="Odds_Partner_Del" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
-    </Setting>
-    <Setting Key="Odds_Partner_CheckExist" SpName="Odds_Partner_CheckExist" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
-      <Mapping DataField="PartnerId" ObjectProperty="Id" />
-      <Mapping DataField="UserName" ObjectProperty="Name" />
-    </Setting>    
-    <Setting Key="Odds_PartnerProfileSelByID" SpName="Odds_PartnerProfileSelByID" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
-    </Setting>
-    
-  </Function>
+    <!-- SP mapping for Dashboard-->
+    <Function Name="Dashboard">
+        <Setting Key="Odds_Dashboard_LastLogin" SpName="Odds_Dashboard_LastLogin" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+        <Setting Key="Odds_Dashboard_CurrentOnlUsers" SpName="Odds_Dashboard_CurrentOnlUsers" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+        <Setting Key="Odds_Dashboard_RecentActivities" SpName="Odds_Dashboard_RecentActivities" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+        <Setting Key="Odds_Dashboard_AccountStatistics" SpName="Odds_Dashboard_AccountStatistics" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+    </Function>
+    <!-- End SP mapping for Dashboard-->
 
-  <!-- SP mapping for Administrator-->
-  <Function Name="Administrator">
-    <Setting Key="Odds_Admin_Ins" SpName="Odds_Admin_Ins" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet"></Setting>
-    <Setting Key="Odds_Admin_Sel" SpName="Odds_Admin_Sel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet"></Setting>
-    <Setting Key="Odds_Admin_Del" SpName="Odds_Admin_Del" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet"></Setting>
-    <Setting Key="Odds_Admin_UpdInfo" SpName="Odds_Admin_UpdInfo" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet"></Setting>
-    <Setting Key="Odds_Admin_UpdPwd" SpName="Odds_Admin_UpdPwd" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet"></Setting>
-    <Setting Key="Odds_Admin_UpdSystem" SpName="Odds_Admin_UpdSystem" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet"></Setting>
-    <Setting Key="Odds_System_Sel" SpName="Odds_System_Sel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet"></Setting>
-    <Setting Key="Odds_System_SelByUserID" SpName="Odds_System_SelByUserID" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet"></Setting>
-    <Setting Key="Odds_ExistedAdmin_Sel" SpName="Odds_ExistedAdmin_Sel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet"></Setting>
-    <Setting Key="Odds_Role_Sel" SpName="Odds_Role_Sel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet"></Setting>
-    <Setting Key="Odds_Top10Admin_Sel" SpName="Odds_Top10Admin_Sel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet"></Setting>
-    <Setting Key="Odds_AdminList_Top10_Sel" SpName="Odds_AdminList_Top10_Sel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet"></Setting>
-    <Setting Key="Odds_Admin_CheckExist" SpName="Odds_Admin_CheckExist" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet"></Setting>
-    <Setting Key="Odds_AdminSystem_SelAll" SpName="Odds_AdminSystem_SelAll" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
-  </Function>
-  <!-- End SP mapping for Administrator-->
-
-  <!-- SP mapping for Dashboard-->
-  <Function Name="Dashboard">
-    <Setting Key="Odds_Dashboard_LastLogin" SpName="Odds_Dashboard_LastLogin" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet"></Setting>
-    <Setting Key="Odds_Dashboard_CurrentOnlUsers" SpName="Odds_Dashboard_CurrentOnlUsers" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet"></Setting>
-    <Setting Key="Odds_Dashboard_RecentActivities" SpName="Odds_Dashboard_RecentActivities" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet"></Setting>
-    <Setting Key="Odds_Dashboard_AccountStatistics" SpName="Odds_Dashboard_AccountStatistics" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet"></Setting>
-  </Function>
-  <!-- End SP mapping for Dashboard-->
-
-  <Function Name="User">
-    <Setting Key="Odds_Top10SubAccount_Sel" SpName="Odds_Top10SubAccount_Sel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" >
-    </Setting>
-    <Setting Key="Odds_User_SelByNameAndSystem" SpName="Odds_User_SelByNameAndSystem" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" >
-      <Mapping DataField="UserID" ObjectProperty="Id" />
-      <Mapping DataField="UserName" ObjectProperty="Name" />
-    </Setting>
-    <Setting Key="Odds_SubAccount_CheckExist" SpName="Odds_SubAccount_CheckExist" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" >
-      <Mapping DataField="UserId" ObjectProperty="Id" />
-      <Mapping DataField="UserName" ObjectProperty="Name" />
-    </Setting>
-    <Setting Key="Odds_User_SelByName_SystemId_RoleId" SpName="Odds_User_SelByName_SystemId_RoleId" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" >
-      <Mapping DataField="UserId" ObjectProperty="Id" />
-      <Mapping DataField="UserName" ObjectProperty="Name" />
-    </Setting>
-    <Setting Key="Odds_User_GetPermission" SpName="Odds_User_GetPermission" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" >
-    </Setting>
-    <Setting Key="Odds_User_EditPermission" SpName="Odds_User_EditPermission" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" >
-    </Setting>
-    <Setting Key="Odds_User_ResetPass" SpName="Odds_User_ResetPass" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" >
-    </Setting>
-    <Setting Key="Odds_User_Upd_Active" SpName="Odds_User_Upd_Active" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" >
-    </Setting>
-    <Setting Key="Odds_User_Del" SpName="Odds_User_Del" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" >
-    </Setting>
-    <Setting Key="Odds_User_Upd" SpName="Odds_User_Upd" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" >
-    </Setting>
-    <Setting Key="Odds_User_Ins" SpName="Odds_User_Ins" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" >
-      <Mapping DataField="UserId" ObjectProperty="Id" />
-    </Setting>
-    <Setting Key="Odds_User_GetBySystemIdAndRoleId" SpName="Odds_User_GetBySystemIdAndRoleId" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" >
-      <Mapping DataField="UserId" ObjectProperty="Id" />
-      <Mapping DataField="UserName" ObjectProperty="Name" />
-    </Setting>    
-    <Setting Key="Odds_User_Login" SpName="Odds_User_Login" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" >
-      <Mapping DataField="UserId" ObjectProperty="Id" />
-    </Setting>
-    <Setting Key="Odds_User_GetProfile" SpName="Odds_User_GetProfile" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" >
-    </Setting>
-    <Setting Key="Odds_User_GetPermission_Flags" SpName="Odds_User_GetPermission_Flags" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" >
-    </Setting>
-    <Setting Key="Odds_User_Logout" SpName="Odds_User_Logout" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" >
-    </Setting>
-    <!--<Setting Key="Odds_User_CheckIn" SpName="Odds_User_CheckIn" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />-->
-    <Setting Key="Odds_UserPasswordUpd" SpName="Odds_UserPasswordUpd" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
-    <Setting Key="Odds_User_ReCheckIn" SpName="Odds_User_ReCheckIn" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
-    <Setting Key="Odds_User_GetInfo" SpName="Odds_User_GetInfo" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet"  />    
-  </Function>
-        
+    <Function Name="User">
+        <Setting Key="Odds_Top10SubAccount_Sel" SpName="Odds_Top10SubAccount_Sel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+        <Setting Key="Odds_User_SelByNameAndSystem" SpName="Odds_User_SelByNameAndSystem" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
+            <Mapping DataField="UserID" ObjectProperty="Id" />
+            <Mapping DataField="UserName" ObjectProperty="Name" />
+        </Setting>
+        <Setting Key="Odds_SubAccount_CheckExist" SpName="Odds_SubAccount_CheckExist" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
+            <Mapping DataField="UserId" ObjectProperty="Id" />
+            <Mapping DataField="UserName" ObjectProperty="Name" />
+        </Setting>
+        <Setting Key="Odds_User_SelByName_SystemId_RoleId" SpName="Odds_User_SelByName_SystemId_RoleId" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
+            <Mapping DataField="UserId" ObjectProperty="Id" />
+            <Mapping DataField="UserName" ObjectProperty="Name" />
+        </Setting>
+        <Setting Key="Odds_User_GetPermission" SpName="Odds_User_GetPermission" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+        <Setting Key="Odds_User_EditPermission" SpName="Odds_User_EditPermission" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+        <Setting Key="Odds_User_ResetPass" SpName="Odds_User_ResetPass" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+        <Setting Key="Odds_User_Upd_Active" SpName="Odds_User_Upd_Active" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+        <Setting Key="Odds_User_Del" SpName="Odds_User_Del" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+        <Setting Key="Odds_User_Upd" SpName="Odds_User_Upd" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+        <Setting Key="Odds_User_Ins" SpName="Odds_User_Ins" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
+            <Mapping DataField="UserId" ObjectProperty="Id" />
+        </Setting>
+        <Setting Key="Odds_User_GetBySystemIdAndRoleId" SpName="Odds_User_GetBySystemIdAndRoleId" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
+            <Mapping DataField="UserId" ObjectProperty="Id" />
+            <Mapping DataField="UserName" ObjectProperty="Name" />
+        </Setting>
+        <Setting Key="Odds_User_Login" SpName="Odds_User_Login" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
+            <Mapping DataField="UserId" ObjectProperty="Id" />
+        </Setting>
+        <Setting Key="Odds_User_GetProfile" SpName="Odds_User_GetProfile" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+        <Setting Key="Odds_User_GetPermission_Flags" SpName="Odds_User_GetPermission_Flags" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+        <Setting Key="Odds_User_Logout" SpName="Odds_User_Logout" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+        <Setting Key="Odds_UserPasswordUpd" SpName="Odds_UserPasswordUpd" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+        <Setting Key="Odds_User_ReCheckIn" SpName="Odds_User_ReCheckIn" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+        <Setting Key="Odds_User_GetInfo" SpName="Odds_User_GetInfo" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+    </Function>
 </Functions>

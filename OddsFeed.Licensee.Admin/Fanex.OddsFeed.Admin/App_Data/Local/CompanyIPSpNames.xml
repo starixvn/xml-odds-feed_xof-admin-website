@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Functions>
-  <Function Name="Licensee">
-    <Setting Key="Odds_CompanyIPSel" SpName="Odds_CompanyIPSel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
-    <Setting Key="Odds_CompanyIPIns" SpName="Odds_CompanyIPIns" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
-    <Setting Key="Odds_CompanyIP_Setting" SpName="Odds_CompanyIP_Setting" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
-    <Setting Key="Odds_CompanyIP_DeleteSetting" SpName="Odds_CompanyIP_DeleteSetting" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
-  </Function>
+    <Function Name="Licensee">
+        <Setting Key="Odds_CompanyIPSel" SpName="Odds_CompanyIPSel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+        <Setting Key="Odds_CompanyIPIns" SpName="Odds_CompanyIPIns" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+        <Setting Key="Odds_CompanyIP_Setting" SpName="Odds_CompanyIP_Setting" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+        <Setting Key="Odds_CompanyIP_DeleteSetting" SpName="Odds_CompanyIP_DeleteSetting" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+    </Function>
 </Functions>
