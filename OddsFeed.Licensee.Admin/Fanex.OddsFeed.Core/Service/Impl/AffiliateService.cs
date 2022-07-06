@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="AffiliateService.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Thai.Tran" date="2013.1.7">Created</change>
-// </history>
-
-namespace Fanex.OddsFeed.Core.Service.Impl
+﻿namespace Fanex.OddsFeed.Core.Service.Impl
 {
     using System;
     using System.Collections.Generic;
@@ -15,9 +6,8 @@ namespace Fanex.OddsFeed.Core.Service.Impl
     using System.Linq;
     using System.Web.Mvc;
     using Data.Repository;
-    using Fanex.Caching;
     using Fanex.Common.Helper;
-    using Fanex.Databank.Repositories;
+    using Fanex.OddsFeed.Core.Repository;
     using Fanex.OddsFeed.Core.Command;
     using Fanex.OddsFeed.Core.Criteria.Affiliate;
     using Fanex.OddsFeed.Core.Domain;
@@ -26,24 +16,16 @@ namespace Fanex.OddsFeed.Core.Service.Impl
     using Fanex.OddsFeed.Core.Repository.Impl;
     using Fanex.OddsFeed.Core.Repository.Interface;
     using Fanex.OddsFeed.Core.Service.Interface;
+    using Fanex.OddsFeed.Core.Web.Session;
     using Fanex.OddsFeed.Framework.Data;
 
-    /// <summary>
-    /// Class AffiliateService.
-    /// </summary>
-    public class AffiliateService : BaseService, IAffiliateService
+    public class AffiliateService : IAffiliateService
     {
-        #region members
-
-        private readonly PartnerIPRepository _partnerIpRepository;
-        private readonly PartnerStatisticRepository _partnerStatisticRepository;
-        private readonly IAffiliateRepository _affilliateRepository;
-        private readonly SelectListRepository _selectListRepository;
-        private readonly ICache _cache;
-
-        #endregion members
-
-        #region ctors
+        protected readonly ICurrentSession currentSession;
+        private readonly IBaseRepository baseRepository;
+        private readonly IBaseService baseService;
+        private readonly IAffiliateRepository affilliateRepository;
+        private readonly ISelectListRepository selectListRepository;
 
         public AffiliateService()
             : this(null, null, null, null, null)
@@ -51,22 +33,18 @@ namespace Fanex.OddsFeed.Core.Service.Impl
         }
 
         public AffiliateService(
-                                    PartnerIPRepository partnerIpRepository,
-                                    IAffiliateRepository affilliateRepository,
-                                    PartnerStatisticRepository partnerStatisticRepository,
-                                    SelectListRepository selectListRepository,
-                                    ICache cache)
+            ICurrentSession currentSession,
+            IBaseRepository baseRepository,
+            IBaseService baseService,
+            IAffiliateRepository affilliateRepository,
+            ISelectListRepository selectListRepository)
         {
-            _partnerIpRepository = partnerIpRepository ?? new PartnerIPRepository();
-            _affilliateRepository = affilliateRepository ?? new AffiliateRepository();
-            _partnerStatisticRepository = partnerStatisticRepository ?? new PartnerStatisticRepository();
-            _selectListRepository = selectListRepository ?? new SelectListRepository();
-            _cache = cache ?? CacheService.CreateInstance(CacheType.MemoryCache);
+            this.currentSession = currentSession ?? new CurrentSession();
+            this.baseRepository = baseRepository ?? new BaseRepository();
+            this.baseService = baseService ?? new BaseService();
+            this.affilliateRepository = affilliateRepository ?? new AffiliateRepository();
+            this.selectListRepository = selectListRepository ?? new SelectListRepository();
         }
-
-        #endregion ctors
-
-        #region Get
 
         public IAffiliate GetById(int id)
         {
@@ -75,38 +53,31 @@ namespace Fanex.OddsFeed.Core.Service.Impl
 
         public IList<Affiliate> GetByNameAndSystemId(byte systemId, string name)
         {
-            try
+            var criteria = new GetAffiliateByNameCriteria
             {
-                var criteria = new GetAffiliateByNameCriteria
-                {
-                    SystemId = systemId,
-                    UserName = name
-                };
+                SystemId = systemId,
+                UserName = name
+            };
 
-                if (criteria.IsValid())
-                {
-                    IEnumerable<IAffiliate> affList = _affilliateRepository.Fetch(criteria).OrderBy(s => s.Name);
+            if (criteria.IsValid())
+            {
+                IEnumerable<IAffiliate> affList = baseService.GetData<Affiliate>(criteria).OrderBy(s => s.Name);
 
-                    if (affList != null)
+                if (affList != null)
+                {
+                    return affList.Select(s => new Affiliate
                     {
-                        return affList.Select(s => new Affiliate
-                        {
-                            Id = s.Id,
-                            Name = s.Name,
-                            Site = s.Site,
-                            IsAllowed = s.IsAllowed,
-                            CreatedDate = Convert.ToDateTime(s.CreatedDate),
-                            LastUpdate = Convert.ToDateTime(s.LastUpdate),
-                            Creator = s.Creator,
-                            ContactPerson = s.ContactPerson,
-                            ContactEmail = s.ContactEmail
-                        }).ToList();
-                    }
+                        Id = s.Id,
+                        Name = s.Name,
+                        Site = s.Site,
+                        IsAllowed = s.IsAllowed,
+                        CreatedDate = Convert.ToDateTime(s.CreatedDate),
+                        LastUpdate = Convert.ToDateTime(s.LastUpdate),
+                        Creator = s.Creator,
+                        ContactPerson = s.ContactPerson,
+                        ContactEmail = s.ContactEmail
+                    }).ToList();
                 }
-            }
-            catch (Exception ex)
-            {
-                HandleException(ex);
             }
 
             return null;
@@ -114,22 +85,15 @@ namespace Fanex.OddsFeed.Core.Service.Impl
 
         public IDataReader GetAffiliateListReturnDataReader(byte systemId, string name)
         {
-            try
+            var criteria = new GetAffiliateByNameCriteria
             {
-                var criteria = new GetAffiliateByNameCriteria
-                {
-                    SystemId = systemId,
-                    UserName = name
-                };
+                SystemId = systemId,
+                UserName = name
+            };
 
-                if (criteria.IsValid())
-                {
-                    return _affilliateRepository.ReturnDataReader(criteria);
-                }
-            }
-            catch (Exception ex)
+            if (criteria.IsValid())
             {
-                HandleException(ex);
+                return baseService.GetDataReader(criteria);
             }
 
             return null;
@@ -137,19 +101,12 @@ namespace Fanex.OddsFeed.Core.Service.Impl
 
         public DataCollection GetAffiliateListReturnDataCollection(GetAffiliateByNameCriteria criteria)
         {
-            try
-            {
-                // check parameters
-                Check.Argument.IsNotNull(criteria, "criteria");
+            // check parameters
+            Check.Argument.IsNotNull(criteria, "criteria");
 
-                if (criteria.IsValid())
-                {
-                    return _affilliateRepository.ReturnDataCollection(criteria);
-                }
-            }
-            catch (Exception ex)
+            if (criteria.IsValid())
             {
-                HandleException(ex);
+                return baseService.GetData(criteria);
             }
 
             return null;
@@ -157,19 +114,12 @@ namespace Fanex.OddsFeed.Core.Service.Impl
 
         public DataCollection GetAffiliateListReturnDataCollection(CheckExistAffiliateCriteria criteria)
         {
-            try
-            {
-                // check parameters
-                Check.Argument.IsNotNull(criteria, "criteria");
+            // check parameters
+            Check.Argument.IsNotNull(criteria, "criteria");
 
-                if (criteria.IsValid())
-                {
-                    return _affilliateRepository.ReturnDataCollection(criteria);
-                }
-            }
-            catch (Exception ex)
+            if (criteria.IsValid())
             {
-                HandleException(ex);
+                return baseService.GetData(criteria);
             }
 
             return null;
@@ -182,23 +132,16 @@ namespace Fanex.OddsFeed.Core.Service.Impl
 
         public IEnumerable<SelectListItem> GetDomain(bool? isActive = null, bool? isOddsDomain = null, int selectedId = 0)
         {
-            try
+            var criteria = new GetDomainBySystemIDCriteria
             {
-                var criteria = new GetDomainBySystemIDCriteria
-                {
-                    SystemID = ServiceContext.SystemId,
-                    IsActive = isActive,
-                    IsOddsDomain = isOddsDomain
-                };
+                SystemID = currentSession.SystemId,
+                IsActive = isActive,
+                IsOddsDomain = isOddsDomain
+            };
 
-                if (criteria.IsValid())
-                {
-                    return _selectListRepository.Get(criteria).OrderBy(s => s.Text);
-                }
-            }
-            catch (Exception ex)
+            if (criteria.IsValid())
             {
-                HandleException(ex);
+                return selectListRepository.Get(criteria).OrderBy(s => s.Text);
             }
 
             return new List<SelectListItem>();
@@ -210,23 +153,16 @@ namespace Fanex.OddsFeed.Core.Service.Impl
             bool? isOddsDomain = null,
             int selectedId = 0)
         {
-            try
+            var criteria = new GetDomainByAffiliateIDCriteria
             {
-                var criteria = new GetDomainByAffiliateIDCriteria
-                {
-                    PartnerID = partnerId,
-                    IsActive = isActive,
-                    IsOddsDomain = isOddsDomain
-                };
+                PartnerID = partnerId,
+                IsActive = isActive,
+                IsOddsDomain = isOddsDomain
+            };
 
-                if (criteria.IsValid())
-                {
-                    return _selectListRepository.Get(criteria).OrderBy(s => s.Text);
-                }
-            }
-            catch (Exception ex)
+            if (criteria.IsValid())
             {
-                HandleException(ex);
+                return selectListRepository.Get(criteria).OrderBy(s => s.Text);
             }
 
             return null;
@@ -234,31 +170,24 @@ namespace Fanex.OddsFeed.Core.Service.Impl
 
         public IList<PartnerIP> GetPartnerIpByAffId(int partnerId)
         {
-            try
+            var criteria = new GetIpByAffiliateIDCriteria
             {
-                var criteria = new GetIpByAffiliateIDCriteria
-                {
-                    PartnerID = partnerId
-                };
+                PartnerID = partnerId
+            };
 
-                if (criteria.IsValid())
-                {
-                    IEnumerable<PartnerIP> list = _partnerIpRepository.Fetch(criteria).OrderBy(s => s.Name);
+            if (criteria.IsValid())
+            {
+                IEnumerable<PartnerIP> list = baseService.GetData<PartnerIP>(criteria).OrderBy(s => s.Name);
 
-                    if (list != null)
+                if (list != null)
+                {
+                    return list.Select(s => new PartnerIP
                     {
-                        return list.Select(s => new PartnerIP
-                        {
-                            Id = s.Id,
-                            IPFrom = s.IPFrom,
-                            IPTo = s.IPTo
-                        }).ToList();
-                    }
+                        Id = s.Id,
+                        IPFrom = s.IPFrom,
+                        IPTo = s.IPTo
+                    }).ToList();
                 }
-            }
-            catch (Exception ex)
-            {
-                HandleException(ex);
             }
 
             return new List<PartnerIP>();
@@ -266,21 +195,14 @@ namespace Fanex.OddsFeed.Core.Service.Impl
 
         public IEnumerable<RequestStatistic> GetPartnerRequestStatistic(RequestStatisticCriteria criteria)
         {
-            try
-            {
-                // check parameters
-                Check.Argument.IsNotNull(criteria, "criteria");
+            // check parameters
+            Check.Argument.IsNotNull(criteria, "criteria");
 
-                if (criteria.IsValid())
-                {
-                    var list = _partnerStatisticRepository.Fetch(criteria);
-
-                    return list;
-                }
-            }
-            catch (Exception ex)
+            if (criteria.IsValid())
             {
-                HandleException(ex);
+                var list = baseService.GetData<RequestStatistic>(criteria);
+
+                return list;
             }
 
             return null;
@@ -288,19 +210,12 @@ namespace Fanex.OddsFeed.Core.Service.Impl
 
         public IDataReader GetPartnerRequestStatisticReturnDataReader(RequestStatisticCriteria criteria)
         {
-            try
-            {
-                // check parameters
-                Check.Argument.IsNotNull(criteria, "criteria");
+            // check parameters
+            Check.Argument.IsNotNull(criteria, "criteria");
 
-                if (criteria.IsValid())
-                {
-                    return _partnerStatisticRepository.ReturnDataReader(criteria);
-                }
-            }
-            catch (Exception ex)
+            if (criteria.IsValid())
             {
-                HandleException(ex);
+                return baseRepository.ReturnDataReader(criteria);
             }
 
             return null;
@@ -308,19 +223,12 @@ namespace Fanex.OddsFeed.Core.Service.Impl
 
         public DataCollection GetPartnerRequestStatisticReturnDataCollection(RequestStatisticCriteria criteria)
         {
-            try
-            {
-                // check parameters
-                Check.Argument.IsNotNull(criteria, "criteria");
+            // check parameters
+            Check.Argument.IsNotNull(criteria, "criteria");
 
-                if (criteria.IsValid())
-                {
-                    return _affilliateRepository.ReturnDataCollection(criteria);
-                }
-            }
-            catch (Exception ex)
+            if (criteria.IsValid())
             {
-                HandleException(ex);
+                return baseService.GetData(criteria);
             }
 
             return null;
@@ -328,22 +236,15 @@ namespace Fanex.OddsFeed.Core.Service.Impl
 
         public IEnumerable<SelectListItem> GetOddsTypeByAffId(int partnerId)
         {
-            try
+            var criteria = new GetTypeSettingByAffiliateIDCriteria
             {
-                var criteria = new GetTypeSettingByAffiliateIDCriteria
-                {
-                    Type = "OddsType",
-                    PartnerID = partnerId
-                };
+                Type = "OddsType",
+                PartnerID = partnerId
+            };
 
-                if (criteria.IsValid())
-                {
-                    return _selectListRepository.GetAndGenerateCheck(criteria, false).OrderBy(s => s.Text);
-                }
-            }
-            catch (Exception ex)
+            if (criteria.IsValid())
             {
-                HandleException(ex);
+                return selectListRepository.GetAndGenerateCheck(criteria, false).OrderBy(s => s.Text);
             }
 
             return null;
@@ -351,44 +252,15 @@ namespace Fanex.OddsFeed.Core.Service.Impl
 
         public IEnumerable<SelectListItem> GetOddsType(int selectedId = 0)
         {
-            try
+            var criteria = new GetTypeSettingCriteria
             {
-                var criteria = new GetTypeSettingCriteria
-                {
-                    SystemID = ServiceContext.SystemId,
-                    Type = "OddsType"
-                };
+                SystemID = currentSession.SystemId,
+                Type = "OddsType"
+            };
 
-                if (criteria.IsValid())
-                {
-                    return _selectListRepository.Get(criteria, false).OrderBy(s => s.Text);
-                }
-            }
-            catch (Exception ex)
+            if (criteria.IsValid())
             {
-                HandleException(ex);
-            }
-
-            return null;
-        }
-
-        public string GetCurrentOddsStyleByAffId(int partnerId)
-        {
-            try
-            {
-                var criteria = new GetOddStyleByAffiliateIDCriteria
-                {
-                    PartnerID = partnerId
-                };
-
-                if (criteria.IsValid())
-                {
-                    return BaseRepository.ReturnSingleValue(criteria).ToString();
-                }
-            }
-            catch (Exception ex)
-            {
-                HandleException(ex);
+                return selectListRepository.Get(criteria, false).OrderBy(s => s.Text);
             }
 
             return null;
@@ -396,22 +268,15 @@ namespace Fanex.OddsFeed.Core.Service.Impl
 
         public IEnumerable<SelectListItem> GetOddsStyle(int selectedId = 0)
         {
-            try
+            var criteria = new GetTypeSettingCriteria
             {
-                var criteria = new GetTypeSettingCriteria
-                {
-                    SystemID = ServiceContext.SystemId,
-                    Type = "OddsRegion"
-                };
+                SystemID = currentSession.SystemId,
+                Type = "OddsRegion"
+            };
 
-                if (criteria.IsValid())
-                {
-                    return _selectListRepository.Get(criteria, false).OrderBy(s => s.Text);
-                }
-            }
-            catch (Exception ex)
+            if (criteria.IsValid())
             {
-                HandleException(ex);
+                return selectListRepository.Get(criteria, false).OrderBy(s => s.Text);
             }
 
             return null;
@@ -419,21 +284,14 @@ namespace Fanex.OddsFeed.Core.Service.Impl
 
         public IEnumerable<SelectListItem> GetBettypeByAffId(int partnerId)
         {
-            try
+            var criteria = new GetBettypeByAffiliateIDCriteria
             {
-                var criteria = new GetBettypeByAffiliateIDCriteria
-                {
-                    PartnerID = partnerId
-                };
+                PartnerID = partnerId
+            };
 
-                if (criteria.IsValid())
-                {
-                    return _selectListRepository.GetAndGenerateCheck(criteria).OrderBy(s => s.Text);
-                }
-            }
-            catch (Exception ex)
+            if (criteria.IsValid())
             {
-                HandleException(ex);
+                return selectListRepository.GetAndGenerateCheck(criteria).OrderBy(s => s.Text);
             }
 
             return null;
@@ -441,21 +299,14 @@ namespace Fanex.OddsFeed.Core.Service.Impl
 
         public IEnumerable<SelectListItem> GetBettypeBySystemId(int selectedId = 0)
         {
-            try
+            var criteria = new GetBettypeBySystemIDCriteria
             {
-                var criteria = new GetBettypeBySystemIDCriteria
-                {
-                    SystemID = ServiceContext.SystemId
-                };
+                SystemID = currentSession.SystemId
+            };
 
-                if (criteria.IsValid())
-                {
-                    return SelectListRepository.GetWithGroup(criteria).OrderBy(s => s.Text);
-                }
-            }
-            catch (Exception ex)
+            if (criteria.IsValid())
             {
-                HandleException(ex);
+                return selectListRepository.GetWithGroup(criteria).OrderBy(s => s.Text);
             }
 
             return null;
@@ -463,21 +314,14 @@ namespace Fanex.OddsFeed.Core.Service.Impl
 
         public IEnumerable<SelectListItem> GetCountryByAffId(int partnerId)
         {
-            try
+            var criteria = new GetCountryByAffiliateIDCriteria
             {
-                var criteria = new GetCountryByAffiliateIDCriteria
-                {
-                    PartnerID = partnerId
-                };
+                PartnerID = partnerId
+            };
 
-                if (criteria.IsValid())
-                {
-                    return _selectListRepository.GetAndGenerateCheck(criteria).OrderBy(s => s.Text);
-                }
-            }
-            catch (Exception ex)
+            if (criteria.IsValid())
             {
-                HandleException(ex);
+                return selectListRepository.GetAndGenerateCheck(criteria).OrderBy(s => s.Text);
             }
 
             return null;
@@ -485,21 +329,14 @@ namespace Fanex.OddsFeed.Core.Service.Impl
 
         public IEnumerable<SelectListItem> GetCountryBySystemId(string selectedId = "")
         {
-            try
+            var criteria = new GetCountryBySystemIDCriteria
             {
-                var criteria = new GetCountryBySystemIDCriteria
-                {
-                    SystemID = ServiceContext.SystemId
-                };
+                SystemID = currentSession.SystemId
+            };
 
-                if (criteria.IsValid())
-                {
-                    return _selectListRepository.Get(criteria).OrderBy(s => s.Text);
-                }
-            }
-            catch (Exception ex)
+            if (criteria.IsValid())
             {
-                HandleException(ex);
+                return selectListRepository.Get(criteria).OrderBy(s => s.Text);
             }
 
             return null;
@@ -507,21 +344,14 @@ namespace Fanex.OddsFeed.Core.Service.Impl
 
         public IEnumerable<SelectListItem> GetSportByAffId(int partnerId)
         {
-            try
+            var criteria = new GetSportByAffiliateIDCriteria
             {
-                var criteria = new GetSportByAffiliateIDCriteria
-                {
-                    PartnerID = partnerId
-                };
+                PartnerID = partnerId
+            };
 
-                if (criteria.IsValid())
-                {
-                    return _selectListRepository.GetAndGenerateCheck(criteria).OrderBy(s => s.Text);
-                }
-            }
-            catch (Exception ex)
+            if (criteria.IsValid())
             {
-                HandleException(ex);
+                return selectListRepository.GetAndGenerateCheck(criteria).OrderBy(s => s.Text);
             }
 
             return null;
@@ -529,21 +359,14 @@ namespace Fanex.OddsFeed.Core.Service.Impl
 
         public IEnumerable<SelectListItem> GetSportBySystemId(byte selectedId = 0)
         {
-            try
+            var criteria = new GetSportBySystemIDCriteria
             {
-                var criteria = new GetSportBySystemIDCriteria
-                {
-                    SystemID = ServiceContext.SystemId
-                };
+                SystemID = currentSession.SystemId
+            };
 
-                if (criteria.IsValid())
-                {
-                    return SelectListRepository.GetWithGroup(criteria).OrderBy(s => s.Text);
-                }
-            }
-            catch (Exception ex)
+            if (criteria.IsValid())
             {
-                HandleException(ex);
+                return selectListRepository.GetWithGroup(criteria).OrderBy(s => s.Text);
             }
 
             return null;
@@ -551,21 +374,14 @@ namespace Fanex.OddsFeed.Core.Service.Impl
 
         public IEnumerable<SelectListItem> GetLanguageBySystemId(string selectedId = "")
         {
-            try
+            var criteria = new GetLanguageBySystemIDCriteria
             {
-                var criteria = new GetLanguageBySystemIDCriteria
-                {
-                    SystemID = ServiceContext.SystemId
-                };
+                SystemID = currentSession.SystemId
+            };
 
-                if (criteria.IsValid())
-                {
-                    return _selectListRepository.Get(criteria).OrderBy(s => s.Text);
-                }
-            }
-            catch (Exception ex)
+            if (criteria.IsValid())
             {
-                HandleException(ex);
+                return selectListRepository.Get(criteria).OrderBy(s => s.Text);
             }
 
             return null;
@@ -573,21 +389,14 @@ namespace Fanex.OddsFeed.Core.Service.Impl
 
         public IEnumerable<SelectListItem> GetLanguageByAffId(int partnerId)
         {
-            try
+            var criteria = new GetLanguageByAffiliateIDCriteria
             {
-                var criteria = new GetLanguageByAffiliateIDCriteria
-                {
-                    PartnerID = partnerId
-                };
+                PartnerID = partnerId
+            };
 
-                if (criteria.IsValid())
-                {
-                    return _selectListRepository.GetAndGenerateCheck(criteria).OrderBy(s => s.Text);
-                }
-            }
-            catch (Exception ex)
+            if (criteria.IsValid())
             {
-                HandleException(ex);
+                return selectListRepository.GetAndGenerateCheck(criteria).OrderBy(s => s.Text);
             }
 
             return null;
@@ -595,36 +404,27 @@ namespace Fanex.OddsFeed.Core.Service.Impl
 
         public IList<Affiliate> GetAllAffiliates()
         {
-            try
+            var criteria = new GetAllAffiliateCriteria();
+
+            if (criteria.IsValid())
             {
-                var criteria = new GetAllAffiliateCriteria
-                {
-                };
+                IEnumerable<IAffiliate> list = baseService.GetData<Affiliate>(criteria).OrderBy(s => s.Name);
 
-                if (criteria.IsValid())
+                if (list != null)
                 {
-                    IEnumerable<IAffiliate> list = _affilliateRepository.Fetch(criteria).OrderBy(s => s.Name);
-
-                    if (list != null)
+                    return list.Select(s => new Affiliate
                     {
-                        return list.Select(s => new Affiliate
-                        {
-                            Id = s.Id,
-                            Name = s.Name,
-                            Site = s.Site,
-                            IsAllowed = s.IsAllowed,
-                            CreatedDate = Convert.ToDateTime(s.CreatedDate),
-                            LastUpdate = Convert.ToDateTime(s.LastUpdate),
-                            Creator = s.Creator,
-                            ContactPerson = s.ContactPerson,
-                            ContactEmail = s.ContactEmail
-                        }).ToList();
-                    }
+                        Id = s.Id,
+                        Name = s.Name,
+                        Site = s.Site,
+                        IsAllowed = s.IsAllowed,
+                        CreatedDate = Convert.ToDateTime(s.CreatedDate),
+                        LastUpdate = Convert.ToDateTime(s.LastUpdate),
+                        Creator = s.Creator,
+                        ContactPerson = s.ContactPerson,
+                        ContactEmail = s.ContactEmail
+                    }).ToList();
                 }
-            }
-            catch (Exception ex)
-            {
-                HandleException(ex);
             }
 
             return null;
@@ -632,38 +432,31 @@ namespace Fanex.OddsFeed.Core.Service.Impl
 
         public IList<Affiliate> GetBySystemId(byte systemId)
         {
-            try
+            var criteria = new GetAffiliateBySystemIDCriteria
             {
-                var criteria = new GetAffiliateBySystemIDCriteria
-                {
-                    SystemId = systemId
-                };
+                SystemId = systemId
+            };
 
-                if (criteria.IsValid())
-                {
-                    IEnumerable<IAffiliate> affList = _affilliateRepository.Fetch(criteria).OrderBy(s => s.Name);
+            if (criteria.IsValid())
+            {
+                IEnumerable<IAffiliate> affList = baseService.GetData<Affiliate>(criteria).OrderBy(s => s.Name);
 
-                    if (affList != null)
+                if (affList != null)
+                {
+                    return affList.Select(s => new Affiliate
                     {
-                        return affList.Select(s => new Affiliate
-                        {
-                            Id = s.Id,
-                            Name = s.Name,
-                            Site = s.Site,
-                            Remark = s.Remark,
-                            IsAllowed = s.IsAllowed,
-                            CreatedDate = Convert.ToDateTime(s.CreatedDate),
-                            LastUpdate = Convert.ToDateTime(s.LastUpdate),
-                            Creator = s.Creator,
-                            ContactPerson = s.ContactPerson,
-                            ContactEmail = s.ContactEmail
-                        }).ToList();
-                    }
+                        Id = s.Id,
+                        Name = s.Name,
+                        Site = s.Site,
+                        Remark = s.Remark,
+                        IsAllowed = s.IsAllowed,
+                        CreatedDate = Convert.ToDateTime(s.CreatedDate),
+                        LastUpdate = Convert.ToDateTime(s.LastUpdate),
+                        Creator = s.Creator,
+                        ContactPerson = s.ContactPerson,
+                        ContactEmail = s.ContactEmail
+                    }).ToList();
                 }
-            }
-            catch (Exception ex)
-            {
-                HandleException(ex);
             }
 
             return null;
@@ -671,42 +464,24 @@ namespace Fanex.OddsFeed.Core.Service.Impl
 
         public DataSet GetTop10AffReturnDataSet(GetTop10AffiliateCriteria criteria)
         {
-            try
-            {
-                // check parameters
-                Check.Argument.IsNotNull(criteria, "criteria");
+            // check parameters
+            Check.Argument.IsNotNull(criteria, "criteria");
 
-                if (criteria.IsValid())
-                {
-                    return _affilliateRepository.ReturnDataSet(criteria);
-                }
-            }
-            catch (Exception ex)
+            if (criteria.IsValid())
             {
-                HandleException(ex);
+                return baseService.GetDataSet(criteria);
             }
 
             return null;
         }
 
-        #endregion Get
-
-        #region Insert/Update
-
         public ICommandResult Insert(InsertAffiliateCriteria criteria)
         {
             Check.Argument.IsNotNull(criteria, "criteria");
 
-            try
+            if (criteria.IsValid())
             {
-                if (criteria.IsValid())
-                {
-                    return _affilliateRepository.Insert(ref criteria);
-                }
-            }
-            catch (Exception ex)
-            {
-                HandleException(ex);
+                return affilliateRepository.Insert(ref criteria);
             }
 
             return null;
@@ -717,51 +492,31 @@ namespace Fanex.OddsFeed.Core.Service.Impl
             ICommandResult result = new CommandResult
             {
                 Code = 1,
-                Message = "Internal Server Error !"
+                Message = "Internal Server Error!"
             };
 
             // check parameters
             Check.Argument.IsNotNull(criteria, "criteria");
 
-            try
+            if (criteria.IsValid())
             {
-                if (criteria.IsValid())
-                {
-                    result = _affilliateRepository.Update(criteria);
-                }
-            }
-            catch (Exception ex)
-            {
-                HandleException(ex);
+                result = baseService.ExecuteNonQuery(criteria);
             }
 
             return result;
         }
-
-        #endregion Insert/Update
-
-        #region Delete
 
         public ICommandResult Delete(CriteriaBase criteria)
         {
             // check parameters
             Check.Argument.IsNotNull(criteria, "criteria");
 
-            try
+            if (criteria.IsValid())
             {
-                if (criteria.IsValid())
-                {
-                    return _affilliateRepository.Delete(criteria);
-                }
-            }
-            catch (Exception ex)
-            {
-                HandleException(ex);
+                return baseService.ExecuteNonQuery(criteria);
             }
 
             return null;
         }
-
-        #endregion Delete
     }
 }

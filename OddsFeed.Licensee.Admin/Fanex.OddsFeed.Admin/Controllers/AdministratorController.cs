@@ -1,14 +1,10 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="AdministratorController.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Long.Luu" date="2013.03.05">Created</change>
-// </history>
-
-namespace Fanex.OddsFeed.Admin.Controllers
+﻿namespace Fanex.OddsFeed.Admin.Controllers
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Web;
+    using System.Web.Mvc;
     using Fanex.Common;
     using Fanex.OddsFeed.Core.Business;
     using Fanex.OddsFeed.Core.Criteria.Administrator;
@@ -19,48 +15,28 @@ namespace Fanex.OddsFeed.Admin.Controllers
     using Fanex.OddsFeed.Core.Service.Interface;
     using Fanex.OddsFeed.Core.Web;
     using Fanex.OddsFeed.Core.Web.Attribute;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Web;
-    using System.Web.Mvc;
-    /// <summary>
-    /// Administrator controller class.
-    /// </summary>
+
     [IsAuthorize]
     public class AdministratorController : BaseController
     {
-        #region Members
-
-        private readonly IAdministratorService _adminService;
-
-        private readonly IUserService _userService;
-
-        #endregion
-
-        #region Constructors
+        private readonly IAdministratorService adminService;
+        private readonly IUserService userService;
 
         public AdministratorController()
             : this(null, null)
         {
         }
 
-        public AdministratorController(IAdministratorService adminService, IUserService userService)
+        public AdministratorController(
+            IAdministratorService adminService,
+            IUserService userService)
         {
-            _adminService = adminService ?? new AdministratorService { ServiceContext = ServiceContext };
-            _userService = userService ?? new UserService { ServiceContext = ServiceContext };
+            this.adminService = adminService ?? new AdministratorService();
+            this.userService = userService ?? new UserService();
         }
-
-        #endregion
 
         #region Add New Administrator
 
-        //// GET: /Administrator/
-
-        /// <summary>
-        /// Display the adding administrator page.
-        /// </summary>
-        /// <returns>The new administrator page.</returns>
         [HttpGet]
         public ActionResult AdministratorAdd()
         {
@@ -70,26 +46,21 @@ namespace Fanex.OddsFeed.Admin.Controllers
             }
 
             ////Sport Flag
-            var flags = _adminService.GetDataSet(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = CurrentSession.SystemId });
+            var flags = baseService.GetDataSet(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = currentSession.SystemId });
             if (flags != null && flags.Tables.Count > 0 && flags.Tables[0].Rows.Count > 0)
             {
                 ViewBag.SportsFlag = bool.Parse(flags.Tables[0].Rows[0]["SportIDListFlag"].ToString());
             }
 
             ////System
-            ViewBag.SystemList = _adminService.GetSelectList(new GetAllSystemsCriteria());
+            ViewBag.SystemList = baseService.GetSelectList(new GetAllSystemsCriteria());
             return View();
         }
 
-        /// <summary>
-        /// Adding new administrator.
-        /// </summary>
-        /// <param name="criteria">The criteria for adding.</param>
-        /// <returns>Return "Successfully" if success else return an error message.</returns>
         [HttpPost]
         public JsonResult AddNew(InsertAdminCriteria criteria)
         {
-            var addResult = string.Empty;
+            string addResult;
 
             criteria.FirstName = criteria.FirstName ?? string.Empty;
             criteria.LastName = criteria.LastName ?? string.Empty;
@@ -100,9 +71,9 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 criteria.Password = Cryptography.CfsEnCode(HttpUtility.HtmlEncode(criteria.Password));
             }
 
-            criteria.Creator = CurrentSession.UserId;
-            criteria.IP = CurrentContext.IP;
-            var result = _adminService.InsertAdmin(criteria);
+            criteria.Creator = currentSession.UserId;
+            criteria.IP = currentContext.IP;
+            var result = adminService.InsertAdmin(criteria);
             if (result != null && result.IsSuccessful)
             {
                 ViewBag.Success = true;
@@ -116,16 +87,11 @@ namespace Fanex.OddsFeed.Admin.Controllers
             return Json(addResult, JsonRequestBehavior.AllowGet);
         }
 
-        /// <summary>
-        /// Check exist an administrator.
-        /// </summary>
-        /// <param name="criteria">The criteria for checking.</param>
-        /// <returns>Represents a JSON-formatted content for checking.</returns>
         [HttpPost]
         public JsonResult CheckExistAdministrator(InsertAdminCriteria criteria)
         {
             var checkResult = new OddsFeedActionResult();
-            var res = this._adminService.GetAdminListReturnDataCollection(new CheckExistAdministratorCriteria
+            var res = adminService.GetAdminListReturnDataCollection(new CheckExistAdministratorCriteria
             {
                 Username = criteria.UserName,
                 PageIndex = 1,
@@ -147,10 +113,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
         #region Administrator List
 
-        /// <summary>
-        /// Show administrator list.
-        /// </summary>
-        /// <returns>The administrator list page.</returns>
         public ActionResult AdministratorList()
         {
             if (!this.IsAccountManagerRole())
@@ -159,12 +121,12 @@ namespace Fanex.OddsFeed.Admin.Controllers
             }
 
             ////System
-            var systemList = (List<SelectListItem>)_adminService.GetSelectList("Odds_System_SelAll");
+            var systemList = (List<SelectListItem>)baseService.GetSelectList("Odds_System_SelAll");
             systemList.Insert(0, new SelectListItem { Selected = true, Text = "All", Value = "0" });
             ViewBag.SystemList = systemList;
 
             ////Role
-            var roleList = (List<SelectListItem>)_adminService.GetSelectList("Odds_Role_Sel");
+            var roleList = (List<SelectListItem>)baseService.GetSelectList("Odds_Role_Sel");
             roleList.Insert(0, new SelectListItem { Selected = true, Text = "All", Value = "0" });
             ViewBag.RoleList = roleList;
             return View("~/Views/Administrator/AdministratorList.cshtml");
@@ -177,7 +139,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
             criteria.Username = (criteria.Username == null || criteria.Username == "Username") ?
                 string.Empty :
                 criteria.Username.Trim();
-            var dr = _adminService.GetAdminListReturnDataCollection(criteria);
+            var dr = adminService.GetAdminListReturnDataCollection(criteria);
             var result = FanexGridHelper.DataForFanexGrid_PreventContainQuote(dr);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
@@ -185,25 +147,19 @@ namespace Fanex.OddsFeed.Admin.Controllers
         #endregion
 
         #region Update Active status
-        /// <summary>
-        /// Update active status of an administrator.
-        /// </summary>
-        /// <param name="adminid">The administrator's id.</param>
-        /// <param name="isactive">The administrator's active status.</param>
-        /// <returns>Return "Successfully" if success else the error message.</returns>
+
         [HttpPost]
         public string UpdateActive(int adminid, bool isactive)
         {
-            string responseMessage = string.Empty;
             var criteria = new DeleteAdminCriteria
             {
                 AdminID = adminid,
                 Isactive = isactive
             };
 
-            var result = _adminService.UpdateAdmin(criteria);
+            var result = adminService.UpdateAdmin(criteria);
 
-            responseMessage = (result != null && result.IsSuccessful)
+            var responseMessage = (result != null && result.IsSuccessful)
                 ? ViewResources.SuccessfulMessage
                 : ViewResources.InternalErrorMessage;
 
@@ -214,12 +170,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
         #region Update administrator's profile information
 
-        /// <summary>
-        /// Edit the administrator's profile.
-        /// </summary>
-        /// <param name="id">The administrator's id.</param>
-        /// <param name="username">The administrator's name.</param>
-        /// <returns>Return the administrator list page if id = 0 else return the administrator's profile page.</returns>
         [HttpGet]
         public ActionResult AdministratorEditProfile(int id, string username)
         {
@@ -233,10 +183,10 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 return this.NoAuthorization();
             }
 
-            var userInfo = _userService.GetUserInfo(new GetUserInfoCriteria { UserId = id }).FirstOrDefault();
+            var userInfo = userService.GetUserInfo(new GetUserInfoCriteria { UserId = id }).FirstOrDefault();
 
             ViewBag.CurrentUser = " of \"" + username + "\"";
-            ViewBag.CurrentUserId = CurrentSession.UserId;
+            ViewBag.CurrentUserId = currentSession.UserId;
             var criteria = new UpdateAdminInfoCriteria { UserID = id, Username = username };
 
             if (userInfo != null)
@@ -246,7 +196,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 criteria.Email = userInfo.Email;
                 criteria.RoleID = userInfo.RoleID;
 
-                ViewBag.HasEditPermission = this.HasEditPermission(CurrentSession.UserRole, criteria.UserID);
+                ViewBag.HasEditPermission = this.HasEditPermission(currentSession.UserRole, criteria.UserID);
                 if (!ViewBag.HasEditPermission)
                 {
                     ViewBag.Error = ViewResources.You_have_no_authorization;
@@ -256,28 +206,23 @@ namespace Fanex.OddsFeed.Admin.Controllers
             return View(criteria);
         }
 
-        /// <summary>
-        /// Edit the administrator's profile.
-        /// </summary>
-        /// <param name="criteria">The administrator's profile.</param>
-        /// <returns>Return a java script object notation for editing.</returns>
         [HttpPost]
         public JsonResult AdministratorEditProfile(UpdateAdminInfoCriteria criteria)
         {
             var actionResult = new OddsFeedActionResult();
-            criteria.Creator = CurrentSession.UserId;
-            criteria.IP = CurrentContext.IP;
+            criteria.Creator = currentSession.UserId;
+            criteria.IP = currentContext.IP;
             criteria.FirstName = criteria.FirstName ?? string.Empty;
             criteria.LastName = criteria.LastName ?? string.Empty;
 
-            if (!this.HasEditPermission(CurrentSession.UserRole, criteria.UserID))
+            if (!this.HasEditPermission(currentSession.UserRole, criteria.UserID))
             {
                 actionResult.IsSuccess = false;
                 actionResult.ResultMessage = ViewResources.You_can_not_update_this_administrator;
                 return Json(actionResult, JsonRequestBehavior.AllowGet);
             }
 
-            var result = _adminService.UpdateAdminInfo(criteria);
+            var result = adminService.UpdateAdminInfo(criteria);
             if (result == null || !result.IsSuccessful)
             {
                 actionResult.IsSuccess = false;
@@ -287,9 +232,9 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 }
             }
 
-            if (CurrentSession.UserId == criteria.UserID)
+            if (currentSession.UserId == criteria.UserID)
             {
-                CurrentSession.UserRole = (byte)criteria.RoleID;
+                currentSession.UserRole = (byte)criteria.RoleID;
             }
 
             return Json(actionResult, JsonRequestBehavior.AllowGet);
@@ -298,13 +243,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
         #endregion
 
         #region Update administrator's system info
-        /// <summary>
-        /// Edit administrator's system.
-        /// </summary>
-        /// <param name="id">The admin's id.</param>
-        /// <param name="username">The admin's username.</param>
-        /// <param name="role">The admin's role.</param>
-        /// <returns>Return the administrator list page if id = 0 else return the administrator's system page.</returns>
+
         [HttpGet]
         public ActionResult AdministratorEditSystem(int id, string username, int role = 0)
         {
@@ -320,9 +259,9 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
             ViewBag.CurrentUser = " \"" + username + "\"";
             ////System
-            var systemList = role == (int)Constant.UserRole.Licensee 
-                ? _adminService.GetSelectList(new GetSystemByUserIDCriteria { UserID = CurrentSession.UserId, IgnoreIsActive = true }) 
-                : _adminService.GetSelectList(new GetOptionalSystemBySubAccountIDCriteria { UserID = CurrentSession.UserId, SubAccountID = id });
+            var systemList = role == (int)Constant.UserRole.Licensee
+                ? baseService.GetSelectList(new GetSystemByUserIDCriteria { UserID = currentSession.UserId, IgnoreIsActive = true })
+                : baseService.GetSelectList(new GetOptionalSystemBySubAccountIDCriteria { UserID = currentSession.UserId, SubAccountID = id });
 
             ViewBag.SystemListID = systemList;
 
@@ -330,10 +269,10 @@ namespace Fanex.OddsFeed.Admin.Controllers
             {
                 UserID = id,
                 UserName = username,
-                SystemList = _adminService.GetSelectList(new GetSystemByUserIDCriteria { UserID = id, IgnoreIsActive = false }).Select(item => item.Value).ToArray()
+                SystemList = baseService.GetSelectList(new GetSystemByUserIDCriteria { UserID = id, IgnoreIsActive = false }).Select(item => item.Value).ToArray()
             };
 
-            ViewBag.HasEditPermission = this.HasEditPermission(CurrentSession.UserRole, criteria.UserID);
+            ViewBag.HasEditPermission = this.HasEditPermission(currentSession.UserRole, criteria.UserID);
             if (!ViewBag.HasEditPermission)
             {
                 ViewBag.Error = ViewResources.You_have_no_authorization;
@@ -342,18 +281,13 @@ namespace Fanex.OddsFeed.Admin.Controllers
             return View(criteria);
         }
 
-        /// <summary>
-        /// Edit administrator's system.
-        /// </summary>
-        /// <param name="criteria">The admin's system.</param>
-        /// <returns>Return a java script object notation for editing.</returns>
         [HttpPost]
         public ActionResult AdministratorEditSystem(UpdateAdminSystemCriteria criteria)
         {
-            criteria.Creator = CurrentSession.UserId;
-            criteria.IP = CurrentContext.IP;
+            criteria.Creator = currentSession.UserId;
+            criteria.IP = currentContext.IP;
 
-            if (!this.HasEditPermission(CurrentSession.UserRole, criteria.UserID))
+            if (!this.HasEditPermission(currentSession.UserRole, criteria.UserID))
             {
                 ViewBag.Success = false;
                 ViewBag.Error = ViewResources.You_can_not_update_this_administrator;
@@ -361,9 +295,9 @@ namespace Fanex.OddsFeed.Admin.Controllers
             }
 
             ////System
-            var systemList = IsLicenseeAdminRole() 
-                ? _adminService.GetSelectList(new GetSystemByUserIDCriteria { UserID = CurrentSession.UserId, IgnoreIsActive = true }) 
-                : _adminService.GetSelectList(new GetOptionalSystemBySubAccountIDCriteria { UserID = CurrentSession.UserId, SubAccountID = criteria.UserID });
+            var systemList = IsLicenseeAdminRole()
+                ? baseService.GetSelectList(new GetSystemByUserIDCriteria { UserID = currentSession.UserId, IgnoreIsActive = true })
+                : baseService.GetSelectList(new GetOptionalSystemBySubAccountIDCriteria { UserID = currentSession.UserId, SubAccountID = criteria.UserID });
 
             if (string.IsNullOrEmpty(criteria.ListSystemId))
             {
@@ -373,7 +307,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 return View(criteria);
             }
 
-            var result = _adminService.UpdateAdminSystem(criteria);
+            var result = adminService.UpdateAdminSystem(criteria);
 
             if (result != null && result.IsSuccessful)
             {
@@ -386,11 +320,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
         #region import existed admin
 
-        /// <summary>
-        /// List existed admins.
-        /// </summary>
-        /// <param name="username">The admin's name to search.</param>
-        /// <returns>List of admins match with the username.</returns>
         [HttpPost]
         public string ListExistedAdmin(string username)
         {
@@ -399,19 +328,14 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 Username = username
             };
 
-            var top10AdminDc = _adminService.GetTop10AdminReturnDataSet(criteria).Tables[0];
+            var top10AdminDc = adminService.GetTop10AdminReturnDataSet(criteria).Tables[0];
             return DataForAutoComplete(top10AdminDc, "username");
         }
 
-        /// <summary>
-        /// Get existed admin.
-        /// </summary>
-        /// <param name="username">The admin's name to search.</param>
-        /// <returns>The admins match with the username.</returns>
         [HttpPost]
         public string GetExistedAdmin(string username)
         {
-            var licenseeProfile = _adminService.GetDataSet(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = CurrentSession.SystemId });
+            var licenseeProfile = baseService.GetDataSet(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = currentSession.SystemId });
             if (licenseeProfile != null && licenseeProfile.Tables.Count > 0 && licenseeProfile.Tables[0].Rows.Count > 0)
             {
                 ViewBag.SportsFlag = bool.Parse(licenseeProfile.Tables[0].Rows[0]["SportIDListFlag"].ToString());
@@ -421,7 +345,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
             {
                 Username = username
             };
-            var result = _adminService.GetExistedAdminDataSet(criteria);
+            var result = adminService.GetExistedAdminDataSet(criteria);
 
             if (result.Tables.Count != 0)
             {
@@ -444,12 +368,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
         #endregion
 
         #region reset administrator's password
-        /// <summary>
-        /// Reset admin's password.
-        /// </summary>
-        /// <param name="id">The admin's id.</param>
-        /// <param name="username">The admin's username.</param>
-        /// <returns>Return the administrator list page if id = 0 else return the administrator's reset password page.</returns>
+
         [HttpGet]
         public ActionResult AdministratorResetPwd(int id, string username)
         {
@@ -470,7 +389,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 UserID = id
             };
 
-            ViewBag.HasEditPermission = this.HasEditPermission(CurrentSession.UserRole, criteria.UserID);
+            ViewBag.HasEditPermission = this.HasEditPermission(currentSession.UserRole, criteria.UserID);
             if (!ViewBag.HasEditPermission)
             {
                 ViewBag.Error = ViewResources.You_have_no_authorization;
@@ -479,16 +398,11 @@ namespace Fanex.OddsFeed.Admin.Controllers
             return View(criteria);
         }
 
-        /// <summary>
-        /// Reset admin's password.
-        /// </summary>
-        /// <param name="criteria">The admin's criteria.</param>
-        /// <returns>Return a java script object notation for resetting.</returns>
         [HttpPost]
         public JsonResult AdministratorResetPwd(UpdateAdminPasswordCriteria criteria)
         {
             var actionResult = new OddsFeedActionResult();
-            if (!this.HasEditPermission(CurrentSession.UserRole, criteria.UserID))
+            if (!this.HasEditPermission(currentSession.UserRole, criteria.UserID))
             {
                 actionResult.IsSuccess = false;
                 actionResult.ResultMessage = ViewResources.You_can_not_update_this_administrator;
@@ -502,9 +416,9 @@ namespace Fanex.OddsFeed.Admin.Controllers
             else
             {
                 criteria.Password = Cryptography.CfsEnCode(HttpUtility.HtmlEncode(criteria.Password.Trim()));
-                criteria.Creator = CurrentSession.UserId;
-                criteria.IP = CurrentContext.IP;
-                var result = _adminService.UpdateAdminPassword(criteria);
+                criteria.Creator = currentSession.UserId;
+                criteria.IP = currentContext.IP;
+                var result = adminService.UpdateAdminPassword(criteria);
                 if (result != null && result.IsSuccessful)
                 {
                     actionResult.IsSuccess = true;
@@ -524,22 +438,16 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
         public string ListExistedAdministrator(AdminList_GetTop10Criteria criteria)
         {
-            criteria.SystemId = CurrentSession.SystemId;
-            var top10AdminList = this._adminService.AdminList_GetTop10(criteria).Tables[0];
+            criteria.SystemId = currentSession.SystemId;
+            var top10AdminList = adminService.AdminList_GetTop10(criteria).Tables[0];
             return DataForAutoComplete(top10AdminList, "UserName");
         }
 
         #region Private methods
 
-        /// <summary>
-        /// Check the current user has permission to edit a user.
-        /// </summary>
-        /// <param name="userRole">Role of the current user.</param>
-        /// <param name="editedUserId">Id of the edited user.</param>
-        /// <returns>True if has permission else False.</returns>
         private bool HasEditPermission(int userRole, int editedUserId)
         {
-            var userInfo = this._userService.GetUserInfo(new GetUserInfoCriteria
+            var userInfo = userService.GetUserInfo(new GetUserInfoCriteria
             {
                 UserId = editedUserId
             }).FirstOrDefault();
@@ -561,15 +469,9 @@ namespace Fanex.OddsFeed.Admin.Controllers
             return false;
         }
 
-        /// <summary>
-        /// Customize after editing the system of user has licensee role.
-        /// </summary>
-        /// <param name="criteria">The user's criteria.</param>
-        /// <param name="systemList">The system list.</param>
-        /// <returns>Action result page.</returns>
         private ActionResult CustomizeAfterEditSystem(UpdateAdminSystemCriteria criteria, IEnumerable<SelectListItem> systemList)
         {
-            if (criteria.UserID == CurrentSession.UserId && systemList != null)
+            if (criteria.UserID == currentSession.UserId && systemList != null)
             {
                 if (criteria.SystemList == null)
                 {
@@ -579,7 +481,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 else
                 {
                     var updateList = new List<SelectListItem>();
-                    StringBuilder strSystemList = new StringBuilder();
+                    var strSystemList = new StringBuilder();
 
                     foreach (var system in systemList)
                     {
@@ -591,7 +493,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
                     }
 
                     ViewBag.SystemListID = updateList;
-                    CurrentSession.SystemList = strSystemList.ToString();
+                    currentSession.SystemList = strSystemList.ToString();
                 }
             }
             else

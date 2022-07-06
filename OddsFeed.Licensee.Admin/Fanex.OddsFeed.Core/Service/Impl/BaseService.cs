@@ -1,115 +1,106 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="BaseService.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Anders.Le" date="2012.8.6">Created</change>
-//   <change who="Edward.Nguyen" date="2012.8.14">Add GetRepositoryExecLog</change>
-// </history>
-
-namespace Fanex.OddsFeed.Core.Service.Impl
+﻿namespace Fanex.OddsFeed.Core.Service.Impl
 {
     using System;
     using System.Collections.Generic;
     using System.Data;
-    using System.Diagnostics.CodeAnalysis;
     using System.Web.Mvc;
-    using Fanex.Common.Helper;
-    using Fanex.Databank.Repositories;
-    using Fanex.Logging;
+    using Fanex.Data.Repository;
     using Fanex.OddsFeed.Core.Criteria.Misc;
-    using Fanex.OddsFeed.Core.Domain;
     using Fanex.OddsFeed.Core.Helpers;
-    using Fanex.OddsFeed.Core.Repository.Impl;
     using Fanex.OddsFeed.Core.Service.Interface;
     using Fanex.OddsFeed.Framework.Data;
-    using Data.Repository;
-    /// <summary>
-    /// Class BaseService.
-    /// </summary>    
+    using Fanex.OddsFeed.Core.Repository;
+    using Fanex.OddsFeed.Core.Repository.Interface;
+    using Fanex.OddsFeed.Core.Repository.Impl;
+    using Fanex.OddsFeed.Core.Web.Session;
+
     public class BaseService : IBaseService
-    {        
-        private readonly SelectListRepository _selectListRepository;
-        private readonly RepositoryBase<IAffiliate> _baseRepository;
+    {
+        private readonly IBaseRepository baseRepository;
+        protected readonly ICurrentSession currentSession;
+        private readonly IDynamicRepository dynamicRepository;
+        private readonly ISelectListRepository selectListRepository;
 
-        public BaseService()
+        public BaseService() : this(null, null, null, null)
         {
-            this._selectListRepository = this._selectListRepository ?? new SelectListRepository();
-            this._baseRepository = this._baseRepository ?? new RepositoryBase<IAffiliate>();
-            this.ServiceContext = this.ServiceContext ?? new ServiceContext();
         }
 
-        public IServiceContext ServiceContext { get; set; }
-
-        public RepositoryBase<IAffiliate> BaseRepository 
+        public BaseService(
+            ICurrentSession currentSession,
+            IDynamicRepository dynamicRepository,
+            ISelectListRepository selectListRepository,
+            IBaseRepository baseRepository)
         {
-            get
-            {
-                return _baseRepository;
-            }      
+            this.currentSession = currentSession ?? new CurrentSession();
+            this.baseRepository = baseRepository ?? new BaseRepository();
+            this.dynamicRepository = dynamicRepository ?? new DynamicRepository();
+            this.selectListRepository = selectListRepository ?? new SelectListRepository();
         }
 
-        public void HandleException(Exception ex)
-        {
-            throw ex;
-        }
-
-        /// <summary>
-        /// Gets the log execute store procedure criteria.
-        /// </summary>
-        /// <returns>Object LogExecSPCriteria.</returns>
         public LogExecSpCriteria GetLogExecSpCriteria()
         {
-            Check.Argument.IsNotNull(this.ServiceContext, "ServiceContext");
-
             return new LogExecSpCriteria
             {
-                CurrentUserId = this.ServiceContext.UserId,
-                CurrentSystemId = this.ServiceContext.SystemId,
+                CurrentUserId = currentSession.UserId,
+                CurrentSystemId = currentSession.SystemId,
                 LogDate = DateTime.Now,
-                LoginIp = this.ServiceContext.Ip
+                LoginIp = currentSession.LoginIp
             };
         }
 
         public IEnumerable<SelectListItem> GetSelectList(string settingKey, bool order = true, string selectedValue = "")
         {
-            return _selectListRepository.Get(settingKey, order, selectedValue);
+            return selectListRepository.Get(settingKey, order, selectedValue);
         }
 
         public IEnumerable<SelectListItem> GetSelectList(ICriteria criteria, bool order = true, string selectedValue = "")
         {
-            return _selectListRepository.Get(criteria, order, selectedValue);
+            return selectListRepository.Get(criteria, order, selectedValue);
         }
 
         public IEnumerable<SelectListItem> GetSelectListWithGroup(ICriteria criteria, bool order = true, string selectedValue = "")
         {
-            return SelectListRepository.GetWithGroup(criteria, order, selectedValue);
+            return selectListRepository.GetWithGroup(criteria, order, selectedValue);
         }
 
         public DataCollection GetData(ICriteria criteria)
         {
-            return this._baseRepository.ReturnDataCollection(criteria);
+            return baseRepository.ReturnDataCollection(criteria);
         }
 
         public IDataReader GetDataReader(ICriteria criteria)
         {
-            return this._baseRepository.ReturnDataReader(criteria);
+            return baseRepository.ReturnDataReader(criteria);
         }
 
         public DataSet GetDataSet(ICriteria criteria)
         {
-            return this._baseRepository.ReturnDataSet(criteria);
+            return baseRepository.ReturnDataSet(criteria);
         }
 
-        public ICommandResult UpdateData(ICriteria criteria)
-        { 
-            return this._baseRepository.Update(criteria);
-        }
-
-        public ICommandResult DeleteData(ICriteria criteria)
+        public IEnumerable<T> GetData<T>(ICriteria criteria)
         {
-            return this._baseRepository.Delete(criteria);
+            if (criteria != null && criteria.IsValid())
+            {
+                return dynamicRepository.Fetch<T>(criteria);
+            }
+
+            return new List<T>();
+        }
+
+        public T GetDataEntity<T>(ICriteria criteria)
+        {
+            if (criteria != null && criteria.IsValid())
+            {
+                return dynamicRepository.Get<T>(criteria);
+            }
+
+            return default(T);
+        }
+
+        public ICommandResult ExecuteNonQuery(ICriteria criteria)
+        {
+            return baseRepository.ExecuteNonQuery(criteria);
         }
     }
 }

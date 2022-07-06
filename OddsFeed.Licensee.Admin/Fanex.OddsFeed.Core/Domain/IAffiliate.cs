@@ -1,21 +1,8 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="IAffiliate.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Thai.Tran" date="2013.1.7">Created</change>
-// </history>
-
-namespace Fanex.OddsFeed.Core.Domain
+﻿namespace Fanex.OddsFeed.Core.Domain
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
     using Fanex.OddsFeed.Framework.Domain;
 
-    /// <summary>
-    /// Interface IAffiliate.
-    /// </summary>
     public interface IAffiliate : IEntity<int, string>
     {
         short SystemID { get; set; }

@@ -1,23 +1,12 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="IAdministratorService.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Long.Luu" date="2013.03.05">Created</change>
-// </history>
-
-namespace Fanex.OddsFeed.Core.Service.Interface
+﻿namespace Fanex.OddsFeed.Core.Service.Interface
 {
     using System.Data;
-    using System.Diagnostics.CodeAnalysis;
     using Data.Repository;
     using Fanex.OddsFeed.Core.Criteria.Administrator;
     using Fanex.OddsFeed.Core.Helpers;
     using Fanex.OddsFeed.Framework.Data;
 
-    [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Reviewed")]
-    public interface IAdministratorService : IBaseService
+    public interface IAdministratorService
     {
         ICommandResult InsertAdmin(InsertAdminCriteria criteria);
 

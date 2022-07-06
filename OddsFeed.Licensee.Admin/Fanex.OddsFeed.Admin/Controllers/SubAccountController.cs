@@ -1,18 +1,8 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="SubAccountController.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Thai.Tran" date="2013.02.05">Create</change>
-// </history>
-namespace Fanex.OddsFeed.Admin.Controllers
+﻿namespace Fanex.OddsFeed.Admin.Controllers
 {
-    using System.Collections.Generic;
     using System.Linq;
     using System.Web;
     using System.Web.Mvc;
-    using System.Web.Script.Serialization;
     using Fanex.Common;
     using Fanex.OddsFeed.Core.Business;
     using Fanex.OddsFeed.Core.Criteria.Administrator;
@@ -25,43 +15,32 @@ namespace Fanex.OddsFeed.Admin.Controllers
     using Fanex.OddsFeed.Core.Web;
     using Fanex.OddsFeed.Core.Web.Attribute;
 
-
     [IsAuthorize]
     public class SubAccountController : BaseController
-    {
-        #region Members
-
- 
+    { 
         private readonly ISubAccService _subAccService;
-
-        #endregion Members
-
-        #region Constructors
 
         public SubAccountController()
             : this(null)
         {
         }
 
-
-        public SubAccountController(ISubAccService subAccService = null)
+        public SubAccountController(ISubAccService subAccService)
         {
-            _subAccService = subAccService ?? new SubAccService { ServiceContext = ServiceContext };
+            _subAccService = subAccService ?? new SubAccService();
         }
-
-        #endregion Constructors
 
         #region Add
 
         [HttpGet]
         public ActionResult Add()
         {
-            if (!HasEditPermission(CurrentSession.UserRole))
+            if (!HasEditPermission(currentSession.UserRole))
             {
                 return this.NoAuthorization();
             }
 
-            ViewBag.SystemList = _subAccService.GetSelectList(new GetSystemByUserIDCriteria { UserID = CurrentSession.UserId, IgnoreIsActive = IsAccountManagerRole() });
+            ViewBag.SystemList = baseService.GetSelectList(new GetSystemByUserIDCriteria { UserID = currentSession.UserId, IgnoreIsActive = IsAccountManagerRole() });
             ViewBagFlags();
             return View();
         }
@@ -70,8 +49,8 @@ namespace Fanex.OddsFeed.Admin.Controllers
         public JsonResult Add(InsertSubAccCriteria criteria)
         {
             var actionResult = new OddsFeedActionResult();
-            criteria.SystemID = CurrentSession.SystemId;
-            criteria.Creator = CurrentSession.UserId;
+            criteria.SystemID = currentSession.SystemId;
+            criteria.Creator = currentSession.UserId;
             criteria.RoleID = 3;
             criteria.Password = Cryptography.CfsEnCode(HttpUtility.HtmlEncode(criteria.Password.Trim()));
             criteria.FirstName = criteria.FirstName ?? string.Empty;
@@ -97,7 +76,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 }
             }
 
-            ViewBag.SystemList = _subAccService.GetSelectList(new GetSystemCriteria());
+            ViewBag.SystemList = baseService.GetSelectList(new GetSystemCriteria());
             return Json(actionResult, JsonRequestBehavior.AllowGet);
         }
 
@@ -129,7 +108,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
         [HttpGet]
         public ActionResult List()
         {
-            if (!HasEditPermission(CurrentSession.UserRole))
+            if (!HasEditPermission(currentSession.UserRole))
             {
                 return this.NoAuthorization();
             }
@@ -139,8 +118,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
         public JsonResult GetSubAccountList(GetSubAccByNameCriteria criteria)
         {
-            var serializer = new JavaScriptSerializer();
-            criteria.SystemId = CurrentSession.SystemId;
+            criteria.SystemId = currentSession.SystemId;
             criteria.Username = (criteria.Username == null || criteria.Username == "Username") ? string.Empty : criteria.Username.Trim();
             criteria.RoleId = 3;
             criteria.PageIndex++;
@@ -153,7 +131,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
         {
             var criteria = new GetTop10SubAccCriteria
             {
-                SystemId = CurrentSession.SystemId,
+                SystemId = currentSession.SystemId,
                 RoleId = 3,
                 Username = username
             };
@@ -168,7 +146,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
         public ActionResult EditSubAccInfo(int id, string userName)
         {
-            if (!HasEditPermission(CurrentSession.UserRole))
+            if (!HasEditPermission(currentSession.UserRole))
             {
                 return this.NoAuthorization();
             }
@@ -184,7 +162,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 UserName = userName
             };
 
-            var rawData = _subAccService.GetBySystemId(CurrentSession.SystemId);
+            var rawData = _subAccService.GetBySystemId(currentSession.SystemId);
             var rawInfo = rawData.ToList().FirstOrDefault(user => user.Id == id);
             if (rawInfo != null)
             {
@@ -198,11 +176,6 @@ namespace Fanex.OddsFeed.Admin.Controllers
             return View(criteria);
         }
 
-        /// <summary>
-        /// Edits the sub account information.
-        /// </summary>
-        /// <param name="criteria">The sub account's criteria.</param>
-        /// <returns>Represents a JSON-formatted content of editing.</returns>
         [HttpPost]
         public JsonResult EditSubAccInfo(UpdateSubAccCriteria criteria)
         {
@@ -212,7 +185,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 criteria.FirstName = criteria.FirstName ?? string.Empty;
                 criteria.LastName = criteria.LastName ?? string.Empty;
 
-                var result = _subAccService.Update(criteria);
+                var result = baseService.ExecuteNonQuery(criteria);
                 if (result == null || !result.IsSuccessful)
                 {
                     actionResult.IsSuccess = false;
@@ -236,7 +209,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 IsActive = isActive
             };
 
-            var result = _subAccService.Update(criteria);
+            var result = baseService.ExecuteNonQuery(criteria);
 
             if (result != null)
             {
@@ -249,7 +222,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
         [HttpGet]
         public ActionResult ResetPassword(int id, string userName)
         {
-            if (!HasEditPermission(CurrentSession.UserRole))
+            if (!HasEditPermission(currentSession.UserRole))
             {
                 return this.NoAuthorization();
             }
@@ -282,7 +255,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 else
                 {
                     criteria.Password = Cryptography.CfsEnCode(HttpUtility.HtmlEncode(criteria.Password.Trim()));
-                    var result = _subAccService.Update(criteria);
+                    var result = baseService.ExecuteNonQuery(criteria);
 
                     if(result != null)
                     {
@@ -305,7 +278,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
         [HttpGet]
         public ActionResult EditPermission(int id, string userName)
         {
-            if (!HasEditPermission(CurrentSession.UserRole))
+            if (!HasEditPermission(currentSession.UserRole))
             {
                 return NoAuthorization();
             }
@@ -316,9 +289,9 @@ namespace Fanex.OddsFeed.Admin.Controllers
             }
 
             ViewBag.CurrentUser = " of \"" + userName + "\"";
-            var systemId = CurrentSession.SystemId;
+            var systemId = currentSession.SystemId;
 
-            var result = _subAccService.GetUserPermission(id, systemId) as PermissionFlag;
+            var result = _subAccService.GetUserPermission(id, systemId);
             if (result == null)
             {
                 return View();
@@ -346,8 +319,8 @@ namespace Fanex.OddsFeed.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                criteria.UpdatedBy = CurrentSession.UserId;
-                var result = _subAccService.Update(criteria);
+                criteria.UpdatedBy = currentSession.UserId;
+                var result = baseService.ExecuteNonQuery(criteria);
                 if (result != null && result.IsSuccessful)
                 {
                     ViewBag.Success = true;
@@ -377,7 +350,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 SubAccountID = userId
             };
 
-            var result = _subAccService.Delete(criteria);
+            var result = baseService.ExecuteNonQuery(criteria);
 
             if(result != null)
             {
@@ -399,7 +372,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 return RedirectToAction("List", "SubAccount");
             }
 
-            if (!HasEditPermission(CurrentSession.UserRole))
+            if (!HasEditPermission(currentSession.UserRole))
             {
                 return this.NoAuthorization();
             }
@@ -407,17 +380,15 @@ namespace Fanex.OddsFeed.Admin.Controllers
             ViewBag.CurrentUser = " \"" + username + "\"";
 
             ////System
-            IEnumerable<SelectListItem> systemList = new List<SelectListItem>();
-            systemList = _subAccService.GetSelectList(new GetOptionalSystemBySubAccountIDCriteria { UserID = CurrentSession.UserId, SubAccountID = id });
-            ViewBag.SystemListID = systemList;
+            ViewBag.SystemListID = baseService.GetSelectList(new GetOptionalSystemBySubAccountIDCriteria { UserID = currentSession.UserId, SubAccountID = id });
 
             var criteria = new AssignLicensee_SubAccCriteria
             {
                 UserID = id,
-                SystemList = _subAccService.GetSelectList(new GetSystemByUserIDCriteria() { UserID = id, IgnoreIsActive = false }).Select(item => item.Value).ToArray()
+                SystemList = baseService.GetSelectList(new GetSystemByUserIDCriteria { UserID = id, IgnoreIsActive = false }).Select(item => item.Value).ToArray()
             };
 
-            if (!HasEditPermission(CurrentSession.UserRole))
+            if (!HasEditPermission(currentSession.UserRole))
             {
                 ViewBag.HasEditPermission = false;
                 ViewBag.Error = ViewResources.You_have_no_authorization;
@@ -429,10 +400,10 @@ namespace Fanex.OddsFeed.Admin.Controllers
         [HttpPost]
         public ActionResult AssignLicensee(AssignLicensee_SubAccCriteria criteria)
         {
-            criteria.Creator = CurrentSession.UserId;
-            criteria.IP = CurrentContext.IP;
+            criteria.Creator = currentSession.UserId;
+            criteria.IP = currentContext.IP;
 
-            if (!HasEditPermission(CurrentSession.UserRole))
+            if (!HasEditPermission(currentSession.UserRole))
             {
                 ViewBag.Success = false;
                 ViewBag.Error = ViewResources.You_have_no_authorization;
@@ -440,9 +411,11 @@ namespace Fanex.OddsFeed.Admin.Controllers
             }
 
             ////System
-            IEnumerable<SelectListItem> systemList = new List<SelectListItem>();
-            systemList = _subAccService.GetSelectList(new GetOptionalSystemBySubAccountIDCriteria { UserID = CurrentSession.UserId, SubAccountID = criteria.UserID });
-            ViewBag.SystemListID = systemList;
+            ViewBag.SystemListID = baseService.GetSelectList(new GetOptionalSystemBySubAccountIDCriteria
+            {
+                UserID = currentSession.UserId,
+                SubAccountID = criteria.UserID
+            });
 
             if (string.IsNullOrEmpty(criteria.ListSystemId))
             {
@@ -472,7 +445,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
         private void ViewBagFlags()
         {
-            var flags = _subAccService.GetDataSet(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = CurrentSession.SystemId });
+            var flags = baseService.GetDataSet(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = currentSession.SystemId });
             if (flags != null && flags.Tables.Count > 0 && flags.Tables[0].Rows.Count > 0)
             {
                 var oddStyles = flags.Tables[0].Rows[0]["OddsType"].ToString();

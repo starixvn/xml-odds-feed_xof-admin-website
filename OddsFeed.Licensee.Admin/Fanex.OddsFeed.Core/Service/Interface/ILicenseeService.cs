@@ -6,7 +6,7 @@
     using System.Collections.Generic;
     using System.Web.Mvc;
 
-    public interface ILicenseeService : IBaseService
+    public interface ILicenseeService
     {
         string GetCurrentOddsStyleBySystemId(int systemId);
 

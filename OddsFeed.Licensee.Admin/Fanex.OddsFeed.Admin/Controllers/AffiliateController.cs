@@ -50,8 +50,8 @@
             IAffiliateService affiliateService,
             ILicenseeService licenseeService)
         {
-            this.affiliateService = affiliateService ?? new AffiliateService { ServiceContext = ServiceContext };
-            this.licenseeService = licenseeService ?? new LicenseeService { ServiceContext = ServiceContext };
+            this.affiliateService = affiliateService ?? new AffiliateService();
+            this.licenseeService = licenseeService ?? new LicenseeService();
         }
 
         #region Add New
@@ -68,7 +68,7 @@
             ViewData["slDomain"] = new List<SelectListItem>();
 
             // Profile
-            var licenseeProfile = affiliateService.GetDataSet(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = CurrentSession.SystemId });
+            var licenseeProfile = baseService.GetDataSet(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = currentSession.SystemId });
             if (licenseeProfile != null && licenseeProfile.Tables.Count > 0 && licenseeProfile.Tables[0].Rows.Count > 0)
             {
                 var row = licenseeProfile.Tables[0].Rows[0];
@@ -144,7 +144,7 @@
                 UserName = criteria.UserName,
                 PageIndex = 1,
                 PageSize = 1,
-                SystemId = CurrentSession.SystemId
+                SystemId = currentSession.SystemId
             });
 
             if (res.Data.Tables.Count > 0 &&
@@ -176,7 +176,7 @@
 
             var dr = affiliateService.GetAffiliateListReturnDataCollection(new GetAffiliateByNameCriteria
             {
-                SystemId = CurrentSession.SystemId,
+                SystemId = currentSession.SystemId,
                 UserName = userName,
                 PageIndex = 1,
                 PageSize = 1
@@ -202,7 +202,7 @@
             var actionResult = new OddsFeedActionResult();
             if (ModelState.IsValid)
             {
-                criteria.UpdatedBy = CurrentSession.UserId;
+                criteria.UpdatedBy = currentSession.UserId;
                 criteria.Email = criteria.Email ?? string.Empty;
                 criteria.Website = criteria.Website ?? string.Empty;
                 criteria.Note = criteria.Note ?? string.Empty;
@@ -234,7 +234,7 @@
             ViewBag.CurrentUser = " of \"" + name + "\"";
             ViewBag.AffId = id;
 
-            var affiliateProfile = affiliateService.GetDataSet(new GetAffiliateProfileByIDCriteria { PartnerID = id });
+            var affiliateProfile = baseService.GetDataSet(new GetAffiliateProfileByIDCriteria { PartnerID = id });
             if (affiliateProfile != null && affiliateProfile.Tables.Count > 0 && affiliateProfile.Tables[0].Rows.Count > 0)
             {
                 ViewBag.NumberOfIPs = int.Parse(affiliateProfile.Tables[0].Rows[0][NumberOfIpsCollumn].ToString());
@@ -334,10 +334,10 @@
         public JsonResult DeleteIPRange_EditSetting_Partner(DeleteSettingIP_AffiliateCriteria criteria)
         {
             var deleteResult = new OddsFeedActionResult();
-            criteria.Creator = CurrentSession.UserId;
+            criteria.Creator = currentSession.UserId;
             criteria.IPFromOld = string.IsNullOrEmpty(criteria.IPFromOld) ? string.Empty : criteria.IPFromOld;
             criteria.IPToOld = string.IsNullOrEmpty(criteria.IPToOld) ? string.Empty : criteria.IPToOld;
-            criteria.IP = CurrentContext.IP;
+            criteria.IP = currentContext.IP;
 
             var result = affiliateService.Update(criteria);
             if (result != null && result.IsSuccessful)
@@ -367,7 +367,7 @@
             ViewBag.CurrentUser = $" of \"{name}\"";
 
             // Profile
-            var affiliateProfile = affiliateService.GetDataSet(new GetAffiliateProfileByIDCriteria { PartnerID = id });
+            var affiliateProfile = baseService.GetDataSet(new GetAffiliateProfileByIDCriteria { PartnerID = id });
             if (affiliateProfile != null && affiliateProfile.Tables.Count > 0 && affiliateProfile.Tables[0].Rows.Count > 0)
             {
                 var row = affiliateProfile.Tables[0].Rows[0];
@@ -428,7 +428,7 @@
             {
                 PartnerID = affId,
                 IsAllowed = status,
-                Creator = CurrentSession.UserId
+                Creator = currentSession.UserId
             };
 
             var result = affiliateService.Update(criteria);
@@ -453,15 +453,15 @@
         [Compress]
         public ActionResult List()
         {
-            ViewBag.SystemName = CurrentSession.SystemName;
-            ViewBag.IsActivateSystem = licenseeService.GetActiveBySystemId(CurrentSession.SystemId);
+            ViewBag.SystemName = currentSession.SystemName;
+            ViewBag.IsActivateSystem = licenseeService.GetActiveBySystemId(currentSession.SystemId);
             return View("AffiliateList");
         }
 
         [Compress]
         public JsonResult GetAffiliateList(GetAffiliateByNameCriteria criteria)
         {
-            criteria.SystemId = CurrentSession.SystemId;
+            criteria.SystemId = currentSession.SystemId;
             criteria.UserName = (criteria.UserName == null || criteria.UserName == "Username") ? string.Empty : criteria.UserName.Trim();
             criteria.PageIndex++;
 
@@ -475,7 +475,7 @@
         {
             var criteria = new GetTop10AffiliateCriteria
             {
-                SystemId = CurrentSession.SystemId,
+                SystemId = currentSession.SystemId,
                 Username = username
             };
             var top10AffList = affiliateService.GetTop10AffReturnDataSet(criteria).Tables[0];
@@ -486,10 +486,10 @@
         {
             var criteria = new GetTop10AffiliateCriteria
             {
-                SystemId = CurrentSession.SystemId,
+                SystemId = currentSession.SystemId,
                 Username = username
             };
-            var top10DomainList = affiliateService.GetDataSet(criteria).Tables[0];
+            var top10DomainList = baseService.GetDataSet(criteria).Tables[0];
             return JsonForAutoComplete(top10DomainList, "PartnerID", "UserName");
         }
 
@@ -497,17 +497,17 @@
         {
             var criteria = new GetTop10DomainCriteria
             {
-                SystemId = CurrentSession.SystemId,
+                SystemId = currentSession.SystemId,
                 DomainName = domainName
             };
-            var top10DomainList = affiliateService.GetDataSet(criteria).Tables[0];
+            var top10DomainList = baseService.GetDataSet(criteria).Tables[0];
             return JsonForAutoComplete(top10DomainList, "DomainID", "DomainName");
         }
 
         [HttpGet]
         public ActionResult Requests(string curmonth = "")
         {
-            ViewBag.SystemName = CurrentSession.SystemName;
+            ViewBag.SystemName = currentSession.SystemName;
             if (curmonth != string.Empty)
             {
                 var curDate = DateTime.Now;
@@ -529,7 +529,7 @@
                 criteria.DomainName = string.Empty;
             }
 
-            criteria.SystemId = CurrentSession.SystemId;
+            criteria.SystemId = currentSession.SystemId;
             criteria.PageIndex++;
 
             var dr = affiliateService.GetPartnerRequestStatisticReturnDataCollection(criteria);
@@ -581,7 +581,7 @@
             string resultMessage;
             var criteria = new DeleteAffiliateCriteria
             {
-                Creator = CurrentSession.UserId,
+                Creator = currentSession.UserId,
                 PartnerID = affId
             };
 
@@ -642,11 +642,11 @@
                 }
             }
 
-            criteria.SystemID = CurrentSession.SystemId;
-            criteria.Creator = CurrentSession.UserId;
+            criteria.SystemID = currentSession.SystemId;
+            criteria.Creator = currentSession.UserId;
             criteria.IpsFrom = fromIPs.ToString();
             criteria.IpsTo = toIPs.ToString();
-            criteria.Ip = CurrentContext.IP;
+            criteria.Ip = currentContext.IP;
             criteria.Content = criteria.Content ?? string.Empty;
             criteria.Note = criteria.Note ?? string.Empty;
             criteria.Domains = criteria.Domains ?? string.Empty;
@@ -673,7 +673,7 @@
             criteria.CountryCodeList = criteria.CountryCodeList ?? string.Empty;
             criteria.BetTypeIDList = criteria.BetTypeIDList ?? string.Empty;
 
-            criteria.Creator = CurrentSession.UserId;
+            criteria.Creator = currentSession.UserId;
 
             criteria.SportIDList = UpdateSportIDListForCricket(criteria.SportIDList);
 
@@ -710,7 +710,7 @@
         {
             if (!string.IsNullOrWhiteSpace(leagueIds))
             {
-                var leagues = affiliateService.GetSelectList(new GetLeagueCriteria
+                var leagues = baseService.GetSelectList(new GetLeagueCriteria
                 {
                     SportIDList = sportIds,
                     CountryCodeList = countryCodes
@@ -728,7 +728,7 @@
         {
             if (!string.IsNullOrWhiteSpace(outRightIds))
             {
-                var outrights = affiliateService.GetSelectList(new GetOutRightCriteria
+                var outrights = baseService.GetSelectList(new GetOutRightCriteria
                 {
                     SportIDList = sportIds,
                     CountryCodeList = countryCodes
@@ -746,7 +746,7 @@
         {
             if (!string.IsNullOrWhiteSpace(sportIds))
             {
-                var sports = affiliateService.GetSelectList(new GetSupportedSportCriteria());
+                var sports = baseService.GetSelectList(new GetSupportedSportCriteria());
                 if (Utilities.IsExistInSelectListItem(sportIds, sports))
                 {
                     return "all";
@@ -760,7 +760,7 @@
         {
             if (!string.IsNullOrWhiteSpace(countryCodes))
             {
-                var countries = affiliateService.GetSelectList(new GetAllCountryCriteria());
+                var countries = baseService.GetSelectList(new GetAllCountryCriteria());
                 if (Utilities.IsExistInSelectListItem(countryCodes, countries))
                 {
                     return "all";
@@ -774,7 +774,7 @@
         {
             if (!string.IsNullOrWhiteSpace(betTypeIds))
             {
-                var bettypes = affiliateService.GetSelectList(new GetSupportedBettypeCriteria());
+                var bettypes = baseService.GetSelectList(new GetSupportedBettypeCriteria());
                 if (Utilities.IsExistInSelectListItem(betTypeIds, bettypes))
                 {
                     return "all";
@@ -828,15 +828,15 @@
 
         private void ProfileForAddAffiliateWithAccountManagerRole(ref InsertAffiliateCriteria criteria)
         {
-            ViewBag.OddsTypeList = affiliateService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = OddsTypeSettingType }, false)
+            ViewBag.OddsTypeList = baseService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = OddsTypeSettingType }, false)
                 .Where(item => item.Text != "Live" || (item.Text == "Live" && IsAccountManagerRole()));
-            ViewBag.OddsStyleList = affiliateService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = OddsRegionSettingType }, false);
-            ViewBag.LanguageIDList = affiliateService.GetSelectList(new GetAllLanguageCriteria());
-            ViewBag.DelayTimeList = GenerateDelayTime(affiliateService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "Config" }, false));
+            ViewBag.OddsStyleList = baseService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = OddsRegionSettingType }, false);
+            ViewBag.LanguageIDList = baseService.GetSelectList(new GetAllLanguageCriteria());
+            ViewBag.DelayTimeList = GenerateDelayTime(baseService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "Config" }, false));
             ViewBag.ResultDelayTimeList = licenseeService.GetResultDelayTimeList();
 
             // Sport
-            var sports = affiliateService.GetSelectListWithGroup(new GetSupportedSportCriteria());
+            var sports = baseService.GetSelectListWithGroup(new GetSupportedSportCriteria());
             var sportList = UpdateSportListForCricket(sports);
             if (criteria.SportIDList.Equals("all"))
             {
@@ -847,7 +847,7 @@
             ViewBag.MinorSportList = sportList.Where(sport => sport.Group.Name == MinorGroup);
 
             // Market
-            var bettypes = affiliateService.GetSelectListWithGroup(new GetSupportedBettypeCriteria());
+            var bettypes = baseService.GetSelectListWithGroup(new GetSupportedBettypeCriteria());
 
             if (criteria.BetTypeIDList.Equals("all"))
             {
@@ -858,7 +858,7 @@
             ViewBag.MinorBettypesList = bettypes.Where(betType => betType.Group.Name == MinorGroup);
 
             // Country
-            var countries = affiliateService.GetSelectList(new GetAllCountryCriteria());
+            var countries = baseService.GetSelectList(new GetAllCountryCriteria());
             ViewBag.CountriesList = countries;
             if (criteria.CountryCodeList.Equals("all"))
             {
@@ -866,7 +866,7 @@
             }
 
             // League
-            var leagues = affiliateService.GetSelectList(new GetLeagueCriteria
+            var leagues = baseService.GetSelectList(new GetLeagueCriteria
             {
                 SportIDList = criteria.SportIDList,
                 CountryCodeList = criteria.CountryCodeList
@@ -878,7 +878,7 @@
             }
 
             // OutRight
-            var outrights = affiliateService.GetSelectList(new GetOutRightCriteria
+            var outrights = baseService.GetSelectList(new GetOutRightCriteria
             {
                 SportIDList = criteria.SportIDList,
                 CountryCodeList = criteria.CountryCodeList
@@ -910,7 +910,7 @@
                 ViewBag.ActualNumberOfIps = int.Parse(row["ActualNumberOfIps"].ToString());
             }
 
-            var licenseeProfile = affiliateService.GetDataSet(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = CurrentSession.SystemId });
+            var licenseeProfile = baseService.GetDataSet(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = currentSession.SystemId });
             if (licenseeProfile != null && licenseeProfile.Tables.Count > 0 && licenseeProfile.Tables[0].Rows.Count > 0)
             {
                 var row = licenseeProfile.Tables[0].Rows[0];
@@ -923,14 +923,14 @@
 
         private void ProfileForEditAffiliateWithAccountManagerRole(ref UpdateProfileCriteria criteria)
         {
-            ViewBag.OddsTypeList = affiliateService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = OddsTypeSettingType }, false);
-            ViewBag.OddsStyleList = affiliateService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = OddsRegionSettingType }, false);
-            ViewBag.LanguageIDList = affiliateService.GetSelectList(new GetAllLanguageCriteria());
-            var config = affiliateService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "Config" }, false);
+            ViewBag.OddsTypeList = baseService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = OddsTypeSettingType }, false);
+            ViewBag.OddsStyleList = baseService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = OddsRegionSettingType }, false);
+            ViewBag.LanguageIDList = baseService.GetSelectList(new GetAllLanguageCriteria());
+            var config = baseService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "Config" }, false);
             ViewBag.DelayTimeList = GenerateDelayTime(config);
             ViewBag.ResultDelayTimeList = licenseeService.GetResultDelayTimeList();
             // Sport
-            var sports = affiliateService.GetSelectListWithGroup(new GetSupportedSportCriteria());
+            var sports = baseService.GetSelectListWithGroup(new GetSupportedSportCriteria());
             var sportList = UpdateSportListForCricket(sports);
             if (criteria.SportIDList.Equals("all"))
             {
@@ -941,7 +941,7 @@
             ViewBag.MinorSportList = sportList.Where(sport => sport.Group.Name == MinorGroup);
 
             // Market
-            var bettypes = affiliateService.GetSelectListWithGroup(new GetSupportedBettypeCriteria());
+            var bettypes = baseService.GetSelectListWithGroup(new GetSupportedBettypeCriteria());
 
             if (criteria.BetTypeIDList.Equals("all"))
             {
@@ -960,7 +960,7 @@
             }
 
             // League
-            var leagues = affiliateService.GetSelectList(new GetLeagueCriteria
+            var leagues = baseService.GetSelectList(new GetLeagueCriteria
             {
                 SportIDList = criteria.SportIDList,
                 CountryCodeList = criteria.CountryCodeList
@@ -972,7 +972,7 @@
             }
 
             // OutRight
-            var outrights = affiliateService.GetSelectList(new GetOutRightCriteria
+            var outrights = baseService.GetSelectList(new GetOutRightCriteria
             {
                 SportIDList = criteria.SportIDList,
                 CountryCodeList = criteria.CountryCodeList
@@ -1009,7 +1009,7 @@
 
         private void GetAffiliateProfileWithLicenseeAdminRole(ref UpdateProfileCriteria criteria)
         {
-            var licenseeProfile = affiliateService.GetDataSet(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = CurrentSession.SystemId });
+            var licenseeProfile = baseService.GetDataSet(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = currentSession.SystemId });
             if (licenseeProfile != null && licenseeProfile.Tables.Count > 0 && licenseeProfile.Tables[0].Rows.Count > 0)
             {
                 var row = licenseeProfile.Tables[0].Rows[0];
@@ -1028,10 +1028,10 @@
 
         private void AddAffiliateWithSubAccountRole()
         {
-            var userProfile = affiliateService.GetDataSet(new UserGetPermissionCriteria
+            var userProfile = baseService.GetDataSet(new UserGetPermissionCriteria
             {
-                SystemID = CurrentSession.SystemId,
-                UserID = CurrentSession.UserId
+                SystemID = currentSession.SystemId,
+                UserID = currentSession.UserId
             });
 
             if (userProfile != null && userProfile.Tables.Count > 0 && userProfile.Tables[0].Rows.Count > 0)
@@ -1052,10 +1052,10 @@
 
         private void GetAffiliateProfileWithSubAccountRole(ref UpdateProfileCriteria criteria)
         {
-            var userProfile = affiliateService.GetDataSet(new UserGetPermissionCriteria
+            var userProfile = baseService.GetDataSet(new UserGetPermissionCriteria
             {
-                SystemID = CurrentSession.SystemId,
-                UserID = CurrentSession.UserId
+                SystemID = currentSession.SystemId,
+                UserID = currentSession.UserId
             });
 
             if (userProfile != null && userProfile.Tables.Count > 0 && userProfile.Tables[0].Rows.Count > 0)
@@ -1076,13 +1076,13 @@
         private void ProfileForAddAffiliateWithLicenseeAdminAndSubAccountRole()
         {
             // OddsType
-            ViewBag.OddsTypeList = affiliateService.GetSelectList(
-                    new GetTypeSettingCriteria { SystemID = CurrentSession.SystemId, Type = OddsTypeSettingType },
+            ViewBag.OddsTypeList = baseService.GetSelectList(
+                    new GetTypeSettingCriteria { SystemID = currentSession.SystemId, Type = OddsTypeSettingType },
                     false)
                 .Where(item => item.Text != "Live" || (item.Text == "Live" && IsAccountManagerRole()));
 
             // OddsStyle
-            ViewBag.OddsStyleList = affiliateService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = OddsRegionSettingType }, false);
+            ViewBag.OddsStyleList = baseService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = OddsRegionSettingType }, false);
 
             // Language
             ViewBag.LanguageIDList = affiliateService.GetLanguageBySystemId();
@@ -1104,12 +1104,12 @@
         private void ProfileForEditAffiliateWithLicenseeAdminAndSubAccountRole(ref UpdateProfileCriteria criteria)
         {
             // OddsType
-            ViewBag.OddsTypeList = affiliateService
-                .GetSelectList(new GetTypeSettingCriteria { SystemID = CurrentSession.SystemId, Type = OddsTypeSettingType }, false)
+            ViewBag.OddsTypeList = baseService
+                .GetSelectList(new GetTypeSettingCriteria { SystemID = currentSession.SystemId, Type = OddsTypeSettingType }, false)
                 .Where(item => item.Text != "Live" || (item.Text == "Live" && IsAccountManagerRole()));
 
             // OddsStyle
-            ViewBag.OddsStyleList = affiliateService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = OddsRegionSettingType }, false);
+            ViewBag.OddsStyleList = baseService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = OddsRegionSettingType }, false);
 
             // Language
             ViewBag.LanguageIDList = affiliateService.GetLanguageBySystemId();

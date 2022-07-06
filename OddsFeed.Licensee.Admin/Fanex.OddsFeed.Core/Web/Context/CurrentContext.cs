@@ -15,7 +15,7 @@
                 var clientIp = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
                 if (!string.IsNullOrEmpty(clientIp))
                 {
-                    var forwardedIps = clientIp.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                    var forwardedIps = clientIp.Split(new [] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                     clientIp = forwardedIps[forwardedIps.Length - 1];
                 }
                 else
@@ -37,7 +37,6 @@
             get
             {
                 var ip = string.Empty;
-
                 foreach (IPAddress ipa in Dns.GetHostAddresses(HttpContext.Current.Request.UserHostAddress))
                 {
                     if (ipa.AddressFamily.ToString().Equals("InterNetwork"))
@@ -47,7 +46,7 @@
                     }
                 }
 
-                if (!ip.Equals(string.Empty))
+                if (!string.IsNullOrWhiteSpace(ip))
                 {
                     return ip;
                 }
@@ -61,7 +60,7 @@
                     }
                 }
 
-                return ip.Trim();
+                return ip?.Trim();
             }
         }
 
@@ -106,11 +105,11 @@
                 var protocol = HttpContext.Current.Request.IsSecureConnection ? "https://" : "http://";
 
                 var fulldomain = protocol + domain;
-
-                if (!ConfigurationManager.AppSettings["Environment"].ToString().Equals("Production", StringComparison.OrdinalIgnoreCase)
-                    && !ConfigurationManager.AppSettings["Environment"].ToString().Equals("UAT", StringComparison.OrdinalIgnoreCase)
-                    && !ConfigurationManager.AppSettings["Environment"].ToString().Equals("SIT", StringComparison.OrdinalIgnoreCase)
-                    && !ConfigurationManager.AppSettings["Environment"].ToString().Equals("Local", StringComparison.OrdinalIgnoreCase))
+                var environment = ConfigurationManager.AppSettings["Environment"];
+                if (!environment.Equals("Production", StringComparison.OrdinalIgnoreCase)
+                    && !environment.Equals("UAT", StringComparison.OrdinalIgnoreCase)
+                    && !environment.Equals("SIT", StringComparison.OrdinalIgnoreCase)
+                    && !environment.Equals("Local", StringComparison.OrdinalIgnoreCase))
                 {
                     fulldomain = fulldomain + ":" + port;
                 }

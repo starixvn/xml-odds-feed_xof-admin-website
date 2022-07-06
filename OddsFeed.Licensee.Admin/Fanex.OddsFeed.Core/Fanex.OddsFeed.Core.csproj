@@ -309,27 +309,18 @@
     <Compile Include="Model\ValueObject\UserLevel.cs" />
     <Compile Include="Model\ValueObject\UserPolicy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repository\Impl\AdministratorRepository.cs" />
     <Compile Include="Repository\Impl\AffiliateRepository.cs" />
     <Compile Include="Repository\Impl\SelectListRepository.cs" />
     <Compile Include="Repository\Impl\LicenseeRepository.cs" />
-    <Compile Include="Repository\Impl\LanguageRepository.cs" />
-    <Compile Include="Repository\Impl\PartnerIPRepository.cs" />
-    <Compile Include="Repository\Impl\PartnerStatisticRepository.cs" />
-    <Compile Include="Repository\Impl\SportRepository.cs" />
-    <Compile Include="Repository\Impl\CountryRepository.cs" />
     <Compile Include="Repository\Impl\DomainRepository.cs" />
     <Compile Include="Repository\Impl\SubAccRepository.cs" />
-    <Compile Include="Repository\Impl\RepositoryBase.cs" />
-    <Compile Include="Repository\Impl\BettypeRepository.cs" />
-    <Compile Include="Repository\Impl\TypeSettingRepository.cs" />
+    <Compile Include="Repository\Impl\BaseRepository.cs" />
     <Compile Include="Repository\Impl\UserRepository.cs" />
-    <Compile Include="Repository\Interface\IAdministratorRepository.cs" />
     <Compile Include="Repository\Interface\IBaseRepository.cs" />
-    <Compile Include="Repository\Interface\IBettypeRepository.cs" />
     <Compile Include="Repository\Interface\IDomainRepository.cs" />
     <Compile Include="Repository\Interface\ILicenseeRepository.cs" />
     <Compile Include="Repository\Interface\IAffiliateRepository.cs" />
+    <Compile Include="Repository\Interface\ISelectListRepository.cs" />
     <Compile Include="Repository\Interface\ISubAccRepository.cs" />
     <Compile Include="Repository\Interface\IUserRepository.cs" />
     <Compile Include="Service\Impl\AdministratorService.cs" />
@@ -338,7 +329,6 @@
     <Compile Include="Service\Impl\DomainService.cs" />
     <Compile Include="Service\Impl\LicenseeService.cs" />
     <Compile Include="Service\Impl\SubAccService.cs" />
-    <Compile Include="Service\Impl\ServiceContext.cs" />
     <Compile Include="Service\Impl\BaseService.cs" />
     <Compile Include="Service\Impl\UserService.cs" />
     <Compile Include="Service\Interface\IDashboardService.cs" />
@@ -348,7 +338,6 @@
     <Compile Include="Service\Interface\ILicenseeService.cs" />
     <Compile Include="Service\Interface\IAffiliateService.cs" />
     <Compile Include="Service\Interface\ISubAccService.cs" />
-    <Compile Include="Service\Interface\IServiceContext.cs" />
     <Compile Include="Service\Interface\IUserService.cs" />
     <Compile Include="Utilities.cs" />
     <Compile Include="Web\Attribute\CompressAttribute.cs" />
@@ -401,9 +390,7 @@
       <Name>Fanex.OddsFeed.Framework</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Configuration\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <AdditionalFiles Include="..\..\.sonarlint\xmloddsfeedadminsite\CSharp\SonarLint.xml">
       <Link>SonarLint.xml</Link>

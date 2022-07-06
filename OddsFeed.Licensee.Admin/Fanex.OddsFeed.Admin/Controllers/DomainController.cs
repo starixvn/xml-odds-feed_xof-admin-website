@@ -1,12 +1,4 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="DomainController.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Phillip.Truong" date="2013.2.25">Created</change>
-// </history>
-namespace Fanex.OddsFeed.Admin.Controllers
+﻿namespace Fanex.OddsFeed.Admin.Controllers
 {
     using Fanex.OddsFeed.Core.Criteria.Domain;
     using Fanex.OddsFeed.Core.Service.Impl;
@@ -15,40 +7,20 @@ namespace Fanex.OddsFeed.Admin.Controllers
     using Fanex.OddsFeed.Core.Web.Attribute;
     using System.Web.Mvc;
 
-    /// <summary>
-    /// Class DomainController.
-    /// </summary>
     [IsAuthorize]
     public class DomainController : BaseController
     {
-        #region Members
-
-        /// <summary>
-        /// The _domain service.
-        /// </summary>
         private readonly IDomainService _domainService;
-        #endregion
 
-        #region Constructors
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DomainController"/> class.
-        /// </summary>
         public DomainController()
             : this(null)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DomainController"/> class.
-        /// </summary>
-        /// <param name="domainService">The domain service.</param>
-        public DomainController(IDomainService domainService = null)
+        public DomainController(IDomainService domainService)
         {
-            _domainService = domainService ?? new DomainService { ServiceContext = ServiceContext };
+            _domainService = domainService ?? new DomainService();
         }
-
-        #endregion
 
         public ActionResult ListDomain()
         {
@@ -80,8 +52,8 @@ namespace Fanex.OddsFeed.Admin.Controllers
         [HttpPost]
         public JsonResult CreateDomain(CreateDomainCriteria criteria)
         {
-            criteria.Creator = CurrentSession.UserId;
-            criteria.CurrentIP = CurrentContext.IP;
+            criteria.Creator = currentSession.UserId;
+            criteria.CurrentIP = currentContext.IP;
             var res = _domainService.CreateDomain(criteria);
             return Json(res, JsonRequestBehavior.AllowGet);
         }
@@ -89,8 +61,8 @@ namespace Fanex.OddsFeed.Admin.Controllers
         [HttpPost]
         public JsonResult UpdateDomain(UpdateDomainCriteria criteria)
         {
-            criteria.Creator = CurrentSession.UserId;
-            criteria.CurrentIP = CurrentContext.IP;
+            criteria.Creator = currentSession.UserId;
+            criteria.CurrentIP = currentContext.IP;
             criteria.IP = string.IsNullOrEmpty(criteria.IP) ? string.Empty : criteria.IP;
             criteria.ISP = string.IsNullOrEmpty(criteria.ISP) ? string.Empty : criteria.ISP;
             var res = _domainService.UpdateDomain(criteria);
@@ -99,8 +71,8 @@ namespace Fanex.OddsFeed.Admin.Controllers
 
         public int DeleteDomain(DeleteDomainCriteria criteria)
         {
-            criteria.Creator = CurrentSession.UserId;
-            criteria.Ip = CurrentContext.IP;
+            criteria.Creator = currentSession.UserId;
+            criteria.Ip = currentContext.IP;
             var res = _domainService.DeleteDomain(criteria);
             return res;
         }

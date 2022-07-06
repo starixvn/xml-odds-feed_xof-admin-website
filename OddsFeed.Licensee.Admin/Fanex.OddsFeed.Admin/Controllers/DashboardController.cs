@@ -1,57 +1,30 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="DashboardController.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Thai.Tran" date="2013.1.7">Created</change>
-// </history>
-
-namespace Fanex.OddsFeed.Admin.Controllers
+﻿namespace Fanex.OddsFeed.Admin.Controllers
 {
+    using System;
+    using System.Data;
+    using System.Text;
+    using System.Web.Mvc;
     using Fanex.OddsFeed.Core.Criteria.Dashboard;
     using Fanex.OddsFeed.Core.Service.Impl;
     using Fanex.OddsFeed.Core.Service.Interface;
     using Fanex.OddsFeed.Core.Web;
     using Fanex.OddsFeed.Core.Web.Attribute;
-    using System;
-    using System.Data;
-    using System.Text;
-    using System.Web.Mvc;
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S109:Magic numbers should not be used", Justification = "<Pending>")]
     [IsAuthorize]
     public class DashboardController : BaseController
     {
-        #region Members
-
-        /// <summary>
-        /// The _dashboard service.
-        /// </summary>
         private readonly IDashboardService _dashboardService;
 
-        #endregion
-
-        #region Constructors
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DashboardController"/> class.
-        /// </summary>
         public DashboardController()
             : this(null)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DashboardController"/> class.
-        /// </summary>
-        /// <param name="dashboardService">The dashboard service.</param>
-        public DashboardController(IDashboardService dashboardService = null)
+        public DashboardController(IDashboardService dashboardService)
         {
-            _dashboardService = dashboardService ?? new DashboardService { ServiceContext = ServiceContext };
+            _dashboardService = dashboardService ?? new DashboardService();
         }
 
-        #endregion
 
         //// GET: /Dashboard/
         public ActionResult ShowDashboard()
@@ -67,7 +40,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
         {
             var criteria = new GetAccountStatisticsCriteria
             {
-                SystemID = CurrentSession.SystemId
+                SystemID = currentSession.SystemId
             };
 
             var ds = _dashboardService.GetAccountStatisticsDataSet(criteria);
@@ -86,7 +59,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 ViewBag.LastReqIP = row[6].ToString();
             }
 
-            ViewBag.UserName = CurrentSession.SystemName;
+            ViewBag.UserName = currentSession.SystemName;
         }
 
         #endregion
@@ -98,7 +71,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
         {
             var criteria = new GetLoginInfoCriteria
             {
-                UserID = CurrentSession.UserId,
+                UserID = currentSession.UserId,
             };
             criteria.PageIndex++;
             var ds = _dashboardService.GetLoginInfoReturnDataSet(criteria);
@@ -108,50 +81,41 @@ namespace Fanex.OddsFeed.Admin.Controllers
         #endregion
 
         #region Current Online User List
-        /// <summary>
-        /// Shows the current online user.
-        /// </summary>
-        /// <param name="pageSize">The page size.</param>
-        /// <param name="pageIndex">The page index.</param>
-        /// <returns>The content of online user.</returns>
+
         [HttpPost]
         public string ShowCurrentOnlineUser(string pageSize, string pageIndex)
         {
             var criteria = new GetCurrentOnlineUserCriteria
             {
-                UserID = CurrentSession.UserId,
-                RoleID = CurrentSession.UserRole,
-                SystemID = CurrentSession.SystemId,
+                UserID = currentSession.UserId,
+                RoleID = currentSession.UserRole,
+                SystemID = currentSession.SystemId,
                 PageIndex = Convert.ToInt16(pageIndex) + 1,
                 PageSize = Convert.ToInt16(pageSize)
             };
             var dr = _dashboardService.GetCurrentOnlineUserReturnDataCollection(criteria);
             return FanexGridHelper.DataForFanexGrid(dr);
         }
+
         #endregion
 
         #region Recent Activities
-        /// <summary>
-        /// Shows the recent activities.
-        /// </summary>
-        /// <param name="pageSize">The page size.</param>
-        /// <param name="pageIndex">The page index.</param>
-        /// <param name="optionActivities">The option activities.</param>
-        /// <returns>The content of recent activities.</returns>
+
         [HttpPost]
         public string ShowRecentActivities(string pageSize, string pageIndex, int optionActivities = 1)
         {
             var criteria = new GetRecentActivitiesCriteria
             {
-                UserID = optionActivities == 1 ? CurrentSession.UserId : 0,
-                RoleID = CurrentSession.UserRole,
-                SystemID = CurrentSession.SystemId,
+                UserID = optionActivities == 1 ? currentSession.UserId : 0,
+                RoleID = currentSession.UserRole,
+                SystemID = currentSession.SystemId,
                 PageIndex = Convert.ToInt16(pageIndex) + 1,
                 PageSize = Convert.ToInt16(pageSize)
             };
             var dr = _dashboardService.GetRecentActivitiesReturnDataCollection(criteria);
             return FanexGridHelper.DataForFanexGrid_PreventContainQuote(dr);
         }
+
         #endregion
 
         #region Private Methods

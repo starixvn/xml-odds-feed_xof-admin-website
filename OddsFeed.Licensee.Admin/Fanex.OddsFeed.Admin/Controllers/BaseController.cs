@@ -24,27 +24,27 @@
 
         protected const int DefaultMinDate = 2000;
 
-        protected readonly ICurrentContext CurrentContext;
-
-        protected readonly ICurrentSession CurrentSession;
-
-        protected readonly IServiceContext ServiceContext;
-
+        protected readonly ICurrentContext currentContext;
+        protected readonly ICurrentSession currentSession;
         protected readonly IBaseService baseService;
 
-        public BaseController()
+        public BaseController() : this(null, null, null)
         {
-            CurrentContext = new CurrentContext();
-            ViewBag.Session = CurrentSession = new CurrentSession();
-            ViewBag.CurrentDomain = this.CurrentContext.FullDomainName;
-            ServiceContext = new ServiceContext
-            {
-                UserId = this.CurrentSession.UserId,
-                SystemId = this.CurrentSession.SystemId,
-                Ip = this.CurrentContext.IP
-            };
+        }
 
-            baseService = new BaseService();
+        public BaseController(
+            ICurrentContext currentContext,
+            ICurrentSession currentSession,
+            IBaseService baseService)
+        {
+            this.currentContext = currentContext ?? new CurrentContext();
+            this.currentSession = currentSession ?? new CurrentSession
+            {
+                LoginIp = this.currentContext.IP
+            };
+            this.baseService = baseService ?? new BaseService();
+            ViewBag.Session = this.currentSession;
+            ViewBag.CurrentDomain = this.currentContext.FullDomainName;
 
             ViewBag.MinDate = new DateTime(DefaultMinDate, 1, 1);
             ViewBag.MaxDate = DateTime.Now;
@@ -70,18 +70,17 @@
         [HttpGet]
         public ActionResult Home(byte systemId = 0, string systemName = "")
         {
-            if (systemId != 0 && CurrentSession.SystemId != systemId)
+            if (systemId != 0 && currentSession.SystemId != systemId)
             {
-                CurrentSession.SystemId = systemId;
-                CurrentSession.SystemName = systemName;
-                ServiceContext.SystemId = systemId;
+                currentSession.SystemId = systemId;
+                currentSession.SystemName = systemName;
             }
 
-            return CurrentSession.ActionName.ToLowerInvariant().Contains("edit")
-                || CurrentSession.ActionName.ToLowerInvariant().Contains("reset")
-                || CurrentSession.ActionName.ToLowerInvariant().Contains("assign")
-                    ? RedirectToAction(CurrentSession.ActionName, CurrentSession.ControllerName, new { id = 0 })
-                    : RedirectToAction(CurrentSession.ActionName, CurrentSession.ControllerName);
+            return currentSession.ActionName.ToLowerInvariant().Contains("edit")
+                || currentSession.ActionName.ToLowerInvariant().Contains("reset")
+                || currentSession.ActionName.ToLowerInvariant().Contains("assign")
+                    ? RedirectToAction(currentSession.ActionName, currentSession.ControllerName, new { id = 0 })
+                    : RedirectToAction(currentSession.ActionName, currentSession.ControllerName);
         }
 
         public static string DataForAutoComplete(DataTable dt, string fieldName)
@@ -122,12 +121,12 @@
 
         public bool IsAccountManagerRole()
         {
-            return CurrentSession.UserRole == (int)Constant.UserRole.ITAdministrator;
+            return currentSession.UserRole == (int)Constant.UserRole.ITAdministrator;
         }
 
         public bool IsLicenseeAdminRole()
         {
-            return CurrentSession.UserRole == (int)Constant.UserRole.Licensee;
+            return currentSession.UserRole == (int)Constant.UserRole.Licensee;
         }
 
         #endregion PermissionRegion
@@ -156,8 +155,8 @@
             var delayTimeList = new List<SelectListItem>();
             if (config.Count() >= 2)
             {
-                var cacheInterval = Converter.ToInt(config.Where(m => m.Text == "CacheInterval").ToList()[0].Value, 0);
-                var numberOfCacheVersion = Converter.ToInt(config.Where(m => m.Text == "NumberOfCacheVersion").ToList()[0].Value, 0);
+                var cacheInterval = Converter.ToInt(config.Where(m => m.Text == "CacheInterval").ToList()[0].Value);
+                var numberOfCacheVersion = Converter.ToInt(config.Where(m => m.Text == "NumberOfCacheVersion").ToList()[0].Value);
 
                 for (int i = cacheInterval; i <= (numberOfCacheVersion - 1) * cacheInterval; i += cacheInterval)
                 {

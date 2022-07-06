@@ -1,18 +1,5 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="ICurrentSession.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Thai.Tran" date="2012.8.2">Created</change>
-// </history>
-
-namespace Fanex.OddsFeed.Core.Web.Session
+﻿namespace Fanex.OddsFeed.Core.Web.Session
 {
-    using System.Diagnostics.CodeAnalysis;
-    using Fanex.OddsFeed.Core.Model;
-
-    [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Reviewed")]
     public interface ICurrentSession
     {
         string Username { get; set; }
@@ -34,7 +21,9 @@ namespace Fanex.OddsFeed.Core.Web.Session
         string ControllerName { get; set; }
 
         string ActionName { get; set; }
-        
-        void ClearAll();        
+
+        string LoginIp { get; set; }
+
+        void ClearAll();
     }
 }

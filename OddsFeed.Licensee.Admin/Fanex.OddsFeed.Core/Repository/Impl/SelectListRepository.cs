@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="SelectListRepository.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Phillip.Truong" date="2013.2.26">Created</change>
-// </history>
-
-namespace Fanex.Databank.Repositories
+﻿namespace Fanex.OddsFeed.Core.Repository
 {
     using System;
     using System.Collections.Generic;
@@ -16,18 +7,8 @@ namespace Fanex.Databank.Repositories
     using Data.Repository;
     using Fanex.Data;
 
-    /// <summary>
-    /// Class Convert data reader to SelectList.
-    /// </summary>
-    public class SelectListRepository
+    public class SelectListRepository : ISelectListRepository
     {
-        /// <summary>
-        /// Public function convert data reader to SelectListItem.
-        /// </summary>
-        /// <param name="settingKey">The setting key.</param>
-        /// <param name="order">If True then (Value, Text). Else (Text, Value). </param>
-        /// <param name="selectedValue">The selected value.</param>
-        /// <returns>IEnumerable of Select List Item.</returns>
         public IEnumerable<SelectListItem> Get(string settingKey, bool order = true, string selectedValue = "")
         {
             var result = new List<SelectListItem>();
@@ -62,13 +43,6 @@ namespace Fanex.Databank.Repositories
             return result;
         }
 
-        /// <summary>
-        /// Public function convert data reader to SelectListItem.
-        /// </summary>
-        /// <param name="criteria">The criteria.</param>
-        /// <param name="order">If True then (Value, Text). Else (Text, Value). </param>
-        /// <param name="selectedValue">The selected value.</param>
-        /// <returns>IEnumerable of Select List Item.</returns>
         public IEnumerable<SelectListItem> Get(ICriteria criteria, bool order = true, string selectedValue = "")
         {
             var result = new List<SelectListItem>();
@@ -104,7 +78,7 @@ namespace Fanex.Databank.Repositories
             return result;
         }
 
-        public static IEnumerable<SelectListItem> GetWithGroup(ICriteria criteria, bool order = true, string selectedValue = "")
+        public IEnumerable<SelectListItem> GetWithGroup(ICriteria criteria, bool order = true, string selectedValue = "")
         {
             var result = new List<SelectListItem>();
             using (ObjectDb objectDb = new ObjectDb(criteria.GetSettingKey()))
@@ -116,8 +90,10 @@ namespace Fanex.Databank.Repositories
                     {
                         while (reader.Read())
                         {
-                            var item = new SelectListItem();
-                            item.Group = new SelectListGroup();
+                            var item = new SelectListItem
+                            {
+                                Group = new SelectListGroup()
+                            };
 
                             int colIndex = 0;
                             if (order)
@@ -148,12 +124,6 @@ namespace Fanex.Databank.Repositories
             return result;
         }
 
-        /// <summary>
-        /// Public function convert data reader to SelectListItem.
-        /// </summary>
-        /// <param name="criteria">The Criteria.</param>
-        /// <param name="order">If True then (Value, Text). Else (Text, Value). </param>
-        /// <returns>Select List Item.</returns>
         public IEnumerable<SelectListItem> GetAndGenerateCheck(ICriteria criteria, bool order = true)
         {
             var result = new List<SelectListItem>();

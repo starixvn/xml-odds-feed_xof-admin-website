@@ -43,8 +43,8 @@
         [HttpGet]
         public ActionResult Index()
         {
-            ViewBag.FullDomainName = CurrentContext.FullDomainName;
-            ViewBag.ValidationCodePath = CurrentContext.FullDomainName + "/login/ShowCaptchaImage";
+            ViewBag.FullDomainName = currentContext.FullDomainName;
+            ViewBag.ValidationCodePath = currentContext.FullDomainName + "/login/ShowCaptchaImage";
             return View();
         }
 
@@ -57,8 +57,8 @@
             var password = criteria.UserPwd;
             var validate = criteria.Validate;
 
-            ViewBag.FullDomainName = CurrentContext.FullDomainName;
-            ViewBag.ValidationCodePath = CurrentContext.FullDomainName + "/login/ShowCaptchaImage";
+            ViewBag.FullDomainName = currentContext.FullDomainName;
+            ViewBag.ValidationCodePath = currentContext.FullDomainName + "/login/ShowCaptchaImage";
 
             if (HttpContext.Session["captchastring"] != null && validate != HttpContext.Session["captchastring"].ToString())
             {
@@ -100,11 +100,11 @@
 
         public void DoSignOut()
         {
-            _userService.UserLogOut(new LogOutUserCriteria
+            baseService.ExecuteNonQuery(new LogOutUserCriteria
             {
-                OnUserId = CurrentSession.OnUserId
+                OnUserId = currentSession.OnUserId
             });
-            CurrentSession.ClearAll();
+            currentSession.ClearAll();
         }
 
         #endregion
@@ -116,7 +116,7 @@
         {
             var criteria = new UserReCheckInUserCriteria
             {
-                OnUserId = Convert.ToInt32(CurrentSession.OnUserId)
+                OnUserId = Convert.ToInt32(currentSession.OnUserId)
             };
             _userService.ReUserCheckIn(ref criteria);
 
@@ -133,7 +133,7 @@
             ModelState.Clear();
             var criteria = new UpdatePasswordUserCriteria
             {
-                UserID = CurrentSession.UserId
+                UserID = currentSession.UserId
             };
 
             if (Request.UrlReferrer != null && Request.UrlReferrer.Segments.Length >= 4)
@@ -160,7 +160,7 @@
                 criteria.OldPassword = Cryptography.CfsEnCode(HttpUtility.HtmlEncode(criteria.OldPassword.Trim()));
                 criteria.Password = Cryptography.CfsEnCode(HttpUtility.HtmlEncode(criteria.Password.Trim()));
                 criteria.ConfirmPassword = Cryptography.CfsEnCode(HttpUtility.HtmlEncode(criteria.ConfirmPassword.Trim()));
-                var result = _userService.UpdateData(criteria);
+                var result = baseService.ExecuteNonQuery(criteria);
                 if (result.Code == 0)
                 {
                     actionResult.IsSuccess = true;
@@ -184,14 +184,14 @@
         {
             password = Cryptography.CfsEnCode(HttpUtility.HtmlEncode(password));
             criteria.UserPwd = password;
-            criteria.LoginDomain = CurrentContext.DomainName;
-            criteria.LoginIP = CurrentContext.IP;
+            criteria.LoginDomain = currentContext.DomainName;
+            criteria.LoginIP = currentContext.IP;
             criteria.NetSessionID = Session.SessionID;
             criteria.LoginDate = DateTime.Now;
-            criteria.BrowserName = CurrentContext.BrowserName;
-            criteria.CountryCode = CurrentContext.CountryCode;
-            criteria.Domain = CurrentContext.DomainName;
-            criteria.Platform = CurrentContext.Platform;
+            criteria.BrowserName = currentContext.BrowserName;
+            criteria.CountryCode = currentContext.CountryCode;
+            criteria.Domain = currentContext.DomainName;
+            criteria.Platform = currentContext.Platform;
         }
 
         private void CustomizeDataAfterLogin(UserLoginUserCriteria criteria, User user, ref OddsFeedActionResult actionResult)
@@ -224,7 +224,7 @@
         {
             ////get systemId
             var systemIdNameList = criteria.SystemIdNameList.Split(';');
-            var firstSystem = systemIdNameList[0] != null ? systemIdNameList[0].Split(',') : null;
+            var firstSystem = systemIdNameList[0]?.Split(',');
             var systemId = firstSystem != null && !string.IsNullOrEmpty(firstSystem[0]) ? Convert.ToByte(firstSystem[0]) : Convert.ToByte(0);
             var systemName = firstSystem != null && !string.IsNullOrEmpty(firstSystem[1]) ? Convert.ToString(firstSystem[1]) : string.Empty;
 
@@ -232,22 +232,22 @@
             {
                 UserId = user.Id,
                 SystemId = systemId,
-                IP = CurrentContext.IP,
+                IP = currentContext.IP,
                 NetSessionID = Session.SessionID
             };
 
-            var flags = _userService.UserGetProfile(ref criteriaProfile);
+            _userService.UserGetProfile(ref criteriaProfile);
 
             ////Save user session
-            CurrentSession.UserId = user.Id;
-            CurrentSession.UserRole = user.RoleID;
-            CurrentSession.Username = user.Username;
-            CurrentSession.OnUserId = criteriaProfile.OnUserId;
-            CurrentSession.SystemId = systemId;
-            CurrentSession.SystemName = systemName;
-            CurrentSession.SystemList = criteria.SystemIdNameList;
+            currentSession.UserId = user.Id;
+            currentSession.UserRole = user.RoleID;
+            currentSession.Username = user.Username;
+            currentSession.OnUserId = criteriaProfile.OnUserId;
+            currentSession.SystemId = systemId;
+            currentSession.SystemName = systemName;
+            currentSession.SystemList = criteria.SystemIdNameList;
 
-            CurrentSession.SessionId = Session.SessionID;
+            currentSession.SessionId = Session.SessionID;
         }
 
         #endregion

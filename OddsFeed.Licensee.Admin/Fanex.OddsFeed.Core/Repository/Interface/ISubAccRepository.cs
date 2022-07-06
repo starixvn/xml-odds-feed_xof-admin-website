@@ -1,25 +1,10 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="ISubAccRepository.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Thai.Tran" date="2013.02.05">Created</change>
-// </history>
-
-namespace Fanex.OddsFeed.Core.Repository.Interface
+﻿namespace Fanex.OddsFeed.Core.Repository.Interface
 {
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using Fanex.OddsFeed.Core.Criteria.Affiliate;
-    using Fanex.OddsFeed.Core.Domain;
-    using Fanex.OddsFeed.Core.Model;
-    using Fanex.OddsFeed.Core.Model.ValueObject;
     using Fanex.OddsFeed.Framework.Data;
-    using Data.Repository;
-    [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Reviewed")]
-    public interface ISubAccRepository : IRepository<IUser>, IBaseRepository
-    {                
-        ICommandResult Insert(ref InsertSubAccCriteria criteria);               
+
+    public interface ISubAccRepository
+    {
+        ICommandResult Insert(ref InsertSubAccCriteria criteria);
     }
 }

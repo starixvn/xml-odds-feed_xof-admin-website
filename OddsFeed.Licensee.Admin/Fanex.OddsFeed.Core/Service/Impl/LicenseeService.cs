@@ -1,6 +1,5 @@
 ﻿namespace Fanex.OddsFeed.Core.Service.Impl
 {
-    using System;
     using Fanex.Common.Helper;
     using Fanex.OddsFeed.Core.Criteria.Licensee;
     using Fanex.OddsFeed.Core.Model;
@@ -12,32 +11,33 @@
     using System.Collections.Generic;
     using System.Web.Mvc;
 
-    public class LicenseeService : BaseService, ILicenseeService
+    public class LicenseeService : ILicenseeService
     {
-        private readonly ILicenseeRepository _licenseeRepository;
+        private readonly IBaseService baseService;
+        private readonly ILicenseeRepository licenseeRepository;
 
-        public LicenseeService()
+        public LicenseeService() : this(null, null)
         {
-            _licenseeRepository = _licenseeRepository ?? new LicenseeRepository();
+        }
+
+        public LicenseeService(
+            IBaseService baseService,
+            ILicenseeRepository licenseeRepository)
+        {
+            this.baseService = baseService ?? new BaseService();
+            this.licenseeRepository = licenseeRepository ?? new LicenseeRepository();
         }
 
         public string GetCurrentOddsStyleBySystemId(int systemId)
         {
-            try
+            var criteria = new GetOddStyleByLicenseeIDCriteria
             {
-                var criteria = new GetOddStyleByLicenseeIDCriteria
-                {
-                    SystemID = systemId
-                };
+                SystemID = systemId
+            };
 
-                if (criteria.IsValid())
-                {
-                    return BaseRepository.ReturnSingleValue(criteria).ToString();
-                }
-            }
-            catch (Exception ex)
+            if (criteria.IsValid())
             {
-                HandleException(ex);
+                return baseService.GetDataEntity<string>(criteria);
             }
 
             return null;
@@ -48,16 +48,9 @@
             // check parameters
             Check.Argument.IsNotNull(criteria, "criteria");
 
-            try
+            if (criteria.IsValid())
             {
-                if (criteria.IsValid())
-                {
-                    return this._licenseeRepository.Update(criteria);
-                }
-            }
-            catch (Exception ex)
-            {
-                HandleException(ex);
+                return baseService.ExecuteNonQuery(criteria);
             }
 
             return null;
@@ -65,43 +58,23 @@
 
         public bool GetActiveBySystemId(int systemId)
         {
-            try
+            var criteria = new GetActivateByLicenseeIDCriteria
             {
-                var criteria = new GetActivateByLicenseeIDCriteria
-                {
-                    SystemID = systemId
-                };
-
-                if (criteria.IsValid())
-                {
-                    return bool.Parse(BaseRepository.ReturnSingleValue(criteria).ToString());
-                }
-            }
-            catch (Exception ex)
-            {
-                HandleException(ex);
-            }
-
-            return false;
+                SystemID = systemId
+            }; 
+            return baseService.GetDataEntity<bool>(criteria);
         }
 
         public PartnersProfile GetProfileAllPartnersBySystemId(int systemId)
         {
-            try
+            var criteria = new GetProfileAllPartnersBySystemIdCriteria
             {
-                var criteria = new GetProfileAllPartnersBySystemIdCriteria
-                {
-                    SystemID = systemId
-                };
+                SystemID = systemId
+            };
 
-                if (criteria.IsValid())
-                {
-                    return _licenseeRepository.GetProfileAllPartnersBySystemId(criteria);
-                }
-            }
-            catch (Exception ex)
+            if (criteria.IsValid())
             {
-                HandleException(ex);
+                return licenseeRepository.GetProfileAllPartnersBySystemId(criteria);
             }
 
             return null;

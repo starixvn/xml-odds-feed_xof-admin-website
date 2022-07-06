@@ -31,8 +31,8 @@
 
         public LicenseeController(ILicenseeService licenseeService, IAffiliateService affiliateService)
         {
-            _licenseeService = licenseeService ?? new LicenseeService { ServiceContext = ServiceContext };
-            _affiliateService = affiliateService ?? new AffiliateService { ServiceContext = ServiceContext };
+            _licenseeService = licenseeService ?? new LicenseeService();
+            _affiliateService = affiliateService ?? new AffiliateService();
         }
 
         #region AddNew
@@ -46,19 +46,19 @@
             }
 
             // OddsType
-            ViewBag.OddsTypeList = _licenseeService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "OddsType" }, false);
+            ViewBag.OddsTypeList = baseService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "OddsType" }, false);
 
             // OddsStyle
-            ViewBag.OddsStyleList = _licenseeService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "OddsRegion" }, false);
+            ViewBag.OddsStyleList = baseService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "OddsRegion" }, false);
 
             // Config
-            var config = _licenseeService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "Config" }, false);
+            var config = baseService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "Config" }, false);
             ViewBag.DelayTimeList = GenerateDelayTime(config);
             ViewBag.ResultDelayTimeList = _licenseeService.GetResultDelayTimeList();
             ViewBag.NumberOfIPs = GetMaxNumberOfIPsFromConfig(config);
 
             // Domain
-            ViewBag.DomainList = _licenseeService.GetSelectList(new GetAllDomainCriteria
+            ViewBag.DomainList = baseService.GetSelectList(new GetAllDomainCriteria
             {
                 SystemID = 0,
                 IsActive = null,
@@ -66,26 +66,26 @@
             });
 
             // Market
-            var bettypes = _affiliateService.GetSelectListWithGroup(new GetSupportedBettypeCriteria());
+            var bettypes = baseService.GetSelectListWithGroup(new GetSupportedBettypeCriteria());
 
             ViewBag.MajorBettypesList = bettypes.Where(betType => betType.Group.Name == MajorGroup);
             ViewBag.MinorBettypesList = bettypes.Where(betType => betType.Group.Name == MinorGroup);
 
             // Country
-            ViewBag.CountriesList = _licenseeService.GetSelectList(new GetAllCountryCriteria());
+            ViewBag.CountriesList = baseService.GetSelectList(new GetAllCountryCriteria());
 
             // Sport
-            var sports = _affiliateService.GetSelectListWithGroup(new GetSupportedSportCriteria());
+            var sports = baseService.GetSelectListWithGroup(new GetSupportedSportCriteria());
             var sportList = UpdateSportListForCricket(sports);
 
             ViewBag.MajorSportList = sportList.Where(sport => sport.Group.Name == MajorGroup);
             ViewBag.MinorSportList = sportList.Where(sport => sport.Group.Name == MinorGroup);
 
             // Language
-            ViewBag.LanguageIDList = _licenseeService.GetSelectList(new GetAllLanguageCriteria());
+            ViewBag.LanguageIDList = baseService.GetSelectList(new GetAllLanguageCriteria());
 
             // Licensees
-            ViewBag.LicenseesList = _licenseeService.GetSelectList("Odds_LicenseeSel");
+            ViewBag.LicenseesList = baseService.GetSelectList("Odds_LicenseeSel");
 
             var criteria = new CreateLicenseeCriteria();
             return View(criteria);
@@ -100,14 +100,14 @@
 
             criteria.SystemName = criteria.SystemName.Trim();
             criteria.ContactEmail = criteria.ContactEmail.Trim();
-            criteria.Creator = CurrentSession.UserId;
-            criteria.IP = CurrentContext.IP;
+            criteria.Creator = currentSession.UserId;
+            criteria.IP = currentContext.IP;
             criteria.BetTypeIDList = criteria.BetTypeIDList ?? string.Empty;
             criteria.LeagueKeyword = criteria.LeagueKeyword ?? string.Empty;
             criteria.LeagueKeyword_O = criteria.LeagueKeyword_O ?? string.Empty;
 
             criteria.SportIDList = UpdateSportIDListForCricket(criteria.SportIDList);
-            var res = _licenseeService.UpdateData(criteria);
+            var res = baseService.ExecuteNonQuery(criteria);
             return (int)res.Code;
         }
 
@@ -117,17 +117,17 @@
 
         public int EditLicensee(EditLicenseeCriteria criteria)
         {
-            criteria.Creator = CurrentSession.UserId;
-            criteria.IP = CurrentContext.IP;
-            var res = _licenseeService.UpdateData(criteria);
+            criteria.Creator = currentSession.UserId;
+            criteria.IP = currentContext.IP;
+            var res = baseService.ExecuteNonQuery(criteria);
             return (int)res.Code;
         }
 
         public int EditActive(UpdateLicenseeActiveCriteria criteria)
         {
-            criteria.Creator = CurrentSession.UserId;
-            criteria.IP = CurrentContext.IP;
-            var res = _licenseeService.UpdateData(criteria);
+            criteria.Creator = currentSession.UserId;
+            criteria.IP = currentContext.IP;
+            var res = baseService.ExecuteNonQuery(criteria);
             return (int)res.Code;
         }
 
@@ -151,9 +151,9 @@
                 criteria.LicenseeID = 0;
             }
 
-            criteria.Creator = CurrentSession.UserId;
-            criteria.IP = CurrentContext.IP;
-            var res = _licenseeService.UpdateData(criteria);
+            criteria.Creator = currentSession.UserId;
+            criteria.IP = currentContext.IP;
+            var res = baseService.ExecuteNonQuery(criteria);
             return (int)res.Code;
         }
 
@@ -170,7 +170,7 @@
                 return this.NoAuthorization();
             }
 
-            var licensee = _licenseeService.GetDataSet(new GetLicenseeSettingByLicenseeIDCriteria { SystemID = criteria.SystemID });
+            var licensee = baseService.GetDataSet(new GetLicenseeSettingByLicenseeIDCriteria { SystemID = criteria.SystemID });
             var listIPFrom = new StringBuilder();
             var listIPTo = new StringBuilder();
             foreach (DataRow row in licensee.Tables[0].Rows)
@@ -183,14 +183,14 @@
             criteria.ListIPTo = listIPTo.ToString().Trim(',');
 
             ////Domain
-            var selectedDomains = _licenseeService.GetSelectList(new GetDomainBySystemIDCriteria
+            var selectedDomains = baseService.GetSelectList(new GetDomainBySystemIDCriteria
             {
                 SystemID = (byte)criteria.SystemID
             });
 
             ViewBag.SelectedDomainList = selectedDomains;
             ViewBag.NumberOfIPs = GetMaxNumberOfIPs();
-            ViewBag.DomainList = _licenseeService.GetSelectList(new GetAllDomainCriteria
+            ViewBag.DomainList = baseService.GetSelectList(new GetAllDomainCriteria
             {
                 SystemID = 0,
                 IsActive = null,
@@ -205,9 +205,9 @@
         [HttpPost]
         public int EditSettingPost(EditLicenseeSettingCriteria criteria)
         {
-            criteria.Creator = CurrentSession.UserId;
-            criteria.IP = CurrentContext.IP;
-            var res = _licenseeService.UpdateData(criteria);
+            criteria.Creator = currentSession.UserId;
+            criteria.IP = currentContext.IP;
+            var res = baseService.ExecuteNonQuery(criteria);
             return (int)res.Code;
         }
 
@@ -227,7 +227,7 @@
             GetLicenseeProfile(ref criteria);
             ViewBagForEditLicenseeProfile(ref criteria);
 
-            ViewBag.LicenseesList = _licenseeService.GetSelectList("Odds_LicenseeSel");
+            ViewBag.LicenseesList = baseService.GetSelectList("Odds_LicenseeSel");
             ViewBag.CurrentSystem = " of \"" + criteria.SystemName + "\"";
 
             return View(criteria);
@@ -262,7 +262,7 @@
         [HttpPost]
         public JsonResult UpdateIPRange_EditSetting(UpdateSettingIP_LicenseeCriteria criteria)
         {
-            criteria.Creator = CurrentSession.UserId;
+            criteria.Creator = currentSession.UserId;
             criteria.IpFromOld = string.IsNullOrEmpty(criteria.IpFromOld) ? string.Empty : criteria.IpFromOld;
             criteria.IpToOld = string.IsNullOrEmpty(criteria.IpToOld) ? string.Empty : criteria.IpToOld;
 
@@ -300,7 +300,7 @@
         public ActionResult GetLeague(GetLeagueCriteria criteria)
         {
             criteria.SportIDList = UpdateSportIDListForCricket(criteria.SportIDList);
-            ViewBag.LeagueList = _licenseeService.GetSelectList(criteria);
+            ViewBag.LeagueList = baseService.GetSelectList(criteria);
 
             return PartialView("_LeaguePartialView", criteria);
         }
@@ -308,7 +308,7 @@
         public ActionResult GetOutright(GetOutRightCriteria criteria)
         {
             criteria.SportIDList = UpdateSportIDListForCricket(criteria.SportIDList);
-            ViewBag.OutrightList = _licenseeService.GetSelectList(criteria);
+            ViewBag.OutrightList = baseService.GetSelectList(criteria);
 
             return PartialView("_OutRightPartialView", criteria);
         }
@@ -321,7 +321,7 @@
                 criteria.SystemName = string.Empty;
             }
 
-            var dr = _licenseeService.GetData(criteria);
+            var dr = baseService.GetData(criteria);
             var result = FanexGridHelper.DataForFanexGrid(dr);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
@@ -346,7 +346,7 @@
                 criteria.SystemName = string.Empty;
             }
 
-            var dr = _licenseeService.GetData(criteria);
+            var dr = baseService.GetData(criteria);
             return FanexGridHelper.DataForFanexGrid(dr);
         }
 
@@ -396,7 +396,7 @@
                 Systemname = systemName
             };
 
-            var top10SystemList = _licenseeService.GetDataSet(criteria).Tables[0];
+            var top10SystemList = baseService.GetDataSet(criteria).Tables[0];
             return JsonForAutoComplete(top10SystemList, "SystemID", "SystemName");
         }
 
@@ -407,7 +407,7 @@
                 Systemname = systemName
             };
 
-            var top10SystemList = _licenseeService.GetDataSet(criteria).Tables[0];
+            var top10SystemList = baseService.GetDataSet(criteria).Tables[0];
             return DataForAutoComplete(top10SystemList, "SystemName");
         }
 
@@ -417,7 +417,7 @@
 
             criteria.PageIndex = 1;
             criteria.PageSize = DefaultPageSize;
-            var res = _licenseeService.GetDataSet(criteria);
+            var res = baseService.GetDataSet(criteria);
             return res.Tables[0].Rows.Count == 0;
         }
 
@@ -427,9 +427,9 @@
 
         public int DeleteLicensee(DeleteLicenseeCriteria criteria)
         {
-            criteria.Creator = CurrentSession.UserId;
-            criteria.IP = CurrentContext.IP;
-            var res = _licenseeService.UpdateData(criteria);
+            criteria.Creator = currentSession.UserId;
+            criteria.IP = currentContext.IP;
+            var res = baseService.ExecuteNonQuery(criteria);
             return (int)res.Code;
         }
 
@@ -437,8 +437,8 @@
         public JsonResult DeleteIPRange_EditSetting(DeleteSettingIP_LicenseeCriteria criteria)
         {
             var deleteResult = new OddsFeedActionResult();
-            criteria.Creator = CurrentSession.UserId;
-            criteria.IP = CurrentContext.IP;
+            criteria.Creator = currentSession.UserId;
+            criteria.IP = currentContext.IP;
             criteria.IPFromOld = string.IsNullOrEmpty(criteria.IPFromOld) ? string.Empty : criteria.IPFromOld;
             criteria.IPToOld = string.IsNullOrEmpty(criteria.IPToOld) ? string.Empty : criteria.IPToOld;
 
@@ -553,10 +553,10 @@
 
         private JsonResult SaveLicenseeProfile(EditLicenseeProfileCriteria criteria)
         {
-            criteria.Creator = CurrentSession.UserId;
-            criteria.IP = CurrentContext.IP;
+            criteria.Creator = currentSession.UserId;
+            criteria.IP = currentContext.IP;
             criteria.BettypeIDListFlag = criteria.BettypeIDListFlag && criteria.BetTypeIDList != null;
-            var res = _licenseeService.UpdateData(criteria);
+            var res = baseService.ExecuteNonQuery(criteria);
 
             var missingPartnersProfile = new MissingPartnersProfile
             {
@@ -567,7 +567,7 @@
 
         private void GetLicenseeProfile(ref EditLicenseeProfileCriteria criteria)
         {
-            var licensee = _licenseeService.GetDataSet(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = criteria.SystemID });
+            var licensee = baseService.GetDataSet(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = criteria.SystemID });
             if (licensee != null && licensee.Tables.Count > 0 && licensee.Tables[0].Rows.Count > 0)
             {
                 var row = licensee.Tables[0].Rows[0];
@@ -617,15 +617,15 @@
 
         private void ViewBagForEditLicenseeProfile(ref EditLicenseeProfileCriteria criteria)
         {
-            ViewBag.OddsTypeList = _licenseeService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "OddsType" }, false);
-            ViewBag.OddsStyleList = _licenseeService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "OddsRegion" }, false);
-            ViewBag.LanguageIDList = _licenseeService.GetSelectList(new GetAllLanguageCriteria());
-            var config = _licenseeService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "Config" }, false);
+            ViewBag.OddsTypeList = baseService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "OddsType" }, false);
+            ViewBag.OddsStyleList = baseService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "OddsRegion" }, false);
+            ViewBag.LanguageIDList = baseService.GetSelectList(new GetAllLanguageCriteria());
+            var config = baseService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "Config" }, false);
             ViewBag.DelayTimeList = GenerateDelayTime(config);
             ViewBag.ResultDelayTimeList = _licenseeService.GetResultDelayTimeList();
 
             ////Sport
-            var sports = _affiliateService.GetSelectListWithGroup(new GetSupportedSportCriteria());
+            var sports = baseService.GetSelectListWithGroup(new GetSupportedSportCriteria());
             var sportList = UpdateSportListForCricket(sports);
             if (criteria.SportIDList.Equals("all"))
             {
@@ -636,7 +636,7 @@
             ViewBag.MinorSportList = sportList.Where(sport => sport.Group.Name == "Minor");
 
             ////Market
-            var bettypes = _affiliateService.GetSelectListWithGroup(new GetSupportedBettypeCriteria());
+            var bettypes = baseService.GetSelectListWithGroup(new GetSupportedBettypeCriteria());
 
             if (criteria.BetTypeIDList.Equals("all"))
             {
@@ -647,14 +647,14 @@
             ViewBag.MinorBettypesList = bettypes.Where(betType => betType.Group.Name == "Minor");
 
             ////Country
-            var countries = _affiliateService.GetSelectList(new GetAllCountryCriteria());
+            var countries = baseService.GetSelectList(new GetAllCountryCriteria());
             ViewBag.CountriesList = countries;
             if (criteria.CountryCodeList.Equals("all"))
             {
                 criteria.CountryCodeList = string.Join(",", countries.Select(item => item.Value));
             }
             //// League
-            var leagues = _affiliateService.GetSelectList(new GetLeagueCriteria
+            var leagues = baseService.GetSelectList(new GetLeagueCriteria
             {
                 SportIDList = criteria.SportIDList,
                 CountryCodeList = criteria.CountryCodeList
@@ -665,7 +665,7 @@
                 criteria.LeagueIDList = string.Join(",", leagues.Select(item => item.Value));
             }
             ////OutRight
-            var outrights = _affiliateService.GetSelectList(new GetOutRightCriteria
+            var outrights = baseService.GetSelectList(new GetOutRightCriteria
             {
                 SportIDList = criteria.SportIDList,
                 CountryCodeList = criteria.CountryCodeList
@@ -700,7 +700,7 @@
                 sportList.Remove("50");
             }
 
-            return String.Join(",", sportList.ToArray());
+            return string.Join(",", sportList.ToArray());
         }
 
         #endregion Common

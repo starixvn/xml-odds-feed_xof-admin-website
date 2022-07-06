@@ -1,22 +1,8 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="IDomainRepository.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Phillip.Truong" date="2013.2.25">Created</change>
-// </history>
-
-namespace Fanex.OddsFeed.Core.Repository.Interface
+﻿namespace Fanex.OddsFeed.Core.Repository.Interface
 {
-    using System.Collections.Generic;
-    using System.Data;
-    using System.Diagnostics.CodeAnalysis;
-    using Fanex.OddsFeed.Core.Domain;
     using Fanex.OddsFeed.Core.Helpers;
-    using Fanex.OddsFeed.Framework.Data;
     using Data.Repository;
-    [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Reviewed")]
+
     public interface IDomainRepository
     {
         DataCollection GetAllDomain(ICriteria criteria);
