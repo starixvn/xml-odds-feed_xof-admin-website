@@ -1,51 +1,34 @@
 ﻿namespace Fanex.OddsFeed.Core.Service.Impl
 {
-    using System;
     using System.Collections.Generic;
     using System.Data;
     using System.Web.Mvc;
     using Fanex.Data.Repository;
-    using Fanex.OddsFeed.Core.Criteria.Misc;
     using Fanex.OddsFeed.Core.Helpers;
     using Fanex.OddsFeed.Core.Service.Interface;
     using Fanex.OddsFeed.Framework.Data;
     using Fanex.OddsFeed.Core.Repository;
     using Fanex.OddsFeed.Core.Repository.Interface;
     using Fanex.OddsFeed.Core.Repository.Impl;
-    using Fanex.OddsFeed.Core.Web.Session;
 
     public class BaseService : IBaseService
     {
         private readonly IBaseRepository baseRepository;
-        protected readonly ICurrentSession currentSession;
         private readonly IDynamicRepository dynamicRepository;
         private readonly ISelectListRepository selectListRepository;
 
-        public BaseService() : this(null, null, null, null)
+        public BaseService() : this(null, null, null)
         {
         }
 
         public BaseService(
-            ICurrentSession currentSession,
             IDynamicRepository dynamicRepository,
             ISelectListRepository selectListRepository,
             IBaseRepository baseRepository)
         {
-            this.currentSession = currentSession ?? new CurrentSession();
             this.baseRepository = baseRepository ?? new BaseRepository();
             this.dynamicRepository = dynamicRepository ?? new DynamicRepository();
             this.selectListRepository = selectListRepository ?? new SelectListRepository();
-        }
-
-        public LogExecSpCriteria GetLogExecSpCriteria()
-        {
-            return new LogExecSpCriteria
-            {
-                CurrentUserId = currentSession.UserId,
-                CurrentSystemId = currentSession.SystemId,
-                LogDate = DateTime.Now,
-                LoginIp = currentSession.LoginIp
-            };
         }
 
         public IEnumerable<SelectListItem> GetSelectList(string settingKey, bool order = true, string selectedValue = "")

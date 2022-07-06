@@ -207,7 +207,7 @@
                 criteria.Website = criteria.Website ?? string.Empty;
                 criteria.Note = criteria.Note ?? string.Empty;
 
-                var result = affiliateService.Update(criteria);
+                var result = baseService.ExecuteNonQuery(criteria);
                 if (result != null && result.IsSuccessful)
                 {
                     actionResult.IsSuccess = true;
@@ -287,7 +287,7 @@
                     IpsTo = toIPs.ToString()
                 };
 
-                var result = affiliateService.Update(criteria);
+                var result = baseService.ExecuteNonQuery(criteria);
                 if (result != null && result.IsSuccessful)
                 {
                     ViewBag.Success = true;
@@ -317,7 +317,7 @@
                 IpToOld = toIPOld
             };
 
-            var result = affiliateService.Update(criteria);
+            var result = baseService.ExecuteNonQuery(criteria);
             if (result != null && result.IsSuccessful)
             {
                 ViewBag.Success = true;
@@ -339,7 +339,7 @@
             criteria.IPToOld = string.IsNullOrEmpty(criteria.IPToOld) ? string.Empty : criteria.IPToOld;
             criteria.IP = currentContext.IP;
 
-            var result = affiliateService.Update(criteria);
+            var result = baseService.ExecuteNonQuery(criteria);
             if (result != null && result.IsSuccessful)
             {
                 deleteResult.IsSuccess = true;
@@ -405,7 +405,7 @@
             {
                 CustomizeDataBeforeEditProfile(ref criteria);
 
-                var result = affiliateService.Update(criteria);
+                var result = baseService.ExecuteNonQuery(criteria);
                 if (result != null && result.IsSuccessful)
                 {
                     actionResult.IsSuccess = true;
@@ -431,7 +431,7 @@
                 Creator = currentSession.UserId
             };
 
-            var result = affiliateService.Update(criteria);
+            var result = baseService.ExecuteNonQuery(criteria);
 
             if (result != null)
             {
@@ -585,8 +585,7 @@
                 PartnerID = affId
             };
 
-            var result = affiliateService.Delete(criteria);
-
+            var result = baseService.ExecuteNonQuery(criteria);
             if (result != null)
             {
                 resultMessage = result.IsSuccessful ? ViewResources.SuccessfulMessage : result.Message;

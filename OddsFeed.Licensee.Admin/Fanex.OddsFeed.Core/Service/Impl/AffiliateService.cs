@@ -5,10 +5,8 @@
     using System.Data;
     using System.Linq;
     using System.Web.Mvc;
-    using Data.Repository;
     using Fanex.Common.Helper;
     using Fanex.OddsFeed.Core.Repository;
-    using Fanex.OddsFeed.Core.Command;
     using Fanex.OddsFeed.Core.Criteria.Affiliate;
     using Fanex.OddsFeed.Core.Domain;
     using Fanex.OddsFeed.Core.Helpers;
@@ -22,65 +20,25 @@
     public class AffiliateService : IAffiliateService
     {
         protected readonly ICurrentSession currentSession;
-        private readonly IBaseRepository baseRepository;
         private readonly IBaseService baseService;
         private readonly IAffiliateRepository affilliateRepository;
         private readonly ISelectListRepository selectListRepository;
 
         public AffiliateService()
-            : this(null, null, null, null, null)
+            : this(null, null, null, null)
         {
         }
 
         public AffiliateService(
             ICurrentSession currentSession,
-            IBaseRepository baseRepository,
             IBaseService baseService,
             IAffiliateRepository affilliateRepository,
             ISelectListRepository selectListRepository)
         {
             this.currentSession = currentSession ?? new CurrentSession();
-            this.baseRepository = baseRepository ?? new BaseRepository();
             this.baseService = baseService ?? new BaseService();
             this.affilliateRepository = affilliateRepository ?? new AffiliateRepository();
             this.selectListRepository = selectListRepository ?? new SelectListRepository();
-        }
-
-        public IAffiliate GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IList<Affiliate> GetByNameAndSystemId(byte systemId, string name)
-        {
-            var criteria = new GetAffiliateByNameCriteria
-            {
-                SystemId = systemId,
-                UserName = name
-            };
-
-            if (criteria.IsValid())
-            {
-                IEnumerable<IAffiliate> affList = baseService.GetData<Affiliate>(criteria).OrderBy(s => s.Name);
-
-                if (affList != null)
-                {
-                    return affList.Select(s => new Affiliate
-                    {
-                        Id = s.Id,
-                        Name = s.Name,
-                        Site = s.Site,
-                        IsAllowed = s.IsAllowed,
-                        CreatedDate = Convert.ToDateTime(s.CreatedDate),
-                        LastUpdate = Convert.ToDateTime(s.LastUpdate),
-                        Creator = s.Creator,
-                        ContactPerson = s.ContactPerson,
-                        ContactEmail = s.ContactEmail
-                    }).ToList();
-                }
-            }
-
-            return null;
         }
 
         public IDataReader GetAffiliateListReturnDataReader(byte systemId, string name)
@@ -193,21 +151,6 @@
             return new List<PartnerIP>();
         }
 
-        public IEnumerable<RequestStatistic> GetPartnerRequestStatistic(RequestStatisticCriteria criteria)
-        {
-            // check parameters
-            Check.Argument.IsNotNull(criteria, "criteria");
-
-            if (criteria.IsValid())
-            {
-                var list = baseService.GetData<RequestStatistic>(criteria);
-
-                return list;
-            }
-
-            return null;
-        }
-
         public IDataReader GetPartnerRequestStatisticReturnDataReader(RequestStatisticCriteria criteria)
         {
             // check parameters
@@ -215,7 +158,7 @@
 
             if (criteria.IsValid())
             {
-                return baseRepository.ReturnDataReader(criteria);
+                return baseService.GetDataReader(criteria);
             }
 
             return null;
@@ -482,38 +425,6 @@
             if (criteria.IsValid())
             {
                 return affilliateRepository.Insert(ref criteria);
-            }
-
-            return null;
-        }
-
-        public ICommandResult Update(CriteriaBase criteria)
-        {
-            ICommandResult result = new CommandResult
-            {
-                Code = 1,
-                Message = "Internal Server Error!"
-            };
-
-            // check parameters
-            Check.Argument.IsNotNull(criteria, "criteria");
-
-            if (criteria.IsValid())
-            {
-                result = baseService.ExecuteNonQuery(criteria);
-            }
-
-            return result;
-        }
-
-        public ICommandResult Delete(CriteriaBase criteria)
-        {
-            // check parameters
-            Check.Argument.IsNotNull(criteria, "criteria");
-
-            if (criteria.IsValid())
-            {
-                return baseService.ExecuteNonQuery(criteria);
             }
 
             return null;

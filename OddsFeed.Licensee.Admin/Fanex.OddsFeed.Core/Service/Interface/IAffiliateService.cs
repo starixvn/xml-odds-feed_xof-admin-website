@@ -5,17 +5,12 @@
     using System.Web.Mvc;
     using Data.Repository;
     using Fanex.OddsFeed.Core.Criteria.Affiliate;
-    using Fanex.OddsFeed.Core.Domain;
     using Fanex.OddsFeed.Core.Helpers;
     using Fanex.OddsFeed.Core.Model;
     using Fanex.OddsFeed.Framework.Data;
 
     public interface IAffiliateService
     {
-        IAffiliate GetById(int id);
-
-        IList<Affiliate> GetByNameAndSystemId(byte systemId, string name);
-
         IDataReader GetAffiliateListReturnDataReader(byte systemId, string name);
 
         bool GetStatusById(int id);
@@ -31,10 +26,7 @@
             bool? isOddsDomain = null,
             int selectedId = 0);
 
-        IList<PartnerIP> GetPartnerIpByAffId(
-            int partnerId);
-
-        IEnumerable<RequestStatistic> GetPartnerRequestStatistic(RequestStatisticCriteria criteria);
+        IList<PartnerIP> GetPartnerIpByAffId(int partnerId);
 
         IDataReader GetPartnerRequestStatisticReturnDataReader(RequestStatisticCriteria criteria);
 
@@ -69,10 +61,6 @@
         IList<Affiliate> GetBySystemId(byte systemId);
 
         ICommandResult Insert(InsertAffiliateCriteria criteria);
-
-        ICommandResult Update(CriteriaBase criteria);
-
-        ICommandResult Delete(CriteriaBase criteria);
 
         DataCollection GetAffiliateListReturnDataCollection(CheckExistAffiliateCriteria criteria);
 

@@ -1,13 +1,10 @@
 ﻿namespace Fanex.OddsFeed.Core.Service.Impl
 {
-    using Fanex.Common.Helper;
     using Fanex.OddsFeed.Core.Criteria.Licensee;
     using Fanex.OddsFeed.Core.Model;
     using Fanex.OddsFeed.Core.Repository.Impl;
     using Fanex.OddsFeed.Core.Repository.Interface;
     using Fanex.OddsFeed.Core.Service.Interface;
-    using Fanex.OddsFeed.Framework.Data;
-    using Data.Repository;
     using System.Collections.Generic;
     using System.Web.Mvc;
 
@@ -38,19 +35,6 @@
             if (criteria.IsValid())
             {
                 return baseService.GetDataEntity<string>(criteria);
-            }
-
-            return null;
-        }
-
-        public ICommandResult Update(CriteriaBase criteria)
-        {
-            // check parameters
-            Check.Argument.IsNotNull(criteria, "criteria");
-
-            if (criteria.IsValid())
-            {
-                return baseService.ExecuteNonQuery(criteria);
             }
 
             return null;

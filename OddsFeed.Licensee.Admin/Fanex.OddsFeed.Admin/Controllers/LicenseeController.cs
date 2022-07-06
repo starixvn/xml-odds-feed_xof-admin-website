@@ -267,7 +267,7 @@
             criteria.IpToOld = string.IsNullOrEmpty(criteria.IpToOld) ? string.Empty : criteria.IpToOld;
 
             string resultMessage;
-            var result = _licenseeService.Update(criteria);
+            var result = baseService.ExecuteNonQuery(criteria);
             if (result != null)
             {
                 ViewBag.Success = true;
@@ -442,7 +442,7 @@
             criteria.IPFromOld = string.IsNullOrEmpty(criteria.IPFromOld) ? string.Empty : criteria.IPFromOld;
             criteria.IPToOld = string.IsNullOrEmpty(criteria.IPToOld) ? string.Empty : criteria.IPToOld;
 
-            var result = this._licenseeService.Update(criteria);
+            var result = baseService.ExecuteNonQuery(criteria);
             if (result != null && result.IsSuccessful)
             {
                 deleteResult.IsSuccess = true;

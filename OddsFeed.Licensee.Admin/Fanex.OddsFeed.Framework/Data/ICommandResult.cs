@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="ICommandResult.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Anders.Le" date="2012.8.6">Created</change>
-// </history>
-
-namespace Fanex.OddsFeed.Framework.Data
+﻿namespace Fanex.OddsFeed.Framework.Data
 {
     public interface ICommandResult
     {

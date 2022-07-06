@@ -63,12 +63,9 @@
                 }
                 else
                 {
-                    if (!attr.Ignored && attr.SqlParamName != null)
+                    if (!attr.Ignored && attr.SqlParamName != null && !storeProcParamName.Contains(attr.SqlParamName.ToLower()))
                     {
-                        if (!storeProcParamName.Contains(attr.SqlParamName.ToLower()))
-                        {
-                            storeProcParamName.Add(attr.SqlParamName.ToLower(), propertyInfo.GetValue(this, null));
-                        }
+                        storeProcParamName.Add(attr.SqlParamName.ToLower(), propertyInfo.GetValue(this, null));
                     }
                 }
             }

@@ -22,8 +22,6 @@
         PermissionFlag GetUserPermission(int userId, byte systemId);
 
         ICommandResult Insert(InsertSubAccCriteria criteria);
-        
-        ICommandResult AssignLicensee(AssignLicensee_SubAccCriteria criteria);
 
         DataCollection GetSubAccountListReturnDataCollection(CheckExistSubAccountCriteria criteria);
     }

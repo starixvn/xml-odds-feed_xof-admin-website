@@ -29,7 +29,7 @@
                 return this.NoAuthorization();
             }
 
-            ViewBag.listLicensees = _domainService.GetSelectList("Odds_SystemSel");
+            ViewBag.listLicensees = baseService.GetSelectList("Odds_SystemSel");
             return View();
         }
 
@@ -79,7 +79,7 @@
 
         public JsonResult DomainList_GetTop10(GetTop10DomainCriteria criteria)
         {
-            var top10DomainList = this._domainService.GetDataSet(criteria).Tables[0];
+            var top10DomainList = baseService.GetDataSet(criteria).Tables[0];
             return JsonForAutoComplete(top10DomainList, "DomainID", "DomainName");
         }
     }

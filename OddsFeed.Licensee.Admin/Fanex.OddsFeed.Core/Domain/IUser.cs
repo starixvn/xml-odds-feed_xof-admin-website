@@ -1,21 +1,10 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="IUser.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Thai.Tran" date="2012.12.11">Created</change>
-// </history>
-
-namespace Fanex.OddsFeed.Core.Domain
+﻿namespace Fanex.OddsFeed.Core.Domain
 {
     using System;
     using System.ComponentModel.DataAnnotations;
-    using System.Diagnostics.CodeAnalysis;
     using Fanex.OddsFeed.Core.Web;
     using Fanex.OddsFeed.Framework.Domain;
 
-    [SuppressMessage("Microsoft.StyleCop.CSharp.DocumentationRules", "SA1600:ElementsMustBeDocumented", Justification = "Reviewed")]
     public interface IUser : IEntity<int, string>
     {
         [Display(Name = "Username", ResourceType = typeof(ViewResources))]

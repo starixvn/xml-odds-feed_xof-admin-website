@@ -140,7 +140,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Extensions\DataTableExtension.cs" />
-    <Compile Include="Mvc\DelegatingResult.cs" />
     <Compile Include="Mvc\DownloadResult.cs" />
     <Compile Include="Mvc\ExcelResult.cs" />
     <Compile Include="Mvc\HtmlHelperExtensions.cs" />

@@ -15,25 +15,22 @@
     using Fanex.OddsFeed.Core.Repository.Interface;
     using Fanex.OddsFeed.Core.Service.Interface;
     using Framework.Data;
+    using static Fanex.OddsFeed.Core.Business.Constant;
 
     public class SubAccService : ISubAccService
     {
         private readonly IBaseService baseService;
-        private readonly IUserRepository userRepository;
         private readonly ISubAccRepository subAccRepository;
 
-        public SubAccService()
-            : this(null, null, null)
+        public SubAccService() : this(null, null)
         {
         }
 
         public SubAccService(
-            IUserRepository userRepository,
             ISubAccRepository subAccRepository,
             IBaseService baseService)
         {
             this.baseService = baseService ?? new BaseService();
-            this.userRepository = userRepository ?? new UserRepository();
             this.subAccRepository = subAccRepository ?? new SubAccRepository();
         }
 
@@ -42,7 +39,7 @@
             var criteria = new GetSubAccByNameCriteria
             {
                 SystemId = systemId,
-                RoleId = 3,
+                RoleId = (byte)UserRole.LicenseeSubAccount,
                 Username = name
             };
 
@@ -107,7 +104,7 @@
             var criteria = new GetSubAccBySystemIDCriteria
             {
                 SystemId = systemId,
-                RoleId = 3
+                RoleId = (byte)UserRole.LicenseeSubAccount
             };
 
             if (criteria.IsValid())
@@ -140,13 +137,7 @@
                 UserID = userId,
                 SystemID = systemId
             };
-
-            if (criteria.IsValid())
-            {
-                return userRepository.GetPermissionFlags(ref criteria);
-            }
-
-            return null;
+            return baseService.GetDataEntity<PermissionFlag>(criteria);
         }
 
         public ICommandResult Insert(InsertSubAccCriteria criteria)
@@ -156,17 +147,6 @@
             if (criteria.IsValid())
             {
                 return subAccRepository.Insert(ref criteria);
-            }
-
-            return null;
-        }
-
-        public ICommandResult AssignLicensee(AssignLicensee_SubAccCriteria criteria)
-        {
-            Check.Argument.IsNotNull(criteria, "criteria");
-            if (criteria.IsValid())
-            {
-                return baseService.ExecuteNonQuery(criteria);
             }
 
             return null;

@@ -1,6 +1,5 @@
 ﻿namespace Fanex.OddsFeed.Core.Service.Impl
 {
-    using System.Collections.Generic;
     using Fanex.Common.Helper;
     using Fanex.OddsFeed.Core.Criteria.User;
     using Fanex.OddsFeed.Core.Domain;
@@ -12,14 +11,18 @@
     public class UserService : IUserService
     {
         private readonly IUserRepository userRepository;
+        private readonly IBaseService baseService;
 
-        public UserService() : this(null)
+        public UserService() : this(null, null)
         {
         }
 
-        public UserService(IUserRepository userRepository)
+        public UserService(
+            IUserRepository userRepository,
+            IBaseService baseService)
         {
             this.userRepository = userRepository ?? new UserRepository();
+            this.baseService = baseService ?? new BaseService();
         }
 
         public IUser UserLogin(ref UserLoginUserCriteria criteria)
@@ -47,17 +50,6 @@
             return flags;
         }
 
-        public PermissionFlag GetPermissionFlags(ref UserGetPermissionCriteria criteria)
-        {
-            PermissionFlag flags = null;
-            if (criteria.IsValid())
-            {
-                flags = userRepository.GetPermissionFlags(ref criteria);
-            }
-
-            return flags;
-        }
-
         public void ReUserCheckIn(ref UserReCheckInUserCriteria criteria)
         {
             Check.Argument.IsNotNull(criteria, "criteria");
@@ -67,28 +59,13 @@
             }
         }
 
-        public IEnumerable<IUser> GetUserInfo(GetUserInfoCriteria criteria)
+        public User GetUserInfo(int userId)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
-            if (criteria.IsValid())
+            var criteria = new GetUserInfoCriteria
             {
-                var rawData = userRepository.GetUserInfo(criteria);
-                var result = new List<User>();
-                foreach (var data in rawData)
-                {
-                    result.Add(new User
-                    {
-                        RoleID = (byte)data.RoleID,
-                        FirstName = (string)data.FirstName,
-                        LastName = (string)data.LastName,
-                        Email = (string)data.Email
-                    });
-                }
-
-                return result;
-            }
-
-            return new List<User>();
+                UserId = userId
+            };
+            return baseService.GetDataEntity<User>(criteria);
         }
     }
 }

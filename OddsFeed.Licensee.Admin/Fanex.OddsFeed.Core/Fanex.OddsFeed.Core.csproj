@@ -325,7 +325,6 @@
     <Compile Include="Repository\Interface\ISelectListRepository.cs" />
     <Compile Include="Repository\Interface\ISubAccRepository.cs" />
     <Compile Include="Repository\Interface\IUserRepository.cs" />
-    <Compile Include="Service\Impl\AdministratorService.cs" />
     <Compile Include="Service\Impl\AffiliateService.cs" />
     <Compile Include="Service\Impl\DashboardService.cs" />
     <Compile Include="Service\Impl\DomainService.cs" />
@@ -334,7 +333,6 @@
     <Compile Include="Service\Impl\BaseService.cs" />
     <Compile Include="Service\Impl\UserService.cs" />
     <Compile Include="Service\Interface\IDashboardService.cs" />
-    <Compile Include="Service\Interface\IAdministratorService.cs" />
     <Compile Include="Service\Interface\IBaseService.cs" />
     <Compile Include="Service\Interface\IDomainService.cs" />
     <Compile Include="Service\Interface\ILicenseeService.cs" />

@@ -1,9 +1,7 @@
 ﻿namespace Fanex.OddsFeed.Core.Service
 {
     using System.Collections.Generic;
-    using System.Data;
     using Fanex.OddsFeed.Core.Criteria.Dashboard;
-    using Fanex.OddsFeed.Core.Helpers;
     using Fanex.OddsFeed.Core.Model.Report;
     using Fanex.OddsFeed.Core.Service.Impl;
     using Fanex.OddsFeed.Core.Service.Interface;
@@ -37,26 +35,6 @@
                 UserID = userId
             };
             return baseService.GetData<LoginInfoStatistic>(criteria);
-        }
-
-        public DataCollection GetCurrentOnlineUserReturnDataCollection(GetCurrentOnlineUserCriteria criteria)
-        {
-            if (criteria.IsValid())
-            {
-                return baseService.GetData(criteria);
-            }
-
-            return null;
-        }
-
-        public DataCollection GetRecentActivitiesReturnDataCollection(GetRecentActivitiesCriteria criteria)
-        {
-            if (criteria.IsValid())
-            {
-                return baseService.GetData(criteria);
-            }
-
-            return null;
         }
     }
 }

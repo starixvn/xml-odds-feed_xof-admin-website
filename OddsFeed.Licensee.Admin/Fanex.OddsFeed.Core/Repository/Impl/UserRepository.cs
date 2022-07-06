@@ -1,7 +1,6 @@
 ﻿namespace Fanex.OddsFeed.Core.Repository.Impl
 {
     using System;
-    using System.Linq;
     using Fanex.Data;
     using Fanex.OddsFeed.Core.Criteria.User;
     using Fanex.OddsFeed.Core.Domain;
@@ -40,14 +39,6 @@
             }
         }
 
-        public PermissionFlag GetPermissionFlags(ref UserGetPermissionCriteria criteria)
-        {
-            using (var db = new ObjectDb(criteria.GetSettingKey()))
-            {
-                return db.QueryEntity<PermissionFlag>(criteria.GetSpParams());
-            }
-        }
-
         public void UserReCheckIn(ref UserReCheckInUserCriteria criteria)
         {
             var hash = criteria.GetSpParams();
@@ -56,16 +47,6 @@
             {
                 objectDb.ExecuteNonQuery(hash);
                 criteria.IsKickedOut = Convert.ToBoolean(hash["iskickedout"].ToString());
-            }
-        }
-
-        public IQueryable<dynamic> GetUserInfo(GetUserInfoCriteria criteria)
-        {
-            using (var db = new ObjectDb(criteria.GetSettingKey()))
-            {
-                var hash = criteria.GetSpParams();
-                var userList = db.Query<dynamic>(hash);
-                return userList.AsQueryable();
             }
         }
     }

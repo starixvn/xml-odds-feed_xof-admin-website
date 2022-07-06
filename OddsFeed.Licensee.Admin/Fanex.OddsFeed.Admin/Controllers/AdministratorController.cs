@@ -9,29 +9,24 @@
     using Fanex.OddsFeed.Core.Business;
     using Fanex.OddsFeed.Core.Criteria.Administrator;
     using Fanex.OddsFeed.Core.Criteria.Licensee;
-    using Fanex.OddsFeed.Core.Criteria.User;
     using Fanex.OddsFeed.Core.Model;
     using Fanex.OddsFeed.Core.Service.Impl;
     using Fanex.OddsFeed.Core.Service.Interface;
     using Fanex.OddsFeed.Core.Web;
     using Fanex.OddsFeed.Core.Web.Attribute;
+    using Fanex.OddsFeed.Framework.Data;
 
     [IsAuthorize]
     public class AdministratorController : BaseController
     {
-        private readonly IAdministratorService adminService;
         private readonly IUserService userService;
 
-        public AdministratorController()
-            : this(null, null)
+        public AdministratorController() : this(null)
         {
         }
 
-        public AdministratorController(
-            IAdministratorService adminService,
-            IUserService userService)
+        public AdministratorController(IUserService userService)
         {
-            this.adminService = adminService ?? new AdministratorService();
             this.userService = userService ?? new UserService();
         }
 
@@ -73,7 +68,7 @@
 
             criteria.Creator = currentSession.UserId;
             criteria.IP = currentContext.IP;
-            var result = adminService.InsertAdmin(criteria);
+            ICommandResult result = baseService.ExecuteNonQuery(criteria);
             if (result != null && result.IsSuccessful)
             {
                 ViewBag.Success = true;
@@ -91,7 +86,7 @@
         public JsonResult CheckExistAdministrator(InsertAdminCriteria criteria)
         {
             var checkResult = new OddsFeedActionResult();
-            var res = adminService.GetAdminListReturnDataCollection(new CheckExistAdministratorCriteria
+            var res = baseService.GetData(new CheckExistAdministratorCriteria
             {
                 Username = criteria.UserName,
                 PageIndex = 1,
@@ -99,9 +94,7 @@
                 UserID = 0,
                 SystemID = 0
             });
-
-            if (res.Data.Tables.Count > 0 &&
-                res.Data.Tables[0].Rows.Count > 0)
+            if (res.Data.Tables.Count > 0 && res.Data.Tables[0].Rows.Count > 0)
             {
                 checkResult.IsSuccess = false;
             }
@@ -139,7 +132,7 @@
             criteria.Username = (criteria.Username == null || criteria.Username == "Username") ?
                 string.Empty :
                 criteria.Username.Trim();
-            var dr = adminService.GetAdminListReturnDataCollection(criteria);
+            var dr = baseService.GetData(criteria);
             var result = FanexGridHelper.DataForFanexGrid_PreventContainQuote(dr);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
@@ -156,8 +149,7 @@
                 AdminID = adminid,
                 Isactive = isactive
             };
-
-            var result = adminService.UpdateAdmin(criteria);
+            ICommandResult result = baseService.ExecuteNonQuery(criteria);
 
             var responseMessage = (result != null && result.IsSuccessful)
                 ? ViewResources.SuccessfulMessage
@@ -183,8 +175,7 @@
                 return this.NoAuthorization();
             }
 
-            var userInfo = userService.GetUserInfo(new GetUserInfoCriteria { UserId = id }).FirstOrDefault();
-
+            User userInfo = userService.GetUserInfo(id);
             ViewBag.CurrentUser = " of \"" + username + "\"";
             ViewBag.CurrentUserId = currentSession.UserId;
             var criteria = new UpdateAdminInfoCriteria { UserID = id, Username = username };
@@ -222,7 +213,7 @@
                 return Json(actionResult, JsonRequestBehavior.AllowGet);
             }
 
-            var result = adminService.UpdateAdminInfo(criteria);
+            ICommandResult result = baseService.ExecuteNonQuery(criteria);
             if (result == null || !result.IsSuccessful)
             {
                 actionResult.IsSuccess = false;
@@ -307,8 +298,7 @@
                 return View(criteria);
             }
 
-            var result = adminService.UpdateAdminSystem(criteria);
-
+            ICommandResult result = baseService.ExecuteNonQuery(criteria);
             if (result != null && result.IsSuccessful)
             {
                 ViewBag.Success = true;
@@ -328,7 +318,7 @@
                 Username = username
             };
 
-            var top10AdminDc = adminService.GetTop10AdminReturnDataSet(criteria).Tables[0];
+            var top10AdminDc = baseService.GetDataSet(criteria).Tables[0];
             return DataForAutoComplete(top10AdminDc, "username");
         }
 
@@ -345,8 +335,7 @@
             {
                 Username = username
             };
-            var result = adminService.GetExistedAdminDataSet(criteria);
-
+            var result = baseService.GetDataSet(criteria);
             if (result.Tables.Count != 0)
             {
                 var resultStr = result.Tables[0].Rows[0]["username"].ToString();
@@ -418,7 +407,7 @@
                 criteria.Password = Cryptography.CfsEnCode(HttpUtility.HtmlEncode(criteria.Password.Trim()));
                 criteria.Creator = currentSession.UserId;
                 criteria.IP = currentContext.IP;
-                var result = adminService.UpdateAdminPassword(criteria);
+                ICommandResult result = baseService.ExecuteNonQuery(criteria);
                 if (result != null && result.IsSuccessful)
                 {
                     actionResult.IsSuccess = true;
@@ -439,19 +428,21 @@
         public string ListExistedAdministrator(AdminList_GetTop10Criteria criteria)
         {
             criteria.SystemId = currentSession.SystemId;
-            var top10AdminList = adminService.AdminList_GetTop10(criteria).Tables[0];
-            return DataForAutoComplete(top10AdminList, "UserName");
+            var users = baseService.GetData<User>(criteria);
+            var builder = new StringBuilder();
+            foreach (var user in users)
+            {
+                builder.AppendFormat("{0},", user.Username);
+            }
+
+            return builder.ToString();
         }
 
         #region Private methods
 
         private bool HasEditPermission(int userRole, int editedUserId)
         {
-            var userInfo = userService.GetUserInfo(new GetUserInfoCriteria
-            {
-                UserId = editedUserId
-            }).FirstOrDefault();
-
+            User userInfo = userService.GetUserInfo(editedUserId);
             if (userInfo != null)
             {
                 var editedUserRole = userInfo.RoleID;

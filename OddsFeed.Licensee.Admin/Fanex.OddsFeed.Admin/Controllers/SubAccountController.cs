@@ -14,6 +14,7 @@
     using Fanex.OddsFeed.Core.Service.Interface;
     using Fanex.OddsFeed.Core.Web;
     using Fanex.OddsFeed.Core.Web.Attribute;
+    using static Fanex.OddsFeed.Core.Business.Constant;
 
     [IsAuthorize]
     public class SubAccountController : BaseController
@@ -51,7 +52,7 @@
             var actionResult = new OddsFeedActionResult();
             criteria.SystemID = currentSession.SystemId;
             criteria.Creator = currentSession.UserId;
-            criteria.RoleID = 3;
+            criteria.RoleID = (byte)UserRole.LicenseeSubAccount;
             criteria.Password = Cryptography.CfsEnCode(HttpUtility.HtmlEncode(criteria.Password.Trim()));
             criteria.FirstName = criteria.FirstName ?? string.Empty;
             criteria.LastName = criteria.LastName ?? string.Empty;
@@ -89,7 +90,7 @@
                 Username = string.IsNullOrEmpty(criteria.UserName) ? string.Empty : criteria.UserName,
                 PageIndex = 1,
                 PageSize = 1,
-                RoleId = 3
+                RoleId = (byte)UserRole.LicenseeSubAccount
             });
 
             if (res.Data.Tables.Count > 0 &&
@@ -120,7 +121,7 @@
         {
             criteria.SystemId = currentSession.SystemId;
             criteria.Username = (criteria.Username == null || criteria.Username == "Username") ? string.Empty : criteria.Username.Trim();
-            criteria.RoleId = 3;
+            criteria.RoleId = (byte)UserRole.LicenseeSubAccount;
             criteria.PageIndex++;
             var dr = _subAccService.GetSubAccountListReturnDataCollection(criteria);
             var result = FanexGridHelper.DataForFanexGrid_PreventContainQuote(dr);
@@ -132,7 +133,7 @@
             var criteria = new GetTop10SubAccCriteria
             {
                 SystemId = currentSession.SystemId,
-                RoleId = 3,
+                RoleId = (byte)UserRole.LicenseeSubAccount,
                 Username = username
             };
 
@@ -424,7 +425,7 @@
                 return View(criteria);
             }
 
-            var result = this._subAccService.AssignLicensee(criteria);
+            var result = baseService.ExecuteNonQuery(criteria);
             if (result != null && result.IsSuccessful)
             {
                 ViewBag.Success = true;

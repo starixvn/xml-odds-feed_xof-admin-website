@@ -64,7 +64,7 @@
                 PageIndex = Convert.ToInt16(pageIndex) + 1,
                 PageSize = Convert.ToInt16(pageSize)
             };
-            var dr = dashboardService.GetCurrentOnlineUserReturnDataCollection(criteria);
+            var dr = baseService.GetData(criteria);
             return FanexGridHelper.DataForFanexGrid(dr);
         }
 
@@ -83,7 +83,7 @@
                 PageIndex = Convert.ToInt16(pageIndex) + 1,
                 PageSize = Convert.ToInt16(pageSize)
             };
-            var dr = dashboardService.GetRecentActivitiesReturnDataCollection(criteria);
+            var dr = baseService.GetData(criteria);
             return FanexGridHelper.DataForFanexGrid_PreventContainQuote(dr);
         }
 
