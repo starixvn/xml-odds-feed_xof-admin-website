@@ -951,7 +951,7 @@
             ViewBag.MinorBettypesList = bettypes.Where(betType => betType.Group.Name == MinorGroup);
 
             // Country
-            var countries = affiliateService.GetSelectList(new GetAllCountryCriteria());
+            var countries = baseService.GetSelectList(new GetAllCountryCriteria());
             ViewBag.CountriesList = countries;
             if (criteria.CountryCodeList.Equals("all"))
             {
