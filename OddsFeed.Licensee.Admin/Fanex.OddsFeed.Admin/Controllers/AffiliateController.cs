@@ -657,12 +657,11 @@
             criteria.LeagueKeyword_O = criteria.LeagueKeyword_O ?? string.Empty;
 
             criteria.SportIDList = UpdateSportIDListForCricket(criteria.SportIDList);
-            criteria.SportIDList = GetSportIds(criteria.SportIDList);
-
-            criteria.BetTypeIDList = GetBetTypeIds(criteria.BetTypeIDList);
             criteria.LeagueIDList = GetLeagueIds(criteria.SportIDList, criteria.CountryCodeList, criteria.LeagueIDList);
             criteria.OutRightIDList = GetOutRightIds(criteria.SportIDList, criteria.CountryCodeList, criteria.OutRightIDList);
+            criteria.SportIDList = GetSportIds(criteria.SportIDList);
             criteria.CountryCodeList = GetCountryCodes(criteria.CountryCodeList);
+            criteria.BetTypeIDList = GetBetTypeIds(criteria.BetTypeIDList);
         }
 
         private void CustomizeDataBeforeEditProfile(ref UpdateProfileCriteria criteria)
@@ -677,10 +676,10 @@
             criteria.Creator = CurrentSession.UserId;
 
             criteria.SportIDList = UpdateSportIDListForCricket(criteria.SportIDList);
-            criteria.SportIDList = GetSportIds(criteria.SportIDList);
 
             criteria.LeagueIDList = GetLeagueIds(criteria.SportIDList, criteria.CountryCodeList, criteria.LeagueIDList);
             criteria.OutRightIDList = GetOutRightIds(criteria.SportIDList, criteria.CountryCodeList, criteria.OutRightIDList);
+            criteria.SportIDList = GetSportIds(criteria.SportIDList);
             criteria.CountryCodeList = GetCountryCodes(criteria.CountryCodeList);
             criteria.BetTypeIDList = GetBetTypeIds(criteria.BetTypeIDList);
         }
@@ -952,6 +951,14 @@
             ViewBag.MajorBettypesList = bettypes.Where(betType => betType.Group.Name == MajorGroup);
             ViewBag.MinorBettypesList = bettypes.Where(betType => betType.Group.Name == MinorGroup);
 
+            // Country
+            var countries = affiliateService.GetSelectList(new GetAllCountryCriteria());
+            ViewBag.CountriesList = countries;
+            if (criteria.CountryCodeList.Equals("all"))
+            {
+                criteria.CountryCodeList = string.Join(",", countries.Select(item => item.Value));
+            }
+
             // League
             var leagues = affiliateService.GetSelectList(new GetLeagueCriteria
             {
@@ -962,14 +969,6 @@
             if (criteria.LeagueIDList.Equals("all"))
             {
                 criteria.LeagueIDList = string.Join(",", leagues.Select(item => item.Value));
-            }
-
-            // Country
-            var countries = affiliateService.GetSelectList(new GetAllCountryCriteria());
-            ViewBag.CountriesList = countries;
-            if (criteria.CountryCodeList.Equals("all"))
-            {
-                criteria.CountryCodeList = string.Join(",", countries.Select(item => item.Value));
             }
 
             // OutRight
