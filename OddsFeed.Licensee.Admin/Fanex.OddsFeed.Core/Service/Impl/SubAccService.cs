@@ -14,7 +14,6 @@
     using Fanex.OddsFeed.Core.Repository.Impl;
     using Fanex.OddsFeed.Core.Repository.Interface;
     using Fanex.OddsFeed.Core.Service.Interface;
-    using Framework.Data;
     using static Fanex.OddsFeed.Core.Business.Constant;
 
     public class SubAccService : ISubAccService
@@ -140,7 +139,7 @@
             return baseService.GetDataEntity<PermissionFlag>(criteria);
         }
 
-        public ICommandResult Insert(InsertSubAccCriteria criteria)
+        public CommandResult Insert(InsertSubAccCriteria criteria)
         {
             // check parameters
             Check.Argument.IsNotNull(criteria, "criteria");

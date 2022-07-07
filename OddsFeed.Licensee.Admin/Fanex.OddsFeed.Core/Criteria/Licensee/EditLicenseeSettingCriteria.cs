@@ -1,24 +1,11 @@
-// --------------------------------------------------------------------------
-// <copyright file="EditLicenseeSettingCriteria.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Phillip.Truong" date="2013.3.7">Created</change>
-// </history>
-
 namespace Fanex.OddsFeed.Core.Criteria.Licensee
 {
-    using System;
-    using Fanex.OddsFeed.Framework.Data;
     using Data.Repository;
-    /// <summary>
-    /// Class EditLicenseeSettingCriteria.
-    /// </summary>
+
     public class EditLicenseeSettingCriteria : CriteriaBase
     {
         public short SystemID { get; set; }
-        
+
         public string DomainList { get; set; }
 
         public string ListIPFrom { get; set; }
@@ -33,14 +20,11 @@ namespace Fanex.OddsFeed.Core.Criteria.Licensee
 
         public string ErrMsg { get; set; }
 
-
-        // Ignored
         [SpParam(Ignored = true)]
         public string SystemName { get; set; }
 
-        public override string GetSettingKey()
-        {
-            return "Odds_LicenseeSettingUpd";
-        }
+        public override string GetSettingKey() => "Odds_LicenseeSettingUpd";
+
+        public override bool IsValid() => true;
     }
 }

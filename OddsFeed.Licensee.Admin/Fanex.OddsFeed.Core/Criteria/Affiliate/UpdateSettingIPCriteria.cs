@@ -1,28 +1,9 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="UpdateSettingIPCriteria.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Thai.Tran" date="2013.01.09">Created</change>
-// </history>
-
-namespace Fanex.OddsFeed.Core.Criteria.Affiliate
+﻿namespace Fanex.OddsFeed.Core.Criteria.Affiliate
 {
-    using System.Diagnostics.CodeAnalysis;
-    using Fanex.OddsFeed.Framework.Data;
     using Data.Repository;
-    /// <summary>
-    /// Class UpdateSettingIPCriteria.
-    /// </summary>
+
     public class UpdateSettingIPCriteria : CriteriaBase
     {
-        public UpdateSettingIPCriteria()
-        {
-            ErrCode = 0;
-            ErrMsg = string.Empty;
-        }
-
         public int PartnerID { get; set; }
 
         [SpParam(SqlParamName = "IPFrom")]
@@ -39,20 +20,10 @@ namespace Fanex.OddsFeed.Core.Criteria.Affiliate
 
         public int ErrCode { get; set; }
 
-        public string ErrMsg { get; set; }
+        public string ErrMsg { get; set; } = string.Empty;
 
-        public override string GetSettingKey()
-        {
-            return "Odds_Partner_Upd_Setting_IP";
-        }
+        public override string GetSettingKey() => "Odds_Partner_Upd_Setting_IP";
 
-        /// <summary>
-        /// Check data's constrains.
-        /// </summary>
-        /// <returns>True: valid; False: invalid.</returns>
-        public override bool IsValid()
-        {
-            return true;
-        }
+        public override bool IsValid() => true;
     }
 }

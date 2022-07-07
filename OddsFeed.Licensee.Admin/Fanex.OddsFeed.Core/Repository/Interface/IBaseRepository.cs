@@ -1,11 +1,9 @@
 ﻿namespace Fanex.OddsFeed.Core.Repository.Interface
 {
-    using System.Collections;
     using System.Data;
-    using Fanex.OddsFeed.Core.Command;
     using Fanex.OddsFeed.Core.Helpers;
-    using Fanex.OddsFeed.Framework.Data;
     using Data.Repository;
+    using Fanex.OddsFeed.Core.Model;
 
     public interface IBaseRepository
     {
@@ -23,10 +21,6 @@
 
         DataCollection ReturnDataCollection(ICriteria criteria);
 
-        ICommandResult ExecuteNonQuery(ICriteria criteria, ICriteria logCriteria);
-
-        ICommandResult ExecuteNonQuery(ICriteria criteria);
-
-        CommandResult GetCommandResult(Hashtable hash);
+        CommandResult ExecuteNonQuery(ICriteria criteria);
     }
 }

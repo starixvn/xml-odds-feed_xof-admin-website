@@ -6,8 +6,6 @@
     using Fanex.OddsFeed.Core.Criteria.SubAccount;
     using Fanex.OddsFeed.Core.Helpers;
     using Fanex.OddsFeed.Core.Model;
-    using Fanex.OddsFeed.Framework.Data;
-    using Data.Repository;
 
     public interface ISubAccService
     {
@@ -21,7 +19,7 @@
 
         PermissionFlag GetUserPermission(int userId, byte systemId);
 
-        ICommandResult Insert(InsertSubAccCriteria criteria);
+        CommandResult Insert(InsertSubAccCriteria criteria);
 
         DataCollection GetSubAccountListReturnDataCollection(CheckExistSubAccountCriteria criteria);
     }

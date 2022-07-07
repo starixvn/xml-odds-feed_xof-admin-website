@@ -1,30 +1,13 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="AssignLicensee_SubAccCriteria.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Louis.Nguyen" date="2012.12.07">Created</change>
-// </history>
-
-namespace Fanex.OddsFeed.Core.Criteria.SubAccount
+﻿namespace Fanex.OddsFeed.Core.Criteria.SubAccount
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
-    using Fanex.OddsFeed.Framework.Data;
     using Data.Repository;
-    /// <summary>
-    /// Class AssignLicensee_SubACCCriteria.
-    /// </summary>
-    public class AssignLicensee_SubAccCriteria : CriteriaBase
-    {
-        public AssignLicensee_SubAccCriteria()
-        {
-        }
 
+    public class AssignLicensee_SubAccCriteria : ResultCriteria
+    {
         [SpParam(SqlParamName = "AdminID")]
         public int UserID { get; set; }
-        
+
         [SpParam(SqlParamName = "ListSystemId")]
         public string ListSystemId { get; set; }
 
@@ -32,12 +15,6 @@ namespace Fanex.OddsFeed.Core.Criteria.SubAccount
 
         public string IP { get; set; }
 
-        public int ErrCode { get; set; }
-
-        public string ErrMsg { get; set; }
-
-
-        // Ignored
         [SpParam(Ignored = true)]
         public string UserName { get; set; }
 
@@ -60,18 +37,8 @@ namespace Fanex.OddsFeed.Core.Criteria.SubAccount
             }
         }
 
-        public override string GetSettingKey()
-        {
-            return "Odds_Admin_UpdSystem";
-        }
+        public override string GetSettingKey() => "Odds_Admin_UpdSystem";
 
-        /// <summary>
-        /// Check data's constrains.
-        /// </summary>
-        /// <returns>True: valid; False: invalid.</returns>
-        public override bool IsValid()
-        {
-            return true;
-        }
+        public override bool IsValid() => true;
     }
 }

@@ -1,20 +1,7 @@
-// --------------------------------------------------------------------------
-// <copyright file="EditLicenseeInfoCriteria.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Phillip.Truong" date="2013.3.7">Created</change>
-// </history>
-
 namespace Fanex.OddsFeed.Core.Criteria.Licensee
 {
-    using System;
-    using Fanex.OddsFeed.Framework.Data;
     using Data.Repository;
-    /// <summary>
-    /// Class EditLicenseeInfoCriteria.
-    /// </summary>
+
     public class EditLicenseeInfoCriteria : CriteriaBase
     {
         public short SystemID { get; set; }
@@ -33,17 +20,14 @@ namespace Fanex.OddsFeed.Core.Criteria.Licensee
 
         public string ErrMsg { get; set; }
 
-
-        // Ignored
         [SpParam(Ignored = true)]
         public string SystemName { get; set; }
 
         [SpParam(Ignored = true)]
         public bool AddExistingLicensee { get; set; }
 
-        public override string GetSettingKey()
-        {
-            return "Odds_LicenseeInfoUpd";
-        }
+        public override string GetSettingKey() => "Odds_LicenseeInfoUpd";
+
+        public override bool IsValid() => true;
     }
 }

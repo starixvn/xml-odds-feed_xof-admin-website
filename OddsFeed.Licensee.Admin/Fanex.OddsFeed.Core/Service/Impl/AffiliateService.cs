@@ -15,7 +15,6 @@
     using Fanex.OddsFeed.Core.Repository.Interface;
     using Fanex.OddsFeed.Core.Service.Interface;
     using Fanex.OddsFeed.Core.Web.Session;
-    using Fanex.OddsFeed.Framework.Data;
 
     public class AffiliateService : IAffiliateService
     {
@@ -418,7 +417,7 @@
             return null;
         }
 
-        public ICommandResult Insert(InsertAffiliateCriteria criteria)
+        public CommandResult Insert(InsertAffiliateCriteria criteria)
         {
             Check.Argument.IsNotNull(criteria, "criteria");
 

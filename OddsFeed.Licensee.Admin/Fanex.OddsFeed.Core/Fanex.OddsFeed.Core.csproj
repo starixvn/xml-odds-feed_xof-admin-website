@@ -144,18 +144,6 @@
   <ItemGroup>
     <Compile Include="Business\Constant.cs" />
     <Compile Include="Business\CacheKey.cs" />
-    <Compile Include="Business\FunctionKeys.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>FunctionKeys.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Business\LogAction.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>LogAction.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Command\CommandResult.cs" />
-    <Compile Include="Command\ICommand.cs" />
     <Compile Include="Criteria\Administrator\CheckExistAdministratorCriteria.cs" />
     <Compile Include="Criteria\Administrator\GetAllSystemsCriteria.cs" />
     <Compile Include="Criteria\Administrator\GetAllSystemsByUserIdCriteria.cs" />
@@ -248,8 +236,7 @@
     <Compile Include="Criteria\Licensee\LicenseeRequestCriteria.cs" />
     <Compile Include="Criteria\Licensee\UpdateLicenseeActiveCriteria.cs" />
     <Compile Include="Criteria\Licensee\UpdateSettingIP_LicenseeCriteria.cs" />
-    <Compile Include="Criteria\Misc\LogExecSpCriteria.cs" />
-    <Compile Include="Criteria\Misc\ResultCriteria.cs" />
+    <Compile Include="Criteria\ResultCriteria.cs" />
     <Compile Include="Criteria\Affiliate\InsertAffiliateCriteria.cs" />
     <Compile Include="Criteria\SubAccount\AssignLicensee_SubAccCriteria.cs" />
     <Compile Include="Criteria\SubAccount\CheckExistSubAccountCriteria.cs" />
@@ -280,6 +267,7 @@
     <Compile Include="Extensions.cs" />
     <Compile Include="Helpers\DataCollection.cs" />
     <Compile Include="Helpers\LogHelper.cs" />
+    <Compile Include="Model\CommandResult.cs" />
     <Compile Include="Model\MissingPartnersProfile.cs" />
     <Compile Include="Model\PartnersProfile.cs" />
     <Compile Include="Model\OddsFeedActionResult.cs" />
@@ -363,14 +351,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="Business\LogAction.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>LogAction.cs</LastGenOutput>
-    </None>
-    <None Include="Business\FunctionKeys.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>FunctionKeys.cs</LastGenOutput>
-    </None>
     <None Include="Fanex.OddsFeed.Core.ruleset" />
     <None Include="packages.config" />
   </ItemGroup>

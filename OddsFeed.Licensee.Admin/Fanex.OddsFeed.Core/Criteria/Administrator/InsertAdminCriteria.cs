@@ -1,27 +1,11 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="InsertAdminCriteria.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Long.Luu" date="2013.03.05">Created</change>
-// </history>
-
-namespace Fanex.OddsFeed.Core.Criteria.Administrator
+﻿namespace Fanex.OddsFeed.Core.Criteria.Administrator
 {
     using System.ComponentModel.DataAnnotations;
     using Core.Web;
-    using Framework.Data;
     using Data.Repository;
-    /// <summary>
-    /// Class InsertAdminCriteria.
-    /// </summary>
-    public class InsertAdminCriteria : CriteriaBase
-    {        
-        public InsertAdminCriteria()
-        {
-        }
 
+    public class InsertAdminCriteria : CriteriaBase
+    {
         public int UserID { get; set; }
 
         [Required]
@@ -32,7 +16,6 @@ namespace Fanex.OddsFeed.Core.Criteria.Administrator
         [RegularExpression(@"^[\w\s]{1,}$",
             ErrorMessageResourceName = "InvalidNameValidationMsg",
             ErrorMessageResourceType = typeof(ViewResources))]
-        [SpParam(SqlParamName = "Username")]
         public string UserName { get; set; }
 
         [Required]
@@ -40,41 +23,35 @@ namespace Fanex.OddsFeed.Core.Criteria.Administrator
         [StringLength(50, MinimumLength = 6,
             ErrorMessageResourceName = "InputLengthValidationMsg",
             ErrorMessageResourceType = typeof(ViewResources))]
-        [SpParam(SqlParamName = "Password")]
         public string Password { get; set; }
 
         [StringLength(50,
            ErrorMessageResourceName = "InputLengthValidationMsg",
            ErrorMessageResourceType = typeof(ViewResources))]
-        [SpParam(SqlParamName = "FirstName")]
         public string FirstName { get; set; }
 
         [StringLength(50,
             ErrorMessageResourceName = "InputLengthValidationMsg",
             ErrorMessageResourceType = typeof(ViewResources))]
-        [SpParam(SqlParamName = "LastName")]
         public string LastName { get; set; }
 
         [Required]
-        [SpParam(SqlParamName = "RoleID")]
-        public int RoleID { get; set; }               
+        public int RoleID { get; set; }
 
         [Required]
         [Display(Name = "Email", ResourceType = typeof(ViewResources))]
         [RegularExpression(@"\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*",
             ErrorMessageResourceName = "EmailFormatValidationMsg",
             ErrorMessageResourceType = typeof(ViewResources))]
-        [SpParam(SqlParamName = "Email")]
         public string Email { get; set; }
 
         [Required]
-        [SpParam(SqlParamName = "IsImport")]
         public bool IsImport { get; set; }
 
         [Required]
         [SpParam(SqlParamName = "ListSystemId")]
         public string System { get; set; }
-        
+
         [Required]
         public int Creator { get; set; }
 
@@ -84,19 +61,9 @@ namespace Fanex.OddsFeed.Core.Criteria.Administrator
         public int ErrCode { get; set; }
 
         public string ErrMsg { get; set; }
-     
-        public override string GetSettingKey()
-        {
-            return "Odds_Admin_Ins";
-        }
 
-        /// <summary>
-        /// Check data's constrains.
-        /// </summary>
-        /// <returns>True: valid; False: invalid.</returns>
-        public override bool IsValid()
-        {
-            return true;
-        }
+        public override string GetSettingKey() => "Odds_Admin_Ins";
+
+        public override bool IsValid() => true;
     }
 }

@@ -1,27 +1,13 @@
-// --------------------------------------------------------------------------
-// <copyright file="GetLicenseeSettingByLicenseeIDCriteria.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Phillip.Truong" date="2013.3.7">Created</change>
-// </history>
-
 namespace Fanex.OddsFeed.Core.Criteria.Licensee
 {
-    using System;
-    using Fanex.OddsFeed.Framework.Data;
     using Data.Repository;
-    /// <summary>
-    /// Class GetLicenseeSettingByLicenseeIDCriteria.
-    /// </summary>
+
     public class GetLicenseeSettingByLicenseeIDCriteria : CriteriaBase
     {
         public short SystemID { get; set; }
 
-        public override string GetSettingKey()
-        {
-            return "Odds_LicenseeSettingByLicenseeIDSel";
-        }
+        public override string GetSettingKey() => "Odds_LicenseeSettingByLicenseeIDSel";
+
+        public override bool IsValid() => true;
     }
 }

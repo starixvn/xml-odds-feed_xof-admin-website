@@ -1,31 +1,12 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="InsertSubAccCriteria.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Thai.Tran" date="2013.01.09">Created</change>
-// </history>
-
-namespace Fanex.OddsFeed.Core.Criteria.Affiliate
+﻿namespace Fanex.OddsFeed.Core.Criteria.Affiliate
 {
     using System;
     using System.ComponentModel.DataAnnotations;
-    using System.Diagnostics.CodeAnalysis;
     using Fanex.OddsFeed.Core.Web;
-    using Fanex.OddsFeed.Framework.Data;
     using Data.Repository;
-    /// <summary>
-    /// Class InsertSubACCCriteria.
-    /// </summary>
-    public class InsertSubAccCriteria : CriteriaBase
-    {
-        public InsertSubAccCriteria()
-        {
-            ErrCode = 0;
-            ErrMsg = string.Empty;
-        }
 
+    public class InsertSubAccCriteria : ResultCriteria
+    {
         public int UserID { get; set; }
 
         public int SystemID { get; set; }
@@ -91,55 +72,25 @@ namespace Fanex.OddsFeed.Core.Criteria.Affiliate
         #region step3
 
         [Display(Name = "Odds_type", ResourceType = typeof(ViewResources))]
-        public bool OddsTypeFlag
-        {
-            get;
-            set;
-        }
+        public bool OddsTypeFlag { get; set; }
 
         [Display(Name = "Odds_format", ResourceType = typeof(ViewResources))]
-        public bool OddsStyleFlag
-        {
-            get;
-            set;
-        }
+        public bool OddsStyleFlag { get; set; }
 
         [Display(Name = "Languages", ResourceType = typeof(ViewResources))]
-        public bool LanguageListFlag
-        {
-            get;
-            set;
-        }
+        public bool LanguageListFlag { get; set; }
 
         [Display(Name = "Sports", ResourceType = typeof(ViewResources))]
-        public bool SportIDListFlag
-        {
-            get;
-            set;
-        }
+        public bool SportIDListFlag { get; set; }
 
         [Display(Name = "Countries", ResourceType = typeof(ViewResources))]
-        public bool CountryCodeListFlag
-        {
-            get;
-            set;
-        }
+        public bool CountryCodeListFlag { get; set; }
 
         [Display(Name = "Markets", ResourceType = typeof(ViewResources))]
-        public bool BetTypeIDListFlag
-        {
-            get;
-            set;
-        }
+        public bool BetTypeIDListFlag { get; set; }
 
         #endregion
 
-        public int ErrCode { get; set; }
-
-        public string ErrMsg { get; set; }
-
-
-        // Ignored
         [SpParam(Ignored = true)]
         public int SubAccountID { get; set; }
 
@@ -162,18 +113,8 @@ namespace Fanex.OddsFeed.Core.Criteria.Affiliate
             }
         }
 
-        public override string GetSettingKey()
-        {
-            return "Odds_User_Ins";
-        }
+        public override string GetSettingKey() => "Odds_User_Ins";
 
-        /// <summary>
-        /// Check data's constrains.
-        /// </summary>
-        /// <returns>True: valid; False: invalid.</returns>
-        public override bool IsValid()
-        {
-            return true;
-        }
+        public override bool IsValid() => true;
     }
 }

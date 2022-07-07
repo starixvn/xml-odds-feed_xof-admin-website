@@ -4,12 +4,11 @@
     using System.Collections;
     using System.Data;
     using Fanex.Data;
-    using Fanex.OddsFeed.Core.Command;
-    using Fanex.OddsFeed.Core.Criteria.Misc;
     using Fanex.OddsFeed.Core.Helpers;
     using Fanex.OddsFeed.Core.Repository.Interface;
-    using Fanex.OddsFeed.Framework.Data;
     using Data.Repository;
+    using Fanex.OddsFeed.Core.Model;
+    using Fanex.OddsFeed.Core.Criteria;
 
     public class BaseRepository : IBaseRepository
     {
@@ -116,7 +115,7 @@
             }
         }
 
-        public ICommandResult ExecuteNonQuery(ICriteria criteria)
+        public CommandResult ExecuteNonQuery(ICriteria criteria)
         {
             var hash = criteria.GetSpParams();
             using (var db = new ObjectDb(criteria.GetSettingKey()))
@@ -127,7 +126,7 @@
             }
         }
 
-        public ICommandResult ExecuteNonQuery(ICriteria criteria, ICriteria logCriteria)
+        public CommandResult ExecuteNonQuery(ICriteria criteria, ICriteria logCriteria)
         {
             var hash = criteria.GetSpParams();
 

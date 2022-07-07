@@ -1,22 +1,8 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="UserLoginUserCriteria.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Thai.Tran" date="2012.12.11">Created</change>
-// </history>
-
-namespace Fanex.OddsFeed.Core.Criteria.User
+﻿namespace Fanex.OddsFeed.Core.Criteria.User
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
-    using Framework.Data;
-    using Data.Repository;    //using Fanex.Data.Repository;
+    using Data.Repository;
 
-    /// <summary>
-    /// Class UserLoginUserCriteria.
-    /// </summary>
     public class UserLoginUserCriteria : CriteriaBase
     {
         public string UserName { get; set; }
@@ -33,8 +19,6 @@ namespace Fanex.OddsFeed.Core.Criteria.User
 
         public string ErrMsg { get; set; }
 
-
-        // Ignored
         [SpParam(Ignored = true)]
         public DateTime LoginDate { get; set; }
 
@@ -64,15 +48,9 @@ namespace Fanex.OddsFeed.Core.Criteria.User
 
         [SpParam(Ignored = true)]
         public int Duration { get; set; }
-        
-        public override string GetSettingKey()
-        {
-            return "Odds_User_Login";
-        }
 
-        public override bool IsValid()
-        {
-            return true;
-        }
+        public override string GetSettingKey() => "Odds_User_Login";
+
+        public override bool IsValid() => true;
     }
 }

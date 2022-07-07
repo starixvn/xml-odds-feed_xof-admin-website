@@ -2,14 +2,13 @@
 {
     using System;
     using Fanex.Data;
-    using Fanex.OddsFeed.Core.Command;
     using Fanex.OddsFeed.Core.Criteria.Affiliate;
+    using Fanex.OddsFeed.Core.Model;
     using Fanex.OddsFeed.Core.Repository.Interface;
-    using Fanex.OddsFeed.Framework.Data;
 
     public class SubAccRepository : ISubAccRepository
     {
-        public ICommandResult Insert(ref InsertSubAccCriteria criteria)
+        public CommandResult Insert(ref InsertSubAccCriteria criteria)
         {
             // prepare SP parameters
             var hash = criteria.GetSpParams();

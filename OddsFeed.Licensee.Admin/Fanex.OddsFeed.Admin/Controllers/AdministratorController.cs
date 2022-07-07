@@ -14,7 +14,6 @@
     using Fanex.OddsFeed.Core.Service.Interface;
     using Fanex.OddsFeed.Core.Web;
     using Fanex.OddsFeed.Core.Web.Attribute;
-    using Fanex.OddsFeed.Framework.Data;
 
     [IsAuthorize]
     public class AdministratorController : BaseController
@@ -68,7 +67,7 @@
 
             criteria.Creator = currentSession.UserId;
             criteria.IP = currentContext.IP;
-            ICommandResult result = baseService.ExecuteNonQuery(criteria);
+            CommandResult result = baseService.ExecuteNonQuery(criteria);
             if (result != null && result.IsSuccessful)
             {
                 ViewBag.Success = true;
@@ -149,7 +148,7 @@
                 AdminID = adminid,
                 Isactive = isactive
             };
-            ICommandResult result = baseService.ExecuteNonQuery(criteria);
+            CommandResult result = baseService.ExecuteNonQuery(criteria);
 
             var responseMessage = (result != null && result.IsSuccessful)
                 ? ViewResources.SuccessfulMessage
@@ -213,7 +212,7 @@
                 return Json(actionResult, JsonRequestBehavior.AllowGet);
             }
 
-            ICommandResult result = baseService.ExecuteNonQuery(criteria);
+            CommandResult result = baseService.ExecuteNonQuery(criteria);
             if (result == null || !result.IsSuccessful)
             {
                 actionResult.IsSuccess = false;
@@ -298,7 +297,7 @@
                 return View(criteria);
             }
 
-            ICommandResult result = baseService.ExecuteNonQuery(criteria);
+            CommandResult result = baseService.ExecuteNonQuery(criteria);
             if (result != null && result.IsSuccessful)
             {
                 ViewBag.Success = true;
@@ -407,7 +406,7 @@
                 criteria.Password = Cryptography.CfsEnCode(HttpUtility.HtmlEncode(criteria.Password.Trim()));
                 criteria.Creator = currentSession.UserId;
                 criteria.IP = currentContext.IP;
-                ICommandResult result = baseService.ExecuteNonQuery(criteria);
+                CommandResult result = baseService.ExecuteNonQuery(criteria);
                 if (result != null && result.IsSuccessful)
                 {
                     actionResult.IsSuccess = true;

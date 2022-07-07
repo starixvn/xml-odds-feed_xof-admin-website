@@ -4,8 +4,8 @@
     using System.Data;
     using System.Web.Mvc;
     using Fanex.OddsFeed.Core.Helpers;
-    using Fanex.OddsFeed.Framework.Data;
     using Data.Repository;
+    using Fanex.OddsFeed.Core.Model;
 
     public interface IBaseService
     {
@@ -25,6 +25,6 @@
 
         IEnumerable<T> GetData<T>(ICriteria criteria);
 
-        ICommandResult ExecuteNonQuery(ICriteria criteria);
+        CommandResult ExecuteNonQuery(ICriteria criteria);
     }
 }

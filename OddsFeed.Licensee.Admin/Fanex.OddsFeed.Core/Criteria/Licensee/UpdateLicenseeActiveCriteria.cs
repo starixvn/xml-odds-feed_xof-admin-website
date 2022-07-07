@@ -1,21 +1,6 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="UpdateLicenseeActiveCriteria.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Phillip.Truong" date="2013.2.7">Created</change>
-// </history>
-
-namespace Fanex.OddsFeed.Core.Criteria.Licensee
+﻿namespace Fanex.OddsFeed.Core.Criteria.Licensee
 {
-    using System;
-    using Fanex.OddsFeed.Framework.Data;
-    using Data.Repository;
-    /// <summary>
-    /// Class UpdateLicenseeActiveCriteria.
-    /// </summary>
-    public class UpdateLicenseeActiveCriteria : CriteriaBase
+    public class UpdateLicenseeActiveCriteria : ResultCriteria
     {
         public short SystemID { get; set; }
 
@@ -27,13 +12,8 @@ namespace Fanex.OddsFeed.Core.Criteria.Licensee
 
         public string IP { get; set; }
 
-        public int ErrCode { get; set; }
+        public override string GetSettingKey() => "Odds_LicenseeActiveUpd";
 
-        public string ErrMsg { get; set; }
-
-        public override string GetSettingKey()
-        {
-            return "Odds_LicenseeActiveUpd";
-        }
+        public override bool IsValid() => true;
     }
 }

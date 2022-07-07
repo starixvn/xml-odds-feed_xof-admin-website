@@ -1,20 +1,7 @@
-// --------------------------------------------------------------------------
-// <copyright file="GetLicenseeByPageCriteria.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Phillip.Truong" date="2013.2.7">Created</change>
-// </history>
-
 namespace Fanex.OddsFeed.Core.Criteria.Licensee
 {
     using Data.Repository;
-    using Fanex.OddsFeed.Framework.Data;
 
-    /// <summary>
-    /// Class GetLicenseeByPageCriteria.
-    /// </summary>
     public class GetLicenseeByPageCriteria : CriteriaBase
     {
         public string SystemName { get; set; }
@@ -27,9 +14,8 @@ namespace Fanex.OddsFeed.Core.Criteria.Licensee
 
         public int RowCount { get; set; }
 
-        public override string GetSettingKey()
-        {
-            return "Odds_LicenseeSelByPage";
-        }
+        public override string GetSettingKey() => "Odds_LicenseeSelByPage";
+
+        public override bool IsValid() => true;
     }
 }

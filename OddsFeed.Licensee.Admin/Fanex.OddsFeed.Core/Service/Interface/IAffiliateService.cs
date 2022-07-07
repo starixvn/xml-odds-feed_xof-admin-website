@@ -3,11 +3,9 @@
     using System.Collections.Generic;
     using System.Data;
     using System.Web.Mvc;
-    using Data.Repository;
     using Fanex.OddsFeed.Core.Criteria.Affiliate;
     using Fanex.OddsFeed.Core.Helpers;
     using Fanex.OddsFeed.Core.Model;
-    using Fanex.OddsFeed.Framework.Data;
 
     public interface IAffiliateService
     {
@@ -60,7 +58,7 @@
 
         IList<Affiliate> GetBySystemId(byte systemId);
 
-        ICommandResult Insert(InsertAffiliateCriteria criteria);
+        CommandResult Insert(InsertAffiliateCriteria criteria);
 
         DataCollection GetAffiliateListReturnDataCollection(CheckExistAffiliateCriteria criteria);
 

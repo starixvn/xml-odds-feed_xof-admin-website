@@ -130,11 +130,6 @@
   <ItemGroup>
     <Compile Include="Collections\IPageOfItems.cs" />
     <Compile Include="Collections\PageOfItems.cs" />
-    <Compile Include="Data\CommandResultBase.cs" />
-    <Compile Include="Data\CriteriaBase.cs" />
-    <Compile Include="Data\IPagedCriteria.cs" />
-    <Compile Include="Data\IRepository.cs" />
-    <Compile Include="Data\ICommandResult.cs" />
     <Compile Include="Domain\EntityBase.cs" />
     <Compile Include="Domain\IEntity.cs">
       <SubType>Code</SubType>

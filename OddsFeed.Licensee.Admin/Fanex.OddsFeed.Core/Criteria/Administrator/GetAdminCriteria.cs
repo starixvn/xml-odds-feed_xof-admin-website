@@ -1,31 +1,12 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="GetAdminCriteria.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Long.Luu" date="2013.03.05">Created</change>
-// </history>
-
-namespace Fanex.OddsFeed.Core.Criteria.Administrator
+﻿namespace Fanex.OddsFeed.Core.Criteria.Administrator
 {
     using System;
     using System.ComponentModel.DataAnnotations;
     using Core.Web;
-    using Framework.Data;
     using Data.Repository;
-    /// <summary>
-    /// Class GetAdminCriteria.
-    /// </summary>
+
     public class GetAdminCriteria : CriteriaBase
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="GetAdminCriteria"/> class.
-        /// </summary>
-        public GetAdminCriteria()
-        {
-        }       
-
         [Required]
         public int SystemID { get; set; }
 
@@ -49,9 +30,7 @@ namespace Fanex.OddsFeed.Core.Criteria.Administrator
         public int RowCount { get; set; }
 
         public int ErrCode { get; set; }
-
         public string ErrMsg { get; set; }
-
 
         // Ignored
         [SpParam(Ignored = true)]
@@ -80,17 +59,13 @@ namespace Fanex.OddsFeed.Core.Criteria.Administrator
         public bool IsActive { get; set; }
 
         [SpParam(Ignored = true)]
-        public DateTime CreateDate { get; set; }             
+        public DateTime CreateDate { get; set; }
 
         public override string GetSettingKey()
         {
             return "Odds_Admin_Sel";
         }
 
-        /// <summary>
-        /// Check data's constrains.
-        /// </summary>
-        /// <returns>True: valid; False: invalid.</returns>
         public override bool IsValid()
         {
             return true;

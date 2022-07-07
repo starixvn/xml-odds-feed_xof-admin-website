@@ -1,10 +1,10 @@
 ﻿namespace Fanex.OddsFeed.Core.Repository.Interface
 {
     using Fanex.OddsFeed.Core.Criteria.Affiliate;
-    using Fanex.OddsFeed.Framework.Data;
+    using Fanex.OddsFeed.Core.Model;
 
     public interface IAffiliateRepository
     {
-        ICommandResult Insert(ref InsertAffiliateCriteria criteria);
+        CommandResult Insert(ref InsertAffiliateCriteria criteria);
     }
 }

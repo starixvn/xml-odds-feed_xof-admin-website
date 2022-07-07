@@ -1,20 +1,7 @@
-// --------------------------------------------------------------------------
-// <copyright file="InsertCompanyIPsCriteria.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Phillip.Truong" date="2013.03.26">Created</change>
-// </history>
-
 namespace Fanex.OddsFeed.Core.Criteria.CompanyIP
 {
     using Data.Repository;
-    using Fanex.OddsFeed.Framework.Data;
 
-    /// <summary>
-    /// Class InsertCompanyIPsCriteria.
-    /// </summary>
     public class InsertCompanyIPsCriteria : CriteriaBase
     {
         public string ListIPFrom { get; set; }
@@ -31,9 +18,8 @@ namespace Fanex.OddsFeed.Core.Criteria.CompanyIP
 
         public string ErrMsg { get; set; }
 
-        public override string GetSettingKey()
-        {
-            return "Odds_CompanyIPIns";
-        }
+        public override string GetSettingKey() => "Odds_CompanyIPIns";
+
+        public override bool IsValid() => true;
     }
 }

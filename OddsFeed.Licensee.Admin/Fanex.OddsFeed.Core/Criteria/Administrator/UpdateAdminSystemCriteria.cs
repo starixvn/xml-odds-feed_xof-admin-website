@@ -1,32 +1,15 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="UpdateAdminSystemCriteria.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Long.Luu" date="2013.03.05">Created</change>
-// </history>
-
-namespace Fanex.OddsFeed.Core.Criteria.Administrator
+﻿namespace Fanex.OddsFeed.Core.Criteria.Administrator
 {
     using System;
     using System.ComponentModel.DataAnnotations;
-    using Framework.Data;
     using Data.Repository;
-    /// <summary>
-    /// Class UpdateAdminSystemCriteria.
-    /// </summary>
+
     public class UpdateAdminSystemCriteria : CriteriaBase
     {
-        public UpdateAdminSystemCriteria()
-        {
-        }
-
         [Required]
         [SpParam(SqlParamName = "AdminID")]
         public int UserID { get; set; }
 
-        [SpParam(SqlParamName = "ListSystemId")]
         public string ListSystemId { get; set; }
 
         public int Creator { get; set; }
@@ -37,11 +20,9 @@ namespace Fanex.OddsFeed.Core.Criteria.Administrator
 
         public string ErrMsg { get; set; }
 
-
         // Ignored
         [SpParam(Ignored = true)]
         public string UserName { get; set; }
-
 
         [SpParam(Ignored = true)]
         public string[] SystemList
@@ -61,19 +42,9 @@ namespace Fanex.OddsFeed.Core.Criteria.Administrator
                 ListSystemId = Utilities.StringArrayToString(value);
             }
         }
-           
-        public override string GetSettingKey()
-        {
-            return "Odds_Admin_UpdSystem";
-        }
 
-        /// <summary>
-        /// Check data's constrains.
-        /// </summary>
-        /// <returns>True: valid; False: invalid.</returns>
-        public override bool IsValid()
-        {
-            return true;
-        }
+        public override string GetSettingKey() => "Odds_Admin_UpdSystem";
+
+        public override bool IsValid() => true;
     }
 }

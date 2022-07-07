@@ -6,10 +6,10 @@
     using Fanex.Data.Repository;
     using Fanex.OddsFeed.Core.Helpers;
     using Fanex.OddsFeed.Core.Service.Interface;
-    using Fanex.OddsFeed.Framework.Data;
     using Fanex.OddsFeed.Core.Repository;
     using Fanex.OddsFeed.Core.Repository.Interface;
     using Fanex.OddsFeed.Core.Repository.Impl;
+    using Fanex.OddsFeed.Core.Model;
 
     public class BaseService : IBaseService
     {
@@ -81,7 +81,7 @@
             return default(T);
         }
 
-        public ICommandResult ExecuteNonQuery(ICriteria criteria)
+        public CommandResult ExecuteNonQuery(ICriteria criteria)
         {
             return baseRepository.ExecuteNonQuery(criteria);
         }
