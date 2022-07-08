@@ -976,25 +976,21 @@
   <ItemGroup>
     <Content Include="Web.PROD.config">
       <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Web.UAT.config">
       <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Web.UAT.ConnectionString.config">
       <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Web.PROD.ConnectionString.config">
       <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
@@ -1010,31 +1006,25 @@
     <Content Include="Fanex.OddsFeed.Admin.ruleset" />
     <Content Include="Web.Local.config">
       <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="Web.MNL.ConnectionString.config">
+    <Content Include="Web.MNL.ConnectionString.config">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="Web.MNL.config">
+    </Content>
+    <Content Include="Web.MNL.config">
       <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Web.AWS.config">
+    </Content>
+    <Content Include="Web.AWS.config">
       <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Web.AWS.ConnectionString.config">
+    </Content>
+    <Content Include="Web.AWS.ConnectionString.config">
       <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Web.SIT.ConnectionString.config">
+    </Content>
+    <Content Include="Web.SIT.ConnectionString.config">
       <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Web.SIT.config">
+    </Content>
+    <Content Include="Web.SIT.config">
       <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\..\packages\SonarAnalyzer.CSharp.8.22.0.31243\analyzers\Google.Protobuf.dll" />
