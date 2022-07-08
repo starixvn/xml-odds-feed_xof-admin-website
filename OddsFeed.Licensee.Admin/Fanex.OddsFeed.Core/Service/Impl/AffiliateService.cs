@@ -8,7 +8,6 @@
     using Fanex.Common.Helper;
     using Fanex.OddsFeed.Core.Repository;
     using Fanex.OddsFeed.Core.Criteria.Affiliate;
-    using Fanex.OddsFeed.Core.Domain;
     using Fanex.OddsFeed.Core.Helpers;
     using Fanex.OddsFeed.Core.Model;
     using Fanex.OddsFeed.Core.Repository.Impl;
@@ -347,29 +346,7 @@
         public IList<Affiliate> GetAllAffiliates()
         {
             var criteria = new GetAllAffiliateCriteria();
-
-            if (criteria.IsValid())
-            {
-                IEnumerable<IAffiliate> list = baseService.GetData<Affiliate>(criteria).OrderBy(s => s.Name);
-
-                if (list != null)
-                {
-                    return list.Select(s => new Affiliate
-                    {
-                        Id = s.Id,
-                        Name = s.Name,
-                        Site = s.Site,
-                        IsAllowed = s.IsAllowed,
-                        CreatedDate = Convert.ToDateTime(s.CreatedDate),
-                        LastUpdate = Convert.ToDateTime(s.LastUpdate),
-                        Creator = s.Creator,
-                        ContactPerson = s.ContactPerson,
-                        ContactEmail = s.ContactEmail
-                    }).ToList();
-                }
-            }
-
-            return null;
+            return baseService.GetData<Affiliate>(criteria).OrderBy(s => s.Name).ToList();
         }
 
         public IList<Affiliate> GetBySystemId(byte systemId)
@@ -378,30 +355,7 @@
             {
                 SystemId = systemId
             };
-
-            if (criteria.IsValid())
-            {
-                IEnumerable<IAffiliate> affList = baseService.GetData<Affiliate>(criteria).OrderBy(s => s.Name);
-
-                if (affList != null)
-                {
-                    return affList.Select(s => new Affiliate
-                    {
-                        Id = s.Id,
-                        Name = s.Name,
-                        Site = s.Site,
-                        Remark = s.Remark,
-                        IsAllowed = s.IsAllowed,
-                        CreatedDate = Convert.ToDateTime(s.CreatedDate),
-                        LastUpdate = Convert.ToDateTime(s.LastUpdate),
-                        Creator = s.Creator,
-                        ContactPerson = s.ContactPerson,
-                        ContactEmail = s.ContactEmail
-                    }).ToList();
-                }
-            }
-
-            return null;
+            return baseService.GetData<Affiliate>(criteria).OrderBy(s => s.Name).ToList();
         }
 
         public DataSet GetTop10AffReturnDataSet(GetTop10AffiliateCriteria criteria)

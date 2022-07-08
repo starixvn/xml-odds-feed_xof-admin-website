@@ -3,7 +3,10 @@
     <Function Name="Affiliate">
         <Setting Key="Odds_Delete_Setting_IP_Partner" SpName="Odds_Delete_Setting_IP_Partner" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
         <Setting Key="Odds_Top10Domain_Sel" SpName="Odds_Top10Domain_Sel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
-        <Setting Key="Odds_Top10Partner_Sel" SpName="Odds_Top10Partner_Sel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+        <Setting Key="Odds_Top10Partner_Sel" SpName="Odds_Top10Partner_Sel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
+            <Mapping DataField="PartnerId" ObjectProperty="Id" />
+            <Mapping DataField="UserName" ObjectProperty="Name" />
+        </Setting>
         <Setting Key="Odds_Language_SelByPartnerId" SpName="Odds_Language_SelByPartnerId" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
             <Mapping DataField="Code" ObjectProperty="Id" />
             <Mapping DataField="Name_EN" ObjectProperty="Name" />

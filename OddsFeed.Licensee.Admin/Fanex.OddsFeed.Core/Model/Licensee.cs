@@ -1,24 +1,9 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="Licensee.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Phillip.Truong" date="2013.2.7">Created</change>
-// </history>
-
-namespace Fanex.OddsFeed.Core.Model
+﻿namespace Fanex.OddsFeed.Core.Model
 {
     using System;
-    using System.ComponentModel.DataAnnotations;
-    using System.Diagnostics.CodeAnalysis;
-    using Fanex.OddsFeed.Core.Domain;
 
-    /// <summary>
-    /// Class Licensee.
-    /// </summary>
     [Serializable]
-    public class Licensee : ILicensee
+    public class Licensee
     {
         public int Id { get; set; }
 

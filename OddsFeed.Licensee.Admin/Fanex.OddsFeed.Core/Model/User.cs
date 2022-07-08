@@ -2,11 +2,10 @@
 {
     using System;
     using System.ComponentModel.DataAnnotations;
-    using Fanex.OddsFeed.Core.Domain;
     using Fanex.OddsFeed.Core.Web;
 
     [Serializable]
-    public class User : IUser
+    public class User
     {
         public int Id { get; set; }
 
@@ -26,7 +25,7 @@
         public DateTime CreatedDate { get; set; }
 
         [Display(Name = "Modifier", ResourceType = typeof(ViewResources))]
-        public IUser Modifier { get; set; }
+        public User Modifier { get; set; }
 
         [Display(Name = "Modified_Date", ResourceType = typeof(ViewResources))]
         public DateTime ModifiedDate { get; set; }

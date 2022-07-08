@@ -2,7 +2,6 @@
 {
     using Fanex.Common.Helper;
     using Fanex.OddsFeed.Core.Criteria.User;
-    using Fanex.OddsFeed.Core.Domain;
     using Fanex.OddsFeed.Core.Model;
     using Fanex.OddsFeed.Core.Repository.Impl;
     using Fanex.OddsFeed.Core.Repository.Interface;
@@ -25,11 +24,11 @@
             this.baseService = baseService ?? new BaseService();
         }
 
-        public IUser UserLogin(ref UserLoginUserCriteria criteria)
+        public User UserLogin(ref UserLoginUserCriteria criteria)
         {
             Check.Argument.IsNotEmpty(criteria.UserName, "username");
             Check.Argument.IsNotEmpty(criteria.UserPwd, "password");
-            IUser user = null;
+            User user = null;
 
             if (criteria.IsValid())
             {

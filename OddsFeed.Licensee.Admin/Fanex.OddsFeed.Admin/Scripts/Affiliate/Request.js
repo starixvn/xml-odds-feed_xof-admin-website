@@ -172,11 +172,11 @@ function AffiliateAutoSuggesttion() {
                 source: sourceAdmin,
                 minLength: 1,
                 focus: function (event, ui) {
-                    $(this).val(ui.item.label);                    
+                    $(this).val(ui.item.label);
                     return false;
                 },
                 select: function (event, ui) {
-                    $(this).val(ui.item.label);                    
+                    $(this).val(ui.item.label);
                     return false;
                 }
             });

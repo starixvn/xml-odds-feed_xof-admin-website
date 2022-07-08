@@ -3,13 +3,12 @@
     using System;
     using Fanex.Data;
     using Fanex.OddsFeed.Core.Criteria.User;
-    using Fanex.OddsFeed.Core.Domain;
     using Fanex.OddsFeed.Core.Model;
     using Fanex.OddsFeed.Core.Repository.Interface;
 
     public class UserRepository : IUserRepository
     {
-        public IUser UserLogin(ref UserLoginUserCriteria criteria)
+        public User UserLogin(ref UserLoginUserCriteria criteria)
         {
             using (var objectDb = new ObjectDb(criteria.GetSettingKey()))
             {

@@ -7,5 +7,7 @@ namespace Fanex.OddsFeed.Core.Criteria.Licensee
         public short SystemID { get; set; }
 
         public override string GetSettingKey() => "Odds_LicenseeProfileByLicenseeIDSel";
+
+        public override bool IsValid() => true;
     }
 }

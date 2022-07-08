@@ -12,6 +12,7 @@
     using Fanex.OddsFeed.Core.Criteria.Licensee;
     using Fanex.OddsFeed.Core.Criteria.User;
     using Fanex.OddsFeed.Core.Model;
+    using Fanex.OddsFeed.Core.Model.ValueObject;
     using Fanex.OddsFeed.Core.Service.Impl;
     using Fanex.OddsFeed.Core.Service.Interface;
     using Fanex.OddsFeed.Core.Web;
@@ -27,15 +28,6 @@
         private const string DefaultController = "Affiliate";
         private const string OddsRegionSettingType = "OddsRegion";
         private const string OddsTypeSettingType = "OddsType";
-        private const string OddsRegionCollumn = "OddsRegion";
-        private const string OddsTypeCollumn = "OddsType";
-        private const string NumberOfIpsCollumn = "NumberOfIPs";
-        private const string LanguageListFlagCollumn = "LanguageListFlag";
-        private const string CountryCodeListFlagCollumn = "CountryCodeListFlag";
-        private const string BettypeIDListFlagCollumn = "BettypeIDListFlag";
-        private const string SportIDListFlagCollumn = "SportIDListFlag";
-        private const string OddsTypeFlagCollumn = "OddsTypeFlag";
-        private const string OddsRegionFlagCollumn = "OddsRegionFlag";
         private const byte OutrightDelayTimesIndex = 2;
 
         private readonly IAffiliateService affiliateService;
@@ -68,19 +60,18 @@
             ViewData["slDomain"] = new List<SelectListItem>();
 
             // Profile
-            var licenseeProfile = baseService.GetDataSet(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = currentSession.SystemId });
-            if (licenseeProfile != null && licenseeProfile.Tables.Count > 0 && licenseeProfile.Tables[0].Rows.Count > 0)
+            var licenseeProfile = baseService.GetDataEntity<LicenseeProfile>(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = currentSession.SystemId });
+            if (licenseeProfile != null)
             {
-                var row = licenseeProfile.Tables[0].Rows[0];
-                criteria.OddsRegion = row[OddsRegionCollumn].ToString();
-                criteria.NumberOfIPs = (short)row[NumberOfIpsCollumn];
+                criteria.OddsRegion = licenseeProfile.OddsRegion;
+                criteria.NumberOfIPs = licenseeProfile.NumberOfIPs;
 
                 // Delay Times
-                var delayTimes = row["OddsDelayTimes"].ToString().Split(',');
+                var delayTimes = licenseeProfile.OddsDelayTimes.Split(',');
                 criteria.DeadballDelayTimes = delayTimes.Length > 0 ? delayTimes[0] : "0";
                 criteria.LiveDelayTimes = delayTimes.Length > 1 ? delayTimes[1] : "0";
                 criteria.OutrightDelayTimes = delayTimes.Length > OutrightDelayTimesIndex ? delayTimes[OutrightDelayTimesIndex] : "0";
-                criteria.ResultDelayTimes = row["ResultDelayTimes"].ToString();
+                criteria.ResultDelayTimes = licenseeProfile.ResultDelayTimes;
             }
 
             if (IsAccountManagerRole())
@@ -139,16 +130,14 @@
                 return Json(checkResult, JsonRequestBehavior.AllowGet);
             }
 
-            var res = affiliateService.GetAffiliateListReturnDataCollection(new CheckExistAffiliateCriteria
+            var affiliates = baseService.GetData<Affiliate>(new CheckExistAffiliateCriteria
             {
                 UserName = criteria.UserName,
                 PageIndex = 1,
                 PageSize = 1,
                 SystemId = currentSession.SystemId
             });
-
-            if (res.Data.Tables.Count > 0 &&
-                res.Data.Tables[0].Rows.Count > 0)
+            if (affiliates != null && affiliates.Any())
             {
                 checkResult.IsSuccess = false;
             }
@@ -173,24 +162,20 @@
                 PartnerID = id,
                 UserName = userName
             };
-
-            var dr = affiliateService.GetAffiliateListReturnDataCollection(new GetAffiliateByNameCriteria
+            var affiliates = baseService.GetData<Affiliate>(new GetAffiliateByNameCriteria
             {
                 SystemId = currentSession.SystemId,
                 UserName = userName,
                 PageIndex = 1,
                 PageSize = 1
             });
-
-            if (dr.Data != null &&
-                dr.Data.Tables.Count > 0 &&
-                dr.Data.Tables[0].Rows.Count > 0)
+            if (affiliates != null && affiliates.Any())
             {
-                var rawData = dr.Data.Tables[0].Rows[0];
+                var affiliate = affiliates.First();
                 ViewBag.CurrentUser = " of \"" + userName + "\"";
-                criteria.Email = Convert.ToString(rawData["ContactEmail"]);
-                criteria.Website = Convert.ToString(rawData["Site"]);
-                criteria.Note = Convert.ToString(rawData["Remark"]);
+                criteria.Email = affiliate.ContactEmail;
+                criteria.Website = affiliate.Site;
+                criteria.Note = affiliate.Remark;
             }
 
             return View(criteria);
@@ -234,10 +219,10 @@
             ViewBag.CurrentUser = " of \"" + name + "\"";
             ViewBag.AffId = id;
 
-            var affiliateProfile = baseService.GetDataSet(new GetAffiliateProfileByIDCriteria { PartnerID = id });
-            if (affiliateProfile != null && affiliateProfile.Tables.Count > 0 && affiliateProfile.Tables[0].Rows.Count > 0)
+            var affiliateProfile = baseService.GetDataEntity<LicenseeProfile>(new GetAffiliateProfileByIDCriteria { PartnerID = id });
+            if (affiliateProfile != null)
             {
-                ViewBag.NumberOfIPs = int.Parse(affiliateProfile.Tables[0].Rows[0][NumberOfIpsCollumn].ToString());
+                ViewBag.NumberOfIPs = affiliateProfile.NumberOfIPs;
             }
 
             // Domain
@@ -367,16 +352,15 @@
             ViewBag.CurrentUser = $" of \"{name}\"";
 
             // Profile
-            var affiliateProfile = baseService.GetDataSet(new GetAffiliateProfileByIDCriteria { PartnerID = id });
-            if (affiliateProfile != null && affiliateProfile.Tables.Count > 0 && affiliateProfile.Tables[0].Rows.Count > 0)
+            var affiliateProfile = baseService.GetDataEntity<LicenseeProfile>(new GetAffiliateProfileByIDCriteria { PartnerID = id });
+            if (affiliateProfile != null)
             {
-                var row = affiliateProfile.Tables[0].Rows[0];
-                criteria.OddsType = row[OddsTypeCollumn].ToString();
-                criteria.OddsRegion = row[OddsRegionCollumn].ToString();
-                criteria.LanguageList = row["LanguageList"].ToString();
-                criteria.SportIDList = row["SportIDList"].ToString();
-                criteria.CountryCodeList = row["CountryCodeList"].ToString();
-                criteria.BetTypeIDList = row["BetTypeIDList"].ToString();
+                criteria.OddsType = affiliateProfile.OddsType;
+                criteria.OddsRegion = affiliateProfile.OddsRegion;
+                criteria.LanguageList = affiliateProfile.LanguageList;
+                criteria.SportIDList = affiliateProfile.SportIdList;
+                criteria.CountryCodeList = affiliateProfile.CountryCodeList;
+                criteria.BetTypeIDList = affiliateProfile.BetTypeIdList;
             }
 
             if (IsAccountManagerRole())
@@ -423,26 +407,15 @@
 
         public string EditActive(int affId, bool status)
         {
-            string resultMessage;
             var criteria = new UpdateActiveCriteria
             {
                 PartnerID = affId,
                 IsAllowed = status,
                 Creator = currentSession.UserId
             };
-
             var result = baseService.ExecuteNonQuery(criteria);
 
-            if (result != null)
-            {
-                resultMessage = result.IsSuccessful ? ViewResources.SuccessfulMessage : result.Message;
-            }
-            else
-            {
-                resultMessage = ViewResources.InternalErrorMessage;
-            }
-
-            return resultMessage;
+            return result.IsSuccessful ? ViewResources.SuccessfulMessage : result.Message;
         }
 
         #endregion Edit
@@ -478,8 +451,8 @@
                 SystemId = currentSession.SystemId,
                 Username = username
             };
-            var top10AffList = affiliateService.GetTop10AffReturnDataSet(criteria).Tables[0];
-            return DataForAutoComplete(top10AffList, "username");
+            var affiliates = baseService.GetData<Affiliate>(criteria);
+            return string.Join(",", affiliates.Select(x => x.Name));
         }
 
         public JsonResult ListExistedAffJson(string username)
@@ -489,8 +462,8 @@
                 SystemId = currentSession.SystemId,
                 Username = username
             };
-            var top10DomainList = baseService.GetDataSet(criteria).Tables[0];
-            return JsonForAutoComplete(top10DomainList, "PartnerID", "UserName");
+            var affiliates = baseService.GetData<Affiliate>(criteria);
+            return Json(affiliates.Select(x => new JSONSource { Value = x.Id.ToString(), Label = x.Name }).ToList());
         }
 
         public JsonResult ListExistedDomainsJson(string domainName)
@@ -801,23 +774,21 @@
 
         #region Account Manager
 
-        private void AddAffiliateWithAccountManagerRole(DataSet licenseeProfile, ref InsertAffiliateCriteria criteria)
+        private void AddAffiliateWithAccountManagerRole(LicenseeProfile licenseeProfile, ref InsertAffiliateCriteria criteria)
         {
-            if (licenseeProfile != null && licenseeProfile.Tables.Count > 0 && licenseeProfile.Tables[0].Rows.Count > 0)
+            if (licenseeProfile != null)
             {
-                var row = licenseeProfile.Tables[0].Rows[0];
+                criteria.OddsType = licenseeProfile.OddsType;
+                criteria.LanguageList = licenseeProfile.LanguageList;
+                criteria.SportIDList = licenseeProfile.SportIdList;
+                criteria.CountryCodeList = licenseeProfile.CountryCodeList;
+                criteria.LeagueIDList = licenseeProfile.LeagueIdList;
+                criteria.OutRightIDList = licenseeProfile.OutrightIdList;
+                criteria.BetTypeIDList = licenseeProfile.BetTypeIdList;
+                criteria.LeagueKeyword = licenseeProfile.LeagueKeyword;
+                criteria.LeagueKeyword_O = licenseeProfile.LeagueKeyword_O;
 
-                criteria.OddsType = row[OddsTypeCollumn].ToString();
-                criteria.LanguageList = row["LanguageList"].ToString();
-                criteria.SportIDList = row["SportIDList"].ToString();
-                criteria.CountryCodeList = row["CountryCodeList"].ToString();
-                criteria.LeagueIDList = row["LeagueIDList"].ToString();
-                criteria.OutRightIDList = row["OutRightIDList"].ToString();
-                criteria.BetTypeIDList = row["BetTypeIDList"].ToString();
-                criteria.LeagueKeyword = row["LeagueKeyword"].ToString();
-                criteria.LeagueKeyword_O = row["LeagueKeyword_O"].ToString();
-
-                ViewBag.NumberOfIPs = int.Parse(row[NumberOfIpsCollumn].ToString());
+                ViewBag.NumberOfIPs = licenseeProfile.NumberOfIPs;
 
                 ViewBagForFlags(true, true, true, true, true, true);
 
@@ -888,31 +859,29 @@
             }
         }
 
-        private void GetAffiliateProfileWithAccountManageRole(DataSet affiliateProfile, ref UpdateProfileCriteria criteria)
+        private void GetAffiliateProfileWithAccountManageRole(LicenseeProfile affiliateProfile, ref UpdateProfileCriteria criteria)
         {
-            if (affiliateProfile != null && affiliateProfile.Tables.Count > 0 && affiliateProfile.Tables[0].Rows.Count > 0)
+            if (affiliateProfile != null)
             {
-                var row = affiliateProfile.Tables[0].Rows[0];
                 // Delay Times
-                var delayTimes = row["OddsDelayTimes"].ToString().Split(',');
+                var delayTimes = affiliateProfile.OddsDelayTimes.Split(',');
                 criteria.DeadballDelayTimes = delayTimes.Length > 0 ? delayTimes[0] : "0";
                 criteria.LiveDelayTimes = delayTimes.Length > 1 ? delayTimes[1] : "0";
                 criteria.OutrightDelayTimes = delayTimes.Length > OutrightDelayTimesIndex ? delayTimes[OutrightDelayTimesIndex] : "0";
-                criteria.ResultDelayTimes = row["ResultDelayTimes"].ToString();
+                criteria.ResultDelayTimes = affiliateProfile.ResultDelayTimes;
 
-                criteria.NumberOfIPs = !(row[NumberOfIpsCollumn] is DBNull) ? (short)row[NumberOfIpsCollumn] : (short)0;
-                criteria.LeagueKeyword = row["LeagueKeyword"].ToString();
-                criteria.LeagueKeyword_O = row["LeagueKeyword_O"].ToString();
-                criteria.LeagueIDList = row["LeagueIDList"].ToString();
-                criteria.OutRightIDList = row["OutrightIDList"].ToString();
-                ViewBag.ActualNumberOfIps = int.Parse(row["ActualNumberOfIps"].ToString());
+                criteria.NumberOfIPs = affiliateProfile.NumberOfIPs;
+                criteria.LeagueKeyword = affiliateProfile.LeagueKeyword;
+                criteria.LeagueKeyword_O = affiliateProfile.LeagueKeyword_O;
+                criteria.LeagueIDList = affiliateProfile.LeagueIdList;
+                criteria.OutRightIDList = affiliateProfile.OutrightIdList;
+                ViewBag.ActualNumberOfIps = affiliateProfile.ActualNumberOfIPs;
             }
 
-            var licenseeProfile = baseService.GetDataSet(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = currentSession.SystemId });
-            if (licenseeProfile != null && licenseeProfile.Tables.Count > 0 && licenseeProfile.Tables[0].Rows.Count > 0)
+            var licenseeProfile = baseService.GetDataEntity<LicenseeProfile>(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = currentSession.SystemId });
+            if (licenseeProfile != null)
             {
-                var row = licenseeProfile.Tables[0].Rows[0];
-                ViewBag.NumberOfIPs = int.Parse(row[NumberOfIpsCollumn].ToString());
+                ViewBag.NumberOfIPs = licenseeProfile.NumberOfIPs;
                 ViewBagForFlags(true, true, true, true, true, true);
 
                 ProfileForEditAffiliateWithAccountManagerRole(ref criteria);
@@ -985,20 +954,19 @@
 
         #region LicenseeAdmin/Sub-Acc
 
-        private void AddAffiliateWithLicenseeAdminRole(DataSet licenseeProfile)
+        private void AddAffiliateWithLicenseeAdminRole(LicenseeProfile licenseeProfile)
         {
-            if (licenseeProfile != null && licenseeProfile.Tables.Count > 0 && licenseeProfile.Tables[0].Rows.Count > 0)
+            if (licenseeProfile != null)
             {
-                var row = licenseeProfile.Tables[0].Rows[0];
-                var oddStyles = row[OddsTypeCollumn].ToString();
-                ViewBag.NumberOfIPs = int.Parse(row[NumberOfIpsCollumn].ToString());
+                var oddStyles = licenseeProfile.OddsType;
+                ViewBag.NumberOfIPs = licenseeProfile.NumberOfIPs;
                 ViewBagForFlags(
-                    bool.Parse(row[OddsTypeFlagCollumn].ToString()),
-                    bool.Parse(row[OddsRegionFlagCollumn].ToString()),
-                    bool.Parse(row[LanguageListFlagCollumn].ToString()),
-                    bool.Parse(row[SportIDListFlagCollumn].ToString()),
-                    bool.Parse(row[CountryCodeListFlagCollumn].ToString()),
-                    bool.Parse(row[BettypeIDListFlagCollumn].ToString()) && (oddStyles != "8" && oddStyles != string.Empty));
+                    licenseeProfile.OddsTypeFlag,
+                    licenseeProfile.OddsRegionFlag,
+                    licenseeProfile.LanguageListFlag,
+                    licenseeProfile.SportIdListFlag,
+                    licenseeProfile.CountryCodeListFlag,
+                    licenseeProfile.BetTypeIdListFlag && (oddStyles != "8" && !string.IsNullOrWhiteSpace(oddStyles)));
 
                 ProfileForAddAffiliateWithLicenseeAdminAndSubAccountRole();
             }
@@ -1006,18 +974,17 @@
 
         private void GetAffiliateProfileWithLicenseeAdminRole(ref UpdateProfileCriteria criteria)
         {
-            var licenseeProfile = baseService.GetDataSet(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = currentSession.SystemId });
-            if (licenseeProfile != null && licenseeProfile.Tables.Count > 0 && licenseeProfile.Tables[0].Rows.Count > 0)
+            var licenseeProfile = baseService.GetDataEntity<LicenseeProfile>(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = currentSession.SystemId });
+            if (licenseeProfile != null)
             {
-                var row = licenseeProfile.Tables[0].Rows[0];
-                var oddStyles = row[OddsTypeCollumn].ToString();
-                ViewBag.NumberOfIPs = int.Parse(row[NumberOfIpsCollumn].ToString());
-                ViewBag.OddsTypeFlag = bool.Parse(row[OddsTypeFlagCollumn].ToString());
-                ViewBag.OddsStyleFlag = bool.Parse(row[OddsRegionFlagCollumn].ToString());
-                ViewBag.LanguagesFlag = bool.Parse(row[LanguageListFlagCollumn].ToString());
-                ViewBag.SportsFlag = bool.Parse(row[SportIDListFlagCollumn].ToString());
-                ViewBag.CountriesFlag = bool.Parse(row[CountryCodeListFlagCollumn].ToString());
-                ViewBag.MarketsFlag = bool.Parse(row[BettypeIDListFlagCollumn].ToString()) && (oddStyles != "8" && oddStyles != string.Empty);
+                var oddStyles = licenseeProfile.OddsType;
+                ViewBag.NumberOfIPs = licenseeProfile.NumberOfIPs;
+                ViewBag.OddsTypeFlag = licenseeProfile.OddsTypeFlag;
+                ViewBag.OddsStyleFlag = licenseeProfile.OddsRegionFlag;
+                ViewBag.LanguagesFlag = licenseeProfile.LanguageListFlag;
+                ViewBag.SportsFlag = licenseeProfile.SportIdListFlag;
+                ViewBag.CountriesFlag = licenseeProfile.CountryCodeListFlag;
+                ViewBag.MarketsFlag = licenseeProfile.BetTypeIdListFlag && (oddStyles != "8" && !string.IsNullOrWhiteSpace(oddStyles));
 
                 ProfileForEditAffiliateWithLicenseeAdminAndSubAccountRole(ref criteria);
             }
@@ -1025,23 +992,22 @@
 
         private void AddAffiliateWithSubAccountRole()
         {
-            var userProfile = baseService.GetDataSet(new UserGetPermissionCriteria
+            var userProfile = baseService.GetDataEntity<PermissionFlag>(new UserGetPermissionCriteria
             {
                 SystemID = currentSession.SystemId,
                 UserID = currentSession.UserId
             });
 
-            if (userProfile != null && userProfile.Tables.Count > 0 && userProfile.Tables[0].Rows.Count > 0)
+            if (userProfile != null)
             {
-                var row = userProfile.Tables[0].Rows[0];
-                ViewBag.NumberOfIPs = int.Parse(row[NumberOfIpsCollumn].ToString());
+                ViewBag.NumberOfIPs = userProfile.NumberOfIPs;
                 ViewBagForFlags(
-                    bool.Parse(row[OddsTypeFlagCollumn].ToString()),
-                    bool.Parse(row[OddsRegionFlagCollumn].ToString()),
-                    bool.Parse(row[LanguageListFlagCollumn].ToString()),
-                    bool.Parse(row[SportIDListFlagCollumn].ToString()),
-                    bool.Parse(row[CountryCodeListFlagCollumn].ToString()),
-                    bool.Parse(row[BettypeIDListFlagCollumn].ToString()));
+                    userProfile.OddsTypeFlag,
+                    userProfile.OddsRegionFlag,
+                    userProfile.LanguageListFlag,
+                    userProfile.SportIDListFlag,
+                    userProfile.CountryCodeListFlag,
+                    userProfile.BetTypeIDListFlag);
 
                 ProfileForAddAffiliateWithLicenseeAdminAndSubAccountRole();
             }
@@ -1049,22 +1015,21 @@
 
         private void GetAffiliateProfileWithSubAccountRole(ref UpdateProfileCriteria criteria)
         {
-            var userProfile = baseService.GetDataSet(new UserGetPermissionCriteria
+            var userProfile = baseService.GetDataEntity<PermissionFlag>(new UserGetPermissionCriteria
             {
                 SystemID = currentSession.SystemId,
                 UserID = currentSession.UserId
             });
 
-            if (userProfile != null && userProfile.Tables.Count > 0 && userProfile.Tables[0].Rows.Count > 0)
+            if (userProfile != null)
             {
-                var row = userProfile.Tables[0].Rows[0];
-                ViewBag.NumberOfIPs = int.Parse(row[NumberOfIpsCollumn].ToString());
-                ViewBag.OddsTypeFlag = bool.Parse(row[OddsTypeFlagCollumn].ToString());
-                ViewBag.OddsStyleFlag = bool.Parse(row[OddsRegionFlagCollumn].ToString());
-                ViewBag.LanguagesFlag = bool.Parse(row[LanguageListFlagCollumn].ToString());
-                ViewBag.SportsFlag = bool.Parse(row[SportIDListFlagCollumn].ToString());
-                ViewBag.CountriesFlag = bool.Parse(row[CountryCodeListFlagCollumn].ToString());
-                ViewBag.MarketsFlag = bool.Parse(row[BettypeIDListFlagCollumn].ToString());
+                ViewBag.NumberOfIPs = userProfile.NumberOfIPs;
+                ViewBag.OddsTypeFlag = userProfile.OddsTypeFlag;
+                ViewBag.OddsStyleFlag = userProfile.OddsRegionFlag;
+                ViewBag.LanguagesFlag = userProfile.LanguageListFlag;
+                ViewBag.SportsFlag = userProfile.SportIDListFlag;
+                ViewBag.CountriesFlag = userProfile.CountryCodeListFlag;
+                ViewBag.MarketsFlag = userProfile.BetTypeIDListFlag;
 
                 ProfileForEditAffiliateWithLicenseeAdminAndSubAccountRole(ref criteria);
             }

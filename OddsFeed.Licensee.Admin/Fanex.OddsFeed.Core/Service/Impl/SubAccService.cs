@@ -8,7 +8,6 @@
     using Fanex.OddsFeed.Core.Criteria.Affiliate;
     using Fanex.OddsFeed.Core.Criteria.SubAccount;
     using Fanex.OddsFeed.Core.Criteria.User;
-    using Fanex.OddsFeed.Core.Domain;
     using Fanex.OddsFeed.Core.Helpers;
     using Fanex.OddsFeed.Core.Model;
     using Fanex.OddsFeed.Core.Repository.Impl;
@@ -44,7 +43,7 @@
 
             if (criteria.IsValid())
             {
-                IEnumerable<IUser> users = baseService.GetData<User>(criteria).OrderBy(s => s.Name);
+                var users = baseService.GetData<User>(criteria).OrderBy(s => s.Name);
 
                 if (users != null)
                 {
@@ -108,7 +107,7 @@
 
             if (criteria.IsValid())
             {
-                IEnumerable<IUser> subAccList = baseService.GetData<User>(criteria).OrderBy(s => s.Name);
+                var subAccList = baseService.GetData<User>(criteria).OrderBy(s => s.Name);
 
                 if (subAccList != null)
                 {
