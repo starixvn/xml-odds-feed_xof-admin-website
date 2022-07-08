@@ -834,6 +834,14 @@
             ViewBag.DelayTimeList = GenerateDelayTime(baseService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "Config" }, false));
             ViewBag.ResultDelayTimeList = licenseeService.GetResultDelayTimeList();
 
+            // Country
+            var countries = baseService.GetSelectList(new GetAllCountryCriteria());
+            ViewBag.CountriesList = countries;
+            if (criteria.CountryCodeList.Equals("all"))
+            {
+                criteria.CountryCodeList = string.Join(",", countries.Select(item => item.Value));
+            }
+
             // Sport
             var sports = baseService.GetSelectListWithGroup(new GetSupportedSportCriteria());
             var sportList = UpdateSportListForCricket(sports);
@@ -847,7 +855,6 @@
 
             // Market
             var bettypes = baseService.GetSelectListWithGroup(new GetSupportedBettypeCriteria());
-
             if (criteria.BetTypeIDList.Equals("all"))
             {
                 criteria.BetTypeIDList = string.Join(",", bettypes.Select(item => item.Value));
@@ -855,14 +862,6 @@
 
             ViewBag.MajorBettypesList = bettypes.Where(betType => betType.Group.Name == MajorGroup);
             ViewBag.MinorBettypesList = bettypes.Where(betType => betType.Group.Name == MinorGroup);
-
-            // Country
-            var countries = baseService.GetSelectList(new GetAllCountryCriteria());
-            ViewBag.CountriesList = countries;
-            if (criteria.CountryCodeList.Equals("all"))
-            {
-                criteria.CountryCodeList = string.Join(",", countries.Select(item => item.Value));
-            }
 
             // League
             var leagues = baseService.GetSelectList(new GetLeagueCriteria
@@ -941,7 +940,6 @@
 
             // Market
             var bettypes = baseService.GetSelectListWithGroup(new GetSupportedBettypeCriteria());
-
             if (criteria.BetTypeIDList.Equals("all"))
             {
                 criteria.BetTypeIDList = string.Join(",", bettypes.Select(item => item.Value));
@@ -958,18 +956,6 @@
                 criteria.CountryCodeList = string.Join(",", countries.Select(item => item.Value));
             }
 
-            // League
-            var leagues = baseService.GetSelectList(new GetLeagueCriteria
-            {
-                SportIDList = criteria.SportIDList,
-                CountryCodeList = criteria.CountryCodeList
-            });
-            ViewBag.LeagueList = leagues;
-            if (criteria.LeagueIDList.Equals("all"))
-            {
-                criteria.LeagueIDList = string.Join(",", leagues.Select(item => item.Value));
-            }
-
             // OutRight
             var outrights = baseService.GetSelectList(new GetOutRightCriteria
             {
@@ -980,6 +966,18 @@
             if (criteria.OutRightIDList.Equals("all"))
             {
                 criteria.OutRightIDList = string.Join(",", outrights.Select(item => item.Value));
+            }
+
+            // League
+            var leagues = baseService.GetSelectList(new GetLeagueCriteria
+            {
+                SportIDList = criteria.SportIDList,
+                CountryCodeList = criteria.CountryCodeList
+            });
+            ViewBag.LeagueList = leagues;
+            if (criteria.LeagueIDList.Equals("all"))
+            {
+                criteria.LeagueIDList = string.Join(",", leagues.Select(item => item.Value));
             }
         }
 
