@@ -5,34 +5,20 @@
     [Serializable]
     public class MissingPartnersProfile
     {
-        public MissingPartnersProfile()
-        {
-            this.ErrCode = 0;
-
-            this.AffsOddsType = string.Empty;
-            this.AffsLanguageList = string.Empty;
-            this.AffsLanguageList = string.Empty;
-            this.AffsSportIDList = string.Empty;
-            this.AffsCountryCodeList = string.Empty;
-            this.AffsLeagueIDList = string.Empty;
-            this.AffsOutrightIDList = string.Empty;
-            this.AffsBettypeIDList = string.Empty;
-        }
-
         public int ErrCode { get; set; }
 
-        public string AffsOddsType { get; set; }
+        public string AffsOddsType { get; set; } = string.Empty;
 
-        public string AffsLanguageList { get; set; }
+        public string AffsLanguageList { get; set; } = string.Empty;
 
-        public string AffsSportIDList { get; set; }
+        public string AffsSportIDList { get; set; } = string.Empty;
 
-        public string AffsCountryCodeList { get; set; }
+        public string AffsCountryCodeList { get; set; } = string.Empty;
 
-        public string AffsLeagueIDList { get; set; }
+        public string AffsLeagueIDList { get; set; } = string.Empty;
 
-        public string AffsOutrightIDList { get; set; }
+        public string AffsOutrightIDList { get; set; } = string.Empty;
 
-        public string AffsBettypeIDList { get; set; }
+        public string AffsBettypeIDList { get; set; } = string.Empty;
     }
 }

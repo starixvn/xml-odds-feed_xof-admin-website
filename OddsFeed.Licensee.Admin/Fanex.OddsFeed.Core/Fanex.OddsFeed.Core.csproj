@@ -262,6 +262,8 @@
     <Compile Include="Helpers\DataCollection.cs" />
     <Compile Include="Helpers\LogHelper.cs" />
     <Compile Include="Model\CommandResult.cs" />
+    <Compile Include="Model\CompanyIP.cs" />
+    <Compile Include="Model\Domain.cs" />
     <Compile Include="Model\LicenseeProfile.cs" />
     <Compile Include="Model\MissingPartnersProfile.cs" />
     <Compile Include="Model\PartnersProfile.cs" />

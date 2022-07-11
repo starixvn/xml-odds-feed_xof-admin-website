@@ -39,14 +39,14 @@
                 return this.NoAuthorization();
             }
 
-            ////Sport Flag
-            var flags = baseService.GetDataSet(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = currentSession.SystemId });
-            if (flags != null && flags.Tables.Count > 0 && flags.Tables[0].Rows.Count > 0)
+            // Sport Flag
+            var licenseeProfile = baseService.GetDataEntity<LicenseeProfile>(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = currentSession.SystemId });
+            if (licenseeProfile != null)
             {
-                ViewBag.SportsFlag = bool.Parse(flags.Tables[0].Rows[0]["SportIDListFlag"].ToString());
+                ViewBag.SportsFlag = licenseeProfile.SportIdListFlag;
             }
 
-            ////System
+            // System
             ViewBag.SystemList = baseService.GetSelectList(new GetAllSystemsCriteria());
             return View();
         }
@@ -59,7 +59,7 @@
             criteria.FirstName = criteria.FirstName ?? string.Empty;
             criteria.LastName = criteria.LastName ?? string.Empty;
             criteria.Password = criteria.Password.Trim();
-            //// hash password incase of add new
+            // hash password incase of add new
             if (!criteria.IsImport)
             {
                 criteria.Password = Cryptography.CfsEnCode(HttpUtility.HtmlEncode(criteria.Password));
@@ -84,8 +84,8 @@
         [HttpPost]
         public JsonResult CheckExistAdministrator(InsertAdminCriteria criteria)
         {
-            var checkResult = new OddsFeedActionResult();
-            var res = baseService.GetData(new CheckExistAdministratorCriteria
+            var result = new CommandResult();
+            var users = baseService.GetData<User>(new CheckExistAdministratorCriteria
             {
                 Username = criteria.UserName,
                 PageIndex = 1,
@@ -93,12 +93,12 @@
                 UserID = 0,
                 SystemID = 0
             });
-            if (res.Data.Tables.Count > 0 && res.Data.Tables[0].Rows.Count > 0)
+            if (users != null && users.Any())
             {
-                checkResult.IsSuccess = false;
+                result.Code = 1;
             }
 
-            return Json(checkResult, JsonRequestBehavior.AllowGet);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         #endregion
@@ -178,7 +178,6 @@
             ViewBag.CurrentUser = " of \"" + username + "\"";
             ViewBag.CurrentUserId = currentSession.UserId;
             var criteria = new UpdateAdminInfoCriteria { UserID = id, Username = username };
-
             if (userInfo != null)
             {
                 criteria.FirstName = userInfo.FirstName;
@@ -199,7 +198,7 @@
         [HttpPost]
         public JsonResult AdministratorEditProfile(UpdateAdminInfoCriteria criteria)
         {
-            var actionResult = new OddsFeedActionResult();
+            var result = new CommandResult();
             criteria.Creator = currentSession.UserId;
             criteria.IP = currentContext.IP;
             criteria.FirstName = criteria.FirstName ?? string.Empty;
@@ -207,27 +206,18 @@
 
             if (!this.HasEditPermission(currentSession.UserRole, criteria.UserID))
             {
-                actionResult.IsSuccess = false;
-                actionResult.ResultMessage = ViewResources.You_can_not_update_this_administrator;
-                return Json(actionResult, JsonRequestBehavior.AllowGet);
+                result.Code = 1;
+                result.Message = ViewResources.You_can_not_update_this_administrator;
+                return Json(result, JsonRequestBehavior.AllowGet);
             }
 
-            CommandResult result = baseService.ExecuteNonQuery(criteria);
-            if (result == null || !result.IsSuccessful)
-            {
-                actionResult.IsSuccess = false;
-                if (result != null)
-                {
-                    actionResult.ResultMessage = result.Message;
-                }
-            }
-
+            result = baseService.ExecuteNonQuery(criteria);
             if (currentSession.UserId == criteria.UserID)
             {
                 currentSession.UserRole = (byte)criteria.RoleID;
             }
 
-            return Json(actionResult, JsonRequestBehavior.AllowGet);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         #endregion
@@ -389,37 +379,31 @@
         [HttpPost]
         public JsonResult AdministratorResetPwd(UpdateAdminPasswordCriteria criteria)
         {
-            var actionResult = new OddsFeedActionResult();
+            var result = new CommandResult();
             if (!this.HasEditPermission(currentSession.UserRole, criteria.UserID))
             {
-                actionResult.IsSuccess = false;
-                actionResult.ResultMessage = ViewResources.You_can_not_update_this_administrator;
+                result.Code = 1;
+                result.Message = ViewResources.You_can_not_update_this_administrator;
             }
 
             if (criteria.Password != criteria.ConfirmPassword)
             {
-                actionResult.IsSuccess = false;
-                actionResult.ResultMessage = ViewResources.Error_PasswordNotMatch;
+                result.Code = 1;
+                result.Message = ViewResources.Error_PasswordNotMatch;
             }
             else
             {
                 criteria.Password = Cryptography.CfsEnCode(HttpUtility.HtmlEncode(criteria.Password.Trim()));
                 criteria.Creator = currentSession.UserId;
                 criteria.IP = currentContext.IP;
-                CommandResult result = baseService.ExecuteNonQuery(criteria);
-                if (result != null && result.IsSuccessful)
+                result = baseService.ExecuteNonQuery(criteria);
+                if (result.IsSuccessful)
                 {
-                    actionResult.IsSuccess = true;
-                    actionResult.ResultMessage = ViewResources.ActionResult_UpdatePasswordSuccess;
-                }
-                else
-                {
-                    actionResult.IsSuccess = false;
-                    actionResult.ResultMessage = result != null ? result.Message : ViewResources.InternalErrorMessage;
+                    result.Message = ViewResources.ActionResult_UpdatePasswordSuccess;
                 }
             }
 
-            return Json(actionResult, JsonRequestBehavior.AllowGet);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         #endregion

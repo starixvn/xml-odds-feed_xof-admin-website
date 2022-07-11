@@ -28,20 +28,5 @@
         {
             return domainRepository.GetDomainSetting(criteria);
         }
-
-        public int CreateDomain(ICriteria criteria)
-        {
-            return domainRepository.CreateDomain(criteria);
-        }
-
-        public int UpdateDomain(ICriteria criteria)
-        {
-            return domainRepository.UpdateDomain(criteria);
-        }
-
-        public int DeleteDomain(ICriteria criteria)
-        {
-            return domainRepository.DeleteDomain(criteria);
-        }
     }
 }

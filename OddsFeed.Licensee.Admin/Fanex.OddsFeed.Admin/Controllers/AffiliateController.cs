@@ -94,40 +94,32 @@
         [HttpPost]
         public JsonResult AddNew(InsertAffiliateCriteria criteria)
         {
-            var actionResult = new OddsFeedActionResult();
+            var result = new CommandResult();
             CustomizeDataBeforeAddNew(ref criteria);
-
             if (IsValidListOfIPs(criteria.IpsFrom, criteria.IpsTo))
             {
-                var result = affiliateService.Insert(criteria);
-                if (result != null && result.IsSuccessful)
+                result = affiliateService.Insert(criteria);
+                if (result.IsSuccessful)
                 {
-                    actionResult.IsSuccess = true;
-                    actionResult.ResultMessage = ViewResources.ActionResult_AddAffiliateSuccess;
-                }
-                else
-                {
-                    actionResult.IsSuccess = false;
-                    actionResult.ResultMessage = result != null ? result.Message : ViewResources.InternalErrorMessage;
+                    result.Message = ViewResources.ActionResult_AddAffiliateSuccess;
                 }
             }
             else
             {
-                actionResult.IsSuccess = false;
-                actionResult.ResultMessage = ViewResources.Error_InvalidInput;
+                result.Code = 1;
+                result.Message = ViewResources.Error_InvalidInput;
             }
 
-            return Json(actionResult, JsonRequestBehavior.AllowGet);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
         public JsonResult CheckExistAffiliate(InsertAffiliateCriteria criteria)
         {
-            var checkResult = new OddsFeedActionResult();
+            var result = new CommandResult();
             if (string.IsNullOrEmpty(criteria.UserName))
             {
-                checkResult.IsSuccess = true;
-                return Json(checkResult, JsonRequestBehavior.AllowGet);
+                return Json(result, JsonRequestBehavior.AllowGet);
             }
 
             var affiliates = baseService.GetData<Affiliate>(new CheckExistAffiliateCriteria
@@ -139,10 +131,10 @@
             });
             if (affiliates != null && affiliates.Any())
             {
-                checkResult.IsSuccess = false;
+                result.Code = 1;
             }
 
-            return Json(checkResult, JsonRequestBehavior.AllowGet);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         #endregion Add New
@@ -184,7 +176,7 @@
         [HttpPost]
         public JsonResult EditAffiliateInfo(UpdateAffiliateCriteria criteria)
         {
-            var actionResult = new OddsFeedActionResult();
+            var result = new CommandResult();
             if (ModelState.IsValid)
             {
                 criteria.UpdatedBy = currentSession.UserId;
@@ -192,20 +184,14 @@
                 criteria.Website = criteria.Website ?? string.Empty;
                 criteria.Note = criteria.Note ?? string.Empty;
 
-                var result = baseService.ExecuteNonQuery(criteria);
-                if (result != null && result.IsSuccessful)
+                result = baseService.ExecuteNonQuery(criteria);
+                if (result.IsSuccessful)
                 {
-                    actionResult.IsSuccess = true;
-                    actionResult.ResultMessage = ViewResources.ActionResult_UpdateAffiliateInfoSuccess;
-                }
-                else
-                {
-                    actionResult.IsSuccess = false;
-                    actionResult.ResultMessage = result != null ? result.Message : ViewResources.InternalErrorMessage;
+                    result.Message = ViewResources.ActionResult_UpdateAffiliateInfoSuccess;
                 }
             }
 
-            return Json(actionResult, JsonRequestBehavior.AllowGet);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
@@ -242,7 +228,7 @@
         [HttpPost]
         public JsonResult EditSetting(int affId, string domains, string listIPs)
         {
-            var actionResult = new OddsFeedActionResult();
+            var result = new CommandResult();
             var fromIPs = new StringBuilder();
             var toIPs = new StringBuilder();
 
@@ -259,8 +245,8 @@
 
             if (!IsValidListOfIPs(fromIPs.ToString(), toIPs.ToString()))
             {
-                actionResult.IsSuccess = false;
-                actionResult.ResultMessage = ViewResources.Error_InvalidInput;
+                result.Code = 1;
+                result.Message = ViewResources.Error_InvalidInput;
             }
             else
             {
@@ -272,22 +258,16 @@
                     IpsTo = toIPs.ToString()
                 };
 
-                var result = baseService.ExecuteNonQuery(criteria);
-                if (result != null && result.IsSuccessful)
+                result = baseService.ExecuteNonQuery(criteria);
+                if (result.IsSuccessful)
                 {
                     ViewBag.Success = true;
                     ViewBag.PartnerID = criteria.PartnerID;
-                    actionResult.IsSuccess = true;
-                    actionResult.ResultMessage = ViewResources.ActionResult_UpdateAffiliateInfoSuccess;
-                }
-                else
-                {
-                    actionResult.IsSuccess = false;
-                    actionResult.ResultMessage = result != null ? result.Message : ViewResources.InternalErrorMessage;
+                    result.Message = ViewResources.ActionResult_UpdateAffiliateInfoSuccess;
                 }
             }
 
-            return Json(actionResult, JsonRequestBehavior.AllowGet);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -318,26 +298,18 @@
         [HttpPost]
         public JsonResult DeleteIPRange_EditSetting_Partner(DeleteSettingIP_AffiliateCriteria criteria)
         {
-            var deleteResult = new OddsFeedActionResult();
             criteria.Creator = currentSession.UserId;
             criteria.IPFromOld = string.IsNullOrEmpty(criteria.IPFromOld) ? string.Empty : criteria.IPFromOld;
             criteria.IPToOld = string.IsNullOrEmpty(criteria.IPToOld) ? string.Empty : criteria.IPToOld;
             criteria.IP = currentContext.IP;
 
-            var result = baseService.ExecuteNonQuery(criteria);
-            if (result != null && result.IsSuccessful)
+            CommandResult result = baseService.ExecuteNonQuery(criteria);
+            if (result.IsSuccessful)
             {
-                deleteResult.IsSuccess = true;
-                deleteResult.ResultMessage = ViewResources.ActionResult_Success_DeleteIPSetting;
-            }
-            else
-            {
-                deleteResult.IsSuccess = false;
-                deleteResult.ErrorCode = result != null ? result.Code : 1;
-                deleteResult.ResultMessage = result != null ? result.Message : ViewResources.InternalErrorMessage;
+                result.Message = ViewResources.ActionResult_Success_DeleteIPSetting;
             }
 
-            return Json(deleteResult, JsonRequestBehavior.AllowGet);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
@@ -384,25 +356,19 @@
         [HttpPost]
         public JsonResult EditProfile(UpdateProfileCriteria criteria)
         {
-            var actionResult = new OddsFeedActionResult();
+            var result = new CommandResult();
             if (ModelState.IsValid)
             {
                 CustomizeDataBeforeEditProfile(ref criteria);
 
-                var result = baseService.ExecuteNonQuery(criteria);
-                if (result != null && result.IsSuccessful)
+                result = baseService.ExecuteNonQuery(criteria);
+                if (result.IsSuccessful)
                 {
-                    actionResult.IsSuccess = true;
-                    actionResult.ResultMessage = ViewResources.ActionResult_UpdateAffiliateInfoSuccess;
-                }
-                else
-                {
-                    actionResult.IsSuccess = false;
-                    actionResult.ResultMessage = result != null ? result.Message : ViewResources.InternalErrorMessage;
+                    result.Message = ViewResources.ActionResult_UpdateAffiliateInfoSuccess;
                 }
             }
 
-            return Json(actionResult, JsonRequestBehavior.AllowGet);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         public string EditActive(int affId, bool status)
@@ -473,8 +439,8 @@
                 SystemId = currentSession.SystemId,
                 DomainName = domainName
             };
-            var top10DomainList = baseService.GetDataSet(criteria).Tables[0];
-            return JsonForAutoComplete(top10DomainList, "DomainID", "DomainName");
+            var domains = baseService.GetData<Domain>(criteria);
+            return Json(domains.Select(x => new JSONSource { Value = x.DomainId.ToString(), Label = x.DomainName }).ToList());
         }
 
         [HttpGet]

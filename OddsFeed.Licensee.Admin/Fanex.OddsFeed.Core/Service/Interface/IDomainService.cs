@@ -8,11 +8,5 @@
         DataCollection GetAllDomain(ICriteria criteria);
 
         DataCollection GetDomainSetting(ICriteria criteria);
-
-        int CreateDomain(ICriteria criteria);
-
-        int UpdateDomain(ICriteria criteria);
-
-        int DeleteDomain(ICriteria criteria);
     }
 }

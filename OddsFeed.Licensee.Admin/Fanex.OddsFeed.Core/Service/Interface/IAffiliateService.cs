@@ -11,8 +11,6 @@
     {
         IDataReader GetAffiliateListReturnDataReader(byte systemId, string name);
 
-        bool GetStatusById(int id);
-
         IEnumerable<SelectListItem> GetDomain(
             bool? isActive = null,
             bool? isOddsDomain = null,

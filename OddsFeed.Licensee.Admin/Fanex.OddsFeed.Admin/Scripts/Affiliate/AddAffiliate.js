@@ -148,8 +148,7 @@ function AddAffilliate() {
         success: function (result) {
             $('body').removeClass('wait');
 
-            var success = result != null && result.IsSuccess;
-            if (success) {
+            if (result && result.IsSuccessful) {
                 $('.result-message-box').addClass('hidden');
                 $('div.step-active').attr('class', 'step-inactive');
                 $('#panelStep4').attr('class', 'step-active');
@@ -157,7 +156,11 @@ function AddAffilliate() {
                 $('#step4').show();
                 showDone();
             } else {
-                OddsFeedAdminManager.informActionResult(result, $('.result-message-box'));
+                $('.result-message-box').empty()
+                    .append("<ul><li>" + result.Message + "</li></ul>")
+                    .addClass("error-message-box")
+                    .removeClass("success-message-box")
+                    .removeClass("hidden");
             }
         },
         error: function (xhr, status, err) {

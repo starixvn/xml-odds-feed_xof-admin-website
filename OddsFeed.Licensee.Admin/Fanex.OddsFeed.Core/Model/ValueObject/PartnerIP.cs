@@ -1,21 +1,8 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="PartnerIP.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Thai.Tran" date="2013.1.7">Created</change>
-// </history>
-
-namespace Fanex.OddsFeed.Core.Model
-{    
+﻿namespace Fanex.OddsFeed.Core.Model
+{
     using System;
-    using System.Diagnostics.CodeAnalysis;
     using Fanex.OddsFeed.Framework.Domain;
 
-    /// <summary>
-    /// Class PartnerIP.
-    /// </summary>
     [Serializable]
     public class PartnerIP : IEntity<int, string>
     {
@@ -33,6 +20,6 @@ namespace Fanex.OddsFeed.Core.Model
 
         public string City { get; set; }
 
-        public string ISP { get; set; }     
+        public string ISP { get; set; }
     }
 }

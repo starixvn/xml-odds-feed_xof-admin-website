@@ -71,7 +71,7 @@
             {
                 CustomizeDataBeforeLogin(ref criteria, password);
 
-                var user = _userService.UserLogin(ref criteria) as User;
+                User user = _userService.UserLogin(ref criteria);
                 if (user != null)
                 {
                     actionResult.IsSuccess = false;

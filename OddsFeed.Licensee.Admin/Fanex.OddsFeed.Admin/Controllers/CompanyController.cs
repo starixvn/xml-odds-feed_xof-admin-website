@@ -1,6 +1,5 @@
 ﻿namespace Fanex.OddsFeed.Admin.Controllers
 {
-    using System.Data;
     using System.Text;
     using System.Web.Mvc;
     using Fanex.OddsFeed.Core.Criteria.CompanyIP;
@@ -20,15 +19,15 @@
             }
 
             var criteria = new InsertCompanyIPsCriteria();
-            var companyIPs = baseService.GetDataSet(new GetAllCompanyIPCriteria());
+            var companyIPs = baseService.GetData<CompanyIP>(new GetAllCompanyIPCriteria());
             var listIPFrom = new StringBuilder();
             var listIPTo = new StringBuilder();
             var listDescription = new StringBuilder();
-            foreach (DataRow row in companyIPs.Tables[0].Rows)
+            foreach (var record in companyIPs)
             {
-                listIPFrom.AppendFormat("{0},", row["IPFrom"].ToString());
-                listIPTo.AppendFormat("{0},", row["IPTo"].ToString());
-                listDescription.AppendFormat("{0}\n", row["Description"].ToString());
+                listIPFrom.AppendFormat("{0},", record.IPFrom);
+                listIPTo.AppendFormat("{0},", record.IPTo);
+                listDescription.AppendFormat("{0}\n", record.Description);
             }
 
             criteria.ListIPFrom = listIPFrom.ToString().Trim(',');
@@ -42,8 +41,8 @@
         {
             criteria.Creator = currentSession.UserId;
             criteria.IP = currentContext.IP;
-            var res = baseService.ExecuteNonQuery(criteria);
-            return (int)res.Code;
+            CommandResult result = baseService.ExecuteNonQuery(criteria);
+            return result.Code;
         }
 
         [HttpPost]
@@ -51,33 +50,25 @@
         {
             criteria.Creator = currentSession.UserId;
             criteria.Description = string.IsNullOrEmpty(criteria.Description) ? string.Empty : criteria.Description;
-            var result = baseService.ExecuteNonQuery(criteria);
-            return (int)result.Code;
+            CommandResult result = baseService.ExecuteNonQuery(criteria);
+            return result.Code;
         }
 
         [HttpPost]
         public JsonResult DeleteCompanyIPSetting(DeleteCompanyIPCriteria criteria)
         {
-            var deleteResult = new OddsFeedActionResult();
             criteria.Creator = currentSession.UserId;
             criteria.IP = currentContext.IP;
             criteria.IPFromOld = string.IsNullOrEmpty(criteria.IPFromOld) ? string.Empty : criteria.IPFromOld;
             criteria.IPToOld = string.IsNullOrEmpty(criteria.IPToOld) ? string.Empty : criteria.IPToOld;
 
-            var result = baseService.ExecuteNonQuery(criteria);
-            if (result.Code > 0)
+            CommandResult result = baseService.ExecuteNonQuery(criteria);
+            if (result.IsSuccessful)
             {
-                deleteResult.IsSuccess = false;
-                deleteResult.ErrorCode = result.Code;
-                deleteResult.ResultMessage = result.Message;
-            }
-            else
-            {
-                deleteResult.IsSuccess = true;
-                deleteResult.ResultMessage = ViewResources.ActionResult_Success_DeleteCompanyIPSetting;
+                result.Message = ViewResources.ActionResult_Success_DeleteCompanyIPSetting;
             }
 
-            return Json(deleteResult, JsonRequestBehavior.AllowGet);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
     }
 }

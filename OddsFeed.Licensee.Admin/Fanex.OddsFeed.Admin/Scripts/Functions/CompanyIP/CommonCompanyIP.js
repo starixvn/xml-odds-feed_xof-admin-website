@@ -67,13 +67,13 @@ function removeRow(obj, IPFromOld, IPToOld) {
                 async: true,
                 cache: false,
                 success: function (result) {
-                    if (result && result.IsSuccess) {
-                        OddsFeedAdminManager.informActionResult({
-                            IsSuccess: result.IsSuccess,
-                            ResultMessage: result.ResultMessage
-                        }, $(".result-message-box"));
-                    }
-                    else {
+                    if (result && result.IsSuccessful) {
+                        $(".result-message-box").empty()
+                            .append("<ul><li>" + result.Message + "</li></ul>")
+                            .addClass("success-message-box")
+                            .removeClass("error-message-box")
+                            .removeClass("hidden");
+                    } else {
                         GetErrorMessage(result.ErrorCode);
                     }
 

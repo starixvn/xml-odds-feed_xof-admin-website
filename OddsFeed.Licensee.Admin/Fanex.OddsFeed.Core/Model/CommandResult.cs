@@ -2,7 +2,7 @@
 {
     public class CommandResult
     {
-        public dynamic Code { get; set; }
+        public int Code { get; set; } = 0;
         public string Message { get; set; }
         public bool IsSuccessful => Code == 0;
     }

@@ -166,10 +166,19 @@ function DoDeleteIPRange_EditSetting(IPFromOld, IPToOld) {
         async: true,
         cache: false,
         success: function (result) {
-            OddsFeedAdminManager.informActionResult({
-                IsSuccess: result.IsSuccess,
-                ResultMessage: result.ResultMessage
-            }, $(".result-message-box"));
+            if (result && result.IsSuccessful) {
+                $(".result-message-box").empty()
+                    .append("<ul><li>" + result.Message + "</li></ul>")
+                    .addClass("success-message-box")
+                    .removeClass("error-message-box")
+                    .removeClass("hidden");
+            } else {
+                $(".result-message-box").empty()
+                    .append("<ul><li>" + result.Message + "</li></ul>")
+                    .addClass("error-message-box")
+                    .removeClass("success-message-box")
+                    .removeClass("hidden");
+            }
         },
         error: function (xhr, status, err) {
         }

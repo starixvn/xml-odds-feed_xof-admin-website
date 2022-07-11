@@ -1,19 +1,21 @@
 ﻿namespace Fanex.OddsFeed.Admin.Controllers
 {
+    using System.Linq;
+    using System.Web.Mvc;
     using Fanex.OddsFeed.Core.Criteria.Domain;
+    using Fanex.OddsFeed.Core.Model;
+    using Fanex.OddsFeed.Core.Model.ValueObject;
     using Fanex.OddsFeed.Core.Service.Impl;
     using Fanex.OddsFeed.Core.Service.Interface;
     using Fanex.OddsFeed.Core.Web;
     using Fanex.OddsFeed.Core.Web.Attribute;
-    using System.Web.Mvc;
 
     [IsAuthorize]
     public class DomainController : BaseController
     {
         private readonly IDomainService _domainService;
 
-        public DomainController()
-            : this(null)
+        public DomainController() : this(null)
         {
         }
 
@@ -54,8 +56,8 @@
         {
             criteria.Creator = currentSession.UserId;
             criteria.CurrentIP = currentContext.IP;
-            var res = _domainService.CreateDomain(criteria);
-            return Json(res, JsonRequestBehavior.AllowGet);
+            CommandResult result = baseService.ExecuteNonQuery(criteria);
+            return Json(result.Code, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -65,22 +67,22 @@
             criteria.CurrentIP = currentContext.IP;
             criteria.IP = string.IsNullOrEmpty(criteria.IP) ? string.Empty : criteria.IP;
             criteria.ISP = string.IsNullOrEmpty(criteria.ISP) ? string.Empty : criteria.ISP;
-            var res = _domainService.UpdateDomain(criteria);
-            return Json(res, JsonRequestBehavior.AllowGet);
+            CommandResult result = baseService.ExecuteNonQuery(criteria);
+            return Json(result.Code, JsonRequestBehavior.AllowGet);
         }
 
-        public int DeleteDomain(DeleteDomainCriteria criteria)
+        public JsonResult DeleteDomain(DeleteDomainCriteria criteria)
         {
             criteria.Creator = currentSession.UserId;
             criteria.Ip = currentContext.IP;
-            var res = _domainService.DeleteDomain(criteria);
-            return res;
+            CommandResult result = baseService.ExecuteNonQuery(criteria);
+            return Json(result.Code, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult DomainList_GetTop10(GetTop10DomainCriteria criteria)
         {
-            var top10DomainList = baseService.GetDataSet(criteria).Tables[0];
-            return JsonForAutoComplete(top10DomainList, "DomainID", "DomainName");
+            var domains = baseService.GetData<Domain>(criteria);
+            return Json(domains.Select(x => new JSONSource { Value = x.DomainId.ToString(), Label = x.DomainName }).ToList());
         }
     }
 }

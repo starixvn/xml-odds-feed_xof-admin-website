@@ -3,7 +3,7 @@ var _focusFields = '';
 $(document).ready(function () {
     $("#mainForm input").prop('disabled', false);
 
-    //    //step 1    
+    //    //step 1
     $("#step1Next").click(function () {
         var ret = DoAdd_Administrator(false);
     });
@@ -28,8 +28,7 @@ $(document).ready(function () {
         {
             $("#mainForm input").prop('disabled', false);
             $("#searchToImport").hide();
-        }
-        else // import
+        } else // import
         {
             $("#mainForm input").prop('disabled', true);
             $("#searchToImport").show();
@@ -38,21 +37,14 @@ $(document).ready(function () {
 
     // add event handler for ITAdmin/Licensee radio button
     $("#mainForm input[type='radio']").click(function () {
-        // hide all previous's error message
-        //$("#errorStep1").hide();
-        //$(_focusFields).removeClass("error");
-
         if (this.checked && $(this).val() == '1') // ITAdmin
         {
             $("#panelStep2").hide();
-
             $("#step1Next").hide();
             $("#step1Done").show();
-        }
-        else // Licensee
+        } else // Licensee
         {
             $("#panelStep2").show();
-
             $("#step1Next").show();
             $("#step1Done").hide();
         }
@@ -67,7 +59,6 @@ function StartAutoSuggesttion() {
     var temp = $("#txtUsernameImport").val()
     if (temp.length >= 2) {
         var url = 'ListExistedAdmin?username=' + temp;
-
         $.ajax({
             url: url,
             type: 'POST',
@@ -75,7 +66,6 @@ function StartAutoSuggesttion() {
             cache: false,
             success: function (result) {
                 var sourceAdmin = result.split(',');
-
                 $("#txtUsernameImport").autocomplete({
                     source: sourceAdmin,
                     minLength: 2
@@ -107,13 +97,11 @@ function ValidateParams_AddAdministrator() {
         $("#nameReqErr").show();
         focusFields.push("#txtUsername");
         ret = false;
-    }
-    else if (name.length > 50 || name.length < 2) {
+    } else if (name.length > 50 || name.length < 2) {
         $("#nameLengErr").show();
         focusFields.push("#txtUsername");
         ret = false;
-    }
-    else if (!validateRegex.NameField.test(name)) {
+    } else if (!validateRegex.NameField.test(name)) {
         $("#nameInvalidErr").show();
         focusFields.push("#txtUsername");
         ret = false;
@@ -127,8 +115,7 @@ function ValidateParams_AddAdministrator() {
         $("#emailReqErr").show();
         focusFields.push("#txtEmail");
         ret = false;
-    }
-    else if (!validateRegex.EmailField.test(email)) {
+    } else if (!validateRegex.EmailField.test(email)) {
         $("#emailInvalidErr").show();
         focusFields.push("#txtEmail");
         ret = false;
@@ -152,11 +139,6 @@ function ValidateParams_AddAdministrator() {
         focusFields.push("#txtPwd");
         ret = false;
     }
-//    else if (pwd.indexOf(" ") != -1) {
-//        $("#pwdContentErr").show();
-//        focusFields.push("#txtPwd");
-//        ret = false;
-//    }
 
     //validate confirm password
     $("#confirmPwdReqErr").hide();
@@ -167,18 +149,11 @@ function ValidateParams_AddAdministrator() {
         $("#confirmPwdReqErr").show();
         focusFields.push("#txtConfirmPwd");
         ret = false;
-    }
-    else if (cpwd.length > 50 || cpwd.length < 6) {
+    } else if (cpwd.length > 50 || cpwd.length < 6) {
         $("#confirmPwdLengErr").show();
         focusFields.push("#txtConfirmPwd");
         ret = false;
-    }
-//    else if (cpwd.indexOf(" ") != -1) {
-//        $("#confirmPwdContentErr").show();
-//        focusFields.push("#txtConfirmPwd");
-//        ret = false;
-//    }
-    else if (pwd != cpwd) {
+    } else if (pwd != cpwd) {
         $("#pwdNotMatchErr").show();
         focusFields.push("#txtPwd");
         ret = false;
@@ -193,7 +168,7 @@ function ValidateParams_AddAdministrator() {
 };
 
 function DoAdd_Administrator(isDone) {
-    $("#success-message-box").addClass("hidden");    
+    $("#success-message-box").addClass("hidden");
     var addParams = {
         UserName: $.trim($("#txtUsername").val())
     };
@@ -210,7 +185,7 @@ function DoAdd_Administrator(isDone) {
         success: function (result) {
             var ret = true;
             if (addParams.UserName != "") {
-                if (result && result.IsSuccess) {
+                if (result && result.IsSuccessful) {
                     $("#nameExistedErr").hide('fast');
                     $('#txtUsername').removeClass('error');
                 } else {
@@ -243,9 +218,7 @@ function DoAdd_Administrator(isDone) {
                 } else {
                     $("#errorStep1").removeClass("hidden").show();
                 }
-
-            }
-            else {
+            } else {
                 $("#nameReqErr").hide();
                 $("#nameLengErr").hide();
                 $("#nameInvalidErr").hide();
@@ -269,6 +242,3 @@ function DoAdd_Administrator(isDone) {
         }
     });
 }
-
-
-

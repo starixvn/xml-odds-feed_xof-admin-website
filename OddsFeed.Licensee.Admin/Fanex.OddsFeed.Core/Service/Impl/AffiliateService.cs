@@ -1,6 +1,5 @@
 ﻿namespace Fanex.OddsFeed.Core.Service.Impl
 {
-    using System;
     using System.Collections.Generic;
     using System.Data;
     using System.Linq;
@@ -81,11 +80,6 @@
             return null;
         }
 
-        public bool GetStatusById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public IEnumerable<SelectListItem> GetDomain(bool? isActive = null, bool? isOddsDomain = null, int selectedId = 0)
         {
             var criteria = new GetDomainBySystemIDCriteria
@@ -130,23 +124,7 @@
             {
                 PartnerID = partnerId
             };
-
-            if (criteria.IsValid())
-            {
-                IEnumerable<PartnerIP> list = baseService.GetData<PartnerIP>(criteria).OrderBy(s => s.Name);
-
-                if (list != null)
-                {
-                    return list.Select(s => new PartnerIP
-                    {
-                        Id = s.Id,
-                        IPFrom = s.IPFrom,
-                        IPTo = s.IPTo
-                    }).ToList();
-                }
-            }
-
-            return new List<PartnerIP>();
+            return baseService.GetData<PartnerIP>(criteria).OrderBy(s => s.Name).ToList();
         }
 
         public IDataReader GetPartnerRequestStatisticReturnDataReader(RequestStatisticCriteria criteria)

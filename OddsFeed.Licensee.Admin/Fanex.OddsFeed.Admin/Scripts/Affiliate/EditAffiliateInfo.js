@@ -23,10 +23,20 @@
             beforeSend: function (xhr) {
             },
             success: function (result) {
-                var success = result != null && result.IsSuccess == true;
-                OddsFeedAdminManager.informActionResult(result, $("#editStep1 .result-message-box"));
-                if (success) {
+                if (result && result.IsSuccessful) {
+                    $("#editStep1 .result-message-box").empty()
+                        .append("<ul><li>" + result.Message + "</li></ul>")
+                        .addClass("success-message-box")
+                        .removeClass("error-message-box")
+                        .removeClass("hidden");
+
                     OddsFeedAdminManager.confirmAfterSuccess(currentDomainURL + "/Affiliate/List");
+                } else {
+                    $("#editStep1 .result-message-box").empty()
+                        .append("<ul><li>" + result.Message + "</li></ul>")
+                        .addClass("error-message-box")
+                        .removeClass("success-message-box")
+                        .removeClass("hidden");
                 }
             },
             error: function (xhr, status, err) {

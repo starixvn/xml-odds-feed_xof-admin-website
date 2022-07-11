@@ -30,42 +30,5 @@
                 return res;
             }
         }
-
-        #region IDomainRepository Members
-
-        public int CreateDomain(ICriteria criteria)
-        {
-            using (var db = new ObjectDb(criteria.GetSettingKey()))
-            {
-                db.AssignParamValues(criteria.GetSpParams());
-                db.ExecuteNonQuery();
-
-                return (int)db.GetOuputParams()["errcode"];
-            }
-        }
-
-        public int UpdateDomain(ICriteria criteria)
-        {
-            using (var db = new ObjectDb(criteria.GetSettingKey()))
-            {
-                db.AssignParamValues(criteria.GetSpParams());
-                db.ExecuteNonQuery();
-
-                return (int)db.GetOuputParams()["errcode"];
-            }
-        }
-
-        public int DeleteDomain(ICriteria criteria)
-        {
-            using (var db = new ObjectDb(criteria.GetSettingKey()))
-            {
-                db.AssignParamValues(criteria.GetSpParams());
-                db.ExecuteNonQuery();
-
-                return (int)db.GetOuputParams()["errcode"];
-            }
-        }
-
-        #endregion
     }
 }

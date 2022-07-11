@@ -10,6 +10,7 @@
     using Fanex.OddsFeed.Core.Criteria.Affiliate;
     using Fanex.OddsFeed.Core.Criteria.Licensee;
     using Fanex.OddsFeed.Core.Model;
+    using Fanex.OddsFeed.Core.Model.ValueObject;
     using Fanex.OddsFeed.Core.Service.Impl;
     using Fanex.OddsFeed.Core.Service.Interface;
     using Fanex.OddsFeed.Core.Web;
@@ -91,7 +92,7 @@
             return View(criteria);
         }
 
-        public int CreateLicensee(CreateLicenseeCriteria criteria)
+        public JsonResult CreateLicensee(CreateLicenseeCriteria criteria)
         {
             if (!criteria.AddExistingLicensee)
             {
@@ -107,28 +108,28 @@
             criteria.LeagueKeyword_O = criteria.LeagueKeyword_O ?? string.Empty;
 
             criteria.SportIDList = UpdateSportIDListForCricket(criteria.SportIDList);
-            var res = baseService.ExecuteNonQuery(criteria);
-            return (int)res.Code;
+            CommandResult result = baseService.ExecuteNonQuery(criteria);
+            return Json(result.Code, JsonRequestBehavior.AllowGet);
         }
 
         #endregion AddNew
 
         #region Edit
 
-        public int EditLicensee(EditLicenseeCriteria criteria)
+        public JsonResult EditLicensee(EditLicenseeCriteria criteria)
         {
             criteria.Creator = currentSession.UserId;
             criteria.IP = currentContext.IP;
-            var res = baseService.ExecuteNonQuery(criteria);
-            return (int)res.Code;
+            CommandResult result = baseService.ExecuteNonQuery(criteria);
+            return Json(result.Code, JsonRequestBehavior.AllowGet);
         }
 
-        public int EditActive(UpdateLicenseeActiveCriteria criteria)
+        public JsonResult EditActive(UpdateLicenseeActiveCriteria criteria)
         {
             criteria.Creator = currentSession.UserId;
             criteria.IP = currentContext.IP;
-            var res = baseService.ExecuteNonQuery(criteria);
-            return (int)res.Code;
+            CommandResult result = baseService.ExecuteNonQuery(criteria);
+            return Json(result.Code, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
@@ -144,7 +145,7 @@
         }
 
         [HttpPost]
-        public int EditLicenseeInfoPost(EditLicenseeInfoCriteria criteria)
+        public JsonResult EditLicenseeInfoPost(EditLicenseeInfoCriteria criteria)
         {
             if (!criteria.AddExistingLicensee)
             {
@@ -153,8 +154,8 @@
 
             criteria.Creator = currentSession.UserId;
             criteria.IP = currentContext.IP;
-            var res = baseService.ExecuteNonQuery(criteria);
-            return (int)res.Code;
+            CommandResult result = baseService.ExecuteNonQuery(criteria);
+            return Json(result.Code, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
@@ -170,19 +171,19 @@
                 return this.NoAuthorization();
             }
 
-            var licensee = baseService.GetDataSet(new GetLicenseeSettingByLicenseeIDCriteria { SystemID = criteria.SystemID });
+            var licensees = baseService.GetData<CompanyIP>(new GetLicenseeSettingByLicenseeIDCriteria { SystemID = criteria.SystemID });
             var listIPFrom = new StringBuilder();
             var listIPTo = new StringBuilder();
-            foreach (DataRow row in licensee.Tables[0].Rows)
+            foreach (var record in licensees)
             {
-                listIPFrom.Append(row["IPFrom"] + ",");
-                listIPTo.Append(row["IPTo"] + ",");
+                listIPFrom.AppendFormat("{0},", record.IPFrom);
+                listIPTo.AppendFormat("{0},", record.IPTo);
             }
 
             criteria.ListIPFrom = listIPFrom.ToString().Trim(',');
             criteria.ListIPTo = listIPTo.ToString().Trim(',');
 
-            ////Domain
+            // Domain
             var selectedDomains = baseService.GetSelectList(new GetDomainBySystemIDCriteria
             {
                 SystemID = (byte)criteria.SystemID
@@ -203,12 +204,12 @@
         }
 
         [HttpPost]
-        public int EditSettingPost(EditLicenseeSettingCriteria criteria)
+        public JsonResult EditSettingPost(EditLicenseeSettingCriteria criteria)
         {
             criteria.Creator = currentSession.UserId;
             criteria.IP = currentContext.IP;
-            var res = baseService.ExecuteNonQuery(criteria);
-            return (int)res.Code;
+            CommandResult result = baseService.ExecuteNonQuery(criteria);
+            return Json(result.Code, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
@@ -395,9 +396,8 @@
             {
                 Systemname = systemName
             };
-
-            var top10SystemList = baseService.GetDataSet(criteria).Tables[0];
-            return JsonForAutoComplete(top10SystemList, "SystemID", "SystemName");
+            var systems = baseService.GetData<Licensee>(criteria);
+            return Json(systems.Select(x => new JSONSource { Value = x.SystemID.ToString(), Label = x.SystemName }).ToList());
         }
 
         public string LicenseeList_GetTop10(string systemName)
@@ -406,9 +406,8 @@
             {
                 Systemname = systemName
             };
-
-            var top10SystemList = baseService.GetDataSet(criteria).Tables[0];
-            return DataForAutoComplete(top10SystemList, "SystemName");
+            var systems = baseService.GetData<Licensee>(criteria);
+            return string.Join(",", systems.Select(x => x.SystemName));
         }
 
         public bool CheckExistLicenseeName(CheckExistLicenseeCriteria criteria)
@@ -425,37 +424,29 @@
 
         #region Delete
 
-        public int DeleteLicensee(DeleteLicenseeCriteria criteria)
+        public JsonResult DeleteLicensee(DeleteLicenseeCriteria criteria)
         {
             criteria.Creator = currentSession.UserId;
             criteria.IP = currentContext.IP;
-            var res = baseService.ExecuteNonQuery(criteria);
-            return (int)res.Code;
+            CommandResult result = baseService.ExecuteNonQuery(criteria);
+            return Json(result.Code, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
         public JsonResult DeleteIPRange_EditSetting(DeleteSettingIP_LicenseeCriteria criteria)
         {
-            var deleteResult = new OddsFeedActionResult();
             criteria.Creator = currentSession.UserId;
             criteria.IP = currentContext.IP;
             criteria.IPFromOld = string.IsNullOrEmpty(criteria.IPFromOld) ? string.Empty : criteria.IPFromOld;
             criteria.IPToOld = string.IsNullOrEmpty(criteria.IPToOld) ? string.Empty : criteria.IPToOld;
 
-            var result = baseService.ExecuteNonQuery(criteria);
-            if (result != null && result.IsSuccessful)
+            CommandResult result = baseService.ExecuteNonQuery(criteria);
+            if (result.IsSuccessful)
             {
-                deleteResult.IsSuccess = true;
-                deleteResult.ResultMessage = ViewResources.ActionResult_Success_DeleteIPSetting;
-            }
-            else
-            {
-                deleteResult.IsSuccess = false;
-                deleteResult.ErrorCode = result != null ? result.Code : 1;
-                deleteResult.ResultMessage = result != null ? result.Message : ViewResources.InternalErrorMessage;
+                result.Message = ViewResources.ActionResult_Success_DeleteIPSetting;
             }
 
-            return Json(deleteResult, JsonRequestBehavior.AllowGet);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         #endregion Delete
@@ -556,62 +547,62 @@
             criteria.Creator = currentSession.UserId;
             criteria.IP = currentContext.IP;
             criteria.BettypeIDListFlag = criteria.BettypeIDListFlag && criteria.BetTypeIDList != null;
-            var res = baseService.ExecuteNonQuery(criteria);
+            CommandResult result = baseService.ExecuteNonQuery(criteria);
 
             var missingPartnersProfile = new MissingPartnersProfile
             {
-                ErrCode = (int)res.Code
+                ErrCode = result.Code
             };
             return Json(missingPartnersProfile, JsonRequestBehavior.AllowGet);
         }
 
         private void GetLicenseeProfile(ref EditLicenseeProfileCriteria criteria)
         {
-            var licensee = baseService.GetDataSet(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = criteria.SystemID });
-            if (licensee != null && licensee.Tables.Count > 0 && licensee.Tables[0].Rows.Count > 0)
+            var licensee = baseService.GetDataEntity<LicenseeProfile>(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = currentSession.SystemId });
+            if (licensee != null)
             {
-                var row = licensee.Tables[0].Rows[0];
-                criteria.NumberOfIPs = short.Parse(row["NumberOfIPs"].ToString());
-                criteria.BetTypeIDList = row["BetTypeIDList"].ToString();
-                criteria.BettypeIDListFlag = bool.Parse(row["BettypeIDListFlag"].ToString());
-                criteria.CountryCodeList = row["CountryCodeList"].ToString();
-                criteria.CountryCodeListFlag = bool.Parse(row["CountryCodeListFlag"].ToString());
-                var delayTimes = row["OddsDelayTimes"].ToString().Split(',');
-                if (delayTimes.Length >= 1)
+                criteria.NumberOfIPs = licensee.NumberOfIPs;
+                criteria.BetTypeIDList = licensee.BetTypeIdList;
+                criteria.BettypeIDListFlag = licensee.BetTypeIdListFlag;
+                criteria.CountryCodeList = licensee.CountryCodeList;
+                criteria.CountryCodeListFlag = licensee.CountryCodeListFlag;
+                var delayTimes = licensee.OddsDelayTimes.Split(',');
+                if (delayTimes.Length > 0)
                 {
                     criteria.DeadballDelayTimes = delayTimes[0];
                 }
 
-                if (delayTimes.Length >= 2)
+                if (delayTimes.Length > 1)
                 {
                     criteria.LiveDelayTimes = delayTimes[1];
                 }
 
-                if (delayTimes.Length >= 3)
+                const byte OutrightDelayTimesIndex = 2;
+                if (delayTimes.Length > OutrightDelayTimesIndex)
                 {
-                    criteria.OutrightDelayTimes = delayTimes[2];
+                    criteria.OutrightDelayTimes = delayTimes[OutrightDelayTimesIndex];
                 }
 
-                criteria.OddsDelayTimesFlag = bool.Parse(row["OddsDelayTimesFlag"].ToString());
+                criteria.OddsDelayTimesFlag = licensee.OddsDelayTimesFlag;
 
-                criteria.ResultDelayTimes = row["ResultDelayTimes"].ToString();
-                criteria.ResultDelayTimesFlag = bool.Parse(row["ResultDelayTimesFlag"].ToString());
+                criteria.ResultDelayTimes = licensee.ResultDelayTimes;
+                criteria.ResultDelayTimesFlag = licensee.ResultDelayTimesFlag;
 
-                criteria.LanguageList = row["LanguageList"].ToString();
-                criteria.LanguageListFlag = bool.Parse(row["LanguageListFlag"].ToString());
-                criteria.LeagueIDList = row["LeagueIDList"].ToString();
-                criteria.LeagueIDListFlag = bool.Parse(row["LeagueIDListFlag"].ToString());
-                criteria.LeagueKeyword = row["LeagueKeyword"].ToString();
-                criteria.LeagueKeyword_O = row["LeagueKeyword_O"].ToString();
-                criteria.LeagueKeyword_OFlag = bool.Parse(row["LeagueKeyword_OFlag"].ToString());
-                criteria.LeagueKeywordFlag = bool.Parse(row["LeagueKeywordFlag"].ToString());
-                criteria.OddsRegion = row["OddsRegion"].ToString();
-                criteria.OddsRegionFlag = bool.Parse(row["OddsRegionFlag"].ToString());
-                criteria.OddsType = row["OddsType"].ToString();
-                criteria.OddsTypeFlag = bool.Parse(row["OddsTypeFlag"].ToString());
-                criteria.OutRightIDList = row["OutRightIDList"].ToString();
-                criteria.SportIDList = row["SportIDList"].ToString();
-                criteria.SportIDListFlag = bool.Parse(row["SportIDListFlag"].ToString());
+                criteria.LanguageList = licensee.LanguageList;
+                criteria.LanguageListFlag = licensee.LanguageListFlag;
+                criteria.LeagueIDList = licensee.LeagueIdList;
+                criteria.LeagueIDListFlag = licensee.LeagueIdListFlag;
+                criteria.LeagueKeyword = licensee.LeagueKeyword;
+                criteria.LeagueKeyword_O = licensee.LeagueKeyword_O;
+                criteria.LeagueKeyword_OFlag = licensee.LeagueKeyword_OFlag;
+                criteria.LeagueKeywordFlag = licensee.LeagueKeywordFlag;
+                criteria.OddsRegion = licensee.OddsRegion;
+                criteria.OddsRegionFlag = licensee.OddsRegionFlag;
+                criteria.OddsType = licensee.OddsType;
+                criteria.OddsTypeFlag = licensee.OddsTypeFlag;
+                criteria.OutRightIDList = licensee.OutrightIdList;
+                criteria.SportIDList = licensee.SportIdList;
+                criteria.SportIDListFlag = licensee.SportIdListFlag;
             }
         }
 

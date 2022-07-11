@@ -28,8 +28,6 @@
 
         public string ErrMsg { get; set; }
 
-
-        // Ignored 
         [SpParam(Ignored = true)]
         public int UserID { get; set; }
 
@@ -54,14 +52,8 @@
         [SpParam(Ignored = true)]
         public DateTime CreateDate { get; set; }
 
-        public override string GetSettingKey()
-        {
-            return "Odds_Admin_CheckExist";
-        }
+        public override string GetSettingKey() => "Odds_Admin_CheckExist";
 
-        public override bool IsValid()
-        {
-            return true;
-        }
+        public override bool IsValid() => true;
     }
 }

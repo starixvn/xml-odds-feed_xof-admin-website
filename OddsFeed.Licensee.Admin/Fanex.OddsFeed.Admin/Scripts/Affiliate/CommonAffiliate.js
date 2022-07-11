@@ -1,5 +1,4 @@
 ﻿$(document).ready(function () {
-
     $("#DateStart").attr("readonly", "true");
     $("#DateEnd").attr("readonly", "true");
 
@@ -8,6 +7,7 @@
         !$('#slDomain option:selected').remove().appendTo('#slAssignedDomain');
         showingDomainList();
     });
+
     $('#btnLeft').click(function () {
         !$('#slAssignedDomain option:selected').remove().appendTo('#slDomain');
         showingDomainList();
@@ -17,6 +17,7 @@
         !$('#slDomain option').remove().appendTo('#slAssignedDomain');
         showingDomainList();
     });
+
     $('#btnDoubleLeft').click(function () {
         !$('#slAssignedDomain option').remove().appendTo('#slDomain');
         showingDomainList();
@@ -31,12 +32,10 @@
         if (sportsFlag) {
             if ($('#chkAllSports').is(":checked")) {
                 $('.chkSport').each(function () { this.checked = true; });
-            }
-            else {
+            } else {
                 $('.chkSport').each(function () { this.checked = false; });
             }
-        }
-        else {
+        } else {
             return sportsFlag != "";
         }
     });
@@ -45,12 +44,10 @@
         if (sportsFlag) {
             if ($('.chkSport:checked').length == $('.chkSport').length) {
                 $('#chkAllSports').attr("checked", true);
-            }
-            else {
+            } else {
                 $('#chkAllSports').attr("checked", false);
             }
-        }
-        else {
+        } else {
             return sportsFlag != "";
         }
     });
@@ -60,8 +57,7 @@
         if (countriesFlag) {
             if ($('#chkAllCountries').is(":checked")) {
                 $('.chkCountry').each(function () { this.checked = true; });
-            }
-            else {
+            } else {
                 $('.chkCountry').each(function () { this.checked = false; });
             }
         } else {
@@ -73,12 +69,10 @@
         if (countriesFlag) {
             if ($('.chkCountry:checked').length == $('.chkCountry').length) {
                 $('#chkAllCountries').attr("checked", true);
-            }
-            else {
+            } else {
                 $('#chkAllCountries').attr("checked", false);
             }
-        }
-        else {
+        } else {
             return countriesFlag != "";
         }
     });
@@ -88,12 +82,10 @@
         if (marketsFlag) {
             if ($('#chkAllMarkets').is(":checked")) {
                 $('.chkMarket').each(function () { this.checked = true; });
-            }
-            else {
+            } else {
                 $('.chkMarket').each(function () { this.checked = false; });
             }
-        }
-        else {
+        } else {
             return marketsFlag != "";
         }
     });
@@ -102,8 +94,7 @@
         if (marketsFlag) {
             if ($('.chkMarket:checked').length == $('.chkMarket').length) {
                 $('#chkAllMarkets').attr("checked", true);
-            }
-            else {
+            } else {
                 $('#chkAllMarkets').attr("checked", false);
             }
         } else {
@@ -115,21 +106,20 @@
 
 function ShowHideMarket(action) {
     if ($('#OddsType2:checked').length + $('#OddsType4:checked').length > 0) {
-        if (action == 'checkall') {            
+        if (action == 'checkall') {
             $("#chkAllMarkets").attr('checked', true);
-            $(".chkMarket").attr('checked', true);            
+            $(".chkMarket").attr('checked', true);
         }
         //if ($("#marketsFlag").val() != "") {
-            $("#Market").show();
+        $("#Market").show();
         //}
 
-    }
-    else {
+    } else {
         $("#chkAllMarkets").attr('checked', false);
         $(".chkMarket").attr('checked', false);
         $("#Market").hide();
     }
-};
+}
 
 function removeRowTemporary(obj) {
     $(obj).closest("tr").remove();
@@ -144,9 +134,8 @@ function removeRow(obj, IPFromOld, IPToOld) {
         var h = $("#IpDiv").height();
         $("#IpDiv").height(h - 30);
         $("#IpTable").height(h - 30);
-        return;     
-    }
-    else {
+        return;
+    } else {
         var currentRow = $(obj).closest("tr");
         var columns = $(currentRow).children();
 
@@ -154,21 +143,15 @@ function removeRow(obj, IPFromOld, IPToOld) {
         IPToOld = $(columns[1]).children()[0].value;
     }
 
-//    //check validation
-//    var valid = OddsFeedAdminManager.validateUpdatingIP('remove', IPFromOld, IPToOld);
-//    if (!valid) {
-//        return;
-//    }
-
     confirm('Do you want to delete this IP range?', function () {
         $(obj).closest("tr").remove();
         var h = $("#IpDiv").height();
         $("#IpDiv").height(h - 30);
         $("#IpTable").height(h - 30);
 
-        DoDeleteIPRange_EditSetting(IPFromOld, IPToOld);        
+        DoDeleteIPRange_EditSetting(IPFromOld, IPToOld);
     });
-};
+}
 
 function DoDeleteIPRange_EditSetting(IPFromOld, IPToOld) {
     $(".result-message-box").addClass("hidden");
@@ -188,15 +171,24 @@ function DoDeleteIPRange_EditSetting(IPFromOld, IPToOld) {
         async: true,
         cache: false,
         success: function (result) {
-            OddsFeedAdminManager.informActionResult({
-                IsSuccess: result.IsSuccess,
-                ResultMessage: result.ResultMessage
-            }, $(".result-message-box"));
+            if (result && result.IsSuccessful) {
+                $(".result-message-box").empty()
+                    .append("<ul><li>" + result.Message + "</li></ul>")
+                    .addClass("success-message-box")
+                    .removeClass("error-message-box")
+                    .removeClass("hidden");
+            } else {
+                $(".result-message-box").empty()
+                    .append("<ul><li>" + result.Message + "</li></ul>")
+                    .addClass("error-message-box")
+                    .removeClass("success-message-box")
+                    .removeClass("hidden");
+            }
         },
-        error: function (xhr, status, err) {            
+        error: function (xhr, status, err) {
         }
     });
-};
+}
 
 function DoUpdateIPRange_EditSetting() {
     $("#editStep2 .result-message-box").addClass("hidden");
@@ -237,18 +229,18 @@ function DoUpdateIPRange_EditSetting() {
         beforeSend: function (xhr) {
         },
         success: function (result) {
-            var success = result != null && result.IsSuccess == true;
-            if (success) {
-                OddsFeedAdminManager.informActionResult({
-                    IsSuccess: true,
-                    ResultMessage: "The IP has been saved successfully!"
-                }, $("#editStep2 .result-message-box"));
+            if (result && result.IsSuccessful) {
+                $("#editStep2 .result-message-box").empty()
+                    .append("<ul><li>The IP has been saved successfully!</li></ul>")
+                    .addClass("success-message-box")
+                    .removeClass("error-message-box")
+                    .removeClass("hidden");
             }
         },
         error: function (xhr, status, err) {
         }
     });
-};
+}
 
 function showingDomainList() {
     //left
@@ -260,7 +252,7 @@ function showingDomainList() {
     var rightCount = $('#slAssignedDomain option').length;
     var rightShow = rightCount > 8 ? 8 : rightCount;
     $("#showingAssignedDomainId").text("Displaying " + rightShow + " of " + rightCount);
-};
+}
 
 function getDataFromTable(id) {
     var data = Array();
@@ -271,7 +263,7 @@ function getDataFromTable(id) {
     });
 
     return data;
-};
+}
 
 var affiliateManager = {
     GetDropDownCheckBoxListValue: function (className) {
@@ -283,7 +275,7 @@ var affiliateManager = {
         });
 
         return value.join(",");
-    },   
+    },
 
     CheckValidation_OddsProfile: function (updateParams) {
         // Refresh error box
@@ -293,9 +285,9 @@ var affiliateManager = {
         // Validation
         if (updateParams.OddsType.length == 0) {
             $("#errorStep3").append("<ul><li>" + viewResources.Error_Require_OddType + "</li></ul>")
-                        .removeClass('hidden');
+                .removeClass('hidden');
             $('input[id^="OddsType"]').not('[id$="Flag"]').addClass('error');
-            $('.content_scroll').eq(0).animate({ scrollTop: 0 }, 1000); ;
+            $('.content_scroll').eq(0).animate({ scrollTop: 0 }, 1000);;
             return false;
         }
 
@@ -305,15 +297,15 @@ var affiliateManager = {
             //Check number of IP is required
             if (updateParams.NumberOfIPs == "") {
                 $("#errorStep3").append("<ul><li>" + viewResources.Error_Require_NumberOfIPs + "</li></ul>")
-                        .removeClass('hidden');
+                    .removeClass('hidden');
                 $('#NumberOfIPs').addClass('error');
-                $('.content_scroll').eq(0).animate({ scrollTop: 0 }, 1000); ;
+                $('.content_scroll').eq(0).animate({ scrollTop: 0 }, 1000);;
                 return false;
             }
 
             if (!$.isNumeric(updateParams.NumberOfIPs)) {
                 $("#errorStep3").append("<ul><li>" + viewResources.Error_Require_NumberOfIPs + "</li></ul>")
-                        .removeClass('hidden');
+                    .removeClass('hidden');
                 $('#NumberOfIPs').addClass('error');
                 $('.content_scroll').eq(0).animate({ scrollTop: 0 }, 1000);;
                 return false;
@@ -323,32 +315,32 @@ var affiliateManager = {
             var numberOfIPs = parseInt(updateParams.NumberOfIPs); //at step3
             var maxNumOfIPs = OddsFeedAdminManager.getMaximumNumberOfIPs();
             if (numberOfIPs > maxNumOfIPs) {
-                $("#errorStep3").append("<ul><li>" + viewResources.MaximumNumberOfIPs.replace("{MaximumNumberOfIPs}", maxNumOfIPs) + "</li></ul>")                
-                        .removeClass('hidden');
+                $("#errorStep3").append("<ul><li>" + viewResources.MaximumNumberOfIPs.replace("{MaximumNumberOfIPs}", maxNumOfIPs) + "</li></ul>")
+                    .removeClass('hidden');
                 $('#NumberOfIPs').addClass('error');
-                $('.content_scroll').eq(0).animate({ scrollTop: 0 }, 1000); ;
+                $('.content_scroll').eq(0).animate({ scrollTop: 0 }, 1000);;
                 return false;
             }
 
             //Check maximum number of IP with the number of IP of licensee
             var sum = $("#ActualNumberOfIps").length > 0
-                         ? parseInt($("#ActualNumberOfIps").val()) // at step 3 (edit aff)
-                         : OddsFeedAdminManager.getNumberOfIP('IpTable'); //at step2 (add aff)
+                ? parseInt($("#ActualNumberOfIps").val()) // at step 3 (edit aff)
+                : OddsFeedAdminManager.getNumberOfIP('IpTable'); //at step2 (add aff)
             var numberOfIPs = parseInt(updateParams.NumberOfIPs); //at step3            
             if (numberOfIPs < sum) {
                 $("#errorStep3").append("<ul><li>" + viewResources.Error_NumberOfIPs.replace("{IpCount}", sum) + "</li></ul>")
-                        .removeClass('hidden');
+                    .removeClass('hidden');
                 $('#NumberOfIPs').addClass('error');
-                $('.content_scroll').eq(0).animate({ scrollTop: 0 }, 1000); ;
+                $('.content_scroll').eq(0).animate({ scrollTop: 0 }, 1000);;
                 return false;
             }
         }
 
         if (updateParams.LanguageList.length == 0) {
             $("#errorStep3").append("<ul><li>" + viewResources.Error_Require_Language + "</li></ul>")
-                        .removeClass('hidden');
+                .removeClass('hidden');
             $('input[id^="slLanguage"]').not('[id$="Flag"]').addClass('error');
-            $('.content_scroll').eq(0).animate({ scrollTop: 0 }, 1000); ;
+            $('.content_scroll').eq(0).animate({ scrollTop: 0 }, 1000);;
             return false;
         }
 
@@ -356,15 +348,15 @@ var affiliateManager = {
             $("#errorStep3").append("<ul><li>" + viewResources.Error_Require_Sport + "</li></ul>")
                 .removeClass('hidden');
             $('.chkMinorSport').parent().parent().parent().addClass('error');
-            $('.content_scroll').eq(0).animate({ scrollTop: 0 }, 1000); ;
+            $('.content_scroll').eq(0).animate({ scrollTop: 0 }, 1000);;
             return false;
         }
 
         if (updateParams.CountryCodeList.length == 0) {
             $("#errorStep3").append("<ul><li>" + viewResources.Error_Require_Country + "</li></ul>")
-                        .removeClass('hidden');
+                .removeClass('hidden');
             $('.chkCountry').parent().parent().addClass('error');
-            $('.content_scroll').eq(0).animate({ scrollTop: 0 }, 1000); ;
+            $('.content_scroll').eq(0).animate({ scrollTop: 0 }, 1000);;
             return false;
         }
 
@@ -385,25 +377,25 @@ var affiliateManager = {
             //League
             if (updateParams.LeagueIDList.length == 0) {
                 $("#errorStep3").append("<ul><li>" + viewResources.Error_Require_League + "</li></ul>")
-                        .removeClass('hidden');
+                    .removeClass('hidden');
                 $('.chkLeague').parent().parent().addClass('error');
-                $('.content_scroll').eq(0).animate({ scrollTop: 0 }, 1000); ;
+                $('.content_scroll').eq(0).animate({ scrollTop: 0 }, 1000);;
                 return false;
             }
 
             //Outright
             if (updateParams.OutRightIDList.length == 0) {
                 $("#errorStep3").append("<ul><li>" + viewResources.Error_Require_Outright + "</li></ul>")
-                        .removeClass('hidden');
+                    .removeClass('hidden');
                 $('.chkOutright').parent().parent().addClass('error');
-                $('.content_scroll').eq(0).animate({ scrollTop: 0 }, 1000); ;
+                $('.content_scroll').eq(0).animate({ scrollTop: 0 }, 1000);;
                 return false;
             }
         }
 
         return true;
     },
-    GetIdList : function (marjorClass, minorClass) {
+    GetIdList: function (marjorClass, minorClass) {
         var minorIDList = affiliateManager.GetDropDownCheckBoxListValue(minorClass);
         var majorIDList = affiliateManager.GetDropDownCheckBoxListValue(marjorClass);
         var idList = majorIDList;
