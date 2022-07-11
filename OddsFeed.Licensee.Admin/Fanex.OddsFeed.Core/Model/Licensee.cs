@@ -13,7 +13,7 @@
 
         public string SystemName { get; set; }
 
-        public int Creator { get; set; }
+        public string Creator { get; set; }
 
         public DateTime CreatedDate { get; set; }
 

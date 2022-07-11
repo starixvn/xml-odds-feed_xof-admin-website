@@ -1,7 +1,6 @@
 ﻿namespace Fanex.OddsFeed.Core.Service.Interface
 {
     using System.Collections.Generic;
-    using System.Data;
     using System.Web.Mvc;
     using Fanex.OddsFeed.Core.Criteria.Affiliate;
     using Fanex.OddsFeed.Core.Helpers;
@@ -9,8 +8,6 @@
 
     public interface IAffiliateService
     {
-        IDataReader GetAffiliateListReturnDataReader(byte systemId, string name);
-
         IEnumerable<SelectListItem> GetDomain(
             bool? isActive = null,
             bool? isOddsDomain = null,
@@ -24,11 +21,7 @@
 
         IList<PartnerIP> GetPartnerIpByAffId(int partnerId);
 
-        IDataReader GetPartnerRequestStatisticReturnDataReader(RequestStatisticCriteria criteria);
-
         DataCollection GetPartnerRequestStatisticReturnDataCollection(RequestStatisticCriteria criteria);
-
-        DataSet GetTop10AffReturnDataSet(GetTop10AffiliateCriteria criteria);
 
         IEnumerable<SelectListItem> GetOddsTypeByAffId(int partnerId);
 

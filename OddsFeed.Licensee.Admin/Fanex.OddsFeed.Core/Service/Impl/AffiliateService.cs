@@ -38,22 +38,6 @@
             this.selectListRepository = selectListRepository ?? new SelectListRepository();
         }
 
-        public IDataReader GetAffiliateListReturnDataReader(byte systemId, string name)
-        {
-            var criteria = new GetAffiliateByNameCriteria
-            {
-                SystemId = systemId,
-                UserName = name
-            };
-
-            if (criteria.IsValid())
-            {
-                return baseService.GetDataReader(criteria);
-            }
-
-            return null;
-        }
-
         public DataCollection GetAffiliateListReturnDataCollection(GetAffiliateByNameCriteria criteria)
         {
             // check parameters
@@ -125,19 +109,6 @@
                 PartnerID = partnerId
             };
             return baseService.GetData<PartnerIP>(criteria).OrderBy(s => s.Name).ToList();
-        }
-
-        public IDataReader GetPartnerRequestStatisticReturnDataReader(RequestStatisticCriteria criteria)
-        {
-            // check parameters
-            Check.Argument.IsNotNull(criteria, "criteria");
-
-            if (criteria.IsValid())
-            {
-                return baseService.GetDataReader(criteria);
-            }
-
-            return null;
         }
 
         public DataCollection GetPartnerRequestStatisticReturnDataCollection(RequestStatisticCriteria criteria)
@@ -334,19 +305,6 @@
                 SystemId = systemId
             };
             return baseService.GetData<Affiliate>(criteria).OrderBy(s => s.Name).ToList();
-        }
-
-        public DataSet GetTop10AffReturnDataSet(GetTop10AffiliateCriteria criteria)
-        {
-            // check parameters
-            Check.Argument.IsNotNull(criteria, "criteria");
-
-            if (criteria.IsValid())
-            {
-                return baseService.GetDataSet(criteria);
-            }
-
-            return null;
         }
 
         public CommandResult Insert(InsertAffiliateCriteria criteria)

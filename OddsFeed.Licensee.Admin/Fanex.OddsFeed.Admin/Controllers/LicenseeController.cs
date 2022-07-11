@@ -416,8 +416,8 @@
 
             criteria.PageIndex = 1;
             criteria.PageSize = DefaultPageSize;
-            var res = baseService.GetDataSet(criteria);
-            return res.Tables[0].Rows.Count == 0;
+            var licensees = baseService.GetData<Licensee>(criteria);
+            return !licensees.Any();
         }
 
         #endregion Get

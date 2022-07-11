@@ -313,25 +313,26 @@
         [HttpPost]
         public string GetExistedAdmin(string username)
         {
-            var licenseeProfile = baseService.GetDataSet(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = currentSession.SystemId });
-            if (licenseeProfile != null && licenseeProfile.Tables.Count > 0 && licenseeProfile.Tables[0].Rows.Count > 0)
+            var licenseeProfile = baseService.GetDataEntity<LicenseeProfile>(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = currentSession.SystemId });
+            if (licenseeProfile != null)
             {
-                ViewBag.SportsFlag = bool.Parse(licenseeProfile.Tables[0].Rows[0]["SportIDListFlag"].ToString());
+                ViewBag.SportsFlag = licenseeProfile.SportIdListFlag;
             }
 
             var criteria = new GetExistedAdminCriteria
             {
                 Username = username
             };
-            var result = baseService.GetDataSet(criteria);
-            if (result.Tables.Count != 0)
+            var user = baseService.GetDataEntity<User>(criteria);
+            if (user != null)
             {
-                var resultStr = result.Tables[0].Rows[0]["username"].ToString();
-                resultStr += "," + result.Tables[0].Rows[0]["firstname"];
-                resultStr += "," + result.Tables[0].Rows[0]["lastname"];
-                resultStr += "," + result.Tables[0].Rows[0]["email"];
-                resultStr += "," + result.Tables[0].Rows[0]["password"];
-                resultStr += "," + result.Tables[0].Rows[0]["roleid"];
+                var resultStr = string.Format("{0},{1},{2},{3},{4},{5}",
+                    user.Username,
+                    user.FirstName,
+                    user.LastName,
+                    user.Email,
+                    user.Password,
+                    user.RoleID);
 
                 ViewBag.Success = true;
                 return resultStr;

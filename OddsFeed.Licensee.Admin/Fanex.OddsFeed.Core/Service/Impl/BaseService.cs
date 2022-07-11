@@ -1,7 +1,6 @@
 ﻿namespace Fanex.OddsFeed.Core.Service.Impl
 {
     using System.Collections.Generic;
-    using System.Data;
     using System.Web.Mvc;
     using Fanex.Data.Repository;
     using Fanex.OddsFeed.Core.Helpers;
@@ -49,16 +48,6 @@
         public DataCollection GetData(ICriteria criteria)
         {
             return baseRepository.ReturnDataCollection(criteria);
-        }
-
-        public IDataReader GetDataReader(ICriteria criteria)
-        {
-            return baseRepository.ReturnDataReader(criteria);
-        }
-
-        public DataSet GetDataSet(ICriteria criteria)
-        {
-            return baseRepository.ReturnDataSet(criteria);
         }
 
         public IEnumerable<T> GetData<T>(ICriteria criteria)
