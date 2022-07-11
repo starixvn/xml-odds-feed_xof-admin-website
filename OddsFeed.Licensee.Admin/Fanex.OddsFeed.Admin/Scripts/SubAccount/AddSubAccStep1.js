@@ -1,5 +1,5 @@
 ﻿$(document).ready(function () {
-    //    //step 1    
+    //step 1
     $("#step1Next").click(function () {
         $("#success-message-box").hide();
         var ret = DoAdd_SubAccount();
@@ -11,7 +11,7 @@ function CheckValidation() {
     $("#step1 .result-message-box").addClass("hidden");
     var validateRegex = OddsFeedAdminManager.Enums.ValidateRegex;
 
-    //validate name
+    // validate name
     $("#nameReqErr").hide();
     $("#nameLengErr").hide();
     $("#nameInvalidErr").hide();
@@ -20,17 +20,15 @@ function CheckValidation() {
     if (name == "") {
         $("#nameReqErr").show();
         isValid_Name = false;
-    }
-    else if (name.length > 50 || name.length < 2) {
+    } else if (name.length > 50 || name.length < 2) {
         $("#nameLengErr").show();
         isValid_Name = false;
-    }
-    else if (!validateRegex.NameField.test(name)) {
+    } else if (!validateRegex.NameField.test(name)) {
         $("#nameInvalidErr").show();
         isValid_Name = false;
     }
 
-    //validate password
+    // validate password
     var pwd = $("#txtPassword").val();
     var cpwd = $("#txtConfirmPwd").val();
     var isValid_Pass = true;
@@ -44,31 +42,21 @@ function CheckValidation() {
     if ($.trim(pwd) == "") {
         $("#passReqErr").show();
         isValid_Pass = false;
-    }
-    else if (pwd.length > 50 || pwd.length < 4) {
+    } else if (pwd.length > 50 || pwd.length < 4) {
         $("#passReqErr").show();
         isValid_Pass = false;
     }
-//    else if (pwd.indexOf(' ') != -1) {
-//        $("#passWhiteSpaceErr").show();
-//        isValid_Pass = false;
-//    }
 
     if ($.trim(cpwd) == "") {
         $("#confirmPassReqErr").show();
         isValid_ConfirmPass = false;
-    }
-//    else if (cpwd.indexOf(' ') != -1) {
-//        $("#confirmPassWhiteSpaceErr").show();
-//        isValid_ConfirmPass = false;
-//    } 
-    else if (pwd != cpwd) {
+    } else if (pwd != cpwd) {
         $("#pwdNotMatchErr").show();
         isValid_Pass = false;
         isValid_ConfirmPass = false;
     }
 
-    //validate email
+    // validate email
     $("#emailReqErr").hide();
     $("#emailInvalidErr").hide();
     var email = $.trim($("#txtEmail").val());
@@ -131,7 +119,7 @@ function DoAdd_SubAccount() {
         success: function (result) {
             var ret = true;
             if (addParams.UserName != "") {
-                if (result && result.IsSuccess) {
+                if (result.IsSuccessful) {
                     $("#nameExistedErr").hide('fast');
                     $('#txtUserName').removeClass('error');
                 } else {

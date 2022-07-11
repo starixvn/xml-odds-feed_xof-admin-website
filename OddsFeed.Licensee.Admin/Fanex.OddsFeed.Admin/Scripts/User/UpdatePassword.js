@@ -1,14 +1,10 @@
-﻿
-$(document).ready(function () {
+﻿$(document).ready(function () {
     $("#PreController").val(refController);
     $("#PreAction").val(refAction);
     $("#Save").click(function () {
         DoUpdatePassword();
     });
 });
-
-
-//---------------------------------------------------------------------------------------------
 
 function CheckValidation() {
     $("#error-message-box").hide();
@@ -21,17 +17,12 @@ function CheckValidation() {
     if (oldpass == "") {
         $("#oldPassReqErr").show();
         oldPass_IsValid = false;
-    }
-//    else if (oldpass.indexOf(' ') != -1) {
-//        $("#oldPassWhiteSpaceErr").show();
-//        oldPass_IsValid = false;
-//    }
-    else if (oldpass.length > 50 || oldpass.length < 6) {
+    } else if (oldpass.length > 50 || oldpass.length < 6) {
         $("#oldPassLengErr").show();
         oldPass_IsValid = false;
     }
 
-    //validate newpass
+    // validate newpass
     $("#newPassReqErr").hide();
     $("#newPassWhiteSpaceErr").hide();
     $("#newPassLengErr").hide();
@@ -40,17 +31,12 @@ function CheckValidation() {
     if (newpass == "") {
         $("#newPassReqErr").show();
         newPass_IsValid = false;
-    }
-//    else if (newpass.indexOf(' ') != -1) {
-//        $("#newPassWhiteSpaceErr").show();
-//        newPass_IsValid = false;
-//    }
-    else if (newpass.length > 50 || newpass.length < 6) {
+    } else if (newpass.length > 50 || newpass.length < 6) {
         $("#newPassLengErr").show();
         newPass_IsValid = false;
     }
 
-    //validate confirm pass
+    // validate confirm pass
     $("#confirmPassReqErr").hide();
     $("#confirmPassWhiteSpaceErr").hide();
     $("#confirmPassLengErr").hide();
@@ -60,12 +46,7 @@ function CheckValidation() {
     if (confirmpass == "") {
         $("#confirmPassReqErr").show();
         confirmPass_IsValid = false;
-    }
-//    else if (confirmpass.indexOf(' ') != -1) {
-//        $("#confirmPassWhiteSpaceErr").show();
-//        confirmPass_IsValid = false;
-//    }
-    else if (confirmpass.length > 50 || confirmpass.length < 6) {
+    } else if (confirmpass.length > 50 || confirmpass.length < 6) {
         $("#confirmPassLengErr").show();
         confirmPass_IsValid = false;
     } else if (newpass != confirmpass) {
@@ -74,7 +55,7 @@ function CheckValidation() {
         newPass_IsValid = false;
     }
 
-    //Hightlight error
+    // Hightlight error
     if (oldPass_IsValid) {
         $("#OldPassword").removeClass("error");
     } else {
@@ -93,13 +74,10 @@ function CheckValidation() {
         $("#ConfirmPassword").addClass("error");
     }
 
-    var ret = oldPass_IsValid &&
-              newPass_IsValid &&
-              confirmPass_IsValid;
+    var ret = oldPass_IsValid && newPass_IsValid && confirmPass_IsValid;
     if (ret) {
         $("#errorUpdatePass").addClass("hidden");
-    }
-    else {
+    } else {
         $("#errorUpdatePass").removeClass("hidden");
     }
 
@@ -139,23 +117,32 @@ function DoUpdatePassword() {
     };
 
     $.ajax({
-        url: currentDomainURL + '/Login/UpdateUserPasswordPost',
+        url: currentDomainURL + '/Login/UpdateUserPassword',
         type: 'POST',
         cache: false,
         dataType: "json",
         contentType: "application/json; charset=utf-8",
         data: JSON.stringify(updateParams),
         success: function (result) {
-            var success = result != null && result.IsSuccess == true;
-            OddsFeedAdminManager.informActionResult(result, $(".result-message-box"));
-            if (success) {
+            if (result.IsSuccessful == true) {
+                $(".result-message-box").empty()
+                    .append("<ul><li>" + result.Message + "</li></ul>")
+                    .addClass("success-message-box")
+                    .removeClass("error-message-box")
+                    .removeClass("hidden");
+
                 OddsFeedAdminManager.confirmAfterSuccess(currentDomainURL + "/" +
                     updateParams.PreController.replace(/\/$/g, '') + "/" +
                     updateParams.PreAction.replace(/^\//g, ''));
+            } else {
+                $(".result-message-box").empty()
+                    .append("<ul><li>" + result.Message + "</li></ul>")
+                    .addClass("error-message-box")
+                    .removeClass("success-message-box")
+                    .removeClass("hidden");
             }
         },
         error: function (xhr, status, err) {
         }
     });
-
 };

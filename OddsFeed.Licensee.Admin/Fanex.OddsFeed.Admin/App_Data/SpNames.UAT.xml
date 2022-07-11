@@ -150,7 +150,6 @@
         </Setting>
         <Setting Key="Odds_User_GetBySystemIdAndRoleId" SpName="Odds_User_GetBySystemIdAndRoleId" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
             <Mapping DataField="UserId" ObjectProperty="Id" />
-            <Mapping DataField="UserName" ObjectProperty="Name" />
         </Setting>
         <Setting Key="Odds_User_Login" SpName="Odds_User_Login" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
             <Mapping DataField="UserId" ObjectProperty="Id" />

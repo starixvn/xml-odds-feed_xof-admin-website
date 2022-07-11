@@ -267,7 +267,6 @@
     <Compile Include="Model\LicenseeProfile.cs" />
     <Compile Include="Model\MissingPartnersProfile.cs" />
     <Compile Include="Model\PartnersProfile.cs" />
-    <Compile Include="Model\OddsFeedActionResult.cs" />
     <Compile Include="Model\Affiliate.cs" />
     <Compile Include="Model\Licensee.cs" />
     <Compile Include="Model\Report\AccountStatistic.cs" />

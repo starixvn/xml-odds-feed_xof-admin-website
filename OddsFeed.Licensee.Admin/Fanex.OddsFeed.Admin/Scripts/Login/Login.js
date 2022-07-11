@@ -146,12 +146,10 @@ function DoLogin() {
         beforeSend: function (xhr) {
         },
         success: function (result) {
-            if (result && result.IsSuccess) {
+            if (result.IsSuccessful) {
                 document.location = $("#fullDomainName").val() + "/Dashboard/ShowDashboard";
             } else {
-                if (result) {
-                    innerMsg.innerHTML = result.ResultMessage;
-                }
+                innerMsg.innerHTML = result.Message;
                 msg.style.display = 'block';
                 ChangeCapchaCode($("#fullDomainName").val(), 'imgCaptchaId');
             }

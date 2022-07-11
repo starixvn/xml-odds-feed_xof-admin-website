@@ -74,29 +74,6 @@
             return null;
         }
 
-        public DataCollection GetSubAccountListReturnDataCollection(CheckExistSubAccountCriteria criteria)
-        {
-            if (criteria.IsValid())
-            {
-                return baseService.GetData(criteria);
-            }
-
-            return null;
-        }
-
-        public DataSet GetTop10SubAccountReturnDataSet(GetTop10SubAccCriteria criteria)
-        {
-            // check parameters
-            Check.Argument.IsNotNull(criteria, "criteria");
-
-            if (criteria.IsValid())
-            {
-                return baseService.GetDataSet(criteria);
-            }
-
-            return null;
-        }
-
         public IList<User> GetBySystemId(byte systemId)
         {
             var criteria = new GetSubAccBySystemIDCriteria
@@ -104,28 +81,7 @@
                 SystemId = systemId,
                 RoleId = (byte)UserRole.LicenseeSubAccount
             };
-
-            if (criteria.IsValid())
-            {
-                var subAccList = baseService.GetData<User>(criteria).OrderBy(s => s.Name);
-
-                if (subAccList != null)
-                {
-                    return subAccList.Select(s => new User
-                    {
-                        Id = s.Id,
-                        Username = s.Name,
-                        FirstName = s.FirstName,
-                        LastName = s.LastName,
-                        Email = s.Email,
-                        Creator = s.Creator,
-                        CreatedDate = Convert.ToDateTime(s.CreatedDate),
-                        IsActive = s.IsActive
-                    }).ToList();
-                }
-            }
-
-            return null;
+            return baseService.GetData<User>(criteria).OrderBy(s => s.Name).ToList();
         }
 
         public PermissionFlag GetUserPermission(int userId, byte systemId)

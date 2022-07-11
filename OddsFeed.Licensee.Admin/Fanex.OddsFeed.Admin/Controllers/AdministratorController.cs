@@ -306,9 +306,8 @@
             {
                 Username = username
             };
-
-            var top10AdminDc = baseService.GetDataSet(criteria).Tables[0];
-            return DataForAutoComplete(top10AdminDc, "username");
+            var users = baseService.GetData<User>(criteria);
+            return string.Join(",", users.Select(x => x.Username));
         }
 
         [HttpPost]

@@ -21,12 +21,6 @@
 function CheckValidation_Step3() {
     var ret = true;
     $("#step3 .error-message-box").addClass("hidden");
-    //    if ($('.chkPerSettings:checked').length == 0) {
-    //        ret = false;
-    //        $("#permissionSettingsReqErr").removeClass("hidden");
-    //    } else {
-    //        $("#permissionSettingsReqErr").addClass("hidden");
-    //    }
 
     if (!ret) {
         $("#step3 .form").addClass("error");
@@ -37,7 +31,7 @@ function CheckValidation_Step3() {
     }
 
     return ret;
-};
+}
 
 function ResetFilter() {
     $("#txtUserName").val("");
@@ -58,7 +52,7 @@ function ResetFilter() {
     $("#chkSportIDListFlag").prop("checked", true);
     $("#chkCountryCodeListFlag").prop("checked", true);
     $("#chkBetTypeIDListFlag").prop("checked", true);
-};
+}
 
 function DoAddSubAccount() {
     $("#step3 .result-message-box").addClass("hidden");
@@ -103,13 +97,23 @@ function DoAddSubAccount() {
         beforeSend: function (xhr) {
         },
         success: function (result) {
-            var success = result != null && result.IsSuccess == true;
-            OddsFeedAdminManager.informActionResult(result, $("#step3 .result-message-box"));
-            if (success) {
+            if (result.IsSuccessful == true) {
+                $("#step3 .result-message-box").empty()
+                    .append("<ul><li>" + result.Message + "</li></ul>")
+                    .addClass("success-message-box")
+                    .removeClass("error-message-box")
+                    .removeClass("hidden");
+
                 OddsFeedAdminManager.confirmAfterSuccess(currentDomainURL + "/SubAccount/List");
+            } else {
+                $("#step3 .result-message-box").empty()
+                    .append("<ul><li>" + result.Message + "</li></ul>")
+                    .addClass("error-message-box")
+                    .removeClass("success-message-box")
+                    .removeClass("hidden");
             }
         },
         error: function (xhr, status, err) {
         }
     });
-};
+}

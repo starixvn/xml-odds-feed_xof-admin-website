@@ -16,8 +16,7 @@
     $("#chkAllSystem").click(function () {
         if ($('#chkAllSystem').is(":checked")) {
             $('.chkSystem').each(function () { this.checked = true; });
-        }
-        else {
+        } else {
             $('.chkSystem').each(function () { this.checked = false; });
         }
     });
@@ -25,8 +24,7 @@
     $(".chkSystem").click(function () {
         if ($('.chkSystem:checked').length == $('.chkSystem').length) {
             $('#chkAllSystem').attr("checked", true);
-        }
-        else {
+        } else {
             $('#chkAllSystem').attr("checked", false);
         }
     });
@@ -42,4 +40,3 @@
     });
 
 });
-//-------------------------------------------------------------------------------------------------------------------

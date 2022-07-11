@@ -15,12 +15,8 @@
 
         DataCollection GetSubAccountListReturnDataCollection(GetSubAccByNameCriteria criteria);
 
-        DataSet GetTop10SubAccountReturnDataSet(GetTop10SubAccCriteria criteria);
-
         PermissionFlag GetUserPermission(int userId, byte systemId);
 
         CommandResult Insert(InsertSubAccCriteria criteria);
-
-        DataCollection GetSubAccountListReturnDataCollection(CheckExistSubAccountCriteria criteria);
     }
 }

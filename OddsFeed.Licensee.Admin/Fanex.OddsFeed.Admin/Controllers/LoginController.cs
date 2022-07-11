@@ -4,7 +4,6 @@
     using System.Web;
     using System.Web.Mvc;
     using Fanex.Common;
-    using Fanex.Common.Extensions;
     using Fanex.OddsFeed.Admin.Utility;
     using Fanex.OddsFeed.Core.Criteria.User;
     using Fanex.OddsFeed.Core.Model;
@@ -14,13 +13,7 @@
 
     public class LoginController : BaseController
     {
-        #region members
-
-        private readonly IUserService _userService;
-
-        #endregion
-
-        #region ctors
+        private readonly IUserService userService;
 
         public LoginController() : this(null)
         {
@@ -28,10 +21,8 @@
 
         public LoginController(IUserService userService)
         {
-            _userService = userService ?? new UserService();
+            this.userService = userService ?? new UserService();
         }
-
-        #endregion
 
         #region sign in
 
@@ -51,7 +42,7 @@
         [HttpPost]
         public JsonResult Index(UserLoginUserCriteria criteria)
         {
-            var actionResult = new OddsFeedActionResult();
+            var result = new CommandResult();
 
             var username = criteria.UserName;
             var password = criteria.UserPwd;
@@ -62,29 +53,25 @@
 
             if (HttpContext.Session["captchastring"] != null && validate != HttpContext.Session["captchastring"].ToString())
             {
-                actionResult.IsSuccess = false;
-                actionResult.ResultMessage = ViewResources.Error_InvalCaptcha;
-                return Json(actionResult, JsonRequestBehavior.AllowGet);
+                result.Message = ViewResources.Error_InvalCaptcha;
+                return Json(result, JsonRequestBehavior.AllowGet);
             }
 
-            if (!username.IsNullOrTrimEmpty() && !password.IsNullOrTrimEmpty())
+            if (!string.IsNullOrWhiteSpace(username) && !string.IsNullOrWhiteSpace(password))
             {
                 CustomizeDataBeforeLogin(ref criteria, password);
-
-                User user = _userService.UserLogin(ref criteria);
+                User user = userService.UserLogin(ref criteria);
                 if (user != null)
                 {
-                    actionResult.IsSuccess = false;
-                    CustomizeDataAfterLogin(criteria, user, ref actionResult);
+                    CustomizeDataAfterLogin(criteria, user, ref result);
                 }
             }
             else
             {
-                actionResult.IsSuccess = false;
-                actionResult.ResultMessage = ViewResources.Error_InvalidInput;
+                result.Message = ViewResources.Error_InvalidInput;
             }
 
-            return Json(actionResult, JsonRequestBehavior.AllowGet);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         #endregion
@@ -116,9 +103,9 @@
         {
             var criteria = new UserReCheckInUserCriteria
             {
-                OnUserId = Convert.ToInt32(currentSession.OnUserId)
+                OnUserId = currentSession.OnUserId
             };
-            _userService.ReUserCheckIn(ref criteria);
+            userService.ReUserCheckIn(ref criteria);
 
             return Json(criteria.IsKickedOut ? "1" : "0");
         }
@@ -152,28 +139,19 @@
         }
 
         [HttpPost]
-        public JsonResult UpdateUserPasswordPost(UpdatePasswordUserCriteria criteria)
+        public JsonResult UpdateUserPassword(UpdatePasswordUserCriteria criteria)
         {
-            var actionResult = new OddsFeedActionResult();
+            var result = new CommandResult();
             if (ModelState.IsValid)
             {
                 criteria.OldPassword = Cryptography.CfsEnCode(HttpUtility.HtmlEncode(criteria.OldPassword.Trim()));
                 criteria.Password = Cryptography.CfsEnCode(HttpUtility.HtmlEncode(criteria.Password.Trim()));
                 criteria.ConfirmPassword = Cryptography.CfsEnCode(HttpUtility.HtmlEncode(criteria.ConfirmPassword.Trim()));
-                var result = baseService.ExecuteNonQuery(criteria);
-                if (result.Code == 0)
-                {
-                    actionResult.IsSuccess = true;
-                    actionResult.ResultMessage = ViewResources.ActionResult_UpdatePasswordSuccess;
-                }
-                else
-                {
-                    actionResult.IsSuccess = false;
-                    actionResult.ResultMessage = GetMessage(result.Code);
-                }
+                result = baseService.ExecuteNonQuery(criteria);
+                result.Message = result.IsSuccessful ? ViewResources.ActionResult_UpdatePasswordSuccess : GetMessage(result.Code);
             }
 
-            return Json(actionResult, JsonRequestBehavior.AllowGet);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         #endregion
@@ -194,27 +172,28 @@
             criteria.Platform = currentContext.Platform;
         }
 
-        private void CustomizeDataAfterLogin(UserLoginUserCriteria criteria, User user, ref OddsFeedActionResult actionResult)
+        private void CustomizeDataAfterLogin(UserLoginUserCriteria criteria, User user, ref CommandResult result)
         {
+            const byte InvalidUsernamePassword = 101;
+            const byte Inactive = 102;
+            const byte NoPermission = 103;
+            const byte NotAuthorized = 104;
             switch (criteria.ErrCode)
             {
-                case 100:
-                    actionResult.ResultMessage = criteria.ErrMsg; //// ViewResources.Invalid_Username_or_Password;
+                case InvalidUsernamePassword:
+                    result.Message = ViewResources.Invalid_Username_or_Password;
                     break;
-                case 101:
-                    actionResult.ResultMessage = ViewResources.Invalid_Username_or_Password;
+                case Inactive:
+                    result.Message = ViewResources.This_user_is_not_active;
                     break;
-                case 102:
-                    actionResult.ResultMessage = ViewResources.This_user_is_not_active;
+                case NoPermission:
+                    result.Message = ViewResources.This_user_has_no_permission;
                     break;
-                case 103:
-                    actionResult.ResultMessage = ViewResources.This_user_has_no_permission;
+                case NotAuthorized:
+                    result.Message = ViewResources.This_user_are_not_authorized_to_use_this_system;
                     break;
-                case 104:
-                    actionResult.ResultMessage = ViewResources.This_user_are_not_authorized_to_use_this_system;
-                    break;
-                default: ////login successfully
-                    actionResult.IsSuccess = true;
+                default:
+                    result.Code = 0;
                     SaveUserSession(criteria, user);
                     break;
             }
@@ -236,9 +215,9 @@
                 NetSessionID = Session.SessionID
             };
 
-            _userService.UserGetProfile(ref criteriaProfile);
+            userService.UserGetProfile(ref criteriaProfile);
 
-            ////Save user session
+            // Save user session
             currentSession.UserId = user.Id;
             currentSession.UserRole = user.RoleID;
             currentSession.Username = user.Username;

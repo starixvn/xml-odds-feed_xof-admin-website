@@ -5,12 +5,10 @@
     using System.Configuration;
     using System.Data;
     using System.Linq;
-    using System.Text;
     using System.Web.Mvc;
     using Fanex.Common;
     using Fanex.OddsFeed.Core.Business;
     using Fanex.OddsFeed.Core.Criteria.Affiliate;
-    using Fanex.OddsFeed.Core.Model.ValueObject;
     using Fanex.OddsFeed.Core.Service.Impl;
     using Fanex.OddsFeed.Core.Service.Interface;
     using Fanex.OddsFeed.Core.Web.Context;
@@ -81,34 +79,6 @@
                 || currentSession.ActionName.ToLowerInvariant().Contains("assign")
                     ? RedirectToAction(currentSession.ActionName, currentSession.ControllerName, new { id = 0 })
                     : RedirectToAction(currentSession.ActionName, currentSession.ControllerName);
-        }
-
-        public static string DataForAutoComplete(DataTable dt, string fieldName)
-        {
-            var builder = new StringBuilder();
-            foreach (DataRow row in dt.Rows)
-            {
-                builder.Append(row[fieldName].ToString());
-                builder.Append(",");
-            }
-
-            return builder.ToString();
-        }
-
-        public JsonResult JsonForAutoComplete(DataTable dt, string valueName, string labelName)
-        {
-            var list = new List<JSONSource>();
-            foreach (DataRow row in dt.Rows)
-            {
-                var data = new JSONSource
-                {
-                    Value = row[valueName].ToString(),
-                    Label = row[labelName].ToString()
-                };
-                list.Add(data);
-            }
-
-            return Json(list);
         }
 
         #region PermissionRegion

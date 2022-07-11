@@ -43,17 +43,11 @@
 });
 
 //--------------------------------------------------------------------------------------------------------------------
-
 function editActive(obj, userId) {
-
     if ($(obj).hasClass('ico-tick')) {
-
         confirm('Do you want to deactivate this sub-account ?', function () {
             $(obj).removeClass('ico-tick').addClass('ico-untick');
-
             var url = 'EditActive?userId=' + userId + '&isActive=false';
-
-            //todo
             $.ajax({
                 url: url,
                 type: 'POST',
@@ -63,7 +57,6 @@ function editActive(obj, userId) {
                 },
                 success: function (result) {
                     result = result.toLowerCase();
-
                     if (result == 'successfully!') {
                         document.location = currentDomainURL + "/SubAccount/List";
                     }
@@ -75,13 +68,10 @@ function editActive(obj, userId) {
                 }
             });
         });
-    }
-    else {
+    } else {
         confirm('Do you want to activate this sub-account ?', function () {
             $(obj).removeClass('ico-untick').addClass('ico-tick');
-
             var url = 'EditActive?userId=' + userId + '&isActive=true';
-
             $.ajax({
                 url: url,
                 type: 'POST',
@@ -104,15 +94,11 @@ function editActive(obj, userId) {
             });
         });
     }
-
-};
+}
 
 function deleteSubAccount(userId, name) {
-
     confirm('Do you want to delete this sub-account  (' + name + ') ?', function () {
-
         var url = 'Delete?userId=' + userId
-
         $.ajax({
             url: url,
             type: 'POST',
@@ -137,11 +123,10 @@ function deleteSubAccount(userId, name) {
 }
 
 //--------------------------------------------------------------------------------------------------------------------
-
 function CheckValidation() {
     $("#success-message-box").hide();
 
-    //validate newpass
+    // validate newpass
     $("#newPassReqErr").hide();
     $("#newPassWhiteSpaceErr").hide();
     $("#newPassLengErr").hide();
@@ -150,17 +135,12 @@ function CheckValidation() {
     if (newPass == "") {
         $("#newPassReqErr").show();
         newPass_IsValid = false;
-    }
-//    else if (newPass.indexOf(' ') != -1) {
-//        $("#newPassWhiteSpaceErr").show();
-//        newPass_IsValid = false;
-//    }
-    else if (newPass.length > 50 || newPass.length < 6) {
+    } else if (newPass.length > 50 || newPass.length < 6) {
         $("#newPassLengErr").show();
         newPass_IsValid = false;
     }
 
-    //validate confirm pass
+    // validate confirm pass
     $("#confirmPassReqErr").hide();
     $("#confirmPassWhiteSpaceErr").hide();
     $("#confirmPassLengErr").hide();
@@ -170,16 +150,10 @@ function CheckValidation() {
     if (confirmpass == "") {
         $("#confirmPassReqErr").show();
         confirmPass_IsValid = false;
-    }
-//    else if (confirmpass.indexOf(' ') != -1) {
-//        $("#confirmPassWhiteSpaceErr").show();
-//        confirmPass_IsValid = false;
-//    }
-    else if (confirmpass.length > 50 || confirmpass.length < 6) {
+    } else if (confirmpass.length > 50 || confirmpass.length < 6) {
         $("#confirmPassLengErr").show();
         confirmPass_IsValid = false;
-    }
-    else if (newPass != confirmpass) {
+    } else if (newPass != confirmpass) {
         $("#pwdNotMatchErr").show();
         confirmPass_IsValid = false;
         newPass_IsValid = false;
@@ -200,8 +174,7 @@ function CheckValidation() {
     var ret = newPass_IsValid & confirmPass_IsValid;
     if (ret) {
         $("#errorUpdatePass").addClass("hidden");
-    }
-    else {
+    } else {
         $("#errorUpdatePass").removeClass("hidden");
     }
 
@@ -209,18 +182,11 @@ function CheckValidation() {
 };
 
 //--------------------------------------------------------------------------------------------------------------------
-
 function CheckValidation_Step3() {
     $("#success-message-box").hide();
 
     var ret = true;
     $("#step3 .error-message-box").addClass("hidden");
-    //    if ($('.chkPerSettings:checked').length == 0) {
-    //        ret = false;
-    //        $("#permissionSettingsReqErr").removeClass("hidden");
-    //    } else {
-    //        $("#permissionSettingsReqErr").addClass("hidden");
-    //    }
 
     if (!ret) {
         $("#editStep1 .form").addClass("error");
@@ -231,16 +197,15 @@ function CheckValidation_Step3() {
     }
 
     return ret;
-};
+}
 
 //--------------------------------------------------------------------------------------------------------------------
-
 function CheckValidation_EditInfo() {
     $("#editStep1 .result-message-box").addClass("hidden");
     var ret = true;
     var validateRegex = OddsFeedAdminManager.Enums.ValidateRegex;
 
-    //validate email
+    // validate email
     $("#emailReqErr").hide();
     $("#emailInvalidErr").hide();
     var email = $.trim($("#txtEmail").val());
@@ -248,8 +213,7 @@ function CheckValidation_EditInfo() {
     if (email == "") {
         $("#emailReqErr").show();
         isValid_Email = false;
-    }
-    else if (!validateRegex.EmailField.test(email)) {
+    } else if (!validateRegex.EmailField.test(email)) {
         $("#emailInvalidErr").show();
         isValid_Email = false;
     }
@@ -295,24 +259,26 @@ function UpdateSubAccountInfo() {
         beforeSend: function (xhr) {
         },
         success: function (result) {
-            if (result && result.IsSuccess) {
-                $("#editStep1 .result-message-box").html(" <ul><li>" + viewResources.ActionResult_Success_UpdateSubAccount + "</li></ul>")
-                                               .addClass("success-message-box")
-                                               .removeClass("hidden");
+            if (result.IsSuccessful) {
+                $("#editStep1 .result-message-box").empty()
+                    .html(" <ul><li>" + viewResources.ActionResult_Success_UpdateSubAccount + "</li></ul>")
+                    .addClass("success-message-box")
+                    .removeClass("hidden");
 
                 confirm('Successfull!\nPress OK to continue', function () {
                     document.location = currentDomainURL + "/SubAccount/List";
                 });
             } else {
-                $("#editStep1 .result-message-box").html(" <ul><li>" + result + "</li></ul>")
-                                               .addClass("error-message-box")
-                                               .removeClass("hidden");
+                $("#editStep1 .result-message-box").empty()
+                    .html(" <ul><li>" + result.Message + "</li></ul>")
+                    .addClass("error-message-box")
+                    .removeClass("hidden");
             }
         },
         error: function (xhr, status, err) {
         }
     });
-};
+}
 
 function DoUpdatePassword() {
     $(".result-message-box").addClass("hidden");
@@ -338,16 +304,24 @@ function DoUpdatePassword() {
         beforeSend: function (xhr) {
         },
         success: function (result) {
-            var success = result != null && result.IsSuccess == true;
-            OddsFeedAdminManager.informActionResult(result, $(".result-message-box"));
-            if (success) {
+            if (result.IsSuccessful) {
+                $(".result-message-box").empty()
+                    .html(" <ul><li>" + result.Message + "</li></ul>")
+                    .addClass("success-message-box")
+                    .removeClass("hidden");
+
                 OddsFeedAdminManager.confirmAfterSuccess(currentDomainURL + "/SubAccount/List");
+            } else {
+                $(".result-message-box").empty()
+                    .html(" <ul><li>" + result.Message + "</li></ul>")
+                    .addClass("error-message-box")
+                    .removeClass("hidden");
             }
         },
         error: function (xhr, status, err) {
         }
     });
-};
+}
 
 function CheckValidation_AssignLicensee() {
     var ret = true;
@@ -371,5 +345,3 @@ function CheckValidation_AssignLicensee() {
 
     return ret;
 }
-
-
