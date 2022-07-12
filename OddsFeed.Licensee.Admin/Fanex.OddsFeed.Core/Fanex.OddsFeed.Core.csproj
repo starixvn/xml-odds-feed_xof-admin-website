@@ -215,6 +215,7 @@
     <Compile Include="Criteria\Domain\GetDomainSettingByPageCriteria.cs" />
     <Compile Include="Criteria\Domain\GetTop10DomainCriteria.cs" />
     <Compile Include="Criteria\Licensee\CheckExistLicenseeCriteria.cs" />
+    <Compile Include="Criteria\Licensee\GetLicenseeCriteria.cs" />
     <Compile Include="Criteria\Licensee\GetProfileAllPartnersBySystemIdCriteria.cs" />
     <Compile Include="Criteria\Licensee\GetActivateByLicenseeIDCriteria.cs" />
     <Compile Include="Criteria\Licensee\DeleteSettingIP_LicenseeCriteria.cs" />
@@ -245,6 +246,7 @@
     <Compile Include="Criteria\SubAccount\GetSubAccByNameCriteria.cs" />
     <Compile Include="Criteria\SubAccount\GetSubAccBySystemIDCriteria.cs" />
     <Compile Include="Criteria\SubAccount\GetTop10SubAccCriteria.cs" />
+    <Compile Include="Criteria\User\GetUserRoleCriteria.cs" />
     <Compile Include="Criteria\User\GetUserInfoCriteria.cs" />
     <Compile Include="Criteria\User\UserGetPermissionCriteria.cs">
       <SubType>Code</SubType>
@@ -271,6 +273,8 @@
     <Compile Include="Model\Licensee.cs" />
     <Compile Include="Model\Report\AccountStatistic.cs" />
     <Compile Include="Model\Report\LoginInfoStatistic.cs" />
+    <Compile Include="Model\SystemDto.cs" />
+    <Compile Include="Model\UserRole.cs" />
     <Compile Include="Model\ValueObject\JSONSource.cs" />
     <Compile Include="Model\ValueObject\PartnerIP.cs" />
     <Compile Include="Model\ValueObject\PeriodType.cs" />

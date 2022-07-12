@@ -4,14 +4,8 @@
 
     public class GetAllSystemsCriteria : CriteriaBase
     {
-        public override string GetSettingKey()
-        {
-            return "Odds_System_SelAll";
-        }
+        public override string GetSettingKey() => "Odds_System_SelAll";
 
-        public override bool IsValid()
-        {
-            return true;
-        }
+        public override bool IsValid() => true;
     }
 }

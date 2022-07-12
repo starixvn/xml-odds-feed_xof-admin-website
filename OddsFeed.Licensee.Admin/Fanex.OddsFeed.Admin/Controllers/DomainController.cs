@@ -31,7 +31,6 @@
                 return this.NoAuthorization();
             }
 
-            ViewBag.listLicensees = baseService.GetSelectList("Odds_SystemSel");
             return View();
         }
 

@@ -8,8 +8,6 @@
 
     public interface IBaseService
     {
-        IEnumerable<SelectListItem> GetSelectList(string settingKey, bool order = true, string selectedValue = "");
-
         IEnumerable<SelectListItem> GetSelectList(ICriteria criteria, bool order = true, string selectedValue = "");
 
         IEnumerable<SelectListItem> GetSelectListWithGroup(ICriteria criteria, bool order = true, string selectedValue = "");

@@ -86,7 +86,8 @@
             ViewBag.LanguageIDList = baseService.GetSelectList(new GetAllLanguageCriteria());
 
             // Licensees
-            ViewBag.LicenseesList = baseService.GetSelectList("Odds_LicenseeSel");
+            var licensees = baseService.GetData<Licensee>(new GetLicenseeCriteria());
+            ViewBag.LicenseesList = licensees.Select(x => new SelectListItem { Value = x.LicenseeID.ToString(), Text = x.LicenseeName }).ToList();
 
             var criteria = new CreateLicenseeCriteria();
             return View(criteria);
@@ -228,7 +229,6 @@
             GetLicenseeProfile(ref criteria);
             ViewBagForEditLicenseeProfile(ref criteria);
 
-            ViewBag.LicenseesList = baseService.GetSelectList("Odds_LicenseeSel");
             ViewBag.CurrentSystem = " of \"" + criteria.SystemName + "\"";
 
             return View(criteria);

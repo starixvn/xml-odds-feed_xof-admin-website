@@ -7,7 +7,6 @@
     using Fanex.OddsFeed.Core.Repository.Interface;
     using Data.Repository;
     using Fanex.OddsFeed.Core.Model;
-    using Fanex.OddsFeed.Core.Criteria;
 
     public class BaseRepository : IBaseRepository
     {
@@ -31,21 +30,6 @@
         public CommandResult ExecuteNonQuery(ICriteria criteria)
         {
             var hash = criteria.GetSpParams();
-            using (var db = new ObjectDb(criteria.GetSettingKey()))
-            {
-                db.ExecuteNonQuery(hash);
-
-                return GetCommandResult(hash);
-            }
-        }
-
-        public CommandResult ExecuteNonQuery(ICriteria criteria, ICriteria logCriteria)
-        {
-            var hash = criteria.GetSpParams();
-
-            hash = logCriteria.AddSpParams(hash);
-            hash = (new ResultCriteria()).AddSpParams(hash);
-
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
                 db.ExecuteNonQuery(hash);

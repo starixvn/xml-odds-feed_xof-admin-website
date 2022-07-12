@@ -9,40 +9,6 @@
 
     public class SelectListRepository : ISelectListRepository
     {
-        public IEnumerable<SelectListItem> Get(string settingKey, bool order = true, string selectedValue = "")
-        {
-            var result = new List<SelectListItem>();
-            using (ObjectDb objectDb = new ObjectDb(settingKey))
-            {
-                using (IDataReader reader = objectDb.ExecuteReader())
-                {
-                    if (reader != null)
-                    {
-                        while (reader.Read())
-                        {
-                            var item = new SelectListItem();
-                            if (order)
-                            {
-                                item.Value = reader[0].ToString();
-                                item.Text = reader[1].ToString();
-                                item.Selected = selectedValue.Equals(reader[1].ToString(), StringComparison.OrdinalIgnoreCase);
-                            }
-                            else
-                            {
-                                item.Value = reader[1].ToString();
-                                item.Text = reader[0].ToString();
-                                item.Selected = selectedValue.Equals(reader[1].ToString(), StringComparison.OrdinalIgnoreCase);
-                            }
-
-                            result.Add(item);
-                        }
-                    }
-                }
-            }
-
-            return result;
-        }
-
         public IEnumerable<SelectListItem> Get(ICriteria criteria, bool order = true, string selectedValue = "")
         {
             var result = new List<SelectListItem>();

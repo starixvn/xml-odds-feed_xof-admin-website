@@ -30,11 +30,6 @@
             this.selectListRepository = selectListRepository ?? new SelectListRepository();
         }
 
-        public IEnumerable<SelectListItem> GetSelectList(string settingKey, bool order = true, string selectedValue = "")
-        {
-            return selectListRepository.Get(settingKey, order, selectedValue);
-        }
-
         public IEnumerable<SelectListItem> GetSelectList(ICriteria criteria, bool order = true, string selectedValue = "")
         {
             return selectListRepository.Get(criteria, order, selectedValue);

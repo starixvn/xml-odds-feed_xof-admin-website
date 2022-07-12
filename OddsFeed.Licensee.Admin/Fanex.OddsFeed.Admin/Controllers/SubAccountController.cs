@@ -15,7 +15,6 @@
     using Fanex.OddsFeed.Core.Service.Interface;
     using Fanex.OddsFeed.Core.Web;
     using Fanex.OddsFeed.Core.Web.Attribute;
-    using static Fanex.OddsFeed.Core.Business.Constant;
 
     [IsAuthorize]
     public class SubAccountController : BaseController
@@ -51,7 +50,7 @@
         {
             criteria.SystemID = currentSession.SystemId;
             criteria.Creator = currentSession.UserId;
-            criteria.RoleID = (byte)UserRole.LicenseeSubAccount;
+            criteria.RoleID = (byte)Constant.UserRole.LicenseeSubAccount;
             criteria.Password = Cryptography.CfsEnCode(HttpUtility.HtmlEncode(criteria.Password.Trim()));
             criteria.FirstName = criteria.FirstName ?? string.Empty;
             criteria.LastName = criteria.LastName ?? string.Empty;
@@ -75,7 +74,7 @@
                 Username = string.IsNullOrEmpty(criteria.UserName) ? string.Empty : criteria.UserName,
                 PageIndex = 1,
                 PageSize = 1,
-                RoleId = (byte)UserRole.LicenseeSubAccount
+                RoleId = (byte)Constant.UserRole.LicenseeSubAccount
             });
 
             if (users != null && users.Any())
@@ -105,7 +104,7 @@
         {
             criteria.SystemId = currentSession.SystemId;
             criteria.Username = (criteria.Username == null || criteria.Username == "Username") ? string.Empty : criteria.Username.Trim();
-            criteria.RoleId = (byte)UserRole.LicenseeSubAccount;
+            criteria.RoleId = (byte)Constant.UserRole.LicenseeSubAccount;
             criteria.PageIndex++;
             var dr = subAccService.GetSubAccountListReturnDataCollection(criteria);
             var result = FanexGridHelper.DataForFanexGrid_PreventContainQuote(dr);
@@ -117,7 +116,7 @@
             var criteria = new GetTop10SubAccCriteria
             {
                 SystemId = currentSession.SystemId,
-                RoleId = (byte)UserRole.LicenseeSubAccount,
+                RoleId = (byte)Constant.UserRole.LicenseeSubAccount,
                 Username = username
             };
             var users = baseService.GetData<User>(criteria);
@@ -339,7 +338,8 @@
             ViewBag.CurrentUser = " \"" + username + "\"";
 
             // System
-            ViewBag.SystemListID = baseService.GetSelectList(new GetOptionalSystemBySubAccountIDCriteria { UserID = currentSession.UserId, SubAccountID = id });
+            var systems = baseService.GetData<SystemDto>(new GetOptionalSystemBySubAccountIDCriteria { UserID = currentSession.UserId, SubAccountID = id });
+            ViewBag.SystemListID = systems.Select(x => new SelectListItem { Value = x.SystemId.ToString(), Text = x.SystemName }).ToList();
 
             var criteria = new AssignLicensee_SubAccCriteria
             {
@@ -395,7 +395,7 @@
 
         private static bool HasEditPermission(int userRole)
         {
-            return userRole != (int)Constant.UserRole.LicenseeSubAccount;
+            return userRole != (byte)Constant.UserRole.LicenseeSubAccount;
         }
 
         #endregion AssignLicensee

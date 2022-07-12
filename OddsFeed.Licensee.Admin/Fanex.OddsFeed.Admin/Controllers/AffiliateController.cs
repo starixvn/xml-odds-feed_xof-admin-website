@@ -116,7 +116,7 @@
         [HttpPost]
         public JsonResult CheckExistAffiliate(InsertAffiliateCriteria criteria)
         {
-            var result = new CommandResult();
+            var result = new CommandResult { Code = 0 };
             if (string.IsNullOrEmpty(criteria.UserName))
             {
                 return Json(result, JsonRequestBehavior.AllowGet);

@@ -6,8 +6,6 @@
 
     public interface ISelectListRepository
     {
-        IEnumerable<SelectListItem> Get(string settingKey, bool order = true, string selectedValue = "");
-
         IEnumerable<SelectListItem> Get(ICriteria criteria, bool order = true, string selectedValue = "");
 
         IEnumerable<SelectListItem> GetWithGroup(ICriteria criteria, bool order = true, string selectedValue = "");

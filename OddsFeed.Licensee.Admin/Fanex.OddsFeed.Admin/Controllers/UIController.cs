@@ -1,10 +1,12 @@
 ﻿namespace Fanex.OddsFeed.Admin.Controllers
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Text;
     using System.Web.Mvc;
     using Fanex.Caching;
     using Fanex.OddsFeed.Core.Criteria.Administrator;
+    using Fanex.OddsFeed.Core.Model;
 
     public class UIController : BaseController
     {
@@ -47,39 +49,26 @@
 
         private IList<SelectListItem> GenerateSystemList()
         {
-            var allSystemList = baseService.GetSelectList(new GetAllSystemsByUserIdCriteria
+            var systems = baseService.GetData<SystemDto>(new GetAllSystemsByUserIdCriteria
             {
                 UserRole = currentSession.UserRole,
                 UserId = currentSession.UserId
             });
 
             var strSystemList = new StringBuilder();
-            foreach (var system in allSystemList)
+            foreach (var system in systems)
             {
-                strSystemList.Append(system.Value + "," + system.Text + ";");
+                strSystemList.Append(system.SystemId + "," + system.SystemName + ";");
             }
 
             currentSession.SystemList = strSystemList.ToString();
-            var systemList = new List<SelectListItem>();
-            var systems = strSystemList.ToString().Split(';');
-            foreach (string system in systems)
+
+            return systems.Select(x => new SelectListItem
             {
-                if (!string.IsNullOrEmpty(system))
-                {
-                    var nameId = system.Split(',');
-
-                    var item = new SelectListItem
-                    {
-                        Value = nameId[0] ?? string.Empty,
-                        Text = nameId[1] ?? string.Empty
-                    };
-                    item.Selected = item.Value == currentSession.SystemId.ToString();
-
-                    systemList.Add(item);
-                }
-            }
-
-            return systemList;
+                Value = x.SystemId.ToString(),
+                Text = x.SystemName,
+                Selected = x.SystemId == currentSession.SystemId
+            }).ToList();
         }
     }
 }

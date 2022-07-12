@@ -9,6 +9,7 @@
     using Fanex.OddsFeed.Core.Business;
     using Fanex.OddsFeed.Core.Criteria.Administrator;
     using Fanex.OddsFeed.Core.Criteria.Licensee;
+    using Fanex.OddsFeed.Core.Criteria.User;
     using Fanex.OddsFeed.Core.Model;
     using Fanex.OddsFeed.Core.Service.Impl;
     using Fanex.OddsFeed.Core.Service.Interface;
@@ -47,7 +48,8 @@
             }
 
             // System
-            ViewBag.SystemList = baseService.GetSelectList(new GetAllSystemsCriteria());
+            var systems = baseService.GetData<SystemDto>(new GetAllSystemsCriteria());
+            ViewBag.SystemList = systems.Select(x => new SelectListItem { Value = x.SystemId.ToString(), Text = x.SystemName });
             return View();
         }
 
@@ -112,13 +114,15 @@
                 return this.NoAuthorization();
             }
 
-            ////System
-            var systemList = (List<SelectListItem>)baseService.GetSelectList("Odds_System_SelAll");
+            // System
+            var systems = baseService.GetData<SystemDto>(new GetAllSystemsCriteria());
+            var systemList = systems.Select(x => new SelectListItem { Value = x.SystemId.ToString(), Text = x.SystemName }).ToList();
             systemList.Insert(0, new SelectListItem { Selected = true, Text = "All", Value = "0" });
             ViewBag.SystemList = systemList;
 
-            ////Role
-            var roleList = (List<SelectListItem>)baseService.GetSelectList("Odds_Role_Sel");
+            // Role
+            var roles = baseService.GetData<UserRole>(new GetUserRoleCriteria());
+            var roleList = roles.Select(x => new SelectListItem { Value = x.RoleId.ToString(), Text = x.RoleName }).ToList();
             roleList.Insert(0, new SelectListItem { Selected = true, Text = "All", Value = "0" });
             ViewBag.RoleList = roleList;
             return View("~/Views/Administrator/AdministratorList.cshtml");
@@ -128,9 +132,8 @@
         public JsonResult GetListAdminBySystemAndNameAndRole(GetAdminCriteria criteria)
         {
             criteria.PageIndex++;
-            criteria.Username = (criteria.Username == null || criteria.Username == "Username") ?
-                string.Empty :
-                criteria.Username.Trim();
+            criteria.Username = (criteria.Username == null || criteria.Username == "Username")
+                ? string.Empty : criteria.Username.Trim();
             var dr = baseService.GetData(criteria);
             var result = FanexGridHelper.DataForFanexGrid_PreventContainQuote(dr);
             return Json(result, JsonRequestBehavior.AllowGet);
@@ -238,18 +241,18 @@
             }
 
             ViewBag.CurrentUser = " \"" + username + "\"";
-            ////System
-            var systemList = role == (int)Constant.UserRole.Licensee
-                ? baseService.GetSelectList(new GetSystemByUserIDCriteria { UserID = currentSession.UserId, IgnoreIsActive = true })
-                : baseService.GetSelectList(new GetOptionalSystemBySubAccountIDCriteria { UserID = currentSession.UserId, SubAccountID = id });
-
-            ViewBag.SystemListID = systemList;
+            // System
+            var systems = role == (int)Constant.UserRole.Licensee
+                ? baseService.GetData<SystemDto>(new GetSystemByUserIDCriteria { UserID = currentSession.UserId, IgnoreIsActive = true })
+                : baseService.GetData<SystemDto>(new GetOptionalSystemBySubAccountIDCriteria { UserID = currentSession.UserId, SubAccountID = id });
+            ViewBag.SystemListID = systems.Select(x => new SelectListItem { Value = x.SystemId.ToString(), Text = x.SystemName }).ToList();
 
             var criteria = new UpdateAdminSystemCriteria
             {
                 UserID = id,
                 UserName = username,
-                SystemList = baseService.GetSelectList(new GetSystemByUserIDCriteria { UserID = id, IgnoreIsActive = false }).Select(item => item.Value).ToArray()
+                SystemList = baseService.GetData<SystemDto>(new GetSystemByUserIDCriteria { UserID = id, IgnoreIsActive = false })
+                        .Select(item => item.SystemId.ToString()).ToArray()
             };
 
             ViewBag.HasEditPermission = this.HasEditPermission(currentSession.UserRole, criteria.UserID);
@@ -274,10 +277,11 @@
                 return View(criteria);
             }
 
-            ////System
-            var systemList = IsLicenseeAdminRole()
-                ? baseService.GetSelectList(new GetSystemByUserIDCriteria { UserID = currentSession.UserId, IgnoreIsActive = true })
-                : baseService.GetSelectList(new GetOptionalSystemBySubAccountIDCriteria { UserID = currentSession.UserId, SubAccountID = criteria.UserID });
+            // System
+            var systems = IsLicenseeAdminRole()
+                ? baseService.GetData<SystemDto>(new GetSystemByUserIDCriteria { UserID = currentSession.UserId, IgnoreIsActive = true })
+                : baseService.GetData<SystemDto>(new GetOptionalSystemBySubAccountIDCriteria { UserID = currentSession.UserId, SubAccountID = criteria.UserID });
+            var systemList = systems.Select(x => new SelectListItem { Value = x.SystemId.ToString(), Text = x.SystemName }).ToList();
 
             if (string.IsNullOrEmpty(criteria.ListSystemId))
             {

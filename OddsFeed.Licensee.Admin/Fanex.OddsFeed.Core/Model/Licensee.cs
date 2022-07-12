@@ -20,6 +20,7 @@
         public DateTime LastUpdate { get; set; }
 
         public int LicenseeID { get; set; }
+        public string LicenseeName { get; set; }
 
         public bool IsActive { get; set; }
     }

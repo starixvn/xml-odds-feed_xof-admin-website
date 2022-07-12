@@ -87,7 +87,7 @@
                     @Html.LabelFor(m => m.LicenseeID, "Licensee Name")
                 </div>
                 <div class="grid6">
-                    @Html.DropDownListFor(m => m.LicenseeID, (IEnumerable<SelectListItem>)ViewBag.LicenseesList)
+                    @Html.DropDownListFor(m => m.LicenseeID, (IEnumerable<SelectListItem>)ViewBag.LicenseesList, new { @class = "width-auto-fit request" })
                 </div>
             </div>
             <div class="row contact-email">
