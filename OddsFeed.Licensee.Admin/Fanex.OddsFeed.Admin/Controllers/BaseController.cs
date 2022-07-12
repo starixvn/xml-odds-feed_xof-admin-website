@@ -9,6 +9,7 @@
     using Fanex.Common;
     using Fanex.OddsFeed.Core.Business;
     using Fanex.OddsFeed.Core.Criteria.Affiliate;
+    using Fanex.OddsFeed.Core.Model;
     using Fanex.OddsFeed.Core.Service.Impl;
     using Fanex.OddsFeed.Core.Service.Interface;
     using Fanex.OddsFeed.Core.Web.Context;
@@ -120,13 +121,14 @@
             return virtualPathWebService + feedUrlPath;
         }
 
-        public List<SelectListItem> GenerateDelayTime(IEnumerable<SelectListItem> config)
+        public List<SelectListItem> GenerateDelayTime()
         {
+            var configs = baseService.GetData<SystemSetting>(new GetTypeSettingCriteria { SystemID = 0, Type = "Config" });
             var delayTimeList = new List<SelectListItem>();
-            if (config.Count() >= 2)
+            if (configs.Count() > 1)
             {
-                var cacheInterval = Converter.ToInt(config.Where(m => m.Text == "CacheInterval").ToList()[0].Value);
-                var numberOfCacheVersion = Converter.ToInt(config.Where(m => m.Text == "NumberOfCacheVersion").ToList()[0].Value);
+                var cacheInterval = Converter.ToInt(configs.First(m => m.Key == "CacheInterval").Value);
+                var numberOfCacheVersion = Converter.ToInt(configs.First(m => m.Key == "NumberOfCacheVersion").Value);
 
                 for (int i = cacheInterval; i <= (numberOfCacheVersion - 1) * cacheInterval; i += cacheInterval)
                 {
@@ -137,15 +139,10 @@
             return delayTimeList;
         }
 
-        public int GetMaxNumberOfIPsFromConfig(IEnumerable<SelectListItem> config)
-        {
-            return Converter.ToInt(config.Where(m => m.Text == "MaximumNumberOfIPs").ToList()[0].Value);
-        }
-
         public int GetMaxNumberOfIPs()
         {
-            var config = baseService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "Config" }, false);
-            return Converter.ToInt(config.Where(m => m.Text == "MaximumNumberOfIPs").ToList()[0].Value);
+            var configs = baseService.GetData<SystemSetting>(new GetTypeSettingCriteria { SystemID = 0, Type = "Config" });
+            return Converter.ToInt(configs.First(m => m.Key == "MaximumNumberOfIPs").Value);
         }
 
         #endregion Common

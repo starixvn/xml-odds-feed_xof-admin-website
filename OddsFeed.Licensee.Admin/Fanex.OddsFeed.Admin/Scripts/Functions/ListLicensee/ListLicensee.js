@@ -104,10 +104,10 @@ function Submit() {
 function ActiveColumn(cell, cellFormated) {
     var partnerId = gridOptions.bodyRows[cell.Row].Columns[1].Value;
     if (cell.Value == "True") {
-        return "<img title='Deactivate this licensee' class='ico-tick' alt='' src='" + currentDomainURL + "/App_Themes/Default/Images/blank.png'  onclick='editActive(this," + partnerId + ")'/>";
+        return "<img title='Deactivate this licensee' class='ico-tick' alt='' src='" + currentDomainURL + "App_Themes/Default/Images/blank.png'  onclick='editActive(this," + partnerId + ")'/>";
     }
     else {
-        return "<img title='Activate this licensee' class='ico-untick' alt='' src='" + currentDomainURL + "/App_Themes/Default/Images/blank.png'  onclick='editActive(this," + partnerId + ")'/>";
+        return "<img title='Activate this licensee' class='ico-untick' alt='' src='" + currentDomainURL + "App_Themes/Default/Images/blank.png'  onclick='editActive(this," + partnerId + ")'/>";
     }
 }
 
@@ -179,7 +179,7 @@ function ShowAction(systemID, systemName, isActive, contactEmail) {
                         SystemName: _systemName
                     });
 
-                    window.location.href = currentDomainURL + "/Licensee/EditSetting?" + urlParam;
+                    window.location.href = currentDomainURL + "Licensee/EditSetting?" + urlParam;
                 }
             },
             editInfo: {
@@ -193,7 +193,7 @@ function ShowAction(systemID, systemName, isActive, contactEmail) {
                         ContactEmail: _contactEmail
                     });
 
-                    window.location.href = currentDomainURL + "/Licensee/EditLicenseeInfo?" + urlParam;
+                    window.location.href = currentDomainURL + "Licensee/EditLicenseeInfo?" + urlParam;
                 }
             },
             editProfile: {
@@ -205,7 +205,7 @@ function ShowAction(systemID, systemName, isActive, contactEmail) {
                         SystemName: _systemName
                     });
 
-                    window.location.href = currentDomainURL + "/Licensee/EditProfile?" + urlParam;
+                    window.location.href = currentDomainURL + "Licensee/EditProfile?" + urlParam;
                 }
             }
         },

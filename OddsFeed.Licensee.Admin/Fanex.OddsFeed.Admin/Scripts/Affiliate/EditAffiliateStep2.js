@@ -70,7 +70,7 @@
                         .removeClass("error-message-box")
                         .removeClass("hidden");
 
-                    OddsFeedAdminManager.confirmAfterSuccess(currentDomainURL + "/Affiliate/List");
+                    OddsFeedAdminManager.confirmAfterSuccess(currentDomainURL + "Affiliate/List");
                 } else {
                     $("#editStep2 .result-message-box").empty()
                         .append("<ul><li>" + result.Message + "</li></ul>")
@@ -114,7 +114,7 @@ function SaveIPSetting(obj, IpFromOld, IpToOld) {
     var IpFrom = $(columns[0]).children()[0].value;
     var IpTo = $(columns[1]).children()[0].value;
 
-    var url = currentDomainURL + '/Affiliate/EditIPSetting?affId=' + affID + '&fromIP=' + IpFrom + '&toIP=' + IpTo + '&fromIPOld=' + IpFromOld + '&toIPOld=' + IpToOld //step2
+    var url = currentDomainURL + 'Affiliate/EditIPSetting?affId=' + affID + '&fromIP=' + IpFrom + '&toIP=' + IpTo + '&fromIPOld=' + IpFromOld + '&toIPOld=' + IpToOld //step2
 
     $.ajax({
         url: url,

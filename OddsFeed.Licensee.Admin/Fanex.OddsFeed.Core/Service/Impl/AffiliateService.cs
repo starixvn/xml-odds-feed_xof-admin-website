@@ -247,21 +247,6 @@
             return null;
         }
 
-        public IEnumerable<SelectListItem> GetSportBySystemId(byte selectedId = 0)
-        {
-            var criteria = new GetSportBySystemIDCriteria
-            {
-                SystemID = currentSession.SystemId
-            };
-
-            if (criteria.IsValid())
-            {
-                return selectListRepository.GetWithGroup(criteria).OrderBy(s => s.Text);
-            }
-
-            return null;
-        }
-
         public IEnumerable<SelectListItem> GetLanguageBySystemId(string selectedId = "")
         {
             var criteria = new GetLanguageBySystemIDCriteria

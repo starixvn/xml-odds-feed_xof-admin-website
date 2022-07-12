@@ -12,7 +12,7 @@
     //cancel
     $('.cancel').click(function () {
         confirm('Are you sure to cancel adding new affiliate?', function () {
-            document.location = currentDomainURL + '/Affiliate/List';
+            document.location = currentDomainURL + 'Affiliate/List';
         });
     });
 });

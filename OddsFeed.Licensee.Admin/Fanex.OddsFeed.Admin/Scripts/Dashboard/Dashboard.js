@@ -28,7 +28,7 @@ $(document).ready(function () {
 // Show Login Info
 function ShowLoginInfo() {
     $.ajax({
-        url: $("#currentDomain").val() + "/Dashboard/GetLoginInfo",
+        url: currentDomainURL + "Dashboard/GetLoginInfo",
         type: "POST",
         data: "",
         success: function (result) {
@@ -45,8 +45,7 @@ function ShowLoginInfo() {
 // Show Current Online User
 function ShowCurrentOnlineUser() {
     // send back info to controllers
-    var url = $("#currentDomain").val() + '/Dashboard/ShowCurrentOnlineUser?pageSize=' + _pageSize + '&pageIndex=' + _pageIndex;
-
+    var url = currentDomainURL + 'Dashboard/ShowCurrentOnlineUser?pageSize=' + _pageSize + '&pageIndex=' + _pageIndex;
     $.ajax({
         url: url,
         type: "POST",
@@ -94,17 +93,6 @@ function ShowCurrentOnlineUser() {
 }
 
 function ReRenderAfterPaged(page_index, itemsPerPage, jq) {
-    /*if (itemsPerPage != $('#PageSize').val()) {
-    $('#PageIndex').val(0);
-    _pageIndex = 0;
-    } else {
-    $('#PageIndex').val(page_index);
-    _pageIndex = page_index
-    }
-
-    $('#PageSize').val(itemsPerPage);
-    _pageSize = itemsPerPage;*/
-
     if (_pageSize != itemsPerPage) {
         page_index = 0;
     }
@@ -123,8 +111,7 @@ function ShowRecentActivities() {
     // send back info to controllers
 
     if ($('input:radio[name=optActivities]:checked').val() == 1) {//get by this account
-            
-        var url = $("#currentDomain").val() + '/Dashboard/ShowRecentActivities?pageSize=' + _pageSize1 + '&pageIndex=' + _pageIndex1 + '&optionActivities=' + $('input:radio[name=optActivities]:checked').val();
+        var url = currentDomainURL + 'Dashboard/ShowRecentActivities?pageSize=' + _pageSize1 + '&pageIndex=' + _pageIndex1 + '&optionActivities=' + $('input:radio[name=optActivities]:checked').val();
 
         $.ajax({
             url: url,
@@ -172,9 +159,8 @@ function ShowRecentActivities() {
         });
     }
     else { //get by licensee
-
-        var url = $("#currentDomain").val() + '/Dashboard/ShowRecentActivities?pageSize=' + _pageSize2 + '&pageIndex=' + _pageIndex2 + '&optionActivities=' + $('input:radio[name=optActivities]:checked').val();
-
+        var url = currentDomainURL + 'Dashboard/ShowRecentActivities?pageSize='
+            + _pageSize2 + '&pageIndex=' + _pageIndex2 + '&optionActivities=' + $('input:radio[name=optActivities]:checked').val();
         $.ajax({
             url: url,
             type: "POST",
@@ -227,16 +213,6 @@ function ShowRecentActivities() {
 }
 
 function ReRenderAfterPagedRecentActivities1(page_index, itemsPerPage, jq) {
-    /*if (itemsPerPage != $('#PageSize').val()) {
-    $('#PageIndex').val(0);
-    _pageIndex1 = 0;
-    } else {
-    $('#PageIndex').val(page_index);
-    _pageIndex1 = page_index
-    }
-
-    $('#PageSize').val(itemsPerPage);
-    _pageSize1 = itemsPerPage;*/
     if (_pageSize1 != itemsPerPage) {
         page_index1 = 0;
     }
@@ -251,16 +227,6 @@ function ReRenderAfterPagedRecentActivities1(page_index, itemsPerPage, jq) {
 }
 
 function ReRenderAfterPagedRecentActivities2(page_index, itemsPerPage, jq) {
-    /*if (itemsPerPage != $('#PageSize').val()) {
-    $('#PageIndex').val(0);
-    _pageIndex1 = 0;
-    } else {
-    $('#PageIndex').val(page_index);
-    _pageIndex1 = page_index
-    }
-
-    $('#PageSize').val(itemsPerPage);
-    _pageSize1 = itemsPerPage;*/
     if (_pageSize2 != itemsPerPage) {
         page_index2 = 0;
     }
@@ -276,20 +242,20 @@ function ReRenderAfterPagedRecentActivities2(page_index, itemsPerPage, jq) {
 
 // view total affiliate
 function ViewTotalAff() {
-    window.location.href = currentDomainURL + "/Affiliate/List";
+    window.location.href = currentDomainURL + "Affiliate/List";
 }
 
 // view total sub-account
 function ViewTotalSubAcc() {
-    window.location.href = currentDomainURL + "/SubAccount/List";
+    window.location.href = currentDomainURL + "SubAccount/List";
 }
 
 // view all today's request
 function ViewTotalReqToday() {
-    window.location.href = currentDomainURL + "/Affiliate/Requests";
+    window.location.href = currentDomainURL + "Affiliate/Requests";
 }
 
 // view all this month's requests
 function ViewTotalReqThisMonth() {
-    window.location.href = currentDomainURL + "/Affiliate/Requests?curmonth=true";
+    window.location.href = currentDomainURL + "Affiliate/Requests?curmonth=true";
 }

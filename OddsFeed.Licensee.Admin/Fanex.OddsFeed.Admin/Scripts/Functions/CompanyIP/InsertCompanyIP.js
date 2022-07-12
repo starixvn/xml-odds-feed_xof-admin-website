@@ -38,7 +38,7 @@
 
         $.ajax({
             type: 'POST',
-            url: currentDomainURL + '/Company/EditCompanyIPs',
+            url: currentDomainURL + 'Company/EditCompanyIPs',
             contentType: "application/json; charset=utf-8",
             data: data,
             dataType: 'json',
@@ -64,7 +64,7 @@
 
     $("#Cancel").click(function () {
         confirm('Do you want to exit for editing Company IP?', function () {
-            document.location = currentDomainURL + "/Dashboard/ShowDashboard";
+            document.location = currentDomainURL + "Dashboard/ShowDashboard";
         });
     });
 });

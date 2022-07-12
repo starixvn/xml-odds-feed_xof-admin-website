@@ -156,10 +156,10 @@ function ActiveColumn(cell, cellFormated) {
     var userId = gridOptions.bodyRows[cell.Row].Columns[1].Value;
     var username = gridOptions.bodyRows[cell.Row].Columns[2].Value;
     if (cell.Value == "True") {
-        return "<img title='Deactivate this account' class='ico-tick' alt='' src='" + currentDomainURL + "/App_Themes/Default/Images/blank.png'  onclick='editActive(this," + userId + ",\"" + username + "\")'/>";
+        return "<img title='Deactivate this account' class='ico-tick' alt='' src='" + currentDomainURL + "App_Themes/Default/Images/blank.png'  onclick='editActive(this," + userId + ",\"" + username + "\")'/>";
     }
     else {
-        return "<img title='Activate this account' class='ico-untick' alt='' src='" + currentDomainURL + "/App_Themes/Default/Images/blank.png'  onclick='editActive(this," + userId + ",\"" + username + "\")'/>";
+        return "<img title='Activate this account' class='ico-untick' alt='' src='" + currentDomainURL + "App_Themes/Default/Images/blank.png'  onclick='editActive(this," + userId + ",\"" + username + "\")'/>";
     }
 }
 
@@ -200,7 +200,7 @@ function ShowAction(cellRow) {
                             username: _adminName                            
                         });
 
-                        window.location.href = currentDomainURL + "/Administrator/AdministratorEditProfile/" +
+                        window.location.href = currentDomainURL + "Administrator/AdministratorEditProfile/" +
                         _adminId + "?" + paramsString;
                     }
                 },
@@ -214,7 +214,7 @@ function ShowAction(cellRow) {
                             role: role
                         });
 
-                        window.location.href = currentDomainURL + "/Administrator/AdministratorResetPwd/" +
+                        window.location.href = currentDomainURL + "Administrator/AdministratorResetPwd/" +
                                             _adminId + "?" + paramsString;
                     }
                 }
@@ -238,7 +238,7 @@ function ShowAction(cellRow) {
                             role: role
                         });
 
-                        window.location.href = currentDomainURL + "/Administrator/AdministratorEditSystem/" +
+                        window.location.href = currentDomainURL + "Administrator/AdministratorEditSystem/" +
                                     _adminId + "?" + paramsString;
                     }
                 },
@@ -251,7 +251,7 @@ function ShowAction(cellRow) {
                             username: _adminName                            
                         });
 
-                        window.location.href = currentDomainURL + "/Administrator/AdministratorEditProfile/" +
+                        window.location.href = currentDomainURL + "Administrator/AdministratorEditProfile/" +
                         _adminId + "?" + paramsString;
                     }
                 },
@@ -265,7 +265,7 @@ function ShowAction(cellRow) {
                             role: role
                         });
 
-                        window.location.href = currentDomainURL + "/Administrator/AdministratorResetPwd/" +
+                        window.location.href = currentDomainURL + "Administrator/AdministratorResetPwd/" +
                                             _adminId + "?" + paramsString;
                     }
                 }
@@ -279,7 +279,10 @@ function ShowAction(cellRow) {
 
 //--------------------------------- downlines are old
 function FunctionColumn(cell, cellFormated) {
-    return "<div style='text-align:center;'><a href='javascript:UpdateLicensee(" + cell.Value.toString() + ")'><img src='" + $('#currentDomain').val() + "/App_Themes/Default/Images/Edit.png' alt='Edit'></a>&nbsp&nbsp<a href='javascript:DeleteLicensee(" + cell.Value.toString() + ")'><img src='" + $('#currentDomain').val() + "/App_Themes/Default/Images/Delete.gif' alt='Delete'></a></div>";
+    return "<div style='text-align:center;'><a href='javascript:UpdateLicensee(" +
+        cell.Value.toString() + ")'><img src='" + currentDomainURL +
+        "App_Themes/Default/Images/Edit.png' alt='Edit'></a>&nbsp&nbsp<a href='javascript:DeleteLicensee(" +
+        cell.Value.toString() + ")'><img src='" + currentDomainURL + "App_Themes/Default/Images/Delete.gif' alt='Delete'></a></div>";
 }
 
 function ConvertFromJsonToFanexData(jsonObject) {

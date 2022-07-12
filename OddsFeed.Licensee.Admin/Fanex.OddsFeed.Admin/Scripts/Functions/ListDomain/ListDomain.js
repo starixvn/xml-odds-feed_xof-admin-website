@@ -111,10 +111,10 @@ function DomainSection(btn) {
 function FunctionColumn(cell, cellFormated) {
     return "<div style='text-align:center;'>" +
                 "<a title='Edit' href='javascript:UpdateDomain(" + cell.Value.toString() + ")'>" +
-                    "<img src='" + $('#currentDomain').val() + "/App_Themes/Default/Images/Edit.png' alt='Edit'>" +
+                    "<img src='" + currentDomainURL + "App_Themes/Default/Images/Edit.png' alt='Edit'>" +
                 "</a>&nbsp&nbsp;" +
                 "<a title='Delete' href='javascript:DeleteDomain(" + cell.Value.toString() + ")'>" +
-                    "<img src='" + $('#currentDomain').val() + "/App_Themes/Default/Images/Delete.gif' alt='Delete'>" +
+                    "<img src='" + currentDomainURL + "App_Themes/Default/Images/Delete.gif' alt='Delete'>" +
                 "</a>" +
             "</div>";
 }
@@ -133,9 +133,6 @@ function ReRenderAfterPaged(page_index, itemsPerPage, jq) {
 
     gridOptions.pagerOption.currentPage = page_index;
     Submit();
-    //    gridOptions.pagerOption.itemsPerPage = itemsPerPage;
-
-    //    $("#SearchResult").fanexGrid(gridOptions);
     return false;
 }
 

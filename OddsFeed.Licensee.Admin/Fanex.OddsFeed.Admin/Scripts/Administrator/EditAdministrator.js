@@ -1,20 +1,10 @@
-﻿/*$(document).ready(function () {
-//Process redirect to Afiiliate list.
-var successed = $("#successed").val();
-if (successed == "true") {
-confirm('Successfull!\nPress OK to continue', function () {
-document.location = currentDomainURL + "/Affiliate/List";
-});
-}
-        
-});*/
-$(document).ready(function () {
+﻿$(document).ready(function () {
     //    //step 1    
     $("#txtUsername").prop('disabled', true);
     var successed = $("#successed").val();
     if (successed == "true") {
         confirm('Successfull!\nPress OK to continue', function () {
-            document.location = currentDomainURL + "/Administrator/AdministratorList";
+            document.location = currentDomainURL + "Administrator/AdministratorList";
         });
     }
 
@@ -75,7 +65,7 @@ function editActive(obj, userId, username) {
                     result = result.toLowerCase();
 
                     if (result == 'successfully!') {
-                        document.location = currentDomainURL + "/Administrator/AdministratorList";
+                        document.location = currentDomainURL + "Administrator/AdministratorList";
                     }
                     else {
                         alert(result);
@@ -104,7 +94,7 @@ function editActive(obj, userId, username) {
                     result = result.toLowerCase();
 
                     if (result == 'successfully!') {
-                        document.location = currentDomainURL + "/Administrator/AdministratorList";
+                        document.location = currentDomainURL + "Administrator/AdministratorList";
                     }
                     else {
                         alert(result);
@@ -139,7 +129,7 @@ function UpdateInfo() {
 
                 if (result == 'successfully!') {
                     confirm('Successfull!\nPress OK to continue', function () {
-                        document.location = currentDomainURL + "/Administrator/AdministratorList";
+                        document.location = currentDomainURL + "Administrator/AdministratorList";
                     });
                 }
                 else {
@@ -333,10 +323,10 @@ function UpdateAdministratorInfo() {
                 if (currentSessionUserId != updateParams.UserID ||
                     updateParams.RoleID == OddsFeedAdminManager.Enums.UserRole.ITAdministrator) {
                     confirm('Successfull!\nPress OK to continue', function () {
-                        document.location = currentDomainURL + "/Administrator/AdministratorList";
+                        document.location = currentDomainURL + "Administrator/AdministratorList";
                     });
                 } else {
-                    document.location = currentDomainURL + "/Dashboard/ShowDashboard";
+                    document.location = currentDomainURL + "Dashboard/ShowDashboard";
                 }
             } else {
                 $("#editStep1 .result-message-box")
@@ -379,7 +369,7 @@ function ResetPassword() {
                     .addClass("success-message-box")
                     .removeClass("error-message-box")
                     .removeClass("hidden");
-                OddsFeedAdminManager.confirmAfterSuccess(currentDomainURL + "/Administrator/AdministratorList");
+                OddsFeedAdminManager.confirmAfterSuccess(currentDomainURL + "Administrator/AdministratorList");
             } else {
                 $("#editStep1 .result-message-box").empty()
                     .append("<ul><li>" + result.Message + "</li></ul>")

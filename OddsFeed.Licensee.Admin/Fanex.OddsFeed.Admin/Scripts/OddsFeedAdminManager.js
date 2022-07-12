@@ -30,7 +30,7 @@
         var maxNum = 0;
 
         $.ajax({
-            url: '/Affiliate/GetMaxNumberOfIPs',
+            url: currentDomainURL + 'Affiliate/GetMaxNumberOfIPs',
             type: 'GET',
             contentType: "application/json; charset=utf-8",
             async: false,

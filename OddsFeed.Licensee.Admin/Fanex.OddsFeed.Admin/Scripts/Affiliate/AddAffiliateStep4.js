@@ -10,7 +10,7 @@
     });
 
     $('#step4Done').click(function () {
-        document.location = currentDomainURL + '/Affiliate/List';
+        document.location = currentDomainURL + 'Affiliate/List';
     });
 });
 

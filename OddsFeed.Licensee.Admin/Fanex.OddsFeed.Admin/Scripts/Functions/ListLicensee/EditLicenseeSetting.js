@@ -67,7 +67,7 @@
                         IsSuccess: true,
                         ResultMessage: "The licensee's information has been updated successfully!"
                     }, $(".result-message-box"));
-                    OddsFeedAdminManager.confirmAfterSuccess(currentDomainURL + "/Licensee/ListLicensee");
+                    OddsFeedAdminManager.confirmAfterSuccess(currentDomainURL + "Licensee/ListLicensee");
                 }
             },
             error: function (xhr, status, err) {
@@ -78,7 +78,7 @@
 
     $("#Cancel").click(function () {
         confirm('Are you sure to cancel edit licensee?', function () {
-            document.location = currentDomainURL + "/Licensee/ListLicensee";
+            document.location = currentDomainURL + "Licensee/ListLicensee";
         });
     });
 });

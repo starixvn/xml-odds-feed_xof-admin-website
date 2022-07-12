@@ -39,8 +39,6 @@
 
         IEnumerable<SelectListItem> GetSportByAffId(int partnerId);
 
-        IEnumerable<SelectListItem> GetSportBySystemId(byte selectedId = 0);
-
         IEnumerable<SelectListItem> GetLanguageBySystemId(string selectedId = "");
 
         IEnumerable<SelectListItem> GetLanguageByAffId(int partnerId);

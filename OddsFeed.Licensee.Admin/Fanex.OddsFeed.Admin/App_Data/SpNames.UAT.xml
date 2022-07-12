@@ -23,10 +23,7 @@
             <Mapping DataField="Key" ObjectProperty="Name" />
             <Mapping DataField="Value" ObjectProperty="Value" />
         </Setting>
-        <Setting Key="Odds_SystemSettingsSel" SpName="Odds_SystemSettingsSel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
-            <Mapping DataField="Key" ObjectProperty="Name" />
-            <Mapping DataField="Value" ObjectProperty="Value" />
-        </Setting>
+        <Setting Key="Odds_SystemSettingsSel" SpName="Odds_SystemSettingsSel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
         <Setting Key="Odds_Partner_Statistic_Sel" SpName="Odds_Partner_Statistic_Sel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
         <Setting Key="Odds_Partner_SelByName" SpName="Odds_Partner_SelByName" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
             <Mapping DataField="PartnerId" ObjectProperty="Id" />

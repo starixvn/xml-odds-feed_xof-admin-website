@@ -6,7 +6,7 @@
     ViewBag.Nav = base.ViewBag.NavigationHome +
                          "<a class='step' href='" + base.ViewBag.CurrentDomain + "/Affiliate/List'>Affiliate list</a>" +
                          "<span class='step'>" + string.Format("{0} for \"{1}\"", ViewBag.Title, ViewBag.AffiliateName) + "</span>";
-
+    var sportIds = (IList<string>)ViewBag.SportIds;
 }
 @section Breadcrumb {
     @Html.Raw(ViewBag.Nav)
@@ -79,8 +79,11 @@
                     <div class="row">
                         <div class="grid7">XML Odds Feed Main URL</div>
                         <div class="grid9"><a href="@displayURL">@displayURL</a></div>
-                        <div class="grid7">XML Result Feed Main URL for Cricket</div>
-                        <div class="grid9"><a href="@displayURL.Replace("odds.xml", "cricket/result.xml")">@displayURL.Replace("odds.xml", "cricket/result.xml")</a></div>
+                        @if(sportIds.Any(x => x == "50"))
+                        {
+                            <div class="grid7">XML Result Feed Main URL for Cricket</div>
+                            <div class="grid9"><a href="@displayURL.Replace("odds.xml", "cricket/result.xml")">@displayURL.Replace("odds.xml", "cricket/result.xml")</a></div>
+                        }
                         <div class="grid7 br">XML for support sports</div>
                         <div class="grid9"><a href="@displayURL.Replace("odds.xml", "sports.xml")">@displayURL.Replace("odds.xml", "sports.xml")</a></div>
                         <div class="grid7 br">XML for support leagues</div>
@@ -99,8 +102,11 @@
                         <div class="row br">
                             <div class="grid7">XML Odds Feed URL (Backup)</div>
                             <div class="grid9"><a href="@displayURL">@displayURL</a></div>
-                            <div class="grid7">XML Result Feed Main URL for Cricket (Backup)</div>
-                            <div class="grid9"><a href="@displayURL.Replace("odds.xml", "cricket/result.xml")">@displayURL.Replace("odds.xml", "cricket/result.xml")</a></div>
+                            @if (sportIds.Any(x => x == "50"))
+                            {
+                                <div class="grid7">XML Result Feed Main URL for Cricket (Backup)</div>
+                                <div class="grid9"><a href="@displayURL.Replace("odds.xml", "cricket/result.xml")">@displayURL.Replace("odds.xml", "cricket/result.xml")</a></div>
+                            }
                             <div class="grid7 br">XML for support sports (Backup)</div>
                             <div class="grid9"><a href="@displayURL.Replace("odds.xml", "sports.xml")">@displayURL.Replace("odds.xml", "sports.xml")</a></div>
                             <div class="grid7 br">XML for support leagues (Backup)</div>

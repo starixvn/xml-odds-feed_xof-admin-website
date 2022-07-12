@@ -97,7 +97,7 @@
                         .removeClass("error-message-box")
                         .removeClass("hidden");
 
-                    OddsFeedAdminManager.confirmAfterSuccess(currentDomainURL + '/Affiliate/List');
+                    OddsFeedAdminManager.confirmAfterSuccess(currentDomainURL + 'Affiliate/List');
                 } else {
                     $('#editStep3 .result-message-box').empty()
                         .append("<ul><li>" + result.Message + "</li></ul>")

@@ -104,7 +104,7 @@ function DoAddSubAccount() {
                     .removeClass("error-message-box")
                     .removeClass("hidden");
 
-                OddsFeedAdminManager.confirmAfterSuccess(currentDomainURL + "/SubAccount/List");
+                OddsFeedAdminManager.confirmAfterSuccess(currentDomainURL + "SubAccount/List");
             } else {
                 $("#step3 .result-message-box").empty()
                     .append("<ul><li>" + result.Message + "</li></ul>")

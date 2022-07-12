@@ -48,7 +48,7 @@ namespace Fanex.OddsFeed.Core.Criteria.Licensee
         public string LeagueKeyword_O { get; set; } = string.Empty;
 
         public string OddsDelayTimes => string.Join(",", this.DeadballDelayTimes, this.LiveDelayTimes, this.OutrightDelayTimes);
-        public bool DelayTimesFlag { get; set; } = true;
+        public bool OddsDelayTimesFlag { get; set; } = true;
 
         public short NumberOfIPs { get; set; } = 1;
 

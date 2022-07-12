@@ -10,7 +10,7 @@ $(document).ready(function () {
     var successed = $("#successed").val();
     if (successed == "true") {
         confirm('Successfull!\nPress OK to continue', function () {
-            document.location = currentDomainURL + "/SubAccount/List";
+            document.location = currentDomainURL + "SubAccount/List";
         });
     }
 
@@ -148,10 +148,10 @@ function ReRenderAfterPaged(page_index, itemsPerPage, jq) {
 function ActiveColumn(cell, cellFormated) {
     var subAccId = gridOptions.bodyRows[cell.Row].Columns[1].Value;
     if (cell.Value == "True") {
-        return "<img title='Deactivate this account' class='ico-tick' alt='' src='" + currentDomainURL + "/App_Themes/Default/Images/blank.png'  onclick='editActive(this," + subAccId + ")'/>";
+        return "<img title='Deactivate this account' class='ico-tick' alt='' src='" + currentDomainURL + "App_Themes/Default/Images/blank.png'  onclick='editActive(this," + subAccId + ")'/>";
     }
     else {
-        return "<img title='Activate this account' class='ico-untick' alt='' src='" + currentDomainURL + "/App_Themes/Default/Images/blank.png'  onclick='editActive(this," + subAccId + ")'/>";
+        return "<img title='Activate this account' class='ico-untick' alt='' src='" + currentDomainURL + "App_Themes/Default/Images/blank.png'  onclick='editActive(this," + subAccId + ")'/>";
     }
 }
 
@@ -184,7 +184,7 @@ function ShowAction(cellRow) {
                         username: _subAccName
                     });
 
-                    window.location.href = currentDomainURL + "/SubAccount/AssignLicensee/" +
+                    window.location.href = currentDomainURL + "SubAccount/AssignLicensee/" +
                                         _subAccId + "?" + urlParam;
                 }
             },
@@ -199,15 +199,15 @@ function ShowAction(cellRow) {
                         SubAccountID: _subAccId
                     });
 
-                    window.location.href = currentDomainURL + "/SubAccount/EditSubAccInfo/" + _subAccId + "?" + urlParam;
+                    window.location.href = currentDomainURL + "SubAccount/EditSubAccInfo/" + _subAccId + "?" + urlParam;
                 }
             },
-            editPermission: { name: "Edit permission", height: 25, className: "iconEditSetting", callback: function (key, opt) { window.location.href = currentDomainURL + "/SubAccount/EditPermission/" + _subAccId + "?userName=" + _subAccName; } },
+            editPermission: { name: "Edit permission", height: 25, className: "iconEditSetting", callback: function (key, opt) { window.location.href = currentDomainURL + "SubAccount/EditPermission/" + _subAccId + "?userName=" + _subAccName; } },
             resetPassword: {
                 name: "Reset password",
                 className: "iconResetPass",
                 callback: function (key, opt) {
-                    window.location.href = currentDomainURL + "/SubAccount/ResetPassword/" + _subAccId +
+                    window.location.href = currentDomainURL + "SubAccount/ResetPassword/" + _subAccId +
                                   "?userName=" + _subAccName;
                 }
             }

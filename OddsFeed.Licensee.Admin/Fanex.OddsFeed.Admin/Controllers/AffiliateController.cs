@@ -484,6 +484,17 @@
                 return RedirectToAction("List", DefaultController);
             }
 
+            var affiliateProfile = baseService.GetDataEntity<LicenseeProfile>(new GetAffiliateProfileByIDCriteria { PartnerID = id });
+            var sports = baseService.GetData<Sport>(new GetSupportedSportCriteria());
+            if (affiliateProfile.SportIdList.Equals("all"))
+            {
+                ViewBag.SportIds = sports.Select(item => item.SportType.ToString()).ToList();
+            }
+            else
+            {
+                ViewBag.SportIds = affiliateProfile.SportIdList.Split(',');
+            }
+
             ViewBag.CurrentUser = name;
             ViewBag.AffiliateName = name;
             ViewBag.AssignedDomain = affiliateService.GetDomainByAffId(id);
@@ -547,8 +558,8 @@
             var arrIpsFrom = ipsFrom.Split(',');
             var arrIpsTo = ipsTo.Split(',');
 
-            var config = baseService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "Config" }, false);
-            var maxNumOfIPs = Converter.ToInt(config.Where(m => m.Text == "MaximumNumberOfIPs").ToList()[0].Value);
+            var config = baseService.GetData<SystemSetting>(new GetTypeSettingCriteria { SystemID = 0, Type = "Config" });
+            var maxNumOfIPs = Converter.ToInt(config.First(m => m.Key == "MaximumNumberOfIPs").Value);
 
             for (int i = 0; i < arrIpsFrom.Length; i++)
             {
@@ -648,12 +659,13 @@
         {
             if (!string.IsNullOrWhiteSpace(leagueIds))
             {
-                var leagues = baseService.GetSelectList(new GetLeagueCriteria
+                var leagues = baseService.GetData<League>(new GetLeagueCriteria
                 {
                     SportIDList = sportIds,
                     CountryCodeList = countryCodes
                 });
-                if (Utilities.IsExistInSelectListItem(leagueIds, leagues))
+                var leagueList = leagues.Select(x => new SelectListItem { Value = x.LeagueId.ToString(), Text = x.LeagueName }).ToList();
+                if (Utilities.IsExistInSelectListItem(leagueIds, leagueList))
                 {
                     return "all";
                 }
@@ -666,12 +678,13 @@
         {
             if (!string.IsNullOrWhiteSpace(outRightIds))
             {
-                var outrights = baseService.GetSelectList(new GetOutRightCriteria
+                var outrights = baseService.GetData<League>(new GetOutRightCriteria
                 {
                     SportIDList = sportIds,
                     CountryCodeList = countryCodes
                 });
-                if (Utilities.IsExistInSelectListItem(outRightIds, outrights))
+                var outrightList = outrights.Select(x => new SelectListItem { Value = x.LeagueId.ToString(), Text = x.LeagueName }).ToList();
+                if (Utilities.IsExistInSelectListItem(outRightIds, outrightList))
                 {
                     return "all";
                 }
@@ -684,8 +697,9 @@
         {
             if (!string.IsNullOrWhiteSpace(sportIds))
             {
-                var sports = baseService.GetSelectList(new GetSupportedSportCriteria());
-                if (Utilities.IsExistInSelectListItem(sportIds, sports))
+                var sports = baseService.GetData<Sport>(new GetSupportedSportCriteria());
+                var sportList = sports.Select(x => new SelectListItem { Value = x.SportType.ToString(), Text = x.SportName }).ToList();
+                if (Utilities.IsExistInSelectListItem(sportIds, sportList))
                 {
                     return "all";
                 }
@@ -698,8 +712,9 @@
         {
             if (!string.IsNullOrWhiteSpace(countryCodes))
             {
-                var countries = baseService.GetSelectList(new GetAllCountryCriteria());
-                if (Utilities.IsExistInSelectListItem(countryCodes, countries))
+                var countries = baseService.GetData<Country>(new GetAllCountryCriteria());
+                var countryList = countries.Select(x => new SelectListItem { Value = x.CountryCode, Text = x.CountryName }).ToList();
+                if (Utilities.IsExistInSelectListItem(countryCodes, countryList))
                 {
                     return "all";
                 }
@@ -712,8 +727,9 @@
         {
             if (!string.IsNullOrWhiteSpace(betTypeIds))
             {
-                var bettypes = baseService.GetSelectList(new GetSupportedBettypeCriteria());
-                if (Utilities.IsExistInSelectListItem(betTypeIds, bettypes))
+                var bettypes = baseService.GetData<BetType>(new GetSupportedBettypeCriteria());
+                var bettypeList = bettypes.Select(x => new SelectListItem { Value = x.TypeId.ToString(), Text = x.TypeNameE }).ToList();
+                if (Utilities.IsExistInSelectListItem(betTypeIds, bettypeList))
                 {
                     return "all";
                 }
@@ -764,64 +780,73 @@
 
         private void ProfileForAddAffiliateWithAccountManagerRole(ref InsertAffiliateCriteria criteria)
         {
-            ViewBag.OddsTypeList = baseService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = OddsTypeSettingType }, false)
-                .Where(item => item.Text != "Live" || (item.Text == "Live" && IsAccountManagerRole()));
-            ViewBag.OddsStyleList = baseService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = OddsRegionSettingType }, false);
-            ViewBag.LanguageIDList = baseService.GetSelectList(new GetAllLanguageCriteria());
-            ViewBag.DelayTimeList = GenerateDelayTime(baseService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "Config" }, false));
+            var oddsTypes = baseService.GetData<SystemSetting>(new GetTypeSettingCriteria { SystemID = 0, Type = OddsTypeSettingType })
+                .Where(x => x.Key != "Live" || (x.Key == "Live" && IsAccountManagerRole())).ToList();
+            ViewBag.OddsTypeList = oddsTypes.Select(x => new SelectListItem { Value = x.Value, Text = x.Key }).ToList();
+
+            var oddsStyles = baseService.GetData<SystemSetting>(new GetTypeSettingCriteria { SystemID = 0, Type = OddsRegionSettingType });
+            ViewBag.OddsStyleList = oddsStyles.Select(x => new SelectListItem { Value = x.Value, Text = x.Key }).ToList();
+
+            var languages = baseService.GetData<Language>(new GetAllLanguageCriteria());
+            ViewBag.LanguageIDList = languages.Select(x => new SelectListItem { Value = x.Code, Text = x.Name_EN }).ToList();
+
+            ViewBag.DelayTimeList = GenerateDelayTime();
             ViewBag.ResultDelayTimeList = licenseeService.GetResultDelayTimeList();
 
             // Country
-            var countries = baseService.GetSelectList(new GetAllCountryCriteria());
-            ViewBag.CountriesList = countries;
+            var countries = baseService.GetData<Country>(new GetAllCountryCriteria());
+            ViewBag.CountriesList = countries.Select(x => new SelectListItem { Value = x.CountryCode, Text = x.CountryName }).ToList();
             if (criteria.CountryCodeList.Equals("all"))
             {
-                criteria.CountryCodeList = string.Join(",", countries.Select(item => item.Value));
+                criteria.CountryCodeList = string.Join(",", countries.Select(item => item.CountryCode));
             }
 
             // Sport
-            var sports = baseService.GetSelectListWithGroup(new GetSupportedSportCriteria());
-            var sportList = UpdateSportListForCricket(sports);
+            var sports = UpdateSportListForCricket(baseService.GetData<Sport>(new GetSupportedSportCriteria()));
             if (criteria.SportIDList.Equals("all"))
             {
-                criteria.SportIDList = string.Join(",", sports.Select(item => item.Value));
+                criteria.SportIDList = string.Join(",", sports.Select(item => item.SportType));
             }
 
-            ViewBag.MajorSportList = sportList.Where(sport => sport.Group.Name == MajorGroup);
-            ViewBag.MinorSportList = sportList.Where(sport => sport.Group.Name == MinorGroup);
+            ViewBag.MajorSportList = sports.Where(sport => sport.Group == MajorGroup)
+                .Select(x => new SelectListItem { Value = x.SportType.ToString(), Text = x.SportName }).ToList();
+            ViewBag.MinorSportList = sports.Where(sport => sport.Group == MinorGroup)
+                .Select(x => new SelectListItem { Value = x.SportType.ToString(), Text = x.SportName }).ToList();
 
             // Market
-            var bettypes = baseService.GetSelectListWithGroup(new GetSupportedBettypeCriteria());
+            var bettypes = baseService.GetData<BetType>(new GetSupportedBettypeCriteria());
             if (criteria.BetTypeIDList.Equals("all"))
             {
-                criteria.BetTypeIDList = string.Join(",", bettypes.Select(item => item.Value));
+                criteria.BetTypeIDList = string.Join(",", bettypes.Select(item => item.TypeId));
             }
 
-            ViewBag.MajorBettypesList = bettypes.Where(betType => betType.Group.Name == MajorGroup);
-            ViewBag.MinorBettypesList = bettypes.Where(betType => betType.Group.Name == MinorGroup);
+            ViewBag.MajorBettypesList = bettypes.Where(x => x.Group == MajorGroup)
+                .Select(x => new SelectListItem { Value = x.TypeId.ToString(), Text = x.TypeNameE }).ToList();
+            ViewBag.MinorBettypesList = bettypes.Where(x => x.Group == MinorGroup)
+                .Select(x => new SelectListItem { Value = x.TypeId.ToString(), Text = x.TypeNameE }).ToList();
 
             // League
-            var leagues = baseService.GetSelectList(new GetLeagueCriteria
+            var leagues = baseService.GetData<League>(new GetLeagueCriteria
             {
                 SportIDList = criteria.SportIDList,
                 CountryCodeList = criteria.CountryCodeList
             });
-            ViewBag.LeagueList = leagues;
+            ViewBag.LeagueList = leagues.Select(x => new SelectListItem { Value = x.LeagueId.ToString(), Text = x.LeagueName }).ToList();
             if (criteria.LeagueIDList.Equals("all"))
             {
-                criteria.LeagueIDList = string.Join(",", leagues.Select(item => item.Value));
+                criteria.LeagueIDList = string.Join(",", leagues.Select(item => item.LeagueId));
             }
 
             // OutRight
-            var outrights = baseService.GetSelectList(new GetOutRightCriteria
+            var outrights = baseService.GetData<League>(new GetOutRightCriteria
             {
                 SportIDList = criteria.SportIDList,
                 CountryCodeList = criteria.CountryCodeList
             });
-            ViewBag.OutrightList = outrights;
+            ViewBag.OutrightList = outrights.Select(x => new SelectListItem { Value = x.LeagueId.ToString(), Text = x.LeagueName }).ToList();
             if (criteria.OutRightIDList.Equals("all"))
             {
-                criteria.OutRightIDList = string.Join(",", outrights.Select(item => item.Value));
+                criteria.OutRightIDList = string.Join(",", outrights.Select(item => item.LeagueId));
             }
         }
 
@@ -856,63 +881,72 @@
 
         private void ProfileForEditAffiliateWithAccountManagerRole(ref UpdateProfileCriteria criteria)
         {
-            ViewBag.OddsTypeList = baseService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = OddsTypeSettingType }, false);
-            ViewBag.OddsStyleList = baseService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = OddsRegionSettingType }, false);
-            ViewBag.LanguageIDList = baseService.GetSelectList(new GetAllLanguageCriteria());
-            var config = baseService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "Config" }, false);
-            ViewBag.DelayTimeList = GenerateDelayTime(config);
+            var oddsTypes = baseService.GetData<SystemSetting>(new GetTypeSettingCriteria { SystemID = 0, Type = OddsTypeSettingType });
+            ViewBag.OddsTypeList = oddsTypes.Select(x => new SelectListItem { Value = x.Value, Text = x.Key }).ToList();
+
+            var oddsStyles = baseService.GetData<SystemSetting>(new GetTypeSettingCriteria { SystemID = 0, Type = OddsRegionSettingType });
+            ViewBag.OddsStyleList = oddsStyles.Select(x => new SelectListItem { Value = x.Value, Text = x.Key }).ToList();
+
+            var languages = baseService.GetData<Language>(new GetAllLanguageCriteria());
+            ViewBag.LanguageIDList = languages.Select(x => new SelectListItem { Value = x.Code, Text = x.Name_EN }).ToList();
+
+            ViewBag.DelayTimeList = GenerateDelayTime();
             ViewBag.ResultDelayTimeList = licenseeService.GetResultDelayTimeList();
+
             // Sport
-            var sports = baseService.GetSelectListWithGroup(new GetSupportedSportCriteria());
-            var sportList = UpdateSportListForCricket(sports);
+            var sports = UpdateSportListForCricket(baseService.GetData<Sport>(new GetSupportedSportCriteria()));
             if (criteria.SportIDList.Equals("all"))
             {
-                criteria.SportIDList = string.Join(",", sports.Select(item => item.Value));
+                criteria.SportIDList = string.Join(",", sports.Select(item => item.SportType));
             }
 
-            ViewBag.MajorSportList = sportList.Where(sport => sport.Group.Name == MajorGroup);
-            ViewBag.MinorSportList = sportList.Where(sport => sport.Group.Name == MinorGroup);
+            ViewBag.MajorSportList = sports.Where(sport => sport.Group == MajorGroup)
+                .Select(x => new SelectListItem { Value = x.SportType.ToString(), Text = x.SportName }).ToList();
+            ViewBag.MinorSportList = sports.Where(sport => sport.Group == MinorGroup)
+                .Select(x => new SelectListItem { Value = x.SportType.ToString(), Text = x.SportName }).ToList();
 
             // Market
-            var bettypes = baseService.GetSelectListWithGroup(new GetSupportedBettypeCriteria());
+            var bettypes = baseService.GetData<BetType>(new GetSupportedBettypeCriteria());
             if (criteria.BetTypeIDList.Equals("all"))
             {
-                criteria.BetTypeIDList = string.Join(",", bettypes.Select(item => item.Value));
+                criteria.BetTypeIDList = string.Join(",", bettypes.Select(item => item.TypeId));
             }
 
-            ViewBag.MajorBettypesList = bettypes.Where(betType => betType.Group.Name == MajorGroup);
-            ViewBag.MinorBettypesList = bettypes.Where(betType => betType.Group.Name == MinorGroup);
+            ViewBag.MajorBettypesList = bettypes.Where(x => x.Group == MajorGroup)
+                .Select(x => new SelectListItem { Value = x.TypeId.ToString(), Text = x.TypeNameE }).ToList();
+            ViewBag.MinorBettypesList = bettypes.Where(x => x.Group == MinorGroup)
+                .Select(x => new SelectListItem { Value = x.TypeId.ToString(), Text = x.TypeNameE }).ToList();
 
             // Country
-            var countries = baseService.GetSelectList(new GetAllCountryCriteria());
-            ViewBag.CountriesList = countries;
+            var countries = baseService.GetData<Country>(new GetAllCountryCriteria());
+            ViewBag.CountriesList = countries.Select(x => new SelectListItem { Value = x.CountryCode, Text = x.CountryName }).ToList();
             if (criteria.CountryCodeList.Equals("all"))
             {
-                criteria.CountryCodeList = string.Join(",", countries.Select(item => item.Value));
+                criteria.CountryCodeList = string.Join(",", countries.Select(item => item.CountryCode));
             }
 
             // OutRight
-            var outrights = baseService.GetSelectList(new GetOutRightCriteria
+            var outrights = baseService.GetData<League>(new GetOutRightCriteria
             {
                 SportIDList = criteria.SportIDList,
                 CountryCodeList = criteria.CountryCodeList
             });
-            ViewBag.OutrightList = outrights;
+            ViewBag.OutrightList = outrights.Select(x => new SelectListItem { Value = x.LeagueId.ToString(), Text = x.LeagueName }).ToList();
             if (criteria.OutRightIDList.Equals("all"))
             {
-                criteria.OutRightIDList = string.Join(",", outrights.Select(item => item.Value));
+                criteria.OutRightIDList = string.Join(",", outrights.Select(item => item.LeagueId));
             }
 
             // League
-            var leagues = baseService.GetSelectList(new GetLeagueCriteria
+            var leagues = baseService.GetData<League>(new GetLeagueCriteria
             {
                 SportIDList = criteria.SportIDList,
                 CountryCodeList = criteria.CountryCodeList
             });
-            ViewBag.LeagueList = leagues;
+            ViewBag.LeagueList = leagues.Select(x => new SelectListItem { Value = x.LeagueId.ToString(), Text = x.LeagueName }).ToList();
             if (criteria.LeagueIDList.Equals("all"))
             {
-                criteria.LeagueIDList = string.Join(",", leagues.Select(item => item.Value));
+                criteria.LeagueIDList = string.Join(",", leagues.Select(item => item.LeagueId));
             }
         }
 
@@ -1024,9 +1058,11 @@
             ViewBag.CountriesList = affiliateService.GetCountryBySystemId();
 
             // Sport
-            var sportList = UpdateSportListForCricket(affiliateService.GetSportBySystemId());
-            ViewBag.MajorSportList = sportList.Where(sport => sport.Group.Name == MajorGroup);
-            ViewBag.MinorSportList = sportList.Where(sport => sport.Group.Name == MinorGroup);
+            var sports = UpdateSportListForCricket(baseService.GetData<Sport>(new GetSportBySystemIDCriteria { SystemID = currentSession.SystemId }).OrderBy(s => s.SportName));
+            ViewBag.MajorSportList = sports.Where(sport => sport.Group == MajorGroup)
+                .Select(x => new SelectListItem { Value = x.SportType.ToString(), Text = x.SportName }).ToList();
+            ViewBag.MinorSportList = sports.Where(sport => sport.Group == MinorGroup)
+                .Select(x => new SelectListItem { Value = x.SportType.ToString(), Text = x.SportName }).ToList();
         }
 
         private void ProfileForEditAffiliateWithLicenseeAdminAndSubAccountRole(ref UpdateProfileCriteria criteria)
@@ -1043,13 +1079,15 @@
             ViewBag.LanguageIDList = affiliateService.GetLanguageBySystemId();
 
             // Sport
-            var sports = UpdateSportListForCricket(affiliateService.GetSportBySystemId());
+            var sports = UpdateSportListForCricket(baseService.GetData<Sport>(new GetSportBySystemIDCriteria { SystemID = currentSession.SystemId }).OrderBy(s => s.SportName));
             if (criteria.SportIDList.Equals("all"))
             {
-                criteria.SportIDList = string.Join(",", sports.Select(item => item.Value));
+                criteria.SportIDList = string.Join(",", sports.Select(item => item.SportType));
             }
-            ViewBag.MajorSportList = sports.Where(sport => sport.Group.Name == MajorGroup);
-            ViewBag.MinorSportList = sports.Where(sport => sport.Group.Name == MinorGroup);
+            ViewBag.MajorSportList = sports.Where(sport => sport.Group == MajorGroup)
+                .Select(x => new SelectListItem { Value = x.SportType.ToString(), Text = x.SportName }).ToList();
+            ViewBag.MinorSportList = sports.Where(sport => sport.Group == MinorGroup)
+                .Select(x => new SelectListItem { Value = x.SportType.ToString(), Text = x.SportName }).ToList();
 
             // Market
             var bettypes = affiliateService.GetBettypeBySystemId();
@@ -1069,9 +1107,10 @@
             }
         }
 
-        private static IEnumerable<SelectListItem> UpdateSportListForCricket(IEnumerable<SelectListItem> sports)
+        private static IEnumerable<Sport> UpdateSportListForCricket(IEnumerable<Sport> sports)
         {
-            return sports.Where(s => s.Value != "50");
+            const byte Cricket = 50;
+            return sports.Where(s => s.SportType != Cricket).ToList();
         }
 
         #endregion LicenseeAdmin/Sub-Acc

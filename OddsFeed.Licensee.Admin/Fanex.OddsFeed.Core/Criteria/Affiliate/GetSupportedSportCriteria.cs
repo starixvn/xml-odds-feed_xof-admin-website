@@ -1,33 +1,11 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="GetSupportedSportCriteria.cs" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
-// <history>
-//   <change who="Phillip.Truong" date="2013.3.6">Created</change>
-// </history>
-
-namespace Fanex.OddsFeed.Core.Criteria.Affiliate
+﻿namespace Fanex.OddsFeed.Core.Criteria.Affiliate
 {
     using Data.Repository;
 
-    /// <summary>
-    /// Class GetSupportedSportCriteria.
-    /// </summary>
     public class GetSupportedSportCriteria : CriteriaBase
     {
-        public override string GetSettingKey()
-        {
-            return "Odds_SupportedSportSel";
-        }
+        public override string GetSettingKey() => "Odds_SupportedSportSel";
 
-        /// <summary>
-        /// Check data's constrains.
-        /// </summary>
-        /// <returns>True: valid; False: invalid.</returns>
-        public override bool IsValid()
-        {
-            return true;
-        }
+        public override bool IsValid() => true;
     }
 }

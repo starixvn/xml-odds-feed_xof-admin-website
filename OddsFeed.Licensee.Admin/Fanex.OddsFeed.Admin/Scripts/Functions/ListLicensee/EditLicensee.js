@@ -3,7 +3,7 @@
     var successed = $("#successed").val();
     if (successed == "true") {
         confirm('Successfull!\nPress OK to continue', function () {
-            document.location = currentDomainURL + "/Affiliate/List";
+            document.location = currentDomainURL + "Affiliate/List";
         });
     }
 

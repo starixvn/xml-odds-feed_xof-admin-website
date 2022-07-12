@@ -3,7 +3,7 @@
     var successed = $("#successed").val();
     if (successed == "true") {
         confirm('Successfull!\nPress OK to continue', function () {
-            document.location = currentDomainURL + "/Affiliate/List";
+            document.location = currentDomainURL + "Affiliate/List";
         });
     }
         
@@ -32,7 +32,7 @@ function editActive(obj, affId) {
                     result = result.toLowerCase();
 
                     if (result == 'successfully!') {
-                        document.location = currentDomainURL + "/Affiliate/List";
+                        document.location = currentDomainURL + "Affiliate/List";
                     }
                     else {
                         alert(result);
@@ -61,7 +61,7 @@ function editActive(obj, affId) {
                     result = result.toLowerCase();
 
                     if (result == 'successfully!') {
-                        document.location = currentDomainURL + "/Affiliate/List";
+                        document.location = currentDomainURL + "Affiliate/List";
                     }
                     else {
                         alert(result);
@@ -96,7 +96,7 @@ function deleteAffiliate(affId, name ) {
                 result = result.toLowerCase();
 
                 if (result == 'successfully!') {
-                    document.location = currentDomainURL + "/Affiliate/List";
+                    document.location = currentDomainURL + "Affiliate/List";
                     //NAP.headlineMsgBox.showErr("Unknowned error detected!");                    
                 }
                 else {

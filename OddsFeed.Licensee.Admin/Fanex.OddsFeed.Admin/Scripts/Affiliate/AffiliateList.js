@@ -9,7 +9,7 @@ $(document).ready(function () {
     var successed = $("#successed").val();
     if (successed == "true") {
         confirm('Successfull!\nPress OK to continue', function () {
-            document.location =currentDomainURL + "/Affiliate/List";
+            document.location =currentDomainURL + "Affiliate/List";
         });
     }
 
@@ -187,7 +187,7 @@ function ShowAction(cellRow) {
                         name: _affName
                     });
 
-                    window.location.href = currentDomainURL + "/Affiliate/EditSetting?" + updateParam;
+                    window.location.href = currentDomainURL + "Affiliate/EditSetting?" + updateParam;
                 }
             },
             editInfo: {
@@ -199,7 +199,7 @@ function ShowAction(cellRow) {
                         userName: _affName,
                     });
 
-                    window.location.href = currentDomainURL + "/Affiliate/EditAffiliateInfo/" + _affId+ "?" + updateParam;
+                    window.location.href = currentDomainURL + "Affiliate/EditAffiliateInfo/" + _affId+ "?" + updateParam;
                 }
             },
             editProfile: {
@@ -210,7 +210,7 @@ function ShowAction(cellRow) {
                         name: _affName
                     });
 
-                    window.location.href = currentDomainURL + "/Affiliate/EditProfile/" + _affId + "?" + updateParam;
+                    window.location.href = currentDomainURL + "Affiliate/EditProfile/" + _affId + "?" + updateParam;
                 }
             },
             viewXMLURLs: {
@@ -221,7 +221,7 @@ function ShowAction(cellRow) {
                         name: _affName
                     });
 
-                    window.location.href = currentDomainURL + "/Affiliate/ViewXMLURLs_Edit/" + _affId + "?" + updateParam;
+                    window.location.href = currentDomainURL + "Affiliate/ViewXMLURLs_Edit/" + _affId + "?" + updateParam;
                 }
             }
         },

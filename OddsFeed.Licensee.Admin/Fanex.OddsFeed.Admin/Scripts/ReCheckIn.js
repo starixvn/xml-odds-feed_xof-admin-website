@@ -40,14 +40,13 @@ var Recheckin = function ($) {
 
         init: function () {
             Recheckin.time = 30000;
-            Recheckin.root = currentDomainURL;// location.protocol + '//' + location.host;
             Recheckin.kickedOutMsg = 'You have logged in from another session or your login session has expired!';
         },
 
         reCheckin: function () {
 
             $.ajax({
-                url: Recheckin.root + "/Login/ReCheckLogin",
+                url: currentDomainURL + "Login/ReCheckLogin",
                 type: "POST",
                 dataType: "json",
                 success: function (result) {
@@ -58,7 +57,7 @@ var Recheckin = function ($) {
                 error: function (request, status, error) {
                     var result = $.parseJSON(request.responseText);
                     if (result.code == 999999) {
-                        location.href = "/Tolerance/UnderMaintainance";
+                        location.href = currentDomainURL + "Tolerance/UnderMaintainance";
                     }
                 }
             });
@@ -91,7 +90,7 @@ $(document).ready(function () {
         duration: 2000,
         useAnimation: false,
         beforeClose: function () {
-            window.location.href = Recheckin.root + "/Login/LogOut";
+            window.location.href = currentDomainURL + "Login/LogOut";
         }
     });
 

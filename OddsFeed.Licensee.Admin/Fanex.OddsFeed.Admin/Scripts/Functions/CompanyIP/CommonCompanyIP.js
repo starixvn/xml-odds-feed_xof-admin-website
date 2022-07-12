@@ -58,7 +58,7 @@ function removeRow(obj, IPFromOld, IPToOld) {
             };
 
             $.ajax({
-                url: currentDomainURL + '/Company/DeleteCompanyIPSetting',
+                url: currentDomainURL + 'Company/DeleteCompanyIPSetting',
                 type: 'POST',
                 cache: false,
                 dataType: "json",
@@ -147,7 +147,7 @@ function SaveIPSetting(obj, IpFromOld, IpToOld) {
 
     $.ajax({
         type: 'POST',
-        url: currentDomainURL + '/Company/EditCompanyIPSetting',
+        url: currentDomainURL + 'Company/EditCompanyIPSetting',
         contentType: "application/json; charset=utf-8",
         dataType: 'json',
         data: data,

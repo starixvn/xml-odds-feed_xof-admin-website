@@ -263,9 +263,13 @@
     <Compile Include="Extensions.cs" />
     <Compile Include="Helpers\DataCollection.cs" />
     <Compile Include="Helpers\LogHelper.cs" />
+    <Compile Include="Model\BetType.cs" />
     <Compile Include="Model\CommandResult.cs" />
     <Compile Include="Model\CompanyIP.cs" />
+    <Compile Include="Model\Country.cs" />
     <Compile Include="Model\Domain.cs" />
+    <Compile Include="Model\Language.cs" />
+    <Compile Include="Model\League.cs" />
     <Compile Include="Model\LicenseeProfile.cs" />
     <Compile Include="Model\MissingPartnersProfile.cs" />
     <Compile Include="Model\PartnersProfile.cs" />
@@ -273,7 +277,9 @@
     <Compile Include="Model\Licensee.cs" />
     <Compile Include="Model\Report\AccountStatistic.cs" />
     <Compile Include="Model\Report\LoginInfoStatistic.cs" />
+    <Compile Include="Model\Sport.cs" />
     <Compile Include="Model\SystemDto.cs" />
+    <Compile Include="Model\SystemSetting.cs" />
     <Compile Include="Model\UserRole.cs" />
     <Compile Include="Model\ValueObject\JSONSource.cs" />
     <Compile Include="Model\ValueObject\PartnerIP.cs" />

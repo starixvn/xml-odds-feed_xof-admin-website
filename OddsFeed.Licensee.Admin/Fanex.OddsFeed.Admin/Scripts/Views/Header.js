@@ -7,7 +7,7 @@
             systemname: $("#slSystem option:selected").html()
         };
 
-        var url = currentDomainURL + "/Base/Home?" + $.param(selectParams);
+        var url = currentDomainURL + "Base/Home?" + $.param(selectParams);
         document.location = url;
 
     });

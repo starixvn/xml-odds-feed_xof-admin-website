@@ -14,7 +14,7 @@
     //cancel
     $(".cancel").click(function () {
         confirm('Are you sure to cancel adding new administrator?', function () {
-            document.location = currentDomainURL + "/Administrator/AdministratorList";
+            document.location = currentDomainURL + "Administrator/AdministratorList";
         });
     });
     //cancel
@@ -166,7 +166,7 @@ function AddAdministrator() {
                 }
 
                 confirm('Successfull!\nPress OK to continue', function () {
-                    document.location = currentDomainURL + "/Administrator/AdministratorList";
+                    document.location = currentDomainURL + "Administrator/AdministratorList";
                 });
             }
             else {

@@ -12,7 +12,7 @@
     //cancel
     $('.cancel').click(function () {
         confirm('Are you sure to cancel adding new licensee?', function () {
-            document.location = currentDomainURL + '/Licensee/ListLicensee';
+            document.location = currentDomainURL + 'Licensee/ListLicensee';
         });
     });
 
@@ -99,7 +99,7 @@ function AddLicensee() {
                         IsSuccess: true,
                         ResultMessage: "The licensee's information has been added successfully!"
                     }, $('.result-message-box'));
-                    OddsFeedAdminManager.confirmAfterSuccess(currentDomainURL + '/Licensee/ListLicensee');
+                    OddsFeedAdminManager.confirmAfterSuccess(currentDomainURL + 'Licensee/ListLicensee');
                 }
             },
             error: function (xhr, status, err) {

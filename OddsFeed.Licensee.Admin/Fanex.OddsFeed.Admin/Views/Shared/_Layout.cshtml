@@ -13,7 +13,6 @@
         @Html.Action("Header", "UI")
     </header>
     <input type="hidden" id="currentTheme" value="@ViewBag.CurrentTheme" />
-    <input type="hidden" id="currentDomain" value="@ViewBag.CurrentDomain" />
     <input type="hidden" id="minDate" value="@ViewBag.MinDate" />
     <input type="hidden" id="maxDate" value="@ViewBag.MaxDate" />
     <div id="container" class="container">
@@ -22,7 +21,7 @@
                 @Html.Action("NavBar", "UI")
             </div>
         </nav>
-        <section id="section_content">            
+        <section id="section_content">
             <div class="content_wrap">
                 @if (ViewBag.IsDashboard == false)
                 {
@@ -63,9 +62,9 @@
     </footer>
     <div id="message">
     </div>
-    <script type="text/javascript" src="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/Scripts/CommonJs")" ></script>
+    <script type="text/javascript" src="@BundleTable.Bundles.ResolveBundleUrl("~/Scripts/CommonJs")" ></script>
     <script type="text/javascript">
-        var currentDomainURL = '@ViewBag.CurrentDomain';
+        var currentDomainURL = '@Url.Content("~/")';
     </script>
     @RenderSection("Scripts", false)
 </body>

@@ -117,7 +117,7 @@ function DoUpdatePassword() {
     };
 
     $.ajax({
-        url: currentDomainURL + '/Login/UpdateUserPassword',
+        url: currentDomainURL + 'Login/UpdateUserPassword',
         type: 'POST',
         cache: false,
         dataType: "json",
@@ -131,7 +131,7 @@ function DoUpdatePassword() {
                     .removeClass("error-message-box")
                     .removeClass("hidden");
 
-                OddsFeedAdminManager.confirmAfterSuccess(currentDomainURL + "/" +
+                OddsFeedAdminManager.confirmAfterSuccess(currentDomainURL + "" +
                     updateParams.PreController.replace(/\/$/g, '') + "/" +
                     updateParams.PreAction.replace(/^\//g, ''));
             } else {

@@ -3,7 +3,7 @@
     var successed = $("#successed").val();
     if (successed == "true") {
         confirm('Successfull!\nPress OK to continue', function () {
-            document.location = currentDomainURL + "/SubAccount/List";
+            document.location = currentDomainURL + "SubAccount/List";
         });
     }
 
@@ -35,7 +35,7 @@
     //cancel
     $(".cancel").click(function () {
         confirm('Are you sure to cancel adding new sub-account?', function () {
-            document.location = currentDomainURL + "/SubAccount/List";
+            document.location = currentDomainURL + "SubAccount/List";
         });
     });
 

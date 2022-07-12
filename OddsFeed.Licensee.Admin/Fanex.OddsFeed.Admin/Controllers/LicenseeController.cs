@@ -53,10 +53,9 @@
             ViewBag.OddsStyleList = baseService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "OddsRegion" }, false);
 
             // Config
-            var config = baseService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "Config" }, false);
-            ViewBag.DelayTimeList = GenerateDelayTime(config);
+            ViewBag.DelayTimeList = GenerateDelayTime();
             ViewBag.ResultDelayTimeList = _licenseeService.GetResultDelayTimeList();
-            ViewBag.NumberOfIPs = GetMaxNumberOfIPsFromConfig(config);
+            ViewBag.NumberOfIPs = GetMaxNumberOfIPs();
 
             // Domain
             ViewBag.DomainList = baseService.GetSelectList(new GetAllDomainCriteria
@@ -611,8 +610,8 @@
             ViewBag.OddsTypeList = baseService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "OddsType" }, false);
             ViewBag.OddsStyleList = baseService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "OddsRegion" }, false);
             ViewBag.LanguageIDList = baseService.GetSelectList(new GetAllLanguageCriteria());
-            var config = baseService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = "Config" }, false);
-            ViewBag.DelayTimeList = GenerateDelayTime(config);
+
+            ViewBag.DelayTimeList = GenerateDelayTime();
             ViewBag.ResultDelayTimeList = _licenseeService.GetResultDelayTimeList();
 
             ////Sport

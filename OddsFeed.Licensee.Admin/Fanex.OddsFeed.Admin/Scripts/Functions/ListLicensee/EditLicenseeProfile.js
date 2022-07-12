@@ -53,7 +53,7 @@
 
     $('#step3Cancel').click(function () {
         confirm('Are you sure to cancel edit licensee?', function () {
-            document.location = currentDomainURL + '/Licensee/ListLicensee';
+            document.location = currentDomainURL + 'Licensee/ListLicensee';
         });
     });
 });
@@ -116,7 +116,7 @@ function UpdateLicenseeProfile(isForceUpdate) {
                         IsSuccess: true,
                         ResultMessage: "The licensee's information has been updated successfully!"
                     }, $('.result-message-box'));
-                    OddsFeedAdminManager.confirmAfterSuccess(currentDomainURL + '/Licensee/ListLicensee');
+                    OddsFeedAdminManager.confirmAfterSuccess(currentDomainURL + 'Licensee/ListLicensee');
 
                     $('.content_scroll').eq(0).animate({ scrollTop: 0 }, 100);
                 }

@@ -3,7 +3,7 @@
     var successed = $("#successed").val();
     if (successed == "true") {
         confirm('Successfull!\nPress OK to continue', function () {
-            document.location = currentDomainURL + "/SubAccount/List";
+            document.location = currentDomainURL + "SubAccount/List";
         });
     }
 
@@ -58,7 +58,7 @@ function editActive(obj, userId) {
                 success: function (result) {
                     result = result.toLowerCase();
                     if (result == 'successfully!') {
-                        document.location = currentDomainURL + "/SubAccount/List";
+                        document.location = currentDomainURL + "SubAccount/List";
                     }
                     else {
                         alert(result);
@@ -83,7 +83,7 @@ function editActive(obj, userId) {
                     result = result.toLowerCase();
 
                     if (result == 'successfully!') {
-                        document.location = currentDomainURL + "/SubAccount/List";
+                        document.location = currentDomainURL + "SubAccount/List";
                     }
                     else {
                         alert(result);
@@ -110,7 +110,7 @@ function deleteSubAccount(userId, name) {
                 result = result.toLowerCase();
 
                 if (result == 'successfully!') {
-                    document.location = currentDomainURL + "/SubAccount/List";
+                    document.location = currentDomainURL + "SubAccount/List";
                 }
                 else {
                     alert(result);
@@ -266,7 +266,7 @@ function UpdateSubAccountInfo() {
                     .removeClass("hidden");
 
                 confirm('Successfull!\nPress OK to continue', function () {
-                    document.location = currentDomainURL + "/SubAccount/List";
+                    document.location = currentDomainURL + "SubAccount/List";
                 });
             } else {
                 $("#editStep1 .result-message-box").empty()
@@ -310,7 +310,7 @@ function DoUpdatePassword() {
                     .addClass("success-message-box")
                     .removeClass("hidden");
 
-                OddsFeedAdminManager.confirmAfterSuccess(currentDomainURL + "/SubAccount/List");
+                OddsFeedAdminManager.confirmAfterSuccess(currentDomainURL + "SubAccount/List");
             } else {
                 $(".result-message-box").empty()
                     .html(" <ul><li>" + result.Message + "</li></ul>")
