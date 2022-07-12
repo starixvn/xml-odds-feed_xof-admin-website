@@ -2,17 +2,16 @@
 @using Fanex.OddsFeed.Core
 @{
     ViewBag.Title = "Edit authentication settings";
-    ViewBag.Nav = base.ViewBag.NavigationHome +
-                         "<a class='step' href='" + base.ViewBag.CurrentDomain + "/Affiliate/List'>Affiliate list</a>" +
-                         "<span class='step'>" + ViewBag.Title + ViewBag.CurrentUser + "</span>";
-                          
+
 }
 @section Breadcrumb {
-    @Html.Raw(ViewBag.Nav)
+    <a class="step" href="@Url.Action("ShowDashboard", "Dashboard")"><span class='xicon home'></span>Home</a>
+    <a class="step" href="@Url.Action("List", "Affiliate")">Affiliate List</a>
+    <span class="step">@ViewBag.Title @ViewBag.CurrentUser</span>
 }
 @section Styles
 {
-    <link rel="Stylesheet" type="text/css" href="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/App_Themes/Default/Affiliate/AffiliateCss")" />
+    <link rel="Stylesheet" type="text/css" href="@BundleTable.Bundles.ResolveBundleUrl("~/App_Themes/Default/Affiliate/AffiliateCss")" />
 }
 @section Scripts
 {
@@ -28,15 +27,20 @@
 }
 <div id="editStep2">
     <div class="infor">
-        <span class="infor-ic"></span><span class="infor-text">Each affiliate can only access
-            our XML Odds Feeds data under allowed domains and IPs.</span>
+        <span class="infor-ic"></span><span class="infor-text">
+            Each affiliate can only access
+            our XML Odds Feeds data under allowed domains and IPs.
+        </span>
     </div>
     <div class="newline">
-        &nbsp;</div>
+        &nbsp;
+    </div>
     <h3>
-        @Html.Raw(ViewResources.HtmlTemplate_InputRequired)</h3>
+        @Html.Raw(ViewResources.HtmlTemplate_InputRequired)
+    </h3>
     <h3 id="errorStep2_NumberOfIPs">
-        Maximum number of IPs = @ViewBag.NumberOfIPs</h3>
+        Maximum number of IPs = @ViewBag.NumberOfIPs
+    </h3>
     <div id="errorStep2" class="validation-summary-errors hidden" data-valmsg-summary="true">
     </div>
     <div class="result-message-box hidden">
@@ -52,7 +56,9 @@
         <div class="row3">
             <div class="grid2" style="line-height: 150px; text-align: center">
                 <label for="id1">
-                    @ViewResources.Domains</label></div>
+                    @ViewResources.Domains
+                </label>
+            </div>
             <div class="grid9" style="height: 220px; border-style: solid; border-width: 1px;
                 border-color: #C8C8C8">
                 <div class="grid6" style="width: 305px">
@@ -112,22 +118,27 @@
         <div id="IpDiv" class="row2" style="margin-top: 20px;">
             <div class="grid2" style="line-height: 70px; text-align: center">
                 <label for="id2">
-                    IP</label></div>
-            <div class="grid8"  style="width:700px">
+                    IP
+                </label>
+            </div>
+            <div class="grid8" style="width:700px">
                 <table id="IpTable" style="width: 100%; height: 30px;">
                     <thead>
                         <tr>
                             <th style="width: 40%">
                                 <label style="text-align: center">
-                                    @ViewResources.IPFrom</label>
+                                    @ViewResources.IPFrom
+                                </label>
                             </th>
                             <th style="width: 40%">
                                 <label style="text-align: center">
-                                    @ViewResources.IPTo</label>
+                                    @ViewResources.IPTo
+                                </label>
                             </th>
                             <th style="width: 12%">
                                 <label style="text-align: center">
-                                    @ViewResources.Action</label>
+                                    @ViewResources.Action
+                                </label>
                                 <span id="newIP" title="Add" class="action addnew"></span>
                             </th>
                         </tr>
@@ -136,21 +147,21 @@
                         @if (ViewBag.IpList.Count > 0)
                         {
                             foreach (Fanex.OddsFeed.Core.Model.PartnerIP item in ViewBag.IpList)
-                            {                        
-                            <tr>
-                                <td>
-                                    <input name="IP" type="text" value="@item.IPFrom" />
-                                </td>
-                                <td>
-                                    <input
-                                name="IP" type="text" value ="@item.IPTo" />
-                                </td>
-                                <td>
-                                    <span style="padding-left: 25px"></span><span title="Edit" class="action save" onclick="SaveIPSetting(this, '@item.IPFrom',
+                            {
+                                <tr>
+                                    <td>
+                                        <input name="IP" type="text" value="@item.IPFrom" />
+                                    </td>
+                                    <td>
+                                        <input name="IP" type="text" value="@item.IPTo" />
+                                    </td>
+                                    <td>
+                                        <span style="padding-left: 25px"></span><span title="Edit" class="action save" onclick="SaveIPSetting(this, '@item.IPFrom',
                                 '@item.IPTo')"></span><span style="padding-left: 30px"></span><span title="Delete"
-                                    class="action del" onclick="removeRow(this,'@item.IPFrom','@item.IPTo');"></span>
-                                </td>
-                            </tr>    
+                                                                                                    class="action del" onclick="removeRow(this,'@item.IPFrom','@item.IPTo');"></span>
+                                    </td>
+                                </tr>
+
                             }
                         }
                         else
@@ -167,7 +178,8 @@
                                 '')"></span><span style="padding-left: 30px"></span><span title="Delete" class="action
                             del" onclick="removeRow(this);"></span>
                                 </td>
-                            </tr>    
+                            </tr>
+
                         }
                     </tbody>
                 </table>

@@ -3,13 +3,12 @@
 @using System.Web.Mvc;
 @{
     ViewBag.Title = "XML Feed URLs";
-    ViewBag.Nav = base.ViewBag.NavigationHome +
-                         "<a class='step' href='" + base.ViewBag.CurrentDomain + "/Affiliate/List'>Affiliate list</a>" +
-                         "<span class='step'>" + string.Format("{0} for \"{1}\"", ViewBag.Title, ViewBag.AffiliateName) + "</span>";
     var sportIds = (IList<string>)ViewBag.SportIds;
 }
 @section Breadcrumb {
-    @Html.Raw(ViewBag.Nav)
+    <a class="step" href="@Url.Action("ShowDashboard", "Dashboard")"><span class='xicon home'></span>Home</a>
+    <a class="step" href="@Url.Action("List", "Affiliate")">Affiliate List</a>
+    <span class="step">@string.Format("{0} for \"{1}\"", ViewBag.Title, ViewBag.AffiliateName)</span>
 }
 @section Styles
 {
@@ -79,7 +78,7 @@
                     <div class="row">
                         <div class="grid7">XML Odds Feed Main URL</div>
                         <div class="grid9"><a href="@displayURL">@displayURL</a></div>
-                        @if(sportIds.Any(x => x == "50"))
+                        @if (sportIds.Any(x => x == "50"))
                         {
                             <div class="grid7">XML Result Feed Main URL for Cricket</div>
                             <div class="grid9"><a href="@displayURL.Replace("odds.xml", "cricket/result.xml")">@displayURL.Replace("odds.xml", "cricket/result.xml")</a></div>

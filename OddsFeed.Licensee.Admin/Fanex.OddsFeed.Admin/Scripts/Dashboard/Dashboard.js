@@ -242,20 +242,20 @@ function ReRenderAfterPagedRecentActivities2(page_index, itemsPerPage, jq) {
 
 // view total affiliate
 function ViewTotalAff() {
-    window.location.href = currentDomainURL + "Affiliate/List";
+    window.location = currentDomainURL + "Affiliate/List";
 }
 
 // view total sub-account
 function ViewTotalSubAcc() {
-    window.location.href = currentDomainURL + "SubAccount/List";
+    window.location = currentDomainURL + "SubAccount/List";
 }
 
 // view all today's request
 function ViewTotalReqToday() {
-    window.location.href = currentDomainURL + "Affiliate/Requests";
+    window.location = currentDomainURL + "Affiliate/Requests";
 }
 
 // view all this month's requests
 function ViewTotalReqThisMonth() {
-    window.location.href = currentDomainURL + "Affiliate/Requests?curmonth=true";
+    window.location = currentDomainURL + "Affiliate/Requests?curmonth=true";
 }

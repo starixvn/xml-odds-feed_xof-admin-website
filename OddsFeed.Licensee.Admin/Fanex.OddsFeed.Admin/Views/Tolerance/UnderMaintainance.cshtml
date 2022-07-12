@@ -55,7 +55,8 @@
             </table>
             <br />
             <div>
-                <span style="font-size: 12px; color:#0072bc;"><a style="text-decoration:none;" href="@ViewBag.CurrentDomain/login/index">Back to Homepage</a></span>
+                <span style="font-size: 12px; color:#0072bc;">
+                <a style="text-decoration:none;" href="@Url.Action("index", "login")">Back to Homepage</a></span>
                 <br />
             </div>
         </div>
@@ -66,17 +67,17 @@
 </html>
 <script type="text/javascript" src="~/Scripts/Libs/jquery.js"></script>
 <script type="text/javascript">
-    $(document).ready(function () {              
+    $(document).ready(function () {
         setInterval("reCheckUM()", 5000);
     });
 
     function reCheckUM() {
         $.ajax({
-            url: '@ViewBag.CurrentDomain' + "/Tolerance/IsUnderMaintainance",
+            url: '@Url.Content("~/")' + "Tolerance/IsUnderMaintainance",
             type: "POST",
             success: function (result) {
                 if (result == 'False') {
-                    window.location.href = '@ViewBag.CurrentDomain' + "/Login/Index";
+                    window.location.href = '@Url.Content("~/")' + "Login/Index";
                 }
             },
             error: function (request, status, error) {

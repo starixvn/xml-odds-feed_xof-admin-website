@@ -200,8 +200,7 @@ function ShowAction(cellRow) {
                             username: _adminName                            
                         });
 
-                        window.location.href = currentDomainURL + "Administrator/AdministratorEditProfile/" +
-                        _adminId + "?" + paramsString;
+                        window.location = currentDomainURL + "Administrator/AdministratorEditProfile/" + _adminId + "?" + paramsString;
                     }
                 },
                 resetPassword: {
@@ -214,8 +213,7 @@ function ShowAction(cellRow) {
                             role: role
                         });
 
-                        window.location.href = currentDomainURL + "Administrator/AdministratorResetPwd/" +
-                                            _adminId + "?" + paramsString;
+                        window.location = currentDomainURL + "Administrator/AdministratorResetPwd/" + _adminId + "?" + paramsString;
                     }
                 }
             },
@@ -238,8 +236,7 @@ function ShowAction(cellRow) {
                             role: role
                         });
 
-                        window.location.href = currentDomainURL + "Administrator/AdministratorEditSystem/" +
-                                    _adminId + "?" + paramsString;
+                        window.location = currentDomainURL + "Administrator/AdministratorEditSystem/" + _adminId + "?" + paramsString;
                     }
                 },
                 editInfo: {
@@ -251,8 +248,7 @@ function ShowAction(cellRow) {
                             username: _adminName                            
                         });
 
-                        window.location.href = currentDomainURL + "Administrator/AdministratorEditProfile/" +
-                        _adminId + "?" + paramsString;
+                        window.location = currentDomainURL + "Administrator/AdministratorEditProfile/" + _adminId + "?" + paramsString;
                     }
                 },
                 resetPassword: {
@@ -265,8 +261,7 @@ function ShowAction(cellRow) {
                             role: role
                         });
 
-                        window.location.href = currentDomainURL + "Administrator/AdministratorResetPwd/" +
-                                            _adminId + "?" + paramsString;
+                        window.location = currentDomainURL + "Administrator/AdministratorResetPwd/" + _adminId + "?" + paramsString;
                     }
                 }
             },

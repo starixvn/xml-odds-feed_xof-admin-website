@@ -3,13 +3,11 @@
 @model  Fanex.OddsFeed.Core.Criteria.Affiliate.UpdateSubAccCriteria
 @{
     ViewBag.Title = "Edit sub-account information";
-    ViewBag.Nav = base.ViewBag.NavigationHome +
-                         "<a class='step' href='" + base.ViewBag.CurrentDomain + "/SubAccount/List'>Sub-account list</a>" +
-                         "<span class='step'>" + ViewBag.Title + ViewBag.CurrentUser + "</span>";
-                          
 }
 @section Breadcrumb {
-    @Html.Raw(ViewBag.Nav)
+    <a class="step" href="@Url.Action("ShowDashboard", "Dashboard")"><span class='xicon home'></span>Home</a>
+    <a class="step" href="@Url.Action("List", "SubAccount")">Sub-account List</a>
+    <span class="step">@ViewBag.Title @ViewBag.CurrentUser</span>
 }
 @section Scripts
 {
@@ -17,7 +15,7 @@
     <script type="text/javascript">
         var viewResources = {
             ActionResult_Success_UpdateSubAccount: '@ViewResources.ActionResult_Success_UpdateSubAccount'
-        };        
+        };
     </script>
 }
 <div id="editStep1">
@@ -25,7 +23,8 @@
         <span class="infor-ic"></span><span class="infor-text">@Html.Raw(ViewResources.HtmlTemplate_InputRequired)</span>
     </div>
     <div class="newline">
-        &nbsp;</div>
+        &nbsp;
+    </div>
     <div id="errorStep1" class="validation-summary-errors hidden" data-valmsg-summary="true">
         <ul>
             <li id="emailReqErr" style="display: none">The Email field is required.</li>

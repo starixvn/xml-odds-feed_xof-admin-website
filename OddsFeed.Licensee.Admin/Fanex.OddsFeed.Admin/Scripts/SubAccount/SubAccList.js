@@ -184,8 +184,7 @@ function ShowAction(cellRow) {
                         username: _subAccName
                     });
 
-                    window.location.href = currentDomainURL + "SubAccount/AssignLicensee/" +
-                                        _subAccId + "?" + urlParam;
+                    window.location = currentDomainURL + "SubAccount/AssignLicensee/" + _subAccId + "?" + urlParam;
                 }
             },
             deleteSubAccount: { name: "Delete this sub-account", height: 25, className: "iconDelAff", callback: function (key, opt) { deleteSubAccount(_subAccId, _subAccName); } },
@@ -199,16 +198,20 @@ function ShowAction(cellRow) {
                         SubAccountID: _subAccId
                     });
 
-                    window.location.href = currentDomainURL + "SubAccount/EditSubAccInfo/" + _subAccId + "?" + urlParam;
+                    window.location = currentDomainURL + "SubAccount/EditSubAccInfo/" + _subAccId + "?" + urlParam;
                 }
             },
-            editPermission: { name: "Edit permission", height: 25, className: "iconEditSetting", callback: function (key, opt) { window.location.href = currentDomainURL + "SubAccount/EditPermission/" + _subAccId + "?userName=" + _subAccName; } },
+            editPermission: {
+                name: "Edit permission",
+                height: 25,
+                className: "iconEditSetting",
+                callback: function (key, opt) { window.location = currentDomainURL + "SubAccount/EditPermission/" + _subAccId + "?userName=" + _subAccName; }
+            },
             resetPassword: {
                 name: "Reset password",
                 className: "iconResetPass",
                 callback: function (key, opt) {
-                    window.location.href = currentDomainURL + "SubAccount/ResetPassword/" + _subAccId +
-                                  "?userName=" + _subAccName;
+                    window.location = currentDomainURL + "SubAccount/ResetPassword/" + _subAccId + "?userName=" + _subAccName;
                 }
             }
         },

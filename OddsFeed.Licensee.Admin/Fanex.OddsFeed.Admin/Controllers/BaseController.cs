@@ -50,14 +50,6 @@
 
             ViewBag.CurrentTheme = "Default";
             ViewBag.IsDashboard = false;
-
-            var navigationHome = new string[] {
-                    "<a class='step' href='",
-                    ViewBag.CurrentDomain,
-                    "/Dashboard/ShowDashboard'><span class='xicon home'></span>Home</a>"
-                };
-
-            ViewBag.NavigationHome = string.Join(null, navigationHome);
         }
 
         public string GetMessage(int errCode)

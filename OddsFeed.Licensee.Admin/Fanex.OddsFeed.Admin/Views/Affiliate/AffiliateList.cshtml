@@ -4,12 +4,11 @@
 @model Fanex.OddsFeed.Core.Criteria.Affiliate.GetAffiliateByNameCriteria
 @{
     ViewBag.Title = "Affiliate List";
-    ViewBag.Nav = base.ViewBag.NavigationHome + "<span class='step'>" + ViewBag.Title + "</span>";
-    
+
 }
 @section Breadcrumb {
-    @Html.Raw(ViewBag.Nav)
-    @*<a class="step" href="#!">Home</a> <span class="step">@ViewBag.Title</span>*@    
+    <a class="step" href="@Url.Action("ShowDashboard", "Dashboard")"><span class='xicon home'></span>Home</a>
+    <span class="step">@ViewBag.Title</span>
 }
 @section Styles
 {
@@ -25,18 +24,20 @@
 }
 
 <div class="infor">
-    <span class="infor-ic">&nbsp;</span><span class="infor-text">The list of @(ViewBag.SystemName)'s affiliates.</span></div>
-<div class="newline">
-    &nbsp;</div>
-<form id="myForm" method="get" action="">
-<div class="formSearch">
-    @Html.HiddenFor(s => s.PageSize)
-    @Html.HiddenFor(s => s.PageIndex)
-    @Html.HiddenFor(s => s.PageCount)
-    @Html.TextBoxFor(s => s.UserName, new {@id = "Username", @maxlength = 50, @onkeyup="StartAutoSuggesttion()" })
-    <input type="hidden" id="IsActivateSystem" value="@ViewBag.IsActivateSystem" />
-    <input type="button" value="Search" onclick="OnSearch();" />
+    <span class="infor-ic">&nbsp;</span><span class="infor-text">The list of @(ViewBag.SystemName)'s affiliates.</span>
 </div>
+<div class="newline">
+    &nbsp;
+</div>
+<form id="myForm" method="get" action="">
+    <div class="formSearch">
+        @Html.HiddenFor(s => s.PageSize)
+        @Html.HiddenFor(s => s.PageIndex)
+        @Html.HiddenFor(s => s.PageCount)
+        @Html.TextBoxFor(s => s.UserName, new { @id = "Username", @maxlength = 50, @onkeyup = "StartAutoSuggesttion()" })
+        <input type="hidden" id="IsActivateSystem" value="@ViewBag.IsActivateSystem" />
+        <input type="button" value="Search" onclick="OnSearch();" />
+    </div>
 </form>
 <div class="newline">&nbsp;</div>
 <div id="SearchResult" class="freegrid  content-grid"></div>

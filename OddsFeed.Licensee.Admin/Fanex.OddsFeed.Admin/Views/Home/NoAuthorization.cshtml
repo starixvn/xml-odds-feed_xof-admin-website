@@ -3,19 +3,13 @@
 @using System.Web.Optimization
 @{
     ViewBag.Title = "No authorization";
-    ViewBag.Nav = base.ViewBag.NavigationHome + "<span class='step'>" + ViewBag.Title + "</span>"; ;
 }
 @section Breadcrumb {
-    @Html.Raw(ViewBag.Nav)
+    <a class="step" href="@Url.Action("ShowDashboard", "Dashboard")"><span class='xicon home'></span>Home</a>
+    <span class="step">@ViewBag.Title</span>
 }
 <div id="error-message-box" class="error-message-box">
     <ul>
         <li>@ViewResources.You_have_no_authorization</li>
     </ul>
 </div>
-<script type="text/javascript">
-    $(document).ready(function () {
-        //        $("#section_breadcrumb").hide();
-        //        $("#section_body .content_scroll").css("top", "10px");
-    });
-</script>

@@ -187,7 +187,7 @@ function ShowAction(cellRow) {
                         name: _affName
                     });
 
-                    window.location.href = currentDomainURL + "Affiliate/EditSetting?" + updateParam;
+                    window.location = currentDomainURL + "Affiliate/EditSetting?" + updateParam;
                 }
             },
             editInfo: {
@@ -199,7 +199,7 @@ function ShowAction(cellRow) {
                         userName: _affName,
                     });
 
-                    window.location.href = currentDomainURL + "Affiliate/EditAffiliateInfo/" + _affId+ "?" + updateParam;
+                    window.location = currentDomainURL + "Affiliate/EditAffiliateInfo/" + _affId+ "?" + updateParam;
                 }
             },
             editProfile: {
@@ -210,7 +210,7 @@ function ShowAction(cellRow) {
                         name: _affName
                     });
 
-                    window.location.href = currentDomainURL + "Affiliate/EditProfile/" + _affId + "?" + updateParam;
+                    window.location = currentDomainURL + "Affiliate/EditProfile/" + _affId + "?" + updateParam;
                 }
             },
             viewXMLURLs: {
@@ -221,7 +221,7 @@ function ShowAction(cellRow) {
                         name: _affName
                     });
 
-                    window.location.href = currentDomainURL + "Affiliate/ViewXMLURLs_Edit/" + _affId + "?" + updateParam;
+                    window.location = currentDomainURL + "Affiliate/ViewXMLURLs_Edit/" + _affId + "?" + updateParam;
                 }
             }
         },

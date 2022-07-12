@@ -4,12 +4,11 @@
 @model EditLicenseeProfileCriteria
 @{
     ViewBag.Title = " Edit Licensee Profile";
-    ViewBag.Nav = base.ViewBag.NavigationHome +
-        "<a class='step' href='" + base.ViewBag.CurrentDomain + "/Licensee/ListLicensee'>Licensee list</a>" +
-        "<span class='step'>" + ViewBag.Title + ViewBag.CurrentSystem + "</span>";
 }
 @section Breadcrumb {
-    @Html.Raw(ViewBag.Nav)
+    <a class="step" href="@Url.Action("ShowDashboard", "Dashboard")"><span class='xicon home'></span>Home</a>
+    <a class="step" href="@Url.Action("ListLicensee", "Licensee")">Licensee List</a>
+    <span class="step">@ViewBag.Title @ViewBag.CurrentSystem</span>
 }
 @section Styles
 {

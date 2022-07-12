@@ -3,13 +3,11 @@
 @model Fanex.OddsFeed.Core.Criteria.Affiliate.UpdateAffiliateCriteria
 @{
     ViewBag.Title = "Edit affiliate information";
-    ViewBag.Nav = base.ViewBag.NavigationHome +
-                         "<a class='step' href='" + base.ViewBag.CurrentDomain + "/Affiliate/List'>Affiliate list</a>" +
-                         "<span class='step'>" + ViewBag.Title + ViewBag.CurrentUser + "</span>";
-    
 }
 @section Breadcrumb {
-    @Html.Raw(ViewBag.Nav)
+    <a class="step" href="@Url.Action("ShowDashboard", "Dashboard")"><span class='xicon home'></span>Home</a>
+    <a class="step" href="@Url.Action("List", "Affiliate")">Affiliate List</a>
+    <span class="step">@ViewBag.Title @ViewBag.CurrentUser</span>
 }
 @section Styles
 {
@@ -28,7 +26,7 @@
             Error_EmailContent: '@ViewResources.Error_EmailContent',
             Error_WebsiteRequired: '@ViewResources.Error_WebsiteRequired',
             Error_WebsiteContent: '@ViewResources.Error_WebsiteContent'
-        };        
+        };
     </script>
 }
 <div id="editStep1">
@@ -38,10 +36,11 @@
             <span class="infor-ic"></span><span class="infor-text">@Html.Raw(ViewResources.HtmlTemplate_InputRequireds)</span>
         </div>
         <div class="newline">
-            &nbsp;</div>
+            &nbsp;
+        </div>
         <div class="result-message-box hidden">
         </div>
-        
+
         <div class="form">
             <div class="row">
                 @Html.HiddenFor(a => a.PartnerID)
@@ -84,13 +83,13 @@
                 </div>
             </div>
             @* <div class="row2">
-                <div class="grid2">
-                    @Html.LabelFor(a => a.Content)
+                    <div class="grid2">
+                        @Html.LabelFor(a => a.Content)
+                        </div>
+                    <div class="grid5">
+                        @Html.TextAreaFor(a => a.Content, new { id = "txtContent" })
                     </div>
-                <div class="grid5">
-                    @Html.TextAreaFor(a => a.Content, new { id = "txtContent" })
-                </div>
-            </div>*@
+                </div>*@
             <div class="row">
                 <div class="grid2">
                 </div>

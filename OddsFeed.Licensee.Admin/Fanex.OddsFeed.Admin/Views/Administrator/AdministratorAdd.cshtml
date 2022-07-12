@@ -3,18 +3,16 @@
 @model Fanex.OddsFeed.Core.Criteria.Administrator.InsertAdminCriteria
 @{
     ViewBag.Title = "Add Administrator";
-    ViewBag.Nav = base.ViewBag.NavigationHome +
-                         "<span class='step'>" + ViewBag.Title + "</span>";
 }
 @section Breadcrumb {
-    @Html.Raw(ViewBag.Nav)
+    <a class="step" href="@Url.Action("ShowDashboard", "Dashboard")"><span class='xicon home'></span>Home</a>
+    <span class="step">@ViewBag.Title</span>
 }
 @section Styles
 {
     <link rel="Stylesheet" type="text/css" href="@BundleTable.Bundles.ResolveBundleUrl("~/App_Themes/Default/Administrator/AdministratorCss")" />
     <style type="text/css">
-        .ui-autocomplete li:hover
-        {
+        .ui-autocomplete li:hover {
             font-size: 14px;
             font-weight: bold;
             background-color: #c8c8c8;
@@ -23,7 +21,7 @@
 }
 @section Scripts
 {
-    <script type="text/javascript" src="@BundleTable.Bundles.ResolveBundleUrl("~/Scripts/Administrator/AddAdministratorJs")" ></script>
+    <script type="text/javascript" src="@BundleTable.Bundles.ResolveBundleUrl("~/Scripts/Administrator/AddAdministratorJs")"></script>
 }
 <div class="infor">
     <span class="infor-ic">&nbsp;</span><span class="infor-text">The wizard will help you to create a new Administrator in your licensee system.</span>
@@ -39,7 +37,8 @@
     <div class="newline">&nbsp;</div>
     <div id="step1" class="step">
         <h2>Step 1: Admin Information Settings</h2><h3>
-            @Html.Raw(ViewResources.HtmlTemplate_InputRequireds)</h3>
+            @Html.Raw(ViewResources.HtmlTemplate_InputRequireds)
+        </h3>
         <div id="error-message-box" class="error-message-box hidden">
         </div>
         <div id="errorStep1" class="validation-summary-errors hidden" data-valmsg-summary="true">
@@ -70,17 +69,19 @@
         <div class="form480" id="subForm" style="height: 20px; vertical-align: middle; width: auto;">
             <div class="grid4">
                 <input type="radio" name="newORexisted" value="1" checked>Add New&nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="radio" name="newORexisted" value="2">Import</div>
+                <input type="radio" name="newORexisted" value="2">Import
+            </div>
             <div class="grid6 hide" style="margin-top: -3px" id="searchToImport">
                 <input type="text" id="txtUsernameImport" style="width: 150px" onkeyup="StartAutoSuggesttion()" />
                 <input id="btnImport" type="submit" value="GO" style="width: 40px" />
             </div>
         </div>
         <div class="newline">&nbsp;</div>
-        <div class="form480" id="mainForm" style="width: auto;"> 
+        <div class="form480" id="mainForm" style="width: auto;">
             <div class="row">
                 <div class="grid3">
-                    <label for="id1">@ViewResources.Username</label></div>
+                    <label for="id1">@ViewResources.Username</label>
+                </div>
                 <div class="grid4">
                     <input type="text" id="txtUsername" />
                 </div>

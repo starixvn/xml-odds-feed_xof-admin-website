@@ -3,13 +3,11 @@
 @model  Fanex.OddsFeed.Core.Criteria.Affiliate.EditPermissionSubAccCriteria
 @{
     ViewBag.Title = "Edit permission";
-    ViewBag.Nav = base.ViewBag.NavigationHome +
-                         "<a class='step' href='" + base.ViewBag.CurrentDomain + "/SubAccount/List'>Sub-account list</a>" +
-                         "<span class='step'>" + ViewBag.Title + ViewBag.CurrentUser + "</span>";
-                          
 }
 @section Breadcrumb {
-    @Html.Raw(ViewBag.Nav)
+    <a class="step" href="@Url.Action("ShowDashboard", "Dashboard")"><span class='xicon home'></span>Home</a>
+    <a class="step" href="@Url.Action("List", "SubAccount")">Sub-account List</a>
+    <span class="step">@ViewBag.Title @ViewBag.CurrentUser</span>
 }
 @section Scripts
 {
@@ -17,7 +15,7 @@
 }
 <div id="editStep1">
     @using (Html.BeginForm())
-    { 
+    {
         <div id="errorStep3" class="validation-summary-errors hidden" data-valmsg-summary="true">
             <ul>
                 <li id="permissionSettingsReqErr">The Permission Settings field is required.</li>
@@ -25,28 +23,29 @@
         </div>
         if (ViewBag.Success == true)
         {
-        <div id="success-message-box" class="success-message-box">
-            <ul>
-                <li>@ViewResources.ActionResult_Success_UpdateSubAccount</li>
-            </ul>
-        </div>   
-        <input type="hidden" id="successed" value="true" />
+            <div id="success-message-box" class="success-message-box">
+                <ul>
+                    <li>@ViewResources.ActionResult_Success_UpdateSubAccount</li>
+                </ul>
+            </div>
+            <input type="hidden" id="successed" value="true" />
         }
         else if (!string.IsNullOrEmpty(ViewBag.Error))
         {
-        <div id="error-message-box" class="error-message-box">
-            <ul>
-                <li>@ViewBag.Error</li>
-            </ul>
-        </div>
+            <div id="error-message-box" class="error-message-box">
+                <ul>
+                    <li>@ViewBag.Error</li>
+                </ul>
+            </div>
         }
         <div class="infor">
             <span class="infor-ic"></span><span class="infor-text">Edit permission of sub-account.</span>
-        </div>             
+        </div>
         <div class="newline">
-            &nbsp;</div>      
-     
-        @Html.ValidationSummary()           
+            &nbsp;
+        </div>
+
+        @Html.ValidationSummary()
         @Html.HiddenFor(a => a.SubAccountID)
         @Html.HiddenFor(a => a.SubAccountName)
         <div class="form" style="width: auto;">

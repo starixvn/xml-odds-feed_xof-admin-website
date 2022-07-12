@@ -3,15 +3,14 @@
 @model Fanex.OddsFeed.Core.Criteria.CompanyIP.InsertCompanyIPsCriteria
 @{
     ViewBag.Title = "Company IPs";
-    ViewBag.Nav = base.ViewBag.NavigationHome +
-        "<span class='step'>" + ViewBag.Title + "</span>";
 }
 @section Breadcrumb {
-    @Html.Raw(ViewBag.Nav)
+    <a class="step" href="@Url.Action("ShowDashboard", "Dashboard")"><span class='xicon home'></span>Home</a>
+    <span class="step">@ViewBag.Title</span>
 }
 @section Styles
 {
-    <link rel="Stylesheet" type="text/css" href="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/App_Themes/Default/Affiliate/AffiliateCss")" />
+    <link rel="Stylesheet" type="text/css" href="@BundleTable.Bundles.ResolveBundleUrl("~/App_Themes/Default/Affiliate/AffiliateCss")" />
 }
 @section Scripts
 {
@@ -22,16 +21,20 @@
     @using (Html.BeginForm("Home", "Index", FormMethod.Post, new { id = "formCompanyIP" }))
     {
         <div class="infor">
-            <span class="infor-ic"></span><span class="infor-text">The function provide all company's
-                IPs then administrators can view XML Odds Feed data of any affiliate.</span>
-        </div>      
+            <span class="infor-ic"></span><span class="infor-text">
+                The function provide all company's
+                IPs then administrators can view XML Odds Feed data of any affiliate.
+            </span>
+        </div>
         <div class="newline">
-            &nbsp;</div>
+            &nbsp;
+        </div>
         <div class="result-message-box hidden">
-        </div>     
+        </div>
         <div class="form2" style="width: auto; padding-left: 0; padding-right: 0;">
             <div class="success" style="display: none; text-align: left">
-                The authentication setting has been updated successfully!</div>
+                The authentication setting has been updated successfully!
+            </div>
             <div id="IpDiv" class="row2" style="margin-top: 10px;">
                 <div class="grid2" style="line-height: 70px; text-align: center">
                 </div>
@@ -41,19 +44,23 @@
                             <tr>
                                 <th>
                                     <label style="text-align: center">
-                                        @ViewResources.IPFrom</label>
+                                        @ViewResources.IPFrom
+                                    </label>
                                 </th>
                                 <th>
                                     <label style="text-align: center">
-                                        @ViewResources.IPTo</label>
+                                        @ViewResources.IPTo
+                                    </label>
                                 </th>
                                 <th>
                                     <label style="text-align: center">
-                                        Description</label>
+                                        Description
+                                    </label>
                                 </th>
                                 <th>
                                     <label style="text-align: center">
-                                        @ViewResources.Action</label><span title="Add" id="newIP" class="action addnew"></span>
+                                        @ViewResources.Action
+                                    </label><span title="Add" id="newIP" class="action addnew"></span>
                                 </th>
                             </tr>
                         </thead>
@@ -71,7 +78,7 @@
                                 <td>
                                     <span style="padding-left: 25px"></span><span title="Save" class="action save" onclick="SaveIPSetting(this)">
                                     </span><span style="padding-left: 30px"></span><span title="Delete" class="action del"
-                                        onclick="removeRow(this);"></span>
+                                                                                         onclick="removeRow(this);"></span>
                                 </td>
                             </tr>
                         </tbody>

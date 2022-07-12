@@ -179,7 +179,7 @@ function ShowAction(systemID, systemName, isActive, contactEmail) {
                         SystemName: _systemName
                     });
 
-                    window.location.href = currentDomainURL + "Licensee/EditSetting?" + urlParam;
+                    window.location = currentDomainURL + "Licensee/EditSetting?" + urlParam;
                 }
             },
             editInfo: {
@@ -193,7 +193,7 @@ function ShowAction(systemID, systemName, isActive, contactEmail) {
                         ContactEmail: _contactEmail
                     });
 
-                    window.location.href = currentDomainURL + "Licensee/EditLicenseeInfo?" + urlParam;
+                    window.location = currentDomainURL + "Licensee/EditLicenseeInfo?" + urlParam;
                 }
             },
             editProfile: {
@@ -205,7 +205,7 @@ function ShowAction(systemID, systemName, isActive, contactEmail) {
                         SystemName: _systemName
                     });
 
-                    window.location.href = currentDomainURL + "Licensee/EditProfile?" + urlParam;
+                    window.location = currentDomainURL + "Licensee/EditProfile?" + urlParam;
                 }
             }
         },
