@@ -6,8 +6,6 @@
 
     public interface ILicenseeService
     {
-        string GetCurrentOddsStyleBySystemId(int systemId);
-
         bool GetActiveBySystemId(int systemId);
 
         PartnersProfile GetProfileAllPartnersBySystemId(int systemId);

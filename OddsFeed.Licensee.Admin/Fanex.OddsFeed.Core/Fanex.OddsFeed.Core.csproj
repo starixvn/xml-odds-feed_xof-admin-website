@@ -167,7 +167,6 @@
     <Compile Include="Criteria\Affiliate\GetCountryBySystemIDCriteria.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Criteria\Affiliate\GetOddStyleByAffiliateIDCriteria.cs" />
     <Compile Include="Criteria\Affiliate\GetSportBySystemIDCriteria.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -178,22 +177,15 @@
     <Compile Include="Criteria\Affiliate\GetSupportedBettypeCriteria.cs" />
     <Compile Include="Criteria\Affiliate\DeleteAffiliateCriteria.cs" />
     <Compile Include="Criteria\Affiliate\GetAffiliateByNameCriteria.cs" />
-    <Compile Include="Criteria\Affiliate\GetAffiliateBySystemIDCriteria.cs" />
-    <Compile Include="Criteria\Affiliate\GetAllAffiliateCriteria.cs" />
     <Compile Include="Criteria\Affiliate\GetAllDomainCriteria.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Criteria\Affiliate\GetBettypeByAffiliateIDCriteria.cs" />
-    <Compile Include="Criteria\Affiliate\GetCountryByAffiliateIDCriteria.cs" />
     <Compile Include="Criteria\Affiliate\GetDomainByAffiliateIDCriteria.cs" />
     <Compile Include="Criteria\Affiliate\GetAllLanguageCriteria.cs" />
     <Compile Include="Criteria\Affiliate\GetDomainBySystemIDCriteria.cs" />
     <Compile Include="Criteria\Affiliate\GetIpByAffiliateIDCriteria.cs" />
-    <Compile Include="Criteria\Affiliate\GetLanguageByAffiliateIDCriteria.cs" />
     <Compile Include="Criteria\Affiliate\GetLanguageBySystemIDCriteria.cs" />
-    <Compile Include="Criteria\Affiliate\GetSportByAffiliateIDCriteria.cs" />
     <Compile Include="Criteria\Affiliate\GetTop10AffiliateCriteria.cs" />
-    <Compile Include="Criteria\Affiliate\GetTypeSettingByAffiliateIDCriteria.cs" />
     <Compile Include="Criteria\Affiliate\GetTypeSettingCriteria.cs" />
     <Compile Include="Criteria\Affiliate\RequestStatisticCriteria.cs" />
     <Compile Include="Criteria\Affiliate\UpdateActiveCriteria.cs" />
@@ -226,7 +218,6 @@
     <Compile Include="Criteria\Licensee\GetLicenseeByPageCriteria.cs" />
     <Compile Include="Criteria\Licensee\CreateLicenseeCriteria.cs" />
     <Compile Include="Criteria\Licensee\GetLeagueCriteria.cs" />
-    <Compile Include="Criteria\Licensee\GetOddStyleByLicenseeIDCriteria.cs" />
     <Compile Include="Criteria\Licensee\GetOutRightCriteria.cs" />
     <Compile Include="Criteria\Licensee\EditLicenseeInfoCriteria.cs" />
     <Compile Include="Criteria\Licensee\EditLicenseeProfileCriteria.cs" />

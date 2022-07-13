@@ -10,25 +10,21 @@
     using Fanex.OddsFeed.Core.Repository.Impl;
     using Fanex.OddsFeed.Core.Repository.Interface;
     using Fanex.OddsFeed.Core.Service.Interface;
-    using Fanex.OddsFeed.Core.Web.Session;
 
     public class AffiliateService : IAffiliateService
     {
-        protected readonly ICurrentSession currentSession;
         private readonly IBaseService baseService;
         private readonly IAffiliateRepository affilliateRepository;
 
         public AffiliateService()
-            : this(null, null, null)
+            : this(null, null)
         {
         }
 
         public AffiliateService(
-            ICurrentSession currentSession,
             IBaseService baseService,
             IAffiliateRepository affilliateRepository)
         {
-            this.currentSession = currentSession ?? new CurrentSession();
             this.baseService = baseService ?? new BaseService();
             this.affilliateRepository = affilliateRepository ?? new AffiliateRepository();
         }

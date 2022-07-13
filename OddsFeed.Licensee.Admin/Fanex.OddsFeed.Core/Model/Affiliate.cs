@@ -7,6 +7,8 @@
     {
         public int Id { get; set; }
 
+        public string Name { get; set; }
+
         public short SystemID { get; set; }
 
         public short ProfileID { get; set; }
@@ -30,7 +32,5 @@
         public string ContactPerson { get; set; }
 
         public string ContactEmail { get; set; }
-
-        public string Name { get; set; }
     }
 }

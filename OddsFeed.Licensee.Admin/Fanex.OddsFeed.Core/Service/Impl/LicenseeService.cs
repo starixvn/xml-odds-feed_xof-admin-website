@@ -25,21 +25,6 @@
             this.licenseeRepository = licenseeRepository ?? new LicenseeRepository();
         }
 
-        public string GetCurrentOddsStyleBySystemId(int systemId)
-        {
-            var criteria = new GetOddStyleByLicenseeIDCriteria
-            {
-                SystemID = systemId
-            };
-
-            if (criteria.IsValid())
-            {
-                return baseService.GetDataEntity<string>(criteria);
-            }
-
-            return null;
-        }
-
         public bool GetActiveBySystemId(int systemId)
         {
             var criteria = new GetActivateByLicenseeIDCriteria
