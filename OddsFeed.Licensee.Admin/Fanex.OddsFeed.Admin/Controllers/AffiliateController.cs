@@ -55,8 +55,8 @@
             ViewBag.VirtualPath = GetVirtualPath();
 
             // Domain
-            var domainList = affiliateService.GetDomain();
-            ViewData["slAssignedDomain"] = domainList;
+            var domains = baseService.GetData<Domain>(new GetDomainBySystemIDCriteria { SystemID = currentSession.SystemId });
+            ViewData["slAssignedDomain"] = domains.Select(x => new SelectListItem { Value = x.DomainId.ToString(), Text = x.DomainName }).ToList();
             ViewData["slDomain"] = new List<SelectListItem>();
 
             // Profile
@@ -212,12 +212,12 @@
             }
 
             // Domain
-            var domainSelList = affiliateService.GetDomainByAffId(id);
-            ViewData["slAssignedDomain"] = domainSelList;
+            var domainSelList = baseService.GetData<Domain>(new GetDomainByAffiliateIDCriteria { PartnerID = id });
+            ViewData["slAssignedDomain"] = domainSelList.Select(x => new SelectListItem { Value = x.DomainId.ToString(), Text = x.DomainName }).ToList();
 
-            var domainList = affiliateService.GetDomain();
-            domainList = domainList.Where(d => !domainSelList.Any(s => s.Value == d.Value)).ToList();
-            ViewData["slDomain"] = domainList;
+            var domains = baseService.GetData<Domain>(new GetDomainBySystemIDCriteria { SystemID = currentSession.SystemId });
+            ViewData["slDomain"] = domains.Where(x => !domainSelList.Any(s => s.DomainId == x.DomainId))
+                .Select(x => new SelectListItem { Value = x.DomainId.ToString(), Text = x.DomainName }).ToList();
 
             // IP
             ViewBag.IpList = affiliateService.GetPartnerIpByAffId(id);
@@ -497,7 +497,9 @@
 
             ViewBag.CurrentUser = name;
             ViewBag.AffiliateName = name;
-            ViewBag.AssignedDomain = affiliateService.GetDomainByAffId(id);
+
+            var domains = baseService.GetData<Domain>(new GetDomainByAffiliateIDCriteria { PartnerID = id });
+            ViewBag.AssignedDomain = domains.Select(x => new SelectListItem { Value = x.DomainId.ToString(), Text = x.DomainName }).ToList();
             return View();
         }
 
@@ -1038,24 +1040,28 @@
         private void ProfileForAddAffiliateWithLicenseeAdminAndSubAccountRole()
         {
             // OddsType
-            ViewBag.OddsTypeList = baseService.GetSelectList(
-                    new GetTypeSettingCriteria { SystemID = currentSession.SystemId, Type = OddsTypeSettingType },
-                    false)
-                .Where(item => item.Text != "Live" || (item.Text == "Live" && IsAccountManagerRole()));
+            var oddsTypes = baseService.GetData<SystemSetting>(new GetTypeSettingCriteria { SystemID = currentSession.SystemId, Type = OddsTypeSettingType })
+                .Where(item => item.Key != "Live" || (item.Key == "Live" && IsAccountManagerRole()));
+            ViewBag.OddsTypeList = oddsTypes.Select(x => new SelectListItem { Value = x.Value, Text = x.Key }).ToList();
 
             // OddsStyle
-            ViewBag.OddsStyleList = baseService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = OddsRegionSettingType }, false);
+            var oddsStyles = baseService.GetData<SystemSetting>(new GetTypeSettingCriteria { SystemID = 0, Type = OddsRegionSettingType });
+            ViewBag.OddsStyleList = oddsStyles.Select(x => new SelectListItem { Value = x.Value, Text = x.Key }).ToList();
 
             // Language
-            ViewBag.LanguageIDList = affiliateService.GetLanguageBySystemId();
+            var languages = baseService.GetData<Language>(new GetLanguageBySystemIDCriteria { SystemID = currentSession.SystemId });
+            ViewBag.LanguageIDList = languages.Select(x => new SelectListItem { Value = x.Code, Text = x.Name_EN }).ToList();
 
             // Market
-            var bettypesList = affiliateService.GetBettypeBySystemId();
-            ViewBag.MajorBetTypesList = bettypesList.Where(bettype => bettype.Group.Name == MajorGroup);
-            ViewBag.MinorBetTypesList = bettypesList.Where(bettype => bettype.Group.Name == MinorGroup);
+            var bettypes = baseService.GetData<BetType>(new GetBettypeBySystemIDCriteria { SystemID = currentSession.SystemId });
+            ViewBag.MajorBetTypesList = bettypes.Where(x => x.Group == MajorGroup)
+                .Select(x => new SelectListItem { Value = x.TypeId.ToString(), Text = x.TypeNameE }).ToList();
+            ViewBag.MinorBetTypesList = bettypes.Where(x => x.Group == MinorGroup)
+                .Select(x => new SelectListItem { Value = x.TypeId.ToString(), Text = x.TypeNameE }).ToList();
 
             // Country
-            ViewBag.CountriesList = affiliateService.GetCountryBySystemId();
+            var countries = baseService.GetData<Country>(new GetCountryBySystemIDCriteria { SystemID = currentSession.SystemId });
+            ViewBag.CountriesList = countries.Select(x => new SelectListItem { Value = x.CountryCode, Text = x.CountryName }).ToList();
 
             // Sport
             var sports = UpdateSportListForCricket(baseService.GetData<Sport>(new GetSportBySystemIDCriteria { SystemID = currentSession.SystemId }).OrderBy(s => s.SportName));
@@ -1068,15 +1074,17 @@
         private void ProfileForEditAffiliateWithLicenseeAdminAndSubAccountRole(ref UpdateProfileCriteria criteria)
         {
             // OddsType
-            ViewBag.OddsTypeList = baseService
-                .GetSelectList(new GetTypeSettingCriteria { SystemID = currentSession.SystemId, Type = OddsTypeSettingType }, false)
-                .Where(item => item.Text != "Live" || (item.Text == "Live" && IsAccountManagerRole()));
+            var oddsTypes = baseService.GetData<SystemSetting>(new GetTypeSettingCriteria { SystemID = currentSession.SystemId, Type = OddsTypeSettingType })
+                .Where(item => item.Key != "Live" || (item.Key == "Live" && IsAccountManagerRole()));
+            ViewBag.OddsTypeList = oddsTypes.Select(x => new SelectListItem { Value = x.Value, Text = x.Key }).ToList();
 
             // OddsStyle
-            ViewBag.OddsStyleList = baseService.GetSelectList(new GetTypeSettingCriteria { SystemID = 0, Type = OddsRegionSettingType }, false);
+            var oddsStyles = baseService.GetData<SystemSetting>(new GetTypeSettingCriteria { SystemID = 0, Type = OddsRegionSettingType });
+            ViewBag.OddsStyleList = oddsStyles.Select(x => new SelectListItem { Value = x.Value, Text = x.Key }).ToList();
 
             // Language
-            ViewBag.LanguageIDList = affiliateService.GetLanguageBySystemId();
+            var languages = baseService.GetData<Language>(new GetLanguageBySystemIDCriteria { SystemID = currentSession.SystemId });
+            ViewBag.LanguageIDList = languages.Select(x => new SelectListItem { Value = x.Code, Text = x.Name_EN }).ToList();
 
             // Sport
             var sports = UpdateSportListForCricket(baseService.GetData<Sport>(new GetSportBySystemIDCriteria { SystemID = currentSession.SystemId }).OrderBy(s => s.SportName));
@@ -1090,20 +1098,22 @@
                 .Select(x => new SelectListItem { Value = x.SportType.ToString(), Text = x.SportName }).ToList();
 
             // Market
-            var bettypes = affiliateService.GetBettypeBySystemId();
+            var bettypes = baseService.GetData<BetType>(new GetBettypeBySystemIDCriteria { SystemID = currentSession.SystemId });
             if (criteria.BetTypeIDList.Equals("all"))
             {
-                criteria.BetTypeIDList = string.Join(",", bettypes.Select(item => item.Value));
+                criteria.BetTypeIDList = string.Join(",", bettypes.Select(item => item.TypeId));
             }
-            ViewBag.MajorBetTypesList = bettypes.Where(betType => betType.Group.Name == MajorGroup);
-            ViewBag.MinorBetTypesList = bettypes.Where(betType => betType.Group.Name == MinorGroup);
+            ViewBag.MajorBetTypesList = bettypes.Where(x => x.Group == MajorGroup)
+                .Select(x => new SelectListItem { Value = x.TypeId.ToString(), Text = x.TypeNameE }).ToList();
+            ViewBag.MinorBetTypesList = bettypes.Where(x => x.Group == MinorGroup)
+                .Select(x => new SelectListItem { Value = x.TypeId.ToString(), Text = x.TypeNameE }).ToList();
 
             // Country
-            var countries = affiliateService.GetCountryBySystemId();
-            ViewBag.CountriesList = countries;
+            var countries = baseService.GetData<Country>(new GetCountryBySystemIDCriteria { SystemID = currentSession.SystemId });
+            ViewBag.CountriesList = countries.Select(x => new SelectListItem { Value = x.CountryCode, Text = x.CountryName }).ToList();
             if (criteria.CountryCodeList.Equals("all"))
             {
-                criteria.CountryCodeList = string.Join(",", countries.Select(item => item.Value));
+                criteria.CountryCodeList = string.Join(",", countries.Select(item => item.CountryCode));
             }
         }
 

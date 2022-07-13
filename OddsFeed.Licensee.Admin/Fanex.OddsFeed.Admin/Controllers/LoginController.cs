@@ -34,8 +34,6 @@
         [HttpGet]
         public ActionResult Index()
         {
-            ViewBag.FullDomainName = currentContext.FullDomainName;
-            ViewBag.ValidationCodePath = currentContext.FullDomainName + "/login/ShowCaptchaImage";
             return View();
         }
 
@@ -47,9 +45,6 @@
             var username = criteria.UserName;
             var password = criteria.UserPwd;
             var validate = criteria.Validate;
-
-            ViewBag.FullDomainName = currentContext.FullDomainName;
-            ViewBag.ValidationCodePath = currentContext.FullDomainName + "/login/ShowCaptchaImage";
 
             if (HttpContext.Session["captchastring"] != null && validate != HttpContext.Session["captchastring"].ToString())
             {

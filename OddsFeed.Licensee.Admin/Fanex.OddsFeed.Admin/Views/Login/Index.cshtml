@@ -7,20 +7,19 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Login</title>
-    <link rel="Stylesheet" type="text/css" href="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/App_Themes/Default/LoginCss")" />
+    <link rel="Stylesheet" type="text/css" href="@BundleTable.Bundles.ResolveBundleUrl("~/App_Themes/Default/LoginCss")" />
 </head>
 <body>
     @using (Html.BeginForm())
     {
-        <input id="fullDomainName" type="hidden" value="@ViewBag.FullDomainName" />
         <div class="lgbox">
             <div class="lgright">
-                &nbsp;</div>
+                &nbsp;
+            </div>
             <div class="lgcontent">
                 <div class="row line">
                     <span class="icadmin">&nbsp;</span>
-                    <label class="tit">
-                        ADMIN LOGIN</label>
+                    <label class="tit">ADMIN LOGIN</label>
                 </div>
                 <div id="msg" class="row">
                     <span id="inner-msg">@ViewBag.Message</span>
@@ -35,32 +34,31 @@
                 </div>
                 <div class="row">
                     <div class="grid3">
-                        <span class="icpass">&nbsp;</span><label>PASSWORD
-                        </label>
+                        <span class="icpass">&nbsp;</span>
+                        <label>PASSWORD</label>
                     </div>
                     <div class="grid5">
                         @Html.PasswordFor(m => m.UserPwd, new { @id = "password", @name = "password", @maxlength = 50 })
                     </div>
                 </div>
                 <div class="row">
-                    <div class="grid3">
-                        &nbsp;</div>
+                    <div class="grid3">&nbsp;</div>
                     <div class="grid5">
                         @Html.TextBoxFor(m => m.Validate, new { @id = "validate", @name = "validate", @Style = "width: 100px;", @maxlength = 4 })
-                        &nbsp;<img
-                            id="imgCaptchaId" alt="Valiation Code" src= "@ViewBag.ValidationCodePath" width="40px"
-                            height="20px" />
+                        &nbsp;<img id="imgCaptchaId" alt="Valiation Code" src="@Url.Action("ShowCaptchaImage", "login")" width="40" height="20" />
                         &nbsp;<span class="icrefresh" onclick="ChangeCapchaCode('imgCaptchaId');">&nbsp;</span>
                         <span style="margin-left: 40px"></span>
                         <input id="submit" type="button" value="Login" />
                     </div>
                 </div>
-                <div class="row">
-                </div>
+                <div class="row"></div>
             </div>
         </div>
     }
+    <script type="text/javascript">
+        var currentDomainURL = '@Url.Content("~/")';
+    </script>
+    <script type="text/javascript" src="~/Scripts/Libs/jquery.js"></script>
+    <script type="text/javascript" src="~/Scripts/Login/Login.js"></script>
 </body>
 </html>
-<script type="text/javascript" src="~/Scripts/Libs/jquery.js"></script>
-<script type="text/javascript" src="~/Scripts/Login/Login.js"></script>

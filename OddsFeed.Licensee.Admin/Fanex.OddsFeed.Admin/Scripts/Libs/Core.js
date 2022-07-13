@@ -613,13 +613,6 @@ Core.validators = (function () {
     }
 } ());
 
-
-function GetFullDomainName() {
-    var protocol = window.location.protocol;
-    var host = window.location.host;
-    return protocol + "//" + host;
-}
-
 Date.prototype.MonthSubtract = function (d) {
     if (this.getFullYear() == d.getFullYear()) {
         return this.getMonth() - d.getMonth();

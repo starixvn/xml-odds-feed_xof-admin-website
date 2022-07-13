@@ -89,31 +89,6 @@
             }
         }
 
-        public string FullDomainName
-        {
-            get
-            {
-                var variables = HttpContext.Current.Request.ServerVariables;
-
-                var domain = variables["SERVER_NAME"];
-                var port = variables["SERVER_PORT"];
-                var protocol = HttpContext.Current.Request.IsSecureConnection ? "https://" : "http://";
-
-                var fulldomain = protocol + domain;
-                var environment = ConfigurationManager.AppSettings["Environment"];
-                if (!environment.Equals("Production", StringComparison.OrdinalIgnoreCase)
-                    && !environment.Equals("UAT", StringComparison.OrdinalIgnoreCase)
-                    && !environment.Equals("SIT", StringComparison.OrdinalIgnoreCase)
-                    && !environment.Equals("Local", StringComparison.OrdinalIgnoreCase))
-                {
-                    fulldomain = fulldomain + ":" + port;
-                }
-
-                fulldomain += (HttpRuntime.AppDomainAppVirtualPath == "/" ? string.Empty : HttpRuntime.AppDomainAppVirtualPath);
-                return fulldomain;
-            }
-        }
-
         public string BrowserName
         {
             get { return HttpContext.Current.Request.Browser.Browser; }

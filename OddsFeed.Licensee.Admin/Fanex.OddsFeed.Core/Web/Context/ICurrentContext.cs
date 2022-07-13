@@ -10,8 +10,6 @@
 
         string DomainName { get; }
 
-        string FullDomainName { get; }
-
         string BrowserName { get; }
 
         string Platform { get; }

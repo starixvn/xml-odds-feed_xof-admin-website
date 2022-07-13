@@ -8,7 +8,6 @@
 
         public bool? IsOddsDomain { get; set; }
 
-        // Ignored
         [SpParam(Ignored = true)]
         public byte SystemID { get; set; }
 

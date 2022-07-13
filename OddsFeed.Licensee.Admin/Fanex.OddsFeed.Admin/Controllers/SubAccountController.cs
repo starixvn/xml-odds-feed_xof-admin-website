@@ -40,7 +40,8 @@
                 return this.NoAuthorization();
             }
 
-            ViewBag.SystemList = baseService.GetSelectList(new GetSystemByUserIDCriteria { UserID = currentSession.UserId, IgnoreIsActive = IsAccountManagerRole() });
+            var systems = baseService.GetData<SystemDto>(new GetSystemByUserIDCriteria { UserID = currentSession.UserId, IgnoreIsActive = IsAccountManagerRole() });
+            ViewBag.SystemList = systems.Select(x => new SelectListItem { Value = x.SystemId.ToString(), Text = x.SystemName }).ToList();
             ViewBagFlags();
             return View();
         }
@@ -61,7 +62,6 @@
                 result.Message = ViewResources.ActionResult_AddSubAccountSuccess;
             }
 
-            ViewBag.SystemList = baseService.GetSelectList(new GetSystemCriteria());
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
@@ -344,7 +344,8 @@
             var criteria = new AssignLicensee_SubAccCriteria
             {
                 UserID = id,
-                SystemList = baseService.GetSelectList(new GetSystemByUserIDCriteria { UserID = id, IgnoreIsActive = false }).Select(item => item.Value).ToArray()
+                SystemList = baseService.GetData<SystemDto>(new GetSystemByUserIDCriteria { UserID = id, IgnoreIsActive = false })
+                    .Select(item => item.SystemId.ToString()).ToArray()
             };
 
             if (!HasEditPermission(currentSession.UserRole))
@@ -370,11 +371,12 @@
             }
 
             // System
-            ViewBag.SystemListID = baseService.GetSelectList(new GetOptionalSystemBySubAccountIDCriteria
+            var systems = baseService.GetData<SystemDto>(new GetOptionalSystemBySubAccountIDCriteria
             {
                 UserID = currentSession.UserId,
                 SubAccountID = criteria.UserID
             });
+            ViewBag.SystemListID = systems.Select(x => new SelectListItem { Value = x.SystemId.ToString(), Text = x.SystemName }).ToList();
 
             if (string.IsNullOrEmpty(criteria.ListSystemId))
             {

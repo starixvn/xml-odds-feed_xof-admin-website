@@ -15,7 +15,7 @@
         }
 
         .pageheader {
-            background: #000000 url("@ViewBag.CurrentDomain/App_Themes/Default/Images/top-bg.png") repeat;
+            background: #000000 url("~/App_Themes/Default/Images/top-bg.png") repeat;
             height: 46px;
             border-top: 1px solid #f5f5f5;
             border-bottom: 1px solid #898989;
@@ -44,7 +44,9 @@
                 <br /><br />
             </div>
             <div>
-                <span style="font-size: 12px; color:#0072bc;"><a style="text-decoration:none;" href="@ViewBag.CurrentDomain/login/index">Back to Homepage</a></span>
+                <span style="font-size: 12px; color:#0072bc;">
+                    <a style="text-decoration:none;" href="@Url.Action("index", "login")">Back to Homepage</a>
+                </span>
                 <br />
             </div>
         </div>
@@ -52,4 +54,3 @@
     <footer></footer>
 </body>
 </html>
-

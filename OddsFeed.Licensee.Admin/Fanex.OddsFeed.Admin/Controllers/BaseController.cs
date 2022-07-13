@@ -43,7 +43,6 @@
             };
             this.baseService = baseService ?? new BaseService();
             ViewBag.Session = this.currentSession;
-            ViewBag.CurrentDomain = this.currentContext.FullDomainName;
 
             ViewBag.MinDate = new DateTime(DefaultMinDate, 1, 1);
             ViewBag.MaxDate = DateTime.Now;

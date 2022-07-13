@@ -93,7 +93,7 @@ function ChangeCapchaCode(imgId) {
     var t_min = d.getMinutes();    // Returns minutes
     var t_sec = d.getSeconds();    // Returns seocnds
     var t_mil = d.getMilliseconds();
-    document.getElementById(imgId).src = $("#fullDomainName").val() + '/login/ShowCaptchaImage?v=' + t_date + t_mon + t_year + t_hour + t_min + t_sec + t_mil;
+    document.getElementById(imgId).src = currentDomainURL + 'login/ShowCaptchaImage?v=' + t_date + t_mon + t_year + t_hour + t_min + t_sec + t_mil;
 };
 
 function DoLogin() {
@@ -147,11 +147,11 @@ function DoLogin() {
         },
         success: function (result) {
             if (result.IsSuccessful) {
-                document.location = $("#fullDomainName").val() + "/Dashboard/ShowDashboard";
+                document.location = currentDomainURL + "Dashboard/ShowDashboard";
             } else {
                 innerMsg.innerHTML = result.Message;
                 msg.style.display = 'block';
-                ChangeCapchaCode($("#fullDomainName").val(), 'imgCaptchaId');
+                ChangeCapchaCode('imgCaptchaId');
             }
         },
         error: function (xhr, status, err) {
