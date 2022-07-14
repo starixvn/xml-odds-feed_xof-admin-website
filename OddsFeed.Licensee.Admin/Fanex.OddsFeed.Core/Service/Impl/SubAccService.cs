@@ -9,7 +9,6 @@
     using Fanex.OddsFeed.Core.Criteria.Affiliate;
     using Fanex.OddsFeed.Core.Criteria.SubAccount;
     using Fanex.OddsFeed.Core.Criteria.User;
-    using Fanex.OddsFeed.Core.Helpers;
     using Fanex.OddsFeed.Core.Model;
     using Fanex.OddsFeed.Core.Repository.Impl;
     using Fanex.OddsFeed.Core.Repository.Interface;
@@ -62,16 +61,6 @@
             }
 
             return new List<User>();
-        }
-
-        public DataCollection GetSubAccountListReturnDataCollection(GetSubAccByNameCriteria criteria)
-        {
-            if (criteria.IsValid())
-            {
-                return baseService.GetData(criteria);
-            }
-
-            return null;
         }
 
         public IList<User> GetBySystemId(byte systemId)

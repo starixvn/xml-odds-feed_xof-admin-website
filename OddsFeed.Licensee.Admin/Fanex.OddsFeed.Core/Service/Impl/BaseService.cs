@@ -30,6 +30,11 @@
             return baseRepository.ReturnDataCollection(criteria);
         }
 
+        public DataGrid<T> GetDataGrid<T>(ICriteria criteria)
+        {
+            return baseRepository.GetDataGrid<T>(criteria);
+        }
+
         public IEnumerable<T> GetData<T>(ICriteria criteria)
         {
             if (criteria != null && criteria.IsValid())

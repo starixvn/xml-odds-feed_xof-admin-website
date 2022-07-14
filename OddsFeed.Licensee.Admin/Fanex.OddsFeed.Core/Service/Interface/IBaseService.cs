@@ -9,6 +9,8 @@
     {
         DataCollection GetData(ICriteria criteria);
 
+        DataGrid<T> GetDataGrid<T>(ICriteria criteria);
+
         T GetDataEntity<T>(ICriteria criteria);
 
         IEnumerable<T> GetData<T>(ICriteria criteria);

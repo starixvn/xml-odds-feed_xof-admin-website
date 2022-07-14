@@ -106,7 +106,7 @@
             criteria.Username = (criteria.Username == null || criteria.Username == "Username") ? string.Empty : criteria.Username.Trim();
             criteria.RoleId = (byte)Constant.UserRole.LicenseeSubAccount;
             criteria.PageIndex++;
-            var dr = subAccService.GetSubAccountListReturnDataCollection(criteria);
+            var dr = baseService.GetData(criteria);
             var result = FanexGridHelper.DataForFanexGrid_PreventContainQuote(dr);
             return Json(result, JsonRequestBehavior.AllowGet);
         }

@@ -7,6 +7,7 @@
     using Fanex.OddsFeed.Core.Repository.Interface;
     using Data.Repository;
     using Fanex.OddsFeed.Core.Model;
+    using System.Linq;
 
     public class BaseRepository : IBaseRepository
     {
@@ -24,6 +25,20 @@
                 res.TotalItem = (int)db.GetOuputParams()["rowcount"];
 
                 return res;
+            }
+        }
+
+        public DataGrid<T> GetDataGrid<T>(ICriteria criteria)
+        {
+            var hash = criteria.GetSpParams();
+            var data = new DataGrid<T>();
+            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            {
+                db.AssignParamValues(hash);
+                data.Data = db.Query<T>().ToList();
+                data.TotalItems = (int)db.GetOuputParams()["rowcount"];
+
+                return data;
             }
         }
 

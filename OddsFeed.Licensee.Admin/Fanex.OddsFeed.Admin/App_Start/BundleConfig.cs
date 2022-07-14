@@ -56,6 +56,8 @@
             //// JS
             ////var fanexGridJsBundle = new Bundle("~/Scripts/Fanex.Grid/Fanex.GridJs", new JsMinify());
             var fanexGridJsBundle = new Bundle("~/Scripts/Fanex.Grid/Fanex.GridJs");
+            fanexGridJsBundle.Include("~/scripts/Fanex.Grid/moment.min.js");
+            fanexGridJsBundle.Include("~/scripts/Fanex.Grid/numeral.min.js");
             fanexGridJsBundle.Include("~/scripts/Fanex.Grid/Fanex.Grid.js");
             fanexGridJsBundle.Include("~/scripts/Fanex.Grid/Fanex.Pagination.js");
             BundleTable.Bundles.Add(fanexGridJsBundle);

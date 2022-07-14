@@ -8,6 +8,8 @@
     {
         DataCollection ReturnDataCollection(ICriteria criteria);
 
+        DataGrid<T> GetDataGrid<T>(ICriteria criteria);
+
         CommandResult ExecuteNonQuery(ICriteria criteria);
     }
 }

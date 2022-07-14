@@ -7,6 +7,8 @@
     [Serializable]
     public class User
     {
+        public int Row { get; set; }
+        public int UserId { get; set; }
         public int Id { get; set; }
 
         [Display(Name = "Name", ResourceType = typeof(ViewResources))]
@@ -23,6 +25,9 @@
 
         [Display(Name = "Created_Date", ResourceType = typeof(ViewResources))]
         public DateTime CreatedDate { get; set; }
+
+        public DateTime CreateDate { get; set; }
+        public string CreateDateToString => CreateDate.ToString("dd MMM yyyy HH:mm:ss");
 
         [Display(Name = "Modifier", ResourceType = typeof(ViewResources))]
         public User Modifier { get; set; }
@@ -41,6 +46,8 @@
 
         [Display(Name = "RoleID", ResourceType = typeof(ViewResources))]
         public byte RoleID { get; set; }
+
+        public string RoleName { get; set; }
 
         [Display(Name = "Active", ResourceType = typeof(ViewResources))]
         public bool IsActive { get; set; }

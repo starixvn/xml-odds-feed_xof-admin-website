@@ -318,8 +318,7 @@
                 criteria.SystemName = string.Empty;
             }
 
-            var dr = baseService.GetData(criteria);
-            var result = FanexGridHelper.DataForFanexGrid(dr);
+            var result = baseService.GetDataGrid<Licensee>(criteria);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 

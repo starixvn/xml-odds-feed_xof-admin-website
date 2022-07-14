@@ -276,7 +276,7 @@
     <Content Include="App_Themes\Default\Administrator\Administrator.css" />
     <Content Include="App_Themes\Default\Affiliate\AffiliateEdit.css" />
     <Content Include="App_Themes\Default\Dashboard\Dashboard.css" />
-    <Content Include="App_Themes\Default\Fanex.Grid\Copy of Fanex.Grid.css" />
+    <Content Include="App_Themes\Default\Fanex.Grid\images\check-box.png" />
     <Content Include="App_Themes\Default\Images\dashboard-icon.png" />
     <Content Include="App_Themes\Default\Images\untick-ico-deactivate-16.png" />
     <Content Include="App_Themes\Default\Images\tittlebg_center.png" />
@@ -459,7 +459,15 @@
     <Content Include="App_Themes\Default\themes\base\jquery.ui.theme.css" />
     <Content Include="Scripts\Affiliate\EditAffiliateInfo.js" />
     <Content Include="Scripts\Dashboard\Dashboard.js" />
-    <Content Include="Scripts\Fanex.Grid\Copy of Fanex.Grid.js" />
+    <Content Include="Scripts\Fanex.Grid\Language\Fanex.Gird.Lang.en-US.js" />
+    <Content Include="Scripts\Fanex.Grid\Language\Fanex.Gird.Lang.ja-JP.js" />
+    <Content Include="Scripts\Fanex.Grid\Language\Fanex.Gird.Lang.ko-KR.js" />
+    <Content Include="Scripts\Fanex.Grid\Language\Fanex.Gird.Lang.th-TH.js" />
+    <Content Include="Scripts\Fanex.Grid\Language\Fanex.Gird.Lang.vi-VN.js" />
+    <Content Include="Scripts\Fanex.Grid\Language\Fanex.Gird.Lang.zh-CN.js" />
+    <Content Include="Scripts\Fanex.Grid\Language\Fanex.Gird.Lang.zh-TW.js" />
+    <Content Include="Scripts\Fanex.Grid\moment.min.js" />
+    <Content Include="Scripts\Fanex.Grid\numeral.min.js" />
     <Content Include="Scripts\Functions\CompanyIP\CommonCompanyIP.js" />
     <Content Include="Scripts\Functions\CompanyIP\InsertCompanyIP.js" />
     <Content Include="Scripts\Libs\jquery.watermarkinput.js" />

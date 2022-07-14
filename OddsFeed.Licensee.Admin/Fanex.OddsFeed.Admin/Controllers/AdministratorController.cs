@@ -134,8 +134,7 @@
             criteria.PageIndex++;
             criteria.Username = (criteria.Username == null || criteria.Username == "Username")
                 ? string.Empty : criteria.Username.Trim();
-            var dr = baseService.GetData(criteria);
-            var result = FanexGridHelper.DataForFanexGrid_PreventContainQuote(dr);
+            var result = baseService.GetDataGrid<User>(criteria);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 

@@ -61,5 +61,5 @@ $(document).ready(function () {
         }
     });
 
-    setInterval("Recheckin.reCheckin()", Recheckin.time);
+    //setInterval("Recheckin.reCheckin()", Recheckin.time);
 });

@@ -128,13 +128,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Collections\IPageOfItems.cs" />
-    <Compile Include="Collections\PageOfItems.cs" />
     <Compile Include="Domain\EntityBase.cs" />
     <Compile Include="Domain\IEntity.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Extensions\DataTableExtension.cs" />
     <Compile Include="Mvc\DownloadResult.cs" />
     <Compile Include="Mvc\ExcelResult.cs" />
     <Compile Include="Mvc\HtmlHelperExtensions.cs" />

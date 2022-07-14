@@ -5,25 +5,12 @@
     using Fanex.OddsFeed.Core.Criteria.Domain;
     using Fanex.OddsFeed.Core.Model;
     using Fanex.OddsFeed.Core.Model.ValueObject;
-    using Fanex.OddsFeed.Core.Service.Impl;
-    using Fanex.OddsFeed.Core.Service.Interface;
     using Fanex.OddsFeed.Core.Web;
     using Fanex.OddsFeed.Core.Web.Attribute;
 
     [IsAuthorize]
     public class DomainController : BaseController
     {
-        private readonly IDomainService _domainService;
-
-        public DomainController() : this(null)
-        {
-        }
-
-        public DomainController(IDomainService domainService)
-        {
-            _domainService = domainService ?? new DomainService();
-        }
-
         public ActionResult ListDomain()
         {
             if (!this.IsAccountManagerRole())
@@ -38,16 +25,15 @@
         {
             criteria.DomainName = criteria.DomainName == ViewResources.Domain_Name ? string.Empty : criteria.DomainName;
             criteria.PageIndex++;
-            var dr = _domainService.GetAllDomain(criteria);
-            var result = FanexGridHelper.DataForFanexGrid_PreventContainQuote(dr);
+            var result = baseService.GetDataGrid<Domain>(criteria);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public string GetDomainSetting(GetDomainSettingByPageCriteria criteria)
+        public JsonResult GetDomainSetting(GetDomainSettingByPageCriteria criteria)
         {
             criteria.PageIndex++;
-            var dr = _domainService.GetDomainSetting(criteria);
-            return FanexGridHelper.DataForFanexGrid(dr);
+            var result = baseService.GetDataGrid<DomainSetting>(criteria);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]

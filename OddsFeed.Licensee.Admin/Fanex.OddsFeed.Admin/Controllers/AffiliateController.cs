@@ -530,24 +530,14 @@
 
         public string Delete(int affId)
         {
-            string resultMessage;
             var criteria = new DeleteAffiliateCriteria
             {
                 Creator = currentSession.UserId,
                 PartnerID = affId
             };
 
-            var result = baseService.ExecuteNonQuery(criteria);
-            if (result != null)
-            {
-                resultMessage = result.IsSuccessful ? ViewResources.SuccessfulMessage : result.Message;
-            }
-            else
-            {
-                resultMessage = ViewResources.InternalErrorMessage;
-            }
-
-            return resultMessage;
+            CommandResult result = baseService.ExecuteNonQuery(criteria);
+            return result.IsSuccessful ? ViewResources.SuccessfulMessage : result.Message;
         }
 
         #endregion Delete

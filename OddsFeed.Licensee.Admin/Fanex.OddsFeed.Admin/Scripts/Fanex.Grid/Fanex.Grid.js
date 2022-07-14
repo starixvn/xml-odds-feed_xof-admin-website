@@ -1,17 +1,16 @@
-﻿// --------------------------------------------------------------------------
-// <copyright file="Fanex.Grid.js" company=" Solutions Vietnam">
-// Copyright (c)  Solutions Vietnam. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------
+﻿/*jshint maxdepth:false, maxstatements:false, strict:false*/
+/*global fanexGridLanguage, moment,numeral*/
+
+var fanexGridCurrentLanguage = fanexGridCurrentLanguage || {};
 
 (function ($) {
-
+    //'use strict';
 
     //// Method expose for user use
     var methods =
     {
         createFanexGrid: function (opts) {
-            if (opts.showColumnsShowHide == false || opts.enableHiddenColumns == false) {
+            if (opts.showColumnsShowHide === false || opts.enableHiddenColumns === false) {
                 opts.enableHiddenColumns = false;
                 opts.hiddenColumns = opts.hiddenColumns || [];
                 opts.hiddenColumns = opts.hiddenColumns.concat(opts.columnsNeedHide || []);
@@ -25,7 +24,7 @@
             });
         },
         reRender: function (opts) {
-            if (opts.showColumnsShowHide == false || opts.enableHiddenColumns == false) {
+            if (opts.showColumnsShowHide === false || opts.enableHiddenColumns === false) {
                 opts.enableHiddenColumns = false;
                 opts.hiddenColumns = opts.hiddenColumns || [];
                 opts.hiddenColumns = opts.hiddenColumns.concat(opts.columnsNeedHide);
@@ -43,7 +42,7 @@
             return this.each(function () {
                 var fanexGrid = new Fanex.Grid(this, opts);
                 fanexGrid.ReRenderBodyAfterSort(sortColumnName, sortDirection);
-                if (opts.showPager == true) {
+                if (opts.showPager === true) {
                     fanexGrid.RenderPager();
                 }
                 return fanexGrid.GetjQueryInstance();
@@ -55,7 +54,9 @@
             opts = $.extend({}, $.fn.fanexGrid.defaults, opts);
             return this.each(function () {
                 var fanexGrid = new Fanex.Grid(this, opts);
-                opts.pagerOption = Fanex.Grid.List[fanexGrid.tableContentId].pagerOption;
+                if (Fanex.Grid.List[fanexGrid.tableContentId].pagerOption) {
+                    opts.pagerOption = Fanex.Grid.List[fanexGrid.tableContentId].pagerOption;
+                }
                 Fanex.Grid.Helper.UpdateSortInforAfterShowHideColumns(opts, Fanex.Grid.List[fanexGrid.tableContentId].sortOption);
                 fanexGrid.RenderGrid();
                 return fanexGrid.GetjQueryInstance();
@@ -68,7 +69,9 @@
             opts = $.extend({}, $.fn.fanexGrid.defaults, opts);
             return this.each(function () {
                 var fanexGrid = new Fanex.Grid(this, opts);
-                opts.pagerOption = Fanex.Grid.List[fanexGrid.tableContentId].pagerOption;
+                if (Fanex.Grid.List[fanexGrid.tableContentId].pagerOption) {
+                    opts.pagerOption = Fanex.Grid.List[fanexGrid.tableContentId].pagerOption;
+                }
                 Fanex.Grid.Helper.UpdateSortInforAfterShowHideColumns(opts, Fanex.Grid.List[fanexGrid.tableContentId].sortOption);
                 //fanexGrid.RenderGrid();
                 fanexGrid.RenderShowHideColumns(false);
@@ -79,7 +82,21 @@
             return this.each(function () {
                 var $this = $(this);
                 var currentContentId = 'tblContent_' + $this.attr('id');
+                var gridOptions = Fanex.Grid.List[currentContentId].gridOptions;
+                gridOptions.isResetScroller = false;
                 $this.gridScroller(Fanex.Grid.List[currentContentId].gridOptions);
+                return $this;
+            });
+        },
+        resizeHeight: function (gridHeight) {
+            return this.each(function () {
+                var $this = $(this);
+                if (gridHeight) {
+                    var currentContentId = 'tblContent_' + $this.attr('id');
+                    var currentOptions = Fanex.Grid.List[currentContentId].gridOptions;
+                    currentOptions.gridHeight = gridHeight;
+                    $this.gridScroller(currentOptions);
+                }
                 return $this;
             });
         },
@@ -92,6 +109,9 @@
             });
         },
         getCurrentPage: function () {
+        },
+        getColumnsIdentify: function (opts) {
+            return Fanex.Grid.Helper.GetColumnsHastable(opts.columns);
         }
     };
 
@@ -133,18 +153,20 @@
             showSendMailButton: false,
             sendMailFunction: null,
             showCollapseExpandButton: false,
-            customButtons: ''
+            customButtons: '',
+            showButtonsWhenNoData: false
         },
         showPager: false,
         pagerOption:
         {
             itemsPerPage: 100,
             maxItemsPerPage: 500,
-            currentPage: 1,
+            currentPage: 0,
             totalItem: 0,
             startPerPage: 100,
             pageStep: 50,
-            afterPagedFunction: null
+            afterPagedFunction: null,
+            showDetail: true
         },
         showTree: false,
         gridExpandHeight: 150,
@@ -173,19 +195,21 @@
         fullHeight: true,
         gridHeight: 400,
         gridWidth: 0,
-        noDataText: "There is no data"
+        noDataText: "There is no data",
+        language: 'en-US',
+        autoFixFrozenRowHeight: false,
+        autoResizeColumn: false,
+        pixelsPerCharacter: 0,
+        calTextWidthWithFontSize: true,
+        timeZone: '',
+        scrollWidth: 24,
+        defaultCollapseAllGroups: false
     };
 
     var Fanex = Fanex || {};
 
     Fanex.Grid = function (grid, options) {
-        this.Options = options;
         this.$grid = $(grid);
-        this.gridObject = grid;
-        this.gridId = this.$grid.attr('id');
-        this.tableContentId = 'tblContent_' + this.gridId;
-        this.frozenContentId = 'frozenContent_' + this.gridId;
-        this.headerColumnsCloneFromOptionColumns = Fanex.Grid.Helper.CreateHeaderColumnsFromOptionsColumn(options.columns.clone());
         //// Calculate fontsize for hide cell value if cell value exceed
         try {
             this.currentFontSize = parseInt(this.$grid.css('font-size').replace('px', ''));
@@ -194,12 +218,31 @@
             this.currentFontSize = 12;
         }
         this.currentFontSize -= 4;
+        if (options.pixelsPerCharacter === 0) {
+            options.pixelsPerCharacter = this.currentFontSize;
+        }
+        this.Options = options.autoResizeColumn ? Fanex.Grid.Helper.ComputeResizeColumn(this.$grid, options) : options;
+
+        this.gridObject = grid;
+        this.gridId = this.$grid.attr('id');
+        this.tableContentId = 'tblContent_' + this.gridId;
+        this.frozenContentId = 'frozenContent_' + this.gridId;
+        this.headerColumnsCloneFromOptionColumns = Fanex.Grid.Helper.CreateHeaderColumnsFromOptionsColumn(options.columns.slice(0));
+
+        if (fanexGridLanguage[options.language] == null) {
+            alert('Cannot load language: ' + options.language);
+        }
+        else {
+            fanexGridCurrentLanguage = fanexGridLanguage[options.language];
+        }
+
+
         //// Create a hashtable contain columns information for esay retrieve data
         this.columnsHastable = Fanex.Grid.Helper.GetColumnsHastable(options.columns);
         //// Create columnswidth array
         this.columnsWidth = Fanex.Grid.Helper.GetArrayWidth(options.columns, options.enableHiddenColumns, false);
         this.columnsForComputingWidth = Fanex.Grid.Helper.GetArrayWidth(options.columns, options.enableHiddenColumns, true);
-        if (this.Options.customPager != true) {
+        if (this.Options.customPager !== true) {
             this.Options.pagerOption.totalItem = this.Options.bodyRows.length;
         }
         this.gridOptions = null;
@@ -227,10 +270,27 @@
     Fanex.Grid.prototype =
     {
         RenderGrid: function () {
+            if (typeof (fanexGridLanguage) === 'undefined') {
+                return;
+            }
             var me = this;
             var options = me.Options;
+            var footer = '';
+            if (options.showFooter && options.bodyRows.length > 0) {
+                if (typeof (options.pagerOption.customRenderFooter) === 'function') {
+                    var startIndex = (options.pagerOption.currentPage * options.pagerOption.itemsPerPage);
+                    var endIndex = ((options.pagerOption.currentPage + 1) * options.pagerOption.itemsPerPage);
+                    var currentBodyRows = options.bodyRows.slice(startIndex, endIndex);
+                    me.Options.footerRows = options.pagerOption.customRenderFooter(
+                                                                                currentBodyRows,
+                                                                                options.pagerOption.currentPage,
+                                                                                options.pagerOption.itemsPerPage);
+                }
+
+                footer = me.RenderFooter();
+            }
             //// Render Table Main Frame
-            var html = me.RenderBody(me.RenderHeader()) + (options.showFooter && options.bodyRows.length > 0 ? me.RenderFooter() : "");
+            var html = me.RenderBody(me.RenderHeader()) + footer;
             if (me.gridObject) {
                 me.gridObject.innerHTML = html;
             }
@@ -249,16 +309,17 @@
             var currentFrozenBodyHeader = me.$grid.find('#' + me.frozenContentId + '> tbody').html();
             var bodyHtml = me.RenderHeader() + me.RenderCommonHeader('mainbody');
             var footer = (options.showFooter && options.bodyRows.length > 0 ? me.RenderFooter() : "");
-            var bodyHtmlTemp = '';
-            // Fixbug for replace $' string
+            var bodyHtmlTemp = '',
+                currentCol;
+            // Fix for replace $' string
             if (options.numberOfFrozenColumn > 0) {
                 bodyHtmlTemp = bodyHtml.split('{$}frozenBody');
-                if (bodyHtmlTemp.length == 2) {
+                if (bodyHtmlTemp.length === 2) {
                     bodyHtml = bodyHtmlTemp[0] + currentFrozenBodyHeader + bodyHtmlTemp[1];
                 }
             }
             bodyHtmlTemp = bodyHtml.split('{$}_');
-            if (bodyHtmlTemp.length == 2) {
+            if (bodyHtmlTemp.length === 2) {
                 bodyHtml = bodyHtmlTemp[0] + currentMainBodyHtml + bodyHtmlTemp[1];
             }
 
@@ -277,16 +338,50 @@
             }
             //me.$grid.find(selector.join(',')).show();
 
-            if (isShow) {
-            }
-            else {
-                var columnsHideLength = options.hiddenColumns.length;
+            if (!isShow) {
+                var columnsHideLength = options.hiddenColumns.length,
+                    nhIndex;
                 selector = [];
                 try {
                     for (var colIndex1 = 0; colIndex1 < columnsHideLength; colIndex1++) {
-                        var currentCol = options.hiddenColumns[colIndex1];
+                        currentCol = options.hiddenColumns[colIndex1];
                         //selector.push('.free-grid-td-' + currentCol);
-                        me.$grid.find('.free-grid-td-' + currentCol).addClass("grid-show-hide-column");
+                        //me.$grid.find('.free-grid-td-' + currentCol).addClass("grid-show-hide-column");
+                        me.$grid.find('.free-cell, .row_header_wrapper, .col_header, .grid-container')
+                        .find('.free-grid-td-' + currentCol)
+                        .addClass("grid-show-hide-column");
+                    }
+
+                    if (options.showFooter) {
+                        //                        var footerLength = options.footerRows[0].Columns.length;
+                        //                        var needHideCols = options.hiddenColumns.slice(0);
+                        //                        var currentColIndex = 0;
+                        //                        for (var ftColIndex = 0; ftColIndex < footerLength; ftColIndex++) {
+                        //                            currentCol = options.footerRows[0].Columns[ftColIndex];
+                        //                            if (currentCol.MergeColNumber) {
+                        //                                var removeArray = [];
+                        //                                for (nhIndex = 0; nhIndex < needHideCols.length; nhIndex++) {
+                        //                                    if (ftColIndex + currentCol.MergeColNumber >= ftColIndex + needHideCols[nhIndex]) {
+                        //                                        removeArray.push(nhIndex);
+                        //                                    }
+                        //                                    else if (ftColIndex < needHideCols[nhIndex]) {
+                        //                                        needHideCols[nhIndex] -= currentCol.MergeColNumber - 1;
+                        //                                    }
+                        //                                }
+
+                        //                                for (var rmIndex = removeArray.length - 1; rmIndex >= 0; rmIndex--) {
+                        //                                    needHideCols.splice(removeArray[rmIndex], 1);
+                        //                                }
+
+                        //                                //currentColIndex += currentCol.MergeColNumber;
+                        //                            }
+                        //                            // currentColIndex++;
+                        //                        }
+                        var needHideCols = options.hiddenColumns.slice(0);
+                        for (nhIndex = 0; nhIndex < needHideCols.length; nhIndex++) {
+                            currentCol = needHideCols[nhIndex];
+                            me.$grid.find('.row_footer, .col_footer').find('.free-grid-td-' + currentCol).addClass("grid-show-hide-column");
+                        }
                     }
                 }
                 catch (e) {
@@ -300,11 +395,11 @@
         },
         ReRenderBodyAfterSort: function (sortColumnName, sortDirection) {
             var me = this;
-            var options = me.Options;
             me.RenderBody('', true);
             me.gridOptions = Fanex.Grid.List[me.tableContentId].gridOptions;
             me.gridOptions.isResetScroller = false;
             me.RegisterMouseHoverEvent();
+            me.AutoResizeRowHeight();
             $(me.$grid).gridScroller(me.gridOptions);
             //// Save Current Sor
             Fanex.Grid.List[me.tableContentId].sortOption =
@@ -316,24 +411,27 @@
         AppendBodyRows: function (rows) {
             var me = this;
             var options = me.Options;
-            var rowLength = rows.length;
+            var rowLength = rows.length,
+                currentRow;
             if (rowLength > 0) {
-                var currentFrozenRows = (options.numberOfFrozenColumn > 0) ? Fanex.Grid.Helper.CreateRowsForFrozenColumn(rows, options.numberOfFrozenColumn, me.frozenColsName) : [];
+                var currentFrozenRows = (options.numberOfFrozenColumn > 0) ?
+                                        Fanex.Grid.Helper.CreateRowsForFrozenColumn(rows, options.numberOfFrozenColumn, me.frozenColsName) :
+                                        [];
                 var frozenBodyLength = currentFrozenRows.length;
                 var bodyRowsHtml = [], bodyFrozenHtml = [];
                 var currentPageStartIndex = options.bodyRows.length;
 
                 //// Render Frozen Row and Main Row at the same time
                 for (var rowIndex = 0; rowIndex < frozenBodyLength; rowIndex++) {
-                    var currentRow = rows[rowIndex];
+                    currentRow = rows[rowIndex];
                     var currentFrozenRow = currentFrozenRows[rowIndex];
                     bodyRowsHtml.push(me.RenderNormalRow(currentRow, 'td', true, rowIndex + currentPageStartIndex, '', false, rowIndex, 0));
                     bodyFrozenHtml.push(me.RenderFrozenRow(currentFrozenRow, 'td', true, rowIndex + currentPageStartIndex, '', false, rowIndex, 0));
                 }
 
                 //// If MainRow still has item, then continue render
-                for (var rowIndex = frozenBodyLength; rowIndex < rowLength; rowIndex++) {
-                    var currentRow = rows[rowIndex];
+                for (rowIndex = frozenBodyLength; rowIndex < rowLength; rowIndex++) {
+                    currentRow = rows[rowIndex];
                     bodyRowsHtml.push(me.RenderNormalRow(currentRow, 'td', true, rowIndex + currentPageStartIndex, '', false, rowIndex, 0));
                 }
 
@@ -348,7 +446,9 @@
         Initialize: function () {
             var me = this;
             var options = this.Options;
-            var numberOfFrozenColumnNew = (options.enableHiddenColumns == false ? Fanex.Grid.Helper.ComputeNewFrozenColumn(options.hiddenColumns, options.numberOfFrozenColumn) : options.numberOfFrozenColumn);
+            var numberOfFrozenColumnNew = (options.enableHiddenColumns === false ?
+                                            Fanex.Grid.Helper.ComputeNewFrozenColumn(options.hiddenColumns, options.numberOfFrozenColumn) :
+                                            options.numberOfFrozenColumn);
             //// Render Grid Scroller
             me.gridOptions =
             {
@@ -370,17 +470,19 @@
             }).gridScroller(me.gridOptions);
 
             //// Render Pager
-            if (options.showPager == true) {
+            if (options.showPager === true) {
                 me.RenderPager();
                 Fanex.Grid.List[me.tableContentId].pagerOption = options.pagerOption;
             }
             me.RegisterEvents();
+            me.AutoResizeRowHeight();
+
         },
         RenderTitle: function () {
             var me = this;
             var options = me.Options;
             var titleId = me.gridId + '-grid-title';
-            if (options.showTitle == false) {
+            if (options.showTitle === false) {
                 return '';
             }
             else {
@@ -391,20 +493,22 @@
                 titleHtml.push(options.titleInfo.text);
                 titleHtml.push('</div>');
                 titleHtml.push('<div class="grid-toolbox">');
-                if (options.titleInfo.showBackButton == true) {
+                if (options.titleInfo.showBackButton === true) {
                     titleHtml.push('<input id="btnBack' + me.gridId + '" class="btnBack" type="button" title="Back" value="" name="btnBack" />');
                 }
-                if (options.bodyRows.length > 0) {
-                    if (options.titleInfo.customButtons != '') {
+                if (options.bodyRows.length > 0 || options.titleInfo.showButtonsWhenNoData === true) {
+                    if (options.titleInfo.customButtons !== '') {
                         titleHtml.push(options.titleInfo.customButtons);
                     }
-                    if (options.titleInfo.showCollapseExpandButton == true) {
-                        titleHtml.push('<input class="btExpand expanded" id="btnCollapseExpand' + me.gridId + '" type="button" value="" title="Collapse/Expand" />');
+                    if (options.titleInfo.showCollapseExpandButton === true) {
+                        titleHtml.push('<input class="btExpand expanded" id="btnCollapseExpand' +
+                                        me.gridId +
+                                        '" type="button" value="" title="Collapse/Expand" />');
                     }
-                    if (options.titleInfo.showExcelButton == true) {
+                    if (options.titleInfo.showExcelButton === true) {
                         titleHtml.push('<input type="button" id="btnExport' + me.gridId + '" class="btnExcel" title="Export to Excel" />');
                     }
-                    if (options.titleInfo.showSendMailButton == true) {
+                    if (options.titleInfo.showSendMailButton === true) {
                         titleHtml.push('<input id="btnSendMail' + me.gridId + '" class="btnSendMail" type="button" title="Send Mail" />');
                     }
                 }
@@ -420,9 +524,9 @@
 
             //// Clone and Add last row of Group Header
             if (options.customizeHeader) {
-                this.Options.cloneGroupHeaderRows = options.groupHeaderRows.clone();
+                this.Options.cloneGroupHeaderRows = options.groupHeaderRows.slice(0);
                 this.Options.cloneGroupHeaderRows.push({
-                    Columns: me.headerColumnsCloneFromOptionColumns.clone()
+                    Columns: me.headerColumnsCloneFromOptionColumns.slice(0)
                 });
             }
 
@@ -446,7 +550,6 @@
             var tableClass = '';
             var hasId = false;
             var tableContainId = me.tableContentId;
-            var columns = me.headerColumnsCloneFromOptionColumns.slice(0);
             var columnLength = me.headerColumnsCloneFromOptionColumns.length;
             var replaceMark = '_';
 
@@ -477,17 +580,21 @@
                     tableClass = 'grid-fixed-table col_header_content';
                     break;
                 case 'mainbody':
-                    divHeaderClass = 'grid-container container';
+                    divHeaderClass = 'grid-container';
                     divContainerClass = 'content-container';
                     tableClass = 'grid-fixed-table col_body_content';
                     hasId = true;
                     break;
             }
 
-            var headerHtml = [];
-            var trsHeader = [];
+            var headerHtml = [],
+                trsHeader = [],
+                cellInfo,
+                colIndex,
+                currentCol,
+                customSpan;
             //// Build Header
-            if (divHeaderClass != '') {
+            if (divHeaderClass !== '') {
                 headerHtml.push('<div class="' + divHeaderClass + '">');
             }
             headerHtml.push('<div class="' + divContainerClass + '">');
@@ -495,9 +602,12 @@
 
             if (options.customizeHeader) {
                 var currentGroupHeader = options.cloneGroupHeaderRows;
-                if (type == 'frozenheader' || type == 'frozenbody') {
+                if (type === 'frozenheader' || type === 'frozenbody') {
                     //// Create Header Rows for Frozen Table
-                    currentGroupHeader = Fanex.Grid.Helper.CreateRowsForFrozenColumn(options.cloneGroupHeaderRows.slice(0), options.numberOfFrozenColumn, me.frozenColsName);
+                    currentGroupHeader = Fanex.Grid.Helper.CreateRowsForFrozenColumn(
+                                                    options.cloneGroupHeaderRows.slice(0),
+                                                    options.numberOfFrozenColumn,
+                                                    me.frozenColsName);
                 }
                 for (var rowIndex = 0; rowIndex < currentGroupHeader.length; rowIndex++) {
                     var currentRow = currentGroupHeader[rowIndex];
@@ -505,10 +615,10 @@
                     if (currentRow.Columns.length > 0) {
                         headerHtml.push('<tr>');
 
-                        for (var colIndex = 0; colIndex < currentRow.Columns.length && colIndex < columnLength; colIndex++) {
-                            var currentCol = currentRow.Columns[colIndex];
+                        for (colIndex = 0; colIndex < currentRow.Columns.length && colIndex < columnLength; colIndex++) {
+                            currentCol = currentRow.Columns[colIndex];
                             if (isValid(currentCol)) {
-                                var customSpan = '';
+                                customSpan = '';
                                 var currentHeight = options.headerColumnHeight;
                                 var showHeaderMergeCol = true;
 
@@ -516,20 +626,28 @@
                                     //// If It has merge row and current row has only one columns and column has merge row, then remove next row
                                     Fanex.Grid.Helper.RemoveItemForRowSpan(currentGroupHeader, rowIndex, currentCol, me.columnsHastable);
                                     var currentMergeRowNumber = ' rowspan="' + currentCol.MergeRowNumber + '"';
-                                    if (type == 'frozenheader' || type == 'frozenbody') {
-                                        //// Calculate height for merger row
-                                        currentHeight = ((options.headerColumnHeight * currentCol.MergeRowNumber) + (currentCol.MergeRowNumber - 1) * 5);
-                                    }
+                                    //if (type === 'frozenheader' || type === 'frozenbody') {
+                                    //// Calculate height for merger row
+                                    currentHeight = ((options.headerColumnHeight * currentCol.MergeRowNumber) + (currentCol.MergeRowNumber - 1) * 5);
+                                    //}
                                     customSpan += currentMergeRowNumber;
                                 }
 
                                 //// If Current cell has merge Col
                                 if (isValid(currentCol) && isValid(currentCol.MergeColNumber)) {
                                     //// Compute for With for merge
-                                    currentCol.Width = Fanex.Grid.Helper.GetColMergeWidth(me.columnsForComputingWidth, me.columnsHastable[currentCol.Name].ColumnIndex, currentCol.MergeColNumber, options.enableHiddenColumns, options.columns);
-                                    if (options.enableHiddenColumns == false) {
-                                        showHeaderMergeCol = Fanex.Grid.Helper.HideHeaderGroupWhenShowHide(options.hiddenColumns, me.columnsHastable[currentCol.Name].ColumnIndex, currentCol.MergeColNumber);
-                                        customSpan += ' colspan="' + Fanex.Grid.Helper.ReComputeMergeColumAfterShowHide(options.hiddenColumns, me.columnsHastable[currentCol.Name].ColumnIndex, currentCol.MergeColNumber) + '"';
+                                    currentCol.Width = Fanex.Grid.Helper.GetColMergeWidth(me.columnsForComputingWidth,
+                                                                                            me.columnsHastable[currentCol.Name].ColumnIndex,
+                                                                                            currentCol.MergeColNumber,
+                                                                                            options.enableHiddenColumns,
+                                                                                            options.columns);
+                                    if (options.enableHiddenColumns === false) {
+                                        showHeaderMergeCol = Fanex.Grid.Helper.HideHeaderGroupWhenShowHide(options.hiddenColumns,
+                                                                                                            me.columnsHastable[currentCol.Name].ColumnIndex,
+                                                                                                            currentCol.MergeColNumber);
+                                        customSpan += ' colspan="' + Fanex.Grid.Helper.ReComputeMergeColumAfterShowHide(options.hiddenColumns,
+                                                                                                            me.columnsHastable[currentCol.Name].ColumnIndex,
+                                                                                                            currentCol.MergeColNumber) + '"';
                                     }
                                     else {
                                         customSpan += ' colspan="' + currentCol.MergeColNumber + '"';
@@ -540,24 +658,29 @@
                                     customSpan += ' colspan="' + currentCol.MergeHeaderColNumber + '"';
                                 }
 
-                                var cellInfo =
+                                cellInfo =
                                 {
                                     CellTag: 'th',
                                     CustomSpan: customSpan,
                                     CssClass: currentCol.CssClass,
-                                    SortClass: (currentRow.Columns[colIndex].Sort == true ? ' colSorter' : ''),
+                                    SortClass: (currentRow.Columns[colIndex].Sort === true ? ' colSorter' : ''),
                                     CellWidth: (currentCol.Width || me.columnsHastable[currentCol.Name].Width),
                                     CellHeight: currentHeight,
-                                    CellId: (me.columnsHastable[currentCol.Name].Sort == true ? (me.gridId + '_header_sort_' + currentCol.Name) : ''),
+                                    CellId: (me.columnsHastable[currentCol.Name].Sort === true ? (me.gridId + '_header_sort_' + currentCol.Name) : ''),
                                     Sort: currentRow.Columns[colIndex].Sort,
                                     CellColumnName: currentCol.Name,
                                     HeaderText: currentCol.HeaderText,
-                                    CustomAttr: (currentGroupHeader.length > 1 && rowIndex == (currentGroupHeader.length - 1)) ? me.columnsHastable[currentCol.Name].CustomAttr : undefined,
+                                    CustomAttr: (currentGroupHeader.length > 1 && rowIndex === (currentGroupHeader.length - 1)) ?
+                                                    me.columnsHastable[currentCol.Name].CustomAttr :
+                                                    undefined,
                                     CustomHeaderRender: currentCol.CustomHeaderRender || me.columnsHastable[currentCol.Name].CustomHeaderRender,
                                     SortDirection: currentRow.Columns[colIndex].SortDirection || '',
                                     CanShowHide: (me.columnsHastable[currentCol.Name].CanShowHide && (!options.enableHiddenColumns) && showHeaderMergeCol),
                                     TdClass: me.columnsHastable[currentCol.Name].TdClass || '',
-                                    ThClass: (currentGroupHeader.length > 1 && rowIndex == (currentGroupHeader.length - 1)) ? me.columnsHastable[currentCol.Name].ThClass : '',
+                                    ThClass: currentRow.Columns[colIndex].ThClass || '',
+                                    //                                    (currentGroupHeader.length > 1 && rowIndex === (currentGroupHeader.length - 1)) ?
+                                    //                                                        me.columnsHastable[currentCol.Name].ThClass :
+                                    //                                                        '',
                                     CellAlign: me.columnsHastable[currentCol.Name].HeaderAlign || (me.columnsHastable[currentCol.Name].CellAlign || 'center')
                                 };
                                 trsHeader.push(me.RenderHeaderCell(cellInfo, currentCol));
@@ -572,21 +695,21 @@
             else {
                 //// Has no frozen column
                 headerHtml.push('<tr>');
-                for (var colIndex = 0; colIndex < columnLength; colIndex++) {
-                    var currentCol = me.headerColumnsCloneFromOptionColumns[colIndex];
-                    var customSpan = '';
+                for (colIndex = 0; colIndex < columnLength; colIndex++) {
+                    currentCol = me.headerColumnsCloneFromOptionColumns[colIndex];
+                    customSpan = '';
                     if (isValid(currentCol) && isValid(currentCol.MergeHeaderColNumber)) {
                         customSpan += ' colspan="' + currentCol.MergeHeaderColNumber + '"';
                     }
-                    var cellInfo =
+                    cellInfo =
                     {
                         CellTag: 'th',
                         CustomSpan: customSpan,
                         CssClass: currentCol.CssClass,
-                        SortClass: (currentCol.Sort == true ? ' colSorter' : ''),
+                        SortClass: (currentCol.Sort === true ? ' colSorter' : ''),
                         CellWidth: (currentCol.Width || me.columnsHastable[currentCol.Name].Width),
                         CellHeight: options.headerColumnHeight,
-                        CellId: (me.columnsHastable[currentCol.Name].Sort == true ? (me.gridId + '_header_sort_' + currentCol.Name) : ''),
+                        CellId: (me.columnsHastable[currentCol.Name].Sort === true ? (me.gridId + '_header_sort_' + currentCol.Name) : ''),
                         Sort: currentCol.Sort,
                         CellColumnName: currentCol.Name,
                         HeaderText: currentCol.HeaderText,
@@ -605,7 +728,7 @@
             }
             headerHtml.push('</thead><tbody>{$}' + replaceMark + '</tbody></table>');
             headerHtml.push('</div>');
-            if (divHeaderClass != '') {
+            if (divHeaderClass !== '') {
                 headerHtml.push('</div>');
             }
             return headerHtml.join('');
@@ -617,22 +740,28 @@
             var colsLength = currentRow.Columns.length;
             var currentCollapseExpandId = '';
             var parentRowClass = '';
+            var currentMergeColsIndex = 0;
             var trHighlightAtt = (options.showHighlightRow ? (' highlightatt="highlight-att-frozen-' + parentHighlight + '-' + rowIndex + '"') : '');
-            var trClass = (options.showHighlightRow ? 'highlight-row ' : '') + (treeCollapseExpandClass || '') + (currentRow.CssClass || '') + (options.showDistinctRow ? ((rowIndex + 1) % 2 == 0 ? ' freegrid-even' : '') : '');
-            if (options.showTree == true && currentRow.SubRows) {
+            var trAutoFixRowAtt = (options.autoFixFrozenRowHeight ? (' autofixatt="autofix-att-frozen-' + parentHighlight + '-' + rowIndex + '"') : '');
+            var trClass = (options.showHighlightRow ? 'highlight-row ' : '') +
+                            (options.autoFixFrozenRowHeight ? 'auto-fix-row ' : '') +
+                            (treeCollapseExpandClass || '') + ' ' +
+                            (currentRow.CssClass || '') + ' ' +
+                            (options.showDistinctRow ? ((rowIndex + 1) % 2 === 0 ? ' freegrid-even' : '') : '');
+            if (options.showTree === true && currentRow.SubRows) {
                 parentRowClass = 'parent-row parent-level-' + level;
             }
-            frozenRowHtml.push('<tr class="' + trClass + ' ' + parentRowClass + '" ' + (currentRow.CustomAttr || '') + trHighlightAtt + '>');
+
+            frozenRowHtml.push('<tr class="' + trClass + ' ' + parentRowClass + '" ' + (currentRow.CustomAttr || '') + trHighlightAtt + trAutoFixRowAtt + '>');
             for (var columnIndex = 0; columnIndex < colsLength; columnIndex++) {
                 var currentCol = currentRow.Columns[columnIndex];
                 var customSpan = '';
-                var currentHeight = 'height:' + options.bodyRowHeight + 'px;';
-                var customClass = 'table-cell';
+                var currentHeight = 'height:' + (currentRow.RowHeight || options.bodyRowHeight) + 'px;';
                 var currentWidth = me.columnsHastable[currentCol.Name].Width;
-                var setCurrentWidth = false;
                 var currentHeightForComputeCenter = options.bodyRowHeight;
 
-                //// If Merge Row, then add rowspan, If in the same row and there are no other columns, then cal height, or there are some columns but they also have colspan, then cal height
+                //// If Merge Row, then add rowspan, If in the same row and there are no other columns, then cal height, 
+                //// or there are some columns but they also have colspan, then cal height
                 if (isValid(currentCol.MergeRowNumber)) {
                     customSpan += ' rowspan="' + currentCol.MergeRowNumber + '" ';
                     if (Fanex.Grid.Helper.CheckHideColSpan(currentRow.Columns)) {
@@ -645,8 +774,17 @@
                 //// If Merge Column and current row is footer, then calculate height
                 if (isValid(currentCol.MergeColNumber)) {
                     customSpan += ' colspan="' + currentCol.MergeColNumber + '" ';
-                    currentWidth = Fanex.Grid.Helper.GetColMergeWidth(me.columnsForComputingWidth, me.columnsHastable[currentCol.Name].ColumnIndex, currentCol.MergeColNumber, options.enableHiddenColumns, options.columns);
+                    currentWidth = Fanex.Grid.Helper.GetColMergeWidth(me.columnsForComputingWidth,
+                                                                        me.columnsHastable[currentCol.Name].ColumnIndex,
+                                                                        currentCol.MergeColNumber,
+                                                                        options.enableHiddenColumns,
+                                                                        options.columns);
                 }
+
+                if (currentCol.PrevRowsColMergeNumber) {
+                    currentMergeColsIndex += currentCol.PrevRowsColMergeNumber;
+                }
+
                 var renderObject = me.RenderBodyCell(
                         {
                             HtmlTag: colHtmlTag,
@@ -661,7 +799,8 @@
                             Width: currentWidth,
                             Align: (currentCol.CellAlign || (me.columnsHastable[currentCol.Name].CellAlign || 'left')),
                             CustomAttr: (currentCol.CustomAttr || ''),
-                            ParentHighlight: parentHighlight
+                            ParentHighlight: parentHighlight,
+                            MergeColumnIndex: currentMergeColsIndex
                         },
                         currentCol,
                         currentRow,
@@ -669,13 +808,16 @@
                         level
                     );
                 frozenRowHtml.push(renderObject.CellHtml);
-                if (renderObject.CurrentColumnShowTree == true) {
+                if (renderObject.CurrentColumnShowTree === true) {
                     currentCollapseExpandId = renderObject.CurrentCollapseExpandId;
+                }
+                if (isValid(currentCol.MergeColNumber)) {
+                    currentMergeColsIndex += currentCol.MergeColNumber - 1;
                 }
             }
             frozenRowHtml.push('</tr>');
 
-            if (options.showTree == true && currentRow.SubRows) {
+            if (options.showTree === true && currentRow.SubRows) {
                 frozenRowHtml.push(me.RenderSubRow(currentRow, false, isBody, 0, currentCollapseExpandId, parentHighlight, level));
             }
 
@@ -688,21 +830,27 @@
             var colsLength = currentRow.Columns.length;
             var currentCollapseExpandId = '';
             var parentRowClass = '';
+            var currentMergeColsIndex = 0;
             var trHighlightAtt = (options.showHighlightRow && isBody ? (' highlightatt="highlight-att-main-' + parentHighlight + '-' + rowIndex + '"') : '');
-            var trClass = (options.showHighlightRow ? 'highlight-row ' : '') + (currentRow.CssClass || '') + ' ' + (treeCollapseExpandClass || '') + ' ' + (options.showDistinctRow ? ((rowIndex + 1) % 2 == 0 ? ' freegrid-even' : '') : '');
+            var trAutoFixRow = (options.autoFixFrozenRowHeight && isBody ? (' autofixatt="autofix-att-main-' + parentHighlight + '-' + rowIndex + '"') : '');
+            var trClass = (options.showHighlightRow ? 'highlight-row ' : '') +
+                            (options.autoFixFrozenRowHeight ? 'auto-fix-row ' : '') +
+                            (currentRow.CssClass || '') + ' ' +
+                            (treeCollapseExpandClass || '') + ' ' +
+                            (options.showDistinctRow ? ((rowIndex + 1) % 2 === 0 ? ' freegrid-even' : '') : '');
 
             if (colsLength > 0) {
                 //// If show grid with tree, then add class to parent row
-                if (options.showTree == true && currentRow.SubRows) {
+                if (options.showTree === true && currentRow.SubRows) {
                     parentRowClass = 'parent-row parent-level-' + level;
                 }
-                rowHtml.push('<tr class="' + trClass + ' ' + parentRowClass + '" ' + (currentRow.CustomAttr || '') + ' ' + trHighlightAtt + '>');
+                rowHtml.push('<tr class="' + trClass + ' ' + parentRowClass + '" ' + (currentRow.CustomAttr || '') + ' ' + trHighlightAtt + trAutoFixRow + '>');
 
                 for (var colIndex = 0; colIndex < colsLength; colIndex++) {
                     var currentCol = currentRow.Columns[colIndex];
                     var currentWidth = me.columnsHastable[currentCol.Name].Width;
                     var customSpan = '';
-                    var currentHeight = 'height:' + options.bodyRowHeight + 'px;';
+                    var currentHeight = 'height:' + (currentRow.RowHeight || options.bodyRowHeight) + 'px;';
                     var currentHeightForComputeCenter = options.bodyRowHeight;
                     if (isValid(currentCol.MergeRowNumber)) {
                         customSpan += ' rowspan="' + currentCol.MergeRowNumber + '" ';
@@ -712,7 +860,14 @@
                     //// If merge Column, then calculate width for merging
                     if (isValid(currentCol.MergeColNumber)) {
                         customSpan += ' colspan="' + currentCol.MergeColNumber + '" ';
-                        currentWidth = Fanex.Grid.Helper.GetColMergeWidth(me.columnsForComputingWidth, me.columnsHastable[currentCol.Name].ColumnIndex, currentCol.MergeColNumber, options.enableHiddenColumns, options.columns);
+                        currentWidth = Fanex.Grid.Helper.GetColMergeWidth(me.columnsForComputingWidth,
+                                                                            me.columnsHastable[currentCol.Name].ColumnIndex,
+                                                                            currentCol.MergeColNumber,
+                                                                            options.enableHiddenColumns,
+                                                                            options.columns);
+                    }
+                    if (currentCol.PrevRowsColMergeNumber) {
+                        currentMergeColsIndex += currentCol.PrevRowsColMergeNumber;
                     }
                     var renderObject = me.RenderBodyCell({
                         HtmlTag: colHtmlTag,
@@ -726,7 +881,8 @@
                         Width: currentWidth,
                         Align: (currentCol.CellAlign || (me.columnsHastable[currentCol.Name].CellAlign || 'left')),
                         CustomAttr: (currentCol.CustomAttr || ''),
-                        ParentHighlight: parentHighlight
+                        ParentHighlight: parentHighlight,
+                        MergeColumnIndex: currentMergeColsIndex
                     },
                         currentCol,
                         currentRow,
@@ -734,13 +890,16 @@
                         level
                     );
                     rowHtml.push(renderObject.CellHtml);
-                    if (renderObject.CurrentColumnShowTree == true) {
+                    if (renderObject.CurrentColumnShowTree === true) {
                         currentCollapseExpandId = renderObject.CurrentCollapseExpandId;
+                    }
+                    if (isValid(currentCol.MergeColNumber)) {
+                        currentMergeColsIndex += currentCol.MergeColNumber - 1;
                     }
                 }
                 rowHtml.push('</tr>');
 
-                if (options.showTree == true && currentRow.SubRows) {
+                if (options.showTree === true && currentRow.SubRows) {
                     rowHtml.push(me.RenderSubRow(currentRow, true, isBody, 0, currentCollapseExpandId, parentHighlight, level));
                 }
             }
@@ -751,16 +910,30 @@
             var me = this;
             var options = me.Options;
             var subRowHtml = [];
-            var currentSubRows = (isMain == true ? currentRow.SubRows : Fanex.Grid.Helper.CreateRowsForFrozenColumn(currentRow.SubRows, options.numberOfFrozenColumn, me.frozenColsName));
+            var currentSubRows = (isMain === true ? currentRow.SubRows :
+                                    Fanex.Grid.Helper.CreateRowsForFrozenColumn(currentRow.SubRows, options.numberOfFrozenColumn, me.frozenColsName));
             var subRowsLength = currentSubRows.length;
             level++;
             for (var subRowIndex = 0; subRowIndex < subRowsLength; subRowIndex++) {
                 var currentSubRow = currentSubRows[subRowIndex];
-                if (isMain == true) {
-                    subRowHtml.push(me.RenderNormalRow(currentSubRow, 'td', isBody, subRowIndex, currentCollapseExpandId, false, parentHighlight + '-' + rowIndex + '-' + subRowIndex, level));
+                if (isMain === true) {
+                    subRowHtml.push(me.RenderNormalRow(currentSubRow,
+                                                        'td',
+                                                        isBody,
+                                                        subRowIndex,
+                                                        currentCollapseExpandId,
+                                                        false,
+                                                        parentHighlight + '-' + rowIndex + '-' + subRowIndex, level));
                 }
                 else {
-                    subRowHtml.push(me.RenderFrozenRow(currentSubRow, 'td', isBody, subRowIndex, currentCollapseExpandId, false, parentHighlight + '-' + rowIndex + '-' + subRowIndex, level));
+                    subRowHtml.push(me.RenderFrozenRow(
+                                                    currentSubRow,
+                                                    'td',
+                                                    isBody,
+                                                    subRowIndex,
+                                                    currentCollapseExpandId,
+                                                    false,
+                                                    parentHighlight + '-' + rowIndex + '-' + subRowIndex, level));
                 }
             }
             return subRowHtml.join('');
@@ -772,13 +945,24 @@
             var currentCollapseExpandId = '';
 
             var currentValue = currentCol.Value;
+            if (me.columnsHastable[currentCol.Name].IsAbs && currentValue < 0) {
+                currentValue = Math.abs(currentValue);
+            }
+
             if (me.columnsHastable[currentCol.Name].FormatNumber && !isNaN(currentValue) && currentValue !== '') {
                 currentValue = numeral(currentValue).format(me.columnsHastable[currentCol.Name].FormatNumber);
             }
 
-            if (me.columnsHastable[currentCol.Name].FormatDateTime && isValid(currentValue) && currentValue !== '') {
+            if (me.columnsHastable[currentCol.Name].FormatDateTime &&
+                isValid(currentValue) &&
+                currentValue !== '' &&
+                currentValue != null) {
                 var momentObject = moment(currentValue);
                 if (momentObject.isValid()) {
+                    if (options.timeZone !== '') {
+                        momentObject = momentObject.zone(options.timeZone);
+                    }
+
                     currentValue = momentObject.format(me.columnsHastable[currentCol.Name].FormatDateTime);
                 }
             }
@@ -796,61 +980,74 @@
             }
 
             var cellContent = '';
-            if (cell.IsNoData == true) {
+            if (cell.IsNoData === true) {
                 cellContent = currentCol.Value;
             }
             else {
-                cellContent = typeof currentCol.CustomCellRender == 'function' ? currentCol.CustomCellRender(currentCol, currentValue) : ((typeof (me.columnsHastable[currentCol.Name].CustomCellRender) == 'function' && isBody) ? me.columnsHastable[currentCol.Name].CustomCellRender(currentCol, currentValue) : currentValue);
+                cellContent = typeof currentCol.CustomCellRender === 'function' ?
+                                                currentCol.CustomCellRender(currentCol, currentValue) :
+                                                ((typeof (me.columnsHastable[currentCol.Name].CustomCellRender) === 'function' && isBody) ?
+                                                            me.columnsHastable[currentCol.Name].CustomCellRender(currentCol, currentValue) :
+                                                            currentValue);
             }
 
             //// If show tree, then add icon expand
-            var tdClass = 'free-grid-td-' + cell.ColIndex + ' ' + (currentCol.TdClass || (me.columnsHastable[currentCol.Name].TdClass || ''));
-            if (options.showTree == true && currentRow.SubRows && me.columnsHastable[currentCol.Name].ShowCollapseExpand == true) {
+            var tdClass = 'free-grid-td-' + (cell.ColIndex + cell.MergeColumnIndex) + ' '
+                            + (currentCol.TdClass || (me.columnsHastable[currentCol.Name].TdClass || ''));
+            if (options.showTree === true && currentRow.SubRows && me.columnsHastable[currentCol.Name].ShowCollapseExpand === true) {
                 tdClass = 'tr-grid-collapse-expand';
             }
 
             //// For show/hide column
-            if (me.columnsHastable[currentCol.Name].CanShowHide && me.columnsHastable[currentCol.Name].CanShowHide == true && (!options.enableHiddenColumns)) {
+            if (me.columnsHastable[currentCol.Name].CanShowHide && me.columnsHastable[currentCol.Name].CanShowHide === true && (!options.enableHiddenColumns)) {
                 tdClass += ' grid-show-hide-column';
             }
 
             var truncateClass = '';
-            var allowTruncate = me.columnsHastable[currentCol.Name].AllowTruncate == true ? true : options.allowTruncate;
-            if (allowTruncate == true) {
+            var allowTruncate = me.columnsHastable[currentCol.Name].AllowTruncate === true ? true : options.allowTruncate;
+            if (allowTruncate === true) {
                 truncateClass = ' column-truncate';
             }
 
             var titleTooltip = '';
-            if (typeof (currentCol.Value) == 'string' && (currentCol.Value.length * me.currentFontSize > me.columnsHastable[currentCol.Name].Width) && allowTruncate == true) {
+            if (typeof (currentCol.Value) === 'string' &&
+                (currentCol.Value.length * me.currentFontSize > me.columnsHastable[currentCol.Name].Width) &&
+                allowTruncate === true) {
                 titleTooltip = ' title="' + currentCol.Value + '" ';
             }
 
-            var isCurrentColShowTree = (options.showTree == true
-            && currentRow.SubRows
-            && currentRow.SubRows.length > 0 && me.columnsHastable[currentCol.Name].ShowCollapseExpand == true);
+            var isCurrentColShowTree = (options.showTree === true &&
+            currentRow.SubRows &&
+            currentRow.SubRows.length > 0 && me.columnsHastable[currentCol.Name].ShowCollapseExpand === true);
 
             var paddingLeft = '';
-            if ((isCurrentColShowTree && level != 0)
-            || (level > 0
-                && !(currentRow.SubRows && currentRow.SubRows.length > 0)
-                && me.columnsHastable[currentCol.Name].ShowCollapseExpand == true)
-            || (level == 0 && isCurrentColShowTree
-                && (!isValid(currentRow.SubRows) || currentRow.SubRows.length == 0))) {
+            if ((isCurrentColShowTree && level !== 0) ||
+            (level > 0 &&
+                !(currentRow.SubRows && currentRow.SubRows.length > 0) &&
+                me.columnsHastable[currentCol.Name].ShowCollapseExpand === true) ||
+            (level === 0 && isCurrentColShowTree &&
+                (!isValid(currentRow.SubRows) || currentRow.SubRows.length === 0))) {
                 var totalPaddingLeft = level * options.treeParentPaddingLeft;
                 paddingLeft = 'padding-left:' + totalPaddingLeft + 'px;';
                 cell.Width -= totalPaddingLeft;
             }
 
             cellHtml.push('<' + container.HtmlTag + ' ' + container.CustomSpan + ' class="' + tdClass + '"' + ' style="' + container.Height + '"' + ' >');
-            cellHtml.push('<div class="table-cell ' + cell.CssClass + ' ' + truncateClass + '" style="width:' + cell.Width + 'px;' + paddingLeft + '" ' + 'align="' + cell.Align + '" ' + titleTooltip + cell.CustomAttr + '>');
+            cellHtml.push('<div class="table-cell ' +
+                            cell.CssClass + ' ' +
+                            truncateClass +
+                            '" style="width:' + cell.Width + 'px;' + paddingLeft + '" ' +
+                            'align="' + cell.Align + '" ' + titleTooltip + cell.CustomAttr + '>');
 
             if (isCurrentColShowTree) {
                 currentCollapseExpandId = me.gridId + '_tree_' + cell.ParentHighlight;
-                cellHtml.push('<span class="grid-collapse-expand grid-expand ' + currentCollapseExpandId + '-class' + '" id="' + currentCollapseExpandId + '"></span>');
+                cellHtml.push('<span class="grid-collapse-expand grid-expand ' +
+                                currentCollapseExpandId + '-class' +
+                                '" id="' + currentCollapseExpandId + '"></span>');
                 currentCollapseExpandId += ' child-row';
             }
 
-            var showRowIndexNumber = (isBody && options.showNumberColumn && cell.ColIndex == 0 && !cell.IsNoData);
+            var showRowIndexNumber = (isBody && options.showNumberColumn && cell.ColIndex === 0 && !cell.IsNoData);
             var currentRowIndexForCustomPager = 0;
             if (showRowIndexNumber) {
                 if (options.customPager) {
@@ -858,6 +1055,10 @@
                 }
                 else {
                     currentRowIndexForCustomPager = (cell.RowIndex + 1);
+                }
+
+                if (me.columnsHastable[currentCol.Name].FormatNumber) {
+                    currentRowIndexForCustomPager = numeral(currentRowIndexForCustomPager).format(me.columnsHastable[currentCol.Name].FormatNumber);
                 }
             }
 
@@ -874,9 +1075,10 @@
             var me = this;
             var options = me.Options;
             var minusColumnNumber = 0;
-            var hiddenColumns = options.hiddenColumns;
+            var hiddenColumns = options.hiddenColumns,
+                i;
             if (options.numberOfFrozenColumn > 0) {
-                for (var i = 0; i < hiddenColumns.length; i++) {
+                for (i = 0; i < hiddenColumns.length; i++) {
                     if (hiddenColumns[i] < mergeColumnNumber) {
                         minusColumnNumber++;
                     }
@@ -891,7 +1093,7 @@
             if (showOnMainBody) {
                 var minusMainColumnNumber = mergeColumnNumber - minusColumnNumber;
                 if (options.numberOfFrozenColumn > 0) {
-                    for (var i = 0; i < hiddenColumns.length; i++) {
+                    for (i = 0; i < hiddenColumns.length; i++) {
                         if (hiddenColumns[i] >= mergeColumnNumber) {
                             minusMainColumnNumber++;
                         }
@@ -899,7 +1101,7 @@
                 }
                 columns.push({
                     Name: options.columns[minusMainColumnNumber].Name,
-                    Value: options.noDataText,
+                    Value: fanexGridCurrentLanguage.noData,
                     MergeColNumber: (options.columns.length - minusMainColumnNumber),
                     CssClass: cssClass
                 });
@@ -929,38 +1131,70 @@
 
             cellHtml.push('<' + cellTag + ' ' + customSpan + ' class="' + showClass + '" >');
 
-            cellHtml.push('<div class="table-cell ' + cssClass + ' ' + sortClass + '" style="' + cellWidth + cellHeight + '" ' + cellId + ' align="' + cellInfo.CellAlign + '" ' + customAttr + '>');
-            if (sort == true) {
+            cellHtml.push('<div class="table-cell ' + cssClass + ' ' + sortClass +
+                            '" style="' + cellWidth + cellHeight + '" ' + cellId +
+                            ' align="' + cellInfo.CellAlign + '" ' + customAttr + '>');
+            if (sort === true) {
                 cellHtml.push('<div class="display-inline-block">');
             }
 
-            if (typeof cellInfo.CustomHeaderRender == 'function') {
+            if (typeof cellInfo.CustomHeaderRender === 'function') {
                 cellHtml.push(cellInfo.CustomHeaderRender(currentColumn));
             }
             else {
                 cellHtml.push(cellInfo.HeaderText);
             }
 
-            if (sort == true) {
+            if (sort === true) {
                 var sortDirection = cellInfo.SortDirection || '';
-                cellHtml.push('</div><div class="divSorter ' + sortDirection + '" data-columnname="' + cellColumnName + '"> </div>');
+                cellHtml.push('</div><div class="divSorter ' + sortDirection.toLowerCase() + '" data-columnname="' + cellColumnName + '"> </div>');
             }
 
-            cellHtml.push('</div>')
+            cellHtml.push('</div>');
             cellHtml.push('</' + cellTag + '>');
             return cellHtml.join('');
         },
         RenderBody: function (headerHtml, reRenderBody) {
             var me = this;
             var options = this.Options;
-            var bodyHtml = (reRenderBody == true ? '' : (headerHtml + me.RenderCommonHeader('mainbody')));
+            var bodyHtml = (reRenderBody === true ? '' : (headerHtml + me.RenderCommonHeader('mainbody')));
             var bodyRowsHtml = [];
             var bodyFrozenHtml = [];
             var currentBodyRows = [];
-            var currentPageStartIndex = 0;
+            var currentPageStartIndex = 0,
+                currentRow;
+
+            if (options.sortOption.serverSortFunction == null &&
+                options.sortOption.customGridSort == null) {
+                var defaultSort = false,
+                customSortFunction = null,
+                sortType = null,
+                columnName = '',
+                currentDirection = '';
+                for (var colIndex = 0; colIndex < options.columns.length; colIndex++) {
+                    if (options.columns[colIndex].SortDirection != null
+                    && options.columns[colIndex].SortDirection !== '') {
+                        defaultSort = true;
+                        currentDirection = options.columns[colIndex].SortDirection;
+                        customSortFunction = options.columns[colIndex].CustomSortFunction;
+                        columnName = options.columns[colIndex].Name;
+                        sortType = options.columns[colIndex].SortType;
+                        break;
+                    }
+                }
+
+                if (defaultSort) {
+                    options.bodyRows = Fanex.Grid.Helper.GetSortedArray(options.bodyRows,
+                                                                    columnName,
+                                                                    currentDirection,
+                                                                    customSortFunction,
+                                                                    sortType);
+
+                }
+            }
 
             //// If show pager, then take approriate data range
-            if (options.showPager == true && options.customPager != true) {
+            if (options.showPager === true && options.customPager !== true) {
                 var startIndex = (options.pagerOption.currentPage * options.pagerOption.itemsPerPage);
                 var endIndex = ((options.pagerOption.currentPage + 1) * options.pagerOption.itemsPerPage);
                 currentBodyRows = options.bodyRows.slice(startIndex, endIndex);
@@ -972,27 +1206,29 @@
             }
 
             var bodyLength = currentBodyRows.length;
-            var currentFrozenRows = (options.numberOfFrozenColumn > 0) ? Fanex.Grid.Helper.CreateRowsForFrozenColumn(currentBodyRows, options.numberOfFrozenColumn, me.frozenColsName) : [];
+            var currentFrozenRows = (options.numberOfFrozenColumn > 0) ?
+                                    Fanex.Grid.Helper.CreateRowsForFrozenColumn(currentBodyRows, options.numberOfFrozenColumn, me.frozenColsName) :
+                                    [];
             var frozenBodyLength = currentFrozenRows.length;
 
             if (bodyLength > 0) {
                 //// Render Frozen Row and Main Row at the same time
                 for (var rowIndex = 0; rowIndex < frozenBodyLength; rowIndex++) {
-                    var currentRow = currentBodyRows[rowIndex];
+                    currentRow = currentBodyRows[rowIndex];
                     var currentFrozenRow = currentFrozenRows[rowIndex];
                     bodyRowsHtml.push(me.RenderNormalRow(currentRow, 'td', true, rowIndex + currentPageStartIndex, '', false, rowIndex, 0));
                     bodyFrozenHtml.push(me.RenderFrozenRow(currentFrozenRow, 'td', true, rowIndex + currentPageStartIndex, '', false, rowIndex, 0));
                 }
 
                 //// If MainRow still has item, then continue render
-                for (var rowIndex = frozenBodyLength; rowIndex < bodyLength; rowIndex++) {
-                    var currentRow = currentBodyRows[rowIndex];
+                for (rowIndex = frozenBodyLength; rowIndex < bodyLength; rowIndex++) {
+                    currentRow = currentBodyRows[rowIndex];
                     bodyRowsHtml.push(me.RenderNormalRow(currentRow, 'td', true, rowIndex + currentPageStartIndex, '', false, rowIndex, 0));
                 }
             }
             else {
                 //// Render There is no data, showNoDataOnFrozen
-                var emptyData = options.noDataText;
+                var emptyData = fanexGridCurrentLanguage.noData;
                 if (options.numberOfFrozenColumn > 0) {
                     if (options.showNoDataOnFrozen) {
                         //// Show No Info on the frozen table
@@ -1011,7 +1247,7 @@
                 }
             }
 
-            if (reRenderBody == true) {
+            if (reRenderBody === true) {
                 //if (ub.msie) {
                 me.$grid.find('#' + me.frozenContentId + '> tbody').remove();
                 me.$grid.find('#' + me.tableContentId + '> tbody').remove();
@@ -1033,53 +1269,86 @@
                 //                }
             }
             else {
-                // Fixbug for replace $' string
+                // Fix for replace $' string
                 var bodyHtmlTemp = bodyHtml.split('{$}frozenBody');
-                if (bodyHtmlTemp.length == 2) {
+                if (bodyHtmlTemp.length === 2) {
                     bodyHtml = bodyHtmlTemp[0] + bodyFrozenHtml.join('') + bodyHtmlTemp[1];
                 }
                 bodyHtmlTemp = bodyHtml.split('{$}_');
-                if (bodyHtmlTemp.length == 2) {
+                if (bodyHtmlTemp.length === 2) {
                     bodyHtml = bodyHtmlTemp[0] + bodyRowsHtml.join('') + bodyHtmlTemp[1];
                 }
             }
 
             return Fanex.Grid.Helper.RemoveSpaceIE9(bodyHtml);
         },
-        RenderFooter: function () {
+        RenderFooter: function (reRender) {
+            var me = this,
+            //options = me.Options,
+                footerHtml = [],
+                frozenFooterHtml = [],
+                currentFooterHtml = me.RenderFooterBody();
+            reRender = reRender || false;
+            if (reRender) {
+                //currentFooterHtml
+                me.$grid.find('.row_footer_content > thead').empty().append(currentFooterHtml.frozenFooterHtml);
+                me.$grid.find('.col_footer_content > thead').empty().append(currentFooterHtml.footerHtml);
+            }
+            else {
+                footerHtml.push('<div class="col_footer row-footer-background scroll-y">' +
+                                '<div class="footer-container">' +
+                                    '<table class="col_footer_content grid-fixed-table">' +
+                                        '<thead>');
+
+                frozenFooterHtml.push(' <div class="row_footer row-footer-background z999">' +
+                                    ' <table class="grid-fixed-table row_footer_content">' +
+                                    '    <thead>');
+
+
+                currentFooterHtml = me.RenderFooterBody();
+
+                footerHtml.push(currentFooterHtml.footerHtml);
+
+                frozenFooterHtml.push(currentFooterHtml.frozenFooterHtml);
+
+                frozenFooterHtml.push('   </thead>' + '</table>' + '</div>');
+
+                footerHtml.push(' </thead>' + '</table>' + '</div>' + '</div>');
+
+                return frozenFooterHtml.join('') + footerHtml.join('');
+            }
+        },
+        RenderFooterBody: function () {
             var me = this;
             var options = me.Options;
             var footerHtml = [];
             var frozenFooterHtml = [];
-            var footerRowsLength = options.footerRows.length;
+            var footerRowsLength = options.footerRows.length,
+                currentRow;
 
-            footerHtml.push('<div class="col_footer row-footer-background scroll-y">' + '<div class="footer-container">' + '<table class="col_footer_content grid-fixed-table">' + '<thead>');
-
-            frozenFooterHtml.push(' <div class="row_footer row-footer-background z999">' + ' <table class="grid-fixed-table row_footer_content">' + '    <thead>');
-
-
-            var currentFrozenRows = (options.numberOfFrozenColumn > 0) ? Fanex.Grid.Helper.CreateRowsForFrozenColumn(options.footerRows, options.numberOfFrozenColumn, me.frozenColsName) : [];
+            var currentFrozenRows = (options.numberOfFrozenColumn > 0) ?
+                                    Fanex.Grid.Helper.CreateRowsForFrozenColumn(options.footerRows, options.numberOfFrozenColumn, me.frozenColsName) :
+                                    [];
             var frozenFooterLength = currentFrozenRows.length;
 
             //// Render Frozen fotter and main Footer
             for (var rowIndex = 0; rowIndex < frozenFooterLength; rowIndex++) {
-                var currentRow = options.footerRows[rowIndex];
+                currentRow = options.footerRows[rowIndex];
                 var currentFrozenRow = currentFrozenRows[rowIndex];
                 footerHtml.push(me.RenderNormalRow(currentRow, 'th', false, rowIndex, '', false, ''));
                 frozenFooterHtml.push(me.RenderFrozenRow(currentFrozenRow, 'th', false, rowIndex, '', false, ''));
             }
 
             //// Render only main Footer
-            for (var rowIndex = frozenFooterLength; rowIndex < footerRowsLength; rowIndex++) {
-                var currentRow = options.footerRows[rowIndex];
+            for (rowIndex = frozenFooterLength; rowIndex < footerRowsLength; rowIndex++) {
+                currentRow = options.footerRows[rowIndex];
                 footerHtml.push(me.RenderNormalRow(currentRow, 'th', false, rowIndex, '', false, ''));
             }
 
-            frozenFooterHtml.push('   </thead>' + '</table>' + '</div>');
-
-            footerHtml.push(' </thead>' + '</table>' + '</div>' + '</div>');
-
-            return frozenFooterHtml.join('') + footerHtml.join('');
+            return {
+                footerHtml: footerHtml.join(''),
+                frozenFooterHtml: frozenFooterHtml.join('')
+            };
         },
         RenderPager: function () {
             var me = this;
@@ -1091,34 +1360,50 @@
                     return;
                 }
 
-                if (options.customPager && options.customPager == true) {
+                if (options.customPager && options.customPager === true) {
                     pagerOption =
                     {
-                        callback: function (page_index, itemsPerPage, jq) {
-                            if (me.Options.pagerOption.itemsPerPage != itemsPerPage) {
-                                page_index = 0;
+                        callback: function (pageIndex, itemsPerPage, jq) {
+                            if (me.Options.pagerOption.itemsPerPage !== itemsPerPage) {
+                                pageIndex = 0;
                             }
-                            options.pagerOption.pagerSelectCallBack(page_index, itemsPerPage, jq);
+                            options.pagerOption.pagerSelectCallBack(pageIndex, itemsPerPage, jq);
                         }
                     };
                 }
                 else {
                     pagerOption =
                     {
-                        callback: function (page_index, itemsPerPage, jq) {
-                            if (me.Options.pagerOption.itemsPerPage != itemsPerPage) {
-                                page_index = 0;
+                        callback: function (pageIndex, itemsPerPage) {
+                            if (me.Options.pagerOption.itemsPerPage !== itemsPerPage) {
+                                pageIndex = 0;
                             }
-                            me.Options.pagerOption.currentPage = page_index;
+                            me.Options.pagerOption.currentPage = pageIndex;
                             me.Options.pagerOption.itemsPerPage = itemsPerPage;
                             me.RenderBody('', true);
+                            ////Re-render footer 
+                            ////options.showFooter && options.bodyRows.length > 0 ? me.RenderFooter() : ""
+                            if (options.showFooter && options.bodyRows.length > 0 && typeof (options.pagerOption.customRenderFooter) === 'function') {
+                                var startIndex = (options.pagerOption.currentPage * options.pagerOption.itemsPerPage);
+                                var endIndex = ((options.pagerOption.currentPage + 1) * options.pagerOption.itemsPerPage);
+                                var currentBodyRows = options.bodyRows.slice(startIndex, endIndex);
+                                me.Options.footerRows = options.pagerOption.customRenderFooter(
+                                                                                                currentBodyRows,
+                                                                                                options.pagerOption.currentPage,
+                                                                                                options.pagerOption.itemsPerPage);
+                                me.RenderFooter(true);
+                            }
+                            //                            if (typeof (options.pagerOption.afterPagedFunction) === 'function') {
+                            //                                options.pagerOption.afterPagedFunction(options.pagerOption);
+                            //                            }
                             me.gridOptions.isResetScroller = true;
                             $(me.$grid).gridScroller(me.gridOptions);
                             me.RenderPager();
                             me.RegisterMouseHoverEvent();
+                            me.AutoResizeRowHeight();
                             //// Save for rerender
                             Fanex.Grid.List[me.tableContentId].pagerOption = me.Options.pagerOption;
-                            if (typeof (options.pagerOption.afterPagedFunction) == 'function') {
+                            if (typeof (options.pagerOption.afterPagedFunction) === 'function') {
                                 options.pagerOption.afterPagedFunction(options.pagerOption);
                             }
                             return false;
@@ -1128,13 +1413,14 @@
 
                 pagerOption.startPerPage = options.pagerOption.startPerPage;
                 pagerOption.stepPerPage = options.pagerOption.pageStep;
-                pagerOption.maxTtemsPerPage = options.pagerOption.maxItemsPerPage;
-                pagerOption.itemsPerPage = options.pagerOption.itemsPerPage;
-                pagerOption.currentPage = options.pagerOption.currentPage;
-                pagerOption.total_items = options.pagerOption.totalItem;
+                pagerOption.maxTtemsPerPage = parseInt(options.pagerOption.maxItemsPerPage || 0);
+                pagerOption.itemsPerPage = parseInt(options.pagerOption.itemsPerPage);
+                pagerOption.currentPage = parseInt(options.pagerOption.currentPage);
+                pagerOption.totalItem = options.pagerOption.totalItem;
                 pagerOption.itemsPerPageArray = options.pagerOption.itemsPerPageArray;
+                pagerOption.showDetail = options.pagerOption.showDetail;
 
-                this.$grid.find('#pagination').fanexPagination(pagerOption.total_items, pagerOption);
+                this.$grid.find('#pagination').fanexPagination(pagerOption.totalItem, pagerOption);
             }
         },
         RegisterEvents: function () {
@@ -1144,17 +1430,19 @@
             me.RegisterSortEvent();
 
             //// For Onclick Title Button
-            if (options.showTitle == true) {
-                if (typeof options.titleInfo.exportExcelFunction == 'function') {
+            if (options.showTitle === true) {
+                if (typeof options.titleInfo.exportExcelFunction === 'function') {
                     me.$grid.parent().off('click', '#btnExport' + me.gridId, null).on('click', '#btnExport' + me.gridId, options.titleInfo.exportExcelFunction);
                 }
-                if (typeof options.titleInfo.backFunction == 'function') {
+                if (typeof options.titleInfo.backFunction === 'function') {
                     me.$grid.parent().off('click', '#btnBack' + me.gridId, null).on('click', '#btnBack' + me.gridId, options.titleInfo.backFunction);
                 }
-                if (typeof options.titleInfo.sendMailFunction == 'function') {
-                    me.$grid.parent().off('click', '#btnSendMail' + me.gridId, null).on('click', '#btnSendMail' + me.gridId, options.titleInfo.sendMailFunction);
+                if (typeof options.titleInfo.sendMailFunction === 'function') {
+                    me.$grid.parent()
+                            .off('click', '#btnSendMail' + me.gridId, null)
+                            .on('click', '#btnSendMail' + me.gridId, options.titleInfo.sendMailFunction);
                 }
-                if (options.titleInfo.showCollapseExpandButton == true) {
+                if (options.titleInfo.showCollapseExpandButton === true) {
                     me.$grid.parent().off('click', '#btnCollapseExpand' + me.gridId, null).on('click', '#btnCollapseExpand' + me.gridId, function () {
                         var $this = $(this);
                         if ($this.hasClass('expanded')) {
@@ -1168,13 +1456,21 @@
                             me.$grid.find('.child-row').show();
                         }
                         me.gridOptions.isResetScroller = false;
+                        var gridOptions = Fanex.Grid.List[me.tableContentId].gridOptions;
+                        if (gridOptions) {
+                            me.gridOptions.gridHeight = gridOptions.gridHeight;
+                        }
                         $(me.$grid).gridScroller(me.gridOptions);
                     });
+
+                    if (options.defaultCollapseAllGroups) {
+                        me.$grid.parent().find('#btnCollapseExpand' + me.gridId).trigger('click');
+                    }
                 }
             }
 
             //// Bind collapse expand event
-            if (options.showTree == true) {
+            if (options.showTree === true) {
                 me.$grid.off('click', '.parent-row > td.tr-grid-collapse-expand', null).on('click', '.parent-row > td.tr-grid-collapse-expand', function () {
                     var $this = $(this);
                     var collapseexpandspan = $this.find('.grid-collapse-expand');
@@ -1192,35 +1488,34 @@
                         $child.toggle();
                         for (var index = 0; index < $child.length; index++) {
                             var $currentChild = $($child[index]);
-                            RecursiveCollapseExpandChild($currentChild, isExpand);
+                            me.RecursiveCollapseExpandChild($currentChild, isExpand);
                         }
                         me.gridOptions.isResetScroller = false;
                         $(me.$grid).gridScroller(me.gridOptions);
                     }
                 });
+            }
+        },
+        RecursiveCollapseExpandChild: function ($current, isExpand) {
+            var me = this;
+            var collapseexpandspan = $current.find('.grid-collapse-expand');
+            var $child = me.$grid.find('.' + collapseexpandspan.attr('id'));
 
-                function RecursiveCollapseExpandChild($current, isExpand) {
-                    var currentStatus = '';
-                    var collapseexpandspan = $current.find('.grid-collapse-expand');
-                    var $child = me.$grid.find('.' + collapseexpandspan.attr('id'));
+            if (isExpand) {
+                if (collapseexpandspan.hasClass('grid-expand')) {
+                    $child.show();
+                }
+                else {
+                    $child.hide();
+                }
+            }
+            else {
+                $child.hide();
+            }
 
-                    if (isExpand) {
-                        if (collapseexpandspan.hasClass('grid-expand')) {
-                            $child.show();
-                        }
-                        else {
-                            $child.hide();
-                        }
-                    }
-                    else {
-                        $child.hide();
-                    }
-
-                    for (var index = 0; index < $child.length; index++) {
-                        var $currentChild = $($child[index]);
-                        RecursiveCollapseExpandChild($currentChild, isExpand);
-                    }
-                };
+            for (var index = 0; index < $child.length; index++) {
+                var $currentChild = $($child[index]);
+                me.RecursiveCollapseExpandChild($currentChild, isExpand);
             }
         },
         RegisterSortEvent: function () {
@@ -1230,55 +1525,71 @@
             var colsLength = options.columns.length;
             for (var colIndex = 0; colIndex < colsLength; colIndex++) {
                 var currentCol = options.columns[colIndex];
-                if (currentCol.Sort == true) {
-                    me.$grid.off('click', '#' + me.gridId + '_header_sort_' + currentCol.Name, null).on('click', '#' + me.gridId + '_header_sort_' + currentCol.Name, function () {
-                        var $this = $(this).find('.divSorter');
-                        var currentDirection = '';
-                        if ($this.hasClass('desc')) {
-                            me.$grid.find('.divSorter').removeClass('asc').removeClass('desc');
-                            $this.addClass('asc');
-                            currentDirection = 'ASC';
-                        }
-                        else if ($this.hasClass('asc')) {
-                            me.$grid.find('.divSorter').removeClass('asc').removeClass('desc');
-                            $this.addClass('desc');
-                            currentDirection = 'DESC';
-                        }
-                        else {
-                            me.$grid.find('.divSorter').removeClass('asc').removeClass('desc');
-                            $this.addClass('desc');
-                            currentDirection = 'DESC';
-                        }
-                        var customSortFunction = null;
-                        for (var colIndex = 0; colIndex < options.columns.length; colIndex++) {
-                            if (options.columns[colIndex].Name == $this.data('columnname')) {
-                                options.columns[colIndex].SortDirection = currentDirection.toLowerCase();
-                                customSortFunction = options.columns[colIndex].CustomSortFunction
-                            }
-                            else {
-                                options.columns[colIndex].SortDirection = '';
-                            }
-                        }
-                        //customGridSort: null
-                        if (typeof (options.sortOption.serverSortFunction) == 'function') {
-                            options.sortOption.serverSortFunction($this.data('columnname'), currentDirection);
-                        }
-                        else {
-                            if (typeof (options.sortOption.beforeGridSorted) == 'function') {
-                                options.bodyRows = options.sortOption.beforeGridSorted(options.bodyRows, $this.data('columnname'), currentDirection);
-                            }
-                            if (typeof (options.sortOption.customGridSort) == 'function') {
-                                options.bodyRows = options.sortOption.customGridSort(options.bodyRows, $this.data('columnname'), currentDirection, customSortFunction);
-                            }
-                            else {
-                                options.bodyRows = Fanex.Grid.Helper.GetSortedArray(options.bodyRows, $this.data('columnname'), currentDirection, customSortFunction);
-                            }
-                            me.ReRenderBodyAfterSort($this.data('columnname'), currentDirection);
-                            if (typeof (options.sortOption.afterGridSorted) == 'function') {
-                                options.bodyRows = options.sortOption.afterGridSorted(options.bodyRows, $this.data('columnname'), currentDirection);
-                            }
-                        }
-                    });
+
+                if (currentCol.Sort === true) {
+                    /*jshint ignore:start*/
+                    me.$grid.off('click', '#' + me.gridId + '_header_sort_' + currentCol.Name, null)
+                            .on('click', '#' + me.gridId + '_header_sort_' + currentCol.Name, function () {
+                                var $this = $(this).find('.divSorter');
+                                var currentDirection = '';
+                                if ($this.hasClass('desc')) {
+                                    me.$grid.find('.divSorter').removeClass('asc').removeClass('desc');
+                                    $this.addClass('asc');
+                                    currentDirection = 'asc';
+                                }
+                                else if ($this.hasClass('asc')) {
+                                    me.$grid.find('.divSorter').removeClass('asc').removeClass('desc');
+                                    $this.addClass('desc');
+                                    currentDirection = 'desc';
+                                }
+                                else {
+                                    me.$grid.find('.divSorter').removeClass('asc').removeClass('desc');
+                                    $this.addClass('desc');
+                                    currentDirection = 'desc';
+                                }
+                                var customSortFunction = null;
+                                var sortType = null;
+                                for (var colIndex = 0; colIndex < options.columns.length; colIndex++) {
+                                    if (options.columns[colIndex].Name === $this.data('columnname')) {
+                                        options.columns[colIndex].SortDirection = currentDirection.toLowerCase();
+                                        customSortFunction = options.columns[colIndex].CustomSortFunction;
+                                        sortType = options.columns[colIndex].SortType;
+                                    }
+                                    else {
+                                        options.columns[colIndex].SortDirection = '';
+                                    }
+                                }
+                                //customGridSort: null
+                                if (typeof (options.sortOption.serverSortFunction) === 'function') {
+                                    options.sortOption.serverSortFunction($this.data('columnname'), currentDirection);
+                                }
+                                else {
+                                    if (typeof (options.sortOption.beforeGridSorted) === 'function') {
+                                        options.bodyRows = options.sortOption.beforeGridSorted(options.bodyRows, $this.data('columnname'), currentDirection);
+                                    }
+                                    if (typeof (options.sortOption.customGridSort) === 'function') {
+                                        options.bodyRows = options.sortOption.customGridSort(
+                                                            options.bodyRows,
+                                                            $this.data('columnname'),
+                                                            currentDirection,
+                                                            customSortFunction,
+                                                            sortType);
+                                    }
+                                    else {
+                                        options.bodyRows = Fanex.Grid.Helper.GetSortedArray(options.bodyRows,
+                                                                                        $this.data('columnname'),
+                                                                                        currentDirection,
+                                                                                        customSortFunction,
+                                                                                        sortType);
+                                    }
+                                    me.ReRenderBodyAfterSort($this.data('columnname'), currentDirection);
+                                    if (typeof (options.sortOption.afterGridSorted) === 'function') {
+                                        options.bodyRows = options.sortOption.afterGridSorted(options.bodyRows, $this.data('columnname'), currentDirection);
+                                    }
+                                }
+                            });
+                    /*jshint ignore:end*/
+                    continue;
                 }
             }
         },
@@ -1286,7 +1597,7 @@
             var me = this;
             var options = me.Options;
             //// For Mouse hover event
-            if (options.showHighlightRow == true && options.numberOfFrozenColumn > 0) {
+            if (options.showHighlightRow === true && options.numberOfFrozenColumn > 0) {
                 me.$grid.find('.highlight-row').unbind('mouseenter mouseleave').mouseenter(function () {
                     var $this = $(this);
                     var hlattr = $this.attr('highlightatt');
@@ -1311,6 +1622,55 @@
                     }
                 });
             }
+        },
+        AutoResizeRowHeight: function () {
+            var me = this,
+                options = me.Options;
+            if (options.autoFixFrozenRowHeight) {
+                var extraHeight = 3;
+                me.$grid.find('.content-container .auto-fix-row').each(function () {
+                    var $this = $(this),
+                        currentHeight = $this.height() + extraHeight,
+                        atfattr = $this.attr('autofixatt');
+
+                    if (isValid(atfattr)) {
+                        me.$grid.find('.row_header tr[autofixatt="' + atfattr.replace('main', 'frozen') + '"]')
+                            .attr('frozen-row-computed-height', currentHeight + 'px');
+                        $this.attr('frozen-row-computed-height', currentHeight + 'px');
+                    }
+                });
+
+                me.$grid.hide().find('tr.auto-fix-row').each(function () {
+                    var $this = $(this);
+                    $this.css('height', $this.attr('frozen-row-computed-height'));
+                });
+                me.$grid.show();
+                // Header
+                var currentFrozenHeader = me.$grid.find('.grid-fixed-table.free-cell-top-left thead tr'),
+                    currentFrozenBody = me.$grid.find('.grid-fixed-table.row_header_content thead tr');
+                if (currentFrozenHeader.length > 0 && currentFrozenBody.length) {
+                    me.$grid.find('.grid-fixed-table.col_header_content thead tr').each(function (index) {
+                        var $trTable = $(this),
+                            currentHeight = $trTable.height();
+
+                        $(currentFrozenHeader[index]).css('height', currentHeight + 'px');
+                        $(currentFrozenBody[index]).css('height', currentHeight + 'px');
+                        //$trTable.css('height', currentHeight + 'px');
+                    });
+                }
+                // Footer
+                var currentFrozenFooter = me.$grid.find('.grid-fixed-table.row_footer_content thead tr');
+                if (currentFrozenFooter.length > 0) {
+                    me.$grid.find('.col_footer_content.grid-fixed-table thead tr').each(function (index) {
+                        var $trTable = $(this),
+                            currentHeight = $trTable.height();
+                        $(currentFrozenFooter[index]).css('height', currentHeight + 'px');
+                        //$trTable.css('height', currentHeight + 'px');
+                    });
+                }
+
+                $(me.$grid).gridScroller(me.gridOptions);
+            }
         }
     };
 
@@ -1330,6 +1690,7 @@
                 var match = /(chrome)[ \/]([\w.]+)/.exec(ua) ||
                 /(webkit)[ \/]([\w.]+)/.exec(ua) ||
                 /(opera)(?:.*version|)[ \/]([\w.]+)/.exec(ua) ||
+                /(trident)(?:.*rv:([\w.]+))?/.exec(ua) ||
                 /(msie) ([\w.]+)/.exec(ua) ||
                 ua.indexOf("compatible") < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec(ua) ||
                 [];
@@ -1338,7 +1699,7 @@
                     browserDectect: match[1] || "",
                     version: match[2] || "0"
                 };
-            };
+            }
 
             matchedBrowser = ubMatch(navigator.userAgent);
             browserDectect = {};
@@ -1346,6 +1707,10 @@
             if (matchedBrowser.browserDectect) {
                 browserDectect[matchedBrowser.browserDectect] = true;
                 browserDectect.version = matchedBrowser.version;
+
+                if (matchedBrowser.browserDectect === 'trident') {
+                    browserDectect.msie = true;
+                }
             }
 
             // Chrome is Webkit, but Webkit is also Safari.
@@ -1357,7 +1722,7 @@
 
             return browserDectect;
         },
-        RemoveItemForRowSpan: function (rows, currentRowIndex, mainColumn, colsHashtable) {
+        RemoveItemForRowSpan: function (rows, currentRowIndex, mainColumn) {
             var rowSpanSize = mainColumn.MergeRowNumber;
             var columnName = mainColumn.Name;
             var currentLength = currentRowIndex + rowSpanSize;
@@ -1365,8 +1730,8 @@
             for (var rowIndex = currentRowIndex + 1; rowIndex < rowsLength; rowIndex++) {
                 for (var colIndex = 0; colIndex < rows[rowIndex].Columns.length; colIndex++) {
                     var currentCol = rows[rowIndex].Columns[colIndex];
-                    if (currentCol.Name == columnName) {
-                        if (isValid(currentCol.Sort) && currentCol.Sort == true) {
+                    if (currentCol.Name === columnName) {
+                        if (isValid(currentCol.Sort) && currentCol.Sort === true) {
                             var firstColIndex = Fanex.Grid.Helper.GetColumnIndexFromColumnName(rows[currentRowIndex], currentCol.Name);
                             rows[currentRowIndex].Columns[firstColIndex].Sort = true;
                             rows[currentRowIndex].Columns[firstColIndex].SortDirection = currentCol.SortDirection;
@@ -1387,7 +1752,7 @@
         },
         GetColumnIndexFromColumnName: function (row, columnName) {
             for (var index = 0; index < row.Columns.length; index++) {
-                if (row.Columns[index].Name == columnName) {
+                if (row.Columns[index].Name === columnName) {
                     return index;
                 }
             }
@@ -1410,8 +1775,6 @@
                         newRow.Columns.push(clone(currentRow.Columns[colIndex]));
                         isset = true;
                     }
-                    else if (isValid(prevCol) && isValid(prevCol.MergeColNumber) && prevCol.MergeColNumber + colIndex <= colsLength) { }
-                    var prevCol = currentCol;
                 }
                 if (isset) {
                     frozenRows.push(newRow);
@@ -1422,7 +1785,7 @@
         },
         CheckExistName: function (frozenColsName, name) {
             for (var colIndex = 0; colIndex < frozenColsName.length; colIndex++) {
-                if (frozenColsName[colIndex] == name) {
+                if (frozenColsName[colIndex] === name) {
                     return true;
                 }
             }
@@ -1442,7 +1805,13 @@
             var columnLength = columns.length;
             for (var columnIndex = 0; columnIndex < columnLength; columnIndex++) {
                 var currentColumn = columns[columnIndex];
-                if (isValid(enableHiddenColumns) && enableHiddenColumns == false && currentColumn.CanShowHide && currentColumn.CanShowHide == true && isForComputingWidth == false) { }
+                if (isValid(enableHiddenColumns) &&
+                    enableHiddenColumns === false &&
+                    currentColumn.CanShowHide &&
+                    currentColumn.CanShowHide === true &&
+                    isForComputingWidth === false) {
+                    continue;
+                }
                 else {
                     arrayWidth.push(currentColumn.Width);
                 }
@@ -1454,7 +1823,7 @@
             var finalColMergeNumber = colMergeNumber;
             var colLength = arrayWidth.length < (startIndex + colMergeNumber) ? arrayWidth.length : (startIndex + colMergeNumber);
             for (var colIndex = startIndex; colIndex < colLength; colIndex++) {
-                if (isValid(enableHiddenColumns) && enableHiddenColumns == false && columns[colIndex].CanShowHide && columns[colIndex].CanShowHide == true) {
+                if (isValid(enableHiddenColumns) && enableHiddenColumns === false && columns[colIndex].CanShowHide && columns[colIndex].CanShowHide === true) {
                     finalColMergeNumber--;
                 }
                 else {
@@ -1467,7 +1836,7 @@
         GetColumnWidth: function (columns, name) {
             var colLength = columns.length;
             for (var colIndex = 0; colIndex < colLength; colIndex++) {
-                if (columns[colIndex].Name == name) {
+                if (columns[colIndex].Name === name) {
                     return columns[colIndex].Width;
                 }
             }
@@ -1483,53 +1852,106 @@
             }
             return hastable;
         },
-        GetSortedArray: function (rows, sortField, sortDirection, customSortFunction) {
-            if (sortDirection == 'ASC') {
+        SortByNumber: function (col1Value, col2Value, sortDirection) {
+            var isNumber1 = !isNaN(col1Value);
+            var isNumber2 = !isNaN(col2Value);
+
+            if (isNumber1 && isNumber2) {
+                var parseValCol1 = parseFloat(col1Value);
+                var parseValCol2 = parseFloat(col2Value);
+                if (sortDirection === 'asc') {
+                    return parseValCol1 > parseValCol2 ? 1 : -1;
+                }
+                else {
+                    return parseValCol1 < parseValCol2 ? 1 : -1;
+                }
+            }
+
+            if (sortDirection === 'asc') {
+                if (!isNumber1) {
+                    return 1;
+                }
+            }
+            else {
+                if (!isNumber2) {
+                    return 1;
+                }
+            }
+
+            return -1;
+        },
+        GetSortedArray: function (rows, sortField, sortDirection, customSortFunction, sortType) {
+            var sortColIndex = null;
+            if (rows.length > 0) {
+                var firstRow = rows[0];
+                var colLength = firstRow.Columns.length;
+
+                for (var colIndex = 0; colIndex < colLength; colIndex++) {
+                    if (firstRow.Columns[colIndex].Name === sortField) {
+                        sortColIndex = colIndex;
+                        break;
+                    }
+                }
+            }
+
+            if (sortType != null) {
+                sortType = sortType.toLowerCase();
+            }
+
+            sortDirection = sortDirection.toLowerCase();
+
+            if (sortDirection === 'asc') {
                 return rows.sort(function (row1, row2) {
-                    return Fanex.Grid.Helper.CompareRow(row1, row2, sortField, function (col1Value, col2Value) {
-                        if (typeof (customSortFunction) == 'function') {
+                    return Fanex.Grid.Helper.CompareRow(sortColIndex, row1, row2, sortField, sortType, function (col1Value, col2Value) {
+                        if (typeof (customSortFunction) === 'function') {
                             return customSortFunction(col1Value, col2Value, sortDirection);
                         }
+
+                        if (sortType != null) {
+                            switch (sortType) {
+                                case 'number':
+                                    return Fanex.Grid.Helper.SortByNumber(col1Value, col2Value, sortDirection);
+                                case 'string':
+                                    break;
+                            }
+                        }
+
                         return col1Value > col2Value ? 1 : -1;
                     });
                 });
             }
             else {
                 return rows.sort(function (row1, row2) {
-                    return Fanex.Grid.Helper.CompareRow(row1, row2, sortField, function (col1Value, col2Value) {
-                        if (typeof (customSortFunction) == 'function') {
+                    return Fanex.Grid.Helper.CompareRow(sortColIndex, row1, row2, sortField, sortType, function (col1Value, col2Value) {
+                        if (typeof (customSortFunction) === 'function') {
                             return customSortFunction(col1Value, col2Value, sortDirection);
                         }
+
+                        if (sortType != null) {
+                            switch (sortType) {
+                                case 'number':
+                                    return Fanex.Grid.Helper.SortByNumber(col1Value, col2Value, sortDirection);
+                                case 'string':
+                                    break;
+                            }
+                        }
+
                         return col1Value < col2Value ? 1 : -1;
                     });
                 });
             }
         },
-        CompareRow: function (row1, row2, sortField, compareFunction) {
-            var col1Length = row1.Columns.length;
-            var col2Length = row2.Columns.length;
-            var col1Value = "";
-            var col2Value = "";
-
-            for (var col1Index = 0; col1Index < col1Length; col1Index++) {
-                if (row1.Columns[col1Index].Name == sortField) {
-                    col1Value = row1.Columns[col1Index].Value;
-                    break;
-                }
-            }
-            for (var col2Index = 0; col2Index < col2Length; col2Index++) {
-                if (row2.Columns[col2Index].Name == sortField) {
-                    col2Value = row2.Columns[col2Index].Value;
-                    break;
-                }
-            }
-
-            //            if (typeof (col1Value) == 'string' && typeof (col2Value) == 'string') {
-            //                col1Value = parseFloat(col1Value.replace(',', ''));
-            //                col2Value = parseFloat(col2Value.replace(',', ''));
+        CompareRow: function (sortColIndex, row1, row2, sortField, sortType, compareFunction) {
+            //            var col1Value = row1.Columns[sortColIndex].Value;
+            //            var col2Value = row2.Columns[sortColIndex].Value;
+            //            if (sortType != null) {
+            //                switch (sortType) {
+            //                    case 'number':
+            //                        
+            //                }
             //            }
 
-            return compareFunction(col1Value, col2Value);
+            return compareFunction(row1.Columns[sortColIndex].Value, row2.Columns[sortColIndex].Value);
         },
         SetColumnDisplay: function (columns, showHideArray) {
             var columnsLengh = columns.length;
@@ -1554,7 +1976,7 @@
         HideHeaderGroupWhenShowHide: function (hideColumns, startIndex, mergeColNumber) {
             var length = startIndex + mergeColNumber;
             for (var index = startIndex; index < length; index++) {
-                if (!hideColumns.contains(index)) {
+                if (!Fanex.Grid.Helper.ArrayContains(hideColumns, index)) {
                     return false;
                 }
             }
@@ -1564,7 +1986,7 @@
             var currentMergeCol = mergeColNumber;
             var length = startIndex + mergeColNumber;
             for (var index = startIndex; index < length; index++) {
-                if (hideColumns.contains(index)) {
+                if (Fanex.Grid.Helper.ArrayContains(hideColumns, index)) {
                     currentMergeCol--;
                 }
             }
@@ -1575,16 +1997,16 @@
                 var colsLength = options.columns.length;
                 var customSortFunction = null;
                 for (var colIndex = 0; colIndex < colsLength; colIndex++) {
-                    if (options.columns[colIndex].Name == sortOption.SortColumnName) {
-                        options.columns[colIndex].SortDirection = sortOption.SortDirection.toLowerCase(); ;
-                        customSortFunction = options.columns[colIndex].CustomSortFunction
+                    if (options.columns[colIndex].Name === sortOption.SortColumnName) {
+                        options.columns[colIndex].SortDirection = sortOption.SortDirection.toLowerCase();
+                        customSortFunction = options.columns[colIndex].CustomSortFunction;
                     }
                 }
                 options.bodyRows = Fanex.Grid.Helper.GetSortedArray(options.bodyRows, sortOption.SortColumnName, sortOption.SortDirection, customSortFunction);
             }
         },
         RemoveSpaceIE9: function (html) {
-            if (ub.msie && parseInt(ub.version, 10) === 9 && html != undefined) {
+            if (ub.msie && parseInt(ub.version, 10) === 9 && html !== undefined) {
                 var expr = new RegExp('>[ \t\r\n\v\f]*<', 'g');
                 html = html.replace(expr, '><');
             }
@@ -1592,7 +2014,6 @@
             return html;
         },
         CreateHeaderColumnsFromOptionsColumn: function (columns) {
-            var cloneColumns = columns.slice(0);
             var colLength = columns.length;
             var colArray = [];
             for (var colIndex = 0; colIndex < colLength; colIndex++) {
@@ -1610,6 +2031,149 @@
                 colArray.push(currentCol);
             }
             return colArray;
+        },
+        ArrayContains: function (array, obj) {
+            var i = array.length;
+            while (i--) {
+                if (array[i] === obj) {
+                    return true;
+                }
+            }
+            return false;
+        },
+        ComputeResizeColumn: function (mainContainer, options) {
+            var resizeObject = {},
+                columnHashtable = Fanex.Grid.Helper.GetColumnsHastable(options.columns),
+                pixelsPerCharacter = options.pixelsPerCharacter;
+
+            resizeObject = Fanex.Grid.Helper.ComputeMaxWidthInRows(options.bodyRows, resizeObject, columnHashtable, pixelsPerCharacter);
+
+            if (options.showFooter) {
+                resizeObject = Fanex.Grid.Helper.ComputeMaxWidthInRows(options.footerRows, resizeObject, columnHashtable, pixelsPerCharacter);
+            }
+
+            var mainColLength = options.columns.length;
+            for (var mainColIndex = 0; mainColIndex < mainColLength; mainColIndex++) {
+                var currentResizeObject = resizeObject[options.columns[mainColIndex].Name];
+                if (currentResizeObject != null) {
+                    if (currentResizeObject.calculated || options.calTextWidthWithFontSize) {
+                        options.columns[mainColIndex].Width = resizeObject[options.columns[mainColIndex].Name].length;
+                    }
+                    else {
+                        options.columns[mainColIndex].Width = Fanex.Grid.Helper.ComputeTextWidth(mainContainer, currentResizeObject.rawData) + 20;
+                    }
+                }
+            }
+
+            options = Fanex.Grid.Helper.AutoAddWidthForFullScreen(options, mainContainer);
+
+            return options;
+        },
+        AutoAddWidthForFullScreen: function (options, mainContainer) {
+            var currentContainerWidth = mainContainer.parent().width(),
+                totalCalulatedWidth = 0,
+                colLength = options.columns.length,
+                resizeCols = [];
+
+            for (var i = 0; i < colLength; i++) {
+                var currentCol = options.columns[i];
+                if (currentCol.CanResize === true) {
+                    if (typeof (currentCol.MaxResizeWidth) !== 'undefined' && currentCol.Width > currentCol.MaxResizeWidth) {
+                        currentCol.Width = currentCol.MaxResizeWidth;
+                    }
+
+                    resizeCols.push({
+                        colIndex: i,
+                        colName: currentCol.Name,
+                        colWidth: currentCol.Width
+                    });
+                }
+                totalCalulatedWidth += currentCol.Width;
+
+            }
+
+            //// Add width for others columns
+            totalCalulatedWidth += (options.columns.length - 1) * 5 + options.marginRight + (options.hideYBackGroundScroller ? 0 : options.scrollWidth);
+            if (resizeCols.length > 0 && currentContainerWidth > totalCalulatedWidth) {
+                var totalAddWidth = currentContainerWidth - totalCalulatedWidth,
+                    addRowForEachColumn = totalAddWidth / resizeCols.length;
+
+                for (i = 0; i < resizeCols.length; i++) {
+                    var currentResizeCol = resizeCols[i];
+                    options.columns[currentResizeCol.colIndex].Width = currentResizeCol.colWidth + addRowForEachColumn;
+                }
+            }
+
+            return options;
+        },
+        ComputeMaxWidthInRows: function (rows, resizeObject, columnHashtable, pixelsPerCharacter) {
+            var rowLength = rows.length;
+            //currentPixelsPerChar = 0;
+
+            for (var rowIndex = 0; rowIndex < rowLength; rowIndex++) {
+                var currentRow = rows[rowIndex],
+                    colLength = currentRow.Columns.length;
+                for (var colIndex = 0; colIndex < colLength; colIndex++) {
+                    var currentCol = currentRow.Columns[colIndex];
+                    if (columnHashtable[currentCol.Name].CanResize === true) {
+                        var textLength = 0;
+                        var calculated = true;
+                        if (typeof (resizeObject[currentCol.Name]) === 'undefined') {
+                            resizeObject[currentCol.Name] = {
+                                length: columnHashtable[currentCol.Name].Width,
+                                calculated: true,
+                                rawData: ''
+                            };
+                        }
+
+                        if (columnHashtable[currentCol.Name].CalResizeFunction != null) {
+                            textLength = columnHashtable[currentCol.Name].CalResizeFunction(currentCol.Value);
+                        }
+                        else {
+                            if (columnHashtable[currentCol.Name].PixelsPerCharacter != null) {
+                                if (currentCol.Value != null) {
+                                    textLength = currentCol.Value.toString().length * columnHashtable[currentCol.Name].PixelsPerCharacter;
+                                }
+                            }
+                            else {
+                                //currentpixelsPerChar = Fanex.Grid.;
+                                if (currentCol.Value != null) {
+                                    textLength = currentCol.Value.toString().length * pixelsPerCharacter;
+                                }
+                                calculated = false;
+                            }
+
+                            ////resizeResult = currentCol.Value.toString().length * currentpixelsPerChar;
+                        }
+
+                        if (resizeObject[currentCol.Name].length < textLength) {
+                            resizeObject[currentCol.Name].length = textLength;
+                            if (calculated === false) {
+                                resizeObject[currentCol.Name].calculated = calculated;
+                                if (currentCol.Value != null) {
+                                    resizeObject[currentCol.Name].rawData = currentCol.Value.toString();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            return resizeObject;
+        },
+        ComputeTextWidth: function (mainContainer, text) {
+            var tempElement = $('<div>' + text + '</div>')
+            .css({
+                'position': 'absolute',
+                'float': 'left',
+                'white-space': 'nowrap',
+                'visibility': 'hidden'
+            }).appendTo(mainContainer);
+            var textWidth = tempElement.width();
+
+            tempElement.remove();
+
+            return textWidth;
         }
     };
 
@@ -1620,32 +2184,30 @@
         NO_DATA_INFO: $.fn.fanexGrid.defaults.noDataText
     };
 
+    Fanex.Grid.Language = Fanex.Grid.Language || {};
+
     $.fn.gridScroller = function (opts) {
         return this.each(function () {
             var o = $(this);
             var xscrollbar = o.find(".x-scrollbar");
             var yscrollbar = o.find(".y-scrollbar");
-            var container = o.find(".container");
+            var container = o.find(".grid-container");
             var rowheader = o.find(".row_header");
             o.parent().removeClass('display-none');
             o.parent().show();
             o.show();
             o.parent().find('.grid-title').removeClass('display-none');
             var options = $.extend({}, $.fn.renderScroller.defaults, opts);
-            var timeOutResize = null;
 
             if (!isValid(Fanex.Grid.List[options.tblContentId])) {
                 $(window).resize(function () {
-                    if (!o.hasClass("display-none")) {
-                        o.resetGrid(options.tblContentId);
-                        var opt = $.extend({}, {}, Fanex.Grid.List[options.tblContentId].gridOptions);
+                    if (o.is(':hidden') || o.parent().is(':hidden')) {
+                        return null;
+                    }
+
+                    var opt = $.extend({}, {}, Fanex.Grid.List[options.tblContentId].gridOptions);
                         opt.manualCopyHeader = true;
                         o.renderScroller(opt);
-                        //                        o.find('.grid-fixed-table').each(function () {
-                        //                            $(this).append(' ');
-                        //                        });
-                        //console.log("resize-" + options.tblContentId);
-                    }
                 });
                 Fanex.Grid.List[options.tblContentId] =
                 {
@@ -1669,7 +2231,7 @@
                 rowheader.prop("scrollTop", top);
             }
 
-            return new scroller(o, container, rowheader, xscrollbar, yscrollbar);
+            return new Scroller(o, container, rowheader, xscrollbar, yscrollbar);
         });
     };
 
@@ -1736,17 +2298,16 @@
     };
 
     $.fn.resetGrid = function () {
-        return this.each(function (id) {
+        return this.each(function () {
             var o = $(this);
             var xscrollbar = o.find(".x-scrollbar");
-            var container = o.find(".container");
-            var tblContent = $("#" + id);
+            var container = o.find(".grid-container");
             var colHeaderContainer = o.find(".col_header");
             var colFooterContainer = o.find(".col_footer");
 
             o.css("width", "");
             container.css("width", "");
-            o.find(".content-container").css("width", "")
+            o.find(".content-container").css("width", "");
             xscrollbar.css("width", "");
             colHeaderContainer.css("width", "");
             colFooterContainer.css("width", "");
@@ -1784,7 +2345,7 @@
             var pagerHeight = pager.length > 0 ? pager.height() : 0;
             var xscrollbar = o.find(".x-scrollbar");
             var yscrollbar = o.find(".y-scrollbar");
-            var container = o.find(".container");
+            var container = o.find(".grid-container");
             var tblContent = o.find("#" + options.tblContentId);
 
             var freeCellTop = o.find(".free-top-right");
@@ -1798,7 +2359,8 @@
             var isShowFooter = !colFooterContainer.hasClass('display-none') && colFooterContainer.find("thead tr").length > 0;
 
             var numOfFreezeCol = options.numberFreezeCol;
-            var col = options.column.length;
+            var col = options.column.length,
+                i;
             if (col > 0) {
                 options.gridWidth = 0;
                 options.freezeWidth = 0;
@@ -1816,7 +2378,7 @@
                 options.freezeWidth += (numOfFreezeCol - 1) * options.padding * 2 + numOfFreezeCol - 1;
             }
 
-            if (tblContent.height() == 0 && options.fullHeight == false) {
+            if (tblContent.height() === 0 && options.fullHeight === false) {
                 tblContent.height(options.gridHeight);
             }
 
@@ -1829,7 +2391,6 @@
                 parentWidth = browserWindowWidth;
             }
 
-            //var gridWidth = options.fullWidth ? (($(window).width() < options.minWidth ? options.minWidth : $(window).width()) - options.marginRight) : options.gridWidth;
             var gridWidth = options.fullWidth ? ((parentWidth < options.minWidth ? options.minWidth : parentWidth) - options.marginRight) : options.gridWidth;
             var isScrollX = gridWidth < tblWidth + 17;
             gridWidth = isScrollX ? gridWidth : (tblWidth + bar);
@@ -1865,20 +2426,31 @@
                 pager.css("width", (gridWidth - ((!isScrollY && !isScrollX ? 18 : 0) ? 18 : 0)) + "px");
             }
 
-            var containerHeight = gridHeight - titleHeight - freezeFooterHeight - pagerHeight - bar;
+            var containerHeight = gridHeight - titleHeight - freezeFooterHeight - pagerHeight - bar + 1 - extraPosition;
             o.css("height", (gridHeight - 1 - (isScrollX ? -1 : bar)) + "px");
             rowHeaderContainer.css("height", containerHeight + "px");
             container.css("height", containerHeight + "px");
             rowHeaderWarpper.css("height", containerHeight + "px");
             yscrollbar.css("height", (containerHeight - freezeHeight - (ub.chrome || ub.msie ? 1 : 0) - options.heightScrollYAdd) + "px");
-            o.find(".free-cell-top-right").css("height", (freezeHeight - ((ub.msie || ub.chrome || ff16) ? (options.padding * 2 + 1) : 0) + (ub.chrome ? 1 : 0)) + "px");
+            var freeCellTopRightHeight = freezeHeight - ((ub.msie || ub.chrome || ff16) ? (options.padding * 2 + 1) : 0) + (ub.chrome ? 1 : 0);
+            o.find(".free-cell-top-right").css("height", freeCellTopRightHeight + "px");
+
             if (isShowFooter) {
                 o.find(".free-cell-bottom-right").css("height", (freezeFooterHeight + (isScrollX ? bar : 0) + 1) + "px");
             }
-            freeCellBottom.css("top", (gridHeight - pagerHeight - freezeFooterHeight - bar - (!isShowFooter ? 1 : 0)) + "px");
+            freeCellBottom.css("top", (gridHeight - pagerHeight - freezeFooterHeight - bar) + "px");
             o.find(".scrollbar-y-content").css("height", (tblHeight - freezeHeight) + "px");
 
-            yscrollbar.css("top", (freezeHeight + titleHeight - (ub.chrome ? (colHeaderContainer.find("thead tr").length - 2) : 0) + options.heightScrollYAdd) + "px");
+            //// Fixed for IE10, wrong body Height
+            var newTblHeight = tblContent.height();
+            if (ub.msie && tblHeight !== newTblHeight) {
+                tblHeight = newTblHeight;
+                o.find(".scrollbar-y-content").css("height", (tblHeight - freezeHeight) + "px");
+            }
+
+            yscrollbar.css("top", (freezeHeight + titleHeight -
+                                    (ub.chrome ? (colHeaderContainer.find("thead tr").length - 2) : 0) +
+                                    options.heightScrollYAdd) + "px");
             xscrollbar.css("top", (gridHeight - pagerHeight - bar - 1 + extraPosition) + "px");
             if (numOfFreezeCol > 0) {
                 o.find(".free-bottom-left").css("top", (gridHeight - pagerHeight - bar - 1 + extraPosition) + "px");
@@ -1888,16 +2460,16 @@
             }
 
             rowFooterContainer.css({
-                "top": (gridHeight - pagerHeight - freezeFooterHeight - bar) + "px",
+                "top": (gridHeight - pagerHeight - freezeFooterHeight - bar + 1 - extraPosition) + "px",
                 "border-top-width": options.bottomBorderWidth + "px"
             });
             colFooterContainer.css({
                 "width": gridWidth + "px",
-                "top": (gridHeight - pagerHeight - freezeFooterHeight - bar) + "px",
+                "top": (gridHeight - pagerHeight - freezeFooterHeight - bar + 1 - extraPosition) + "px",
                 "border-top-width": options.bottomBorderWidth + "px"
             });
             //pager.css("top", (gridHeight - pagerHeight - (isScrollX ? -(isShowFooter ? 0 : 1) : bar) - (isShowFooter ? 1 : 1)) + "px");
-            pager.css("top", (gridHeight - pagerHeight - (isScrollX ? -(isShowFooter ? 0 : 1) : bar) - 1 + extraPosition * 2) + "px");
+            pager.css("top", (gridHeight - pagerHeight - (isScrollX ? -(isShowFooter ? 0 : 1) : bar) - 2 + extraPosition * 2) + "px");
 
             xscrollbar.css("left", (freezeWidth + (options.padding) * 2 + 1 - extraPosition) + "px");
             yscrollbar.css("left", (gridWidth - bar - 1 + extraPosition) + "px");
@@ -1923,15 +2495,15 @@
             if (gridTitle.length > 0) {
                 gridTitle.width(o.width());
             }
-            //// Fixbug show scroller on row header on chrome
+            //// Fix show scroller on row header on chrome
             if (isOnChromeBrowser) {
-                var currentRowHeaderStyle = rowHeaderContainer.attr('style');
                 rowHeaderContainer.css("overflow", "hidden !important");
             }
 
-            ////fix bug scoll in IE
+            ////fix scoll in IE
             if (ub.msie) {
                 yscrollbar.addClass("y-scrollbar-fix-width");
+                xscrollbar.addClass("x-scrollbar-fix-height");
             }
 
             if (!isParentShow) {
@@ -1964,7 +2536,7 @@
         bottomBorderWidth: 3
     };
 
-    var scroller = function (obj, container, rowheader, xscrollbar, yscrollbar) {
+    var Scroller = function (obj, container, rowheader, xscrollbar, yscrollbar) {
         this.preLeft = xscrollbar.scrollLeft();
         this.preTop = yscrollbar.scrollTop();
         this.colHeaderContainer = $(obj).find(".col_header");
@@ -1973,13 +2545,13 @@
         this.init(container, rowheader, xscrollbar, yscrollbar);
     };
 
-    scroller.prototype =
+    Scroller.prototype =
     {
         init: function (container, rowheader, xscrollbar, yscrollbar) {
             var me = this;
             yscrollbar.scroll(function () {
                 var top = yscrollbar.scrollTop();
-                if (me.preTop != top) {
+                if (me.preTop !== top) {
                     container.prop("scrollTop", top);
                     me.rowHeaderContainer.prop("scrollTop", top);
                     me.preTop = top;
@@ -1988,7 +2560,7 @@
 
             container.scroll(function () {
                 var top = container.scrollTop();
-                if (me.preTop != top) {
+                if (me.preTop !== top) {
                     me.rowHeaderContainer.prop("scrollTop", top);
                     yscrollbar.prop("scrollTop", top);
                     me.preTop = top;
@@ -1996,7 +2568,7 @@
                 //
                 if (isOnSmartPhoneBrowser) {
                     var left = container.scrollLeft();
-                    if (me.preLeft != left) {
+                    if (me.preLeft !== left) {
                         me.colHeaderContainer.prop("scrollLeft", left);
                         me.colFooterContainer.prop("scrollLeft", left);
                         xscrollbar.prop("scrollLeft", top);
@@ -2007,7 +2579,7 @@
 
             rowheader.scroll(function () {
                 var top = rowheader.scrollTop();
-                if (me.preTop != top) {
+                if (me.preTop !== top) {
                     container.prop("scrollTop", top);
                     yscrollbar.prop("scrollTop", top);
                     me.preTop = top;
@@ -2016,7 +2588,7 @@
 
             xscrollbar.scroll(function () {
                 var left = xscrollbar.scrollLeft();
-                if (me.preLeft != left) {
+                if (me.preLeft !== left) {
                     me.colHeaderContainer.prop("scrollLeft", left);
                     me.colFooterContainer.prop("scrollLeft", left);
                     container.prop("scrollLeft", left);
@@ -2027,7 +2599,7 @@
             if (isOnSmartPhoneBrowser) {
                 me.colHeaderContainer.scroll(function () {
                     var left = me.colHeaderContainer.scrollLeft();
-                    if (me.preLeft != left) {
+                    if (me.preLeft !== left) {
                         container.prop("scrollLeft", left);
                         me.colFooterContainer.prop("scrollLeft", left);
                         xscrollbar.prop("scrollLeft", top);
@@ -2036,7 +2608,7 @@
                 });
                 me.colFooterContainer.scroll(function () {
                     var left = me.colFooterContainer.scrollLeft();
-                    if (me.preLeft != left) {
+                    if (me.preLeft !== left) {
                         container.prop("scrollLeft", left);
                         me.colHeaderContainer.prop("scrollLeft", left);
                         xscrollbar.prop("scrollLeft", top);
@@ -2064,7 +2636,7 @@
 
     var uagent = navigator.userAgent.toLowerCase();
     var currentDevice = "";
-    function DetectSmartPhone() {
+    function detectSmartPhone() {
         if (uagent.indexOf(deviceIphone) > -1) {
             currentDevice = deviceIphone;
             return true;
@@ -2105,22 +2677,22 @@
             currentDevice = deviceWinMob;
             return true;
         }
-        else
+        else {
             return false;
+        }
     }
 
-    var isOnSmartPhoneBrowser = DetectSmartPhone();
+    var isOnSmartPhoneBrowser = detectSmartPhone();
     var isOnChromeBrowser = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
-    var isOnFireFox4 = null;
 
     var ub = Fanex.Grid.Helper.DetectBrowser();
     ub.chrome = /chrome/.test(navigator.userAgent.toLowerCase());
     var ff16 = ub.mozilla && parseInt(ub.version, 10) >= 16;
-    var ff18 = ub.mozilla && (parseInt(ub.version, 10) >= 18);
+    var ff18 = ub.mozilla && (parseInt(ub.version, 10) >= 18 && parseInt(ub.version, 10) < 25);
     var extraPosition = ff18 ? 1 : 0;
 
     function isValid(obj) {
-        if (typeof obj != "undefined" && obj != null) {
+        if (typeof obj !== "undefined" && obj != null) {
             return true;
         }
         return false;
@@ -2136,21 +2708,23 @@
         return target;
     }
 
-    Array.prototype.clone = function () {
-        return this.slice(0);
-    };
-
-    Array.prototype.contains = function (obj) {
-        var i = this.length;
-        while (i--) {
-            if (this[i] === obj) {
-                return true;
-            }
-        }
-        return false;
-    }
 })(jQuery);
 
+//// Language
+/* jshint ignore:start */
+if (typeof (fanexGridLanguage) === 'undefined') {
+    /* File Created: December 4, 2013 */
+    var fanexGridLanguage = {};
+    fanexGridLanguage['en-US'] = {
+        noData: 'There is no data',
+        pageSize: 'Page size',
+        goToPage: 'Go To Page',
+        pagingText: 'Displaying <b>{0}</b> to <b>{1}</b> of <b>{2}</b> item(s)'
+    };
+
+    var fanexGridCurrentLanguage = fanexGridLanguage['en-US'];
+}
+/* jshint ignore:end */
 // Array Remove - By John Resig (MIT Licensed)
 //Array.prototype.removeArrayItem1 = function (from, to) {
 //    var rest = this.slice((to || from) + 1 || this.length);

@@ -3,12 +3,11 @@ var _systemName = "";
 var _isActive = false;
 var _contactEmail = "";
 
-var gridOptions
-    ,PageIndex = 0
-    ,PageSize = 10;
+var gridOptions,
+    PageIndex = 0,
+    PageSize = 10;
 
 $(document).ready(function () {
-    var gridOptions;
     $('#PageSize').val(PageSize);
     $('#PageIndex').val(PageIndex);
     Submit();
@@ -27,6 +26,42 @@ $(document).ready(function () {
     });
 });
 
+function renderBodyRows(licensees) {
+    var rows = [];
+    var totalRows = licensees.length;
+    for (var i = 0; i < totalRows; i++) {
+        var licensee = licensees[i];
+        var colactive = '';
+        if (licensee.IsActive) {
+            colactive = "<img title='Deactivate this licensee' class='ico-tick' src='"
+                + currentDomainURL + "App_Themes/Default/Images/blank.png' onclick=\"javascript:editActive(this, " + licensee.SystemID + ")\" />";
+        } else {
+            colactive = "<img title='Activate this licensee' class='ico-untick' src='"
+                + currentDomainURL + "App_Themes/Default/Images/blank.png' onclick='javascript:editActive(this, " + licensee.SystemID + ")' />";
+        }
+
+        var row = {
+            Columns: [
+                { Name: 'Row', Value: licensee.Row },
+                { Name: 'SystemName', Value: licensee.SystemName },
+                {
+                    Name: 'Action',
+                    Value: "<div class='btn-action licenseeId_" + licensee.SystemID + "' onclick='javascript:ShowAction(" + JSON.stringify(licensee) + ")'></div>"
+                },
+                { Name: 'IsActive', Value: colactive },
+                { Name: 'CreatedDate', Value: licensee.CreatedDateToString },
+                { Name: 'LastUpdate', Value: licensee.LastUpdateToString },
+                { Name: 'Creator', Value: licensee.Creator },
+                { Name: 'ContactEmail', Value: licensee.ContactEmail }
+            ]
+        };
+
+        rows.push(row);
+    }
+
+    return rows;
+}
+
 function Submit() {
     $(".result-message-box").addClass("hidden");
     var searchParams = {
@@ -36,103 +71,43 @@ function Submit() {
     };
 
     $.ajax({
-        url: "GetLicenseeByName",
+        url: currentDomainURL + "Licensee/GetLicenseeByName",
         type: 'POST',
         dataType: "json",
         contentType: "application/json; charset=utf-8",
         data: JSON.stringify(searchParams),
         cache: false,
         success: function (result) {
-            result = result.replace(/\n/g, "<\/br>");
-            result = eval(result);
             gridOptions =
             {
                 columns: [
                     { HeaderText: "#", Width: 50, Name: "Row", HeaderAlign: "center", CellAlign: "center" },
-                    { HeaderText: "SystemID", Width: 100, Name: "SystemID", HeaderAlign: "center", CellAlign: "center" },
                     { HeaderText: "Licensee Name", Width: 200, Name: "SystemName", HeaderAlign: "center", CellAlign: "left", TdClass: "boldusername" },
                     { HeaderText: "Action", Width: 80, Name: "Action", HeaderAlign: "center", CellAlign: "center" },
                     { HeaderText: "Active", Width: 80, Name: "IsActive", HeaderAlign: "center", CellAlign: "center" },
                     { HeaderText: "Created Date", Width: 120, Name: "CreatedDate", HeaderAlign: "center", CellAlign: "center" },
                     { HeaderText: "Last Update", Width: 120, Name: "LastUpdate", HeaderAlign: "center", CellAlign: "center" },
                     { HeaderText: "Creator", Width: 120, Name: "Creator", HeaderAlign: "center", CellAlign: "left" },
-                    { HeaderText: "Contact Email", Width: 200, Name: "ContactEmail", HeaderAlign: "center", CellAlign: "left" }
+                    { HeaderText: "Contact Email", Width: 200, Name: "ContactEmail", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true }
                 ],
-                bodyRows: result[0].data,
+                bodyRows: renderBodyRows(result.Data),
                 hideYBackGroundScroller: true,
-                gridExpandHeight: 150,
-                allowTruncate: true,
-                enableHiddenColumns: false,
-                hiddenColumns: [1],
+                gridExpandHeight: 250,
                 showPager: true,
                 customPager: true,
                 pagerOption: {
                     itemsPerPage: PageSize,
                     currentPage: PageIndex,
-                    totalItem: result[1].totalItem,
+                    totalItem: result.TotalItems,
                     itemsPerPageArray: [10, 20, 50, 100, 500],
                     pagerSelectCallBack: ReRenderAfterPaged
                 }
             };
 
-            // Add function column
-            for (var i = 0; i < gridOptions.bodyRows.length; i++) {
-                // Modify "Active" column
-                gridOptions.bodyRows[i].Columns[3].Row = i;
-                gridOptions.bodyRows[i].Columns[3].CustomCellRender = ActiveColumn;
-
-                // Modify "Action" column
-                gridOptions.bodyRows[i].Columns = OddsFeedAdminManager.insertAtIndex(
-                    gridOptions.bodyRows[i].Columns,
-                    3,
-                    { Name: "Action", Row: i });
-                gridOptions.bodyRows[i].Columns[3].CustomCellRender = ActionColumn;
-            }
-
             $("#SearchResult").fanexGrid(gridOptions);
-            $("#SearchResult").fanexGrid("hideColumns", gridOptions, [1]);
 
-        },
-        error: function (xhr, ajaxOptions, thrownError) {
-            //alert(xhr);
-        },
-        complete: function (jqXHR, textStatus) {
         }
     });
-}
-
-function ActiveColumn(cell, cellFormated) {
-    var partnerId = gridOptions.bodyRows[cell.Row].Columns[1].Value;
-    if (cell.Value == "True") {
-        return "<img title='Deactivate this licensee' class='ico-tick' alt='' src='" + currentDomainURL + "App_Themes/Default/Images/blank.png'  onclick='editActive(this," + partnerId + ")'/>";
-    }
-    else {
-        return "<img title='Activate this licensee' class='ico-untick' alt='' src='" + currentDomainURL + "App_Themes/Default/Images/blank.png'  onclick='editActive(this," + partnerId + ")'/>";
-    }
-}
-
-function ActionColumn(cell, cellFormated) {
-
-    var licenseeId = gridOptions.bodyRows[cell.Row].Columns[1].Value;
-    var licenseeName = gridOptions.bodyRows[cell.Row].Columns[2].Value;
-    var isActive = gridOptions.bodyRows[cell.Row].Columns[4].Value;
-    var contactEmail = gridOptions.bodyRows[cell.Row].Columns[8].Value;
-
-    return "<div class='btn-action licenseeId_" + licenseeId + "' onclick=\"javascript:ShowAction('" + licenseeId + "','" + licenseeName + "','" + isActive +  "','" + contactEmail + "');\"></div>";
-}
-
-function ConvertFromJsonToFanexData(jsonObject) {
-    var rows = [];
-
-    for (var i = 0; i < jsonObject.length; i++) {
-        var col = []
-        for (var key in jsonObject[i]) {
-            col.push({ Name: key.toString(), Value: jsonObject[i][key] });
-        }
-        rows.push({ Columns: col });
-    }
-
-    return rows;
 }
 
 function ReRenderAfterPaged(page_index, itemsPerPage, jq) {
@@ -153,14 +128,14 @@ function ReRenderAfterPaged(page_index, itemsPerPage, jq) {
     return false;
 }
 
-function ShowAction(systemID, systemName, isActive, contactEmail) {
-    _systemID = systemID;
-    _systemName = systemName;
-    _isActive = isActive;
-    _contactEmail = contactEmail;
+function ShowAction(licensee) {
+    _systemID = licensee.SystemID;
+    _systemName = licensee.SystemName;
+    _isActive = licensee.IsActive;
+    _contactEmail = licensee.ContactEmail;
 
     $.contextMenu({
-        selector: '.btn-action.licenseeId_' + systemID,
+        selector: '.btn-action.licenseeId_' + licensee.SystemID,
         items: {
             deleteAffiliate: {
                 name: "Delete this licensee",
