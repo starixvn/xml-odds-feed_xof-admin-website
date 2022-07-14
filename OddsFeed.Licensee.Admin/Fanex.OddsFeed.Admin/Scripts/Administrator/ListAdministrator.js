@@ -63,29 +63,29 @@ function renderBodyRows(users) {
     for (var i = 0; i < totalRows; i++) {
         var user = users[i];
         var colactive = '';
-        if (user.IsActive) {
+        if (user.isActive) {
             colactive = "<img title='Deactivate this account' class='ico-tick' src='"
-                + currentDomainURL + "App_Themes/Default/Images/blank.png' onclick=\"javascript:editActive(this, " + user.UserId + ", '" + user.Username + "')\" />";
+                + currentDomainURL + "App_Themes/Default/Images/blank.png' onclick=\"javascript:editActive(this, " + user.userId + ", '" + user.username + "')\" />";
         } else {
             colactive = "<img title='Activate this account' class='ico-untick' src='"
-                + currentDomainURL + "App_Themes/Default/Images/blank.png' onclick='javascript:editActive(this, " + user.UserId + ", '" + user.Username + "')' />";
+                + currentDomainURL + "App_Themes/Default/Images/blank.png' onclick='javascript:editActive(this, " + user.userId + ", '" + user.username + "')' />";
         }
 
         var row = {
             Columns: [
-                { Name: 'row', Value: user.Row },
-                { Name: 'username', Value: user.Username },
+                { Name: 'row', Value: user.row },
+                { Name: 'username', Value: user.username },
                 {
                     Name: 'action',
                     Value: "<div class='btn-action' onclick='javascript:ShowAction(" + JSON.stringify(user) + ")'></div>"
                 },
                 { Name: 'isactive', Value: colactive },
-                { Name: 'rolename', Value: user.RoleName },
-                { Name: 'firstname', Value: user.FirstName },
-                { Name: 'lastname', Value: user.LastName },
-                { Name: 'email', Value: user.Email },
-                { Name: 'creator', Value: user.Creator },
-                { Name: 'createdate', Value: user.CreateDateToString }
+                { Name: 'rolename', Value: user.roleName },
+                { Name: 'firstname', Value: user.firstName },
+                { Name: 'lastname', Value: user.lastName },
+                { Name: 'email', Value: user.email },
+                { Name: 'creator', Value: user.creator },
+                { Name: 'createdate', Value: user.createDate }
             ]
         };
 
@@ -132,7 +132,7 @@ function Search() {
                     { HeaderText: "Creator", Width: 110, Name: "creator", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true },
                     { HeaderText: "Created Date", Width: 120, Name: "createdate", HeaderAlign: "center", CellAlign: "center" }
                 ],
-                bodyRows: renderBodyRows(result.Data),
+                bodyRows: renderBodyRows(result.data),
                 hideYBackGroundScroller: true,
                 gridExpandHeight: 250,
                 showPager: true,
@@ -140,7 +140,7 @@ function Search() {
                 pagerOption: {
                     itemsPerPage: _pageSize,
                     currentPage: _pageIndex,
-                    totalItem: result.TotalItems,
+                    totalItem: result.totalItems,
                     itemsPerPageArray: [10, 20, 50, 100, 500],
                     pagerSelectCallBack: ReRenderAfterPaged
                 }
@@ -152,12 +152,12 @@ function Search() {
 }
 
 function ShowAction(user) {
-    _adminId = user.UserId;
-    _adminName = user.Username;
+    _adminId = user.userId;
+    _adminName = user.username;
 
     $.contextMenu('destroy');
 
-    if (user.RoleID === 1) { //ITAdmin role
+    if (user.roleID === 1) { //ITAdmin role
         $.contextMenu({
             selector: '.btn-action',
             items: {
@@ -179,7 +179,7 @@ function ShowAction(user) {
                     callback: function (key, opt) {
                         var paramsString = $.param({
                             username: _adminName,
-                            role: user.RoleID
+                            role: user.roleID
                         });
                         window.location = currentDomainURL + "Administrator/AdministratorResetPwd/" + _adminId + "?" + paramsString;
                     }
@@ -200,7 +200,7 @@ function ShowAction(user) {
                     callback: function (key, opt) {
                         var paramsString = $.param({
                             username: _adminName,
-                            role: user.RoleID
+                            role: user.roleID
                         });
                         window.location = currentDomainURL + "Administrator/AdministratorEditSystem/" + _adminId + "?" + paramsString;
                     }
@@ -223,7 +223,7 @@ function ShowAction(user) {
                     callback: function (key, opt) {
                         var paramsString = $.param({
                             username: _adminName,
-                            role: user.RoleID
+                            role: user.roleID
                         });
 
                         window.location = currentDomainURL + "Administrator/AdministratorResetPwd/" + _adminId + "?" + paramsString;

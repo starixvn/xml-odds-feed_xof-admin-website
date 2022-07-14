@@ -1,7 +1,5 @@
 ﻿namespace Fanex.OddsFeed.Core.Model
 {
-    using System;
-
     public class DomainSetting
     {
         public int Row { get; set; }

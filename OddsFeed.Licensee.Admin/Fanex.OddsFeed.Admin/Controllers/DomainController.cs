@@ -7,6 +7,7 @@
     using Fanex.OddsFeed.Core.Model.ValueObject;
     using Fanex.OddsFeed.Core.Web;
     using Fanex.OddsFeed.Core.Web.Attribute;
+    using Fanex.OddsFeed.Framework.Mvc;
 
     [IsAuthorize]
     public class DomainController : BaseController
@@ -26,14 +27,14 @@
             criteria.DomainName = criteria.DomainName == ViewResources.Domain_Name ? string.Empty : criteria.DomainName;
             criteria.PageIndex++;
             var result = baseService.GetDataGrid<Domain>(criteria);
-            return Json(result, JsonRequestBehavior.AllowGet);
+            return new CustomJsonResult { Data = result, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
         public JsonResult GetDomainSetting(GetDomainSettingByPageCriteria criteria)
         {
             criteria.PageIndex++;
             var result = baseService.GetDataGrid<DomainSetting>(criteria);
-            return Json(result, JsonRequestBehavior.AllowGet);
+            return new CustomJsonResult { Data = result, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
         [HttpPost]

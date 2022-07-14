@@ -25,26 +25,26 @@ function renderBodyRows(domains) {
         var domain = domains[i];
         var row = {
             Columns: [
-                { Name: 'Row', Value: domain.Row },
-                { Name: 'DomainID', Value: domain.DomainId },
+                { Name: 'Row', Value: domain.row },
+                { Name: 'DomainID', Value: domain.domainId },
                 {
                     Name: 'DomainName',
-                    Value: "<a title='" + domain.DomainName + "' href='javascript:GetDomainSetting(" +
-                        domain.DomainId + ")' onclick='DomainSection(this); return;'>" + domain.DomainName + "</a>"
+                    Value: "<a title='" + domain.domainName + "' href='javascript:GetDomainSetting(" +
+                        domain.domainId + ")' onclick='DomainSection(this); return;'>" + domain.domainName + "</a>"
                 },
                 {
                     Name: 'Action',
                     Value: "<div style='text-align:center;'>" +
                         "<a title='Edit' href='javascript:UpdateDomain(" + JSON.stringify(domain) + ")'><img src='" +
                         currentDomainURL + "App_Themes/Default/Images/Edit.png' alt='Edit'></a>&nbsp&nbsp;" +
-                        "<a title='Delete' href='javascript:DeleteDomain(" + domain.DomainId + ")'><img src='" +
+                        "<a title='Delete' href='javascript:DeleteDomain(" + domain.domainId + ")'><img src='" +
                         currentDomainURL + "App_Themes/Default/Images/Delete.gif' alt='Delete'></a></div>"
                 },
-                { Name: 'CreatedDate', Value: domain.CreatedDateToString },
-                { Name: 'IP', Value: domain.IP },
-                { Name: 'ISP', Value: domain.ISP },
-                { Name: 'Creator', Value: domain.Creator },
-                { Name: 'LastUpdate', Value: domain.LastUpdateToString }
+                { Name: 'CreatedDate', Value: domain.createdDate },
+                { Name: 'IP', Value: domain.ip },
+                { Name: 'ISP', Value: domain.isp },
+                { Name: 'Creator', Value: domain.creator },
+                { Name: 'LastUpdate', Value: domain.lastUpdate }
             ]
         };
 
@@ -83,7 +83,7 @@ function Submit() {
                     { HeaderText: "Creator", Width: 160, Name: "Creator", HeaderAlign: "center", CellAlign: "left" },
                     { HeaderText: "Last Update", Width: 120, Name: "LastUpdate", HeaderAlign: "center", CellAlign: "center" }
                 ],
-                bodyRows: renderBodyRows(result.Data),
+                bodyRows: renderBodyRows(result.data),
                 hideYBackGroundScroller: true,
                 gridExpandHeight: 150,
                 showPager: true,
@@ -91,13 +91,13 @@ function Submit() {
                 pagerOption: {
                     itemsPerPage: domainPageSize,
                     currentPage: domainPageIndex,
-                    totalItem: result.TotalItems,
+                    totalItem: result.totalItems,
                     itemsPerPageArray: [10, 20, 50, 100, 500],
                     pagerSelectCallBack: ReRenderAfterPaged
                 }
             };
 
-            currentPageTotal = result.Data.length;
+            currentPageTotal = result.data.length;
 
             $("#SearchResult").removeClass("hidden").fanexGrid(gridOptions);
         }
@@ -157,14 +157,14 @@ function renderDomainSettingBodyRows(domains) {
         var domain = domains[i];
         var row = {
             Columns: [
-                { Name: 'Row', Value: domain.Row },
-                { Name: 'Licensee', Value: domain.SystemName },
-                { Name: 'DomainId', Value: domain.DomainId },
-                { Name: 'DomainName', Value: domain.DomainName },
-                { Name: 'Affiliate', Value: domain.Username },
-                { Name: 'Site', Value: domain.Site },
-                { Name: 'IsAllowed', Value: domain.IsAllowed ? 'True' : 'False' },
-                { Name: 'Remark', Value: domain.Remark }
+                { Name: 'Row', Value: domain.row },
+                { Name: 'Licensee', Value: domain.systemName },
+                { Name: 'DomainId', Value: domain.domainId },
+                { Name: 'DomainName', Value: domain.domainName },
+                { Name: 'Affiliate', Value: domain.username },
+                { Name: 'Site', Value: domain.site },
+                { Name: 'IsAllowed', Value: domain.isAllowed ? 'True' : 'False' },
+                { Name: 'Remark', Value: domain.remark }
             ]
         };
 
@@ -193,7 +193,7 @@ function QueryDomainSetting(domainId) {
                     { HeaderText: "Is Allowed", Width: 80, Name: "IsAllowed", HeaderAlign: "center", CellAlign: "center" },
                     { HeaderText: "Remark", Width: 195, Name: "Remark", HeaderAlign: "center", AllowTruncate: true }
                 ],
-                bodyRows: renderDomainSettingBodyRows(result.Data),
+                bodyRows: renderDomainSettingBodyRows(result.data),
                 hideYBackGroundScroller: true,
                 gridExpandHeight: 150,
                 showPager: true,
@@ -203,7 +203,7 @@ function QueryDomainSetting(domainId) {
                 pagerOption: {
                     itemsPerPage: domainSettingPageSize,
                     currentPage: domainSettingPageIndex,
-                    totalItem: result.TotalItems,
+                    totalItem: result.totalItems,
                     itemsPerPageArray: [10, 20, 50, 100, 500],
                     pagerSelectCallBack: ReRenderAfterPagedDomainSetting
                 }
@@ -234,10 +234,10 @@ function ReRenderAfterPagedDomainSetting(page_index, itemsPerPage, jq) {
 function UpdateDomain(domain) {
     $(".success-message-box").empty().addClass("hidden");
     $(".listdomain-result-message-box").addClass("hidden");
-    $("#DomainName", $("#dialog-form-update")).val(domain.DomainName);
-    $("#IP", $("#dialog-form-update")).val(domain.IP);
-    $("#ISP", $("#dialog-form-update")).val(domain.ISP);
-    $("#DomainID", $("#dialog-form-update")).val(domain.DomainId);
+    $("#DomainName", $("#dialog-form-update")).val(domain.domainName);
+    $("#IP", $("#dialog-form-update")).val(domain.ip);
+    $("#ISP", $("#dialog-form-update")).val(domain.isp);
+    $("#DomainID", $("#dialog-form-update")).val(domain.domainId);
     OpenDialog("dialog-form-update");
 }
 

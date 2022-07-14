@@ -27,7 +27,6 @@
         public DateTime CreatedDate { get; set; }
 
         public DateTime CreateDate { get; set; }
-        public string CreateDateToString => CreateDate.ToString("dd MMM yyyy HH:mm:ss");
 
         [Display(Name = "Modifier", ResourceType = typeof(ViewResources))]
         public User Modifier { get; set; }

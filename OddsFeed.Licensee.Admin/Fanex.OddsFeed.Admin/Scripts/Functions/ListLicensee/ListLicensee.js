@@ -32,27 +32,27 @@ function renderBodyRows(licensees) {
     for (var i = 0; i < totalRows; i++) {
         var licensee = licensees[i];
         var colactive = '';
-        if (licensee.IsActive) {
+        if (licensee.isActive) {
             colactive = "<img title='Deactivate this licensee' class='ico-tick' src='"
-                + currentDomainURL + "App_Themes/Default/Images/blank.png' onclick=\"javascript:editActive(this, " + licensee.SystemID + ")\" />";
+                + currentDomainURL + "App_Themes/Default/Images/blank.png' onclick=\"javascript:editActive(this, " + licensee.systemID + ")\" />";
         } else {
             colactive = "<img title='Activate this licensee' class='ico-untick' src='"
-                + currentDomainURL + "App_Themes/Default/Images/blank.png' onclick='javascript:editActive(this, " + licensee.SystemID + ")' />";
+                + currentDomainURL + "App_Themes/Default/Images/blank.png' onclick='javascript:editActive(this, " + licensee.systemID + ")' />";
         }
 
         var row = {
             Columns: [
-                { Name: 'Row', Value: licensee.Row },
-                { Name: 'SystemName', Value: licensee.SystemName },
+                { Name: 'Row', Value: licensee.row },
+                { Name: 'SystemName', Value: licensee.systemName },
                 {
                     Name: 'Action',
-                    Value: "<div class='btn-action licenseeId_" + licensee.SystemID + "' onclick='javascript:ShowAction(" + JSON.stringify(licensee) + ")'></div>"
+                    Value: "<div class='btn-action licenseeId_" + licensee.systemID + "' onclick='javascript:ShowAction(" + JSON.stringify(licensee) + ")'></div>"
                 },
                 { Name: 'IsActive', Value: colactive },
-                { Name: 'CreatedDate', Value: licensee.CreatedDateToString },
-                { Name: 'LastUpdate', Value: licensee.LastUpdateToString },
-                { Name: 'Creator', Value: licensee.Creator },
-                { Name: 'ContactEmail', Value: licensee.ContactEmail }
+                { Name: 'CreatedDate', Value: licensee.createdDate },
+                { Name: 'LastUpdate', Value: licensee.lastUpdate },
+                { Name: 'Creator', Value: licensee.creator },
+                { Name: 'ContactEmail', Value: licensee.contactEmail }
             ]
         };
 
@@ -90,7 +90,7 @@ function Submit() {
                     { HeaderText: "Creator", Width: 120, Name: "Creator", HeaderAlign: "center", CellAlign: "left" },
                     { HeaderText: "Contact Email", Width: 200, Name: "ContactEmail", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true }
                 ],
-                bodyRows: renderBodyRows(result.Data),
+                bodyRows: renderBodyRows(result.data),
                 hideYBackGroundScroller: true,
                 gridExpandHeight: 250,
                 showPager: true,
@@ -98,7 +98,7 @@ function Submit() {
                 pagerOption: {
                     itemsPerPage: PageSize,
                     currentPage: PageIndex,
-                    totalItem: result.TotalItems,
+                    totalItem: result.totalItems,
                     itemsPerPageArray: [10, 20, 50, 100, 500],
                     pagerSelectCallBack: ReRenderAfterPaged
                 }
@@ -129,13 +129,13 @@ function ReRenderAfterPaged(page_index, itemsPerPage, jq) {
 }
 
 function ShowAction(licensee) {
-    _systemID = licensee.SystemID;
-    _systemName = licensee.SystemName;
-    _isActive = licensee.IsActive;
-    _contactEmail = licensee.ContactEmail;
+    _systemID = licensee.systemID;
+    _systemName = licensee.systemName;
+    _isActive = licensee.isActive;
+    _contactEmail = licensee.contactEmail;
 
     $.contextMenu({
-        selector: '.btn-action.licenseeId_' + licensee.SystemID,
+        selector: '.btn-action.licenseeId_' + licensee.systemID,
         items: {
             deleteAffiliate: {
                 name: "Delete this licensee",

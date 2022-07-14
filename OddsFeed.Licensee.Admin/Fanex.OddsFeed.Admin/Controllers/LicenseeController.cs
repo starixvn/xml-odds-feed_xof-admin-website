@@ -15,6 +15,7 @@
     using Fanex.OddsFeed.Core.Service.Interface;
     using Fanex.OddsFeed.Core.Web;
     using Fanex.OddsFeed.Core.Web.Attribute;
+    using Fanex.OddsFeed.Framework.Mvc;
 
     [IsAuthorize]
     public class LicenseeController : BaseController
@@ -319,7 +320,7 @@
             }
 
             var result = baseService.GetDataGrid<Licensee>(criteria);
-            return Json(result, JsonRequestBehavior.AllowGet);
+            return new CustomJsonResult { Data = result, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
         [HttpGet]

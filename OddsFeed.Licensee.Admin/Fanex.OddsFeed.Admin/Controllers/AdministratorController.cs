@@ -15,6 +15,7 @@
     using Fanex.OddsFeed.Core.Service.Interface;
     using Fanex.OddsFeed.Core.Web;
     using Fanex.OddsFeed.Core.Web.Attribute;
+    using Fanex.OddsFeed.Framework.Mvc;
 
     [IsAuthorize]
     public class AdministratorController : BaseController
@@ -135,7 +136,7 @@
             criteria.Username = (criteria.Username == null || criteria.Username == "Username")
                 ? string.Empty : criteria.Username.Trim();
             var result = baseService.GetDataGrid<User>(criteria);
-            return Json(result, JsonRequestBehavior.AllowGet);
+            return new CustomJsonResult { Data = result, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
         #endregion
