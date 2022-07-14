@@ -271,6 +271,8 @@
     <Compile Include="Model\Licensee.cs" />
     <Compile Include="Model\Report\AccountStatistic.cs" />
     <Compile Include="Model\Report\LoginInfoStatistic.cs" />
+    <Compile Include="Model\Report\RecentActivityStatistic.cs" />
+    <Compile Include="Model\Report\UserOnlineStatistic.cs" />
     <Compile Include="Model\Sport.cs" />
     <Compile Include="Model\SystemDto.cs" />
     <Compile Include="Model\SystemSetting.cs" />

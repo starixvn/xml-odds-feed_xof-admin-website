@@ -6,10 +6,11 @@
     using System.Text;
     using System.Web.Mvc;
     using Fanex.OddsFeed.Core.Criteria.Dashboard;
+    using Fanex.OddsFeed.Core.Model;
     using Fanex.OddsFeed.Core.Model.Report;
     using Fanex.OddsFeed.Core.Service;
-    using Fanex.OddsFeed.Core.Web;
     using Fanex.OddsFeed.Core.Web.Attribute;
+    using Fanex.OddsFeed.Framework.Mvc;
 
     [IsAuthorize]
     public class DashboardController : BaseController
@@ -25,8 +26,6 @@
             this.dashboardService = dashboardService ?? new DashboardService();
         }
 
-
-        //// GET: /Dashboard/
         public ActionResult ShowDashboard()
         {
             ViewBag.IsDashboard = true;
@@ -54,7 +53,7 @@
         #region Current Online User List
 
         [HttpPost]
-        public string ShowCurrentOnlineUser(string pageSize, string pageIndex)
+        public JsonResult ShowCurrentOnlineUser(string pageSize, string pageIndex)
         {
             var criteria = new GetCurrentOnlineUserCriteria
             {
@@ -64,8 +63,8 @@
                 PageIndex = Convert.ToInt16(pageIndex) + 1,
                 PageSize = Convert.ToInt16(pageSize)
             };
-            var dr = baseService.GetData(criteria);
-            return FanexGridHelper.DataForFanexGrid(dr);
+            var result = baseService.GetDataGrid<UserOnlineStatistic>(criteria);
+            return new CustomJsonResult { Data = result, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
         #endregion
@@ -73,7 +72,7 @@
         #region Recent Activities
 
         [HttpPost]
-        public string ShowRecentActivities(string pageSize, string pageIndex, int optionActivities = 1)
+        public JsonResult ShowRecentActivities(string pageSize, string pageIndex, int optionActivities = 1)
         {
             var criteria = new GetRecentActivitiesCriteria
             {
@@ -83,8 +82,8 @@
                 PageIndex = Convert.ToInt16(pageIndex) + 1,
                 PageSize = Convert.ToInt16(pageSize)
             };
-            var dr = baseService.GetData(criteria);
-            return FanexGridHelper.DataForFanexGrid_PreventContainQuote(dr);
+            var result = baseService.GetDataGrid<RecentActivityStatistic>(criteria);
+            return new CustomJsonResult { Data = result, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
         #endregion
