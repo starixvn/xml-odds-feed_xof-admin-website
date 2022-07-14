@@ -60,9 +60,8 @@
       <HintPath>..\..\packages\Fanex.Data.0.5.404.63\lib\net40\Fanex.Data.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Fanex.Logging, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Fanex.Logging.1.0.0.0\lib\net40\Fanex.Logging.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Fanex.Logging, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Fanex.Logging.2.0.1\lib\net461\Fanex.Logging.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.EnterpriseLibrary.Caching, Version=5.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EnterpriseLibrary.Caching.5.0.414.0\lib\net40\Microsoft.Practices.EnterpriseLibrary.Caching.dll</HintPath>
@@ -264,6 +263,8 @@
     <Compile Include="Model\Language.cs" />
     <Compile Include="Model\League.cs" />
     <Compile Include="Model\LicenseeProfile.cs" />
+    <Compile Include="Model\Report\LicenseeRequestDetailStatistic.cs" />
+    <Compile Include="Model\Report\LicenseeRequestStatistic.cs" />
     <Compile Include="Model\MissingPartnersProfile.cs" />
     <Compile Include="Model\PartnersProfile.cs" />
     <Compile Include="Model\Affiliate.cs" />

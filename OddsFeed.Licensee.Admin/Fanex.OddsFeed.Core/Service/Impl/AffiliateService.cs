@@ -51,19 +51,6 @@
             return baseService.GetData<PartnerIP>(criteria).OrderBy(s => s.Name).ToList();
         }
 
-        public DataCollection GetPartnerRequestStatisticReturnDataCollection(RequestStatisticCriteria criteria)
-        {
-            // check parameters
-            Check.Argument.IsNotNull(criteria, "criteria");
-
-            if (criteria.IsValid())
-            {
-                return baseService.GetData(criteria);
-            }
-
-            return null;
-        }
-
         public CommandResult Insert(InsertAffiliateCriteria criteria)
         {
             Check.Argument.IsNotNull(criteria, "criteria");

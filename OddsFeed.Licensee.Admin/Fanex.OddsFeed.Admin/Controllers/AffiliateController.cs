@@ -17,6 +17,7 @@
     using Fanex.OddsFeed.Core.Service.Interface;
     using Fanex.OddsFeed.Core.Web;
     using Fanex.OddsFeed.Core.Web.Attribute;
+    using Fanex.OddsFeed.Framework.Mvc;
 
 #pragma warning disable S1541 // Methods and properties should not be too complex
     [IsAuthorize]
@@ -471,9 +472,8 @@
             criteria.SystemId = currentSession.SystemId;
             criteria.PageIndex++;
 
-            var dr = affiliateService.GetPartnerRequestStatisticReturnDataCollection(criteria);
-            var result = FanexGridHelper.DataForFanexGrid(dr);
-            return Json(result, JsonRequestBehavior.AllowGet);
+            var result = baseService.GetDataGrid<LicenseeRequestDetailStatistic>(criteria);
+            return new CustomJsonResult { Data = result, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
         [HttpGet]

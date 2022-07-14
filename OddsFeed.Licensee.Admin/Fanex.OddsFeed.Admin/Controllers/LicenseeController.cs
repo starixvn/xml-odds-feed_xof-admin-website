@@ -24,17 +24,14 @@
         private const string MinorGroup = "Minor";
 
         private readonly ILicenseeService _licenseeService;
-        private readonly IAffiliateService _affiliateService;
 
-        public LicenseeController()
-            : this(null, null)
+        public LicenseeController() : this(null)
         {
         }
 
-        public LicenseeController(ILicenseeService licenseeService, IAffiliateService affiliateService)
+        public LicenseeController(ILicenseeService licenseeService)
         {
             _licenseeService = licenseeService ?? new LicenseeService();
-            _affiliateService = affiliateService ?? new AffiliateService();
         }
 
         #region AddNew
@@ -335,7 +332,7 @@
             return View("LicenseeRequest", model);
         }
 
-        public string GetAllLicenseeRequest(LicenseeRequestCriteria criteria)
+        public JsonResult GetAllLicenseeRequest(LicenseeRequestCriteria criteria)
         {
             criteria.PageIndex++;
             if (criteria.SystemName == null || criteria.SystemName == "Licensee name")
@@ -343,11 +340,11 @@
                 criteria.SystemName = string.Empty;
             }
 
-            var dr = baseService.GetData(criteria);
-            return FanexGridHelper.DataForFanexGrid(dr);
+            var result = baseService.GetDataGrid<LicenseeRequestStatistic>(criteria);
+            return new CustomJsonResult { Data = result, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
-        public string GetLicenseeRequestsDetail(RequestStatisticCriteria criteria, string date, int year)
+        public JsonResult GetLicenseeRequestsDetail(RequestStatisticCriteria criteria, string date, int year)
         {
             const int numberDaysInWeek = 7;
 
@@ -382,8 +379,8 @@
             }
 
             criteria.PageIndex++;
-            var dr = _affiliateService.GetPartnerRequestStatisticReturnDataCollection(criteria);
-            return FanexGridHelper.DataForFanexGrid(dr);
+            var result = baseService.GetDataGrid<LicenseeRequestDetailStatistic>(criteria);
+            return new CustomJsonResult { Data = result, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
         public JsonResult ListExistedSystems(string systemName)

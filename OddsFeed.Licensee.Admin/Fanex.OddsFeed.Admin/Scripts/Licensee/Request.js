@@ -1,10 +1,10 @@
 ﻿var gridOptions
-        , gridOptionsDetail
-        , _pageIndex = 0
-        , _pageSize = 10
-        , _settingPageIndex = 0
-        , _settingPageSize = 10
-        , _currentLicenseeID;
+    ,gridOptionsDetail
+    ,_pageIndex = 0
+    ,_pageSize = 10
+    ,_settingPageIndex = 0
+    ,_settingPageSize = 10
+    ,_currentLicenseeID;
 var _currentDate = null;
 
 $(document).ready(function () {
@@ -55,7 +55,7 @@ function OnSearch() {
 function Search() {
     var _systemName = $.trim($("#Systemname").val());
     if (_systemName == "" || _systemName == "Licensee name") {
-        $("#LicenseeId").val(0); //get all systems
+        $("#LicenseeId").val(0);
     }
 
     var licenseeId = $("#LicenseeId").val();
@@ -63,12 +63,37 @@ function Search() {
     if (licenseeId == 0) {
         $("#SearchResultDetail").hide();
         SearchAll();
-    }
-    else {
-        //        SearchAll();
+    } else {
         $("#SearchResult").hide();
         SearchDetail(licenseeId);
     }
+}
+
+function renderBodyRows(records) {
+    var rows = [];
+    var totalRows = records.length;
+    for (var i = 0; i < totalRows; i++) {
+        var record = records[i];
+
+        var row = {
+            Columns: [
+                { Name: 'Row', Value: record.row },
+                {
+                    Name: 'SystemName',
+                    Value: "<a title='" + record.systemName +
+                        "' href='javascript:SearchDetail(" + record.systemId + ",\"" + record.date + "\"," + record.year +
+                        ")' onclick=\"LicenseeSection(this); return;\">" + record.systemName + "</a>"
+                },
+                { Name: 'Date', Value: record.date },
+                { Name: 'Year', Value: record.year },
+                { Name: 'TotalRequest', Value: record.totalRequest }
+            ]
+        };
+
+        rows.push(row);
+    }
+
+    return rows;
 }
 
 function SearchAll() {
@@ -82,71 +107,43 @@ function SearchAll() {
         type: "POST",
         data: $('#myForm').serialize(),
         success: function (result) {
-            result = result.replace(/\n/g, "<\/br>");
-            result = eval(result);
-
-            var tempResult = result[0].data;
-
-            // generate and prepare data to get detail
-            for (var i = 0; i < tempResult.length; i++) {
-                tempResult[i].Columns[2].Value =
-                {
-                    licenseeId: tempResult[i].Columns[1].Value,
-                    licenseeName: tempResult[i].Columns[2].Value,
-                    searchDate: tempResult[i].Columns[3].Value,
-                    yearOrTotalRequest: tempResult[i].Columns[4].Value
-                };
-                tempResult[i].Columns[2].CustomCellRender = function (cell) {
-                    return "<a title='" + cell.Value.licenseeName + "' href='javascript:SearchDetail(" + cell.Value.licenseeId + ",\"" + cell.Value.searchDate + "\"," + cell.Value.yearOrTotalRequest + ")' onclick=\"LicenseeSection(this); return;\">" + cell.Value.licenseeName + "</a>";
-                };
-            }
-
             gridOptions =
             {
                 columns: [
                     { HeaderText: "#", Width: 20, Name: "Row", HeaderAlign: "center", CellAlign: "center" },
-                    { HeaderText: "LicenseeId", Width: 20, Name: "SystemId", HeaderAlign: "center", CellAlign: "right" },
                     { HeaderText: "Licensee", Width: 200, Name: "SystemName", HeaderAlign: "center", CellAlign: "left" },
                     { HeaderText: "Date", Width: 120, Name: "Date", HeaderAlign: "center", CellAlign: "center" },
                     { HeaderText: "Year", Width: 120, Name: "Year", HeaderAlign: "center", CellAlign: "center" },
                     { HeaderText: "Total Requests", Width: 100, Name: "TotalRequest", HeaderAlign: "center", CellAlign: "center" }
                 ],
-                bodyRows: tempResult,
+                bodyRows: renderBodyRows(result.data),
                 hideYBackGroundScroller: true,
                 gridExpandHeight: 150,
-                //numberOfFrozenColumn: 2,
                 showPager: true,
                 customPager: true,
                 pagerOption: {
                     itemsPerPage: _pageSize,
                     currentPage: _pageIndex,
-                    totalItem: result[1].totalItem,
+                    totalItem: result.totalItems,
                     itemsPerPageArray: [10, 20, 50, 100, 500],
                     pagerSelectCallBack: ReRenderAfterPaged
-                },
-                allowTruncate: true
+                }
             };
 
             $("#SearchResult").fanexGrid(gridOptions);
 
             switch ($("#PeriodOption").val()) {
                 case "Week":
-                    gridOptions.columns[3].HeaderText = "Week";
-                    $("#SearchResult").fanexGrid("hideColumns", gridOptions, [1]);
+                    gridOptions.columns[2].HeaderText = "Week";
+                    $("#SearchResult").fanexGrid("hideColumns", gridOptions, []);
                     break;
                 case "Year":
-                    gridOptions.columns[3].HeaderText = "Month";
-                    $("#SearchResult").fanexGrid("hideColumns", gridOptions, [1, 4]);
+                    gridOptions.columns[2].HeaderText = "Month";
+                    $("#SearchResult").fanexGrid("hideColumns", gridOptions, [3]);
                     break;
                 default:
-                    $("#SearchResult").fanexGrid("hideColumns", gridOptions, [1, 4]);
+                    $("#SearchResult").fanexGrid("hideColumns", gridOptions, [3]);
             }
-
-        },
-        error: function (xhr, ajaxOptions, thrownError) {
-            alert(xhr);
-        },
-        complete: function (jqXHR, textStatus) {
         }
     });
 }
@@ -178,6 +175,32 @@ function LicenseeSection(btn) {
     }
 }
 
+
+function renderDetailBodyRows(records) {
+    var rows = [];
+    var totalRows = records.length;
+    for (var i = 0; i < totalRows; i++) {
+        var record = records[i];
+
+        var row = {
+            Columns: [
+                { Name: 'Row', Value: record.row },
+                { Name: 'Partner', Value: record.partner },
+                { Name: 'Domain', Value: record.domain },
+                { Name: 'IP', Value: record.ip },
+                { Name: 'Des', Value: record.des },
+                { Name: 'Date', Value: record.date },
+                { Name: 'LastCallTime', Value: record.lastCallTime },
+                { Name: 'TotalRequest', Value: record.totalRequest }
+            ]
+        };
+
+        rows.push(row);
+    }
+
+    return rows;
+}
+
 function SearchDetail(licenseeID, date, year) {
     if (typeof (date) === "undefined") {
         date = "";
@@ -195,21 +218,19 @@ function SearchDetail(licenseeID, date, year) {
         type: "POST",
         data: $('#myForm').serialize() + "&SystemId=" + licenseeID + "&date=" + date + "&year=" + year,
         success: function (result) {
-            result = result.replace(/\n/g, "<\/br>");
-            result = eval(result);
             gridOptionsDetail =
             {
                 columns: [
-                   { HeaderText: "#", Width: 20, Name: "Row", HeaderAlign: "center", CellAlign: "center" },
+                    { HeaderText: "#", Width: 20, Name: "Row", HeaderAlign: "center", CellAlign: "center" },
                     { HeaderText: "Affiliate", Width: 160, Name: "Partner", HeaderAlign: "center", CellAlign: "left" },
-                    { HeaderText: "Domain", Width: 160, Name: "Domain", HeaderAlign: "center", CellAlign: "left" },
+                    { HeaderText: "Domain", Width: 160, Name: "Domain", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true },
                     { HeaderText: "IP", Width: 110, Name: "IP", HeaderAlign: "center", CellAlign: "left" },
-                    { HeaderText: "Description", Width: 110, Name: "Des", HeaderAlign: "center", CellAlign: "left" },
+                    { HeaderText: "Description", Width: 110, Name: "Des", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true },
                     { HeaderText: "Date", Width: 120, Name: "Date", HeaderAlign: "center", CellAlign: "center" },
                     { HeaderText: "Last Call Time", Width: 120, Name: "LastCallTime", HeaderAlign: "center", CellAlign: "center" },
                     { HeaderText: "Total Requests", Width: 100, Name: "TotalRequest", HeaderAlign: "center", CellAlign: "center" }
                 ],
-                bodyRows: result[0].data,
+                bodyRows: renderDetailBodyRows(result.data),
                 hideYBackGroundScroller: true,
                 gridExpandHeight: 150,
                 showPager: true,
@@ -217,19 +238,13 @@ function SearchDetail(licenseeID, date, year) {
                 pagerOption: {
                     itemsPerPage: _settingPageSize,
                     currentPage: _settingPageIndex,
-                    totalItem: result[1].totalItem,
+                    totalItem: result.totalItems,
                     itemsPerPageArray: [10, 20, 50, 100, 500],
                     pagerSelectCallBack: ReRenderAfterPagedGetLicenseeRequestsDetail
-                },
-                allowTruncate: true
+                }
             };
 
             $("#SearchResultDetail").fanexGrid(gridOptionsDetail);
-        },
-        error: function (xhr, ajaxOptions, thrownError) {
-            alert(xhr);
-        },
-        complete: function (jqXHR, textStatus) {
         }
     });
 }
@@ -269,11 +284,6 @@ function StartAutoSuggesttion() {
             result = result.replace(/"([^"]+)":/g, function ($0, $1) { return ('"' + $1.toLowerCase() + '":'); })
 
             var sourceAdmin = $.parseJSON(result);
-//            if (sourceAdmin[0] != null) {
-//                $("#LicenseeId").val(sourceAdmin[0].value);
-//            } else {
-//                $("#LicenseeId").val(-1);
-//            }
 
             $("#Systemname").autocomplete({
                 source: sourceAdmin,
