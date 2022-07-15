@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using Fanex.Data.Repository;
-    using Fanex.OddsFeed.Core.Helpers;
     using Fanex.OddsFeed.Core.Service.Interface;
     using Fanex.OddsFeed.Core.Repository.Interface;
     using Fanex.OddsFeed.Core.Repository.Impl;
@@ -23,11 +22,6 @@
         {
             this.baseRepository = baseRepository ?? new BaseRepository();
             this.dynamicRepository = dynamicRepository ?? new DynamicRepository();
-        }
-
-        public DataCollection GetData(ICriteria criteria)
-        {
-            return baseRepository.ReturnDataCollection(criteria);
         }
 
         public DataGrid<T> GetDataGrid<T>(ICriteria criteria)

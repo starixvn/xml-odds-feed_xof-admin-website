@@ -65,7 +65,7 @@ function renderBodyRows(users) {
         var colactive = '';
         if (user.isActive) {
             colactive = "<img title='Deactivate this account' class='ico-tick' src='"
-                + currentDomainURL + "App_Themes/Default/Images/blank.png' onclick=\"javascript:editActive(this, " + user.userId + ", '" + user.username + "')\" />";
+                + currentDomainURL + "App_Themes/Default/Images/blank.png' onclick='javascript:editActive(this, " + user.userId + ", '" + user.username + "')' />";
         } else {
             colactive = "<img title='Activate this account' class='ico-untick' src='"
                 + currentDomainURL + "App_Themes/Default/Images/blank.png' onclick='javascript:editActive(this, " + user.userId + ", '" + user.username + "')' />";
@@ -118,7 +118,7 @@ function Search() {
             gridOptions =
             {
                 columns: [
-                    { HeaderText: "#", Width: 20, Name: "row", HeaderAlign: "center", CellAlign: "center" },
+                    { HeaderText: "#", Width: 40, Name: "row", HeaderAlign: "center", CellAlign: "center" },
                     {
                         HeaderText: "Username", Width: 100, Name: "username", AllowTruncate: true,
                         TdClass: "boldusername", CssClass: "boldusername", HeaderAlign: "center", CellAlign: "left"

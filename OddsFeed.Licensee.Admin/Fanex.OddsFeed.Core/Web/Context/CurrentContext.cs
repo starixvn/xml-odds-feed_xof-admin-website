@@ -1,7 +1,6 @@
 ﻿namespace Fanex.OddsFeed.Core.Web.Context
 {
     using System;
-    using System.Configuration;
     using System.Globalization;
     using System.Net;
     using System.Web;

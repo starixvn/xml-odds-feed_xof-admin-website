@@ -5,6 +5,7 @@
     [Serializable]
     public class Affiliate
     {
+        public int Row { get; set; }
         public int Id { get; set; }
 
         public string Name { get; set; }

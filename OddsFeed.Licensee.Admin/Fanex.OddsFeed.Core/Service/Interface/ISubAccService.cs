@@ -6,8 +6,6 @@
 
     public interface ISubAccService
     {
-        IList<User> GetByNameAndSystemId(byte systemId, string name);
-
         IList<User> GetBySystemId(byte systemId);
 
         PermissionFlag GetUserPermission(int userId, byte systemId);

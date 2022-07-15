@@ -404,11 +404,8 @@
             criteria.SystemId = currentSession.SystemId;
             criteria.UserName = (criteria.UserName == null || criteria.UserName == "Username") ? string.Empty : criteria.UserName.Trim();
             criteria.PageIndex++;
-
-            var dr = affiliateService.GetAffiliateListReturnDataCollection(criteria);
-            var result = FanexGridHelper.DataForFanexGrid_PreventContainQuote(dr);
-
-            return Json(result, JsonRequestBehavior.AllowGet);
+            var result = baseService.GetDataGrid<Affiliate>(criteria);
+            return new CustomJsonResult { Data = result, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
         public string ListExistedAff(string username)

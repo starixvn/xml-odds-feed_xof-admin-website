@@ -155,7 +155,6 @@
     <Compile Include="Criteria\Administrator\UpdateAdminInfoCriteria.cs" />
     <Compile Include="Criteria\Administrator\DeleteAdminCriteria.cs" />
     <Compile Include="Criteria\Administrator\GetAdminCriteria.cs" />
-    <Compile Include="Criteria\Administrator\GetSystemCriteria.cs" />
     <Compile Include="Criteria\Administrator\InsertAdminCriteria.cs" />
     <Compile Include="Criteria\Affiliate\CheckExistAffiliateCriteria.cs" />
     <Compile Include="Criteria\Affiliate\GetAffiliateProfileByIDCriteria.cs" />
@@ -251,8 +250,6 @@
     <Compile Include="Criteria\User\LogOutUserCriteria.cs" />
     <Compile Include="Criteria\User\UserReCheckInUserCriteria.cs" />
     <Compile Include="Extensions.cs" />
-    <Compile Include="Helpers\DataCollection.cs" />
-    <Compile Include="Helpers\LogHelper.cs" />
     <Compile Include="Model\BetType.cs" />
     <Compile Include="Model\CommandResult.cs" />
     <Compile Include="Model\CompanyIP.cs" />
@@ -308,19 +305,13 @@
     <Compile Include="Utilities.cs" />
     <Compile Include="Web\Attribute\CompressAttribute.cs" />
     <Compile Include="Web\Attribute\IsUnderMaintainanceAttribute.cs" />
-    <Compile Include="Web\Auth\AuthInfo.cs" />
-    <Compile Include="Web\Auth\INapPrincipal.cs" />
     <Compile Include="Web\Attribute\IsAuthorizeAttribute.cs" />
-    <Compile Include="Web\Auth\NapPrincipal.cs" />
     <Compile Include="Web\Context\CurrentContext.cs" />
-    <Compile Include="Web\FanexGridHelper.cs" />
     <Compile Include="Web\Session\CurrentSession.cs" />
     <Compile Include="Web\Context\ICurrentContext.cs" />
     <Compile Include="Web\Session\ICurrentSession.cs" />
     <Compile Include="Web\HtmlHelperExtensions.cs" />
     <Compile Include="Web\UrlHelperExtensions.cs" />
-    <Compile Include="Web\Validation\CollectionStringLengthAttribute.cs" />
-    <Compile Include="Web\ViewFlags.cs" />
     <Compile Include="Web\ViewResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

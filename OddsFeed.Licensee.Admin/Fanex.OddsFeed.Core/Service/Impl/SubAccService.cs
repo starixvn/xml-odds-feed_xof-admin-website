@@ -7,7 +7,6 @@
     using Fanex.Common.Helper;
     using Fanex.OddsFeed.Core.Business;
     using Fanex.OddsFeed.Core.Criteria.Affiliate;
-    using Fanex.OddsFeed.Core.Criteria.SubAccount;
     using Fanex.OddsFeed.Core.Criteria.User;
     using Fanex.OddsFeed.Core.Model;
     using Fanex.OddsFeed.Core.Repository.Impl;
@@ -29,38 +28,6 @@
         {
             this.baseService = baseService ?? new BaseService();
             this.subAccRepository = subAccRepository ?? new SubAccRepository();
-        }
-
-        public IList<User> GetByNameAndSystemId(byte systemId, string name)
-        {
-            var criteria = new GetSubAccByNameCriteria
-            {
-                SystemId = systemId,
-                RoleId = (byte)Constant.UserRole.LicenseeSubAccount,
-                Username = name
-            };
-
-            if (criteria.IsValid())
-            {
-                var users = baseService.GetData<User>(criteria).OrderBy(s => s.Name);
-
-                if (users != null)
-                {
-                    return users.Select(s => new User
-                    {
-                        Id = s.Id,
-                        Username = s.Name,
-                        FirstName = s.FirstName,
-                        LastName = s.LastName,
-                        Email = s.Email,
-                        Creator = s.Creator,
-                        CreatedDate = Convert.ToDateTime(s.CreatedDate),
-                        IsActive = s.IsActive
-                    }).ToList();
-                }
-            }
-
-            return new List<User>();
         }
 
         public IList<User> GetBySystemId(byte systemId)

@@ -1,11 +1,10 @@
 ﻿var _affId = 0;
 var _affName = "";
-var gridOptions
-        , _pageIndex = 0
-        , _pageSize = 10;
+var gridOptions,
+    _pageIndex = 0,
+    _pageSize = 10;
 
 $(document).ready(function () {
-    //Process redirect to Afiiliate list.
     var successed = $("#successed").val();
     if (successed == "true") {
         confirm('Successfull!\nPress OK to continue', function () {
@@ -34,14 +33,52 @@ $(document).ready(function () {
 
     Search();
 });
-//--------------------------------------------------------------------------------------------------------------------
 
+//--------------------------------------------------------------------------------------------------------------------
 function OnSearch() {
     _pageIndex = 0;
     _pageSize = 10;
 
     Search();
 };
+
+function renderBodyRows(affiliates) {
+    var rows = [];
+    var totalRows = affiliates.length;
+    for (var i = 0; i < totalRows; i++) {
+        var affiliate = affiliates[i];
+        var colactive = '';
+        if ($("#IsActivateSystem").val() !== '') {
+            if (affiliate.isAllowed) {
+                colactive = "<img title='Deactivate this account' class='ico-tick' alt='' onclick='editActive(this," + affiliate.id + ")'/>";
+            } else {
+                colactive = "<img title='Activate this account' class='ico-untick' alt='' onclick='editActive(this," + affiliate.id + ")'/>";
+            }
+        }
+        else {
+            colactive = "<img class='ico-untick-deactivate' />";
+        }
+
+        var row = {
+            Columns: [
+                { Name: 'Row', Value: affiliate.row },
+                { Name: 'Username', Value: affiliate.name },
+                { Name: 'Action', Value: "<div class='btn-action' onclick='javascript:ShowAction(" + JSON.stringify(affiliate) + ");'></div>" },
+                { Name: 'IsAllowed', Value: colactive },
+                { Name: 'Site', Value: affiliate.site },
+                { Name: 'CreatedDate', Value: affiliate.createdDate },
+                { Name: 'LastUpdate', Value: affiliate.lastUpdate },
+                { Name: 'Creator', Value: affiliate.creator },
+                { Name: 'ContactPerson', Value: affiliate.contactPerson },
+                { Name: 'ContactEmail', Value: affiliate.contactEmail }
+            ]
+        };
+
+        rows.push(row);
+    }
+
+    return rows;
+}
 
 function Search() {
     $('#PageSize').val(_pageSize);
@@ -61,62 +98,35 @@ function Search() {
         data: JSON.stringify(searchParams),
         cache: false,
         success: function (result) {
-            result = result.replace(/\n/g, "<\/br>");
-            result = OddsFeedAdminManager.formatFanexGridStringResult(result);
             gridOptions =
             {
                 columns: [
-                    { HeaderText: "#", Width: 20, Name: "Row", HeaderAlign: "center", CellAlign: "center" },
-                    { HeaderText: "PartnerId", Width: 100, Name: "PartnerId", HeaderAlign: "center", CellAlign: "right" },
-                    { HeaderText: "Username", Width: 100, Name: "UserName", HeaderAlign: "center", CellAlign: "left" },
+                    { HeaderText: "#", Width: 40, Name: "Row", HeaderAlign: "center", CellAlign: "center" },
+                    { HeaderText: "Username", Width: 120, Name: "Username", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true },
                     { HeaderText: "Action", Width: 50, Name: "Action", HeaderAlign: "center", CellAlign: "center" },
                     { HeaderText: "Active", Width: 50, Name: "IsAllowed", HeaderAlign: "center", CellAlign: "center" },
-                    { HeaderText: "Site", Width: 165, Name: "Site", HeaderAlign: "center", CellAlign: "left" },
+                    { HeaderText: "Site", Width: 170, Name: "Site", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true },
                     { HeaderText: "Created Date", Width: 120, Name: "CreatedDate", HeaderAlign: "center", CellAlign: "center" },
                     { HeaderText: "Last Update", Width: 120, Name: "LastUpdate", HeaderAlign: "center", CellAlign: "center" },
-                    { HeaderText: "Creator", Width: 100, Name: "Creator", HeaderAlign: "center", CellAlign: "left" },
-                    { HeaderText: "Contact Person", Width: 100, Name: "ContactPerson", HeaderAlign: "center", CellAlign: "left" },
-                    { HeaderText: "Contact Email", Width: 170, Name: "ContactEmail", HeaderAlign: "center", CellAlign: "left" },
-                    { HeaderText: "Note", Width: 100, Name: "Remark", HeaderAlign: "center", CellAlign: "center" }
+                    { HeaderText: "Creator", Width: 120, Name: "Creator", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true },
+                    { HeaderText: "Contact Person", Width: 120, Name: "ContactPerson", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true },
+                    { HeaderText: "Contact Email", Width: 170, Name: "ContactEmail", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true }
                 ],
-                bodyRows: result[0].data,
+                bodyRows: renderBodyRows(result.data),
                 hideYBackGroundScroller: true,
-                gridExpandHeight: 150,
-                allowTruncate: true,
-                enableHiddenColumns: false,
-                hiddenColumns: [1, 11], 
-                //numberOfFrozenColumn: 2,
+                gridExpandHeight: 250,
                 showPager: true,
                 customPager: true,
                 pagerOption: {
                     itemsPerPage: _pageSize,
                     currentPage: _pageIndex,
-                    totalItem: result[1].totalItem,
+                    totalItem: result.totalItems,
                     itemsPerPageArray: [10, 20, 50, 100, 500],
                     pagerSelectCallBack: ReRenderAfterPaged
                 }
             };
 
-            for (var i = 0; i < gridOptions.bodyRows.length; i++) {
-                // Modify "Active" column
-                gridOptions.bodyRows[i].Columns[3].Row = i;
-                gridOptions.bodyRows[i].Columns[3].CustomCellRender = ActiveColumn;
-
-                // Modify "Action" column
-                gridOptions.bodyRows[i].Columns =  OddsFeedAdminManager.insertAtIndex(
-                    gridOptions.bodyRows[i].Columns,
-                    3,
-                    { Name: "Action", Row: i });
-//                gridOptions.bodyRows[i].Columns.push({ Name: "Action", Row: i });
-                gridOptions.bodyRows[i].Columns[3].CustomCellRender = ActionColumn;
-            }
-
             $("#SearchResult").fanexGrid(gridOptions);
-        },
-        error: function (xhr, ajaxOptions, thrownError) {
-            //alert(xhr);
-        },
-        complete: function (jqXHR, textStatus) {
         }
     });
 }
@@ -138,34 +148,15 @@ function ReRenderAfterPaged(page_index, itemsPerPage, jq) {
 
     return false;
 }
-function ActiveColumn(cell, cellFormated) {
-    var partnerId = gridOptions.bodyRows[cell.Row].Columns[1].Value;
 
-    if( $("#IsActivateSystem").val() != "")    //system is activated
-    {
-        if (cell.Value == "True") {
-            return "<img title='Deactivate this account' class='ico-tick' alt='' onclick='editActive(this," + partnerId + ")'/>";
-        }
-        else {
-            return "<img title='Activate this account' class='ico-untick' alt='' onclick='editActive(this," + partnerId + ")'/>";
-        }
-    }
-    else{
-       return "<img class='ico-untick-deactivate' /> ";
-    }
-}
 function ActionColumn(cell, cellFormated) {
     return "<div class='btn-action' onclick=\"javascript:ShowAction('" + cell.Row + "');\"></div>";
 }
 
-function ShowAction(cellRow) {
-    var partnerId = gridOptions.bodyRows[cellRow].Columns[1].Value;
-    var userName = gridOptions.bodyRows[cellRow].Columns[2].Value;
+function ShowAction(affiliate) {
+    _affId = affiliate.id;
+    _affName = affiliate.name;
 
-    _affId = partnerId;
-    _affName = userName;
-
-    //$.contextMenu('destroy'); -- using if items of menu are updated
     $.contextMenu({
         selector: '.btn-action',
         items: {

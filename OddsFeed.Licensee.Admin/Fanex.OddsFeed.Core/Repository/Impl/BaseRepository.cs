@@ -3,7 +3,6 @@
     using System;
     using System.Collections;
     using Fanex.Data;
-    using Fanex.OddsFeed.Core.Helpers;
     using Fanex.OddsFeed.Core.Repository.Interface;
     using Data.Repository;
     using Fanex.OddsFeed.Core.Model;
@@ -11,23 +10,6 @@
 
     public class BaseRepository : IBaseRepository
     {
-        public DataCollection ReturnDataCollection(ICriteria criteria)
-        {
-            // prepare SP parameters
-            var hash = criteria.GetSpParams();
-
-            var res = new DataCollection();
-
-            using (var db = new ObjectDb(criteria.GetSettingKey()))
-            {
-                db.AssignParamValues(hash);
-                res.Data = db.ExecuteDataSet();
-                res.TotalItem = (int)db.GetOuputParams()["rowcount"];
-
-                return res;
-            }
-        }
-
         public DataGrid<T> GetDataGrid<T>(ICriteria criteria)
         {
             var hash = criteria.GetSpParams();
@@ -53,7 +35,7 @@
             }
         }
 
-        public CommandResult GetCommandResult(Hashtable hash)
+        private CommandResult GetCommandResult(Hashtable hash)
         {
             var errCode = hash["errcode"];
             var errMsg = hash["errmsg"];

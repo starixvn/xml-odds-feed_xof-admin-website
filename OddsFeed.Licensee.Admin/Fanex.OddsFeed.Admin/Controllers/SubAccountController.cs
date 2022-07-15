@@ -15,6 +15,7 @@
     using Fanex.OddsFeed.Core.Service.Interface;
     using Fanex.OddsFeed.Core.Web;
     using Fanex.OddsFeed.Core.Web.Attribute;
+    using Fanex.OddsFeed.Framework.Mvc;
 
     [IsAuthorize]
     public class SubAccountController : BaseController
@@ -106,9 +107,8 @@
             criteria.Username = (criteria.Username == null || criteria.Username == "Username") ? string.Empty : criteria.Username.Trim();
             criteria.RoleId = (byte)Constant.UserRole.LicenseeSubAccount;
             criteria.PageIndex++;
-            var dr = baseService.GetData(criteria);
-            var result = FanexGridHelper.DataForFanexGrid_PreventContainQuote(dr);
-            return Json(result, JsonRequestBehavior.AllowGet);
+            var result = baseService.GetDataGrid<User>(criteria);
+            return new CustomJsonResult { Data = result, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
         public string ListExistedSubAccount(string username)

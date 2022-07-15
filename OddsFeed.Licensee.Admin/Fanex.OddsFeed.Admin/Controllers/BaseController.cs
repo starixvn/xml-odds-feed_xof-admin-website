@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Configuration;
-    using System.Data;
     using System.Linq;
     using System.Web.Mvc;
     using Fanex.Common;
@@ -17,10 +16,6 @@
 
     public class BaseController : Controller
     {
-        protected const string EmptyString = "";
-
-        protected const int NapAdminId = 1;
-
         protected const int DefaultMinDate = 2000;
 
         protected readonly ICurrentContext currentContext;

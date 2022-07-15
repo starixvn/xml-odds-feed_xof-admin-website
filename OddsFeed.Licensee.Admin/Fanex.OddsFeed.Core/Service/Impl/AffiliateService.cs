@@ -5,7 +5,6 @@
     using System.Linq;
     using Fanex.Common.Helper;
     using Fanex.OddsFeed.Core.Criteria.Affiliate;
-    using Fanex.OddsFeed.Core.Helpers;
     using Fanex.OddsFeed.Core.Model;
     using Fanex.OddsFeed.Core.Repository.Impl;
     using Fanex.OddsFeed.Core.Repository.Interface;
@@ -27,19 +26,6 @@
         {
             this.baseService = baseService ?? new BaseService();
             this.affilliateRepository = affilliateRepository ?? new AffiliateRepository();
-        }
-
-        public DataCollection GetAffiliateListReturnDataCollection(GetAffiliateByNameCriteria criteria)
-        {
-            // check parameters
-            Check.Argument.IsNotNull(criteria, "criteria");
-
-            if (criteria.IsValid())
-            {
-                return baseService.GetData(criteria);
-            }
-
-            return null;
         }
 
         public IList<PartnerIP> GetPartnerIpByAffId(int partnerId)
