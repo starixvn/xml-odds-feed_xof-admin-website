@@ -4,23 +4,11 @@
     using System.Linq;
     using System.Text;
     using System.Web.Mvc;
-    using Fanex.Caching;
     using Fanex.OddsFeed.Core.Criteria.Administrator;
     using Fanex.OddsFeed.Core.Model;
 
     public class UIController : BaseController
     {
-        private readonly ICache cacheManager;
-
-        public UIController() : this(null)
-        {
-        }
-
-        public UIController(ICache cacheManager)
-        {
-            this.cacheManager = cacheManager ?? CacheService.CreateInstance();
-        }
-
         public ActionResult Header()
         {
             ViewBag.SystemList = GenerateSystemList();
