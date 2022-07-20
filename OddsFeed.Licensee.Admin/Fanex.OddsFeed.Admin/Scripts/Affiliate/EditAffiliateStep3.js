@@ -79,7 +79,7 @@
 
         $.ajax({
             type: 'POST',
-            url: 'EditProfile',
+            url: currentDomainURL + 'Affiliate/EditProfile',
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(updateParams),

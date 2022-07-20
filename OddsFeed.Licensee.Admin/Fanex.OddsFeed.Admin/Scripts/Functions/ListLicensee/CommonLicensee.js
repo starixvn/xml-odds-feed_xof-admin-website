@@ -367,22 +367,29 @@ function CheckItemsEventWithConfirm(chkAll, chkItems, callback, paras) {
                     function () {
                         chkItem.checked = true;
 
-                        if ($('.' + chkItems + ':checked').length != 0 && ($('.' + chkItems + ':checked').length == $("." + chkItems).length)) {
+                        if ($('.' + chkItems + ':checked').length !== 0 && ($('.' + chkItems + ':checked').length === $("." + chkItems).length)) {
                             $('#' + chkAll).attr("checked", true);
                         }
-                    });
-            }
 
-            if ($('.' + chkItems + ':checked').length != 0 && ($('.' + chkItems + ':checked').length == $("." + chkItems).length)) {
-                $('#' + chkAll).attr("checked", true);
+                        if (jQuery.isFunction(callback)) {
+                            callback(paras[4], paras[5], paras[6], paras[7]);
+                        }
+                    });
+            } else {
+                if ($('.' + chkItems + ':checked').length !== 0 && ($('.' + chkItems + ':checked').length === $("." + chkItems).length)) {
+                    $('#' + chkAll).attr("checked", true);
+                }
+
+                if (jQuery.isFunction(callback)) {
+                    callback(paras[4], paras[5], paras[6], paras[7]);
+                }
             }
-            
         } else {
             $('#' + chkAll).attr("checked", false);
+            if (jQuery.isFunction(callback)) {
+                callback(paras[4], paras[5], paras[6], paras[7]);
+            }
         }
-        
-        if (jQuery.isFunction(callback))
-            callback(paras[4], paras[5], paras[6], paras[7]);
     });
 }
 
