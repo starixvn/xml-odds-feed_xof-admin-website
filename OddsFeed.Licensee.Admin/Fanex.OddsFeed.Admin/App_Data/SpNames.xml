@@ -23,18 +23,18 @@
         <Setting Key="Odds_CountrySel" SpName="Odds_CountrySel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
         <Setting Key="Odds_SportSel" SpName="Odds_SportSel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
         <Setting Key="Odds_LanguageSel" SpName="Odds_LanguageSel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
-        <Setting Key="Odds_Partner_Ins" SpName="Odds_Partner_Ins_xtest" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+        <Setting Key="Odds_Partner_Ins" SpName="Odds_Partner_Ins" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
         <Setting Key="Odds_Partner_Upd_Info" SpName="Odds_Partner_Upd_Info" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
         <Setting Key="Odds_Partner_Upd_Setting" SpName="Odds_Partner_Upd_Setting" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
         <Setting Key="Odds_Partner_Upd_Setting_IP" SpName="Odds_Partner_Upd_Setting_IP" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
-        <Setting Key="Odds_Partner_Upd_Profile" SpName="Odds_Partner_Upd_Profile_xtest" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+        <Setting Key="Odds_Partner_Upd_Profile" SpName="Odds_Partner_Upd_Profile" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
         <Setting Key="Odds_Partner_Upd_Active" SpName="Odds_Partner_Upd_Active" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
         <Setting Key="Odds_Partner_Del" SpName="Odds_Partner_Del" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
         <Setting Key="Odds_Partner_CheckExist" SpName="Odds_Partner_CheckExist" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
             <Mapping DataField="PartnerId" ObjectProperty="Id" />
             <Mapping DataField="UserName" ObjectProperty="Name" />
         </Setting>
-        <Setting Key="Odds_PartnerProfileSelByID" SpName="Odds_PartnerProfileSelByID_xtest" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+        <Setting Key="Odds_PartnerProfileSelByID" SpName="Odds_PartnerProfileSelByID" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
     </Function>
 
     <!-- SP mapping for Administrator-->
@@ -104,14 +104,14 @@
         <Setting Key="Odds_LicenseeSel" SpName="Odds_LicenseeSel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
         <Setting Key="Odds_LeagueSel" SpName="Odds_LeagueSel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
         <Setting Key="Odds_OutRightsSel" SpName="Odds_OutRightsSel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
-        <Setting Key="Odds_LicenseeIns" SpName="Odds_LicenseeIns_xtest" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
-        <Setting Key="Odds_LicenseeProfileUpd" SpName="Odds_LicenseeProfileUpd_xtest" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+        <Setting Key="Odds_LicenseeIns" SpName="Odds_LicenseeIns" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+        <Setting Key="Odds_LicenseeProfileUpd" SpName="Odds_LicenseeProfileUpd" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
         <Setting Key="Odds_LicenseeSettingUpd" SpName="Odds_LicenseeSettingUpd" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
         <Setting Key="Odds_LicenseeInfoUpd" SpName="Odds_LicenseeInfoUpd" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
         <Setting Key="Odds_LicenseeSelByPage" SpName="Odds_LicenseeSelByPage" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
         <Setting Key="Odds_LicenseeActiveUpd" SpName="Odds_LicenseeActiveUpd" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
         <Setting Key="Odds_LicenseeByIDSel" SpName="Odds_LicenseeByIDSel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
-        <Setting Key="Odds_LicenseeProfileByLicenseeIDSel" SpName="Odds_LicenseeProfileByLicenseeIDSel_xtest" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+        <Setting Key="Odds_LicenseeProfileByLicenseeIDSel" SpName="Odds_LicenseeProfileByLicenseeIDSel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
         <Setting Key="Odds_LicenseeSettingByLicenseeIDSel" SpName="Odds_LicenseeSettingByLicenseeIDSel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
         <Setting Key="Odds_Licensee_CheckExistLicensee" SpName="Odds_Licensee_CheckExistLicensee" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
         <Setting Key="Odds_Top10System_Sel" SpName="Odds_Top10System_Sel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
