@@ -34,8 +34,10 @@ function showDone() {
         var urlXMLMain = 'http://' + selectedDomains[0].replace('http://', '') + '/' + $('#virutalPath').val() + name + '/odds.xml';
         text = openDiv + openDiv5 + 'XML Odds Feed Main URL' + closeDiv5 + "<a href='" + urlXMLMain + "'>" + urlXMLMain + '</a>' + closeDiv;
 
-        urlXMLMain = 'http://' + selectedDomains[0].replace('http://', '') + '/' + $('#virutalPath').val() + name + '/cricket/result.xml';
-        text = openDiv + openDiv5 + 'XML Result Feed Main URL for Cricket' + closeDiv5 + "<a href='" + urlXMLMain + "'>" + urlXMLMain + '</a>' + closeDiv;
+        if ($('#SportIDList27').prop('checked') || $('#SportIDList50').prop('checked')) {
+            urlXMLMain = 'http://' + selectedDomains[0].replace('http://', '') + '/' + $('#virutalPath').val() + name + '/cricket/result.xml';
+            text += openDiv + openDiv5 + 'XML Result Feed Main URL for Cricket' + closeDiv5 + "<a href='" + urlXMLMain + "'>" + urlXMLMain + '</a>' + closeDiv;
+        }
 
         for (var i = 1; i < selectedDomains.length; i++) {
             var urlXML = 'http://' + selectedDomains[i].replace('http://', '') + '/' + $('#virutalPath').val() + name + '/odds.xml';
