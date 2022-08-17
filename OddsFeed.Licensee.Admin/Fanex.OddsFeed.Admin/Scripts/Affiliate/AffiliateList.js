@@ -63,7 +63,10 @@ function renderBodyRows(affiliates) {
             Columns: [
                 { Name: 'Row', Value: affiliate.row },
                 { Name: 'Username', Value: affiliate.name },
-                { Name: 'Action', Value: "<div class='btn-action' onclick='javascript:ShowAction(" + JSON.stringify(affiliate) + ");'></div>" },
+                {
+                    Name: 'Action', Value: "<div class='btn-action' onclick='javascript:ShowAction("
+                        + JSON.stringify({ id: affiliate.id, name: affiliate.name }) + ");'></div>"
+                },
                 { Name: 'IsAllowed', Value: colactive },
                 { Name: 'Site', Value: affiliate.site },
                 { Name: 'CreatedDate', Value: affiliate.createdDate },
@@ -147,10 +150,6 @@ function ReRenderAfterPaged(page_index, itemsPerPage, jq) {
     Search();
 
     return false;
-}
-
-function ActionColumn(cell, cellFormated) {
-    return "<div class='btn-action' onclick=\"javascript:ShowAction('" + cell.Row + "');\"></div>";
 }
 
 function ShowAction(affiliate) {
