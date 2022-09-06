@@ -236,6 +236,9 @@
     <AdditionalFiles Include="..\..\.sonarlint\xmloddsfeedadminsite\CSharp\SonarLint.xml">
       <Link>SonarLint.xml</Link>
     </AdditionalFiles>
+    <Content Include="App_Data\SpNames.LOCAL.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="App_Data\SpNames.AWS.xml">
       <SubType>Designer</SubType>
     </Content>
