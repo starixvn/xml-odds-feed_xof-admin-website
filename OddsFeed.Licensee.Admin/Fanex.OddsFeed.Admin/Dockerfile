@@ -9,22 +9,22 @@ WORKDIR /build
 
 COPY *.sln .
 
-COPY OddsFeed.Licensee.Admin\Fanex.OddsFeed.Core\*.csproj Fanex.OddsFeed.Core\
-COPY OddsFeed.Licensee.Admin\Fanex.OddsFeed.Core\packages.config Fanex.OddsFeed.Core\
+COPY OddsFeed.Licensee.Admin\Fanex.OddsFeed.Core\*.csproj OddsFeed.Licensee.Admin\Fanex.OddsFeed.Core\
+COPY OddsFeed.Licensee.Admin\Fanex.OddsFeed.Core\packages.config OddsFeed.Licensee.Admin\Fanex.OddsFeed.Core\
 
-COPY OddsFeed.Licensee.Admin\Fanex.OddsFeed.Framework\*.csproj Fanex.OddsFeed.Framework\
-COPY OddsFeed.Licensee.Admin\Fanex.OddsFeed.Framework\packages.config Fanex.OddsFeed.Framework\
+COPY OddsFeed.Licensee.Admin\Fanex.OddsFeed.Framework\*.csproj OddsFeed.Licensee.Admin\Fanex.OddsFeed.Framework\
+COPY OddsFeed.Licensee.Admin\Fanex.OddsFeed.Framework\packages.config OddsFeed.Licensee.Admin\Fanex.OddsFeed.Framework\
 
-COPY OddsFeed.Licensee.Admin\Fanex.OddsFeed.Admin\*.csproj Fanex.OddsFeed.Admin\
-COPY OddsFeed.Licensee.Admin\Fanex.OddsFeed.Admin\packages.config Fanex.OddsFeed.Admin\
+COPY OddsFeed.Licensee.Admin\Fanex.OddsFeed.Admin\*.csproj OddsFeed.Licensee.Admin\Fanex.OddsFeed.Admin\
+COPY OddsFeed.Licensee.Admin\Fanex.OddsFeed.Admin\packages.config OddsFeed.Licensee.Admin\Fanex.OddsFeed.Admin\
 
 RUN nuget.exe restore XMLOddsFeed.sln
 
-COPY OddsFeed.Licensee.Admin\Fanex.OddsFeed.Core\ Fanex.OddsFeed.Core\
-COPY OddsFeed.Licensee.Admin\Fanex.OddsFeed.Framework\ Fanex.OddsFeed.Framework\
-COPY OddsFeed.Licensee.Admin\Fanex.OddsFeed.Admin\ Fanex.OddsFeed.Admin\
+COPY OddsFeed.Licensee.Admin\Fanex.OddsFeed.Core\ OddsFeed.Licensee.Admin\Fanex.OddsFeed.Core\
+COPY OddsFeed.Licensee.Admin\Fanex.OddsFeed.Framework\ OddsFeed.Licensee.Admin\Fanex.OddsFeed.Framework\
+COPY OddsFeed.Licensee.Admin\Fanex.OddsFeed.Admin\ OddsFeed.Licensee.Admin\Fanex.OddsFeed.Admin\
 
-RUN MSBuild.exe "Fanex.OddsFeed.Admin\Fanex.OddsFeed.Admin.csproj" `
+RUN MSBuild.exe "OddsFeed.Licensee.Admin\Fanex.OddsFeed.Admin\Fanex.OddsFeed.Admin.csproj" `
     /t:Build;WebPublish /m `
     /p:DebugType=None `
     /p:Configuration=Release `
