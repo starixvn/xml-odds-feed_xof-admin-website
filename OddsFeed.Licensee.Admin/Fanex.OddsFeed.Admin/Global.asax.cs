@@ -1,6 +1,7 @@
 ﻿namespace Fanex.OddsFeed.Admin
 {
     using System;
+    using System.Collections.Generic;
     using System.Configuration;
     using System.Diagnostics;
     using System.Web;
@@ -30,6 +31,15 @@
 
             ExceptionHandler
                 .UseConfig(new LoggingConfiguration())
+                .HideSensitiveInfo(new List<string>
+                {
+                    "(?:password=)(?<paramValue>[^&|^\\s]+)",
+                    "(\"password\":)(?<paramValue>[^,|^\r]+)",
+                    "(?:UserPwd=)(?<paramValue>[^&|^\\s]+)",
+                    "(\"UserPwd\":)(?<paramValue>[^,|^\r]+)"
+                })
+                .GetHttpHeaderInfo()
+                .GetHttpSessionInfo()
                 .UseGetDbExceptionInfo(DatabaseInfoGetters.GetDbExceptionInfo);
 
             AreaRegistration.RegisterAllAreas();
