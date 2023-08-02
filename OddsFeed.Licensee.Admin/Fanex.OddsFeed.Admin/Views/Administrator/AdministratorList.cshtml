@@ -28,25 +28,21 @@
 <form id="myForm" method="get" action="">
     <div class="form680" style="width: auto;">
         <div class="grid2">
-            <label for="id1">
-                Licensee
-            </label>
+            <label for="id1">Licensee</label>
         </div>
         <div class="grid4">
-            @Html.DropDownList("slSystem", (ViewBag.SystemList as IEnumerable<SelectListItem>), new { @id = "SystemID", @Name = "SystemID", @class = "width-auto-fit request" })
+            @Html.DropDownList("slSystem", (ViewBag.SystemList as IEnumerable<SelectListItem>),
+                new { @id = "SystemID", @Name = "SystemID", @class = "width-auto-fit request" })
         </div>
         <div class="grid1">
-            <label for="id1">
-                Role
-            </label>
+            <label for="id1">Role</label>
         </div>
         <div class="grid4">
-            @Html.DropDownList("slRole", (ViewBag.RoleList as IEnumerable<SelectListItem>), new { @id = "RoleID", @Name = "RoleID", @class = "width-auto-fit request" })
+            @Html.DropDownList("slRole", (ViewBag.RoleList as IEnumerable<SelectListItem>),
+                new { @id = "RoleID", @Name = "RoleID", @class = "width-auto-fit request" })
         </div>
         <div class="grid2">
-            <label for="id1">
-                Username
-            </label>
+            <label for="id1">Username</label>
         </div>
         @Html.HiddenFor(s => s.PageSize)
         @Html.HiddenFor(s => s.PageIndex)

@@ -45,13 +45,13 @@
 
 //--------------------------------------------------------------------------------------------------------------------
 
-function editActive(obj, userId, username) {
+function editActive(obj, user) {
     if ($(obj).hasClass('ico-tick')) {
-        var temp = 'Do you want to deactivate administrator <b>\"' + username + '\"</b>?';
+        var temp = 'Do you want to deactivate administrator <b>\"' + user.username + '\"</b>?';
         confirm(temp, function () {
             $(obj).removeClass('ico-tick').addClass('ico-untick');
 
-            var url = 'UpdateActive?adminid=' + userId + '&isactive=false';
+            var url = 'UpdateActive?adminid=' + user.userId + '&isactive=false';
 
             //todo
             $.ajax({
@@ -75,12 +75,11 @@ function editActive(obj, userId, username) {
                 }
             });
         });
-    }
-    else {
-        var temp = 'Do you want to activate administrator <b>\"' + username + '\"</b>?';
+    } else {
+        var temp = 'Do you want to activate administrator <b>\"' + user.username + '\"</b>?';
         confirm(temp, function () {
             $(obj).removeClass('ico-untick').addClass('ico-tick');
-            var url = 'UpdateActive?adminid=' + userId + '&isactive=true';
+            var url = 'UpdateActive?adminid=' + user.userId + '&isactive=true';
 
             //todo
             $.ajax({

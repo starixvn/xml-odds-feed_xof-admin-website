@@ -65,10 +65,10 @@ function renderBodyRows(users) {
         var colactive = '';
         if (user.isActive) {
             colactive = "<img title='Deactivate this account' class='ico-tick' src='"
-                + currentDomainURL + "App_Themes/Default/Images/blank.png' onclick='javascript:editActive(this, " + user.userId + ", '" + user.username + "')' />";
+                + currentDomainURL + "App_Themes/Default/Images/blank.png' onclick='javascript:editActive(this, " + JSON.stringify({ userId: user.userId, username: user.username }) + ");' />";
         } else {
             colactive = "<img title='Activate this account' class='ico-untick' src='"
-                + currentDomainURL + "App_Themes/Default/Images/blank.png' onclick='javascript:editActive(this, " + user.userId + ", '" + user.username + "')' />";
+                + currentDomainURL + "App_Themes/Default/Images/blank.png' onclick='javascript:editActive(this, " + JSON.stringify({ userId: user.userId, username: user.username }) + ");' />";
         }
 
         var row = {
