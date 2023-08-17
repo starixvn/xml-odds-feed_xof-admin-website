@@ -514,13 +514,6 @@
                 URLPrefix + domainURL.Replace(URLPrefix, string.Empty) + "/" + GetVirtualPath() + affiliateName + "/help.htm";
         }
 
-        public string GetBetRadarLink(string domainURL, string affiliateName)
-        {
-            return string.IsNullOrEmpty(domainURL) ?
-                string.Empty :
-                URLPrefix + domainURL.Replace(URLPrefix, string.Empty) + "/" + GetVirtualPath() + affiliateName + "/oddsfeed.xml";
-        }
-
         #endregion Get
 
         #region Delete
