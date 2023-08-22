@@ -1,4 +1,4 @@
 include:
-  - project: 'ci/repos-ci/nexus_xml_oddsfeed_admin_site'
-    ref: master
-    file: 'gitlab-ci.yml'
+  - project: ci/core-cicd
+    ref: main
+    file: nexcel.gitlab-ci.yml
