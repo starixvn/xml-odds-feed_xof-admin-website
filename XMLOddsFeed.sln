@@ -11,13 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fanex.OddsFeed.Core", "Odds
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fanex.OddsFeed.Framework", "OddsFeed.Licensee.Admin\Fanex.OddsFeed.Framework\Fanex.OddsFeed.Framework.csproj", "{6046E641-13FC-4C11-8173-0DB394F3E878}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{82056316-CF54-4814-A325-DEBE03065261}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -68,7 +61,7 @@ Global
 		{6046E641-13FC-4C11-8173-0DB394F3E878} = {B2DBB333-7992-409B-9658-424A6F05A685}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {F7DAA045-3345-4A73-A7A0-56F21D8F36A8}
 		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.0\lib\NET35;packages\Unity.Interception.2.1.505.0\lib\NET35;packages\EnterpriseLibrary.Common.5.0.505.0\lib\NET35;packages\EnterpriseLibrary.Caching.5.0.505.0\lib\NET35;packages\EnterpriseLibrary.Data.5.0.505.0\lib\NET35;packages\EnterpriseLibrary.Logging.5.0.505.0\lib\NET35
+		SolutionGuid = {F7DAA045-3345-4A73-A7A0-56F21D8F36A8}
 	EndGlobalSection
 EndGlobal
