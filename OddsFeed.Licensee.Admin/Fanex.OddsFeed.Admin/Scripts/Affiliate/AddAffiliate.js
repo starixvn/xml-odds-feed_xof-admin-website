@@ -154,7 +154,7 @@ function AddAffilliate() {
                 $('#panelStep4').attr('class', 'step-active');
                 $('div.step').hide();
                 $('#step4').show();
-                showDone();
+                addAffiliateStep4.showDone();
             } else {
                 $('.result-message-box').empty()
                     .append("<ul><li>" + result.Message + "</li></ul>")
