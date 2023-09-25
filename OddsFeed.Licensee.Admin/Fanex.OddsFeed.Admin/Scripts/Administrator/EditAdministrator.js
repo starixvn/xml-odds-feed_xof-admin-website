@@ -1,4 +1,5 @@
 ﻿$(document).ready(function () {
+    var listSystem = [];
     //    //step 1    
     $("#txtUsername").prop('disabled', true);
     var successed = $("#successed").val();
@@ -41,6 +42,9 @@
     $("#Save.resetPassword").click(function () {
         ResetPassword();
     });
+
+    GetListSystemForUser();
+    
 });
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -403,4 +407,44 @@ function CheckValidation_AssignLicensee() {
     }
 
     return ret;
+}
+
+function SearchLicensee() {
+    var searchKey = $("#Licenseename").val();
+    var filterList = listSystem.filter(sys => sys.SystemName.toLowerCase().includes(searchKey.toLowerCase()));
+
+    HiddenElement(); 
+    filterList.forEach(e => {
+        var name = e.SystemName
+        var labelElements = $("div.licenseeList label:contains('" + name + "')");
+        if (labelElements.length > 0) {
+            labelElements.each(function () {
+                $(this).removeClass("hidden");
+                var idInput = $(this).attr("for");
+                $("div.licenseeList input#" + idInput).removeClass("hidden");;
+            });
+        }
+    });
+}
+
+function HiddenElement() {
+    $("div.licenseeList label").addClass("hidden");
+    $("div.licenseeList input").addClass("hidden");
+}
+
+function GetListSystemForUser() {
+    var urlParam = $.param({
+        role: $("#Role").data("value")
+    });
+
+    $.ajax({
+        url: '/Administrator/GetSystemList/' + $("#UserId").data("value") + '?' + urlParam,
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            listSystem = data;
+        },
+        error: function () {
+        }
+    });
 }
