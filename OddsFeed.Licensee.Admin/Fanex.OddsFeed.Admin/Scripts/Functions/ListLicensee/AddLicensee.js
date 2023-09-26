@@ -75,7 +75,6 @@ function AddLicensee() {
         SportIDListFlag: $('#SportIDListFlag').prop('checked'),
         CountryCodeListFlag: $('#CountryCodeListFlag').prop('checked'),
         BettypeIDListFlag: $('#BettypeIDListFlag').prop('checked'),
-        AddExistingLicensee: $('#AddExistingLicensee').prop('checked'),
         LicenseeID: $('#LicenseeID option:selected').val()
     };
 

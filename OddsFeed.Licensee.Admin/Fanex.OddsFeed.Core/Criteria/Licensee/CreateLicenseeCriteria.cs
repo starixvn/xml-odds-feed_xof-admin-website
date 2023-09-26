@@ -87,8 +87,6 @@ namespace Fanex.OddsFeed.Core.Criteria.Licensee
         public string ErrMsg { get; set; }
 
         // Ignored
-        [SpParam(Ignored = true)]
-        public bool AddExistingLicensee { get; set; }
 
         [SpParam(Ignored = true)]
         public string DeadballDelayTimes { get; set; }

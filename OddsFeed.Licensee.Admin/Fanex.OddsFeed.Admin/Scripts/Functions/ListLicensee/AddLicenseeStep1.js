@@ -2,17 +2,10 @@
     // step 1
     $('#errorStep1').addClass('hidden');
 
-    $('#AddExistingLicensee').click(function () {
-        $('#errorStep1').addClass('hidden');
-        $('#SystemName').removeClass('error');
-        if ($(this).prop('checked')) {
-            $('.licensee-name').hide();
-            $('.licensee-selection').show();
-        } else {
-            $('.licensee-name').show();
-            $('.licensee-selection').hide();
-        }
-    });
+    $('#errorStep1').addClass('hidden');
+    $('#SystemName').removeClass('error');
+    $('.licensee-name').hide();
+    $('.licensee-selection').show();
 
     $('#SystemName').focusout(function () {
         RefreshErrorBox();
@@ -41,9 +34,7 @@
     });
 
     $('#step1Next').click(function () {
-        if ($('#AddExistingLicensee').prop('checked')) {
-            $('#SystemName').val($('#LicenseeID>option:selected').text());
-        }
+        $('#SystemName').val($('#LicenseeID>option:selected').text());
 
         var ret = CheckValidation();
 
@@ -107,31 +98,6 @@ function CheckSystemNameValidation() {
         $('#errorStep1').removeClass('hidden');
         $('#SystemName').addClass('error');
         return false;
-    }
-
-    if (!$('#AddExistingLicensee').prop('checked')) {
-        $.ajax({
-            url: 'CheckExistLicenseeName',
-            type: 'POST',
-            data: $('#formLicensee').serialize(),
-            dataType: 'html',
-            async: false,
-            cache: false,
-            success: function (errCode) {
-                if (errCode == 'False') {
-                    $('#errorStep1').addClass('hidden');
-                    $('#errorStep1').html('')
-                    $('#errorStep1').append('<ul><li>' + viewResources.Error_Licensee_Existed + '</li></ul>');
-                    $('#errorStep1').removeClass('hidden');
-                    $('#SystemName').addClass('error');
-                    res = false;
-                } else {
-                    $('#nameExistedErr').hide('fast');
-                }
-            },
-            error: function (xhr, status, err) {
-            }
-        });
     }
 
     return res;

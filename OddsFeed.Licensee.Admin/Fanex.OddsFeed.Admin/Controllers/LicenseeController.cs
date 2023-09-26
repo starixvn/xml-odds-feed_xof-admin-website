@@ -93,11 +93,6 @@
 
         public JsonResult CreateLicensee(CreateLicenseeCriteria criteria)
         {
-            if (!criteria.AddExistingLicensee)
-            {
-                criteria.LicenseeID = 0;
-            }
-
             criteria.SystemName = criteria.SystemName.Trim();
             criteria.ContactEmail = criteria.ContactEmail.Trim();
             criteria.Creator = currentSession.UserId;
@@ -146,11 +141,6 @@
         [HttpPost]
         public JsonResult EditLicenseeInfoPost(EditLicenseeInfoCriteria criteria)
         {
-            if (!criteria.AddExistingLicensee)
-            {
-                criteria.LicenseeID = 0;
-            }
-
             criteria.Creator = currentSession.UserId;
             criteria.IP = currentContext.IP;
             CommandResult result = baseService.ExecuteNonQuery(criteria);
