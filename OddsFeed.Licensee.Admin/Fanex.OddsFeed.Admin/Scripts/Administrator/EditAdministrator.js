@@ -1,5 +1,4 @@
 ﻿$(document).ready(function () {
-    var listSystem = [];
     //    //step 1    
     $("#txtUsername").prop('disabled', true);
     var successed = $("#successed").val();
@@ -410,41 +409,23 @@ function CheckValidation_AssignLicensee() {
 }
 
 function SearchLicensee() {
-    var searchKey = $("#Licenseename").val();
-    var filterList = listSystem.filter(sys => sys.SystemName.toLowerCase().includes(searchKey.toLowerCase()));
+    var searchKey = $("#Licenseename").val().toLowerCase();
 
     HiddenElement(); 
-    filterList.forEach(e => {
-        var name = e.SystemName
-        var labelElements = $("div.licenseeList label:contains('" + name + "')");
-        if (labelElements.length > 0) {
-            labelElements.each(function () {
+    var labelElements = $("div.licenseeList label");
+    if (labelElements.length > 0) {
+        labelElements.each(function () {
+            var labelText = $(this).text().toLowerCase();
+            if (labelText.includes(searchKey)) {
                 $(this).removeClass("hidden");
                 var idInput = $(this).attr("for");
                 $("div.licenseeList input#" + idInput).removeClass("hidden");;
-            });
-        }
-    });
+            } 
+        });
+    }
 }
 
 function HiddenElement() {
     $("div.licenseeList label").addClass("hidden");
     $("div.licenseeList input").addClass("hidden");
-}
-
-function GetListSystemForUser() {
-    var urlParam = $.param({
-        role: $("#Role").data("value")
-    });
-
-    $.ajax({
-        url: '/Administrator/GetSystemList/' + $("#UserId").data("value") + '?' + urlParam,
-        type: 'GET',
-        dataType: 'json',
-        success: function (data) {
-            listSystem = data;
-        },
-        error: function () {
-        }
-    });
 }
