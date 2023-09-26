@@ -247,8 +247,6 @@
                 ? baseService.GetData<SystemDto>(new GetSystemByUserIDCriteria { UserID = currentSession.UserId, IgnoreIsActive = true })
                 : baseService.GetData<SystemDto>(new GetOptionalSystemBySubAccountIDCriteria { UserID = currentSession.UserId, SubAccountID = id });
             ViewBag.SystemListID = systems.Select(x => new SelectListItem { Value = x.SystemId.ToString(), Text = x.SystemName }).ToList();
-            ViewBag.Id = id;
-            ViewBag.Role = role;
 
             var criteria = new UpdateAdminSystemCriteria
             {
@@ -265,16 +263,6 @@
             }
 
             return View(criteria);
-        }
-
-        [HttpGet]
-        public ActionResult GetSystemList(int id, int role = 0)
-        {
-            var systems = role == (int)Constant.UserRole.Licensee
-                ? baseService.GetData<SystemDto>(new GetSystemByUserIDCriteria { UserID = currentSession.UserId, IgnoreIsActive = true })
-                : baseService.GetData<SystemDto>(new GetOptionalSystemBySubAccountIDCriteria { UserID = currentSession.UserId, SubAccountID = id });
-
-            return Json(systems, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
