@@ -87,7 +87,7 @@
                     @Html.LabelFor(m => m.LicenseeID, "Licensee Name")
                 </div>
                 <div class="grid6">
-                    @Html.DropDownListFor(m => m.LicenseeID, (IEnumerable<SelectListItem>)ViewBag.LicenseesList, new { @class = "width-auto-fit request" })
+                    @Html.DropDownListFor(m => m.LicenseeID, new SelectList(ViewBag.LicenseesList, "Value", "Text", null), "Choose Licensee", new { @class = "width-auto-fit request" })
                 </div>
             </div>
             <div class="row contact-email">
@@ -107,14 +107,6 @@
                 </div>
                 <div class="grid6">
                     @Html.CheckBoxFor(m => m.IsActive)
-                </div>
-            </div>
-            <div class="row">
-                <div class="grid3">
-                    @Html.Label("AddExistingLicensee", "Add Exists")
-                </div>
-                <div class="grid6">
-                    @Html.CheckBoxFor(m => m.AddExistingLicensee)
                 </div>
             </div>
             <div class="row">
