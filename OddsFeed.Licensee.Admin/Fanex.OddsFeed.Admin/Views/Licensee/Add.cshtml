@@ -13,10 +13,12 @@
 {
     <link rel="Stylesheet" type="text/css" href="@BundleTable.Bundles.ResolveBundleUrl("~/App_Themes/Default/Licensee/LicenseeCss")" />
     <link rel="Stylesheet" type="text/css" href="@BundleTable.Bundles.ResolveBundleUrl("~/App_Themes/Default/Affiliate/AffiliateCss")" />
+    <link href="~/App_Themes/Default/select2.min.css" rel="stylesheet" />
 }
 @section Scripts
 {
     <script type="text/javascript" src="@BundleTable.Bundles.ResolveBundleUrl("~/Scripts/Functions/ListLicensee/AddLicenseeJs")"></script>
+    <script src="~/Scripts/Libs/select2.min.js" defer></script>
     <script type="text/javascript">
         var viewResources = {
             Error_LicenseeNameContent: '@ViewResources.Error_LicenseeNameContent',
@@ -87,7 +89,7 @@
                     @Html.LabelFor(m => m.LicenseeID, "Licensee Name")
                 </div>
                 <div class="grid6">
-                    @Html.DropDownListFor(m => m.LicenseeID, new SelectList(ViewBag.LicenseesList, "Value", "Text", null), "Choose Licensee", new { @class = "width-auto-fit request" })
+                    @Html.DropDownListFor(m => m.LicenseeID, new SelectList(ViewBag.LicenseesList, "Value", "Text", null), new { @class = "width-auto-fit width-licensee-name request" })
                 </div>
             </div>
             <div class="row contact-email">

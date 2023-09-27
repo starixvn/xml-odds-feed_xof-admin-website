@@ -1,4 +1,6 @@
 ﻿$(document).ready(function () {
+    $("#slSystem").select2();
+    $('span.select2-selection__rendered').css('text-align', 'left');
     $("#slSystem").change(function (e) {
         var systemId = $("#slSystem").val();
 

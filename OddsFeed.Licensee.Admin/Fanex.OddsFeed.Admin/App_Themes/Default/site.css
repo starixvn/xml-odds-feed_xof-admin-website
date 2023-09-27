@@ -856,9 +856,12 @@ span.req.inout
 	-webkit-box-sizing: border-box;
 }
 
-.ui-dialog
-{
-    width :auto !important;
+.width-licensee-name {
+    width: 200px !important;
+}
+
+.ui-dialog {
+    width: auto !important;
 }
 
 .ui-dialog .ui-dialog-buttonset .ui-state-default
