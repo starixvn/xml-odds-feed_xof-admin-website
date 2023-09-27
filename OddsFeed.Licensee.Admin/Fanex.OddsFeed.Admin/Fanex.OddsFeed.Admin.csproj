@@ -401,6 +401,7 @@
     <Content Include="App_Themes\Default\msgbox\images\question.png" />
     <Content Include="App_Themes\Default\msgbox\msgbox-0.0.1.css" />
     <Content Include="App_Themes\Default\msgbox\msgbox-0.0.1.js" />
+    <Content Include="App_Themes\Default\select2.min.css" />
     <Content Include="App_Themes\Default\themes\Aristo\images\bg_fallback.png" />
     <Content Include="App_Themes\Default\themes\Aristo\images\icon_sprite.png" />
     <Content Include="App_Themes\Default\themes\Aristo\images\progress_bar.gif" />
@@ -488,6 +489,7 @@
     <Content Include="Scripts\Functions\ListLicensee\EditLicensee.js" />
     <Content Include="Scripts\Libs\msgbox\myConfirm.js" />
     <Content Include="Scripts\Libs\msgbox\msgbox-0.0.1.js" />
+    <Content Include="Scripts\Libs\select2.min.js" />
     <Content Include="Scripts\Licensee\Request.js" />
     <Content Include="Scripts\Login\Login.js" />
     <Content Include="Scripts\OddsFeedAdminManager.js" />

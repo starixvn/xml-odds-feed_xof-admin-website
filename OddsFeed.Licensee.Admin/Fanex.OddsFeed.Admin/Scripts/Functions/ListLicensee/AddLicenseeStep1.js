@@ -1,4 +1,5 @@
 ﻿$(document).ready(function () {
+    $("#LicenseeID").select2();
     // step 1
     $('#errorStep1').addClass('hidden');
 
