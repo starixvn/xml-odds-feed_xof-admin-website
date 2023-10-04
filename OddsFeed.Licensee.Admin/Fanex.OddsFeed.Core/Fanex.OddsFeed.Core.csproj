@@ -292,6 +292,7 @@
     <Compile Include="Service\Interface\IUserService.cs" />
     <Compile Include="Utilities.cs" />
     <Compile Include="Web\Attribute\CompressAttribute.cs" />
+    <Compile Include="Web\Attribute\IsAuthorizedAPIKeyAttribute.cs" />
     <Compile Include="Web\Attribute\IsUnderMaintainanceAttribute.cs" />
     <Compile Include="Web\Attribute\IsAuthorizeAttribute.cs" />
     <Compile Include="Web\Context\CurrentContext.cs" />
