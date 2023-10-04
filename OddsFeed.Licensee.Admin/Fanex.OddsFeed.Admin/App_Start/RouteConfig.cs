@@ -10,9 +10,14 @@
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name: "Api",
+                url: "api/licensee/deactive",
+                defaults: new { controller = "LicenseeAPI", action = "EditActive" });
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Dashboard", action = "ShowDashboard", id = UrlParameter.Optional });
+                defaults: new { controller = "Dashboard", action = "ShowDashboard", id = UrlParameter.Optional });         
         }
     }
 }
