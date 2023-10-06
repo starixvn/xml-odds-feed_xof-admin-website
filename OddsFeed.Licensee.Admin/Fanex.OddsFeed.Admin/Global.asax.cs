@@ -4,6 +4,7 @@
     using System.Configuration;
     using System.Diagnostics;
     using System.Web;
+    using System.Web.Http;
     using System.Web.Mvc;
     using System.Web.Optimization;
     using System.Web.Routing;
@@ -36,6 +37,7 @@
 
             AreaRegistration.RegisterAllAreas();
 
+            GlobalConfiguration.Configure(WebApiConfig.Register);
             GlobalFilters.Filters.Add(new CheckUMFilter());
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
