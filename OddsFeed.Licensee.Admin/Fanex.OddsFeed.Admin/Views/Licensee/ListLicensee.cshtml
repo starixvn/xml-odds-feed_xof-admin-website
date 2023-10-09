@@ -25,13 +25,23 @@
 <div class="newline">&nbsp;</div>
 <div class="result-message-box hidden"></div>
 <div>
-    <form id="myForm" method="get" action="/request/dailyview">
+    <form id="myForm">
         <div class="container_24 bunhat">
             <div class="grid_3 gridlabel">
                 @Html.LabelFor(s => s.SystemName, "Licensee Name")
             </div>
-            <div class="grid_8">
-                @Html.TextBoxFor(s => s.SystemName, new { @onkeyup = "StartAutoSuggesttion()" })
+            <div class="grid_6">
+                @Html.TextBoxFor(s => s.SystemName, new { @onkeyup = "StartAutoSuggesttion()", @class = "licensee-name-autocomplete" })
+            </div>
+            <div class="grid1">
+                <label for="isActive">Active</label>
+            </div>
+            <div class="grid4">
+                <select id="isActive" name="isActive" class="width-auto-fit request">
+                    <option value="" selected>All</option>
+                    <option value="1">Active</option>
+                    <option value="0">Inactive</option>
+                </select>
             </div>
             <div class="grid_2">
                 <input type="button" value="Search" onclick="Search()">
