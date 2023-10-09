@@ -60,6 +60,7 @@
             commonJsBundle.Include("~/Scripts/Libs/msgbox/msgbox-0.0.1.js");
             commonJsBundle.Include("~/Scripts/ReCheckIn.js");
             commonJsBundle.Include("~/Scripts/OddsFeedAdminManager.js");
+            commonJsBundle.Include("~/Scripts/Libs/select2.min.js");
             bundles.Add(commonJsBundle);
 
             var commonCssBundle = new Bundle("~/App_Themes/Default/CommonCss", new CssMinify());
@@ -72,6 +73,7 @@
             commonCssBundle.Include("~/App_Themes/Default/themes/Aristo/jquery.ui.css");
             commonCssBundle.Include("~/App_Themes/Default/jquery.contextMenu.css");
             commonCssBundle.Include("~/App_Themes/Default/msgbox/msgbox-0.0.1.css");
+            commonCssBundle.Include("~/App_Themes/Default/select2.min.css");
             bundles.Add(commonCssBundle);
         }
 

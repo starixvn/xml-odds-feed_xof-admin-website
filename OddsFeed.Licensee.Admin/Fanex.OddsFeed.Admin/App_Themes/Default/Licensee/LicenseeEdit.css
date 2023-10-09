@@ -208,3 +208,7 @@ select.request
     border: none;
     box-shadow: none;
 }
+
+.licensee-name-autocomplete {
+    width: 200px !important;
+}

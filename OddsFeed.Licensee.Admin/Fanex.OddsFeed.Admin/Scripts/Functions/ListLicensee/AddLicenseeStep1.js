@@ -1,12 +1,15 @@
 ﻿$(document).ready(function () {
-    $("#LicenseeID").select2();
+    $('#LicenseeID').select2();
+
+    $('#LicenseeID').one('select2:open', function (e) {
+        $('input.select2-search__field').prop('placeholder', 'Licensee Name');
+    });
+
     // step 1
     $('#errorStep1').addClass('hidden');
 
     $('#errorStep1').addClass('hidden');
     $('#SystemName').removeClass('error');
-    $('.licensee-name').hide();
-    $('.licensee-selection').show();
 
     $('#SystemName').focusout(function () {
         RefreshErrorBox();

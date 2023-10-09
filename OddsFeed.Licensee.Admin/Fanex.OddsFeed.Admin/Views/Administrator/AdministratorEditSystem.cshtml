@@ -59,15 +59,19 @@
             </ul>
         </div>
             <div class="form480">
-                <input id="Licenseename" class="input-licensee " placeholder="Licensee Name" onkeyup="SearchLicensee()" />
-                <div class="row3">
+                <div class="row">
+                    <div class="grid3"></div>
+                    <div class="grid6">
+                        <input type="text" id="search-licensee-txt" class="search-licensee-txt" placeholder="Licensee Name" onkeyup="SearchLicensee()" />
+                    </div>
+                </div>
+                <div class="row3 licensee-list-row">
                     <div class="grid3" style="line-height: 170px; text-align: right">
                         <label for="chkAllSystem">
                             @ViewResources.Licensee
                         </label><input type="checkbox" id="chkAllSystem" />
                     </div>
-                    <div class="grid6 licenseeList" style="text-align: left; border-style: solid; border-width: 1px;
-                    border-color: #C8C8C8; overflow: scroll">
+                    <div class="grid6 licensee-list">
                         @Html.CheckBoxDropDownListFor(a => a.SystemList, ViewBag.SystemListID as IEnumerable<SelectListItem>, new { @class = "chkSystem" })
                     </div>
                     <div class="grid1">
@@ -75,13 +79,12 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="grid3">
-                    </div>
+                    <div class="grid3"></div>
                     <div class="grid2">
                         <a href="@Url.Action("AdministratorList", "Administrator")" class="button">@ViewResources.Back</a>
                     </div>
                     <div class="grid2">
-                        <input type="submit" value="Save" onclick="return CheckValidation_AssignLicensee();" value="@ViewResources.Save" />
+                        <input type="submit" onclick="return CheckValidation_AssignLicensee();" value="@ViewResources.Save" />
                     </div>
                 </div>
             </div>

@@ -34,8 +34,23 @@
         @Html.HiddenFor(s => s.PageSize)
         @Html.HiddenFor(s => s.PageIndex)
         @Html.HiddenFor(s => s.PageCount)
-        @Html.TextBoxFor(s => s.UserName, new { @id = "Username", @maxlength = 50, @onkeyup = "StartAutoSuggesttion()" })
+        <div class="grid_3">
+            @Html.LabelFor(s => s.UserName, "Username")
+        </div>
+        <div class="grid_6">
+            @Html.TextBoxFor(s => s.UserName, new { @id = "Username", @maxlength = 50, @onkeyup = "StartAutoSuggesttion()", @class = "username-autocomplete" })
+        </div>
         <input type="hidden" id="IsActivateSystem" value="@ViewBag.IsActivateSystem" />
+        <div class="grid1">
+            <label for="isActive">Active</label>
+        </div>
+        <div class="grid4">
+            <select id="isActive" name="isActive" class="width-auto-fit request">
+                <option value="" selected>All</option>
+                <option value="1">Active</option>
+                <option value="0">Inactive</option>
+            </select>
+        </div>
         <input type="button" value="Search" onclick="OnSearch();" />
     </div>
 </form>
