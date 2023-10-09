@@ -207,6 +207,7 @@
     <Compile Include="Criteria\Domain\GetDomainSettingByPageCriteria.cs" />
     <Compile Include="Criteria\Domain\GetTop10DomainCriteria.cs" />
     <Compile Include="Criteria\Licensee\CheckExistLicenseeCriteria.cs" />
+    <Compile Include="Criteria\Licensee\DeactiveLicenseeByNameCriteria.cs" />
     <Compile Include="Criteria\Licensee\GetLicenseeCriteria.cs" />
     <Compile Include="Criteria\Licensee\GetProfileAllPartnersBySystemIdCriteria.cs" />
     <Compile Include="Criteria\Licensee\GetActivateByLicenseeIDCriteria.cs" />

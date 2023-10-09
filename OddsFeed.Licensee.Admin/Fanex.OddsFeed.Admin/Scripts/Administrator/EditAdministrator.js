@@ -41,7 +41,7 @@
     $('#Save.resetPassword').click(function () {
         ResetPassword();
     });
-
+    
     $('#search-licensee-txt').on('keyup', function () {
         const searchKey = $('#search-licensee-txt').val().trim().toLowerCase();
 

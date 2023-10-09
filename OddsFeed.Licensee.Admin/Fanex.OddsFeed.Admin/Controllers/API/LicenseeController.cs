@@ -29,11 +29,9 @@
         public IHttpActionResult Deactive(string name)
         {
             WriteLogDeactiveLicensee(GetClientIP(), name);
-            var criteria = new UpdateLicenseeActiveCriteria
+            var criteria = new DeactiveLicenseeByNameCriteria
             {
-                IP = GetClientIP(),
-                IsActive = false,
-                SystemID = 227
+                LicenseeName = name
             };
 
             CommandResult result = baseService.ExecuteNonQuery(criteria);

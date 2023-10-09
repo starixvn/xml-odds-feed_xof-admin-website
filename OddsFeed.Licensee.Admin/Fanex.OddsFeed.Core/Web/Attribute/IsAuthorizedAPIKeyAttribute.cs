@@ -21,7 +21,7 @@
             if (apiKey == null || !IsValidApiKey(apiKey.FirstOrDefault()))
             {
                 var response = new HttpResponseMessage(HttpStatusCode.Unauthorized);
-                response.Content = new StringContent("<html><body><h1>API Key not found or incorrect</h1></body></html>", Encoding.UTF8, "text/html");
+                response.Content = new StringContent("API Key not found or incorrect", Encoding.UTF8, "text/html");
 
                 actionContext.Response = response;
             }
