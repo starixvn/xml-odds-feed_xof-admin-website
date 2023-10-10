@@ -125,13 +125,22 @@ function Search() {
                         TdClass: "boldusername", CssClass: "boldusername", HeaderAlign: "center", CellAlign: "left"
                     },
                     { HeaderText: "Action", Width: 50, Name: "action", HeaderAlign: "center", CellAlign: "center" },
-                    { HeaderText: "Active", Width: 50, Name: "isactive", HeaderAlign: "center", CellAlign: "center" },
-                    { HeaderText: "Role", Width: 120, Name: "rolename", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true },
+                    { HeaderText: "Active", Width: 65, Name: "isactive", HeaderAlign: "center", CellAlign: "center", Sort: true },
+                    { HeaderText: "Role", Width: 120, Name: "rolename", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true, Sort: true },
                     { HeaderText: "First Name", Width: 100, Name: "firstname", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true },
                     { HeaderText: "Last Name", Width: 100, Name: "lastname", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true },
                     { HeaderText: "Email", Width: 170, Name: "email", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true },
-                    { HeaderText: "Creator", Width: 110, Name: "creator", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true },
-                    { HeaderText: "Created Date", Width: 120, Name: "createdate", HeaderAlign: "center", CellAlign: "center" }
+                    { HeaderText: "Creator", Width: 110, Name: "creator", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true, Sort: true },
+                    {
+                        HeaderText: "Created Date", Width: 120, Name: "createdate", HeaderAlign: "center", CellAlign: "center",
+                        Sort: true, FormatDateTime: 'DD MMM YYYY HH:mm:ss', CustomSortFunction: function (col1Value, col2Value, sortDirection) {
+                            if (sortDirection === 'asc') {
+                                return moment(col1Value).diff(col2Value);
+                            } else {
+                                return moment(col2Value).diff(col1Value);
+                            }
+                        }
+                    }
                 ],
                 bodyRows: renderBodyRows(result.data),
                 hideYBackGroundScroller: true,
@@ -144,6 +153,15 @@ function Search() {
                     totalItem: result.totalItems,
                     itemsPerPageArray: [10, 20, 50, 100, 500],
                     pagerSelectCallBack: ReRenderAfterPaged
+                },
+                sortOption: {
+                    afterGridSorted: function (bodyRows, columnName, currentDirection) {
+                        $("#SearchResult").find('table#tblContent_SearchResult td.free-grid-td-0').each(function (index, item) {
+                            $(item).find('div.table-cell').html(index + 1);
+                        });
+
+                        return bodyRows;
+                    }
                 }
             };
 
