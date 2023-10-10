@@ -31,6 +31,9 @@
 
         public int ErrCode { get; set; }
         public string ErrMsg { get; set; }
+        public short? IsActive { get; set; }
+        public short SortByID { get; set; }
+        public bool IsSortAsc { get; set; }
 
         // Ignored
         [SpParam(Ignored = true)]
@@ -54,9 +57,6 @@
 
         [SpParam(Ignored = true)]
         public string Creator { get; set; }
-
-        [SpParam(Ignored = true)]
-        public bool IsActive { get; set; }
 
         [SpParam(Ignored = true)]
         public DateTime CreateDate { get; set; }
