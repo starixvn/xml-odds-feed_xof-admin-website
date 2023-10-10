@@ -9,9 +9,11 @@
     using Fanex.OddsFeed.Core.Service.Interface;
     using Fanex.OddsFeed.Core.Web.Attribute;
     using NLog;
+
+    [ApiAuthorize]
     public class LicenseeController : ApiController
     {
-        private static Logger logger = LogManager.GetCurrentClassLogger();
+        private readonly Logger logger = LogManager.GetCurrentClassLogger();
         protected readonly IBaseService baseService;
 
         public LicenseeController() : this(null)
@@ -25,7 +27,6 @@
         }
 
         [HttpPost]
-        [IsAuthorizedAPIKey]
         public IHttpActionResult Deactive(string name)
         {
             WriteLogDeactiveLicensee(GetClientIP(), name);
@@ -40,16 +41,15 @@
 
         private string GetClientIP()
         {
-            var rq = Request;
-            string clientIp = "";
-            if (rq.Properties.ContainsKey("MS_HttpContext"))
+            var clientIp = string.Empty;
+            if (Request.Properties.ContainsKey("MS_HttpContext"))
             {
-                clientIp = ((HttpContextWrapper)rq.Properties["MS_HttpContext"]).Request.UserHostAddress;
+                clientIp = ((HttpContextWrapper)Request.Properties["MS_HttpContext"]).Request.UserHostAddress;
             }
 
-            if (rq.Properties.ContainsKey(RemoteEndpointMessageProperty.Name))
+            if (Request.Properties.ContainsKey(RemoteEndpointMessageProperty.Name))
             {
-                var prop = (RemoteEndpointMessageProperty)rq.Properties[RemoteEndpointMessageProperty.Name];
+                var prop = (RemoteEndpointMessageProperty)Request.Properties[RemoteEndpointMessageProperty.Name];
                 clientIp = prop.Address;
             }
 
