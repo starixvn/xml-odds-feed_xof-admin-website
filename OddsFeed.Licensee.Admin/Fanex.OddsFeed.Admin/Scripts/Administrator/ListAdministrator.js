@@ -102,6 +102,7 @@ function Search() {
     var searchParams = {
         SystemID: $("#SystemID option:selected").val(),
         Username: $("#Username").val(),
+        IsActive: $("#isActive option:selected").val(),
         RoleID: $("#RoleID option:selected").val(),
         PageSize: _pageSize,
         PageIndex: _pageIndex

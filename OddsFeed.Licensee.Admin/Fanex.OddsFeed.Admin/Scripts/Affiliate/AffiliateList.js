@@ -89,6 +89,7 @@ function Search() {
     
     var searchParams = {
         UserName: $("#Username").val(),
+        IsActive: $("#isActive option:selected").val(),
         PageSize: _pageSize,
         PageIndex: _pageIndex
     };

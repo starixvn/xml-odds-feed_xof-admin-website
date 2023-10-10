@@ -66,6 +66,7 @@ function Submit() {
     $(".result-message-box").addClass("hidden");
     var searchParams = {
         SystemName: $.trim($("#SystemName").val()),
+        IsActive: $("#isActive option:selected").val(),
         PageSize: PageSize,
         PageIndex: PageIndex
     };
