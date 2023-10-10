@@ -3,8 +3,8 @@
     using System;
     using System.Configuration;
     using System.Linq;
-    using System.Net.Http;
     using System.Net;
+    using System.Net.Http;
     using System.Text;
     using System.Web.Http;
     using System.Web.Http.Controllers;
@@ -12,7 +12,8 @@
     [AttributeUsage(AttributeTargets.Method)]
     public class IsAuthorizedAPIKeyAttribute : AuthorizeAttribute
     {
-        private string ApiKeyXOF = ConfigurationManager.AppSettings["ApiKey"];
+        private readonly string ApiKeyXOF = ConfigurationManager.AppSettings["ApiKey"];
+
         public override void OnAuthorization(HttpActionContext actionContext)
         {
             const string HeaderKeyName = "ApiKey";
@@ -20,8 +21,10 @@
 
             if (apiKey == null || !IsValidApiKey(apiKey.FirstOrDefault()))
             {
-                var response = new HttpResponseMessage(HttpStatusCode.Unauthorized);
-                response.Content = new StringContent("API Key not found or incorrect", Encoding.UTF8, "text/html");
+                var response = new HttpResponseMessage(HttpStatusCode.Unauthorized)
+                {
+                    Content = new StringContent("API Key not found or incorrect", Encoding.UTF8, "text/html")
+                };
 
                 actionContext.Response = response;
             }
