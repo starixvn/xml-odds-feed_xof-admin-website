@@ -9,8 +9,8 @@
     using System.Web.Http;
     using System.Web.Http.Controllers;
 
-    [AttributeUsage(AttributeTargets.Method)]
-    public class IsAuthorizedAPIKeyAttribute : AuthorizeAttribute
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
+    public class ApiAuthorizeAttribute : AuthorizeAttribute
     {
         private readonly string ApiKeyXOF = ConfigurationManager.AppSettings["ApiKey"];
 
