@@ -16,10 +16,6 @@ namespace Fanex.OddsFeed.Core.Criteria.Licensee
 
         public short? IsActive { get; set; }
 
-        public short SortByID { get; set; }
-
-        public bool IsSortAsc { get; set; }
-
         public override string GetSettingKey() => "Odds_LicenseeSelByPage";
 
         public override bool IsValid() => true;
