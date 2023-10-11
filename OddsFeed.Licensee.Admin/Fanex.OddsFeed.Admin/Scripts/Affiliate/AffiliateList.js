@@ -108,12 +108,28 @@ function Search() {
                     { HeaderText: "#", Width: 40, Name: "Row", HeaderAlign: "center", CellAlign: "center" },
                     { HeaderText: "Username", Width: 120, Name: "Username", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true },
                     { HeaderText: "Action", Width: 50, Name: "Action", HeaderAlign: "center", CellAlign: "center" },
-                    { HeaderText: "Active", Width: 50, Name: "IsAllowed", HeaderAlign: "center", CellAlign: "center" },
+                    { HeaderText: "Active", Width: 70, Name: "IsAllowed", HeaderAlign: "center", CellAlign: "center", CssClass: "header-mt", Sort: true },
                     { HeaderText: "Site", Width: 170, Name: "Site", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true },
-                    { HeaderText: "Created Date", Width: 120, Name: "CreatedDate", HeaderAlign: "center", CellAlign: "center" },
-                    { HeaderText: "Last Update", Width: 120, Name: "LastUpdate", HeaderAlign: "center", CellAlign: "center" },
-                    { HeaderText: "Creator", Width: 120, Name: "Creator", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true },
-                    { HeaderText: "Contact Person", Width: 120, Name: "ContactPerson", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true },
+                    {
+                        HeaderText: "Created Date", Width: 120, Name: "CreatedDate", HeaderAlign: "center", CellAlign: "center", CssClass: "header-mt",
+                        Sort: true, FormatDateTime: 'DD MMM YYYY HH:mm:ss', CustomSortFunction: function (col1Value, col2Value, sortDirection) {
+                            if (sortDirection === 'asc') {
+                                return moment(col1Value).diff(col2Value);
+                            } else {
+                                return moment(col2Value).diff(col1Value);
+                            }
+                        }                    },
+                    {
+                        HeaderText: "Last Update", Width: 120, Name: "LastUpdate", HeaderAlign: "center", CellAlign: "center", CssClass: "header-mt",
+                        Sort: true, FormatDateTime: 'DD MMM YYYY HH:mm:ss', CustomSortFunction: function (col1Value, col2Value, sortDirection) {
+                            if (sortDirection === 'asc') {
+                                return moment(col1Value).diff(col2Value);
+                            } else {
+                                return moment(col2Value).diff(col1Value);
+                            }
+                        }                    },
+                    { HeaderText: "Creator", Width: 120, Name: "Creator", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true, CssClass: "header-mt", Sort: true },
+                    { HeaderText: "Contact Person", Width: 120, Name: "ContactPerson", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true, CssClass: "header-mt", Sort: true },
                     { HeaderText: "Contact Email", Width: 170, Name: "ContactEmail", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true }
                 ],
                 bodyRows: renderBodyRows(result.data),

@@ -85,10 +85,26 @@ function Submit() {
                     { HeaderText: "#", Width: 50, Name: "Row", HeaderAlign: "center", CellAlign: "center" },
                     { HeaderText: "Licensee Name", Width: 200, Name: "SystemName", HeaderAlign: "center", CellAlign: "left", TdClass: "boldusername" },
                     { HeaderText: "Action", Width: 80, Name: "Action", HeaderAlign: "center", CellAlign: "center" },
-                    { HeaderText: "Active", Width: 80, Name: "IsActive", HeaderAlign: "center", CellAlign: "center" },
-                    { HeaderText: "Created Date", Width: 120, Name: "CreatedDate", HeaderAlign: "center", CellAlign: "center" },
-                    { HeaderText: "Last Update", Width: 120, Name: "LastUpdate", HeaderAlign: "center", CellAlign: "center" },
-                    { HeaderText: "Creator", Width: 120, Name: "Creator", HeaderAlign: "center", CellAlign: "left" },
+                    { HeaderText: "Active", Width: 80, Name: "IsActive", HeaderAlign: "center", CellAlign: "center", CssClass: "header-mt", Sort: true },
+                    {
+                        HeaderText: "Created Date", Width: 120, Name: "CreatedDate", HeaderAlign: "center", CellAlign: "center", CssClass: "header-mt",
+                        Sort: true, FormatDateTime: 'DD MMM YYYY HH:mm:ss', CustomSortFunction: function (col1Value, col2Value, sortDirection) {
+                            if (sortDirection === 'asc') {
+                                return moment(col1Value).diff(col2Value);
+                            } else {
+                                return moment(col2Value).diff(col1Value);
+                            }
+                        }                    },
+                    {
+                        HeaderText: "Last Update", Width: 120, Name: "LastUpdate", HeaderAlign: "center", CellAlign: "center", CssClass: "header-mt",
+                        Sort: true, FormatDateTime: 'DD MMM YYYY HH:mm:ss', CustomSortFunction: function (col1Value, col2Value, sortDirection) {
+                            if (sortDirection === 'asc') {
+                                return moment(col1Value).diff(col2Value);
+                            } else {
+                                return moment(col2Value).diff(col1Value);
+                            }
+                        }                    },
+                    { HeaderText: "Creator", Width: 120, Name: "Creator", HeaderAlign: "center", CellAlign: "left", CssClass: "header-mt", Sort: true },
                     { HeaderText: "Contact Email", Width: 200, Name: "ContactEmail", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true }
                 ],
                 bodyRows: renderBodyRows(result.data),
@@ -102,6 +118,15 @@ function Submit() {
                     totalItem: result.totalItems,
                     itemsPerPageArray: [10, 20, 50, 100, 500],
                     pagerSelectCallBack: ReRenderAfterPaged
+                },
+                sortOption: {
+                    afterGridSorted: function (bodyRows, columnName, currentDirection) {
+                        $("#SearchResult").find('table#tblContent_SearchResult td.free-grid-td-0').each(function (index, item) {
+                            $(item).find('div.table-cell').html(index + 1);
+                        });
+
+                        return bodyRows;
+                    }
                 }
             };
 
