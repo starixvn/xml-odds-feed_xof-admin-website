@@ -260,3 +260,7 @@ select.request
 .username-autocomplete {
     width: 200px !important;
 }
+
+.header-mt .display-inline-block {
+    margin-top: 2px !important;
+}

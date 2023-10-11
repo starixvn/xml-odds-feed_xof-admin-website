@@ -125,14 +125,14 @@ function Search() {
                         TdClass: "boldusername", CssClass: "boldusername", HeaderAlign: "center", CellAlign: "left"
                     },
                     { HeaderText: "Action", Width: 50, Name: "action", HeaderAlign: "center", CellAlign: "center" },
-                    { HeaderText: "Active", Width: 65, Name: "isactive", HeaderAlign: "center", CellAlign: "center", Sort: true },
-                    { HeaderText: "Role", Width: 120, Name: "rolename", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true, Sort: true },
+                    { HeaderText: "Active", Width: 65, Name: "isactive", HeaderAlign: "center", CellAlign: "center", CssClass: "header-mt", Sort: true },
+                    { HeaderText: "Role", Width: 120, Name: "rolename", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true, CssClass: "header-mt", Sort: true },
                     { HeaderText: "First Name", Width: 100, Name: "firstname", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true },
                     { HeaderText: "Last Name", Width: 100, Name: "lastname", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true },
                     { HeaderText: "Email", Width: 170, Name: "email", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true },
-                    { HeaderText: "Creator", Width: 110, Name: "creator", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true, Sort: true },
+                    { HeaderText: "Creator", Width: 110, Name: "creator", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true, CssClass: "header-mt", Sort: true },
                     {
-                        HeaderText: "Created Date", Width: 120, Name: "createdate", HeaderAlign: "center", CellAlign: "center",
+                        HeaderText: "Created Date", Width: 120, Name: "createdate", HeaderAlign: "center", CellAlign: "center", CssClass: "header-mt",
                         Sort: true, FormatDateTime: 'DD MMM YYYY HH:mm:ss', CustomSortFunction: function (col1Value, col2Value, sortDirection) {
                             if (sortDirection === 'asc') {
                                 return moment(col1Value).diff(col2Value);

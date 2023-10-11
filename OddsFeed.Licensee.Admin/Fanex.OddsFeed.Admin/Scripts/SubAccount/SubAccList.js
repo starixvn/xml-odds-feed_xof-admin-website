@@ -99,12 +99,21 @@ function Search() {
                     { HeaderText: "#", Width: 20, Name: "Row", HeaderAlign: "center", CellAlign: "center" },
                     { HeaderText: "Username", Width: 150, Name: "Username", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true },
                     { HeaderText: "Action", Width: 50, Name: "Action", HeaderAlign: "center", CellAlign: "center" },
-                    { HeaderText: "Active", Width: 50, Name: "IsActive", HeaderAlign: "center", CellAlign: "center" },
+                    { HeaderText: "Active", Width: 70, Name: "IsActive", HeaderAlign: "center", CellAlign: "center", CssClass: "header-mt", Sort: true },
                     { HeaderText: "First Name", Width: 120, Name: "FirstName", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true },
                     { HeaderText: "Last Name", Width: 120, Name: "LastName", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true },
                     { HeaderText: "Email", Width: 170, Name: "Email", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true },
-                    { HeaderText: "Creator", Width: 120, Name: "Creator", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true },
-                    { HeaderText: "Created Date", Width: 120, Name: "CreatedDate", HeaderAlign: "center", CellAlign: "center" }
+                    { HeaderText: "Creator", Width: 120, Name: "Creator", HeaderAlign: "center", CellAlign: "left", CssClass: "header-mt", AllowTruncate: true, Sort: true },
+                    {
+                        HeaderText: "Created Date", Width: 120, Name: "CreatedDate", HeaderAlign: "center", CellAlign: "center", CssClass: "header-mt",
+                        Sort: true, FormatDateTime: 'DD MMM YYYY HH:mm:ss', CustomSortFunction: function (col1Value, col2Value, sortDirection) {
+                            if (sortDirection === 'asc') {
+                                return moment(col1Value).diff(col2Value);
+                            } else {
+                                return moment(col2Value).diff(col1Value);
+                            }
+                        }
+}
                 ],
                 bodyRows: renderBodyRows(result.data),
                 hideYBackGroundScroller: true,
