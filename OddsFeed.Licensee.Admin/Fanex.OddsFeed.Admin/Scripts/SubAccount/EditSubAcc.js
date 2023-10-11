@@ -40,6 +40,21 @@
     $("#Save.updatePassword").click(function () {
         DoUpdatePassword();
     });
+
+    $('#search-licensee-txt').on('keyup', function () {
+        const searchKey = $('#search-licensee-txt').val().trim().toLowerCase();
+
+        $('div.licenseeList > div').addClass('hidden');
+        const labelElements = $('div.licenseeList label');
+        if (labelElements.length > 0) {
+            labelElements.each(function () {
+                const labelText = $(this).text().toLowerCase();
+                if (labelText.includes(searchKey)) {
+                    $(this).parent().removeClass('hidden');
+                }
+            });
+        }
+    });
 });
 
 //--------------------------------------------------------------------------------------------------------------------
