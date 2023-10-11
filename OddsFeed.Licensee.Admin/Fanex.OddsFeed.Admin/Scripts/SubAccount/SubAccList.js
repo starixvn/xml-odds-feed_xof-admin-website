@@ -126,6 +126,15 @@ function Search() {
                     totalItem: result.totalItems,
                     itemsPerPageArray: [10, 20, 50, 100, 500],
                     pagerSelectCallBack: ReRenderAfterPaged
+                },
+                sortOption: {
+                    afterGridSorted: function (bodyRows, columnName, currentDirection) {
+                        $("#SearchResult").find('table#tblContent_SearchResult td.free-grid-td-0').each(function (index, item) {
+                            $(item).find('div.table-cell').html(index + 1);
+                        });
+
+                        return bodyRows;
+                    }
                 }
             };
 
