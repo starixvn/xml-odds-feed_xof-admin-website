@@ -16,8 +16,6 @@
 
         public int RowCount { get; set; }
         public short? IsActive { get; set; }
-        public short SortByID { get; set; }
-        public bool IsSortAsc { get; set; }
 
         public override string GetSettingKey() => "Odds_Partner_SelByName";
 
