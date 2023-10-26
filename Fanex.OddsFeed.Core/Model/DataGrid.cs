@@ -1,0 +1,10 @@
+﻿namespace Fanex.OddsFeed.Core.Model
+{
+    using System.Collections.Generic;
+
+    public class DataGrid<T>
+    {
+        public IList<T> Data { get; set; }
+        public int TotalItems { get; set; }
+    }
+}

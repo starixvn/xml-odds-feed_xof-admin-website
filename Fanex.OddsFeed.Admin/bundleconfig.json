@@ -1,0 +1,23 @@
+[
+    // ---------------------------- CSS ---------------------------
+    {
+        "outputFileName": "wwwroot/minify/css/login.min.css",
+        "inputFiles": [
+            "wwwroot/css/login.css"
+        ]
+    },
+
+    // ----------------------- Javascript ------------------------------
+    {
+        "outputFileName": "wwwroot/minify/js/login.min.js",
+        "inputFiles": [
+            "wwwroot/js/Libs/jquery.js",
+            "wwwroot/js/Login/Login.js"
+        ],
+        "minify": {
+            "enabled": true,
+            "renameLocals": true
+        },
+        "sourceMap": false
+    }
+]
