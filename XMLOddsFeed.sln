@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31205.134
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OddsFeed_Licensee", "OddsFeed_Licensee", "{B2DBB333-7992-409B-9658-424A6F05A685}"
 EndProject
@@ -10,6 +10,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fanex.OddsFeed.Core", "OddsFeed.Licensee.Admin\Fanex.OddsFeed.Core\Fanex.OddsFeed.Core.csproj", "{2136E1D1-DB76-4365-9B4F-C1DDCFF376A8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fanex.OddsFeed.Framework", "OddsFeed.Licensee.Admin\Fanex.OddsFeed.Framework\Fanex.OddsFeed.Framework.csproj", "{6046E641-13FC-4C11-8173-0DB394F3E878}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OddsFeed_Licensee_Net6", "OddsFeed_Licensee_Net6", "{A531C4A4-8ADA-418A-9DD8-2DCA2762D748}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fanex.OddsFeed.Admin", "Fanex.OddsFeed.Admin\Fanex.OddsFeed.Admin.csproj", "{99522770-07AA-4F2A-837B-3A7FA9026C91}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fanex.OddsFeed.Core", "Fanex.OddsFeed.Core\Fanex.OddsFeed.Core.csproj", "{D0E6F459-DC90-497A-AE3A-617A13CD7090}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +57,30 @@ Global
 		{6046E641-13FC-4C11-8173-0DB394F3E878}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{6046E641-13FC-4C11-8173-0DB394F3E878}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{6046E641-13FC-4C11-8173-0DB394F3E878}.Release|x86.ActiveCfg = Release|Any CPU
+		{99522770-07AA-4F2A-837B-3A7FA9026C91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99522770-07AA-4F2A-837B-3A7FA9026C91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99522770-07AA-4F2A-837B-3A7FA9026C91}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{99522770-07AA-4F2A-837B-3A7FA9026C91}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{99522770-07AA-4F2A-837B-3A7FA9026C91}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{99522770-07AA-4F2A-837B-3A7FA9026C91}.Debug|x86.Build.0 = Debug|Any CPU
+		{99522770-07AA-4F2A-837B-3A7FA9026C91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99522770-07AA-4F2A-837B-3A7FA9026C91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99522770-07AA-4F2A-837B-3A7FA9026C91}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{99522770-07AA-4F2A-837B-3A7FA9026C91}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{99522770-07AA-4F2A-837B-3A7FA9026C91}.Release|x86.ActiveCfg = Release|Any CPU
+		{99522770-07AA-4F2A-837B-3A7FA9026C91}.Release|x86.Build.0 = Release|Any CPU
+		{D0E6F459-DC90-497A-AE3A-617A13CD7090}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0E6F459-DC90-497A-AE3A-617A13CD7090}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0E6F459-DC90-497A-AE3A-617A13CD7090}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{D0E6F459-DC90-497A-AE3A-617A13CD7090}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{D0E6F459-DC90-497A-AE3A-617A13CD7090}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D0E6F459-DC90-497A-AE3A-617A13CD7090}.Debug|x86.Build.0 = Debug|Any CPU
+		{D0E6F459-DC90-497A-AE3A-617A13CD7090}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0E6F459-DC90-497A-AE3A-617A13CD7090}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0E6F459-DC90-497A-AE3A-617A13CD7090}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{D0E6F459-DC90-497A-AE3A-617A13CD7090}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{D0E6F459-DC90-497A-AE3A-617A13CD7090}.Release|x86.ActiveCfg = Release|Any CPU
+		{D0E6F459-DC90-497A-AE3A-617A13CD7090}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -59,6 +89,8 @@ Global
 		{45398518-B314-471B-8A26-F01757EBD4FD} = {B2DBB333-7992-409B-9658-424A6F05A685}
 		{2136E1D1-DB76-4365-9B4F-C1DDCFF376A8} = {B2DBB333-7992-409B-9658-424A6F05A685}
 		{6046E641-13FC-4C11-8173-0DB394F3E878} = {B2DBB333-7992-409B-9658-424A6F05A685}
+		{99522770-07AA-4F2A-837B-3A7FA9026C91} = {A531C4A4-8ADA-418A-9DD8-2DCA2762D748}
+		{D0E6F459-DC90-497A-AE3A-617A13CD7090} = {A531C4A4-8ADA-418A-9DD8-2DCA2762D748}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.0\lib\NET35;packages\Unity.Interception.2.1.505.0\lib\NET35;packages\EnterpriseLibrary.Common.5.0.505.0\lib\NET35;packages\EnterpriseLibrary.Caching.5.0.505.0\lib\NET35;packages\EnterpriseLibrary.Data.5.0.505.0\lib\NET35;packages\EnterpriseLibrary.Logging.5.0.505.0\lib\NET35
