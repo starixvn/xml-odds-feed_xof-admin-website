@@ -4,7 +4,7 @@
 
     public class GetTypeSettingCriteria : CriteriaBase
     {
-        public byte SystemID { get; set; }
+        public short SystemID { get; set; }
 
         public string Type { get; set; }
 

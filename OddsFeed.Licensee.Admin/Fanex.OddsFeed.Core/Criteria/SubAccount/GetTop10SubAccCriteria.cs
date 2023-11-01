@@ -4,7 +4,7 @@
 
     public class GetTop10SubAccCriteria : CriteriaBase
     {
-        public byte SystemId { get; set; }
+        public short SystemId { get; set; }
 
         public int RoleId { get; set; }
 

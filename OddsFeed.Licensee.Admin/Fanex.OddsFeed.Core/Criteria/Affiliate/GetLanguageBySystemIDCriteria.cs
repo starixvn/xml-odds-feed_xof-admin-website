@@ -4,7 +4,7 @@
 
     public class GetLanguageBySystemIDCriteria : CriteriaBase
     {
-        public byte SystemID { get; set; }
+        public short SystemID { get; set; }
 
         public override string GetSettingKey() => "Odds_LanguageSel";
 

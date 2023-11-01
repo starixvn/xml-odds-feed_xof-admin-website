@@ -6,9 +6,9 @@
 
     public interface ISubAccService
     {
-        IList<User> GetBySystemId(byte systemId);
+        IList<User> GetBySystemId(short systemId);
 
-        PermissionFlag GetUserPermission(int userId, byte systemId);
+        PermissionFlag GetUserPermission(int userId, short systemId);
 
         CommandResult Insert(InsertSubAccCriteria criteria);
     }

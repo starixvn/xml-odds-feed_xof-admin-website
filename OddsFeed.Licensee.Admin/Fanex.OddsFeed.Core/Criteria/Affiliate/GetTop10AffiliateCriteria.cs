@@ -4,7 +4,7 @@
 
     public class GetTop10AffiliateCriteria : CriteriaBase
     {
-        public byte SystemId { get; set; }
+        public short SystemId { get; set; }
 
         public string Username { get; set; }
 

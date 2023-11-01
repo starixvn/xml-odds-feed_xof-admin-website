@@ -89,13 +89,13 @@
             }
         }
 
-        public byte SystemId
+        public short SystemId
         {
             get
             {
                 return (HttpContext.Current != null)
-                    ? Convert.ToByte(HttpContext.Current.Session[INTERNALSYSTEMID])
-                    : Convert.ToByte(0);
+                    ? Convert.ToInt16(HttpContext.Current.Session[INTERNALSYSTEMID])
+                    : Convert.ToInt16(0);
             }
 
             set

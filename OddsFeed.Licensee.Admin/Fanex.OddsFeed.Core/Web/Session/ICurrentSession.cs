@@ -10,7 +10,7 @@
 
         byte UserRole { get; set; }
 
-        byte SystemId { get; set; }
+        short SystemId { get; set; }
 
         string SystemName { get; set; }
 

@@ -4,7 +4,7 @@
 
     public class GetTop10DomainCriteria : CriteriaBase
     {
-        public byte SystemId { get; set; }
+        public short SystemId { get; set; }
 
         public string DomainName { get; set; }
 

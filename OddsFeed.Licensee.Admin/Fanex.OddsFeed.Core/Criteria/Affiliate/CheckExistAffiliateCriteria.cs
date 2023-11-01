@@ -4,7 +4,7 @@
 
     public class CheckExistAffiliateCriteria : CriteriaBase
     {
-        public byte SystemId { get; set; }
+        public short SystemId { get; set; }
 
         public string UserName { get; set; }
 

@@ -4,7 +4,7 @@
 
     public class GetSubAccByNameCriteria : CriteriaBase
     {
-        public byte SystemId { get; set; }
+        public short SystemId { get; set; }
 
         public byte RoleId { get; set; }
 

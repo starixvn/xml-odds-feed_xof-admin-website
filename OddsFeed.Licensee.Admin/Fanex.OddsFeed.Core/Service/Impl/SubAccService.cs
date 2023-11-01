@@ -30,7 +30,7 @@
             this.subAccRepository = subAccRepository ?? new SubAccRepository();
         }
 
-        public IList<User> GetBySystemId(byte systemId)
+        public IList<User> GetBySystemId(short systemId)
         {
             var criteria = new GetSubAccBySystemIDCriteria
             {
@@ -40,7 +40,7 @@
             return baseService.GetData<User>(criteria).OrderBy(s => s.Name).ToList();
         }
 
-        public PermissionFlag GetUserPermission(int userId, byte systemId)
+        public PermissionFlag GetUserPermission(int userId, short systemId)
         {
             var criteria = new UserGetPermissionCriteria
             {

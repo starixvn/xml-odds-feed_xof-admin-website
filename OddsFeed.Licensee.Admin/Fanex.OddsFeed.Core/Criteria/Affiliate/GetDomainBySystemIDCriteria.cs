@@ -4,7 +4,7 @@
 
     public class GetDomainBySystemIDCriteria : CriteriaBase
     {
-        public byte SystemID { get; set; }
+        public short SystemID { get; set; }
 
         public bool? IsActive { get; set; }
 

@@ -5,7 +5,7 @@
 
     public interface IDashboardService
     {
-        AccountStatistic GetAccountStatistics(byte systemId);
+        AccountStatistic GetAccountStatistics(short systemId);
 
         IEnumerable<LoginInfoStatistic> GetLoginInfo(int userId);
     }

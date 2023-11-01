@@ -19,7 +19,7 @@
             this.baseService = baseService ?? new BaseService();
         }
 
-        public AccountStatistic GetAccountStatistics(byte systemId)
+        public AccountStatistic GetAccountStatistics(short systemId)
         {
             var criteria = new GetAccountStatisticsCriteria
             {
