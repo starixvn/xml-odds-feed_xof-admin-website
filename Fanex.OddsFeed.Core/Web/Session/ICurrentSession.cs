@@ -2,6 +2,8 @@
 {
     public interface ICurrentSession
     {
+        string Captcha { get; set; }
+       
         string Username { get; set; }
 
         int UserId { get; set; }

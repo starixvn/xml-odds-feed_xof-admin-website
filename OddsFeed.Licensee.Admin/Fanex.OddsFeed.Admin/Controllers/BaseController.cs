@@ -61,11 +61,13 @@
                 currentSession.SystemName = systemName;
             }
 
-            return currentSession.ActionName.ToLowerInvariant().Contains("edit")
+            var test = currentSession.ActionName.ToLowerInvariant().Contains("edit")
                 || currentSession.ActionName.ToLowerInvariant().Contains("reset")
                 || currentSession.ActionName.ToLowerInvariant().Contains("assign")
                     ? RedirectToAction(currentSession.ActionName, currentSession.ControllerName, new { id = 0 })
                     : RedirectToAction(currentSession.ActionName, currentSession.ControllerName);
+
+            return test;
         }
 
         #region PermissionRegion

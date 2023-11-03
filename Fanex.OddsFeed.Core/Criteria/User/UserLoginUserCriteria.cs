@@ -3,7 +3,6 @@
     using System;
     using Data.Repository;
     using Fanex.Data;
-
     public class UserLoginUserCriteria : CriteriaBase
     {
         public string UserName { get; set; }
