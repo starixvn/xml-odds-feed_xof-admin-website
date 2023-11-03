@@ -42,7 +42,7 @@
             });
             services.AddControllersWithViews();
             services.AddHttpClient();
-            //services.AddHttpContextAccessor();
+            services.AddHttpContextAccessor();
 
             LogManager
                .SetDefaultLogCategory(Configuration.GetSection("Fanex.Logging:LogCategory").Value)
@@ -89,6 +89,7 @@
             services.AddSingleton<ICurrentContext, CurrentContext>();
             services.AddSingleton<ICurrentSession, CurrentSession>();
             services.AddSingleton<IBaseService, BaseService>();
+            services.AddSingleton<IUserService, UserService>();
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
         }
 
@@ -96,6 +97,7 @@
         {
             services.AddSingleton<IDynamicRepository, DynamicRepository>();
             services.AddSingleton<IBaseRepository, BaseRepository>();
+            services.AddSingleton<IUserRepository, UserRepository>();
         }
 
         public static void Configure(IApplicationBuilder app, IWebHostEnvironment env)

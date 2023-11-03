@@ -30,6 +30,18 @@ namespace Fanex.OddsFeed.Core.Web.Session
 
         public const string LoginIpSession = "LoginIpSession";
 
+        public string Captcha
+        {
+            get
+            {
+                var c = _httpContextAccessor.HttpContext?.Session.GetString("captchastring");
+                return c ?? string.Empty;
+            }
+            set
+            {
+                _httpContextAccessor.HttpContext?.Session.SetString("captchastring", value);
+            }
+        }
         public string Username
         {
             get

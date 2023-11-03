@@ -2,18 +2,6 @@
 @{
     Layout = null;
 }
-@*@section Styles {
-    <link rel="stylesheet" href="~/minify/css/login.min.css" asp-append-version="true">
-}
-@section Scripts {
-    <environment include="Development">
-        <script src="~/js/login/login.js"></script>
-        <script src="~/js/Libs/jquery.js"></script>
-    </environment>
-    <environment exclude="Development">
-        <script src="~/minify/js/login.min.js" asp-append-version="true"></script>
-    </environment>
-}*@
 
 <!DOCTYPE html>
 <html>
@@ -23,8 +11,7 @@
     <link rel="stylesheet" href="~/minify/css/login.min.css" asp-append-version="true">
 </head>
 <body>
-    @using (Html.BeginForm())
-    {
+    <form method="post" asp-controller="Login" asp-action="Indexx" id="test111">
         <div class="lgbox">
             <div class="lgright">
                 &nbsp;
@@ -39,10 +26,11 @@
                 </div>
                 <div class="row">
                     <div class="grid3">
-                        <span class="icuser">&nbsp;</span><label>USERNAME</label>
+                        <span class="icuser">&nbsp;</span>
+                        <label>USERNAME</label>
                     </div>
                     <div class="grid5">
-                        @Html.TextBoxFor(m => m.UserName, new { @id = "username", @name = "username", @maxlength = 50 })
+                        <input asp-for="UserName" class="form-control" id="username" />
                     </div>
                 </div>
                 <div class="row">
@@ -51,7 +39,7 @@
                         <label>PASSWORD</label>
                     </div>
                     <div class="grid5">
-                        @Html.PasswordFor(m => m.UserPwd, new { @id = "password", @name = "password", @maxlength = 50 })
+                        <input asp-for="UserPwd" class="form-control" id="password" type="password" />
                     </div>
                 </div>
                 <div class="row">
@@ -59,7 +47,7 @@
                     <div class="grid5">
                         <input asp-for="Validate" class="form-control" id="validate" name="validate" style="width: 100px" maxlength="4" />
                         <img id="imgCaptchaId" alt="Validation Code" src="@Url.Action("ShowCaptchaImage", "login")" width="40" height="20" />
-                        <span class="icrefresh" id="refreshCaptcha" style="cursor: pointer;">&nbsp;</span>
+                        <span class="icrefresh" id="refreshCaptcha" style="cursor: pointer;" onclick="ChangeCapchaCode('imgCaptchaId');">&nbsp;</span>
                         <span style="margin-left: 40px"></span>
                         <button id="submit" type="button" class="btn btn-primary">Login</button>
                     </div>
@@ -67,7 +55,7 @@
                 <div class="row"></div>
             </div>
         </div>
-    }
+    </form>
     <script type="text/javascript">
         var currentDomainURL = '@Url.Content("~/")';
     </script>

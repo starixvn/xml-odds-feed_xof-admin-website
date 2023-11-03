@@ -130,18 +130,13 @@ function DoLogin() {
         return;
     }
 
-    var loginParams = {
-        UserName: username.value,
-        UserPwd: password.value,
-        Validate: validate.value
-    };
+    var url = `Index?UserName=${username.value}&UserPwd=${password.value}&Validate=${validate.value}`
 
     $.ajax({
         type: 'POST',
-        url: 'Index',
+        url: url,
         dataType: "json",
         contentType: "application/json; charset=utf-8",
-        data: JSON.stringify(loginParams),
         cache: false,
         beforeSend: function (xhr) {
         },

@@ -4,17 +4,20 @@
     using Fanex.OddsFeed.Core.Web.Session;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Filters;
+    using Microsoft.Extensions.DependencyInjection;
 
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public class IsAuthorizeAttribute : ActionFilterAttribute
     {
-        private readonly ICurrentSession _currentSession = new CurrentSession();
 
-        public override void OnActionExecuting(ActionExecutingContext filterContext)
+        public override void OnActionExecuting(ActionExecutingContext context)
         {
-            if (_currentSession.OnUserId == 0)
+            var serviceProvider = context.HttpContext.RequestServices;
+            var currentSession = serviceProvider.GetService<ICurrentSession>();
+
+            if (currentSession?.OnUserId == 0)
             {
-                filterContext.Result = new RedirectResult("~/login/LogOut");
+                context.Result = new RedirectResult("~/login/LogOut");
             }
         }
     }

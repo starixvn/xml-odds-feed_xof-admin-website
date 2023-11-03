@@ -17,6 +17,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Criteria\User\UserGetPermissionCriteria.cs">
+	    <SubType>Code</SubType>
+	  </Compile>
 	  <Compile Update="ViewResources.Designer.cs">
 	    <DesignTime>True</DesignTime>
 	    <AutoGen>True</AutoGen>
