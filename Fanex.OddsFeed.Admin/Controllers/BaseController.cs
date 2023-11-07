@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using Fanex.Common;
+    using Fanex.OddsFeed.Core;
     using Fanex.OddsFeed.Core.Business;
     using Fanex.OddsFeed.Core.Criteria.Affiliate;
     using Fanex.OddsFeed.Core.Model;
@@ -42,7 +43,7 @@
 
         public string GetMessage(int errCode)
         {
-            var msg = Resources.Lang.ResourceManager.GetString("Msg" + errCode.ToString());
+            var msg = Lang.ResourceManager.GetString("Msg" + errCode.ToString());
             return msg ?? errCode.ToString();
         }
 

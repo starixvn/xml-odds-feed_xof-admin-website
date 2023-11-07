@@ -1,0 +1,20 @@
+﻿/* File Created: April 4, 2012 */
+#slSystem {
+    border: 1px solid #C8C8C8;
+    border-radius: 3px 3px 3px 3px;
+    /*box-shadow: 1px 1px 3px 3px #F2F2F2;*/
+    margin-top:10px;
+    min-width: 100px;
+    padding: 4px;
+    text-align: left;
+    vertical-align: bottom;      
+    /*margin-right:180px;*/
+    height: 27px;
+}
+
+.header label {
+    color: #0072BC;
+    font-size: 17px;
+    margin-right:10px;
+    cursor:default;
+}
