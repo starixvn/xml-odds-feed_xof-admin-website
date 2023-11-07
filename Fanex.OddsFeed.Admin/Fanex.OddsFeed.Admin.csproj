@@ -7,18 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <EmbeddedResource Remove="App_GlobalResources\Lang.resx" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="App_GlobalResources\Lang.resx">
-      <SubType>Designer</SubType>
-      <LastGenOutput>Lang.designer.cs</LastGenOutput>
-      <Generator>GlobalResourceProxyGenerator</Generator>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
 	<None Update="App_Data\**\*">
 		<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	</None>
@@ -41,14 +29,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Fanex.OddsFeed.Core\Fanex.OddsFeed.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="App_GlobalResources\Lang.designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Lang.resx</DependentUpon>
-    </Compile>
   </ItemGroup>
 
 </Project>

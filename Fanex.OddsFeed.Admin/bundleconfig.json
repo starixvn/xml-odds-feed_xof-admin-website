@@ -6,13 +6,64 @@
             "wwwroot/css/login.css"
         ]
     },
+    {
+        "outputFileName": "wwwroot/minify/css/common.min.css",
+        "inputFiles": [
+            "wwwroot/css/960.css",
+            "wwwroot/css/style.css",
+            "wwwroot/css/table.css",
+            "wwwroot/css/font.css",
+            "wwwroot/css/site.css",
+            "wwwroot/css/home.css",
+            "wwwroot/css/themes/Aristo/jquery.ui.css",
+            "wwwroot/css/jquery.contextMenu.css",
+            "wwwroot/css/msgbox/msgbox-0.0.1.css",
+            "wwwroot/css/select2.min.css"
+        ]
+    },
 
     // ----------------------- Javascript ------------------------------
+    {
+        "outputFileName": "wwwroot/minify/js/updatepassword.min.js",
+        "inputFiles": [
+            "wwwroot/js/User/UpdatePassword.js"
+        ],
+        "minify": {
+            "enabled": true,
+            "renameLocals": true
+        },
+        "sourceMap": false
+    },
     {
         "outputFileName": "wwwroot/minify/js/login.min.js",
         "inputFiles": [
             "wwwroot/js/Libs/jquery.js",
             "wwwroot/js/Login/Login.js"
+        ],
+        "minify": {
+            "enabled": true,
+            "renameLocals": true
+        },
+        "sourceMap": false
+    },
+    {
+        "outputFileName": "wwwroot/minify/js/common.min.js",
+        "inputFiles": [
+            "wwwroot/js/Libs/jquery.js",
+            "wwwroot/js/Libs/msgbox/msgbox-0.0.1.js",
+            "wwwroot/js/Libs/select2.min.js",
+            "wwwroot/js/Libs/birthdaypicker.js",
+            //"wwwroot/js/Libs/common.js",
+            "wwwroot/js/Libs/Core.js",
+            "wwwroot/js/Libs/fullcalendar.js",
+            "wwwroot/js/Libs/fxHeader.js",
+            "wwwroot/js/Libs/modernizr.js",
+            "wwwroot/js/Libs/monPickr-0.0.3.js",
+            "wwwroot/js/Views/date.visible.js",
+            "wwwroot/js/Views/language.js",
+            "wwwroot/js/Views/Header.js",
+            "wwwroot/js/ReCheckIn.js",
+            "wwwroot/js/OddsFeedAdminManager.js"
         ],
         "minify": {
             "enabled": true,

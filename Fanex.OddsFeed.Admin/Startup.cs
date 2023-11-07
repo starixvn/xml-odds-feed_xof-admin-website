@@ -6,6 +6,7 @@
     using Fanex.Logging;
     using Fanex.Logging.Sentry;
     using Fanex.OddsFeed.Admin.Utility;
+    using Fanex.OddsFeed.Core;
     using Fanex.OddsFeed.Core.Repository.Impl;
     using Fanex.OddsFeed.Core.Repository.Interface;
     using Fanex.OddsFeed.Core.Service.Impl;
@@ -13,6 +14,7 @@
     using Fanex.OddsFeed.Core.Web.Context;
     using Fanex.OddsFeed.Core.Web.Session;
     using Microsoft.AspNetCore.Mvc.Infrastructure;
+    using Microsoft.Extensions.Caching.Distributed;
     using ONEbook.UM.AspNetCore;
     using ONEbook.UM.AspNetCore.Filters;
     using ONEbook.UM.Configurations;
@@ -43,6 +45,7 @@
             services.AddControllersWithViews();
             services.AddHttpClient();
             services.AddHttpContextAccessor();
+            services.AddDistributedMemoryCache();
 
             LogManager
                .SetDefaultLogCategory(Configuration.GetSection("Fanex.Logging:LogCategory").Value)
@@ -111,6 +114,9 @@
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+
+            var cache = app.ApplicationServices.GetRequiredService<IDistributedCache>();
+            Utilities.Initialize(cache);
 
             app.UseCookiePolicy();
             app.UseHttpsRedirection();

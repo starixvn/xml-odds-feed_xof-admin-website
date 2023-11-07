@@ -20,6 +20,11 @@
 	  <Compile Update="Criteria\User\UserGetPermissionCriteria.cs">
 	    <SubType>Code</SubType>
 	  </Compile>
+	  <Compile Update="Lang.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>Lang.resx</DependentUpon>
+	  </Compile>
 	  <Compile Update="ViewResources.Designer.cs">
 	    <DesignTime>True</DesignTime>
 	    <AutoGen>True</AutoGen>
@@ -28,6 +33,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <EmbeddedResource Update="Lang.resx">
+	    <Generator>PublicResXFileCodeGenerator</Generator>
+	    <LastGenOutput>Lang.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
 	  <EmbeddedResource Update="ViewResources.resx">
 	    <SubType>Designer</SubType>
 	    <LastGenOutput>ViewResources.Designer.cs</LastGenOutput>

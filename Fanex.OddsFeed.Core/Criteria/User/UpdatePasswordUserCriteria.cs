@@ -1,8 +1,6 @@
 namespace Fanex.OddsFeed.Core.Criteria.User
 {
     using System.ComponentModel.DataAnnotations;
-    using Core.Web;
-    using Data.Repository;
     using Fanex.Data;
 
     public class UpdatePasswordUserCriteria : BaseCommand
@@ -20,7 +18,7 @@ namespace Fanex.OddsFeed.Core.Criteria.User
 
         public int Creator { get; set; }
 
-        public string IP { get; set; }
+        public string? IP { get; set; }
 
         [SpParam(Ignored = true)]
         public string PreController { get; set; }

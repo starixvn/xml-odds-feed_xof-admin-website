@@ -116,13 +116,20 @@ function DoUpdatePassword() {
         PreAction: preAction != '' ? preAction : "ShowDashboard"
     };
 
+    var url = currentDomainURL +
+        "Login/UpdateUserPassword?UserID=" + updateParams.UserID + 
+        "&OldPassword=" + updateParams.OldPassword + 
+        "&Password=" + updateParams.Password +
+        "&ConfirmPassword=" + updateParams.ConfirmPassword +
+        "&PreController=" + updateParams.PreController +
+        "&PreAction=" + updateParams.PreAction
+
     $.ajax({
-        url: currentDomainURL + 'Login/UpdateUserPassword',
+        url: url,
         type: 'POST',
         cache: false,
         dataType: "json",
         contentType: "application/json; charset=utf-8",
-        data: JSON.stringify(updateParams),
         success: function (result) {
             if (result.IsSuccessful == true) {
                 $(".result-message-box").empty()

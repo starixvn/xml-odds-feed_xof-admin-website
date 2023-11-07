@@ -11,6 +11,7 @@
     using Fanex.OddsFeed.Core.Web.Context;
     using Fanex.OddsFeed.Core.Web.Session;
     using Microsoft.AspNetCore.Mvc;
+
     public class LoginController : BaseController
     {
         private readonly IHttpContextAccessor httpContextAccessor;
@@ -99,19 +100,19 @@
         }
 
         [HttpPost]
-        public IActionResult ReCheckLogin()
+        public async Task<IActionResult> ReCheckLogin()
         {
             var criteria = new UserReCheckInUserCriteria
             {
                 OnUserId = currentSession.OnUserId
             };
-            userService.ReUserCheckIn(criteria);
+            await userService.ReUserCheckIn(criteria);
 
             return Json(criteria.IsKickedOut ? "1" : "0");
         }
 
         [HttpGet]
-        public ActionResult UpdateUserPassword()
+        public IActionResult UpdateUserPassword()
         {
             ModelState.Clear();
             var criteria = new UpdatePasswordUserCriteria
@@ -129,11 +130,11 @@
                     ViewBag.RefController = segments[^2];
                     ViewBag.RefAction = segments[^1];
                 }
-            }
-            else
-            {
-                ViewBag.RefController = string.Empty;
-                ViewBag.RefAction = string.Empty;
+                else
+                {
+                    ViewBag.RefController = string.Empty;
+                    ViewBag.RefAction = string.Empty;
+                }
             }
 
             return View(criteria);
