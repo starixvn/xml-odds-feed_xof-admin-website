@@ -1,16 +1,15 @@
 ﻿@using Fanex.OddsFeed.Core
-@using System.Web.Optimization
 @model Fanex.OddsFeed.Core.Criteria.Administrator.InsertAdminCriteria
 @{
     ViewBag.Title = "Add Administrator";
 }
-@section Breadcrumb {
+@*@section Breadcrumb {
     <a class="step" href="@Url.Action("ShowDashboard", "Dashboard")"><span class='xicon home'></span>Home</a>
     <span class="step">@ViewBag.Title</span>
-}
+}*@
 @section Styles
 {
-    <link rel="Stylesheet" type="text/css" href="@BundleTable.Bundles.ResolveBundleUrl("~/App_Themes/Default/Administrator/AdministratorCss")" />
+    <link rel="stylesheet" href="~/minify/css/administrator.min.css" asp-append-version="true">
     <style type="text/css">
         .ui-autocomplete li:hover {
             font-size: 14px;
@@ -21,7 +20,7 @@
 }
 @section Scripts
 {
-    <script type="text/javascript" src="@BundleTable.Bundles.ResolveBundleUrl("~/Scripts/Administrator/AddAdministratorJs")"></script>
+    <script src="~/minify/js/addadministrator.min.js" asp-append-version="true"></script>
 }
 <div class="infor">
     <span class="infor-ic">&nbsp;</span><span class="infor-text">The wizard will help you to create a new Administrator in your licensee system.</span>

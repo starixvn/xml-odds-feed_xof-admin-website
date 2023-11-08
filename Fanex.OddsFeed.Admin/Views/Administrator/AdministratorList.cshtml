@@ -3,19 +3,21 @@
 @{
     ViewBag.Title = "Administrator List";
 }
-@section Breadcrumb {
+@*@section Breadcrumb {
     <a class="step" href="@Url.Action("ShowDashboard", "Dashboard")"><span class='xicon home'></span>Home</a>
     <span class="step">@ViewBag.Title</span>
-}
+}*@
 @section Styles
 {
-@*    <link rel="Stylesheet" type="text/css" href="@BundleTable.Bundles.ResolveBundleUrl("~/App_Themes/Default/Fanex.Grid/Fanex.GridCss")" />
-    <link rel="Stylesheet" type="text/css" href="@BundleTable.Bundles.ResolveBundleUrl("~/App_Themes/Default/Administrator/AdministratorCss")" />*@
+
+    <link rel="stylesheet" href="~/minify/css/administrator.min.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/minify/css/fanexgrid.min.css" asp-append-version="true">
 }
 @section Scripts
 {
-@*    <script src="@BundleTable.Bundles.ResolveBundleUrl("~/Scripts/Fanex.Grid/Fanex.GridJs")"></script>
-    <script src="@BundleTable.Bundles.ResolveBundleUrl("~/Scripts/Administrator/ListAdministratorJs")"></script>*@
+    <script src="~/minify/js/listadministrator.min.js" asp-append-version="true"></script>
+    <script src="~/minify/js/fanexgrid.min.js" asp-append-version="true"></script>
+
 }
 <div class="infor">
     <span class="infor-ic">&nbsp;</span><span class="infor-text">The list of administrators.</span>

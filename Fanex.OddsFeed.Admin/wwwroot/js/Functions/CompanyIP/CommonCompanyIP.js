@@ -46,11 +46,10 @@ function removeRow(obj, IPFromOld, IPToOld) {
         if (!valid) {
             return;
         }
-
-        confirm('Do you want to delete this IP range?', function () {
+        if (confirm('Do you want to delete this IP range?')) {
             $(".result-message-box").addClass("hidden");
-            
-            var description = $(columns[2]).children()[0].value;          
+
+            var description = $(columns[2]).children()[0].value;
 
             var updateParams = {
                 IPFromOld: IPFromOld,
@@ -86,7 +85,7 @@ function removeRow(obj, IPFromOld, IPToOld) {
                 error: function (xhr, status, err) {
                 }
             });
-        });
+        }
     }
 };
 
@@ -151,7 +150,7 @@ function SaveIPSetting(obj, IpFromOld, IpToOld) {
         contentType: "application/json; charset=utf-8",
         dataType: 'json',
         data: data,
-        //cache: false,
+        cache: false,
         success: function (errCode) {
             if (errCode != 0) {
                 GetErrorMessage(errCode);
