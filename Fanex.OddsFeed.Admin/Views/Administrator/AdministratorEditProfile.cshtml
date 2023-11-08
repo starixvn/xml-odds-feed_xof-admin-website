@@ -1,22 +1,21 @@
 ﻿@using Fanex.OddsFeed.Core
-@using System.Web.Optimization
 @model Fanex.OddsFeed.Core.Criteria.Administrator.UpdateAdminInfoCriteria
 @{
     ViewBag.Title = "Edit Administrator Information";
 
 }
-@section Breadcrumb {
+@*@section Breadcrumb {
     <a class="step" href="@Url.Action("ShowDashboard", "Dashboard")"><span class='xicon home'></span>Home</a>
     <a class="step" href="@Url.Action("AdministratorList", "Administrator")">Administrator List</a>
     <span class="step">@ViewBag.Title @ViewBag.CurrentUser</span>
-}
+}*@
 @section Styles
 {
-    <link rel="Stylesheet" type="text/css" href="@BundleTable.Bundles.ResolveBundleUrl("~/App_Themes/Default/Administrator/AdministratorCss")" />
+    <link rel="stylesheet" href="~/minify/css/administrator.min.css" asp-append-version="true">
 }
 @section Scripts
 {
-    <script type="text/javascript" src="@BundleTable.Bundles.ResolveBundleUrl("~/Scripts/Administrator/EditAdministratorJs")"></script>
+    <script src="~/minify/js/editadministrator.min.js" asp-append-version="true"></script>
     <script type="text/javascript">
         var currentSessionUserId = '@ViewBag.CurrentUserId';
     </script>

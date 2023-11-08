@@ -21,6 +21,24 @@
             "wwwroot/css/select2.min.css"
         ]
     },
+    {
+        "outputFileName": "wwwroot/minify/css/fanexgrid.min.css",
+        "inputFiles": [
+            "wwwroot/css/Fanex.Grid/Fanex.Grid.css"
+        ]
+    },
+    {
+        "outputFileName": "wwwroot/minify/css/administrator.min.css",
+        "inputFiles": [
+            "wwwroot/css/Administrator/Administrator.css"
+        ]
+    },
+    {
+        "outputFileName": "wwwroot/minify/css/listcompanyip.min.css",
+        "inputFiles": [
+            "wwwroot/css/Affiliate/AffiliateEdit.css"
+        ]
+    },
 
     // ----------------------- Javascript ------------------------------
     {
@@ -64,6 +82,62 @@
             "wwwroot/js/Views/Header.js",
             "wwwroot/js/ReCheckIn.js",
             "wwwroot/js/OddsFeedAdminManager.js"
+        ],
+        "minify": {
+            "enabled": true,
+            "renameLocals": true
+        },
+        "sourceMap": false
+    },
+    {
+        "outputFileName": "wwwroot/minify/js/listcompanyip.min.js",
+        "inputFiles": [
+            "wwwroot/js/Functions/CompanyIP/CommonCompanyIP.js",
+            "wwwroot/js/Functions/CompanyIP/InsertCompanyIP.js"
+        ],
+        "minify": {
+            "enabled": true,
+            "renameLocals": true
+        },
+        "sourceMap": false
+    },
+    {
+        "outputFileName": "wwwroot/minify/js/addadministrator.min.js",
+        "inputFiles": [
+            "wwwroot/js/Administrator/AddAdministrator.js"
+        ],
+        "minify": {
+            "enabled": true,
+            "renameLocals": true
+        },
+        "sourceMap": false
+    },
+    {
+        "outputFileName": "wwwroot/minify/js/editadministrator.min.js",
+        "inputFiles": [
+            "wwwroot/js/Administrator/EditAdministrator.js"
+        ],
+        "minify": {
+            "enabled": true,
+            "renameLocals": true
+        },
+        "sourceMap": false
+    },
+    {
+        "outputFileName": "wwwroot/minify/js/listadministrator.min.js",
+        "inputFiles": [
+            "wwwroot/js/Administrator/ListAdministrator.js"
+        ],
+        "minify": {
+            "enabled": true,
+            "renameLocals": true
+        },
+        "sourceMap": false
+    },
+    {
+        "outputFileName": "wwwroot/minify/js/fanexgrid.min.js",
+        "inputFiles": [
+            "wwwroot/js/Fanex.Grid/Fanex.Grid.js"
         ],
         "minify": {
             "enabled": true,
