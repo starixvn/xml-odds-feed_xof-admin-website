@@ -4,7 +4,7 @@
     using Data.Repository;
     using Fanex.Data;
 
-    public class InsertAdminCriteria : CriteriaBase
+    public class InsertAdminCriteria : BaseCommand
     {
         public int UserID { get; set; }
 

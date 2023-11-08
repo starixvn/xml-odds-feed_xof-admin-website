@@ -6,7 +6,7 @@
     public class AdminList_GetTop10Criteria : CriteriaBase
     {
         [Required]
-        public byte SystemId { get; set; }
+        public short SystemId { get; set; }
 
         public string Username { get; set; }
 
