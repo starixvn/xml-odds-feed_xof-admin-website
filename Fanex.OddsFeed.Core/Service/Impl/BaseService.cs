@@ -94,5 +94,24 @@
 
             return commandResult;
         }
+        public async Task<CommandResult> ExecuteNonQueryAsync(ICriteria criteria)
+        {
+            var commandResult = new CommandResult
+            {
+                Code = 1,
+                Message = ViewResources.InvalidInputData
+            };
+
+            if (criteria != null && criteria.IsValid())
+            {
+                commandResult = await baseRepository.ExecuteNonQueryAsync(criteria);
+            }
+
+            return commandResult;
+        }
+        public DataGrid<T> GetDataGrid<T>(ICriteria criteria)
+        {
+            return baseRepository.GetDataGrid<T>(criteria);
+        }
     }
 }

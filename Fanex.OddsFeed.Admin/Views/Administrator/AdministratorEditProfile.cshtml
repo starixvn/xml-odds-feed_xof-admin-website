@@ -1,0 +1,119 @@
+﻿@using Fanex.OddsFeed.Core
+@using System.Web.Optimization
+@model Fanex.OddsFeed.Core.Criteria.Administrator.UpdateAdminInfoCriteria
+@{
+    ViewBag.Title = "Edit Administrator Information";
+
+}
+@section Breadcrumb {
+    <a class="step" href="@Url.Action("ShowDashboard", "Dashboard")"><span class='xicon home'></span>Home</a>
+    <a class="step" href="@Url.Action("AdministratorList", "Administrator")">Administrator List</a>
+    <span class="step">@ViewBag.Title @ViewBag.CurrentUser</span>
+}
+@section Styles
+{
+    <link rel="Stylesheet" type="text/css" href="@BundleTable.Bundles.ResolveBundleUrl("~/App_Themes/Default/Administrator/AdministratorCss")" />
+}
+@section Scripts
+{
+    <script type="text/javascript" src="@BundleTable.Bundles.ResolveBundleUrl("~/Scripts/Administrator/EditAdministratorJs")"></script>
+    <script type="text/javascript">
+        var currentSessionUserId = '@ViewBag.CurrentUserId';
+    </script>
+}
+<div id="editStep1">
+    @using (Html.BeginForm())
+    {
+        if (ViewBag.HasEditPermission == null || ViewBag.HasEditPermission == true)
+        {
+            <h3>
+                @Html.Raw(ViewResources.HtmlTemplate_InputRequired)
+            </h3>
+            <div id="errorStep1" class="validation-summary-errors hidden" data-valmsg-summary="true">
+                <ul>
+                    <li id="emailReqErr" style="display: none">The Email field is required.</li>
+                    <li id="emailInvalidErr" style="display: none">The Email field is invalid.</li>
+                </ul>
+            </div>
+            <div class="result-message-box hidden">
+            </div>
+            <div class="form">
+                <div class="row">
+                    <div class="grid2">
+                        @Html.HiddenFor(a => a.UserID, new { id = "txtid" })
+                        @Html.LabelFor(a => a.Username)
+                    </div>
+                    <div class="grid5">
+                        @Html.TextBoxFor(a => a.Username, new { id = "txtUsername" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="grid2">
+                        @Html.LabelFor(a => a.FirstName, "First Name")
+                    </div>
+                    <div class="grid5">
+                        @Html.TextBoxFor(a => a.FirstName, new { id = "txtFirstname" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="grid2">
+                        @Html.LabelFor(a => a.LastName, "Last Name")
+                    </div>
+                    <div class="grid5">
+                        @Html.TextBoxFor(a => a.LastName, new { id = "txtLastname" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="grid2">
+                        @Html.LabelFor(a => a.Email)
+                    </div>
+                    <div class="grid5">
+                        @Html.TextBoxFor(a => a.Email, new { id = "txtEmail" })
+                    </div>
+                    <div class="gird1">
+                        <span style="padding-left: 120px" class="red">(*)</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="grid2">
+                        @Html.LabelFor(a => a.RoleID, "Role")
+                    </div>
+                    <div class="grid7">
+                        @if (Model.RoleID == 1)
+                        {
+                            <input class="administratorRole" type="radio" name="role" value="1" checked="checked" /><span>Account Manager&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                            <input class="administratorRole" type="radio" name="role" value="2" /><span>Licensee</span>
+                        }
+                        else if (Model.RoleID == 2)
+                        {
+                            <input class="administratorRole" type="radio" name="role" value="1" /><span>Account Manager&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                            <input class="administratorRole" type="radio" name="role" value="2" checked="checked" /><span>Licensee</span>
+                        }
+                        else
+                        {
+                            <span>Licensee Sub-Account</span>
+                        }
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="grid2">
+                    </div>
+                    <div class="grid2">
+                        <a href="@Url.Action("AdministratorList", "Administrator")" class="button">@ViewResources.Back</a>
+                    </div>
+                    <div class="grid2">
+                        <input id="btnSave" type="button" value="Save" value="@ViewResources.Save" />
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="error-message-box">
+                <ul>
+                    <li>@ViewBag.Error</li>
+                </ul>
+            </div>
+        }
+    }
+</div>
