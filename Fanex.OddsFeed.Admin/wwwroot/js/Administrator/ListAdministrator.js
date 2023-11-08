@@ -2,18 +2,18 @@
     ,_pageIndex = 0
     ,_pageSize = 10;
 $(document).ready(function () {
-    $("#Username").Watermark("Username");
+    //$("#Username").Watermark("Username");
 
-    $("#Username").autocomplete({
-        source: [],
-        minLength: 1
-    });
+    //$("#Username").autocomplete({
+    //    source: [],
+    //    minLength: 1
+    //});
 
-    $("#Username").keyup(function (e) {
-        if (e.keyCode == $.ui.keyCode.ENTER) {
-            Search();
-        }
-    });
+    //$("#Username").keyup(function (e) {
+    //    if (e.keyCode == $.ui.keyCode.ENTER) {
+    //        Search();
+    //    }
+    //});
 
     Search();
 });
@@ -99,21 +99,21 @@ function Search() {
     $('#PageSize').val(_pageSize);
     $('#PageIndex').val(_pageIndex);
 
-    var searchParams = {
+    var searchParams = JSON.stringify({
         SystemID: $("#SystemID option:selected").val(),
         Username: $("#Username").val(),
         IsActive: $("#isActive option:selected").val(),
         RoleID: $("#RoleID option:selected").val(),
         PageSize: _pageSize,
         PageIndex: _pageIndex
-    };
+    });
 
     $.ajax({
         url: "GetListAdminBySystemAndNameAndRole",
         type: 'POST',
         dataType: "json",
         contentType: "application/json; charset=utf-8",
-        data: JSON.stringify(searchParams),
+        data: searchParams,
         cache: false,
         success: function (result) {
             gridOptions =
@@ -142,7 +142,7 @@ function Search() {
                         }
                     }
                 ],
-                bodyRows: renderBodyRows(result.data),
+                bodyRows: renderBodyRows(result.Data),
                 hideYBackGroundScroller: true,
                 gridExpandHeight: 250,
                 showPager: true,
@@ -150,7 +150,7 @@ function Search() {
                 pagerOption: {
                     itemsPerPage: _pageSize,
                     currentPage: _pageIndex,
-                    totalItem: result.totalItems,
+                    totalItem: result.TotalItems,
                     itemsPerPageArray: [10, 20, 50, 100, 500],
                     pagerSelectCallBack: ReRenderAfterPaged
                 },
@@ -298,10 +298,10 @@ function StartAutoSuggesttion() {
         cache: false,
         success: function (result) {
             var sourceAdmin = result.split(',');
-            $("#Username").autocomplete({
-                source: sourceAdmin,
-                minLength: 1
-            });
+            //$("#Username").autocomplete({
+            //    source: sourceAdmin,
+            //    minLength: 1
+            //});
         },
         error: function (xhr, status, err) {
         }
