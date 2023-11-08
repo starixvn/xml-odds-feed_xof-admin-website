@@ -101,11 +101,11 @@ namespace Fanex.OddsFeed.Core.Web.Session
             }
         }
 
-        public byte SystemId
+        public short SystemId
         {
             get
             {
-                if (byte.TryParse(_httpContextAccessor.HttpContext?.Session.GetString("InternalSystemId"), out byte systemId))
+                if (short.TryParse(_httpContextAccessor.HttpContext?.Session.GetString("InternalSystemId"), out short systemId))
                 {
                     return systemId;
                 }

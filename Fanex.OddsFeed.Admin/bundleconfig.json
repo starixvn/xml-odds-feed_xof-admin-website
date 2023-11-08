@@ -7,6 +7,19 @@
         ]
     },
     {
+        "outputFileName": "wwwroot/minify/css/fanexgrid.min.css",
+        "inputFiles": [
+            "wwwroot/css/Fanex.Grid/Fanex.Grid.css",
+            "wwwroot/css/Fanex.Grid/Fanex.Pagination.css"
+        ]
+    },
+    {
+        "outputFileName": "wwwroot/minify/css/dashboard.min.css",
+        "inputFiles": [
+            "wwwroot/css/Dashboard/Dashboard.css"
+        ]
+    },
+    {
         "outputFileName": "wwwroot/minify/css/common.min.css",
         "inputFiles": [
             "wwwroot/css/960.css",
@@ -45,6 +58,31 @@
         "outputFileName": "wwwroot/minify/js/updatepassword.min.js",
         "inputFiles": [
             "wwwroot/js/User/UpdatePassword.js"
+        ],
+        "minify": {
+            "enabled": true,
+            "renameLocals": true
+        },
+        "sourceMap": false
+    },
+    {
+        "outputFileName": "wwwroot/minify/js/fanexgrid.min.js",
+        "inputFiles": [
+            "wwwroot/js/Fanex.Grid/moment.min.js",
+            "wwwroot/js/Fanex.Grid/numeral.min.js",
+            "wwwroot/js/Fanex.Grid/Fanex.Grid.js",
+            "wwwroot/js/Fanex.Grid/Fanex.Pagination.js"
+        ],
+        "minify": {
+            "enabled": true,
+            "renameLocals": true
+        },
+        "sourceMap": false
+    },
+    {
+        "outputFileName": "wwwroot/minify/js/dashboard.min.js",
+        "inputFiles": [
+            "wwwroot/js/Dashboard/Dashboard.js"
         ],
         "minify": {
             "enabled": true,

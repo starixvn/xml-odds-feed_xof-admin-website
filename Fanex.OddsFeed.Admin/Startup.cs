@@ -78,7 +78,6 @@
         private void InjectServices(IServiceCollection services)
         {
             #region ONEbookUM
-
             services.AddSingleton(new UMClientConfiguration().Initialize(Configuration));
             services.AddSingleton<CheckUMFilterAttribute>();
             services.AddSingleton<IUMCacheService, UMCacheService>();
@@ -86,14 +85,14 @@
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>(); 
             services.AddSingleton<IHttpContextHelper, HttpContextHelper>(); 
             services.AddSingleton<IMaintenanceService, MaintenanceService>();
-
             #endregion ONEbookUM
 
             services.AddSingleton<ICurrentContext, CurrentContext>();
             services.AddSingleton<ICurrentSession, CurrentSession>();
+            services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
             services.AddSingleton<IBaseService, BaseService>();
             services.AddSingleton<IUserService, UserService>();
-            services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+            services.AddSingleton<IDashboardService, DashboardService>();    
         }
 
         private void InjectRepository(IServiceCollection services)

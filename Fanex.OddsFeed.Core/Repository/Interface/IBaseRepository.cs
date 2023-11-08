@@ -10,7 +10,7 @@
         Task<CommandResult> ExecuteNonQueryAsync(ICriteria criteria);
 
         CommandResult ExecuteNonQuery(ICriteria criteria);
-        DataGrid<T> GetDataGrid<T>(ICriteria criteria);
 
+        Task<DataGrid<T>> GetDataGrid<T>(ICriteria criteria);
     }
 }

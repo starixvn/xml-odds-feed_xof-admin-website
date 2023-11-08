@@ -43,12 +43,12 @@ function renderUserOnlineBodyRows(users) {
         var user = users[i];
         var row = {
             Columns: [
-                { Name: 'Row', Value: user.row },
-                { Name: 'Username', Value: user.username },
-                { Name: 'LastLogin', Value: user.lastLogin },
-                { Name: 'ReloadTime', Value: user.reloadTime },
-                { Name: 'IP', Value: user.ip },
-                { Name: 'RoleName', Value: user.roleName }
+                { Name: 'Row', Value: user.Row },
+                { Name: 'Username', Value: user.Username },
+                { Name: 'LastLogin', Value: formatDateTime(new Date(user.LastLogin))},
+                { Name: 'ReloadTime', Value: formatDateTime(new Date(user.ReloadTime))},
+                { Name: 'IP', Value: user.IP },
+                { Name: 'RoleName', Value: user.RoleName }
             ]
         };
 
@@ -76,7 +76,7 @@ function ShowCurrentOnlineUser() {
                     { HeaderText: "IP", Width: 150, Name: "IP", HeaderAlign: "center", CellAlign: "center" },
                     { HeaderText: "Role", Width: 200, Name: "RoleName", HeaderAlign: "center", CellAlign: "left" }
                 ],
-                bodyRows: renderUserOnlineBodyRows(result.data),
+                bodyRows: renderUserOnlineBodyRows(result.Data),
                 gridExpandHeight: 150,
                 marginRight: 0,
                 showPager: true,
@@ -86,7 +86,7 @@ function ShowCurrentOnlineUser() {
                 pagerOption: {
                     itemsPerPage: _pageSize,
                     currentPage: _pageIndex,
-                    totalItem: result.totalItems,
+                    totalItem: result.TotalItems,
                     itemsPerPageArray: [5, 10, 20, 50, 100],
                     pagerSelectCallBack: ReRenderAfterPaged
                 }
@@ -117,15 +117,15 @@ function renderActivityBodyRows(records, isLicensee) {
     for (var i = 0; i < totalRows; i++) {
         var record = records[i];
         var row = {
-            Columns: [{ Name: 'row', Value: record.row }]
+            Columns: [{ Name: 'row', Value: record.Row }]
         };
 
         if (isLicensee) {
-            row.Columns.push({ Name: 'username', Value: record.username });
+            row.Columns.push({ Name: 'username', Value: record.Username });
         }
 
-        row.Columns.push({ Name: 'detail', Value: record.detail });
-        row.Columns.push({ Name: 'loggeddate', Value: record.loggedDate });
+        row.Columns.push({ Name: 'detail', Value: record.Detail });
+        row.Columns.push({ Name: 'loggeddate', Value: formatDateTime(new Date(record.LoggedDate))  });
 
         rows.push(row);
     }
@@ -151,7 +151,7 @@ function ShowRecentActivities() {
                         { HeaderText: "Action", Width: 700, Name: "detail", HeaderAlign: "center", CellAlign: "left" },
                         { HeaderText: "Date", Width: 150, Name: "loggeddate", HeaderAlign: "center", CellAlign: "center" },
                     ],
-                    bodyRows: renderActivityBodyRows(result.data, false),
+                    bodyRows: renderActivityBodyRows(result.Data, false),
                     gridExpandHeight: 150,
                     showPager: true,
                     customPager: true,
@@ -160,7 +160,7 @@ function ShowRecentActivities() {
                     pagerOption: {
                         itemsPerPage: _pageSize1,
                         currentPage: _pageIndex1,
-                        totalItem: result.totalItems,
+                        totalItem: result.TotalItems,
                         itemsPerPageArray: [5, 10, 20, 50, 100],
                         pagerSelectCallBack: ReRenderAfterPagedRecentActivities1
                     }
@@ -185,7 +185,7 @@ function ShowRecentActivities() {
                         { HeaderText: "Action", Width: 500, Name: "detail", HeaderAlign: "center", CellAlign: "left" },
                         { HeaderText: "Date", Width: 150, Name: "loggeddate", HeaderAlign: "center", CellAlign: "center" },
                     ],
-                    bodyRows: renderActivityBodyRows(result.data, true),
+                    bodyRows: renderActivityBodyRows(result.Data, true),
                     gridExpandHeight: 150,
                     showPager: true,
                     customPager: true,
@@ -194,7 +194,7 @@ function ShowRecentActivities() {
                     pagerOption: {
                         itemsPerPage: _pageSize2,
                         currentPage: _pageIndex2,
-                        totalItem: result.totalItems,
+                        totalItem: result.TotalItems,
                         itemsPerPageArray: [5, 10, 20, 50, 100],
                         pagerSelectCallBack: ReRenderAfterPagedRecentActivities2
                     }
@@ -203,6 +203,17 @@ function ShowRecentActivities() {
             }
         });
     }
+}
+function formatDateTime(date) {
+    const day = date.getDate();
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const month = monthNames[date.getMonth()];
+    const year = date.getFullYear();
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const seconds = date.getSeconds().toString().padStart(2, '0');
+
+    return `${day} ${month} ${year} ${hours}:${minutes}:${seconds}`;
 }
 
 function ReRenderAfterPagedRecentActivities1(page_index, itemsPerPage, jq) {

@@ -6,6 +6,7 @@
     using Fanex.Data;
     using Fanex.OddsFeed.Core.Model;
     using Fanex.OddsFeed.Core.Repository.Interface;
+    using static System.Runtime.CompilerServices.RuntimeHelpers;
 
     public class BaseRepository : IBaseRepository
     {
@@ -42,6 +43,20 @@
             }
         }
 
+        public async Task<DataGrid<T>> GetDataGrid<T>(ICriteria criteria)
+        {
+            using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
+            {
+                var result = new DataGrid<T>();
+                result.Data = (await db.QueryAsync<T>(criteria)).ToList();
+
+                var totalItems = db.GetOutputParams()["ROWCOUNT"];
+                result.TotalItems = (totalItems is DBNull) ? 0 : Convert.ToInt32(totalItems);
+
+                return result;
+            }
+        }
+
         private static CommandResult GetCommandResult(Hashtable hash)
         {
             var errCode = hash["errCode"];
@@ -52,18 +67,6 @@
                 Code = (errCode is DBNull) ? 0 : Convert.ToInt32(errCode),
                 Message = (errMsg is DBNull) ? string.Empty : Convert.ToString(errMsg)
             };
-        }
-
-        public DataGrid<T> GetDataGrid<T>(ICriteria criteria)
-        {
-            var data = new DataGrid<T>();
-            using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
-            {
-                db.ExecuteNonQuery(criteria);
-                data.Data = db.Query<T>().ToList();
-                data.TotalItems = (int)db.GetOutputParams()["rowcount"];
-                return data;
-            }
         }
     }
 }
