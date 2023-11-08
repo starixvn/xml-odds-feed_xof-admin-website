@@ -53,5 +53,17 @@
                 Message = (errMsg is DBNull) ? string.Empty : Convert.ToString(errMsg)
             };
         }
+
+        public DataGrid<T> GetDataGrid<T>(ICriteria criteria)
+        {
+            var data = new DataGrid<T>();
+            using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
+            {
+                db.ExecuteNonQuery(criteria);
+                data.Data = db.Query<T>().ToList();
+                data.TotalItems = (int)db.GetOutputParams()["rowcount"];
+                return data;
+            }
+        }
     }
 }
