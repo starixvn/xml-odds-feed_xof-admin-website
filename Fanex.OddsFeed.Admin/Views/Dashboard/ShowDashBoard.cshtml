@@ -1,4 +1,151 @@
-﻿@{
+﻿@using Fanex.OddsFeed.Core.Model.Report
+@model AccountStatistic
+@{
     ViewBag.Title = "My Dashboard";
 }
-<h1>this is dashboard</h1>
+@section Styles {
+    <link rel="stylesheet" href="~/minify/css/fanexgrid.min.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/minify/css/dashboard.min.css" asp-append-version="true">
+}
+@section Scripts {
+    <environment include="Development">
+        <script src="~/js/fanex.grid/moment.min.js" asp-append-version="true"></script>
+        <script src="~/js/fanex.grid/numeral.min.js" asp-append-version="true"></script>
+        <script src="~/js/fanex.grid/fanex.grid.js" asp-append-version="true"></script>
+        <script src="~/js/fanex.grid/fanex.pagination.js" asp-append-version="true"></script>
+        <script src="~/js/dashboard/dashboard.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/minify/js/fanexgrid.min.js" asp-append-version="true"></script>
+        <script src="~/minify/js/dashboard.min.js" asp-append-version="true"></script>
+    </environment>
+}
+
+<table>
+    <tr>
+        <td class="halfwidth">
+            <div class="divheader">
+                <div class="leftborder">&nbsp;</div>
+                <span class="icaccstatistics">&nbsp;</span>
+                <label class="headertext">@(ViewBag.UserName)'s Statistics</label>
+                <div class="rightborder">&nbsp;</div>
+            </div>
+            <div class="divcontentmain">
+                <div class="form500" id="mainForm">
+                    <div class="row1">
+                        <div class="grid3 statisticsNumber">@Model.TotalAff</div>
+                        <div class="grid6" style="vertical-align: middle;">Total affiliates</div>
+                        <div class="grid2">
+                            <input id="btnTotalAff" type="button" value="View" onclick="ViewTotalAff();" />
+                        </div>
+                    </div>
+                    <div class="rowhr">
+                        <hr class="styleradiant" />
+                    </div>
+                    <div class="row1">
+                        <div class="grid3 statisticsNumber">@Model.TotalSubAcc</div>
+                        <div class="grid6">Total sub-accounts</div>
+                        <div class="grid2">
+                            <input id="ViewTotalSubAcc" type="button" value="View" onclick="ViewTotalSubAcc();" />
+                        </div>
+                    </div>
+                    <div class="rowhr">
+                        <hr class="styleradiant" />
+                    </div>
+                    <div class="row1">
+                        <div class="grid3 statisticsNumber">@Model.TotalTodayRequest</div>
+                        <div class="grid6">Total affiliate's requests of today</div>
+                        <div class="grid2">
+                            <input id="ViewTotalReqToday" type="button" value="View" onclick="ViewTotalReqToday();" />
+                        </div>
+                    </div>
+                    <div class="rowhr">
+                        <hr class="styleradiant" />
+                    </div>
+                    <div class="row1">
+                        <div class="grid3 statisticsNumber">@Model.TotalMonthRequest</div>
+                        <div class="grid6">Total affiliate's requests of this month</div>
+                        <div class="grid2">
+                            <input id="ViewTotalReqThisMonth" type="button" value="View" onclick="ViewTotalReqThisMonth();" />
+                        </div>
+                    </div>
+                    <div class="rowhr">
+                        <hr class="styleradiant" />
+                    </div>
+                    <div class="rowSpec">
+                        <div class="grid8">
+                            @if (!string.IsNullOrWhiteSpace(Model.LastRequestUsername))
+                            {
+                                <label class="lastreqnormal">Last requested by</label>
+                                <input type="hidden" id="lastreqname" value="@Model.LastRequestUsername" />
+                                <label class="lastreqname">
+                                    @(Model.LastRequestUsername.Length > 10 ? Model.LastRequestUsername.Substring(0, 10) + "..." : Model.LastRequestUsername)
+                                </label>
+                                <label class="lastreqnormal"> at @Model.LastRequestTime, IP :</label>
+                                <label class="lastreqip">@Model.LastRequestIP</label>
+                            }
+                            else
+                            {
+                                <label class="lastreqnormal">No request found.</label>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </td>
+        <td style="width: 20px;">&nbsp;</td>
+        <td class="halfwidth">
+            <div class="divheader divLoginInfo">
+                <div class="leftborder">&nbsp;</div>
+                <span class="iclogininfo">&nbsp;</span>
+                <label class="headertext">Your Login Information</label>
+                <div class="rightborder">&nbsp;</div>
+            </div>
+            <div class="divcontentmaingrid">
+                <div id="GridLoginInfo" class="freegrid content-grid"></div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3">&nbsp;</td>
+    </tr>
+    <tr>
+        <td colspan="3">
+            <div class="divheader full-width">
+                <div class="leftborder">&nbsp;</div>
+                <span class="iccurerntonlineuser">&nbsp;</span>
+                <label class="headertext">Current Online User List</label>
+                <div class="rightborder">&nbsp;</div>
+            </div>
+            <div class="divcontentsub">
+                <div id="GridCurrentOnlineUser" class="freegrid content-grid"></div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3">&nbsp;</td>
+    </tr>
+    <tr>
+        <td colspan="3">
+            <div class="divheader full-width">
+                <div class="leftborder">&nbsp;</div>
+                <span class="icrecentactivities">&nbsp;</span>
+                <label class="headertext">Recent Activities:</label>
+                <div class="recentActivities">
+                    <label style="font-weight: normal; cursor: pointer">
+                        <input type="radio" name="optActivities" value="1" checked="checked" onclick="ShowRecentActivities()" />Mine
+                    </label>
+                    &nbsp;&nbsp;
+                    <label style="font-weight: normal; cursor: pointer">
+                        <input type="radio" name="optActivities" value="2" onclick="ShowRecentActivities()" />@(ViewBag.UserName)'s affiliates
+                    </label>
+                </div>
+            </div>
+            <div class="divcontentsub">
+                <div id="GridRecentActivities" class="freegrid content-grid"></div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3">&nbsp;</td>
+</table>

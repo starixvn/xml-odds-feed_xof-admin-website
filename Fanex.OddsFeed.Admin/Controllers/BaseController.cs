@@ -48,7 +48,7 @@
         }
 
         [HttpGet]
-        public ActionResult Home(byte systemId = 0, string systemName = "")
+        public ActionResult Home(short systemId = 0, string systemName = "")
         {
             if (systemId != 0 && currentSession.SystemId != systemId)
             {
