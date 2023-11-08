@@ -2,7 +2,7 @@
 {
     using Data.Repository;
 
-    public class InsertCompanyIPsCriteria : CriteriaBase
+    public class InsertCompanyIPsCriteria : BaseCommand
     {
         public string ListIPFrom { get; set; }
 

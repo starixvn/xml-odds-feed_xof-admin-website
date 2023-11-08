@@ -4,7 +4,7 @@
     using Data.Repository;
     using Fanex.Data;
 
-    public class UpdateAdminPasswordCriteria : CriteriaBase
+    public class UpdateAdminPasswordCriteria : BaseCommand
     {  
         [Required]
         public int UserID { get; set; }

@@ -4,7 +4,7 @@
     using Data.Repository;
     using Fanex.Data;
 
-    public class UpdateAdminInfoCriteria : CriteriaBase
+    public class UpdateAdminInfoCriteria : BaseCommand
     {
         [Required]
         [SpParam(SqlParamName = "AdminID")]

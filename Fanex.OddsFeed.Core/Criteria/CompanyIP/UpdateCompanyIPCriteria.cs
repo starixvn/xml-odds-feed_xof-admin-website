@@ -2,7 +2,7 @@
 {
     using Data.Repository;
 
-    public class UpdateCompanyIPCriteria : CriteriaBase
+    public class UpdateCompanyIPCriteria : BaseCommand
     {
         public int Creator { get; set; }
 

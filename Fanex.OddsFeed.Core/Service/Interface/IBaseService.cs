@@ -8,7 +8,6 @@
         IList<T> GetData<T>(ICriteria criteria);
 
         Task<IEnumerable<T>> GetDataAsync<T>(ICriteria criteria);
-        DataGrid<T> GetDataGrid<T>(ICriteria criteria);
 
         T GetDataEntity<T>(ICriteria criteria);
 
@@ -21,6 +20,5 @@
         Task<ValueTuple<IEnumerable<TFirst>, IEnumerable<TSecond>, IEnumerable<TThird>>> FetchMultipleAsync<TFirst, TSecond, TThird>(ICriteria criteria);
 
         Task<CommandResult> ExecuteNonQueryAsync(INonQueryCommand criteria);
-        Task<CommandResult> ExecuteNonQueryAsync(ICriteria criteria);
     }
 }
