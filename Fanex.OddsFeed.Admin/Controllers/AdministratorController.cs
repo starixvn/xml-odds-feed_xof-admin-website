@@ -127,19 +127,12 @@
         }
 
         [HttpPost]
-        public async Task<JsonResult> GetListAdminBySystemAndNameAndRole(GetAdminCriteria criteria)
+        public async Task<JsonResult> GetListAdminBySystemAndNameAndRole([FromBody] GetAdminCriteria criteria)
         {
-            //criteria.PageIndex++;
-            criteria.PageIndex = 1;
-            criteria.PageSize = 10;
-            criteria.Username = (criteria.Username == null || criteria.Username == "Username")
-                ? string.Empty : criteria.Username.Trim();
+            criteria.PageIndex++;
+            criteria.Username = criteria.Username.Equals("Username") ? string.Empty : criteria.Username.Trim();
             var result =await baseService.GetDataAsync<User>(criteria);
-            return new JsonResult(new DataGrid<User>
-            {
-                Data = result.ToList(),
-                TotalItems = criteria.RowCount
-            });
+            return new JsonResult(new {data = result, totalItems = criteria.RowCount});
         }
 
         #endregion

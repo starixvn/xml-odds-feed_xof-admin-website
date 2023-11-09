@@ -35,7 +35,7 @@
 
         // Ignored
         [SpParam(Ignored = true)]
-        public int UserID { get; set; }
+        public int UserId { get; set; }
 
         [SpParam(Ignored = true)]
         public int RoleName { get; set; }

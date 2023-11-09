@@ -2,18 +2,18 @@
     ,_pageIndex = 0
     ,_pageSize = 10;
 $(document).ready(function () {
-    //$("#Username").Watermark("Username");
+    $("#Username").Watermark("Username");
 
-    //$("#Username").autocomplete({
-    //    source: [],
-    //    minLength: 1
-    //});
+    $("#Username").autocomplete({
+        source: [],
+        minLength: 1
+    });
 
-    //$("#Username").keyup(function (e) {
-    //    if (e.keyCode == $.ui.keyCode.ENTER) {
-    //        Search();
-    //    }
-    //});
+    $("#Username").keyup(function (e) {
+        if (e.keyCode == $.ui.keyCode.ENTER) {
+            Search();
+        }
+    });
 
     Search();
 });
@@ -63,29 +63,27 @@ function renderBodyRows(users) {
     for (var i = 0; i < totalRows; i++) {
         var user = users[i];
         var colactive = '';
-        if (user.isActive) {
-            colactive = "<img title='Deactivate this account' class='ico-tick' src='"
-                + currentDomainURL + "App_Themes/Default/Images/blank.png' onclick='javascript:editActive(this, " + JSON.stringify({ userId: user.userId, username: user.username }) + ");' />";
+        if (user.IsActive) {
+            colactive = "<a title='Deactivate this account' class='ico-tick' onclick='javascript:editActive(this, " + JSON.stringify({ userId: user.Id, username: user.Username }) + ");' />";
         } else {
-            colactive = "<img title='Activate this account' class='ico-untick' src='"
-                + currentDomainURL + "App_Themes/Default/Images/blank.png' onclick='javascript:editActive(this, " + JSON.stringify({ userId: user.userId, username: user.username }) + ");' />";
+            colactive = "<a title='Activate this account' class='ico-untick' onclick='javascript:editActive(this, " + JSON.stringify({ userId: user.Id, username: user.Username }) + ");' />";
         }
 
         var row = {
             Columns: [
-                { Name: 'row', Value: user.row },
-                { Name: 'username', Value: user.username },
+                { Name: 'Row', Value: user.Row },
+                { Name: 'Username', Value: user.Username },
                 {
-                    Name: 'action',
+                    Name: 'Action',
                     Value: "<div class='btn-action' onclick='javascript:ShowAction(" + JSON.stringify(user) + ")'></div>"
                 },
-                { Name: 'isactive', Value: colactive },
-                { Name: 'rolename', Value: user.roleName },
-                { Name: 'firstname', Value: user.firstName },
-                { Name: 'lastname', Value: user.lastName },
-                { Name: 'email', Value: user.email },
-                { Name: 'creator', Value: user.creator },
-                { Name: 'createdate', Value: user.createDate }
+                { Name: 'Isactive', Value: colactive },
+                { Name: 'Rolename', Value: user.RoleName },
+                { Name: 'Firstname', Value: user.FirstName },
+                { Name: 'Lastname', Value: user.LastName },
+                { Name: 'Email', Value: user.Email },
+                { Name: 'Creator', Value: user.Creator },
+                { Name: 'Createdate', Value: user.CreateDate }
             ]
         };
 
@@ -100,39 +98,40 @@ function Search() {
     $('#PageIndex').val(_pageIndex);
 
     var searchParams = JSON.stringify({
-        SystemID: $("#SystemID option:selected").val(),
+        SystemID: parseInt($("#SystemID option:selected").val(), 10),
         Username: $("#Username").val(),
-        IsActive: $("#isActive option:selected").val(),
-        RoleID: $("#RoleID option:selected").val(),
+        IsActive: parseInt($("#isActive option:selected").val()),
+        RoleID: parseInt($("#RoleID option:selected").val()),
         PageSize: _pageSize,
         PageIndex: _pageIndex
     });
 
     $.ajax({
-        url: "GetListAdminBySystemAndNameAndRole",
+        url: currentDomainURL + "Administrator/GetListAdminBySystemAndNameAndRole",
         type: 'POST',
+        cache: false,
         dataType: "json",
         contentType: "application/json; charset=utf-8",
         data: searchParams,
-        cache: false,
+        async: true,
         success: function (result) {
             gridOptions =
             {
                 columns: [
-                    { HeaderText: "#", Width: 40, Name: "row", HeaderAlign: "center", CellAlign: "center" },
+                    { HeaderText: "#", Width: 40, Name: "Row", HeaderAlign: "center", CellAlign: "center" },
                     {
-                        HeaderText: "Username", Width: 100, Name: "username", AllowTruncate: true,
+                        HeaderText: "Username", Width: 100, Name: "Username", AllowTruncate: true,
                         TdClass: "boldusername", CssClass: "boldusername", HeaderAlign: "center", CellAlign: "left"
                     },
-                    { HeaderText: "Action", Width: 50, Name: "action", HeaderAlign: "center", CellAlign: "center" },
-                    { HeaderText: "Active", Width: 65, Name: "isactive", HeaderAlign: "center", CellAlign: "center", CssClass: "header-mt", Sort: true },
-                    { HeaderText: "Role", Width: 120, Name: "rolename", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true, CssClass: "header-mt", Sort: true },
-                    { HeaderText: "First Name", Width: 100, Name: "firstname", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true },
-                    { HeaderText: "Last Name", Width: 100, Name: "lastname", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true },
-                    { HeaderText: "Email", Width: 170, Name: "email", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true },
-                    { HeaderText: "Creator", Width: 110, Name: "creator", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true, CssClass: "header-mt", Sort: true },
+                    { HeaderText: "Action", Width: 50, Name: "Action", HeaderAlign: "center", CellAlign: "center" },
+                    { HeaderText: "Active", Width: 65, Name: "Isactive", HeaderAlign: "center", CellAlign: "center", CssClass: "header-mt", Sort: true },
+                    { HeaderText: "Role", Width: 120, Name: "Rolename", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true, CssClass: "header-mt", Sort: true },
+                    { HeaderText: "First Name", Width: 100, Name: "Firstname", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true },
+                    { HeaderText: "Last Name", Width: 100, Name: "Lastname", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true },
+                    { HeaderText: "Email", Width: 170, Name: "Email", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true },
+                    { HeaderText: "Creator", Width: 110, Name: "Creator", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true, CssClass: "header-mt", Sort: true },
                     {
-                        HeaderText: "Created Date", Width: 120, Name: "createdate", HeaderAlign: "center", CellAlign: "center", CssClass: "header-mt",
+                        HeaderText: "Created Date", Width: 120, Name: "Createdate", HeaderAlign: "center", CellAlign: "center", CssClass: "header-mt",
                         Sort: true, FormatDateTime: 'DD MMM YYYY HH:mm:ss', CustomSortFunction: function (col1Value, col2Value, sortDirection) {
                             if (sortDirection === 'asc') {
                                 return moment(col1Value).diff(col2Value);
@@ -142,7 +141,7 @@ function Search() {
                         }
                     }
                 ],
-                bodyRows: renderBodyRows(result.Data),
+                bodyRows: renderBodyRows(result.data),
                 hideYBackGroundScroller: true,
                 gridExpandHeight: 250,
                 showPager: true,
@@ -150,7 +149,7 @@ function Search() {
                 pagerOption: {
                     itemsPerPage: _pageSize,
                     currentPage: _pageIndex,
-                    totalItem: result.TotalItems,
+                    totalItem: result.totalItems,
                     itemsPerPageArray: [10, 20, 50, 100, 500],
                     pagerSelectCallBack: ReRenderAfterPaged
                 },
@@ -171,12 +170,12 @@ function Search() {
 }
 
 function ShowAction(user) {
-    _adminId = user.userId;
-    _adminName = user.username;
+    _adminId = user.Id;
+    _adminName = user.Username;
 
     $.contextMenu('destroy');
 
-    if (user.roleID === 1) { //ITAdmin role
+    if (user.RoleID === 1) { //ITAdmin role
         $.contextMenu({
             selector: '.btn-action',
             items: {
@@ -198,7 +197,7 @@ function ShowAction(user) {
                     callback: function (key, opt) {
                         var paramsString = $.param({
                             username: _adminName,
-                            role: user.roleID
+                            role: user.RoleID
                         });
                         window.location = currentDomainURL + "Administrator/AdministratorResetPwd/" + _adminId + "?" + paramsString;
                     }
@@ -219,7 +218,7 @@ function ShowAction(user) {
                     callback: function (key, opt) {
                         var paramsString = $.param({
                             username: _adminName,
-                            role: user.roleID
+                            role: user.RoleID
                         });
                         window.location = currentDomainURL + "Administrator/AdministratorEditSystem/" + _adminId + "?" + paramsString;
                     }
@@ -242,7 +241,7 @@ function ShowAction(user) {
                     callback: function (key, opt) {
                         var paramsString = $.param({
                             username: _adminName,
-                            role: user.roleID
+                            role: user.RoleID
                         });
 
                         window.location = currentDomainURL + "Administrator/AdministratorResetPwd/" + _adminId + "?" + paramsString;
@@ -298,10 +297,10 @@ function StartAutoSuggesttion() {
         cache: false,
         success: function (result) {
             var sourceAdmin = result.split(',');
-            //$("#Username").autocomplete({
-            //    source: sourceAdmin,
-            //    minLength: 1
-            //});
+            $("#Username").autocomplete({
+                source: sourceAdmin,
+                minLength: 1
+            });
         },
         error: function (xhr, status, err) {
         }
