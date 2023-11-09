@@ -1,13 +1,14 @@
 ﻿@using Fanex.OddsFeed.Core
 @model  Fanex.OddsFeed.Core.Criteria.Administrator.UpdateAdminPasswordCriteria
 @{
+    ViewBag.IsDashboard = false;
     ViewBag.Title = "Reset Password";
 }
-@*@section Breadcrumb {
+@section Breadcrumb {
     <a class="step" href="@Url.Action("ShowDashboard", "Dashboard")"><span class='xicon home'></span>Home</a>
     <a class="step" href="@Url.Action("AdministratorList", "Administrator")">Administrator List</a>
     <span class="step">@ViewBag.Title @ViewBag.CurrentUser</span>
-}*@
+}
 @section Scripts
 {
     <script src="~/minify/js/editadministrator.min.js" asp-append-version="true"></script>

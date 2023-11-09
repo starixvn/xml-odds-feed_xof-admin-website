@@ -64,7 +64,6 @@ function removeRow(obj, IPFromOld, IPToOld) {
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(updateParams),
                 async: true,
-                cache: false,
                 success: function (result) {
                     if (result && result.IsSuccessful) {
                         $(".result-message-box").empty()

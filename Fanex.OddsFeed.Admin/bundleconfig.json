@@ -106,6 +106,8 @@
         "outputFileName": "wwwroot/minify/js/common.min.js",
         "inputFiles": [
             "wwwroot/js/Libs/jquery.js",
+            "wwwroot/js/Libs/jquery.ui.js",
+            "wwwroot/js/Libs/jquery.contextMenu.js",
             "wwwroot/js/Libs/msgbox/msgbox-0.0.1.js",
             "wwwroot/js/Libs/select2.min.js",
             "wwwroot/js/Libs/birthdaypicker.js",
@@ -142,7 +144,10 @@
     {
         "outputFileName": "wwwroot/minify/js/addadministrator.min.js",
         "inputFiles": [
-            "wwwroot/js/Administrator/AddAdministrator.js"
+            "wwwroot/js/Libs/jquery.watermarkinput.js",
+            "wwwroot/js/Administrator/AddAdministrator.js",
+            "wwwroot/js/Administrator/AddAdministratorStep1.js",
+            "wwwroot/js/Administrator/AddAdministratorStep2.js"
         ],
         "minify": {
             "enabled": true,
@@ -164,7 +169,9 @@
     {
         "outputFileName": "wwwroot/minify/js/listadministrator.min.js",
         "inputFiles": [
-            "wwwroot/js/Administrator/ListAdministrator.js"
+            "wwwroot/js/Libs/jquery.watermarkinput.js",
+            "wwwroot/js/Administrator/ListAdministrator.js",
+            "wwwroot/js/Administrator/EditAdministrator.js"
         ],
         "minify": {
             "enabled": true,

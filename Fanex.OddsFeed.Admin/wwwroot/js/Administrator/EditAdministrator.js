@@ -66,7 +66,7 @@ function editActive(obj, user) {
         confirm(temp, function () {
             $(obj).removeClass('ico-tick').addClass('ico-untick');
 
-            var url = 'UpdateActive?adminid=' + user.userId + '&isactive=false';
+            var url = 'UpdateActive?adminid=' + user.id + '&isactive=false';
 
             //todo
             $.ajax({
@@ -94,7 +94,7 @@ function editActive(obj, user) {
         var temp = 'Do you want to activate administrator <b>\"' + user.username + '\"</b>?';
         confirm(temp, function () {
             $(obj).removeClass('ico-untick').addClass('ico-tick');
-            var url = 'UpdateActive?adminid=' + user.userId + '&isactive=true';
+            var url = 'UpdateActive?adminid=' + user.id + '&isactive=true';
 
             //todo
             $.ajax({

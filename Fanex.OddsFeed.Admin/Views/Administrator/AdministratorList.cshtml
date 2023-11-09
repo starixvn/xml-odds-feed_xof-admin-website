@@ -1,24 +1,23 @@
 ﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model Fanex.OddsFeed.Core.Criteria.Administrator.GetAdminCriteria
 @{
+    ViewBag.IsDashboard = false;
     ViewBag.Title = "Administrator List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@*@section Breadcrumb {
+@section Breadcrumb {
     <a class="step" href="@Url.Action("ShowDashboard", "Dashboard")"><span class='xicon home'></span>Home</a>
     <span class="step">@ViewBag.Title</span>
-}*@
+}
 @section Styles
 {
-
     <link rel="stylesheet" href="~/minify/css/administrator.min.css" asp-append-version="true">
     <link rel="stylesheet" href="~/minify/css/fanexgrid.min.css" asp-append-version="true">
 }
 @section Scripts
 {
-    @*<script src="~/minify/js/listadministrator.min.js" asp-append-version="true"></script>*@
-    @*<script src="~/minify/js/fanexgrid.min.js" asp-append-version="true"></script>*@
-    <script src="~/js/Administrator/ListAdministrator.js" asp-append-version="true"></script>
-
+    <script src="~/minify/js/listadministrator.min.js" asp-append-version="true"></script>
+    <script src="~/minify/js/fanexgrid.min.js" asp-append-version="true"></script>
 }
 <div class="infor">
     <span class="infor-ic">&nbsp;</span><span class="infor-text">The list of administrators.</span>
@@ -58,7 +57,8 @@
         @Html.HiddenFor(s => s.PageSize)
         @Html.HiddenFor(s => s.PageIndex)
         @Html.HiddenFor(s => s.PageCount)
-        @Html.TextBoxFor(s => s.Username, new { @style = "width:200px", @maxlength = 50, @onkeyup = "StartAutoSuggesttion()" })
+        @Html.TextBoxFor(s => s.Username, 
+            new { @style = "width:200px", @maxlength = 50, @onkeyup = "StartAutoSuggesttion()", placeholder = "Username" })
         <input type="button" value="Search" onclick="_pageIndex = 0;_pageSize = 10;Search();" />
     </div>
 </form>

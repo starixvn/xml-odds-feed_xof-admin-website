@@ -1,14 +1,15 @@
 ﻿@using Fanex.OddsFeed.Core
 @model Fanex.OddsFeed.Core.Criteria.Administrator.UpdateAdminInfoCriteria
 @{
+    ViewBag.IsDashboard = false;
     ViewBag.Title = "Edit Administrator Information";
 
 }
-@*@section Breadcrumb {
+@section Breadcrumb {
     <a class="step" href="@Url.Action("ShowDashboard", "Dashboard")"><span class='xicon home'></span>Home</a>
     <a class="step" href="@Url.Action("AdministratorList", "Administrator")">Administrator List</a>
     <span class="step">@ViewBag.Title @ViewBag.CurrentUser</span>
-}*@
+}
 @section Styles
 {
     <link rel="stylesheet" href="~/minify/css/administrator.min.css" asp-append-version="true">
