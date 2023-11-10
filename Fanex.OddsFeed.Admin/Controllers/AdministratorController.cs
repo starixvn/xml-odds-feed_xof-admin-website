@@ -82,7 +82,7 @@
         }
 
         [HttpPost]
-        public JsonResult CheckExistAdministrator(InsertAdminCriteria criteria)
+        public JsonResult CheckExistAdministrator([FromBody] InsertAdminCriteria criteria)
         {
             var result = new CommandResult { Code = 0 };
             var users = baseService.GetData<User>(new CheckExistAdministratorCriteria

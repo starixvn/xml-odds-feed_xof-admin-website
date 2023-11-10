@@ -182,7 +182,13 @@
                 </div>
                 <div class="grid6 licenseeList" style="text-align: left; border-style: solid; border-width: 1px;
                     border-color: #C8C8C8; overflow: scroll">
-                    @*@Html.CheckBoxDropDownList("chkSystem", ViewBag.SystemList as IEnumerable<SelectListItem>, new { @class = "chkSystem" })*@
+                    @foreach (var item in (ViewBag.SystemList as IEnumerable<SelectListItem>)!)
+                    {
+                        <div>
+                            <input checked="checked" class="chkSystem" id="@("chkSystem" + item.Value)" name="chkSystem" type="checkbox" value="@item.Value">
+                            <label class="font-normal" for="@("chkSystem" + item.Value)">@item.Text</label>
+                        </div>
+                    }
                 </div>
                 <div class="grid1" style="line-height: 170px; text-align: left">
                     <span class="red">(*)</span>

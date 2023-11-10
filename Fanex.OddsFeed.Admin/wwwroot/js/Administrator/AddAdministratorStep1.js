@@ -170,7 +170,7 @@ function ValidateParams_AddAdministrator() {
 function DoAdd_Administrator(isDone) {
     $("#success-message-box").addClass("hidden");
     var addParams = {
-        UserName: $.trim($("#txtUsername").val())
+        Username: $.trim($("#txtUsername").val())
     };
 
     $.ajax({
