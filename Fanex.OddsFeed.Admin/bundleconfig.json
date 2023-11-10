@@ -111,7 +111,7 @@
             "wwwroot/js/Libs/msgbox/msgbox-0.0.1.js",
             "wwwroot/js/Libs/select2.min.js",
             "wwwroot/js/Libs/birthdaypicker.js",
-            //"wwwroot/js/Libs/common.js",
+            "wwwroot/js/Libs/common.js",
             "wwwroot/js/Libs/Core.js",
             "wwwroot/js/Libs/fullcalendar.js",
             "wwwroot/js/Libs/fxHeader.js",

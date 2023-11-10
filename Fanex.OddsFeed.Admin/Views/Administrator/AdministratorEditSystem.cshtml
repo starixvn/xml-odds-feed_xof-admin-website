@@ -72,7 +72,14 @@
                         </label><input type="checkbox" id="chkAllSystem" />
                     </div>
                     <div class="grid6 licensee-list">
-                        @*@Html.CheckBoxDropDownListFor(a => a.SystemList, ViewBag.SystemListID as IEnumerable<SelectListItem>, new { @class = "chkSystem" })*@
+                        @foreach (var item in (ViewBag.SystemListID as IEnumerable<SelectListItem>)!)
+                        {
+                            <div class="">
+                                <input @(Model.SystemList.Count(x => x.Equals(item.Value)) > 0 ? "checked" : "")
+                                    class="chkSystem" id="@("SystemList" + item.Value)" name="SystemList" type="checkbox" value="@item.Value">
+                                <label class="font-normal" for="@("SystemList" + item.Value)">@item.Text</label>
+                            </div>
+                        }
                     </div>
                     <div class="grid1">
                         <span style="line-height: 170px; text-align: left" class="red">(*)</span>
