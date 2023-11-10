@@ -60,7 +60,7 @@
 //--------------------------------------------------------------------------------------------------------------------
 function editActive(obj, userId) {
     if ($(obj).hasClass('ico-tick')) {
-        confirm('Do you want to deactivate this sub-account ?', function () {
+        confirm('Do you want to deactivate this sub-account?', function () {
             $(obj).removeClass('ico-tick').addClass('ico-untick');
             var url = 'EditActive?userId=' + userId + '&isActive=false';
             $.ajax({
@@ -84,7 +84,7 @@ function editActive(obj, userId) {
             });
         });
     } else {
-        confirm('Do you want to activate this sub-account ?', function () {
+        confirm('Do you want to activate this sub-account?', function () {
             $(obj).removeClass('ico-untick').addClass('ico-tick');
             var url = 'EditActive?userId=' + userId + '&isActive=true';
             $.ajax({

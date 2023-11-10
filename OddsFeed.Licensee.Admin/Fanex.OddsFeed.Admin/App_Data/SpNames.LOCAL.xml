@@ -101,7 +101,7 @@
         <Setting Key="Odds_AllCountrySel" SpName="Odds_AllCountrySel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
         <Setting Key="Odds_SupportedSportSel" SpName="Odds_SupportedSportSel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
         <Setting Key="Odds_Language_GetAll" SpName="Odds_Language_GetAll" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
-        <Setting Key="Odds_LicenseeSel" SpName="Odds_LicenseeSel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+        <Setting Key="Odds_LicenseeSel" SpName="Odds_LicenseeSel_xtest" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
         <Setting Key="Odds_LeagueSel" SpName="Odds_LeagueSel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
         <Setting Key="Odds_OutRightsSel" SpName="Odds_OutRightsSel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
         <Setting Key="Odds_LicenseeIns" SpName="Odds_LicenseeIns" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />

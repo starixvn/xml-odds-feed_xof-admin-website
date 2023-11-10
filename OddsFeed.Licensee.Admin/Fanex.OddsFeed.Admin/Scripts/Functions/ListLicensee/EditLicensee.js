@@ -66,7 +66,7 @@ function editActive(obj, licenseeID) {
 
     if ($(obj).hasClass('ico-tick')) {
 
-        confirm('Do you want to deactivate this licensee ?', function () {
+        confirm('Do you want to deactivate this licensee?', function () {
             $(obj).removeClass('ico-tick').addClass('ico-untick');
 
             var url = 'EditActive?SystemID=' + licenseeID + '&IsActive=false';

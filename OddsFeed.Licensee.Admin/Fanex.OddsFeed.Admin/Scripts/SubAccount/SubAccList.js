@@ -74,19 +74,37 @@ function renderBodyRows(users) {
     return rows;
 }
 
-function Search() {
+function Search(sortColumnName, sortDirection) {
     $('#PageSize').val(_pageSize);
     $('#PageIndex').val(_pageIndex);
+
+    var typeSort = 0;
+    // 1 --> Active || 2 --> CreatedDate || 3 --> Creator  
+    switch (sortColumnName) {
+        case "IsActive":
+            typeSort = 1;
+            break;
+        case "CreatedDate":
+            typeSort = 2;
+            break;
+        case "Creator":
+            typeSort = 3;
+            break;
+        default:
+            break;
+    }
 
     var searchParams = {
         Username: $("#Username").val(),
         IsActive: $("#isActive option:selected").val(),
+        SortByID: typeSort,
+        IsSortAsc: sortDirection === "asc" ? 1 : 0,
         PageSize: _pageSize,
         PageIndex: _pageIndex
     };
 
     $.ajax({
-        url: currentDomainURL + "SubAccount/GetSubAccountList",
+        url:  "GetSubAccountList",
         type: 'POST',
         dataType: "json",
         contentType: "application/json; charset=utf-8",
@@ -99,21 +117,24 @@ function Search() {
                     { HeaderText: "#", Width: 20, Name: "Row", HeaderAlign: "center", CellAlign: "center" },
                     { HeaderText: "Username", Width: 150, Name: "Username", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true },
                     { HeaderText: "Action", Width: 50, Name: "Action", HeaderAlign: "center", CellAlign: "center" },
-                    { HeaderText: "Active", Width: 70, Name: "IsActive", HeaderAlign: "center", CellAlign: "center", CssClass: "header-mt", Sort: true },
+                    {
+                        HeaderText: "Active", Width: 70, Name: "IsActive", HeaderAlign: "center", CellAlign: "center", CssClass: "header-mt",
+                        Sort: true,
+                        SortDirection: sortColumnName === "IsActive" ? sortDirection : ''
+                    },
                     { HeaderText: "First Name", Width: 120, Name: "FirstName", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true },
                     { HeaderText: "Last Name", Width: 120, Name: "LastName", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true },
                     { HeaderText: "Email", Width: 170, Name: "Email", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true },
-                    { HeaderText: "Creator", Width: 120, Name: "Creator", HeaderAlign: "center", CellAlign: "left", CssClass: "header-mt", AllowTruncate: true, Sort: true },
+                    {
+                        HeaderText: "Creator", Width: 120, Name: "Creator", HeaderAlign: "center", CellAlign: "left", CssClass: "header-mt", AllowTruncate: true,
+                        Sort: true,
+                        SortDirection: sortColumnName === "Creator" ? sortDirection : ''
+                    },
                     {
                         HeaderText: "Created Date", Width: 120, Name: "CreatedDate", HeaderAlign: "center", CellAlign: "center", CssClass: "header-mt",
-                        Sort: true, FormatDateTime: 'DD MMM YYYY HH:mm:ss', CustomSortFunction: function (col1Value, col2Value, sortDirection) {
-                            if (sortDirection === 'asc') {
-                                return moment(col1Value).diff(col2Value);
-                            } else {
-                                return moment(col2Value).diff(col1Value);
-                            }
-                        }
-}
+                        Sort: true, FormatDateTime: 'DD MMM YYYY HH:mm:ss', 
+                        SortDirection: sortColumnName === "CreatedDate" ? sortDirection : ''
+                    }
                 ],
                 bodyRows: renderBodyRows(result.data),
                 hideYBackGroundScroller: true,
@@ -128,12 +149,8 @@ function Search() {
                     pagerSelectCallBack: ReRenderAfterPaged
                 },
                 sortOption: {
-                    afterGridSorted: function (bodyRows, columnName, currentDirection) {
-                        $("#SearchResult").find('table#tblContent_SearchResult td.free-grid-td-0').each(function (index, item) {
-                            $(item).find('div.table-cell').html(index + 1);
-                        });
-
-                        return bodyRows;
+                    serverSortFunction: function (sortColumnName, sortDirection) {
+                        Search(sortColumnName, sortDirection);
                     }
                 }
             };

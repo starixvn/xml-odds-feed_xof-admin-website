@@ -95,9 +95,28 @@ function renderBodyRows(users) {
     return rows;
 }
 
-function Search(typeSort, isSortAsc) {
+function Search(sortColumnName, sortDirection) {
     $('#PageSize').val(_pageSize);
     $('#PageIndex').val(_pageIndex);
+
+    var typeSort = 0;
+    //1 --> Active || 2 --> CreatedDate || 3 --> Creator  || 4 --> Role
+    switch (sortColumnName) {
+        case "isactive":
+            typeSort = 1;
+            break;
+        case "createdate":
+            typeSort = 2;
+            break;
+        case "creator":
+            typeSort = 3;
+            break;
+        case "rolename":
+            typeSort = 4;
+            break;
+        default:
+            break;
+    }
 
     var searchParams = {
         SystemID: $("#SystemID option:selected").val(),
@@ -105,7 +124,7 @@ function Search(typeSort, isSortAsc) {
         IsActive: $("#isActive option:selected").val(),
         RoleID: $("#RoleID option:selected").val(),
         SortByID: typeSort,
-        IsSortAsc: isSortAsc,
+        IsSortAsc: sortDirection === "asc" ? 1 : 0,
         PageSize: _pageSize,
         PageIndex: _pageIndex
     };
@@ -127,15 +146,28 @@ function Search(typeSort, isSortAsc) {
                         TdClass: "boldusername", CssClass: "boldusername", HeaderAlign: "center", CellAlign: "left"
                     },
                     { HeaderText: "Action", Width: 50, Name: "action", HeaderAlign: "center", CellAlign: "center" },
-                    { HeaderText: "Active", Width: 65, Name: "isactive", HeaderAlign: "center", CellAlign: "center", CssClass: "header-mt", Sort: true },
-                    { HeaderText: "Role", Width: 120, Name: "rolename", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true, CssClass: "header-mt", Sort: true },
+                    {
+                        HeaderText: "Active", Width: 65, Name: "isactive", HeaderAlign: "center", CellAlign: "center", CssClass: "header-mt",
+                        Sort: true,
+                        SortDirection: sortColumnName === "isactive" ? sortDirection : ''
+                    },
+                    {
+                        HeaderText: "Role", Width: 120, Name: "rolename", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true, CssClass: "header-mt",
+                        Sort: true,
+                        SortDirection: sortColumnName === "rolename" ? sortDirection : ''
+                    },
                     { HeaderText: "First Name", Width: 100, Name: "firstname", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true },
                     { HeaderText: "Last Name", Width: 100, Name: "lastname", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true },
                     { HeaderText: "Email", Width: 170, Name: "email", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true },
-                    { HeaderText: "Creator", Width: 110, Name: "creator", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true, CssClass: "header-mt", Sort: true },
+                    {
+                        HeaderText: "Creator", Width: 110, Name: "creator", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true, CssClass: "header-mt",
+                        Sort: true,
+                        SortDirection: sortColumnName === "creator" ? sortDirection : ''
+                    },
                     {
                         HeaderText: "Created Date", Width: 120, Name: "createdate", HeaderAlign: "center", CellAlign: "center", CssClass: "header-mt",
-                        Sort: true, FormatDateTime: 'DD MMM YYYY HH:mm:ss'
+                        Sort: true, FormatDateTime: 'DD MMM YYYY HH:mm:ss',
+                        SortDirection: sortColumnName === "createdate" ? sortDirection : ''
                     }
                 ],
                 bodyRows: renderBodyRows(result.data),
@@ -152,38 +184,15 @@ function Search(typeSort, isSortAsc) {
                 },
                 sortOption: {
                     serverSortFunction: function (sortColumnName, sortDirection) {
-                        var isSortAsc = sortDirection === "asc"
-                        var typeSort = 0;
-                        if (sortColumnName === "isactive") typeSort = 1;
-                        if (sortColumnName === "rolename") typeSort = 4;
-                        if (sortColumnName === "creator") typeSort = 3;
-                        if (sortColumnName === "createdate") typeSort = 2;
-                        
-                        Search(typeSort, isSortAsc);
+                        Search(sortColumnName, sortDirection);
                     }
 
                 }
             };
 
             $("#SearchResult").fanexGrid(gridOptions);
-            ChangeIconSort(typeSort, isSortAsc);
         }
     });
-}
-
-function ChangeIconSort(typeSort, isSortAsc) {
-    if (isSortAsc === true) {
-        if (typeSort === 1) $('#SearchResult_header_sort_isactive .divSorter').removeClass('asc').removeClass('desc').addClass('asc')
-        if (typeSort === 2) $('#SearchResult_header_sort_createdate .divSorter').removeClass('asc').removeClass('desc').addClass('asc')
-        if (typeSort === 3) $('#SearchResult_header_sort_creator .divSorter').removeClass('asc').removeClass('desc').addClass('asc')
-        if (typeSort === 4) $('#SearchResult_header_sort_rolename .divSorter').removeClass('asc').removeClass('desc').addClass('asc')
-    }
-    else if (isSortAsc === false) {
-        if (typeSort === 1) $('#SearchResult_header_sort_isactive .divSorter').removeClass('asc').removeClass('desc').addClass('desc')
-        if (typeSort === 2) $('#SearchResult_header_sort_createdate .divSorter').removeClass('asc').removeClass('desc').addClass('desc')
-        if (typeSort === 3) $('#SearchResult_header_sort_creator .divSorter').removeClass('asc').removeClass('desc').addClass('desc')
-        if (typeSort === 4) $('#SearchResult_header_sort_rolename .divSorter').removeClass('asc').removeClass('desc').addClass('desc')
-    }
 }
 
 function ShowAction(user) {

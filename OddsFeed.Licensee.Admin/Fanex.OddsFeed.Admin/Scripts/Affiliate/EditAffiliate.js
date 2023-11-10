@@ -11,7 +11,7 @@
 //--------------------------------------------------------------------------------------------------------------------
 function editActive(obj, affId) {
     if ($(obj).hasClass('ico-tick')) {
-        confirm('Do you want to deactivate this affiliate ?', function () {
+        confirm('Do you want to deactivate this affiliate?', function () {
             $(obj).removeClass('ico-tick').addClass('ico-untick');
 
             $.ajax({
@@ -31,7 +31,7 @@ function editActive(obj, affId) {
             });
         });
     } else {
-        confirm('Do you want to activate this affiliate ?', function () {
+        confirm('Do you want to activate this affiliate?', function () {
             $(obj).removeClass('ico-untick').addClass('ico-tick');
 
             $.ajax({
