@@ -32,7 +32,8 @@
         public int ErrCode { get; set; }
         public string ErrMsg { get; set; }
         public short? IsActive { get; set; }
-
+        public short SortByID { get; set; }
+        public bool IsSortAsc { get; set; }
         // Ignored
         [SpParam(Ignored = true)]
         public int UserID { get; set; }

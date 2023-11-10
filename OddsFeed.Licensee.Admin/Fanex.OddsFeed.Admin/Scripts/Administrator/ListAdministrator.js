@@ -95,7 +95,7 @@ function renderBodyRows(users) {
     return rows;
 }
 
-function Search() {
+function Search(typeSort, isSortAsc) {
     $('#PageSize').val(_pageSize);
     $('#PageIndex').val(_pageIndex);
 
@@ -104,6 +104,8 @@ function Search() {
         Username: $("#Username").val(),
         IsActive: $("#isActive option:selected").val(),
         RoleID: $("#RoleID option:selected").val(),
+        SortByID: typeSort,
+        IsSortAsc: isSortAsc,
         PageSize: _pageSize,
         PageIndex: _pageIndex
     };
@@ -133,13 +135,7 @@ function Search() {
                     { HeaderText: "Creator", Width: 110, Name: "creator", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true, CssClass: "header-mt", Sort: true },
                     {
                         HeaderText: "Created Date", Width: 120, Name: "createdate", HeaderAlign: "center", CellAlign: "center", CssClass: "header-mt",
-                        Sort: true, FormatDateTime: 'DD MMM YYYY HH:mm:ss', CustomSortFunction: function (col1Value, col2Value, sortDirection) {
-                            if (sortDirection === 'asc') {
-                                return moment(col1Value).diff(col2Value);
-                            } else {
-                                return moment(col2Value).diff(col1Value);
-                            }
-                        }
+                        Sort: true, FormatDateTime: 'DD MMM YYYY HH:mm:ss'
                     }
                 ],
                 bodyRows: renderBodyRows(result.data),
@@ -155,19 +151,39 @@ function Search() {
                     pagerSelectCallBack: ReRenderAfterPaged
                 },
                 sortOption: {
-                    afterGridSorted: function (bodyRows, columnName, currentDirection) {
-                        $("#SearchResult").find('table#tblContent_SearchResult td.free-grid-td-0').each(function (index, item) {
-                            $(item).find('div.table-cell').html(index + 1);
-                        });
-
-                        return bodyRows;
+                    serverSortFunction: function (sortColumnName, sortDirection) {
+                        var isSortAsc = sortDirection === "asc"
+                        var typeSort = 0;
+                        if (sortColumnName === "isactive") typeSort = 1;
+                        if (sortColumnName === "rolename") typeSort = 4;
+                        if (sortColumnName === "creator") typeSort = 3;
+                        if (sortColumnName === "createdate") typeSort = 2;
+                        
+                        Search(typeSort, isSortAsc);
                     }
+
                 }
             };
 
             $("#SearchResult").fanexGrid(gridOptions);
+            ChangeIconSort(typeSort, isSortAsc);
         }
     });
+}
+
+function ChangeIconSort(typeSort, isSortAsc) {
+    if (isSortAsc === true) {
+        if (typeSort === 1) $('#SearchResult_header_sort_isactive .divSorter').removeClass('asc').removeClass('desc').addClass('asc')
+        if (typeSort === 2) $('#SearchResult_header_sort_createdate .divSorter').removeClass('asc').removeClass('desc').addClass('asc')
+        if (typeSort === 3) $('#SearchResult_header_sort_creator .divSorter').removeClass('asc').removeClass('desc').addClass('asc')
+        if (typeSort === 4) $('#SearchResult_header_sort_rolename .divSorter').removeClass('asc').removeClass('desc').addClass('asc')
+    }
+    else if (isSortAsc === false) {
+        if (typeSort === 1) $('#SearchResult_header_sort_isactive .divSorter').removeClass('asc').removeClass('desc').addClass('desc')
+        if (typeSort === 2) $('#SearchResult_header_sort_createdate .divSorter').removeClass('asc').removeClass('desc').addClass('desc')
+        if (typeSort === 3) $('#SearchResult_header_sort_creator .divSorter').removeClass('asc').removeClass('desc').addClass('desc')
+        if (typeSort === 4) $('#SearchResult_header_sort_rolename .divSorter').removeClass('asc').removeClass('desc').addClass('desc')
+    }
 }
 
 function ShowAction(user) {

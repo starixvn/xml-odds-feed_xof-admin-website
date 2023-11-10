@@ -62,17 +62,19 @@ function renderBodyRows(licensees) {
     return rows;
 }
 
-function Submit() {
+function Submit(typeSort, isSortAsc) {
     $(".result-message-box").addClass("hidden");
     var searchParams = {
         SystemName: $.trim($("#SystemName").val()),
         IsActive: $("#isActive option:selected").val(),
+        SortByID: typeSort,
+        IsSortAsc: isSortAsc,
         PageSize: PageSize,
         PageIndex: PageIndex
     };
 
     $.ajax({
-        url: currentDomainURL + "Licensee/GetLicenseeByName",
+        url: "GetLicenseeByName",
         type: 'POST',
         dataType: "json",
         contentType: "application/json; charset=utf-8",
@@ -88,22 +90,12 @@ function Submit() {
                     { HeaderText: "Active", Width: 80, Name: "IsActive", HeaderAlign: "center", CellAlign: "center", CssClass: "header-mt", Sort: true },
                     {
                         HeaderText: "Created Date", Width: 120, Name: "CreatedDate", HeaderAlign: "center", CellAlign: "center", CssClass: "header-mt",
-                        Sort: true, FormatDateTime: 'DD MMM YYYY HH:mm:ss', CustomSortFunction: function (col1Value, col2Value, sortDirection) {
-                            if (sortDirection === 'asc') {
-                                return moment(col1Value).diff(col2Value);
-                            } else {
-                                return moment(col2Value).diff(col1Value);
-                            }
-                        }                    },
+                        Sort: true, FormatDateTime: 'DD MMM YYYY HH:mm:ss'
+                     },
                     {
                         HeaderText: "Last Update", Width: 120, Name: "LastUpdate", HeaderAlign: "center", CellAlign: "center", CssClass: "header-mt",
-                        Sort: true, FormatDateTime: 'DD MMM YYYY HH:mm:ss', CustomSortFunction: function (col1Value, col2Value, sortDirection) {
-                            if (sortDirection === 'asc') {
-                                return moment(col1Value).diff(col2Value);
-                            } else {
-                                return moment(col2Value).diff(col1Value);
-                            }
-                        }                    },
+                        Sort: true, FormatDateTime: 'DD MMM YYYY HH:mm:ss'
+                    },
                     { HeaderText: "Creator", Width: 120, Name: "Creator", HeaderAlign: "center", CellAlign: "left", CssClass: "header-mt", Sort: true },
                     { HeaderText: "Contact Email", Width: 200, Name: "ContactEmail", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true }
                 ],
@@ -120,20 +112,38 @@ function Submit() {
                     pagerSelectCallBack: ReRenderAfterPaged
                 },
                 sortOption: {
-                    afterGridSorted: function (bodyRows, columnName, currentDirection) {
-                        $("#SearchResult").find('table#tblContent_SearchResult td.free-grid-td-0').each(function (index, item) {
-                            $(item).find('div.table-cell').html(index + 1);
-                        });
-
-                        return bodyRows;
+                    serverSortFunction: function (sortColumnName, sortDirection) {
+                        var isSortAsc = sortDirection === "asc"
+                        var typeSort = 0;
+                        if (sortColumnName === "IsActive") typeSort = 1;
+                        if (sortColumnName === "CreatedDate") typeSort = 2;
+                        //if (sortColumnName === "LastUpdate") typeSort = 3;
+                        if (sortColumnName === "Creator") typeSort = 3;
+                        
+                        Submit(typeSort, isSortAsc);
                     }
                 }
             };
 
             $("#SearchResult").fanexGrid(gridOptions);
-
+            ChangeIconSort(typeSort, isSortAsc);
         }
     });
+}
+
+function ChangeIconSort(typeSort, isSortAsc) {
+    if (isSortAsc === true) {
+        if (typeSort === 1) $('#SearchResult_header_sort_IsActive .divSorter').removeClass('asc').removeClass('desc').addClass('asc')
+        if (typeSort === 2) $('#SearchResult_header_sort_CreatedDate .divSorter').removeClass('asc').removeClass('desc').addClass('asc')
+        if (typeSort === 3) $('#SearchResult_header_sort_Creator .divSorter').removeClass('asc').removeClass('desc').addClass('asc')
+        //if (typeSort === 4) $('#SearchResult_header_sort_LastUpdate .divSorter').removeClass('asc').removeClass('desc').addClass('asc')
+    }
+    else if (isSortAsc === false) {
+        if (typeSort === 1) $('#SearchResult_header_sort_IsActive .divSorter').removeClass('asc').removeClass('desc').addClass('desc')
+        if (typeSort === 2) $('#SearchResult_header_sort_CreatedDate .divSorter').removeClass('asc').removeClass('desc').addClass('desc')
+        if (typeSort === 3) $('#SearchResult_header_sort_Creator .divSorter').removeClass('asc').removeClass('desc').addClass('desc')
+        //if (typeSort === 4) $('#SearchResult_header_sort_LastUpdate .divSorter').removeClass('asc').removeClass('desc').addClass('desc')
+    }
 }
 
 function ReRenderAfterPaged(page_index, itemsPerPage, jq) {
