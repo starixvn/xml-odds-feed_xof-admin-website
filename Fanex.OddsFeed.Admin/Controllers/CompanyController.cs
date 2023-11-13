@@ -14,7 +14,12 @@ namespace Fanex.OddsFeed.Admin.Controllers
     [IsAuthorize]
     public class CompanyController : BaseController
     {
-        public CompanyController(ICurrentContext currentContext, ICurrentSession currentSession, IBaseService baseService) : base(currentContext, currentSession, baseService)
+        public CompanyController(
+            ICurrentContext currentContext, 
+            ICurrentSession currentSession, 
+            IBaseService baseService,
+            string feedUrlPath,
+            string virtualPathWebService) : base(currentContext, currentSession, baseService, feedUrlPath, virtualPathWebService)
         {
         }
 

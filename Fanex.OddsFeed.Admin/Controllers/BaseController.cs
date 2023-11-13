@@ -21,11 +21,15 @@
         protected readonly ICurrentContext currentContext;
         protected readonly ICurrentSession currentSession;
         protected readonly IBaseService baseService;
+        private readonly string feedUrlPath;
+        private readonly string virtualPathWebService;
 
         public BaseController(
             ICurrentContext currentContext,
             ICurrentSession currentSession,
-            IBaseService baseService)
+            IBaseService baseService,
+            string feedUrlPath,
+            string virtualPathWebService)
         {
             this.currentContext = currentContext;
             this.currentSession = currentSession ?? new CurrentSession()
@@ -39,6 +43,8 @@
             ViewBag.MaxDate = DateTime.Now;
             ViewBag.CurrentTheme = "Default";
             ViewBag.IsDashboard = false;
+            this.feedUrlPath = feedUrlPath;
+            this.virtualPathWebService = virtualPathWebService;
         }
 
         public string GetMessage(int errCode)
@@ -85,21 +91,21 @@
 
         #region Common
 
-        public static string GetVirtualPath()
+        public string GetVirtualPath()
         {
-            var feedUrlPath = Startup.StaticConfig.GetConnectionString("FeedUrlPath");
-            if (!string.IsNullOrEmpty(feedUrlPath))
+            var fUrlPath = feedUrlPath;
+            if (!string.IsNullOrEmpty(fUrlPath))
             {
-                feedUrlPath += "/";
+                fUrlPath += "/";
             }
 
-            var virtualPathWebService = Startup.StaticConfig.GetConnectionString("VirtualPathWebService");
-            if (!string.IsNullOrEmpty(virtualPathWebService))
+            var vPathWebService = virtualPathWebService;
+            if (!string.IsNullOrEmpty(vPathWebService))
             {
-                virtualPathWebService += "/";
+                vPathWebService += "/";
             }
 
-            return virtualPathWebService + feedUrlPath;
+            return vPathWebService + fUrlPath;
         }
 
         public List<SelectListItem> GenerateDelayTime()

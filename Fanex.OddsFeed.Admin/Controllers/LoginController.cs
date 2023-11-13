@@ -20,7 +20,9 @@
             ICurrentSession currentSession,
             IHttpContextAccessor httpContextAccessor,
             IUserService userService,
-            IBaseService baseService) : base(currentContext, currentSession, baseService)
+            IBaseService baseService, 
+            string feedUrlPath,
+            string virtualPathWebService) : base(currentContext, currentSession, baseService, feedUrlPath, virtualPathWebService)
         {
             this.httpContextAccessor = httpContextAccessor;
             this.userService = userService;
