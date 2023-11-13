@@ -20,7 +20,9 @@ namespace Fanex.OddsFeed.Admin.Controllers
             ICurrentSession currentSession,
             IHttpContextAccessor httpContextAccessor,
             IBaseService baseService,
-            IDashboardService dashboardService) : base(currentContext, currentSession, baseService)
+            IDashboardService dashboardService,
+            string feedUrlPath,
+            string virtualPathWebService) : base(currentContext, currentSession, baseService, feedUrlPath, virtualPathWebService)
         {
             _httpContextAccessor = httpContextAccessor;
             this.dashboardService = dashboardService;

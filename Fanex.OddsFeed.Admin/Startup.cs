@@ -47,6 +47,13 @@
             services.AddHttpContextAccessor();
             services.AddDistributedMemoryCache();
 
+            var feedUrlPath = Configuration.GetSection("FeedUrlPath").Get<string>();
+            services.AddSingleton(feedUrlPath);
+
+            var virtualPathWebService = Configuration.GetSection("VirtualPathWebService").Get<string>();
+            services.AddSingleton(virtualPathWebService);
+
+
             LogManager
                .SetDefaultLogCategory(Configuration.GetSection("Fanex.Logging:LogCategory").Value)
                .Use(new List<ILogEngine>

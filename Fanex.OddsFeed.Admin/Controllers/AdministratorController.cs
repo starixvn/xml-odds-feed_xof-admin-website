@@ -23,7 +23,9 @@
         public AdministratorController(IUserService userService,
             ICurrentContext currentContext,
             ICurrentSession currentSession,
-            IBaseService baseService) : base(currentContext, currentSession, baseService)
+            IBaseService baseService,
+            string feedUrlPath,
+            string virtualPathWebService) : base(currentContext, currentSession, baseService, feedUrlPath, virtualPathWebService)
         {
             this.userService = userService;
         }

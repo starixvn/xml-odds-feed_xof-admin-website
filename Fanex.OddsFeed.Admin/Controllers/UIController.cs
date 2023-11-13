@@ -14,7 +14,9 @@
     {
         public UIController(ICurrentContext currentContext, 
             ICurrentSession currentSession, 
-            IBaseService baseService) : base(currentContext, currentSession, baseService)
+            IBaseService baseService,
+            string feedUrlPath,
+            string virtualPathWebService) : base(currentContext, currentSession, baseService, feedUrlPath, virtualPathWebService)
         {
         }
 
