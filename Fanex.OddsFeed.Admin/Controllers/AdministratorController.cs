@@ -12,6 +12,7 @@
     using Core.Web.Context;
     using Core.Web.Session;
     using Data;
+    using Fanex.OddsFeed.Core.Criteria.Licensee;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -163,7 +164,7 @@
         #region Update administrator's profile information
 
         [HttpGet]
-        public IActionResult AdministratorEditProfile(int id, string username)
+        public async Task<IActionResult> AdministratorEditProfile(int id, string username)
         {
             if (id == 0)
             {
@@ -175,18 +176,18 @@
                 return this.NoAuthorization();
             }
 
-            User userInfo = userService.GetUserInfo(id);
+            User userInfo =await userService.GetUserInfo(id);
             ViewBag.CurrentUser = " of \"" + username + "\"";
             ViewBag.CurrentUserId = currentSession.UserId;
             var criteria = new UpdateAdminInfoCriteria { UserID = id, Username = username };
             if (userInfo != null)
             {
                 criteria.FirstName = userInfo.FirstName;
-                criteria.LastName = userInfo.LastName;
+                criteria.LastName = userInfo.LastName;      
                 criteria.Email = userInfo.Email;
                 criteria.RoleID = userInfo.RoleID;
 
-                ViewBag.HasEditPermission = this.HasEditPermission(currentSession.UserRole, criteria.UserID);
+                ViewBag.HasEditPermission = await this.HasEditPermission(currentSession.UserRole, criteria.UserID);
                 if (!ViewBag.HasEditPermission)
                 {
                     ViewBag.Error = ViewResources.You_have_no_authorization;
@@ -205,7 +206,7 @@
             criteria.FirstName = criteria.FirstName ?? string.Empty;
             criteria.LastName = criteria.LastName ?? string.Empty;
 
-            if (!this.HasEditPermission(currentSession.UserRole, criteria.UserID))
+            if (!await this.HasEditPermission(currentSession.UserRole, criteria.UserID))
             {
                 result.Code = 1;
                 result.Message = ViewResources.You_can_not_update_this_administrator;
@@ -256,7 +257,7 @@
                         .Select(item => item.SystemId.ToString()).ToArray()
             };
 
-            ViewBag.HasEditPermission = this.HasEditPermission(currentSession.UserRole, criteria.UserID);
+            ViewBag.HasEditPermission = await this.HasEditPermission(currentSession.UserRole, criteria.UserID);
             if (!ViewBag.HasEditPermission)
             {
                 ViewBag.Error = ViewResources.You_have_no_authorization;
@@ -271,7 +272,7 @@
             criteria.Creator = currentSession.UserId;
             criteria.IP = currentContext.IP;
 
-            if (!this.HasEditPermission(currentSession.UserRole, criteria.UserID))
+            if (!await this.HasEditPermission(currentSession.UserRole, criteria.UserID))
             {
                 ViewBag.Success = false;
                 ViewBag.Error = ViewResources.You_can_not_update_this_administrator;
@@ -385,7 +386,7 @@
         public async Task<IActionResult> AdministratorResetPwd([FromBody] UpdateAdminPasswordCriteria criteria)
         {
             var result = new CommandResult();
-            if (!this.HasEditPermission(currentSession.UserRole, criteria.UserID))
+            if (!await this.HasEditPermission(currentSession.UserRole, criteria.UserID))
             {
                 result.Code = 1;
                 result.Message = ViewResources.You_can_not_update_this_administrator;
@@ -428,9 +429,9 @@
 
         #region Private methods
 
-        private bool HasEditPermission(int userRole, int editedUserId)
+        private async Task<bool> HasEditPermission(int userRole, int editedUserId)
         {
-            User userInfo = userService.GetUserInfo(editedUserId);
+            User userInfo = await userService.GetUserInfo(editedUserId);
             if (userInfo != null)
             {
                 var editedUserRole = userInfo.RoleID;
