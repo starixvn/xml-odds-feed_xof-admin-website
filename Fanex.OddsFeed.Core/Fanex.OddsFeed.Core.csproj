@@ -17,6 +17,18 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Criteria\Affiliate\GetAllDomainCriteria.cs">
+	    <SubType>Code</SubType>
+	  </Compile>
+	  <Compile Update="Criteria\Affiliate\GetBettypeBySystemIDCriteria.cs">
+	    <SubType>Code</SubType>
+	  </Compile>
+	  <Compile Update="Criteria\Affiliate\GetCountryBySystemIDCriteria.cs">
+	    <SubType>Code</SubType>
+	  </Compile>
+	  <Compile Update="Criteria\Affiliate\GetSportBySystemIDCriteria.cs">
+	    <SubType>Code</SubType>
+	  </Compile>
 	  <Compile Update="Criteria\User\UserGetPermissionCriteria.cs">
 	    <SubType>Code</SubType>
 	  </Compile>

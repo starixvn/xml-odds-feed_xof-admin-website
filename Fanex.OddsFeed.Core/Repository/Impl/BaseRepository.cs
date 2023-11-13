@@ -6,7 +6,6 @@
     using Fanex.Data;
     using Fanex.OddsFeed.Core.Model;
     using Fanex.OddsFeed.Core.Repository.Interface;
-    using static System.Runtime.CompilerServices.RuntimeHelpers;
 
     public class BaseRepository : IBaseRepository
     {

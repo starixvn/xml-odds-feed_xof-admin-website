@@ -95,6 +95,8 @@
             services.AddSingleton<IBaseService, BaseService>();
             services.AddSingleton<IUserService, UserService>();
             services.AddSingleton<IDashboardService, DashboardService>();    
+            services.AddSingleton<IAffiliateService, AffiliateService>();    
+            services.AddSingleton<ILicenseeService, LicenseeService>();    
         }
 
         private void InjectRepository(IServiceCollection services)
@@ -102,6 +104,8 @@
             services.AddSingleton<IDynamicRepository, DynamicRepository>();
             services.AddSingleton<IBaseRepository, BaseRepository>();
             services.AddSingleton<IUserRepository, UserRepository>();
+            services.AddSingleton<IAffiliateRepository, AffiliateRepository>();
+            services.AddSingleton<ILicenseeRepository, LicenseeRepository>();
         }
 
         public static void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -1,16 +1,15 @@
-﻿using System.Drawing.Printing;
-using System.Text;
-using Fanex.OddsFeed.Core.Criteria.Dashboard;
-using Fanex.OddsFeed.Core.Model;
-using Fanex.OddsFeed.Core.Model.Report;
-using Fanex.OddsFeed.Core.Service.Interface;
-using Fanex.OddsFeed.Core.Web.Attribute;
-using Fanex.OddsFeed.Core.Web.Context;
-using Fanex.OddsFeed.Core.Web.Session;
-using Microsoft.AspNetCore.Mvc;
-
-namespace Fanex.OddsFeed.Admin.Controllers
+﻿namespace Fanex.OddsFeed.Admin.Controllers
 {
+    using System.Text;
+    using Fanex.OddsFeed.Core.Criteria.Dashboard;
+    using Fanex.OddsFeed.Core.Model;
+    using Fanex.OddsFeed.Core.Model.Report;
+    using Fanex.OddsFeed.Core.Service.Interface;
+    using Fanex.OddsFeed.Core.Web.Attribute;
+    using Fanex.OddsFeed.Core.Web.Context;
+    using Fanex.OddsFeed.Core.Web.Session;
+    using Microsoft.AspNetCore.Mvc;
+ 
     [IsAuthorize]
     public class DashboardController : BaseController
     {
