@@ -5,11 +5,7 @@
     using Fanex.OddsFeed.Core.Model;
     public interface IBaseService
     {
-        IList<T> GetData<T>(ICriteria criteria);
-
         Task<IEnumerable<T>> GetDataAsync<T>(ICriteria criteria);
-
-        T GetDataEntity<T>(ICriteria criteria);
 
         Task<T> GetDataEntityAsync<T>(ICriteria criteria);
 

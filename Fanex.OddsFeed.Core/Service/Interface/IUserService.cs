@@ -11,6 +11,6 @@
 
         Task ReUserCheckIn(UserReCheckInUserCriteria criteria);
 
-        User GetUserInfo(int userId);
+        Task<User> GetUserInfo(int userId);
     }
 }
