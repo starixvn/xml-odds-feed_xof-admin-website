@@ -19,16 +19,6 @@
             this.baseRepository = baseRepository;
         }
 
-        public IList<T> GetData<T>(ICriteria criteria)
-        {
-            if (criteria != null && criteria.IsValid())
-            {
-                return dynamicRepository.Fetch<T>(criteria).ToList();
-            }
-
-            return new List<T>();
-        }
-
         public async Task<IEnumerable<T>> GetDataAsync<T>(ICriteria criteria)
         {
             if (criteria != null && criteria.IsValid())
@@ -37,16 +27,6 @@
             }
 
             return new List<T>();
-        }
-
-        public T GetDataEntity<T>(ICriteria criteria)
-        {
-            if (criteria != null && criteria.IsValid())
-            {
-                return dynamicRepository.Get<T>(criteria);
-            }
-
-            return default(T);
         }
 
         public async Task<ValueTuple<IEnumerable<TFirst>, IEnumerable<TSecond>>> FetchMultipleAsync<TFirst, TSecond>(ICriteria criteria)

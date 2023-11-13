@@ -53,13 +53,13 @@
             }
         }
 
-        public User GetUserInfo(int userId)
+        public async Task<User> GetUserInfo(int userId)
         {
-            var criteria = new GetUserInfoCriteria
+            var criteria = new GetUserInfoCriterias
             {
                 UserId = userId
             };
-            return baseService.GetDataEntity<User>(criteria);
+            return await baseService.GetDataEntityAsync<User>(criteria);
         }
     }
 }

@@ -108,9 +108,9 @@
             return vPathWebService + fUrlPath;
         }
 
-        public List<SelectListItem> GenerateDelayTime()
+        public async Task<IEnumerable<SelectListItem>> GenerateDelayTime()
         {
-            var configs = baseService.GetData<SystemSetting>(new GetTypeSettingCriteria { SystemID = 0, Type = "Config" });
+            var configs = await baseService.GetDataAsync<SystemSetting>(new GetTypeSettingCriteria { SystemID = 0, Type = "Config" });
             var delayTimeList = new List<SelectListItem>();
             if (configs.Count() > 1)
             {
@@ -126,9 +126,9 @@
             return delayTimeList;
         }
 
-        public int GetMaxNumberOfIPs()
+        public async Task<int> GetMaxNumberOfIPs()
         {
-            var configs = baseService.GetData<SystemSetting>(new GetTypeSettingCriteria { SystemID = 0, Type = "Config" });
+            var configs = await baseService.GetDataAsync<SystemSetting>(new GetTypeSettingCriteria { SystemID = 0, Type = "Config" });
             return Converter.ToInt(configs.First(m => m.Key == "MaximumNumberOfIPs").Value);
         }
 
