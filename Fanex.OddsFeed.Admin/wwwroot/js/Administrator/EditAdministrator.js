@@ -66,7 +66,7 @@ function editActive(obj, user) {
         confirm(temp, function () {
             $(obj).removeClass('ico-tick').addClass('ico-untick');
 
-            var url = 'UpdateActive?adminid=' + user.id + '&isactive=false';
+            var url = 'UpdateActive?adminid=' + user.userId + '&isactive=false';
 
             //todo
             $.ajax({
@@ -94,7 +94,7 @@ function editActive(obj, user) {
         var temp = 'Do you want to activate administrator <b>\"' + user.username + '\"</b>?';
         confirm(temp, function () {
             $(obj).removeClass('ico-untick').addClass('ico-tick');
-            var url = 'UpdateActive?adminid=' + user.id + '&isactive=true';
+            var url = 'UpdateActive?adminid=' + user.userId + '&isactive=true';
 
             //todo
             $.ajax({
@@ -309,11 +309,11 @@ function UpdateAdministratorInfo() {
 
     var updateParams = {
         Username: $.trim($('#txtUsername').val()),
-        UserID: $('#txtid').val(),
+        UserID: parseInt($('#txtid').val(), 10),
         FirstName: $.trim($('#txtFirstname').val()),
         LastName: $.trim($('#txtLastname').val()),
         Email: $.trim($('#txtEmail').val()),
-        RoleID: $('.administratorRole').length > 0 ? $('.administratorRole:checked').val() : 3 //SubAcc's role = 3
+        RoleID: $('.administratorRole').length > 0 ? parseInt($('.administratorRole:checked').val(), 10) : 3 //SubAcc's role = 3
     };
 
     $.ajax({
@@ -326,7 +326,7 @@ function UpdateAdministratorInfo() {
         beforeSend: function (xhr) {
         },
         success: function (result) {
-            if (result && result.IsSuccessful) {
+            if (result && result.isSuccessful) {
                 $('#editStep1 .result-message-box')
                     .html("<ul><li>The Administrator's information has been updated successfully!</li></ul>")
                     .addClass('success-message-box')
@@ -343,7 +343,7 @@ function UpdateAdministratorInfo() {
                 }
             } else {
                 $('#editStep1 .result-message-box')
-                    .html('<ul><li>' + result.Message + '</li></ul>')
+                    .html('<ul><li>' + result.message + '</li></ul>')
                     .addClass('success-message-box')
                     .removeClass('error-message-box')
                     .removeClass('hidden');
@@ -376,16 +376,16 @@ function ResetPassword() {
         beforeSend: function (xhr) {
         },
         success: function (result) {
-            if (result && result.IsSuccessful) {
+            if (result && result.isSuccessful) {
                 $('#editStep1 .result-message-box').empty()
-                    .append('<ul><li>' + result.Message + '</li></ul>')
+                    .append('<ul><li>' + result.message + '</li></ul>')
                     .addClass('success-message-box')
                     .removeClass('error-message-box')
                     .removeClass('hidden');
                 OddsFeedAdminManager.confirmAfterSuccess(currentDomainURL + 'Administrator/AdministratorList');
             } else {
                 $('#editStep1 .result-message-box').empty()
-                    .append('<ul><li>' + result.Message + '</li></ul>')
+                    .append('<ul><li>' + result.message + '</li></ul>')
                     .addClass('error-message-box')
                     .removeClass('success-message-box')
                     .removeClass('hidden');

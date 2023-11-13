@@ -63,27 +63,27 @@ function renderBodyRows(users) {
     for (var i = 0; i < totalRows; i++) {
         var user = users[i];
         var colactive = '';
-        if (user.IsActive) {
-            colactive = "<a title='Deactivate this account' class='ico-tick' onclick='javascript:editActive(this, " + JSON.stringify({ userId: user.Id, username: user.Username }) + ");' />";
+        if (user.isActive) {
+            colactive = "<a title='Deactivate this account' class='ico-tick' onclick='javascript:editActive(this, " + JSON.stringify({ userId: user.id, username: user.username }) + ");' />";
         } else {
-            colactive = "<a title='Activate this account' class='ico-untick' onclick='javascript:editActive(this, " + JSON.stringify({ userId: user.Id, username: user.Username }) + ");' />";
+            colactive = "<a title='Activate this account' class='ico-untick' onclick='javascript:editActive(this, " + JSON.stringify({ userId: user.id, username: user.username }) + ");' />";
         }
 
         var row = {
             Columns: [
-                { Name: 'Row', Value: user.Row },
-                { Name: 'Username', Value: user.Username },
+                { Name: 'row', Value: user.row },
+                { Name: 'username', Value: user.username },
                 {
-                    Name: 'Action',
+                    Name: 'action',
                     Value: "<div class='btn-action' onclick='javascript:ShowAction(" + JSON.stringify(user) + ")'></div>"
                 },
-                { Name: 'Isactive', Value: colactive },
-                { Name: 'Rolename', Value: user.RoleName },
-                { Name: 'Firstname', Value: user.FirstName },
-                { Name: 'Lastname', Value: user.LastName },
-                { Name: 'Email', Value: user.Email },
-                { Name: 'Creator', Value: user.Creator },
-                { Name: 'Createdate', Value: user.CreateDate }
+                { Name: 'isactive', Value: colactive },
+                { Name: 'rolename', Value: user.roleName },
+                { Name: 'firstname', Value: user.firstName },
+                { Name: 'lastname', Value: user.lastName },
+                { Name: 'email', Value: user.email },
+                { Name: 'creator', Value: user.creator },
+                { Name: 'createdate', Value: user.createDate }
             ]
         };
 
@@ -97,41 +97,40 @@ function Search() {
     $('#PageSize').val(_pageSize);
     $('#PageIndex').val(_pageIndex);
 
-    var searchParams = JSON.stringify({
-        SystemID: parseInt($("#SystemID option:selected").val(), 10),
+    var searchParams = {
+        SystemID: $("#SystemID option:selected").val(),
         Username: $("#Username").val(),
         IsActive: parseInt($("#isActive option:selected").val()),
         RoleID: parseInt($("#RoleID option:selected").val()),
         PageSize: _pageSize,
         PageIndex: _pageIndex
-    });
+    };
 
     $.ajax({
-        url: currentDomainURL + "Administrator/GetListAdminBySystemAndNameAndRole",
+        url: "GetListAdminBySystemAndNameAndRole",
         type: 'POST',
-        cache: false,
         dataType: "json",
         contentType: "application/json; charset=utf-8",
-        data: searchParams,
-        async: true,
+        data: JSON.stringify(searchParams),
+        cache: false,
         success: function (result) {
             gridOptions =
             {
                 columns: [
-                    { HeaderText: "#", Width: 40, Name: "Row", HeaderAlign: "center", CellAlign: "center" },
+                    { HeaderText: "#", Width: 40, Name: "row", HeaderAlign: "center", CellAlign: "center" },
                     {
-                        HeaderText: "Username", Width: 100, Name: "Username", AllowTruncate: true,
+                        HeaderText: "Username", Width: 100, Name: "username", AllowTruncate: true,
                         TdClass: "boldusername", CssClass: "boldusername", HeaderAlign: "center", CellAlign: "left"
                     },
-                    { HeaderText: "Action", Width: 50, Name: "Action", HeaderAlign: "center", CellAlign: "center" },
-                    { HeaderText: "Active", Width: 65, Name: "Isactive", HeaderAlign: "center", CellAlign: "center", CssClass: "header-mt", Sort: true },
-                    { HeaderText: "Role", Width: 120, Name: "Rolename", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true, CssClass: "header-mt", Sort: true },
-                    { HeaderText: "First Name", Width: 100, Name: "Firstname", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true },
-                    { HeaderText: "Last Name", Width: 100, Name: "Lastname", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true },
-                    { HeaderText: "Email", Width: 170, Name: "Email", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true },
-                    { HeaderText: "Creator", Width: 110, Name: "Creator", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true, CssClass: "header-mt", Sort: true },
+                    { HeaderText: "Action", Width: 50, Name: "action", HeaderAlign: "center", CellAlign: "center" },
+                    { HeaderText: "Active", Width: 65, Name: "isactive", HeaderAlign: "center", CellAlign: "center", CssClass: "header-mt", Sort: true },
+                    { HeaderText: "Role", Width: 120, Name: "rolename", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true, CssClass: "header-mt", Sort: true },
+                    { HeaderText: "First Name", Width: 100, Name: "firstname", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true },
+                    { HeaderText: "Last Name", Width: 100, Name: "lastname", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true },
+                    { HeaderText: "Email", Width: 170, Name: "email", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true },
+                    { HeaderText: "Creator", Width: 110, Name: "creator", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true, CssClass: "header-mt", Sort: true },
                     {
-                        HeaderText: "Created Date", Width: 120, Name: "Createdate", HeaderAlign: "center", CellAlign: "center", CssClass: "header-mt",
+                        HeaderText: "Created Date", Width: 120, Name: "createdate", HeaderAlign: "center", CellAlign: "center", CssClass: "header-mt",
                         Sort: true, FormatDateTime: 'DD MMM YYYY HH:mm:ss', CustomSortFunction: function (col1Value, col2Value, sortDirection) {
                             if (sortDirection === 'asc') {
                                 return moment(col1Value).diff(col2Value);
@@ -170,12 +169,12 @@ function Search() {
 }
 
 function ShowAction(user) {
-    _adminId = user.Id;
-    _adminName = user.Username;
+    _adminId = user.id;
+    _adminName = user.username;
 
     $.contextMenu('destroy');
 
-    if (user.RoleID === 1) { //ITAdmin role
+    if (user.roleID === 1) { //ITAdmin role
         $.contextMenu({
             selector: '.btn-action',
             items: {
@@ -197,7 +196,7 @@ function ShowAction(user) {
                     callback: function (key, opt) {
                         var paramsString = $.param({
                             username: _adminName,
-                            role: user.RoleID
+                            role: user.roleID
                         });
                         window.location = currentDomainURL + "Administrator/AdministratorResetPwd/" + _adminId + "?" + paramsString;
                     }
@@ -218,7 +217,7 @@ function ShowAction(user) {
                     callback: function (key, opt) {
                         var paramsString = $.param({
                             username: _adminName,
-                            role: user.RoleID
+                            role: user.roleID
                         });
                         window.location = currentDomainURL + "Administrator/AdministratorEditSystem/" + _adminId + "?" + paramsString;
                     }
@@ -241,7 +240,7 @@ function ShowAction(user) {
                     callback: function (key, opt) {
                         var paramsString = $.param({
                             username: _adminName,
-                            role: user.RoleID
+                            role: user.roleID
                         });
 
                         window.location = currentDomainURL + "Administrator/AdministratorResetPwd/" + _adminId + "?" + paramsString;

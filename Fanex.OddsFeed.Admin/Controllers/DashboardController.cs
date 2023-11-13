@@ -75,10 +75,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
                 PageSize = Convert.ToInt16(pageSize)
             };
             var result = await baseService.GetDataGrid<RecentActivityStatistic>(criteria);
-            return new Utility.CustomJsonResult(result)
-            {
-                ContentType = "application/json",
-            };
+            return new Utility.CustomJsonResult(result);
         }
 
         private static string GenerateLogInInfoTable(IEnumerable<LoginInfoStatistic> records)

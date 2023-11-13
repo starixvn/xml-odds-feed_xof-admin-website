@@ -63,9 +63,9 @@
     });
 
     $("#Cancel").click(function () {
-        if (confirm('Do you want to exit for editing Company IP?')) {
+        confirm('Do you want to exit for editing Company IP?', function () {
             document.location = currentDomainURL + "Dashboard/ShowDashboard";
-        }
+        });
     });
 });
 //--------------------------------------------------------------------------------------------------------------------

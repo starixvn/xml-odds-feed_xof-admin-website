@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
     $("#newIP").click(function (IPFrom, IPTo) {
-        var valid = true;
+        let valid = true;
         valid = ValidateIP('add');
 
         //add new IP row
@@ -11,12 +11,12 @@
 });
 
 function addRow(IPFrom, IPTo, Description) {
-    var valid = true;
+    let valid = true;
     valid = ValidateIP('add');
 
     //add new IP row
     if (valid) {
-        var str = '';
+        let str = '';
         if (IPFrom == "" || IPFrom == undefined || IPTo == "" || IPTo == undefined) {
             str = "<tr><td><input name=\"FromIP\" type=\"text\" /></td><td><input name=\"ToIP\" type=\"text\" /></td><td><input name=\"Description\" type=\"text\" /></td><td><span style=\"padding-left:16px\"></span><span title='Save' class=\"action save\" onclick=\"SaveIPSetting(this,'','')\"  ></span><span style=\"padding-left:30px\"></span><span title='Delete' class=\"action del\" onclick=\"removeRow(this);\"></span></td></tr>";
         } else {
@@ -24,15 +24,15 @@ function addRow(IPFrom, IPTo, Description) {
         }
 
         $("#IpTable > tbody").append(str);
-        var h = $("#IpDiv").height();
+        let h = $("#IpDiv").height();
         $("#IpDiv").height(h + 30);
     }
 };
 
 function removeRow(obj, IPFromOld, IPToOld) {
 
-    var currentRow = $(obj).closest("tr");
-    var columns = $(currentRow).children();
+    let currentRow = $(obj).closest("tr");
+    let columns = $(currentRow).children();
 
     if (IPFromOld == undefined || IPToOld == undefined) {        
         IPFromOld = $(columns[0]).children()[0].value;
@@ -42,16 +42,14 @@ function removeRow(obj, IPFromOld, IPToOld) {
     if (IPFromOld != "" && IPToOld != "") {
         
         //check validation
-        var valid = ValidateUpdatingIP('saveOneIP', IPFromOld, IPToOld);
+        let valid = ValidateUpdatingIP('saveOneIP', IPFromOld, IPToOld);
         if (!valid) {
             return;
         }
-        if (confirm('Do you want to delete this IP range?')) {
+        confirm('Do you want to delete this IP range?', function () {
             $(".result-message-box").addClass("hidden");
 
-            var description = $(columns[2]).children()[0].value;
-
-            var updateParams = {
+            let updateParams = {
                 IPFromOld: IPFromOld,
                 IPToOld: IPToOld
             };
@@ -65,18 +63,18 @@ function removeRow(obj, IPFromOld, IPToOld) {
                 data: JSON.stringify(updateParams),
                 async: true,
                 success: function (result) {
-                    if (result && result.IsSuccessful) {
+                    if (result.isSuccessful) {
                         $(".result-message-box").empty()
-                            .append("<ul><li>" + result.Message + "</li></ul>")
+                            .append("<ul><li>" + result.message + "</li></ul>")
                             .addClass("success-message-box")
                             .removeClass("error-message-box")
                             .removeClass("hidden");
                     } else {
-                        GetErrorMessage(result.ErrorCode);
+                        GetErrorMessage(result.errorCode);
                     }
 
                     $(obj).closest("tr").remove();
-                    var h = $("#IpDiv").height();
+                    let h = $("#IpDiv").height();
                     $("#IpDiv").height(h - 30);
                     $("#IpTable").height(h - 30);
                     $('.content_scroll').eq(0).animate({ scrollTop: 0 }, 100);
@@ -84,13 +82,13 @@ function removeRow(obj, IPFromOld, IPToOld) {
                 error: function (xhr, status, err) {
                 }
             });
-        }
+        }) ;
     }
 };
 
 function getDataFromTable(id, type) {
-    var data = '';
-    var fields = $(id).find('input[name=' + type + ']').serializeArray();
+    let data = '';
+    let fields = $(id).find('input[name=' + type + ']').serializeArray();
 
     $.each(fields, function (i, field) {
         //        if (field.value.length != 0)
@@ -101,14 +99,14 @@ function getDataFromTable(id, type) {
 };
 
 function ValidateIP(action) {
-    var valid = true;
+    let valid = true;
 
-    var rows = $('#IpTable tbody tr');
+    let rows = $('#IpTable tbody tr');
     if (rows.length > 0) {
-        var lastRow = rows[rows.length - 1];
-        var columns = $(lastRow).children();
-        var inputFrom = $(columns[0]).children()[0].value;
-        var inputTo = $(columns[1]).children()[0].value;
+        let lastRow = rows[rows.length - 1];
+        let columns = $(lastRow).children();
+        let inputFrom = $(columns[0]).children()[0].value;
+        let inputTo = $(columns[1]).children()[0].value;
 
         //check validation for lastrow
         valid = ValidateUpdatingIP(action, inputFrom, inputTo);
@@ -123,19 +121,19 @@ function ValidateIP(action) {
 }
 function SaveIPSetting(obj, IpFromOld, IpToOld) {
     $(".result-message-box").addClass("hidden");
-    var valid = true;
-    var currentRow = $(obj).closest("tr");
-
-    var columns = $(currentRow).children();
-    var IpFrom = $(columns[0]).children()[0].value;
-    var IpTo = $(columns[1]).children()[0].value;
-    var description = $(columns[2]).children()[0].value;
+    let valid = true;
+    let currentRow = $(obj).closest("tr");
+    
+    let columns = $(currentRow).children();
+    let IpFrom = $(columns[0]).children()[0].value;
+    let IpTo = $(columns[1]).children()[0].value;
+    let description = $(columns[2]).children()[0].value;
 
     //check validation
     valid = ValidateUpdatingIP('saveOneIP', IpFrom, IpTo);
 
     if (!valid) return;
-    var data = JSON.stringify({
+    let data = JSON.stringify({
         IPFrom: IpFrom,
         IPTo: IpTo,
         IPFromOld: IpFromOld,
@@ -170,8 +168,8 @@ function SaveIPSetting(obj, IpFromOld, IpToOld) {
 
 function ValidateUpdatingIP(action, inputFrom, inputTo) {
     // --- Validate --- //   
-    var valid = true;
-    var errorMsg = "Error!<br>";
+    let valid = true;
+    let errorMsg = "Error!<br>";
 
     if (action == 'save') {
         // If IP From and IP To is null, ignore it
@@ -203,8 +201,8 @@ function ValidateUpdatingIP(action, inputFrom, inputTo) {
     }
     if (valid) {
         // --- Validate IP range --- ///
-        var newIPFrom = ConvertIPToUint(inputFrom);
-        var newIPTo = ConvertIPToUint(inputTo);
+        let newIPFrom = ConvertIPToUint(inputFrom);
+        let newIPTo = ConvertIPToUint(inputTo);
         if (newIPFrom > newIPTo) {
             valid = false;
             errorMsg += " The IP From must be less than IP To.<br>";
@@ -219,14 +217,14 @@ function ValidateUpdatingIP(action, inputFrom, inputTo) {
 
 // --- Check if there is overlap ip range--- //
 function ValidateIPRange() {
-    var iplist = new Array();
-    var arrayIndex = 0;
+    let iplist = new Array();
+    let arrayIndex = 0;
     $('#IpTable tbody tr').each(function (index) {
-        var columns = jQuery(this).children();
+        let columns = jQuery(this).children();
         if (columns.length > 1) {
-            var inputFrom = jQuery(columns[0]).children()[0].value;
-            var inputTo = jQuery(columns[1]).children()[0].value;
-            var iprange = new Array();
+            let inputFrom = jQuery(columns[0]).children()[0].value;
+            let inputTo = jQuery(columns[1]).children()[0].value;
+            let iprange = new Array();
             iprange[0] = ConvertIPToUint(inputFrom);
             iprange[1] = ConvertIPToUint(inputTo);
             iplist[arrayIndex] = iprange;
@@ -234,14 +232,14 @@ function ValidateIPRange() {
         }
     });
 
-    var valid = true;
-    var errorMsg = "";
+    let valid = true;
+    let errorMsg = "";
     // --- Check if there is an overlap ip range --- //
-    var errorArr = [];
-    for (var i = 0; i < arrayIndex; i++) {
-        var iprange = iplist[i];
-        for (var j = i + 1; j < arrayIndex; j++) {
-            var temprange = iplist[j];
+    let errorArr = [];
+    for (let i = 0; i < arrayIndex; i++) {
+        let iprange = iplist[i];
+        for (let j = i + 1; j < arrayIndex; j++) {
+            let temprange = iplist[j];
             // --- case Start2< Start1< End1<End2 --- //
             // --- case Start2< Start1< End2<End1 --- //
             if (iprange[0] >= temprange[0] && iprange[0] <= temprange[1]) {
@@ -273,11 +271,11 @@ function ValidateIPString(ipaddr) {
     //Remember, this function will validate only Class C IP.
     //change to other IP Classes as you need
     ipaddr = ipaddr.replace(/\s/g, "");  //remove spaces for checking
-    var re = /^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/; //regex. check for digits and in
+    let re = /^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/; //regex. check for digits and in
     //all 4 quadrants of the IP
     if (re.test(ipaddr)) {
         //split into units with dots "."
-        var parts = ipaddr.split(".");
+        let parts = ipaddr.split(".");
         //if the first unit/quadrant of the IP is zero
         if (parseInt(parseFloat(parts[0])) == 0) {
             return false;
@@ -287,7 +285,7 @@ function ValidateIPString(ipaddr) {
             return false;
         }
         //if any part is greater than 255
-        for (var i = 0; i < parts.length; i++) {
+        for (let i = 0; i < parts.length; i++) {
             if (parseInt(parseFloat(parts[i])) > 255) {
                 return false;
             }
@@ -299,24 +297,24 @@ function ValidateIPString(ipaddr) {
 }
 
 function ConvertUintToIP(ip) {
-    var d = ip % 256;
+    let d = ip % 256;
     ip = (ip - d) / 256;
-    var c = ip % 256;
+    let c = ip % 256;
     ip = (ip - c) / 256;
-    var b = ip % 256;
+    let b = ip % 256;
     ip = (ip - b) / 256;
-    var a = ip;
+    let a = ip;
     return a + '.' + b + '.' + c + '.' + d;
 }
 
 function ConvertIPToUint(ip) {
     ip = ip.trim();
-    var data = ip.split('.');
+    let data = ip.split('.');
     if (data.length == 4) {
-        var a = Number(data[0]) * 256 * 256 * 256;
-        var b = Number(data[1]) * 256 * 256;
-        var c = Number(data[2]) * 256;
-        var d = Number(data[3]);
+        let a = Number(data[0]) * 256 * 256 * 256;
+        let b = Number(data[1]) * 256 * 256;
+        let c = Number(data[2]) * 256;
+        let d = Number(data[3]);
         return a + b + c + d;
     }
     return 0;
@@ -337,8 +335,8 @@ function GetErrorMessage(errCode) {
 }
 
 function getDataFromTable_SingleLineText(id, type) {
-    var data = '';
-    var fields = $(id).find('input[name=' + type + ']').serializeArray();
+    let data = '';
+    let fields = $(id).find('input[name=' + type + ']').serializeArray();
     $.each(fields, function (i, field) {
         data += (field.value == "" ? "\n" : $.trim(field.value)) + '\n';
     });
