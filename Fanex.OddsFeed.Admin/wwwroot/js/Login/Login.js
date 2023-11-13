@@ -141,10 +141,11 @@ function DoLogin() {
         beforeSend: function (xhr) {
         },
         success: function (result) {
-            if (result.IsSuccessful) {
+            console.log(result)
+            if (result.isSuccessful) {
                 document.location = currentDomainURL + "Dashboard/ShowDashboard";
             } else {
-                innerMsg.innerHTML = result.Message;
+                innerMsg.innerHTML = result.message;
                 msg.style.display = 'block';
                 ChangeCapchaCode('imgCaptchaId');
             }
