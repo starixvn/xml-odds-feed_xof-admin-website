@@ -1,0 +1,59 @@
+﻿namespace Fanex.OddsFeed.Core.Service.Impl
+{
+    using Fanex.OddsFeed.Core.Criteria.Licensee;
+    using Fanex.OddsFeed.Core.Model;
+    using Fanex.OddsFeed.Core.Repository.Interface;
+    using Fanex.OddsFeed.Core.Service.Interface;
+    using Microsoft.AspNetCore.Mvc.Rendering;
+    public class LicenseeService : ILicenseeService
+    {
+        private readonly IBaseService baseService;
+        private readonly ILicenseeRepository licenseeRepository;
+
+        public LicenseeService(
+           ILicenseeRepository licenseeRepository,
+           IBaseService baseService)
+        {
+           this.licenseeRepository = licenseeRepository;
+            this.baseService = baseService;
+        }
+
+        public async Task<bool> GetActiveBySystemId(int systemId)
+        {
+            var criteria = new GetActivateByLicenseeIDCriteria
+            {
+                SystemID = systemId
+            };
+            return await baseService.GetDataEntityAsync<bool>(criteria);
+        }
+
+        public async Task<PartnersProfile> GetProfileAllPartnersBySystemId(int systemId)
+        {
+            var criteria = new GetProfileAllPartnersBySystemIdCriteria
+            {
+                SystemID = systemId
+            };
+
+            if (criteria.IsValid())
+            {
+                return await licenseeRepository.GetProfileAllPartnersBySystemId(criteria);
+            }
+
+            return null;
+        }
+
+        public async Task<IEnumerable<SelectListItem>> GetResultDelayTimeList()
+        {
+            await Task.CompletedTask;
+            return new List<SelectListItem>
+            {
+                new SelectListItem { Value = "5", Text = "5" },
+                new SelectListItem { Value = "10", Text = "10" },
+                new SelectListItem { Value = "15", Text = "15" },
+                new SelectListItem { Value = "20", Text = "20" },
+                new SelectListItem { Value = "25", Text = "25" },
+                new SelectListItem { Value = "30", Text = "30" }
+            };
+        }
+    }
+}

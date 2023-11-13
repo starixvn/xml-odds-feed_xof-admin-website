@@ -1,9 +1,11 @@
-﻿namespace Fanex.OddsFeed.Core.Criteria.Affiliate
+﻿
+namespace Fanex.OddsFeed.Core.Criteria.Affiliate
 {
     using Fanex.Data.Repository;
+
     public class GetTypeSettingCriteria : CriteriaBase
     {
-        public byte SystemID { get; set; }
+        public short SystemID { get; set; }
 
         public string Type { get; set; }
 

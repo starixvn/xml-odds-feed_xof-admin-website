@@ -1,14 +1,10 @@
-﻿
-
-namespace Fanex.OddsFeed.Core
+﻿namespace Fanex.OddsFeed.Core
 {
     using System.Globalization;
     using System.Net;
-    using System.Runtime.CompilerServices;
     using System.Security.Cryptography;
     using System.Text;
     using System.Text.RegularExpressions;
-    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.Extensions.Caching.Distributed;
 

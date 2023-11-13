@@ -4,7 +4,7 @@
     {
         public int UserID { get; set; }
 
-        public byte SystemID { get; set; }
+        public short SystemID { get; set; }
 
         public string IP { get; set; }
 
