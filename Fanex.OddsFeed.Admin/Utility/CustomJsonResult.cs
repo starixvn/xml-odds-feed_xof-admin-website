@@ -1,65 +1,38 @@
-﻿using System.Text;
+﻿using System;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Formatters;
-using Microsoft.Extensions.Primitives;
-using Microsoft.Net.Http.Headers;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Serialization;
-using Newtonsoft.Json;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Fanex.OddsFeed.Admin.Utility
 {
-    public class CustomJsonResult : ObjectResult
+    public class CustomJsonResult : JsonResult
     {
-        private const string DateFormat = "dd MMM yyyy HH:mm:ss";
-
         public CustomJsonResult(object value) : base(value)
         {
-            StatusCode = StatusCodes.Status200OK;
-            ContentTypes = new MediaTypeCollection();
-            ContentTypes.Add(ContentType ?? "application/json");
-        }
-
-        public string ContentType { get; set; }
-
-        public Encoding ContentEncoding { get; set; }
-
-        public override void ExecuteResult(ActionContext context)
-        {
-            if (context == null)
+            SerializerSettings = new JsonSerializerOptions
             {
-                throw new ArgumentNullException(nameof(context));
-            }
-
-            var response = context.HttpContext.Response;
-
-            if (ContentEncoding != null)
-            {
-                response.Headers[HeaderNames.ContentType] = new StringValues($"{ContentType}; charset={ContentEncoding.WebName}");
-            }
-            else
-            {
-                response.Headers[HeaderNames.ContentType] = new StringValues(ContentType);
-            }
-
-            if (Value != null)
-            {
-                var settings = new JsonSerializerSettings
-                {
-                    ContractResolver = new Newtonsoft.Json.Serialization.DefaultContractResolver
-                    {
-                        NamingStrategy = new DefaultNamingStrategy()
-                    }
-                };
-                settings.Converters.Add(new IsoDateTimeConverter
-                {
-                    DateTimeFormat = DateFormat
-                });
-
-                var json = JsonConvert.SerializeObject(Value, settings);
-                response.WriteAsync(json);
-            }
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                WriteIndented = true,
+                Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+                Converters = { new CustomDateTimeConverter() }
+            };
         }
     }
 
+    public class CustomDateTimeConverter : JsonConverter<DateTime>
+    {
+        public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            if (DateTime.TryParse(reader.GetString(), out DateTime date))
+            {
+                return date;
+            }
+            return DateTime.MinValue;
+        }
+
+        public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options)
+        {
+            writer.WriteStringValue(value.ToString("dd MMM yyyy HH:mm:ss"));
+        }
+    }
 }

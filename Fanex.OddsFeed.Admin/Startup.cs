@@ -38,14 +38,9 @@
         {
             services.AddMvc().AddSessionStateTempDataProvider();
             services.AddSession();
-            services.AddControllers().AddJsonOptions(options =>
-            {
-                options.JsonSerializerOptions.PropertyNamingPolicy = null;
-            });
             services.AddControllersWithViews();
             services.AddHttpClient();
             services.AddHttpContextAccessor();
-            services.AddDistributedMemoryCache();
 
             var feedUrlPath = Configuration.GetSection("FeedUrlPath").Get<string>();
             services.AddSingleton(feedUrlPath);
