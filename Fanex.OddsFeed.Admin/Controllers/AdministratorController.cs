@@ -33,7 +33,7 @@
         #region Add New Administrator
 
         [HttpGet]
-        public ActionResult AdministratorAdd()
+        public async Task<IActionResult> AdministratorAdd()
         {
             if (!this.IsAccountManagerRole())
             {
@@ -41,20 +41,20 @@
             }
 
             // Sport Flag
-            var licenseeProfile = baseService.GetDataEntity<LicenseeProfile>(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = currentSession.SystemId });
+            var licenseeProfile = await baseService.GetDataEntityAsync<LicenseeProfile>(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = currentSession.SystemId });
             if (licenseeProfile != null)
             {
                 ViewBag.SportsFlag = licenseeProfile.SportIdListFlag;
             }
 
             // System
-            var systems = baseService.GetData<SystemDto>(new GetAllSystemsCriteria());
+            var systems =await baseService.GetDataAsync<SystemDto>(new GetAllSystemsCriteria());
             ViewBag.SystemList = systems.Select(x => new SelectListItem { Value = x.SystemId.ToString(), Text = x.SystemName });
             return View();
         }
 
         [HttpPost]
-        public async Task<JsonResult> AddNew(InsertAdminCriteria criteria)
+        public async Task<IActionResult> AddNew([FromBody] InsertAdminCriteria criteria)
         {
             string addResult;
 
@@ -84,10 +84,10 @@
         }
 
         [HttpPost]
-        public JsonResult CheckExistAdministrator([FromBody] InsertAdminCriteria criteria)
+        public async Task<IActionResult> CheckExistAdministrator([FromBody] InsertAdminCriteria criteria)
         {
             var result = new CommandResult { Code = 0 };
-            var users = baseService.GetData<User>(new CheckExistAdministratorCriteria
+            var users =await baseService.GetDataAsync<User>(new CheckExistAdministratorCriteria
             {
                 Username = criteria.UserName,
                 PageIndex = 1,
@@ -95,7 +95,7 @@
                 UserID = 0,
                 SystemID = 0
             });
-            if (users != null && users.Any())
+            if (users.Any())
             {
                 result.Code = 1;
             }
@@ -107,7 +107,7 @@
 
         #region Administrator List
 
-        public ActionResult AdministratorList()
+        public async Task<IActionResult> AdministratorList()
         {
             if (!this.IsAccountManagerRole())
             {
@@ -115,13 +115,13 @@
             }
 
             // System
-            var systems = baseService.GetData<SystemDto>(new GetAllSystemsCriteria());
+            var systems =await baseService.GetDataAsync<SystemDto>(new GetAllSystemsCriteria());
             var systemList = systems.Select(x => new SelectListItem { Value = x.SystemId.ToString(), Text = x.SystemName }).ToList();
             systemList.Insert(0, new SelectListItem { Selected = true, Text = "All", Value = "0" });
             ViewBag.SystemList = systemList;
 
             // Role
-            var roles = baseService.GetData<UserRole>(new GetUserRoleCriteria());
+            var roles = await baseService.GetDataAsync<UserRole>(new GetUserRoleCriteria());
             var roleList = roles.Select(x => new SelectListItem { Value = x.RoleId.ToString(), Text = x.RoleName }).ToList();
             roleList.Insert(0, new SelectListItem { Selected = true, Text = "All", Value = "0" });
             ViewBag.RoleList = roleList;
@@ -129,7 +129,7 @@
         }
 
         [HttpPost]
-        public async Task<JsonResult> GetListAdminBySystemAndNameAndRole([FromBody] GetAdminCriteria criteria)
+        public async Task<IActionResult> GetListAdminBySystemAndNameAndRole([FromBody] GetAdminCriteria criteria)
         {
             criteria.PageIndex++;
             criteria.Username = criteria.Username.Equals("Username") ? string.Empty : criteria.Username.Trim();
@@ -163,7 +163,7 @@
         #region Update administrator's profile information
 
         [HttpGet]
-        public ActionResult AdministratorEditProfile(int id, string username)
+        public IActionResult AdministratorEditProfile(int id, string username)
         {
             if (id == 0)
             {
@@ -197,7 +197,7 @@
         }
 
         [HttpPost]
-        public async Task<JsonResult> AdministratorEditProfile(UpdateAdminInfoCriteria criteria)
+        public async Task<IActionResult> AdministratorEditProfile([FromBody] UpdateAdminInfoCriteria criteria)
         {
             var result = new CommandResult();
             criteria.Creator = currentSession.UserId;
@@ -226,7 +226,7 @@
         #region Update administrator's system info
 
         [HttpGet]
-        public ActionResult AdministratorEditSystem(int id, string username, int role = 0)
+        public async Task<IActionResult> AdministratorEditSystem(int id, string username, int role = 0)
         {
             if (id == 0)
             {
@@ -241,15 +241,18 @@
             ViewBag.CurrentUser = " \"" + username + "\"";
             // System
             var systems = role == (int)Constant.UserRole.Licensee
-                ? baseService.GetData<SystemDto>(new GetSystemByUserIDCriteria { UserID = currentSession.UserId, IgnoreIsActive = true })
-                : baseService.GetData<SystemDto>(new GetOptionalSystemBySubAccountIDCriteria { UserID = currentSession.UserId, SubAccountID = id });
+                ? await baseService.GetDataAsync<SystemDto>(new GetSystemByUserIDCriteria { UserID = currentSession.UserId, IgnoreIsActive = true })
+                : await baseService.GetDataAsync<SystemDto>(new GetOptionalSystemBySubAccountIDCriteria { UserID = currentSession.UserId, SubAccountID = id });
             ViewBag.SystemListID = systems.Select(x => new SelectListItem { Value = x.SystemId.ToString(), Text = x.SystemName }).ToList();
+
+            var systemList = await baseService.GetDataAsync<SystemDto>(new GetSystemByUserIDCriteria
+                { UserID = id, IgnoreIsActive = false });
 
             var criteria = new UpdateAdminSystemCriteria
             {
                 UserID = id,
                 UserName = username,
-                SystemList = baseService.GetData<SystemDto>(new GetSystemByUserIDCriteria { UserID = id, IgnoreIsActive = false })
+                SystemList = systemList
                         .Select(item => item.SystemId.ToString()).ToArray()
             };
 
@@ -263,7 +266,7 @@
         }
 
         [HttpPost]
-        public async Task<ActionResult> AdministratorEditSystem(UpdateAdminSystemCriteria criteria)
+        public async Task<IActionResult> AdministratorEditSystem([FromBody] UpdateAdminSystemCriteria criteria)
         {
             criteria.Creator = currentSession.UserId;
             criteria.IP = currentContext.IP;
@@ -277,8 +280,8 @@
 
             // System
             var systems = IsLicenseeAdminRole()
-                ? baseService.GetData<SystemDto>(new GetSystemByUserIDCriteria { UserID = currentSession.UserId, IgnoreIsActive = true })
-                : baseService.GetData<SystemDto>(new GetOptionalSystemBySubAccountIDCriteria { UserID = currentSession.UserId, SubAccountID = criteria.UserID });
+                ? await baseService.GetDataAsync<SystemDto>(new GetSystemByUserIDCriteria { UserID = currentSession.UserId, IgnoreIsActive = true })
+                : await baseService.GetDataAsync<SystemDto>(new GetOptionalSystemBySubAccountIDCriteria { UserID = currentSession.UserId, SubAccountID = criteria.UserID });
             var systemList = systems.Select(x => new SelectListItem { Value = x.SystemId.ToString(), Text = x.SystemName }).ToList();
 
             if (string.IsNullOrEmpty(criteria.ListSystemId))
@@ -302,20 +305,20 @@
         #region import existed admin
 
         [HttpPost]
-        public string ListExistedAdmin(string username)
+        public async Task<string> ListExistedAdmin(string username)
         {
             var criteria = new GetTop10AdminCriteria
             {
                 Username = username
             };
-            var users = baseService.GetData<User>(criteria);
+            var users = await baseService.GetDataAsync<User>(criteria);
             return string.Join(",", users.Select(x => x.Username));
         }
 
         [HttpPost]
-        public string GetExistedAdmin(string username)
+        public async Task<string> GetExistedAdmin(string username)
         {
-            var licenseeProfile = baseService.GetDataEntity<LicenseeProfile>(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = currentSession.SystemId });
+            var licenseeProfile =await baseService.GetDataEntityAsync<LicenseeProfile>(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = currentSession.SystemId });
             if (licenseeProfile != null)
             {
                 ViewBag.SportsFlag = licenseeProfile.SportIdListFlag;
@@ -325,7 +328,7 @@
             {
                 Username = username
             };
-            var user = baseService.GetDataEntity<User>(criteria);
+            var user =await baseService.GetDataEntityAsync<User>(criteria);
             if (user != null)
             {
                 var resultStr = string.Format("{0},{1},{2},{3},{4},{5}",
@@ -350,7 +353,7 @@
         #region reset administrator's password
 
         [HttpGet]
-        public ActionResult AdministratorResetPwd(int id, string username)
+        public IActionResult AdministratorResetPwd(int id, string username)
         {
             if (id == 0)
             {
@@ -379,7 +382,7 @@
         }
 
         [HttpPost]
-        public async Task<JsonResult> AdministratorResetPwd(UpdateAdminPasswordCriteria criteria)
+        public async Task<IActionResult> AdministratorResetPwd([FromBody] UpdateAdminPasswordCriteria criteria)
         {
             var result = new CommandResult();
             if (!this.HasEditPermission(currentSession.UserRole, criteria.UserID))
@@ -410,10 +413,10 @@
 
         #endregion
 
-        public string ListExistedAdministrator(AdminList_GetTop10Criteria criteria)
+        public async Task<string> ListExistedAdministrator([FromBody] AdminList_GetTop10Criteria criteria)
         {
             criteria.SystemId = currentSession.SystemId;
-            var users = baseService.GetData<User>(criteria);
+            var users =await baseService.GetDataAsync<User>(criteria);
             var builder = new StringBuilder();
             foreach (var user in users)
             {
@@ -445,7 +448,7 @@
             return false;
         }
 
-        private ActionResult CustomizeAfterEditSystem(UpdateAdminSystemCriteria criteria, IEnumerable<SelectListItem> systemList)
+        private IActionResult CustomizeAfterEditSystem(UpdateAdminSystemCriteria criteria, IEnumerable<SelectListItem> systemList)
         {
             if (criteria.UserID == currentSession.UserId && systemList != null)
             {

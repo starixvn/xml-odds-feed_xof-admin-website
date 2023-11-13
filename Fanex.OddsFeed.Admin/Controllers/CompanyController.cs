@@ -24,7 +24,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
         }
 
         [HttpGet]
-        public ActionResult ListCompanyIP()
+        public async Task<IActionResult> ListCompanyIP()
         {
             if (!this.IsAccountManagerRole())
             {
@@ -32,7 +32,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
             }
 
             var criteria = new InsertCompanyIPsCriteria();
-            var companyIPs = baseService.GetData<CompanyIP>(new GetAllCompanyIPCriteria());
+            var companyIPs =await baseService.GetDataAsync<CompanyIP>(new GetAllCompanyIPCriteria());
             var listIPFrom = new StringBuilder();
             var listIPTo = new StringBuilder();
             var listDescription = new StringBuilder();
@@ -68,7 +68,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> DeleteCompanyIPSetting([FromBody] DeleteCompanyIPCriteria criteria)
+        public async Task<IActionResult> DeleteCompanyIPSetting([FromBody] DeleteCompanyIPCriteria criteria)
         {
             criteria.Creator = currentSession.UserId;
             criteria.IP = currentContext.IP;
