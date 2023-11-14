@@ -3,7 +3,7 @@
     using Data.Repository;
     using Fanex.Data;
 
-    public class UpdateProfileCriteria : CriteriaBase
+    public class UpdateProfileCriteria : BaseCommand
     {
         public int Creator { get; set; }
 
@@ -44,10 +44,6 @@
         public bool BetTypeIDListFlag { get; set; }
 
         public bool CountryCodeListFlag { get; set; }
-
-        public int ErrCode { get; set; }
-
-        public string ErrMsg { get; set; }
 
         // Ignored
         [SpParam(Ignored = true)]

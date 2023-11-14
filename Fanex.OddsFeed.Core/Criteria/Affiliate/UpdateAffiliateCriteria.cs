@@ -4,7 +4,7 @@
     using Data.Repository;
     using Fanex.Data;
 
-    public class UpdateAffiliateCriteria : CriteriaBase
+    public class UpdateAffiliateCriteria : BaseCommand
     {
         public int PartnerID { get; set; }
 
@@ -26,11 +26,6 @@
            ErrorMessageResourceType = typeof(ViewResources))]
         [SpParam(SqlParamName = "ContactEmail")]
         public string Email { get; set; }
-
-        public int ErrCode { get; set; }
-
-        public string ErrMsg { get; set; } = string.Empty;
-
 
         // Ignored
         [Required]
