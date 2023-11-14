@@ -1,6 +1,7 @@
 ﻿namespace Fanex.OddsFeed.Admin.Controllers
 {
     using System.Text;
+    using Fanex.OddsFeed.Admin.Models;
     using Fanex.OddsFeed.Core.Criteria.Dashboard;
     using Fanex.OddsFeed.Core.Model;
     using Fanex.OddsFeed.Core.Model.Report;
@@ -20,8 +21,7 @@
             IHttpContextAccessor httpContextAccessor,
             IBaseService baseService,
             IDashboardService dashboardService,
-            string feedUrlPath,
-            string virtualPathWebService) : base(currentContext, currentSession, baseService, feedUrlPath, virtualPathWebService)
+            AppSettings appSettings) : base(currentContext, currentSession, baseService, appSettings)
         {
             _httpContextAccessor = httpContextAccessor;
             this.dashboardService = dashboardService;

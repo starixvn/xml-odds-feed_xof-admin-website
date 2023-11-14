@@ -1,10 +1,9 @@
-﻿using System;
-using Microsoft.AspNetCore.Mvc;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-
-namespace Fanex.OddsFeed.Admin.Utility
+﻿namespace Fanex.OddsFeed.Admin.Utility
 {
+    using Microsoft.AspNetCore.Mvc;
+    using System.Text.Json;
+    using System.Text.Json.Serialization;
+
     public class CustomJsonResult : JsonResult
     {
         public CustomJsonResult(object value) : base(value)

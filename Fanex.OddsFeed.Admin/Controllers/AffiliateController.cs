@@ -1,5 +1,6 @@
 ﻿namespace Fanex.OddsFeed.Admin.Controllers
 {
+    using Fanex.OddsFeed.Admin.Models;
     using Fanex.OddsFeed.Core.Service.Interface;
     using Fanex.OddsFeed.Core.Web.Attribute;
     using Fanex.OddsFeed.Core.Web.Context;
@@ -22,8 +23,7 @@
         public AffiliateController(ICurrentContext currentContext, 
             ICurrentSession currentSession, 
             IBaseService baseService,
-            string feedUrlPath, 
-            string virtualPathWebService) : base(currentContext, currentSession, baseService, feedUrlPath, virtualPathWebService)
+            AppSettings appSettings) : base(currentContext, currentSession, baseService, appSettings)
         {
         }
 

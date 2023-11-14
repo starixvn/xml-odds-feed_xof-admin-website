@@ -5,6 +5,7 @@
     using Core;
     using Core.Business;
     using Core.Criteria.Administrator;
+    using Core.Criteria.Licensee;
     using Core.Criteria.User;
     using Core.Model;
     using Core.Service.Interface;
@@ -25,8 +26,7 @@
             ICurrentContext currentContext,
             ICurrentSession currentSession,
             IBaseService baseService,
-            string feedUrlPath,
-            string virtualPathWebService) : base(currentContext, currentSession, baseService, feedUrlPath, virtualPathWebService)
+            AppSettings appSettings) : base(currentContext, currentSession, baseService, appSettings)
         {
             this.userService = userService;
         }
@@ -299,7 +299,7 @@
                 ViewBag.Success = true;
             }
 
-            return CustomizeAfterEditSystem(criteria, systemList);
+            return await CustomizeAfterEditSystem(criteria, systemList);
         }
         #endregion
 
@@ -449,13 +449,19 @@
             return false;
         }
 
-        private IActionResult CustomizeAfterEditSystem(UpdateAdminSystemCriteria criteria, IEnumerable<SelectListItem> systemList)
+        private async Task<IActionResult> CustomizeAfterEditSystem(UpdateAdminSystemCriteria criteria, IEnumerable<SelectListItem> systemList)
         {
             if (criteria.UserID == currentSession.UserId && systemList != null)
             {
                 if (criteria.SystemList == null)
                 {
-                    //new LoginController().DoSignOut();
+                    var logOutUserCriteria = new LogOutUserCriteria
+                    {
+                        OnUserId = currentSession.OnUserId
+                    };
+
+                    await baseService.GetDataEntityAsync<CommandResult>(logOutUserCriteria);
+                    currentSession.ClearAll();
                     return RedirectToAction("Index", "Login");
                 }
                 else

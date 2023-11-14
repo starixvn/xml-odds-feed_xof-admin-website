@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using Fanex.Common;
+    using Fanex.OddsFeed.Admin.Models;
     using Fanex.OddsFeed.Core;
     using Fanex.OddsFeed.Core.Business;
     using Fanex.OddsFeed.Core.Criteria.Affiliate;
@@ -21,15 +22,13 @@
         protected readonly ICurrentContext currentContext;
         protected readonly ICurrentSession currentSession;
         protected readonly IBaseService baseService;
-        private readonly string feedUrlPath;
-        private readonly string virtualPathWebService;
+        private readonly AppSettings appSettings;
 
         public BaseController(
             ICurrentContext currentContext,
             ICurrentSession currentSession,
             IBaseService baseService,
-            string feedUrlPath,
-            string virtualPathWebService)
+            AppSettings appSettings)
         {
             this.currentContext = currentContext;
             this.currentSession = currentSession ?? new CurrentSession()
@@ -43,8 +42,7 @@
             ViewBag.MaxDate = DateTime.Now;
             ViewBag.CurrentTheme = "Default";
             ViewBag.IsDashboard = false;
-            this.feedUrlPath = feedUrlPath;
-            this.virtualPathWebService = virtualPathWebService;
+            this.appSettings = appSettings;
         }
 
         public string GetMessage(int errCode)
@@ -93,13 +91,13 @@
 
         public string GetVirtualPath()
         {
-            var fUrlPath = feedUrlPath;
+            var fUrlPath = appSettings.FeedUrlPath;
             if (!string.IsNullOrEmpty(fUrlPath))
             {
                 fUrlPath += "/";
             }
 
-            var vPathWebService = virtualPathWebService;
+            var vPathWebService = appSettings.VirtualPathWebService;
             if (!string.IsNullOrEmpty(vPathWebService))
             {
                 vPathWebService += "/";
