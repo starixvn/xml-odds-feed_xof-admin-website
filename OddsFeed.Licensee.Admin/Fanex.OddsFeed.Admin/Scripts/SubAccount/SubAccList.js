@@ -1,6 +1,8 @@
 ﻿var _subAccId = 0;
 var _subAccName = "";
 var gridOptions,
+    _sortColumnName,
+    _sortDirection,
     _pageIndex = 0,
     _pageSize = 10;
 
@@ -150,6 +152,8 @@ function Search(sortColumnName, sortDirection) {
                 },
                 sortOption: {
                     serverSortFunction: function (sortColumnName, sortDirection) {
+                        _sortColumnName = sortColumnName;
+                        _sortDirection = sortDirection;
                         Search(sortColumnName, sortDirection);
                     }
                 }
@@ -173,7 +177,7 @@ function ReRenderAfterPaged(page_index, itemsPerPage, jq) {
     _pageSize = itemsPerPage;
 
     gridOptions.pagerOption.currentPage = page_index;
-    Search();
+    Search(_sortColumnName, _sortDirection);
 
     return false;
 }

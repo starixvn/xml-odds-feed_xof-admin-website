@@ -4,6 +4,8 @@ var _isActive = false;
 var _contactEmail = "";
 
 var gridOptions,
+    _sortColumnName,
+    _sortDirection,
     PageIndex = 0,
     PageSize = 10;
 
@@ -143,6 +145,8 @@ function Submit(sortColumnName, sortDirection) {
                 },
                 sortOption: {
                     serverSortFunction: function (sortColumnName, sortDirection) {
+                        _sortColumnName = sortColumnName;
+                        _sortDirection = sortDirection;
                         Submit(sortColumnName, sortDirection);
                     }
                 }
@@ -166,7 +170,7 @@ function ReRenderAfterPaged(page_index, itemsPerPage, jq) {
     PageSize = itemsPerPage;
 
     gridOptions.pagerOption.currentPage = page_index;
-    Submit();
+    Submit(_sortColumnName, _sortDirection);
 
     return false;
 }
