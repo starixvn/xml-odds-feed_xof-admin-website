@@ -13,7 +13,7 @@
     using Core.Web.Context;
     using Core.Web.Session;
     using Data;
-    using Fanex.OddsFeed.Core.Criteria.Licensee;
+    using Fanex.OddsFeed.Admin.Models;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
 
