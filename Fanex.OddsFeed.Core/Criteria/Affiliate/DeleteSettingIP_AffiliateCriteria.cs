@@ -2,7 +2,7 @@
 {
     using Data.Repository;
 
-    public class DeleteSettingIP_AffiliateCriteria : CriteriaBase
+    public class DeleteSettingIP_AffiliateCriteria : BaseCommand
     {
         public int PartnerId { get; set; }
 
@@ -13,10 +13,6 @@
         public string IPFromOld { get; set; }
 
         public string IPToOld { get; set; }
-
-        public int ErrCode { get; set; }
-
-        public string ErrMsg { get; set; }
 
         public override string GetSettingKey() => "Odds_Delete_Setting_IP_Partner";
 

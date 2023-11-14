@@ -55,7 +55,7 @@
 
         public async Task<User> GetUserInfo(int userId)
         {
-            var criteria = new GetUserInfoCriterias
+            var criteria = new GetUserInfoCriteria
             {
                 UserId = userId
             };

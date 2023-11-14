@@ -3,7 +3,7 @@
     using Data.Repository;
     using Fanex.Data;
 
-    public class UpdateSettingIPCriteria : CriteriaBase
+    public class UpdateSettingIPCriteria : BaseCommand
     {
         public int PartnerID { get; set; }
 
@@ -18,10 +18,6 @@
 
         [SpParam(SqlParamName = "IPToOld")]
         public string IpToOld { get; set; }
-
-        public int ErrCode { get; set; }
-
-        public string ErrMsg { get; set; } = string.Empty;
 
         public override string GetSettingKey() => "Odds_Partner_Upd_Setting_IP";
 
