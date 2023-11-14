@@ -7,6 +7,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
     using Core.Model;
     using Core.Model.ValueObject;
     using Core.Web.Attribute;
+    using Fanex.OddsFeed.Admin.Models;
     using Fanex.OddsFeed.Core.Service.Interface;
     using Fanex.OddsFeed.Core.Web.Context;
     using Fanex.OddsFeed.Core.Web.Session;
@@ -17,10 +18,9 @@ namespace Fanex.OddsFeed.Admin.Controllers
         public DomainController(
             ICurrentContext currentContext, 
             ICurrentSession currentSession, 
-            IBaseService baseService, 
-            string feedUrlPath, 
-            string virtualPathWebService) 
-            : base(currentContext, currentSession, baseService, feedUrlPath, virtualPathWebService)
+            IBaseService baseService,
+            AppSettings appSettings) 
+            : base(currentContext, currentSession, baseService, appSettings)
         {
         }
 

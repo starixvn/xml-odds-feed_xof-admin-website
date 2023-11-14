@@ -3,6 +3,7 @@
 @using System.Web.Optimization
 @model Fanex.OddsFeed.Core.Criteria.Domain.GetDomainByPageCriteria
 @{
+    ViewBag.IsDashboard = false;
     ViewBag.Title = "Domain List";
 }
 @section Breadcrumb {
@@ -11,13 +12,15 @@
 }
 @section Styles
 {
-    <link rel="Stylesheet" type="text/css" href="@BundleTable.Bundles.ResolveBundleUrl("~/App_Themes/Default/Fanex.Grid/Fanex.GridCss")" />
-    <link rel="Stylesheet" type="text/css" href="@BundleTable.Bundles.ResolveBundleUrl("~/App_Themes/Default/Functions/ListDomain/ListDomainCss")" />
+    <link rel="stylesheet" href="~/minify/css/fanexgrid.min.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/Functions/ListDomain/ListDomain.css" asp-append-version="true">
 }
 @section Scripts
 {
-    <script src="@BundleTable.Bundles.ResolveBundleUrl("~/Scripts/Fanex.Grid/Fanex.GridJs")"></script>
-    <script src="@BundleTable.Bundles.ResolveBundleUrl("~/Scripts/Functions/ListDomain/ListDomainJs")"></script>
+    <link rel="stylesheet" href="~/minify/js/fanexgrid.min.js" asp-append-version="true">
+    <link rel="stylesheet" href="~/js/Functions/ListDomain/ListDomain.js" asp-append-version="true">
+    <link rel="stylesheet" href="~/js/Functions/ListDomain/RegisterDialog.js" asp-append-version="true">
+    <link rel="stylesheet" href="~/js/Views/Core.js" asp-append-version="true">
     <script type="text/javascript">
         var viewResources = {
             ActionResult_Success_AddDomain: '@ViewResources.ActionResult_Success_AddDomain',

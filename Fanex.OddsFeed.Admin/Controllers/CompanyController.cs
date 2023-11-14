@@ -10,6 +10,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
     using Core.Service.Interface;
     using Core.Web.Context;
     using Core.Web.Session;
+    using Fanex.OddsFeed.Admin.Models;
 
     [IsAuthorize]
     public class CompanyController : BaseController
@@ -18,8 +19,7 @@ namespace Fanex.OddsFeed.Admin.Controllers
             ICurrentContext currentContext, 
             ICurrentSession currentSession, 
             IBaseService baseService,
-            string feedUrlPath,
-            string virtualPathWebService) : base(currentContext, currentSession, baseService, feedUrlPath, virtualPathWebService)
+            AppSettings appSettings) : base(currentContext, currentSession, baseService, appSettings)
         {
         }
 

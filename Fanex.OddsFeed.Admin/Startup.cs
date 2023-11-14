@@ -5,6 +5,7 @@
     using Fanex.Data.SqlServer;
     using Fanex.Logging;
     using Fanex.Logging.Sentry;
+    using Fanex.OddsFeed.Admin.Models;
     using Fanex.OddsFeed.Admin.Utility;
     using Fanex.OddsFeed.Core;
     using Fanex.OddsFeed.Core.Repository.Impl;
@@ -36,18 +37,8 @@
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().AddSessionStateTempDataProvider();
             services.AddSession();
             services.AddControllersWithViews();
-            services.AddHttpClient();
-            services.AddHttpContextAccessor();
-
-            var feedUrlPath = Configuration.GetSection("FeedUrlPath").Get<string>();
-            services.AddSingleton(feedUrlPath);
-
-            var virtualPathWebService = Configuration.GetSection("VirtualPathWebService").Get<string>();
-            services.AddSingleton(virtualPathWebService);
-
 
             LogManager
                .SetDefaultLogCategory(Configuration.GetSection("Fanex.Logging:LogCategory").Value)
@@ -79,6 +70,9 @@
 
         private void InjectServices(IServiceCollection services)
         {
+            var appSettings = Configuration.GetSection("AppSettings").Get<AppSettings>();
+            services.AddSingleton(appSettings);
+
             #region ONEbookUM
             services.AddSingleton(new UMClientConfiguration().Initialize(Configuration));
             services.AddSingleton<CheckUMFilterAttribute>();

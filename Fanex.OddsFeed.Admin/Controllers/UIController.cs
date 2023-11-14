@@ -2,6 +2,7 @@
 {
     using System.Reflection.PortableExecutable;
     using System.Text;
+    using Fanex.OddsFeed.Admin.Models;
     using Fanex.OddsFeed.Core.Criteria.Administrator;
     using Fanex.OddsFeed.Core.Model;
     using Fanex.OddsFeed.Core.Service.Interface;
@@ -15,8 +16,7 @@
         public UIController(ICurrentContext currentContext, 
             ICurrentSession currentSession, 
             IBaseService baseService,
-            string feedUrlPath,
-            string virtualPathWebService) : base(currentContext, currentSession, baseService, feedUrlPath, virtualPathWebService)
+            AppSettings appSettings) : base(currentContext, currentSession, baseService, appSettings)
         {
         }
 

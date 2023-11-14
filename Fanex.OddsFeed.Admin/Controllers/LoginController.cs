@@ -3,6 +3,7 @@
     using System.Drawing;
     using System.Drawing.Imaging;
     using Fanex.Data;
+    using Fanex.OddsFeed.Admin.Models;
     using Fanex.OddsFeed.Admin.Utility;
     using Fanex.OddsFeed.Core;
     using Fanex.OddsFeed.Core.Criteria.User;
@@ -20,9 +21,8 @@
             ICurrentSession currentSession,
             IHttpContextAccessor httpContextAccessor,
             IUserService userService,
-            IBaseService baseService, 
-            string feedUrlPath,
-            string virtualPathWebService) : base(currentContext, currentSession, baseService, feedUrlPath, virtualPathWebService)
+            IBaseService baseService,
+            AppSettings appSettings) : base(currentContext, currentSession, baseService, appSettings)
         {
             this.httpContextAccessor = httpContextAccessor;
             this.userService = userService;
