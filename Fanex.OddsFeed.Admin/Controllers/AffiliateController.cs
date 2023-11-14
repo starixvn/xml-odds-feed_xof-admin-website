@@ -2,6 +2,7 @@
 {
     using System.Text;
     using Fanex.Common;
+    using Fanex.OddsFeed.Admin.Models;
     using Fanex.OddsFeed.Core;
     using Fanex.OddsFeed.Core.Criteria.Affiliate;
     using Fanex.OddsFeed.Core.Criteria.Licensee;
@@ -34,8 +35,7 @@
             IBaseService baseService,
             IAffiliateService affiliateService,
             ILicenseeService licenseeService,
-            string feedUrlPath,
-            string virtualPathWebService) : base(currentContext, currentSession, baseService, feedUrlPath, virtualPathWebService)
+            AppSettings appSettings) : base(currentContext, currentSession, baseService, appSettings)
         {
             this.affiliateService = affiliateService;
             this.licenseeService = licenseeService;
