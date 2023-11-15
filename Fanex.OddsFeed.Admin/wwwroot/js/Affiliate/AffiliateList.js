@@ -1,6 +1,8 @@
 ﻿var _affId = 0;
 var _affName = "";
 var gridOptions,
+    _sortColumnName,
+    _sortDirection,
     _pageIndex = 0,
     _pageSize = 10;
 
@@ -8,11 +10,9 @@ $(document).ready(function () {
     var successed = $("#successed").val();
     if (successed == "true") {
         confirm('Successfull!\nPress OK to continue', function () {
-            document.location =currentDomainURL + "Affiliate/List";
+            document.location = currentDomainURL + "Affiliate/List";
         });
     }
-
-    $("#Username").Watermark("Username");
 
     $("#Username").autocomplete({
         source: [],
@@ -24,7 +24,7 @@ $(document).ready(function () {
             Search();
         }
     });
-    
+
     $("#DomainName").keyup(function (e) {
         if (e.keyCode == $.ui.keyCode.ENTER) {
             Search();
@@ -83,23 +83,53 @@ function renderBodyRows(affiliates) {
     return rows;
 }
 
-function Search() {
+function Search(sortColumnName, sortDirection) {
     $('#PageSize').val(_pageSize);
     $('#PageIndex').val(_pageIndex);
-    
+
+    var typeSort = 0;
+    //1 -- > Active || 2 -- > CreatedDate || 3 -- > Creator || 4 -- > LastUpdate || 5 -- > ContactPerson
+    switch (sortColumnName) {
+        case "IsAllowed":
+            typeSort = 1;
+            break;
+        case "CreatedDate":
+            typeSort = 2;
+            break;
+        case "Creator":
+            typeSort = 3;
+            break;
+        case "LastUpdate":
+            typeSort = 4;
+            break;
+        case "ContactPerson":
+            typeSort = 5;
+            break;
+        default:
+            break;
+    }
+
     var searchParams = {
         UserName: $("#Username").val(),
         IsActive: $("#isActive option:selected").val(),
+        SortByID: typeSort,
+        IsSortAsc: sortDirection === "asc" ? true : false,
         PageSize: _pageSize,
         PageIndex: _pageIndex
     };
 
+    var url = "GetAffiliateList?UserName=" + searchParams.UserName +
+        "&IsActive=" + searchParams.IsActive +
+        "&SortByID=" + searchParams.SortByID +
+        "&IsSortAsc=" + searchParams.IsSortAsc +
+        "&PageSize=" + searchParams.PageSize +
+        "&PageIndex=" + searchParams.PageIndex
+
     $.ajax({
-        url: "GetAffiliateList",
+        url: url,
         type: 'POST',
         dataType: "json",
         contentType: "application/json; charset=utf-8",
-        data: JSON.stringify(searchParams),
         cache: false,
         success: function (result) {
             gridOptions =
@@ -108,28 +138,32 @@ function Search() {
                     { HeaderText: "#", Width: 40, Name: "Row", HeaderAlign: "center", CellAlign: "center" },
                     { HeaderText: "Username", Width: 120, Name: "Username", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true },
                     { HeaderText: "Action", Width: 50, Name: "Action", HeaderAlign: "center", CellAlign: "center" },
-                    { HeaderText: "Active", Width: 70, Name: "IsAllowed", HeaderAlign: "center", CellAlign: "center", CssClass: "header-mt", Sort: true },
+                    {
+                        HeaderText: "Active", Width: 70, Name: "IsAllowed", HeaderAlign: "center", CellAlign: "center", CssClass: "header-mt",
+                        Sort: true,
+                        SortDirection: sortColumnName === "IsAllowed" ? sortDirection : ''
+                    },
                     { HeaderText: "Site", Width: 170, Name: "Site", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true },
                     {
                         HeaderText: "Created Date", Width: 120, Name: "CreatedDate", HeaderAlign: "center", CellAlign: "center", CssClass: "header-mt",
-                        Sort: true, FormatDateTime: 'DD MMM YYYY HH:mm:ss', CustomSortFunction: function (col1Value, col2Value, sortDirection) {
-                            if (sortDirection === 'asc') {
-                                return moment(col1Value).diff(col2Value);
-                            } else {
-                                return moment(col2Value).diff(col1Value);
-                            }
-                        }                    },
+                        Sort: true, FormatDateTime: 'DD MMM YYYY HH:mm:ss',
+                        SortDirection: sortColumnName === "CreatedDate" ? sortDirection : ''
+                    },
                     {
                         HeaderText: "Last Update", Width: 120, Name: "LastUpdate", HeaderAlign: "center", CellAlign: "center", CssClass: "header-mt",
-                        Sort: true, FormatDateTime: 'DD MMM YYYY HH:mm:ss', CustomSortFunction: function (col1Value, col2Value, sortDirection) {
-                            if (sortDirection === 'asc') {
-                                return moment(col1Value).diff(col2Value);
-                            } else {
-                                return moment(col2Value).diff(col1Value);
-                            }
-                        }                    },
-                    { HeaderText: "Creator", Width: 120, Name: "Creator", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true, CssClass: "header-mt", Sort: true },
-                    { HeaderText: "Contact Person", Width: 120, Name: "ContactPerson", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true, CssClass: "header-mt", Sort: true },
+                        Sort: true, FormatDateTime: 'DD MMM YYYY HH:mm:ss',
+                        SortDirection: sortColumnName === "LastUpdate" ? sortDirection : ''
+                    },
+                    {
+                        HeaderText: "Creator", Width: 120, Name: "Creator", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true, CssClass: "header-mt",
+                        Sort: true,
+                        SortDirection: sortColumnName === "Creator" ? sortDirection : ''
+                    },
+                    {
+                        HeaderText: "Contact Person", Width: 120, Name: "ContactPerson", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true, CssClass: "header-mt",
+                        Sort: true,
+                        SortDirection: sortColumnName === "ContactPerson" ? sortDirection : ''
+                    },
                     { HeaderText: "Contact Email", Width: 170, Name: "ContactEmail", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true }
                 ],
                 bodyRows: renderBodyRows(result.data),
@@ -145,12 +179,10 @@ function Search() {
                     pagerSelectCallBack: ReRenderAfterPaged
                 },
                 sortOption: {
-                    afterGridSorted: function (bodyRows, columnName, currentDirection) {
-                        $("#SearchResult").find('table#tblContent_SearchResult td.free-grid-td-0').each(function (index, item) {
-                            $(item).find('div.table-cell').html(index + 1);
-                        });
-
-                        return bodyRows;
+                    serverSortFunction: function (sortColumnName, sortDirection) {
+                        _sortColumnName = sortColumnName;
+                        _sortDirection = sortDirection;
+                        Search(sortColumnName, sortDirection);
                     }
                 }
             };
@@ -173,7 +205,7 @@ function ReRenderAfterPaged(page_index, itemsPerPage, jq) {
     _pageSize = itemsPerPage;
 
     gridOptions.pagerOption.currentPage = page_index;
-    Search();
+    Search(_sortColumnName, _sortDirection);
 
     return false;
 }
@@ -215,7 +247,7 @@ function ShowAction(affiliate) {
                         userName: _affName,
                     });
 
-                    window.location = currentDomainURL + "Affiliate/EditAffiliateInfo/" + _affId+ "?" + updateParam;
+                    window.location = currentDomainURL + "Affiliate/EditAffiliateInfo/" + _affId + "?" + updateParam;
                 }
             },
             editProfile: {

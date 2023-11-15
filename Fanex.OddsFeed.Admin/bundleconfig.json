@@ -52,6 +52,12 @@
             "wwwroot/css/Affiliate/AffiliateEdit.css"
         ]
     },
+    {
+        "outputFileName": "wwwroot/minify/css/affiliate.min.css",
+        "inputFiles": [
+            "wwwroot/css/Affiliate/AffiliateEdit.css"
+        ]
+    },
 
     // ----------------------- Javascript ------------------------------
     {
@@ -180,9 +186,11 @@
         "sourceMap": false
     },
     {
-        "outputFileName": "wwwroot/minify/js/fanexgrid.min.js",
+        "outputFileName": "wwwroot/minify/js/affiliate.min.js",
         "inputFiles": [
-            "wwwroot/js/Fanex.Grid/Fanex.Grid.js"
+            "wwwroot/js/Affiliate/CommonAffiliate.js",
+            "wwwroot/js/Affiliate/EditAffiliate.js",
+            "wwwroot/js/Affiliate/AffiliateList.js"
         ],
         "minify": {
             "enabled": true,
