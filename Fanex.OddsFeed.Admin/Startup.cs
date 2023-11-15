@@ -6,8 +6,6 @@
     using Fanex.Logging;
     using Fanex.Logging.Sentry;
     using Fanex.OddsFeed.Admin.Models;
-    using Fanex.OddsFeed.Admin.Utility;
-    using Fanex.OddsFeed.Core;
     using Fanex.OddsFeed.Core.Repository.Impl;
     using Fanex.OddsFeed.Core.Repository.Interface;
     using Fanex.OddsFeed.Core.Service.Impl;
@@ -15,7 +13,6 @@
     using Fanex.OddsFeed.Core.Web.Context;
     using Fanex.OddsFeed.Core.Web.Session;
     using Microsoft.AspNetCore.Mvc.Infrastructure;
-    using Microsoft.Extensions.Caching.Distributed;
     using ONEbook.UM.AspNetCore;
     using ONEbook.UM.AspNetCore.Filters;
     using ONEbook.UM.Configurations;
@@ -29,11 +26,9 @@
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            StaticConfig = configuration;
         }
 
         public IConfiguration Configuration { get; }
-        public static IConfiguration StaticConfig { get; private set; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -113,9 +108,6 @@
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
-
-            var cache = app.ApplicationServices.GetRequiredService<IDistributedCache>();
-            Utilities.Initialize(cache);
 
             app.UseCookiePolicy();
             app.UseHttpsRedirection();

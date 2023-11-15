@@ -1,0 +1,71 @@
+﻿@using Fanex.OddsFeed.Core.Web
+@using Fanex.OddsFeed.Core
+@using System.Web.Optimization
+@model Fanex.OddsFeed.Core.Criteria.Affiliate.GetAffiliateByNameCriteria
+@{
+    ViewBag.Title = "Affiliate List";
+    ViewBag.IsDashboard = false;
+}
+@section Breadcrumb {
+    <a class="step" href="@Url.Action("ShowDashboard", "Dashboard")">
+        <span class='xicon home'></span>Home
+    </a>
+    <span class="step">@ViewBag.Title</span>
+}
+@*@section Breadcrumb {
+    <a class="step" href="@Url.Action("ShowDashboard", "Dashboard")"><span class='xicon home'></span>Home</a>
+    <span class="step">@ViewBag.Title</span>
+}*@
+@section Styles {
+    <link rel="stylesheet" href="~/minify/css/fanexgrid.min.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/minify/css/affiliate.min.css" asp-append-version="true">
+}
+@section Scripts {
+    <environment include="Development">
+        <script src="~/js/fanex.grid/moment.min.js" asp-append-version="true"></script>
+        <script src="~/js/fanex.grid/numeral.min.js" asp-append-version="true"></script>
+        <script src="~/js/fanex.grid/fanex.grid.js" asp-append-version="true"></script>
+        <script src="~/js/fanex.grid/fanex.pagination.js" asp-append-version="true"></script>
+        <script src="~/js/Affiliate/CommonAffiliate.js" asp-append-version="true"></script>
+        <script src="~/js/Affiliate/EditAffiliate.js" asp-append-version="true"></script>
+        <script src="~/js/Affiliate/AffiliateList.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/minify/js/fanexgrid.min.js" asp-append-version="true"></script>
+        <script src="~/minify/js/affiliate.min.js" asp-append-version="true"></script>
+    </environment>
+}
+
+<div class="infor">
+    <span class="infor-ic">&nbsp;</span><span class="infor-text">The list of @(ViewBag.SystemName)'s affiliates.</span>
+</div>
+<div class="newline">
+    &nbsp;
+</div>
+<form id="myForm" method="get" action="">
+    <div class="formSearch">
+        @Html.HiddenFor(s => s.PageSize)
+        @Html.HiddenFor(s => s.PageIndex)
+        @Html.HiddenFor(s => s.PageCount)
+        <div class="grid_3">
+            @Html.LabelFor(s => s.UserName, "Username")
+        </div>
+        <div class="grid_6">
+            @Html.TextBoxFor(s => s.UserName, new { @id = "Username", @maxlength = 50, @onkeyup = "StartAutoSuggesttion()", @class = "username-autocomplete" })
+        </div>
+        <input type="hidden" id="IsActivateSystem" value="@ViewBag.IsActivateSystem" />
+        <div class="grid1">
+            <label for="isActive">Active</label>
+        </div>
+        <div class="grid4">
+            <select id="isActive" name="isActive" class="width-auto-fit request">
+                <option value="" selected>All</option>
+                <option value="1">Active</option>
+                <option value="0">Inactive</option>
+            </select>
+        </div>
+        <input type="button" value="Search" onclick="OnSearch();" />
+    </div>
+</form>
+<div class="newline">&nbsp;</div>
+<div id="SearchResult" class="freegrid  content-grid"></div>

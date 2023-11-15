@@ -384,21 +384,21 @@
         #region Get
 
         [HttpGet]
-        [Compress]
-        public ActionResult List()
+        //[Compress]
+        public async Task<IActionResult> List()
         {
             ViewBag.SystemName = currentSession.SystemName;
-            ViewBag.IsActivateSystem = licenseeService.GetActiveBySystemId(currentSession.SystemId);
-            return View("AffiliateList");
+            ViewBag.IsActivateSystem = await licenseeService.GetActiveBySystemId(currentSession.SystemId);
+            return View("~/Views/Affiliate/AffiliateList.cshtml");
         }
 
-        [Compress]
-        public JsonResult GetAffiliateList(GetAffiliateByNameCriteria criteria)
+        //[Compress]
+        public async Task<IActionResult> GetAffiliateList(GetAffiliateByNameCriteria criteria)
         {
             criteria.SystemId = currentSession.SystemId;
             criteria.UserName = (criteria.UserName == null || criteria.UserName == "Username") ? string.Empty : criteria.UserName.Trim();
             criteria.PageIndex++;
-            var result = baseService.GetDataGrid<Affiliate>(criteria);
+            var result = await baseService.GetDataGrid<Affiliate>(criteria);
             return new Utility.CustomJsonResult(result);
         }
 
