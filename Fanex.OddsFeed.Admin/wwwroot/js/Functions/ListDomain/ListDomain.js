@@ -15,7 +15,7 @@ $(document).ready(function () {
 
     Submit();
     RegisterDialog();
-    OddsFeedAdminManager.makeWatermask($("#DomainName"), viewResources.Domain_Name, Submit);
+    //OddsFeedAdminManager.makeWatermask($("#DomainName"), viewResources.Domain_Name, Submit);
 });
 
 function renderBodyRows(domains) {
@@ -36,9 +36,9 @@ function renderBodyRows(domains) {
                     Name: 'Action',
                     Value: "<div style='text-align:center;'>" +
                         "<a title='Edit' href='javascript:UpdateDomain(" + JSON.stringify(domain) + ")'><img src='" +
-                        currentDomainURL + "App_Themes/Default/Images/Edit.png' alt='Edit'></a>&nbsp&nbsp;" +
+                        currentDomainURL + "css/Images/Edit.png' alt='Edit'></a>&nbsp&nbsp;" +
                         "<a title='Delete' href='javascript:DeleteDomain(" + domain.domainId + ")'><img src='" +
-                        currentDomainURL + "App_Themes/Default/Images/Delete.gif' alt='Delete'></a></div>"
+                        currentDomainURL + "css/Images/Delete.gif' alt='Delete'></a></div>"
                 },
                 { Name: 'CreatedDate', Value: domain.createdDate },
                 { Name: 'IP', Value: domain.ip },
@@ -176,10 +176,20 @@ function renderDomainSettingBodyRows(domains) {
 
 function QueryDomainSetting(domainId) {
     currentDomainID = domainId;
+    let data = {
+        PageSize: parseInt($('#myForm #PageSize').val()),
+        PageIndex: parseInt($('#myForm #PageIndex').val()),
+        DomainId: parseInt($('#myForm #DomainId').val()),
+        DomainName: $('#myForm #DomainName').val()
+    };
+    
     $.ajax({
         url: "GetDomainSetting",
         type: "POST",
-        data: $('#myForm').serialize(),
+        data: JSON.stringify(data),
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        cache: false,
         success: function (result) {
             gridOptionsDetail =
             {

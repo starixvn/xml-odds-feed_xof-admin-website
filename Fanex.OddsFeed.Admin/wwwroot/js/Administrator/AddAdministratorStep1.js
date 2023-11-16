@@ -185,7 +185,7 @@ function DoAdd_Administrator(isDone) {
         success: function (result) {
             var ret = true;
             if (addParams.UserName != "") {
-                if (result && result.IsSuccessful) {
+                if (result && result.isSuccessful) {
                     $("#nameExistedErr").hide('fast');
                     $('#txtUsername').removeClass('error');
                 } else {

@@ -1,6 +1,4 @@
-﻿@using Fanex.OddsFeed.Core.Web
-@using Fanex.OddsFeed.Core
-@using System.Web.Optimization
+﻿@using Fanex.OddsFeed.Core
 @model Fanex.OddsFeed.Core.Criteria.Domain.GetDomainByPageCriteria
 @{
     ViewBag.IsDashboard = false;
@@ -17,10 +15,11 @@
 }
 @section Scripts
 {
-    <link rel="stylesheet" href="~/minify/js/fanexgrid.min.js" asp-append-version="true">
-    <link rel="stylesheet" href="~/js/Functions/ListDomain/ListDomain.js" asp-append-version="true">
-    <link rel="stylesheet" href="~/js/Functions/ListDomain/RegisterDialog.js" asp-append-version="true">
-    <link rel="stylesheet" href="~/js/Views/Core.js" asp-append-version="true">
+    <script src="~/minify/js/fanexgrid.min.js" asp-append-version="true"></script>
+    <script src="~/js/Functions/ListDomain/ListDomain.js" asp-append-version="true"></script>
+    <script src="~/js/Functions/ListDomain/RegisterDialog.js" asp-append-version="true"></script>
+    <script src="~/js/Views/Core.js" asp-append-version="true"></script>
+
     <script type="text/javascript">
         var viewResources = {
             ActionResult_Success_AddDomain: '@ViewResources.ActionResult_Success_AddDomain',
@@ -51,7 +50,7 @@
                 @Html.HiddenFor(s => s.DomainId)
             </div>
             <div class="grid_8">
-                @Html.TextBoxFor(s => s.DomainName, new { @onkeyup = "StartAutoSuggesttion()" })
+                @Html.TextBoxFor(s => s.DomainName, new { @onkeyup = "StartAutoSuggesttion()", placeholder = "Domain Name" })
             </div>
             <div class="grid_2">
                 <input type="button" value="Search" onclick="Submit()">
@@ -71,11 +70,11 @@
 <div id="DomainDetail" class="freegrid  content-grid hidden">
 </div>
 <div id="dialog-form" title="Create Domain" style="display: none">
-    @Html.Partial("DomainCreate")
+    @await Html.PartialAsync("DomainCreate")
 </div>
 <div id="dialog-form-update" title="Update Domain" style="display: none">
-    @Html.Partial("DomainEdit")
+    @await Html.PartialAsync("DomainEdit")
 </div>
 <div id="dialog-form-delete" title="LICENSEE ADMIN" style="display: none">
-    @Html.Partial("DomainDelete")
+    @await Html.PartialAsync("DomainDelete")
 </div>

@@ -189,12 +189,18 @@ function RegisterDialog() {
             "OK": function () {
                 var dialog = $(this);
                 var bValid = true;
+                var data = {
+                    DomainID: parseInt($("#dialog-form-delete #DomainID").val())
+                };
                 $(".result-message-box", dialog).addClass("hidden");
                 $(".ui-state-error", dialog).removeClass("ui-state-error error");
                 $.ajax({
                     url: "DeleteDomain",
                     type: "POST",
-                    data: $("form", $("#dialog-form-delete")).eq(0).serialize(),
+                    data: JSON.stringify(data),
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    cache: false,
                     success: function (errCode) {
                         if (errCode != 0) {
                             //                            $("#deleteConfirmMessage").hide();
