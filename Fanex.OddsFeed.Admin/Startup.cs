@@ -5,6 +5,7 @@
     using Fanex.Data.SqlServer;
     using Fanex.Logging;
     using Fanex.Logging.Sentry;
+    using Fanex.OddsFeed.Admin.Controllers;
     using Fanex.OddsFeed.Admin.Models;
     using Fanex.OddsFeed.Core.Repository.Impl;
     using Fanex.OddsFeed.Core.Repository.Interface;
@@ -33,7 +34,7 @@
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSession();
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddControllersAsServices();
 
             LogManager
                .SetDefaultLogCategory(Configuration.GetSection("Fanex.Logging:LogCategory").Value)

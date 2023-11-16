@@ -12,10 +12,6 @@
     </a>
     <span class="step">@ViewBag.Title</span>
 }
-@*@section Breadcrumb {
-    <a class="step" href="@Url.Action("ShowDashboard", "Dashboard")"><span class='xicon home'></span>Home</a>
-    <span class="step">@ViewBag.Title</span>
-}*@
 @section Styles {
     <link rel="stylesheet" href="~/minify/css/fanexgrid.min.css" asp-append-version="true">
     <link rel="stylesheet" href="~/minify/css/affiliate.min.css" asp-append-version="true">
@@ -51,7 +47,7 @@
             @Html.LabelFor(s => s.UserName, "Username")
         </div>
         <div class="grid_6">
-            @Html.TextBoxFor(s => s.UserName, new { @id = "Username", @maxlength = 50, @onkeyup = "StartAutoSuggesttion()", @class = "username-autocomplete" })
+            @Html.TextBoxFor(s => s.UserName, new { @id = "Username", @maxlength = 50, @onkeyup = "StartAutoSuggesttion()", @class = "username-autocomplete",placeholder = "Username" })
         </div>
         <input type="hidden" id="IsActivateSystem" value="@ViewBag.IsActivateSystem" />
         <div class="grid1">

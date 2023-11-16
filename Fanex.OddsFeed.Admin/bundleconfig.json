@@ -197,5 +197,29 @@
             "renameLocals": true
         },
         "sourceMap": false
+    },
+    {
+        "outputFileName": "wwwroot/minify/js/editaffiliateinfo.min.js",
+        "inputFiles": [
+            "wwwroot/js/Affiliate/CommonAffiliate.js",
+            "wwwroot/js/Affiliate/EditAffiliateInfo.js"
+        ],
+        "minify": {
+            "enabled": true,
+            "renameLocals": true
+        },
+        "sourceMap": false
+    },
+    {
+        "outputFileName": "wwwroot/minify/js/editaffiliatesetting.min.js",
+        "inputFiles": [
+            "wwwroot/js/Affiliate/CommonAffiliate.js",
+            "wwwroot/js/Affiliate/EditAffiliateStep2.js"
+        ],
+        "minify": {
+            "enabled": true,
+            "renameLocals": true
+        },
+        "sourceMap": false
     }
 ]

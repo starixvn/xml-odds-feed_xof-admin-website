@@ -14,10 +14,10 @@
         public string IpTo { get; set; }
 
         [SpParam(SqlParamName = "IPFromOld")]
-        public string IpFromOld { get; set; }
+        public string? IpFromOld { get; set; }
 
         [SpParam(SqlParamName = "IPToOld")]
-        public string IpToOld { get; set; }
+        public string? IpToOld { get; set; }
 
         public override string GetSettingKey() => "Odds_Partner_Upd_Setting_IP";
 

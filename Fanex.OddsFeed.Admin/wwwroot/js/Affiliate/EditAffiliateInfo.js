@@ -13,19 +13,24 @@
             return;
         }
 
+        var url = currentDomainURL + "Affiliate/EditAffiliateInfo?PartnerID=" + updateParams.PartnerID +
+            "&UserName=" + updateParams.UserName +
+            "&Email=" + updateParams.Email +
+            "&Website=" + updateParams.Website +
+            "&Note=" + updateParams.Note
+
         $.ajax({
-            url: 'EditAffiliateInfo',
+            url: url,
             type: 'POST',
             dataType: "json",
             contentType: "application/json; charset=utf-8",
-            data: JSON.stringify(updateParams),
             cache: false,
             beforeSend: function (xhr) {
             },
             success: function (result) {
-                if (result && result.IsSuccessful) {
+                if (result && result.isSuccessful) {
                     $("#editStep1 .result-message-box").empty()
-                        .append("<ul><li>" + result.Message + "</li></ul>")
+                        .append("<ul><li>" + result.message + "</li></ul>")
                         .addClass("success-message-box")
                         .removeClass("error-message-box")
                         .removeClass("hidden");
@@ -33,7 +38,7 @@
                     OddsFeedAdminManager.confirmAfterSuccess(currentDomainURL + "Affiliate/List");
                 } else {
                     $("#editStep1 .result-message-box").empty()
-                        .append("<ul><li>" + result.Message + "</li></ul>")
+                        .append("<ul><li>" + result.message + "</li></ul>")
                         .addClass("error-message-box")
                         .removeClass("success-message-box")
                         .removeClass("hidden");
