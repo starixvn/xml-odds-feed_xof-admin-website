@@ -215,7 +215,7 @@
                 .Select(x => new SelectListItem { Value = x.DomainId.ToString(), Text = x.DomainName }).ToList();
 
             // IP
-            ViewBag.IpList = affiliateService.GetPartnerIpByAffId(id);
+            ViewBag.IpList = await affiliateService.GetPartnerIpByAffId(id);
 
             return View();
         }
@@ -273,8 +273,8 @@
                 PartnerID = affId,
                 IpFrom = fromIP,
                 IpTo = toIP,
-                IpFromOld = fromIPOld,
-                IpToOld = toIPOld
+                IpFromOld = fromIPOld != null ? fromIPOld : "",
+                IpToOld = toIPOld != null ? toIPOld : ""
             };
 
             var result = await baseService.ExecuteNonQueryAsync(criteria);

@@ -162,24 +162,23 @@ function DoDeleteIPRange_EditSetting(IPFromOld, IPToOld) {
     };
 
     $.ajax({
-        url: 'DeleteIPRange_EditSetting_Partner',
+        url: 'DeleteIPRange_EditSetting_Partner?PartnerId=' + updateParams.PartnerId + '&IPFromOld=' + updateParams.IPFromOld + '&IPToOld=' + updateParams.IPToOld,
         type: 'POST',
         cache: false,
         dataType: "json",
         contentType: "application/json; charset=utf-8",
-        data: JSON.stringify(updateParams),
         async: true,
         cache: false,
         success: function (result) {
-            if (result && result.IsSuccessful) {
+            if (result && result.isSuccessful) {
                 $(".result-message-box").empty()
-                    .append("<ul><li>" + result.Message + "</li></ul>")
+                    .append("<ul><li>" + result.message + "</li></ul>")
                     .addClass("success-message-box")
                     .removeClass("error-message-box")
                     .removeClass("hidden");
             } else {
                 $(".result-message-box").empty()
-                    .append("<ul><li>" + result.Message + "</li></ul>")
+                    .append("<ul><li>" + result.message + "</li></ul>")
                     .addClass("error-message-box")
                     .removeClass("success-message-box")
                     .removeClass("hidden");

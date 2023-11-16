@@ -55,17 +55,16 @@
 
         $.ajax({
             type: 'POST',
-            url: 'EditSetting',
+            url: 'EditSetting?affId=' + updateParams.affId + '&domains=' + updateParams.domains + '&listIPs=' + updateParams.listIPs,
             dataType: "json",
             contentType: "application/json; charset=utf-8",
-            data: JSON.stringify(updateParams),
             cache: false,
             beforeSend: function (xhr) {
             },
             success: function (result) {
-                if (result && result.IsSuccessful) {
+                if (result && result.isSuccessful) {
                     $("#editStep2 .result-message-box").empty()
-                        .append("<ul><li>" + result.Message + "</li></ul>")
+                        .append("<ul><li>" + result.message + "</li></ul>")
                         .addClass("success-message-box")
                         .removeClass("error-message-box")
                         .removeClass("hidden");
@@ -73,7 +72,7 @@
                     OddsFeedAdminManager.confirmAfterSuccess(currentDomainURL + "Affiliate/List");
                 } else {
                     $("#editStep2 .result-message-box").empty()
-                        .append("<ul><li>" + result.Message + "</li></ul>")
+                        .append("<ul><li>" + result.message + "</li></ul>")
                         .addClass("error-message-box")
                         .removeClass("success-message-box")
                         .removeClass("hidden");
