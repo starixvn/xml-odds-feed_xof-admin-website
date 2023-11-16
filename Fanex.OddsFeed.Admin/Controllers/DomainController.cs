@@ -39,14 +39,14 @@ namespace Fanex.OddsFeed.Admin.Controllers
             criteria.DomainName = criteria.DomainName == ViewResources.Domain_Name ? string.Empty : criteria.DomainName;
             criteria.PageIndex++;
             var result = await baseService.GetDataAsync<Domain>(criteria);
-            return new JsonResult(new { Data = result}) ;
+            return new Utility.CustomJsonResult(new { data = result, totalItems = criteria.RowCount });
         }
 
         public async Task<IActionResult> GetDomainSetting([FromBody] GetDomainSettingByPageCriteria criteria)
         {
             criteria.PageIndex++;
             var result = await baseService.GetDataAsync<DomainSetting>(criteria);
-            return new JsonResult(new { Data = result});
+            return new Utility.CustomJsonResult(new { data = result, totalItems = criteria.RowCount });
         }
 
         [HttpPost]

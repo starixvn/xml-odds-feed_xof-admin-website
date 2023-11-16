@@ -354,7 +354,7 @@
         #region reset administrator's password
 
         [HttpGet]
-        public IActionResult AdministratorResetPwd(int id, string username)
+        public async Task<IActionResult> AdministratorResetPwd(int id, string username)
         {
             if (id == 0)
             {
@@ -373,7 +373,7 @@
                 UserID = id
             };
 
-            ViewBag.HasEditPermission = this.HasEditPermission(currentSession.UserRole, criteria.UserID);
+            ViewBag.HasEditPermission = await this.HasEditPermission(currentSession.UserRole, criteria.UserID);
             if (!ViewBag.HasEditPermission)
             {
                 ViewBag.Error = ViewResources.You_have_no_authorization;
