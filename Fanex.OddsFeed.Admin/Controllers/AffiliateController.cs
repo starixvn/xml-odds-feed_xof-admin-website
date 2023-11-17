@@ -329,7 +329,11 @@
                 criteria.CountryCodeList = affiliateProfile.CountryCodeList;
                 criteria.BetTypeIDList = affiliateProfile.BetTypeIdList;
 
-                string[] OddsType = affiliateProfile.OddsType.Split(',');
+                ViewBag.OddsType = affiliateProfile.OddsType.Split(',');
+                ViewBag.LanguageList = affiliateProfile.LanguageList.Split(',');
+                ViewBag.SportIdList = affiliateProfile.SportIdList.Split(',');
+                ViewBag.CountryCodeList = affiliateProfile.CountryCodeList.Split(',');
+                ViewBag.BetTypeIdList = affiliateProfile.BetTypeIdList.Split(',');
             }
 
             if (IsAccountManagerRole())

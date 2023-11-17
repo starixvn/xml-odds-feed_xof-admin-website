@@ -2,8 +2,8 @@
 @using Fanex.OddsFeed.Core
 @model Fanex.OddsFeed.Core.Criteria.Licensee.GetLeagueCriteria
 @{
-    //ViewBag.LeagueList = ViewBag.LeagueList ?? new List<SelectListItem>();
     ViewBag.LeagueList = Model.ViewBagLeagueList ?? (ViewBag.LeagueList ?? new List<SelectListItem>());
+    ViewBag.LeagueIDList = Model.LeagueIDList.Split(',');
 }
 <div class="grid4" style="height: 270px; text-align: right">
     <br />
@@ -14,8 +14,6 @@
     @Html.LabelFor(m => m.LeagueKeyword, "Keyword")
     @Html.TextBoxFor(m => m.LeagueKeyword, new { @Class = "keyword-textbox" })
     <br />
-    @*@Html.CheckBoxFor(m => m.LeagueKeywordFlag)
-    @Html.LabelFor(m => m.LeagueKeywordFlag, "Editable", new { @Class = "font-normal" })*@
 </div>
 <div class="grid7">
     <div class="checkbox-filter">
@@ -23,12 +21,21 @@
         <input id="league-filter" />
     </div>
     <div class="grid7 checkbox-list">
-        @*@Html.CheckBoxDropDownListFor(m => m.LeagueIDList, (IEnumerable<SelectListItem>)ViewBag.LeagueList, new { @class = "chkLeague" }, false)*@
+        @for (var i = 0; i < ViewBag.LeagueList.Count; i++)
+        {
+            var country = ViewBag.LeagueList[i];
+            var id = "LeagueIDList" + country.Value.ToString();
+            var isChecked = Array.IndexOf(ViewBag.LeagueIDList, country.Value.ToString()) > -1 || ViewBag.LeagueIDList[0] == "all";
+
+            <div style="color: rgb(0, 0, 0);">
+                <input checked="" class="chkLeague" id="@id" type="checkbox" value="@country.Value">
+                <label class="font-normal" for="@id">@country.Text</label>
+            </div>
+        }
+        
         @Html.HiddenFor(m => m.LeagueIDList)
     </div>
 </div>
-@*<div class="grid3">
-</div>*@
 <div class="grid1" style="line-height: 170px;">
     @Html.Raw(ViewResources.HtmlTemplate_InputRequiredSymbol)
 </div>
