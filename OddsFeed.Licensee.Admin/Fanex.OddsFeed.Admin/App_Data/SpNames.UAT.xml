@@ -25,7 +25,7 @@
         <Setting Key="Odds_LanguageSel" SpName="Odds_LanguageSel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
         <Setting Key="Odds_Partner_Ins" SpName="Odds_Partner_Ins" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
         <Setting Key="Odds_Partner_Upd_Info" SpName="Odds_Partner_Upd_Info" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
-        <Setting Key="Odds_Partner_Upd_Setting" SpName="Odds_Partner_Upd_Setting_xtest" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+        <Setting Key="Odds_Partner_Upd_Setting" SpName="Odds_Partner_Upd_Setting" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
         <Setting Key="Odds_Partner_Upd_Setting_IP" SpName="Odds_Partner_Upd_Setting_IP" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
         <Setting Key="Odds_Partner_Upd_Profile" SpName="Odds_Partner_Upd_Profile" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
         <Setting Key="Odds_Partner_Upd_Active" SpName="Odds_Partner_Upd_Active" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
