@@ -58,6 +58,18 @@
             "wwwroot/css/Affiliate/AffiliateEdit.css"
         ]
     },
+    {
+        "outputFileName": "wwwroot/minify/css/licenseeedit.min.css",
+        "inputFiles": [
+            "wwwroot/css/Licensee/LicenseeEdit.css"
+        ]
+    },
+    {
+        "outputFileName": "wwwroot/minify/css/licensee.min.css",
+        "inputFiles": [
+            "wwwroot/css/Licensee/LicenseeEdit.css"
+        ]
+    },
 
     // ----------------------- Javascript ------------------------------
     {
@@ -191,6 +203,34 @@
             "wwwroot/js/Affiliate/CommonAffiliate.js",
             "wwwroot/js/Affiliate/EditAffiliate.js",
             "wwwroot/js/Affiliate/AffiliateList.js"
+        ],
+        "minify": {
+            "enabled": true,
+            "renameLocals": true
+        },
+        "sourceMap": false
+    },
+    {
+        "outputFileName": "wwwroot/minify/js/listlicensee.min.js",
+        "inputFiles": [
+            "wwwroot/js/Functions/ListLicensee/CommonLicensee.js",
+            "wwwroot/js/Functions/ListLicensee/ListLicensee.js",
+            "wwwroot/js/Functions/ListLicensee/EditLicensee.js"
+        ],
+        "minify": {
+            "enabled": true,
+            "renameLocals": true
+        },
+        "sourceMap": false
+    },
+    {
+        "outputFileName": "wwwroot/minify/js/addlicensee.min.js",
+        "inputFiles": [
+            "wwwroot/js/Functions/ListLicensee/CommonLicensee.js",
+            "wwwroot/js/Functions/ListLicensee/AddLicensee.js",
+            "wwwroot/js/Functions/ListLicensee/AddLicenseeStep1.js",
+            "wwwroot/js/Functions/ListLicensee/AddLicenseeStep2.js",
+            "wwwroot/js/Functions/ListLicensee/AddLicenseeStep3.js"
         ],
         "minify": {
             "enabled": true,

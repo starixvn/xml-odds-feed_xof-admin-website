@@ -1,0 +1,28 @@
+﻿@using Fanex.OddsFeed.Core.Web
+@using Fanex.OddsFeed.Core
+@model Fanex.OddsFeed.Core.Criteria.Licensee.GetOutRightCriteria
+@{
+    //ViewBag.OutrightList = ViewBag.OutrightList ?? new List<SelectListItem>();
+    ViewBag.OutrightList = Model.ViewBagOutrightList ?? (ViewBag.OutrightList ?? new List<SelectListItem>());
+}
+<div class="grid4" style="height: 170px; text-align: right; vertical-align: middle">
+    <br />
+    <br />
+    <br />
+    @Html.LabelFor(m => m.OutRightIDList, "Outrights", new { @for = "chkAllOutrights" })
+    <input type="checkbox" id="chkAllOutrights" /><br />
+    @Html.LabelFor(m => m.LeagueKeyword_O, "Keyword")
+    @Html.TextBoxFor(m => m.LeagueKeyword_O, new { @Class = "keyword-textbox" })
+    <br />
+    @*  @Html.CheckBoxFor(m => m.LeagueKeyword_OFlag)
+    @Html.LabelFor(m => m.LeagueKeyword_OFlag, "Editable", new { @Class = "font-normal" })*@
+</div>
+<div class="grid7 checkbox-list">
+    @*@Html.CheckBoxDropDownListFor(m => m.OutRightIDList, (IEnumerable<SelectListItem>)ViewBag.OutrightList, new { @class = "chkOutright" }, false)*@
+    @Html.HiddenFor(m => m.OutRightIDList)
+</div>
+@*<div class="grid3">
+</div>*@
+<div class="grid1" style="line-height: 170px;">
+    @Html.Raw(ViewResources.HtmlTemplate_InputRequiredSymbol)
+</div>

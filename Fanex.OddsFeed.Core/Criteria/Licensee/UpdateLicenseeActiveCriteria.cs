@@ -1,6 +1,6 @@
 ﻿namespace Fanex.OddsFeed.Core.Criteria.Licensee
 {
-    public class UpdateLicenseeActiveCriteria : ResultCriteria
+    public class UpdateLicenseeActiveCriteria : BaseCommand
     {
         public short SystemID { get; set; }
 
