@@ -328,6 +328,8 @@
                 criteria.SportIDList = affiliateProfile.SportIdList;
                 criteria.CountryCodeList = affiliateProfile.CountryCodeList;
                 criteria.BetTypeIDList = affiliateProfile.BetTypeIdList;
+
+                string[] OddsType = affiliateProfile.OddsType.Split(',');
             }
 
             if (IsAccountManagerRole())
@@ -766,8 +768,8 @@
             var languages = await baseService.GetDataAsync<Language>(new GetAllLanguageCriteria());
             ViewBag.LanguageIDList = languages.Select(x => new SelectListItem { Value = x.Code, Text = x.Name_EN }).ToList();
 
-            ViewBag.DelayTimeList = GenerateDelayTime();
-            ViewBag.ResultDelayTimeList = licenseeService.GetResultDelayTimeList();
+            ViewBag.DelayTimeList =await GenerateDelayTime();
+            ViewBag.ResultDelayTimeList = await licenseeService.GetResultDelayTimeList();
 
             // Country
             var countries = await baseService.GetDataAsync<Country>(new GetAllCountryCriteria());
@@ -866,8 +868,8 @@
             var languages = await baseService.GetDataAsync<Language>(new GetAllLanguageCriteria());
             ViewBag.LanguageIDList = languages.Select(x => new SelectListItem { Value = x.Code, Text = x.Name_EN }).ToList();
 
-            ViewBag.DelayTimeList = GenerateDelayTime();
-            ViewBag.ResultDelayTimeList = licenseeService.GetResultDelayTimeList();
+            ViewBag.DelayTimeList = await GenerateDelayTime();
+            ViewBag.ResultDelayTimeList = await licenseeService.GetResultDelayTimeList();
 
             // Sport
             var sports = UpdateSportListForCricket(await baseService.GetDataAsync<Sport>(new GetSupportedSportCriteria()));

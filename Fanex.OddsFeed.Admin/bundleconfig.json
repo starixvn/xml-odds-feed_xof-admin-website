@@ -221,5 +221,18 @@
             "renameLocals": true
         },
         "sourceMap": false
+    },
+    {
+        "outputFileName": "wwwroot/minify/js/editaffiliateprofile.min.js",
+        "inputFiles": [
+            "wwwroot/js/Functions/ListLicensee/CommonLicensee.js",
+            "wwwroot/js/Affiliate/CommonAffiliate.js",
+            "wwwroot/js/Affiliate/EditAffiliateStep3.js"
+        ],
+        "minify": {
+            "enabled": true,
+            "renameLocals": true
+        },
+        "sourceMap": false
     }
 ]
