@@ -4,7 +4,7 @@
     using Data.Repository;
     using Fanex.Data;
 
-    public class UpdateSettingIP_LicenseeCriteria : ResultCriteria
+    public class UpdateSettingIP_LicenseeCriteria : BaseCommand
     {
         [Required]
         public int Creator { get; set; }

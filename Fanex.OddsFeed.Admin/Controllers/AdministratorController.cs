@@ -134,7 +134,7 @@
         {
             criteria.PageIndex++;
             criteria.Username = criteria.Username.Equals("Username") ? string.Empty : criteria.Username.Trim();
-            var result =await baseService.GetDataAsync<User>(criteria);
+            var result = await baseService.GetDataAsync<User>(criteria);
             return new JsonResult(new {data = result, totalItems = criteria.RowCount});
         }
 

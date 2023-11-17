@@ -1,0 +1,110 @@
+﻿@using Fanex.OddsFeed.Core.Web
+@using Fanex.OddsFeed.Core
+@using System.Web.Optimization
+@model Fanex.OddsFeed.Core.Criteria.Licensee.LicenseeRequestCriteria
+@{
+    ViewBag.IsDashboard = false;
+    ViewBag.Title = "Licensee's statistics";
+}
+@section Breadcrumb {
+    <a class="step" href="@Url.Action("ShowDashboard", "Dashboard")"><span class='xicon home'></span>Home</a>
+    <span class="step">@ViewBag.Title</span>
+}
+@section Styles
+{
+@*    <link rel="Stylesheet" type="text/css" href="@BundleTable.Bundles.ResolveBundleUrl("~/App_Themes/Default/Fanex.Grid/Fanex.GridCss")" />
+    <link rel="Stylesheet" type="text/css" href="@BundleTable.Bundles.ResolveBundleUrl("~/App_Themes/Default/Affiliate/AffiliateCss")" />*@
+}
+@section Scripts
+{
+    @*<script src="@BundleTable.Bundles.ResolveBundleUrl("~/Scripts/Fanex.Grid/Fanex.GridJs")"></script>*@
+    <script src="~/Scripts/Affiliate/CommonAffiliate.js" type="text/javascript"></script>
+    <script src="~/Scripts/Licensee/Request.js" type="text/javascript"></script>
+}
+<div class="infor">
+    <span class="infor-ic">&nbsp;</span><span class="infor-text">The report will show all affiliate's xml odds feed requests from all licensees.</span>
+</div>
+<div class="newline">
+    &nbsp;
+</div>
+<form id="myForm" method="get" action="">
+    <div class="form" style="width: auto;">
+        @Html.HiddenFor(s => s.PageSize)
+        @Html.HiddenFor(s => s.PageIndex)
+        @Html.HiddenFor(s => s.PageCount)
+        <div class="row request">
+            <div class="grid2">
+                @Html.LabelFor(m => m.LicenseeId, ViewResources.Licensee)
+        </div>
+        <div class="grid4">
+            @Html.HiddenFor(m => m.LicenseeId)
+            <input id="Systemname" type="text" value="" @*onkeyup="StartAutoSuggesttion()" *@="Systemname" maxlength="50" style="width:140px" />
+            @*@Html.DropDownListFor(m => m.LicenseeId, ViewBag.LicenseeList as IEnumerable<SelectListItem>, new { @id = "LicenseeId", @Name = "LicenseeId", @class = "width-auto-fit request" })*@
+        </div>
+    </div>
+    @* Row2 *@
+    <div class="row">
+        <div class="grid2">
+            @Html.LabelFor(model => model.PeriodOption, "Group by")
+    </div>
+    <div class="grid4">
+        @*@Html.EnumDropDownListFor(m => m.PeriodOption, new { @class = "width-auto-fit request" }, "NULL")*@
+    </div>
+    <div class="grid2 center" style="height: auto">
+        <span class="date-area hide">
+            @Html.LabelFor(model => model.DateStart, "From")
+        </span><span class="week-area hide">
+            @Html.LabelFor(m => m.Week, "From")
+        </span><span class="month-area hide">
+            @Html.LabelFor(model => model.Month, "Month")
+        </span>
+    </div>
+    <div class="grid4" style="height: auto">
+        <span class="date-area hide">
+            @*@Html.DatePickerFor(m => m.DateStart, (DateTime?)ViewBag.MinDate, (DateTime?)ViewBag.MaxDate)*@
+        </span><span class="week-area hide">
+            @*@Html.WeekPickerFor(m => m.Week, Model.DateStart, (DateTime?)ViewBag.MinDate, (DateTime?)ViewBag.MaxDate)*@
+        </span><span class="month-area hide">
+            @*@Html.MonthPickerFor(model => model.Month, Model.Month, new { @class = "width-auto-fit request" })*@
+        </span>
+    </div>
+    <div class="grid2 center">
+        <span class="date-area hide">
+            @Html.LabelFor(model => model.DateEnd, "To")
+        </span><span class="week-area hide">
+            @Html.LabelFor(m => m.ToWeek, "To")
+        </span><span class="month-area year-area hide">
+            @Html.LabelFor(model => model.Year, "Year")
+        </span>
+    </div>
+    <div class="grid4">
+        <span class="date-area hide">
+            @*@Html.DatePickerFor(m => m.DateEnd, (DateTime?)ViewBag.MinDate, (DateTime?)ViewBag.MaxDate)*@
+        </span><span class="week-area hide">
+            @*@Html.WeekPickerFor(m => m.ToWeek, Model.DateEnd, (DateTime?)ViewBag.MinDate, (DateTime?)ViewBag.MaxDate)*@
+        </span><span class="month-area year-area hide">
+            @*@Html.YearPickerFor(model => model.Year, ((DateTime)ViewBag.MinDate).Year, htmlAttributes: new { @class = "width-auto-fit request" })*@
+        </span>
+    </div>
+    <div class="clear">
+    </div>
+</div>
+<div class="row">
+    <div class="grid2">
+    </div>
+    <div class="grid4">
+        <input type="button" value="Search" onclick="OnSearch();" />
+    </div>
+</div>
+</div>
+</form>
+<div class="newline">
+    &nbsp;
+</div>
+<div id="SearchResult" class="freegrid  content-grid">
+</div>
+<div class="newline">
+    &nbsp;
+</div>
+<div id="SearchResultDetail" class="freegrid  content-grid">
+</div>

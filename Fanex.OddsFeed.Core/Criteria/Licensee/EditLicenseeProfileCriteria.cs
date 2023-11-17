@@ -3,7 +3,7 @@ namespace Fanex.OddsFeed.Core.Criteria.Licensee
     using Data.Repository;
     using Fanex.Data;
 
-    public class EditLicenseeProfileCriteria : CriteriaBase
+    public class EditLicenseeProfileCriteria : BaseCommand
     {
         public short SystemID { get; set; }
 

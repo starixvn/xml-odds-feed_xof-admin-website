@@ -12,8 +12,6 @@ $(document).ready(function () {
     $('#PageIndex').val(PageIndex);
     Submit();
 
-    $("#SystemName").Watermark("Licensee Name");
-
     $("#SystemName").autocomplete({
         source: [],
         minLength: 1
@@ -33,11 +31,9 @@ function renderBodyRows(licensees) {
         var licensee = licensees[i];
         var colactive = '';
         if (licensee.isActive) {
-            colactive = "<img title='Deactivate this licensee' class='ico-tick' src='"
-                + currentDomainURL + "App_Themes/Default/Images/blank.png' onclick=\"javascript:editActive(this, " + licensee.systemID + ")\" />";
+            colactive = "<a title='Deactivate this licensee' class='ico-tick' onclick=\"javascript:editActive(this, " + licensee.systemID + ")\" />";
         } else {
-            colactive = "<img title='Activate this licensee' class='ico-untick' src='"
-                + currentDomainURL + "App_Themes/Default/Images/blank.png' onclick='javascript:editActive(this, " + licensee.systemID + ")' />";
+            colactive = "<a title='Activate this licensee' class='ico-untick' onclick='javascript:editActive(this, " + licensee.systemID + ")' />";
         }
 
         var row = {
@@ -65,8 +61,8 @@ function renderBodyRows(licensees) {
 function Submit() {
     $(".result-message-box").addClass("hidden");
     var searchParams = {
-        SystemName: $.trim($("#SystemName").val()),
-        IsActive: $("#isActive option:selected").val(),
+        SystemName: parseInt($.trim($("#SystemName").val())),
+        IsActive: parseInt($("#isActive option:selected").val()),
         PageSize: PageSize,
         PageIndex: PageIndex
     };
