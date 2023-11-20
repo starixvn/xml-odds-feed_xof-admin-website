@@ -1,20 +1,18 @@
 ﻿namespace Fanex.OddsFeed.Admin.Controllers
 {
     using System.Text;
-    using System.Web.WebPages.Html;
     using Core;
     using Core.Criteria.Affiliate;
     using Core.Criteria.Licensee;
     using Core.Model;
     using Core.Model.ValueObject;
-    using Core.Service.Impl;
     using Core.Service.Interface;
     using Core.Web.Attribute;
     using Core.Web.Context;
     using Core.Web.Session;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Rendering;
     using Models;
-    using Utility;
 
     [IsAuthorize]
     public class LicenseeController : BaseController
@@ -147,7 +145,7 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> EditSetting([FromBody] EditLicenseeSettingCriteria criteria)
+        public async Task<IActionResult> EditSetting(EditLicenseeSettingCriteria criteria)
         {
             if (criteria.SystemID == 0)
             {

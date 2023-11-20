@@ -50,13 +50,20 @@
         var selectedDomains = $.map(selectedOptions, function (option) {
             return option.value;
         }).join(',');
-
+        var data = {
+            SystemID: parseInt($('#formEditLicenseeSetting #SystemID').val()),
+            DomainList: $('#formEditLicenseeSetting #DomainList').val(),
+            ListIPFrom: $('#formEditLicenseeSetting #ListIPFrom').val(),
+            ListIPTo: $('#formEditLicenseeSetting #ListIPTo').val()
+        };
         var IPs = getDataFromTable("#IpTable");
         $.ajax({
             url: 'EditSettingPost',
             type: 'POST',
-            data: $('#formEditLicenseeSetting').serialize(),
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
             dataType: 'html',
+            async: true,
             cache: false,
             success: function (errCode) {
                 if (errCode != 0) {
