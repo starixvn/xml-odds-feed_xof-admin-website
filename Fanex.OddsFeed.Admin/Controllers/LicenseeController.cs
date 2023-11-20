@@ -124,7 +124,7 @@
         }
 
         [HttpGet]
-        public ActionResult EditLicenseeInfo([FromBody] EditLicenseeInfoCriteria criteria)
+        public ActionResult EditLicenseeInfo(EditLicenseeInfoCriteria criteria)
         {
             if (!this.IsAccountManagerRole())
             {
@@ -192,52 +192,52 @@
             return Json(result.Code);
         }
 
-        //[HttpGet]
-        //public ActionResult EditProfile(EditLicenseeProfileCriteria criteria)
-        //{
-        //    if (criteria.SystemID == 0)
-        //    {
-        //        return RedirectToAction("ListLicensee", "Licensee");
-        //    }
+        [HttpGet]
+        public async Task<ActionResult> EditProfile(EditLicenseeProfileCriteria criteria)
+        {
+            if (criteria.SystemID == 0)
+            {
+                return RedirectToAction("ListLicensee", "Licensee");
+            }
 
-        //    if (!this.IsAccountManagerRole())
-        //    {
-        //        return this.NoAuthorization();
-        //    }
+            if (!this.IsAccountManagerRole())
+            {
+                return this.NoAuthorization();
+            }
 
-        //    GetLicenseeProfile(ref criteria);
-        //    ViewBagForEditLicenseeProfile(ref criteria);
+            criteria = await GetLicenseeProfile(criteria);
+            criteria = await ViewBagForEditLicenseeProfile(criteria);
 
-        //    ViewBag.CurrentSystem = " of \"" + criteria.SystemName + "\"";
+            ViewBag.CurrentSystem = " of \"" + criteria.SystemName + "\"";
 
-        //    return View(criteria);
-        //}
+            return View(criteria);
+        }
 
-        //[HttpPost]
-        //public JsonResult EditProfilePost(EditLicenseeProfileCriteria criteria)
-        //{
-        //    criteria.BetTypeIDList = criteria.BetTypeIDList ?? string.Empty;
-        //    criteria.SportIDList = UpdateSportIDListForCricket(criteria.SportIDList);
+        [HttpPost]
+        public async Task<JsonResult> EditProfilePost(EditLicenseeProfileCriteria criteria)
+        {
+            criteria.BetTypeIDList = criteria.BetTypeIDList ?? string.Empty;
+            criteria.SportIDList = UpdateSportIDListForCricket(criteria.SportIDList);
 
-        //    if (criteria.IsForceUpdate)
-        //    {
-        //        return SaveLicenseeProfile(criteria);
-        //    }
-        //    else
-        //    {
-        //        var missingPartnersProfile = GetMissingProfile(criteria);
-        //        if (IsMissingProfile(missingPartnersProfile))
-        //        {
-        //            // Assign a error code in case some affiliates under this licensee have the number of selections greater than the current licensee's profile
-        //            CustomizeMissProfileData(criteria, ref missingPartnersProfile);
-        //            return Json(missingPartnersProfile);
-        //        }
-        //        else
-        //        {
-        //            return SaveLicenseeProfile(criteria);
-        //        }
-        //    }
-        //}
+            if (criteria.IsForceUpdate)
+            {
+                return await SaveLicenseeProfile(criteria);
+            }
+            else
+            {
+                var missingPartnersProfile = await GetMissingProfile(criteria);
+                if (IsMissingProfile(missingPartnersProfile))
+                {
+                    // Assign a error code in case some affiliates under this licensee have the number of selections greater than the current licensee's profile
+                    CustomizeMissProfileData(criteria, ref missingPartnersProfile);
+                    return Json(missingPartnersProfile);
+                }
+                else
+                {
+                    return await SaveLicenseeProfile(criteria);
+                }
+            }
+        }
 
         [HttpPost]
         public async Task<JsonResult> UpdateIPRange_EditSetting([FromBody] UpdateSettingIP_LicenseeCriteria criteria)
@@ -433,28 +433,28 @@
 
         #region Common
 
-        //private MissingPartnersProfile GetMissingProfile(EditLicenseeProfileCriteria criteria)
-        //{
-        //    var missingProfile = new MissingPartnersProfile();
+        private async Task<MissingPartnersProfile> GetMissingProfile(EditLicenseeProfileCriteria criteria)
+        {
+            var missingProfile = new MissingPartnersProfile();
 
-        //    ////get profile of all affs
-        //    var partnerProfile = _licenseeService.GetProfileAllPartnersBySystemId(criteria.SystemID);
+            ////get profile of all affs
+            var partnerProfile = await _licenseeService.GetProfileAllPartnersBySystemId(criteria.SystemID);
 
-        //    missingProfile.AffsOddsType = Utilities.ProducesDifferenceTwoString(partnerProfile.AffsOddsType, criteria.OddsType);
-        //    missingProfile.AffsLanguageList = Utilities.ProducesDifferenceTwoString(partnerProfile.AffsLanguageList, criteria.LanguageList);
-        //    missingProfile.AffsSportIDList = criteria.SportIDList == "all"
-        //        ? string.Empty : Utilities.ProducesDifferenceTwoString(partnerProfile.AffsSportIDList, criteria.SportIDList);
-        //    missingProfile.AffsCountryCodeList = criteria.CountryCodeList == "all"
-        //        ? string.Empty : Utilities.ProducesDifferenceTwoString(partnerProfile.AffsCountryCodeList, criteria.CountryCodeList);
-        //    missingProfile.AffsLeagueIDList = criteria.LeagueIDList == "all"
-        //        ? string.Empty : Utilities.ProducesDifferenceTwoString(partnerProfile.AffsLeagueIDList, criteria.LeagueIDList);
-        //    missingProfile.AffsOutrightIDList = criteria.OutRightIDList == "all"
-        //        ? string.Empty : Utilities.ProducesDifferenceTwoString(partnerProfile.AffsOutrightIDList, criteria.OutRightIDList);
-        //    missingProfile.AffsBettypeIDList = criteria.BetTypeIDList == "all"
-        //        ? string.Empty : Utilities.ProducesDifferenceTwoString(partnerProfile.AffsBettypeIDList, criteria.BetTypeIDList);
+            missingProfile.AffsOddsType = Utilities.ProducesDifferenceTwoString(partnerProfile.AffsOddsType, criteria.OddsType);
+            missingProfile.AffsLanguageList = Utilities.ProducesDifferenceTwoString(partnerProfile.AffsLanguageList, criteria.LanguageList);
+            missingProfile.AffsSportIDList = criteria.SportIDList == "all"
+                ? string.Empty : Utilities.ProducesDifferenceTwoString(partnerProfile.AffsSportIDList, criteria.SportIDList);
+            missingProfile.AffsCountryCodeList = criteria.CountryCodeList == "all"
+                ? string.Empty : Utilities.ProducesDifferenceTwoString(partnerProfile.AffsCountryCodeList, criteria.CountryCodeList);
+            missingProfile.AffsLeagueIDList = criteria.LeagueIDList == "all"
+                ? string.Empty : Utilities.ProducesDifferenceTwoString(partnerProfile.AffsLeagueIDList, criteria.LeagueIDList);
+            missingProfile.AffsOutrightIDList = criteria.OutRightIDList == "all"
+                ? string.Empty : Utilities.ProducesDifferenceTwoString(partnerProfile.AffsOutrightIDList, criteria.OutRightIDList);
+            missingProfile.AffsBettypeIDList = criteria.BetTypeIDList == "all"
+                ? string.Empty : Utilities.ProducesDifferenceTwoString(partnerProfile.AffsBettypeIDList, criteria.BetTypeIDList);
 
-        //    return missingProfile;
-        //}
+            return missingProfile;
+        }
 
         private static bool IsMissingProfile(MissingPartnersProfile missingPartnersProfile)
         {
@@ -536,126 +536,130 @@
             return Json(missingPartnersProfile);
         }
 
-        //private void GetLicenseeProfile(ref EditLicenseeProfileCriteria criteria)
-        //{
-        //    var licensee = baseService.GetDataEntity<LicenseeProfile>(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = currentSession.SystemId });
-        //    if (licensee != null)
-        //    {
-        //        criteria.NumberOfIPs = licensee.NumberOfIPs;
-        //        criteria.BetTypeIDList = licensee.BetTypeIdList;
-        //        criteria.BettypeIDListFlag = licensee.BetTypeIdListFlag;
-        //        criteria.CountryCodeList = licensee.CountryCodeList;
-        //        criteria.CountryCodeListFlag = licensee.CountryCodeListFlag;
-        //        var delayTimes = licensee.OddsDelayTimes.Split(',');
-        //        if (delayTimes.Length > 0)
-        //        {
-        //            criteria.DeadballDelayTimes = delayTimes[0];
-        //        }
+        private async Task<EditLicenseeProfileCriteria> GetLicenseeProfile(EditLicenseeProfileCriteria criteria)
+        {
+            var licensee = await baseService.GetDataEntityAsync<LicenseeProfile>(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = currentSession.SystemId });
+            if (licensee != null)
+            {
+                criteria.NumberOfIPs = licensee.NumberOfIPs;
+                criteria.BetTypeIDList = licensee.BetTypeIdList;
+                criteria.BettypeIDListFlag = licensee.BetTypeIdListFlag;
+                criteria.CountryCodeList = licensee.CountryCodeList;
+                criteria.CountryCodeListFlag = licensee.CountryCodeListFlag;
+                var delayTimes = licensee.OddsDelayTimes.Split(',');
+                if (delayTimes.Length > 0)
+                {
+                    criteria.DeadballDelayTimes = delayTimes[0];
+                }
 
-        //        if (delayTimes.Length > 1)
-        //        {
-        //            criteria.LiveDelayTimes = delayTimes[1];
-        //        }
+                if (delayTimes.Length > 1)
+                {
+                    criteria.LiveDelayTimes = delayTimes[1];
+                }
 
-        //        const byte OutrightDelayTimesIndex = 2;
-        //        if (delayTimes.Length > OutrightDelayTimesIndex)
-        //        {
-        //            criteria.OutrightDelayTimes = delayTimes[OutrightDelayTimesIndex];
-        //        }
+                const byte OutrightDelayTimesIndex = 2;
+                if (delayTimes.Length > OutrightDelayTimesIndex)
+                {
+                    criteria.OutrightDelayTimes = delayTimes[OutrightDelayTimesIndex];
+                }
 
-        //        criteria.OddsDelayTimesFlag = licensee.OddsDelayTimesFlag;
+                criteria.OddsDelayTimesFlag = licensee.OddsDelayTimesFlag;
 
-        //        criteria.ResultDelayTimes = licensee.ResultDelayTimes;
-        //        criteria.ResultDelayTimesFlag = licensee.ResultDelayTimesFlag;
+                criteria.ResultDelayTimes = licensee.ResultDelayTimes;
+                criteria.ResultDelayTimesFlag = licensee.ResultDelayTimesFlag;
 
-        //        criteria.LanguageList = licensee.LanguageList;
-        //        criteria.LanguageListFlag = licensee.LanguageListFlag;
-        //        criteria.LeagueIDList = licensee.LeagueIdList;
-        //        criteria.LeagueIDListFlag = licensee.LeagueIdListFlag;
-        //        criteria.LeagueKeyword = licensee.LeagueKeyword;
-        //        criteria.LeagueKeyword_O = licensee.LeagueKeyword_O;
-        //        criteria.LeagueKeyword_OFlag = licensee.LeagueKeyword_OFlag;
-        //        criteria.LeagueKeywordFlag = licensee.LeagueKeywordFlag;
-        //        criteria.OddsRegion = licensee.OddsRegion;
-        //        criteria.OddsRegionFlag = licensee.OddsRegionFlag;
-        //        criteria.OddsType = licensee.OddsType;
-        //        criteria.OddsTypeFlag = licensee.OddsTypeFlag;
-        //        criteria.OutRightIDList = licensee.OutrightIdList;
-        //        criteria.SportIDList = licensee.SportIdList;
-        //        criteria.SportIDListFlag = licensee.SportIdListFlag;
-        //    }
-        //}
+                criteria.LanguageList = licensee.LanguageList;
+                criteria.LanguageListFlag = licensee.LanguageListFlag;
+                criteria.LeagueIDList = licensee.LeagueIdList;
+                criteria.LeagueIDListFlag = licensee.LeagueIdListFlag;
+                criteria.LeagueKeyword = licensee.LeagueKeyword;
+                criteria.LeagueKeyword_O = licensee.LeagueKeyword_O;
+                criteria.LeagueKeyword_OFlag = licensee.LeagueKeyword_OFlag;
+                criteria.LeagueKeywordFlag = licensee.LeagueKeywordFlag;
+                criteria.OddsRegion = licensee.OddsRegion;
+                criteria.OddsRegionFlag = licensee.OddsRegionFlag;
+                criteria.OddsType = licensee.OddsType;
+                criteria.OddsTypeFlag = licensee.OddsTypeFlag;
+                criteria.OutRightIDList = licensee.OutrightIdList;
+                criteria.SportIDList = licensee.SportIdList;
+                criteria.SportIDListFlag = licensee.SportIdListFlag;
+            }
 
-        //private void ViewBagForEditLicenseeProfile(ref EditLicenseeProfileCriteria criteria)
-        //{
-        //    var oddsTypes = baseService.GetData<SystemSetting>(new GetTypeSettingCriteria { SystemID = 0, Type = "OddsType" });
-        //    ViewBag.OddsTypeList = oddsTypes.Select(x => new SelectListItem { Value = x.Value, Text = x.Key }).ToList();
+            return criteria;
+        }
 
-        //    var oddsStyles = baseService.GetData<SystemSetting>(new GetTypeSettingCriteria { SystemID = 0, Type = "OddsRegion" });
-        //    ViewBag.OddsStyleList = oddsStyles.Select(x => new SelectListItem { Value = x.Value, Text = x.Key }).ToList();
+        private async Task<EditLicenseeProfileCriteria> ViewBagForEditLicenseeProfile(EditLicenseeProfileCriteria criteria)
+        {
+            var oddsTypes = await baseService.GetDataAsync<SystemSetting>(new GetTypeSettingCriteria { SystemID = 0, Type = "OddsType" });
+            ViewBag.OddsTypeList = oddsTypes.Select(x => new SelectListItem { Value = x.Value, Text = x.Key }).ToList();
 
-        //    var languages = baseService.GetData<Language>(new GetAllLanguageCriteria());
-        //    ViewBag.LanguageIDList = languages.Select(x => new SelectListItem { Value = x.Code, Text = x.Name_EN }).ToList();
+            var oddsStyles = await baseService.GetDataAsync<SystemSetting>(new GetTypeSettingCriteria { SystemID = 0, Type = "OddsRegion" });
+            ViewBag.OddsStyleList = oddsStyles.Select(x => new SelectListItem { Value = x.Value, Text = x.Key }).ToList();
 
-        //    ViewBag.DelayTimeList = GenerateDelayTime();
-        //    ViewBag.ResultDelayTimeList = _licenseeService.GetResultDelayTimeList();
+            var languages = await baseService.GetDataAsync<Language>(new GetAllLanguageCriteria());
+            ViewBag.LanguageIDList = languages.Select(x => new SelectListItem { Value = x.Code, Text = x.Name_EN }).ToList();
 
-        //    Sport
-        //   var sports = UpdateSportListForCricket(baseService.GetData<Sport>(new GetSupportedSportCriteria()));
-        //    if (criteria.SportIDList.Equals("all"))
-        //    {
-        //        criteria.SportIDList = string.Join(",", sports.Select(item => item.SportType));
-        //    }
+            ViewBag.DelayTimeList = GenerateDelayTime();
+            ViewBag.ResultDelayTimeList = _licenseeService.GetResultDelayTimeList();
 
-        //    ViewBag.MajorSportList = sports.Where(sport => sport.Group == MajorGroup)
-        //        .Select(x => new SelectListItem { Value = x.SportType.ToString(), Text = x.SportName }).ToList();
-        //    ViewBag.MinorSportList = sports.Where(sport => sport.Group == MinorGroup)
-        //        .Select(x => new SelectListItem { Value = x.SportType.ToString(), Text = x.SportName }).ToList();
+            //Sport
+            var sports = UpdateSportListForCricket(await baseService.GetDataAsync<Sport>(new GetSupportedSportCriteria()));
+            if (criteria.SportIDList.Equals("all"))
+            {
+                criteria.SportIDList = string.Join(",", sports.Select(item => item.SportType));
+            }
 
-        //    Market
-        //   var bettypes = baseService.GetData<BetType>(new GetSupportedBettypeCriteria());
-        //    if (criteria.BetTypeIDList.Equals("all"))
-        //    {
-        //        criteria.BetTypeIDList = string.Join(",", bettypes.Select(item => item.TypeId));
-        //    }
+            ViewBag.MajorSportList = sports.Where(sport => sport.Group == MajorGroup)
+                .Select(x => new SelectListItem { Value = x.SportType.ToString(), Text = x.SportName }).ToList();
+            ViewBag.MinorSportList = sports.Where(sport => sport.Group == MinorGroup)
+                .Select(x => new SelectListItem { Value = x.SportType.ToString(), Text = x.SportName }).ToList();
 
-        //    ViewBag.MajorBettypesList = bettypes.Where(x => x.Group == MajorGroup)
-        //        .Select(x => new SelectListItem { Value = x.TypeId.ToString(), Text = x.TypeNameE }).ToList();
-        //    ViewBag.MinorBettypesList = bettypes.Where(x => x.Group == MinorGroup)
-        //        .Select(x => new SelectListItem { Value = x.TypeId.ToString(), Text = x.TypeNameE }).ToList();
+            //Market
+            var bettypes = await baseService.GetDataAsync<BetType>(new GetSupportedBettypeCriteria());
+            if (criteria.BetTypeIDList.Equals("all"))
+            {
+                criteria.BetTypeIDList = string.Join(",", bettypes.Select(item => item.TypeId));
+            }
 
-        //    Country
-        //   var countries = baseService.GetData<Country>(new GetAllCountryCriteria());
-        //    ViewBag.CountriesList = countries.Select(x => new SelectListItem { Value = x.CountryCode, Text = x.CountryName }).ToList();
-        //    if (criteria.CountryCodeList.Equals("all"))
-        //    {
-        //        criteria.CountryCodeList = string.Join(",", countries.Select(item => item.CountryCode));
-        //    }
+            ViewBag.MajorBettypesList = bettypes.Where(x => x.Group == MajorGroup)
+                .Select(x => new SelectListItem { Value = x.TypeId.ToString(), Text = x.TypeNameE }).ToList();
+            ViewBag.MinorBettypesList = bettypes.Where(x => x.Group == MinorGroup)
+                .Select(x => new SelectListItem { Value = x.TypeId.ToString(), Text = x.TypeNameE }).ToList();
 
-        //    League
-        //   var leagues = baseService.GetData<League>(new GetLeagueCriteria
-        //   {
-        //       SportIDList = criteria.SportIDList,
-        //       CountryCodeList = criteria.CountryCodeList
-        //   });
-        //    ViewBag.LeagueList = leagues.Select(x => new SelectListItem { Value = x.LeagueId.ToString(), Text = x.LeagueName }).ToList();
-        //    if (criteria.LeagueIDList.Equals("all"))
-        //    {
-        //        criteria.LeagueIDList = string.Join(",", leagues.Select(item => item.LeagueId));
-        //    }
+            //Country
+            var countries = await baseService.GetDataAsync<Country>(new GetAllCountryCriteria());
+            ViewBag.CountriesList = countries.Select(x => new SelectListItem { Value = x.CountryCode, Text = x.CountryName }).ToList();
+            if (criteria.CountryCodeList.Equals("all"))
+            {
+                criteria.CountryCodeList = string.Join(",", countries.Select(item => item.CountryCode));
+            }
 
-        //    OutRight
-        //   var outrights = baseService.GetData<League>(new GetOutRightCriteria
-        //   {
-        //       SportIDList = criteria.SportIDList,
-        //       CountryCodeList = criteria.CountryCodeList
-        //   });
-        //    ViewBag.OutrightList = outrights.Select(x => new SelectListItem { Value = x.LeagueId.ToString(), Text = x.LeagueName }).ToList();
-        //    if (criteria.OutRightIDList.Equals("all"))
-        //    {
-        //        criteria.OutRightIDList = string.Join(",", outrights.Select(item => item.LeagueId));
-        //    }
-        //}
+            //League
+            var leagues = await baseService.GetDataAsync<League>(new GetLeagueCriteria
+            {
+                SportIDList = criteria.SportIDList,
+                CountryCodeList = criteria.CountryCodeList
+            });
+            ViewBag.LeagueList = leagues.Select(x => new SelectListItem { Value = x.LeagueId.ToString(), Text = x.LeagueName }).ToList();
+            if (criteria.LeagueIDList.Equals("all"))
+            {
+                criteria.LeagueIDList = string.Join(",", leagues.Select(item => item.LeagueId));
+            }
+
+            //OutRight
+            var outrights = await baseService.GetDataAsync<League>(new GetOutRightCriteria
+            {
+                SportIDList = criteria.SportIDList,
+                CountryCodeList = criteria.CountryCodeList
+            });
+            ViewBag.OutrightList = outrights.Select(x => new SelectListItem { Value = x.LeagueId.ToString(), Text = x.LeagueName }).ToList();
+            if (criteria.OutRightIDList.Equals("all"))
+            {
+                criteria.OutRightIDList = string.Join(",", outrights.Select(item => item.LeagueId));
+            }
+
+            return criteria;
+        }
 
         private static IEnumerable<Sport> UpdateSportListForCricket(IEnumerable<Sport> sports)
         {

@@ -1,7 +1,7 @@
-﻿@using Fanex.OddsFeed.Core.Web
-@using Fanex.OddsFeed.Core
+﻿@using Fanex.OddsFeed.Core
 @model Fanex.OddsFeed.Core.Criteria.Licensee.EditLicenseeInfoCriteria
 @{
+    ViewBag.IsDashboard = false;
     ViewBag.Title = "Edit licensee information";
 }
 @section Breadcrumb {
@@ -11,12 +11,12 @@
 }
 @section Styles
 {
-    <link rel="Stylesheet" type="text/css" href="@System.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/App_Themes/Default/Licensee/LicenseeEditCss")" />
+    <link rel="stylesheet" href="~/minify/css/licenseeedit.min.css" asp-append-version="true">
 }
 @section Scripts
 {
-    <script src="~/Scripts/Functions/ListLicensee/CommonLicensee.js" type="text/javascript"></script>
-    <script src="~/Scripts/Functions/ListLicensee/EditLicenseeInfo.js" type="text/javascript"></script>
+    <script src="~/js/Functions/ListLicensee/CommonLicensee.js" type="text/javascript"></script>
+    <script src="~/js/Functions/ListLicensee/EditLicenseeInfo.js" type="text/javascript"></script>
     <script type="text/javascript">
          var viewResources = {
              Error_EmailRequired: '@ViewResources.Error_EmailRequired',
@@ -45,7 +45,6 @@
                 &nbsp;
             </div>
         }
-        @Html.ValidationSummary()
 
         <div id="errorStep1" class="validation-summary-errors" data-valmsg-summary="true">
             <ul>
