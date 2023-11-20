@@ -107,7 +107,7 @@
                         var isDisabled = ViewBag.OddsTypeFlag ? string.Empty : "disabled";
                         var isChecked = Array.IndexOf(ViewBag.OddsType, oddsType.Value.ToString()) > -1;
                         <label class="font-normal">
-                            <input class="oddstype" checked="@isChecked" id="@id" isdisabled="@isDisabled" type="checkbox" value="@oddsType.Value">
+                            <input class="oddstype" @(isChecked ? "checked" : "") id="@id" isdisabled="@isDisabled" type="checkbox" value="@oddsType.Value">
                             @oddsType.Text
                         </label>
                     }
@@ -165,7 +165,7 @@
                         var isDisabled = @ViewBag.LanguagesFlag ? "" : "disabled";
                         var isChecked = Array.IndexOf(ViewBag.LanguageList, lang.Value.ToString()) > -1;
                         <label class="font-normal">
-                            <input class="language" checked="@isChecked" id="slLanguage" isdisabled="@isDisabled" type="checkbox" value="@lang.Value">
+                            <input class="language" @(isChecked ? "checked" : "") id="slLanguage" isdisabled="@isDisabled" type="checkbox" value="@lang.Value">
                             @lang.Text
                         </label>
                     }
@@ -193,7 +193,7 @@
                                 var isDisabled = ViewBag.SportsFlag ? string.Empty : "disabled";
                                 var isChecked = Array.IndexOf(ViewBag.SportIdList, sport.Value.ToString()) > -1 || ViewBag.SportIdList[0] == "all";
                                 <label class="font-normal">
-                                    <input class="chkMajorSport" checked="@isChecked" id="@id" isdisabled="@isDisabled" type="checkbox" value="@sport.Value">
+                                    <input class="chkMajorSport" @(isChecked ? "checked" : "") id="@id" isdisabled="@isDisabled" type="checkbox" value="@sport.Value">
                                     @sport.Text
                                 </label>
                             }
@@ -222,7 +222,7 @@
                                 var isDisabled = ViewBag.SportsFlag ? string.Empty : "disabled";
                                 var isChecked = Array.IndexOf(ViewBag.SportIdList, sport.Value.ToString()) > -1 || ViewBag.SportIdList[0] == "all";
                                 <div>
-                                    <input class="chkMinorSport" checked="@isChecked" id="@id" isdisabled="@isDisabled" type="checkbox" value="@sport.Value">
+                                    <input class="chkMinorSport" @(isChecked ? "checked" : "") id="@id" isdisabled="@isDisabled" type="checkbox" value="@sport.Value">
                                     <label class="font-normal" for="@id">@sport.Text</label>
                                 </div>
                             }
@@ -253,7 +253,7 @@
                                 var isChecked = Array.IndexOf(ViewBag.CountryCodeList, country.Value.ToString()) > -1 || ViewBag.CountryCodeList[0] == "all";
 
                                 <div>
-                                    <input checked="@isChecked" class="chkCountry" id="@id" isdisabled="@isDisabled" type="checkbox" value="@country.Value">
+                                    <input @(isChecked ? "checked" : "") class="chkCountry" id="@id" isdisabled="@isDisabled" type="checkbox" value="@country.Value">
                                     <label class="font-normal" for="@id">@country.Text</label>
                                 </div>
                             }
@@ -297,7 +297,7 @@
                                 var isChecked = Array.IndexOf(ViewBag.BetTypeIdList, majorMarket.Value.ToString()) > -1 || ViewBag.BetTypeIdList[0] == "all";
 
                                 <div>
-                                    <input class="chkMajorMarket" checked="@isChecked" id="@id" isdisabled="@isDisabled" type="checkbox" value="@majorMarket.Value">
+                                    <input class="chkMajorMarket" @(isChecked ? "checked" : "") id="@id" isdisabled="@isDisabled" type="checkbox" value="@majorMarket.Value">
                                     <label class="font-normal" for="@id">@majorMarket.Text</label>
                                 </div>
                             }
@@ -322,7 +322,7 @@
                                 var isChecked = Array.IndexOf(ViewBag.BetTypeIdList, majorMarket.Value.ToString()) > -1 || ViewBag.BetTypeIdList[0] == "all";
 
                                 <div>
-                                    <input class="chkMinorMarket" checked="@isChecked" id="@id" isdisabled="@isDisabled" type="checkbox" value="@majorMarket.Value">
+                                    <input class="chkMinorMarket" @(isChecked ? "checked" : "") id="@id" isdisabled="@isDisabled" type="checkbox" value="@majorMarket.Value">
                                     <label class="font-normal" for="@id">@majorMarket.Text</label>
                                 </div>
                             }

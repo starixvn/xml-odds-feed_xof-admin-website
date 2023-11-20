@@ -279,7 +279,7 @@
             return View();
         }
 
-        public async Task<IActionResult> GetLeague([FromBody] GetLeagueCriteria criteria)
+        public async Task<IActionResult> GetLeague(GetLeagueCriteria criteria)
         {
             criteria.SportIDList = UpdateSportIDListForCricket(criteria.SportIDList);
             var leagues = await baseService.GetDataAsync<League>(criteria);
@@ -288,7 +288,7 @@
             return PartialView("_LeaguePartialView", criteria);
         }
 
-        public async Task<IActionResult> GetOutright([FromBody] GetOutRightCriteria criteria)
+        public async Task<IActionResult> GetOutright(GetOutRightCriteria criteria)
         {
             criteria.SportIDList = UpdateSportIDListForCricket(criteria.SportIDList);
             var outrights = await baseService.GetDataAsync<League>(criteria);

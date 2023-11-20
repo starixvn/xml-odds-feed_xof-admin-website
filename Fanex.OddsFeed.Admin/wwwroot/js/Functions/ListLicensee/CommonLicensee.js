@@ -475,9 +475,10 @@ function GetLeagueOutright(formID, leagueElement, outrightElement) {
     $('#SportIDList').val(sportIdList);
 
     $('#CountryCodeList').val(GetDropDownCheckBoxListValue('chkCountry'));
-
+    
     $.ajax({
         url: currentDomainURL + 'Licensee/GetLeague',
+        contentType: 'application/x-www-form-urlencoded; charset=utf-8',
         type: 'POST',
         data: $('#' + formID).serialize(),
         dataType: 'html',
@@ -504,6 +505,7 @@ function GetLeagueOutright(formID, leagueElement, outrightElement) {
 
     $.ajax({
         url: currentDomainURL + 'Licensee/GetOutRight',
+        contentType: 'application/x-www-form-urlencoded; charset=utf-8',
         type: 'POST',
         data: $('#' + formID).serialize(),
         dataType: 'html',
