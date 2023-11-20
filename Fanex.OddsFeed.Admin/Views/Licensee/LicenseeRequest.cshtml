@@ -12,12 +12,12 @@
 }
 @section Styles
 {
-@*    <link rel="Stylesheet" type="text/css" href="@BundleTable.Bundles.ResolveBundleUrl("~/App_Themes/Default/Fanex.Grid/Fanex.GridCss")" />
-    <link rel="Stylesheet" type="text/css" href="@BundleTable.Bundles.ResolveBundleUrl("~/App_Themes/Default/Affiliate/AffiliateCss")" />*@
+    <link rel="stylesheet" href="~/minify/css/fanexgrid.min.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/Affiliate/AffiliateEdit.css" asp-append-version="true">
 }
 @section Scripts
 {
-    @*<script src="@BundleTable.Bundles.ResolveBundleUrl("~/Scripts/Fanex.Grid/Fanex.GridJs")"></script>*@
+    <script src="~/minify/js/fanexgrid.min.js" asp-append-version="true"></script>
     <script src="~/Scripts/Affiliate/CommonAffiliate.js" type="text/javascript"></script>
     <script src="~/Scripts/Licensee/Request.js" type="text/javascript"></script>
 }

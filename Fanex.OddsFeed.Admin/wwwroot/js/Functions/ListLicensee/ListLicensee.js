@@ -164,7 +164,7 @@ function ShowAction(licensee) {
                 height: 25,
                 className: "iconDelAff",
                 callback: function (key, opt) {
-                    deleteLicensee(_systemID, _systemName);
+                    deleteLicensee(parseInt(_systemID), _systemName);
                 }
             },
             editSetting: {
@@ -172,7 +172,7 @@ function ShowAction(licensee) {
                 height: 25, className: "iconEditSetting",
                 callback: function (key, opt) {
                     var urlParam = $.param({
-                        SystemID: _systemID,
+                        SystemID: parseInt(_systemID),
                         SystemName: _systemName
                     });
 
@@ -184,9 +184,9 @@ function ShowAction(licensee) {
                 height: 25, className: "iconEditInfo",
                 callback: function (key, opt) {
                     var urlParam = $.param({
-                        SystemID: _systemID,
+                        SystemID: parseInt(_systemID),
                         SystemName: _systemName,
-                        IsActive: _isActive,
+                        IsActive: parseInt(_isActive),
                         ContactEmail: _contactEmail
                     });
 
@@ -198,7 +198,7 @@ function ShowAction(licensee) {
                 className: "iconOddProfile",
                 callback: function (key, opt) {
                     var urlParam = $.param({
-                        SystemID: _systemID,
+                        SystemID: parseInt(_systemID),
                         SystemName: _systemName
                     });
 
