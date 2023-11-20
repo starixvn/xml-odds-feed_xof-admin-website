@@ -32,13 +32,18 @@
 
     $("#editStep1Save").click(function () {
         var ret = CheckValidation();
-
+        var data = {
+            SystemID: parseInt($('#formEditLicenseeInfo #SystemID').val()),
+            IsActive: $('#formEditLicenseeInfo #IsActive').val() === 'true',
+            ContactEmail: $('#formEditLicenseeInfo #ContactEmail').val()
+        };
         if (ret) {
             $.ajax({
                 url: 'EditLicenseeInfoPost',
                 type: 'POST',
-                data: $('#formEditLicenseeInfo').serialize(),
-                dataType: 'html',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(data),
+                dataType: 'json',
                 cache: false,
                 success: function (errCode) {
                     if (errCode != 0) {

@@ -186,7 +186,7 @@ function ShowAction(licensee) {
                     var urlParam = $.param({
                         SystemID: parseInt(_systemID),
                         SystemName: _systemName,
-                        IsActive: parseInt(_isActive),
+                        IsActive: _isActive,
                         ContactEmail: _contactEmail
                     });
 
