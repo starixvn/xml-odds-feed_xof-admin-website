@@ -3,7 +3,7 @@
 @model Fanex.OddsFeed.Core.Criteria.Licensee.GetLeagueCriteria
 @{
     ViewBag.LeagueList = Model.ViewBagLeagueList ?? (ViewBag.LeagueList ?? new List<SelectListItem>());
-    ViewBag.LeagueIDList = Model.LeagueIDList.Split(',');
+    ViewBag.LeagueIDList = Model.LeagueIDList != null ? Model.LeagueIDList.Split(',') : null;
 }
 <div class="grid4" style="height: 270px; text-align: right">
     <br />
@@ -25,10 +25,15 @@
         {
             var country = ViewBag.LeagueList[i];
             var id = "LeagueIDList" + country.Value.ToString();
-            var isChecked = Array.IndexOf(ViewBag.LeagueIDList, country.Value.ToString()) > -1 || ViewBag.LeagueIDList[0] == "all";
+            var isChecked = false;
+            if (ViewBag.LeagueIDList != null
+            && (Array.IndexOf(ViewBag.LeagueIDList, country.Value.ToString()) > -1 || ViewBag.LeagueIDList[0] == "all"))
+            {
+                isChecked = true;
+            }
 
             <div style="color: rgb(0, 0, 0);">
-                <input checked="" class="chkLeague" id="@id" type="checkbox" value="@country.Value">
+                <input @(isChecked ? "checked" : "") class="chkLeague" id="@id" type="checkbox" value="@country.Value">
                 <label class="font-normal" for="@id">@country.Text</label>
             </div>
         }

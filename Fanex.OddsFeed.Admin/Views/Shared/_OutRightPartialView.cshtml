@@ -3,7 +3,7 @@
 @model Fanex.OddsFeed.Core.Criteria.Licensee.GetOutRightCriteria
 @{
     ViewBag.OutrightList = Model.ViewBagOutrightList ?? (ViewBag.OutrightList ?? new List<SelectListItem>());
-    ViewBag.OutRightIDList = Model.OutRightIDList.Split(',');
+    ViewBag.OutRightIDList = Model.OutRightIDList != null ? Model.OutRightIDList.Split(',') : null;
 }
 <div class="grid4" style="height: 170px; text-align: right; vertical-align: middle">
     <br />
@@ -20,10 +20,16 @@
     {
         var country = ViewBag.OutrightList[i];
         var id = "OutRightIDList" + country.Value.ToString();
-        var isChecked = Array.IndexOf(ViewBag.OutRightIDList, country.Value.ToString()) > -1 || ViewBag.OutRightIDList[0] == "all";
+        
+        var isChecked = false;
+        if (ViewBag.OutRightIDList != null
+        && (Array.IndexOf(ViewBag.OutRightIDList, country.Value.ToString()) > -1 || ViewBag.OutRightIDList[0] == "all"))
+        {
+            isChecked = true;
+        }
 
         <div style="color: rgb(0, 0, 0);">
-            <input checked="" class="chkOutright" id="@id" type="checkbox" value="@country.Value">
+            <input @(isChecked ? "checked" : "") class="chkOutright" id="@id" type="checkbox" value="@country.Value">
             <label class="font-normal" for="@id">@country.Text</label>
         </div>
     }

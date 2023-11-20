@@ -355,7 +355,7 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditProfile(UpdateProfileCriteria criteria)
+        public async Task<IActionResult> EditProfile([FromBody] UpdateProfileCriteria criteria)
         {
             var result = new CommandResult();
             if (ModelState.IsValid)
