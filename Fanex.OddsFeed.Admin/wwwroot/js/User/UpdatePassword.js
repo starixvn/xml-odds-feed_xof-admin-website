@@ -131,9 +131,9 @@ function DoUpdatePassword() {
         dataType: "json",
         contentType: "application/json; charset=utf-8",
         success: function (result) {
-            if (result.IsSuccessful == true) {
+            if (result.isSuccessful == true) {
                 $(".result-message-box").empty()
-                    .append("<ul><li>" + result.Message + "</li></ul>")
+                    .append("<ul><li>" + result.message + "</li></ul>")
                     .addClass("success-message-box")
                     .removeClass("error-message-box")
                     .removeClass("hidden");
@@ -143,7 +143,7 @@ function DoUpdatePassword() {
                     updateParams.PreAction.replace(/^\//g, ''));
             } else {
                 $(".result-message-box").empty()
-                    .append("<ul><li>" + result.Message + "</li></ul>")
+                    .append("<ul><li>" + result.message + "</li></ul>")
                     .addClass("error-message-box")
                     .removeClass("success-message-box")
                     .removeClass("hidden");
