@@ -1,5 +1,6 @@
 ﻿namespace Fanex.OddsFeed.Admin
 {
+    using System;
     using Fanex.Data;
     using Fanex.Data.Repository;
     using Fanex.Data.SqlServer;
@@ -21,6 +22,7 @@
     using ONEbook.UM.Services;
     using ONEbook.UM.Transport;
     using Sentry;
+    using WebOptimizer;
 
     public class Startup
     {
@@ -34,6 +36,11 @@
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSession();
+            services.AddWebOptimizer(pipeline =>
+            {
+                RegisterBundlesJS(pipeline);
+                RegisterBundlesCSS(pipeline);
+            });
             services.AddControllersWithViews().AddControllersAsServices();
 
             LogManager
@@ -62,6 +69,18 @@
 
             InjectServices(services);
             InjectRepository(services);
+        }
+
+        private void RegisterBundlesCSS(IAssetPipeline pipeline)
+        {
+            pipeline.MinifyCssFiles();
+        }
+
+        private void RegisterBundlesJS(IAssetPipeline pipeline)
+        {
+            pipeline.MinifyJsFiles();
+
+            pipeline.AddJavaScriptBundle("weboptimizer/js/updatepassword.min.js", "js/User/UpdatePassword.js");
         }
 
         private void InjectServices(IServiceCollection services)
@@ -112,6 +131,7 @@
 
             app.UseCookiePolicy();
             app.UseHttpsRedirection();
+            app.UseWebOptimizer();
             app.UseStaticFiles();
             app.UseAuthentication();
             app.UseSession();
