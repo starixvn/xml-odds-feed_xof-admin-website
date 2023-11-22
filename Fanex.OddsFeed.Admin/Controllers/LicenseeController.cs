@@ -214,9 +214,9 @@
         }
 
         [HttpPost]
-        public async Task<JsonResult> EditProfilePost(EditLicenseeProfileCriteria criteria)
+        public async Task<JsonResult> EditProfilePost([FromBody] EditLicenseeProfileCriteria criteria)
         {
-            criteria.BetTypeIDList = criteria.BetTypeIDList ?? string.Empty;
+            criteria.BetTypeIDList ??= string.Empty;
             criteria.SportIDList = UpdateSportIDListForCricket(criteria.SportIDList);
 
             if (criteria.IsForceUpdate)
@@ -599,8 +599,8 @@
             var languages = await baseService.GetDataAsync<Language>(new GetAllLanguageCriteria());
             ViewBag.LanguageIDList = languages.Select(x => new SelectListItem { Value = x.Code, Text = x.Name_EN }).ToList();
 
-            ViewBag.DelayTimeList = GenerateDelayTime();
-            ViewBag.ResultDelayTimeList = _licenseeService.GetResultDelayTimeList();
+            ViewBag.DelayTimeList = await GenerateDelayTime();
+            ViewBag.ResultDelayTimeList = await _licenseeService.GetResultDelayTimeList();
 
             //Sport
             var sports = UpdateSportListForCricket(await baseService.GetDataAsync<Sport>(new GetSupportedSportCriteria()));

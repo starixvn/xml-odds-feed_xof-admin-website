@@ -61,7 +61,7 @@
 function UpdateLicenseeProfile(isForceUpdate) {
     // Refresh values
     var updateParams = {
-        SystemID: $('#SystemID').val(),
+        SystemID: parseInt($('#SystemID').val()),
         OddsType: GetDropDownCheckBoxListValue('oddstype'),
         OddsRegion: $('#OddsRegion option:selected').val(),
         DeadballDelayTimes: $('#DeadballDelayTimes').val(),
@@ -102,8 +102,8 @@ function UpdateLicenseeProfile(isForceUpdate) {
                 $('body').removeClass('wait');
                 $('input:button[value="Save"]').attr('disabled', false);
 
-                if (obj.ErrCode != 0) {
-                    if (obj.ErrCode == 10701) {//some affiliates under this licensee have the number of selections greater than the current licensee's profile
+                if (obj.errCode != 0) {
+                    if (obj.errCode == 10701) {//some affiliates under this licensee have the number of selections greater than the current licensee's profile
                         var alertMsg = "You are removing some selections that affiliates under this licensee are available. Are you sure you want to remove these selections for all affiliates' odds profile also?";
                         confirmUpdateMissingProfile(alertMsg.fontcolor('red'), 'LICENSEE ADMIN', updateParams.SystemID, obj);
                     }
