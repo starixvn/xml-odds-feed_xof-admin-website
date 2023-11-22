@@ -384,7 +384,7 @@
         {
             var criteria = new GetTop10LicenseeCriteria
             {
-                Systemname = systemName
+                Systemname = systemName ?? string.Empty
             };
             var systems = await baseService.GetDataAsync<Licensee>(criteria);
             return string.Join(",", systems.Select(x => x.SystemName));
@@ -404,7 +404,7 @@
 
         #region Delete
 
-        public async Task<JsonResult> DeleteLicensee([FromBody] DeleteLicenseeCriteria criteria)
+        public async Task<JsonResult> DeleteLicensee(DeleteLicenseeCriteria criteria)
         {
             criteria.Creator = currentSession.UserId;
             criteria.IP = currentContext.IP;
