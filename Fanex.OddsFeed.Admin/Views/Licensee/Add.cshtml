@@ -2,6 +2,7 @@
 @using Fanex.OddsFeed.Core.Criteria.Licensee
 @model CreateLicenseeCriteria
 @{
+    ViewBag.IsDashboard = false;
     ViewBag.Title = "Add Licensee";
 }
 @section Breadcrumb {
@@ -10,12 +11,19 @@
 }
 @section Styles
 {
-   @* <link rel="Stylesheet" type="text/css" href="@BundleTable.Bundles.ResolveBundleUrl("~/App_Themes/Default/Licensee/LicenseeCss")" />
+    <link rel="stylesheet" href="~/minify/css/licenseeedit.min.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/minify/css/affiliate.min.css" asp-append-version="true">
+        @* <link rel="Stylesheet" type="text/css" href="@BundleTable.Bundles.ResolveBundleUrl("~/App_Themes/Default/Licensee/LicenseeCss")" />
     <link rel="Stylesheet" type="text/css" href="@BundleTable.Bundles.ResolveBundleUrl("~/App_Themes/Default/Affiliate/AffiliateCss")" />*@
 }
 @section Scripts
 {
     @*<script type="text/javascript" src="@BundleTable.Bundles.ResolveBundleUrl("~/Scripts/Functions/ListLicensee/AddLicenseeJs")"></script>*@
+    <script src="~/js/Functions/ListLicensee/CommonLicensee.js" type="text/javascript"></script>
+    <script src="~/js/Functions/ListLicensee/AddLicensee.js" type="text/javascript"></script>
+    <script src="~/js/Functions/ListLicensee/AddLicenseeStep1.js" type="text/javascript"></script>
+    <script src="~/js/Functions/ListLicensee/AddLicenseeStep2.js" type="text/javascript"></script>
+    <script src="~/js/Functions/ListLicensee/AddLicenseeStep3.js" type="text/javascript"></script>
 
     <script type="text/javascript">
         var viewResources = {
@@ -244,10 +252,18 @@
                 <div class="grid4" style="text-align: right">
                     @Html.LabelFor(m => m.OddsType, ViewResources.OddsType)
                 </div>
-                @*@Html.CheckBoxListFor(m => m.OddsType,
+               @* @Html.CheckBoxListFor(m => m.OddsType,
                     (IEnumerable<SelectListItem>)ViewBag.OddsTypeList,
                     new { @Class = "oddstype" },
                     showNameAttribute: false)*@
+                @foreach (var item in (ViewBag.OddsTypeList as IEnumerable<SelectListItem>)!)
+                {
+                    <label class="font-normal">
+                        <input class="oddstype" @(Model.OddsType.Contains(item.Value) ? "checked" : "")
+                               id="@("OddsType" + item.Value)" type="checkbox" value="@item.Value">
+                        @item.Text
+                    </label>
+                }
                 @Html.HiddenFor(m => m.OddsType)
                 @Html.CheckBoxFor(m => m.OddsTypeFlag)
                 @Html.LabelFor(m => m.OddsTypeFlag, "Editable", new { @Class = "font-normal" })
@@ -294,6 +310,14 @@
                     @Html.LabelFor(m => m.LanguageList, ViewResources.Languages)
                 </div>
                 @*@Html.CheckBoxListFor(m => m.LanguageList, (IEnumerable<SelectListItem>)ViewBag.LanguageIDList, new { @Class = "language" }, false)*@
+                @foreach (var item in (ViewBag.LanguageIDList as IEnumerable<SelectListItem>)!)
+                {
+                    <label class="font-normal">
+                        <input class="language" @(Model.LanguageList.Contains(item.Value) ? "checked" : "")
+                               id="@("LanguageList" + item.Value)" type="checkbox" value="@item.Value">
+                        @item.Text
+                    </label>
+                }
                 @Html.HiddenFor(m => m.LanguageList)
                 @Html.CheckBoxFor(m => m.LanguageListFlag)
                 @Html.LabelFor(m => m.LanguageListFlag, "Editable", new { @Class = "font-normal" })
@@ -309,10 +333,18 @@
                 </div>
                 <div class="grid7" style="line-height: 170px; text-align: left">
                     <label class="font-normal">
-                      @*  @Html.CheckBoxListFor(m => m.SportIDList,
+                       @* @Html.CheckBoxListFor(m => m.SportIDList,
                             ViewBag.MajorSportList as IEnumerable<SelectListItem>,
                             new { @Class = "chkMajorSport" },
                             false)*@
+                        @foreach (var item in (ViewBag.MajorSportList as IEnumerable<SelectListItem>)!)
+                        {
+                            <label class="font-normal">
+                                <input class="chkMajorSport" @(Model.SportIDList.Contains(item.Value) ? "checked" : "")
+                                       id="@("SportIDList" + item.Value)" type="checkbox" value="@item.Value">
+                                @item.Text
+                            </label>
+                        }
                     </label>
                 </div>
                 <div class="grid4" style="line-height: 170px; text-align: right">
@@ -325,10 +357,18 @@
                         <input id="minorSport-filter" />
                     </div>
                     <div class="grid7 checkbox-list">
-                      @*  @Html.CheckBoxDropDownListFor(m => m.SportIDList,
+                        @*@Html.CheckBoxDropDownListFor(m => m.SportIDList,
                             ViewBag.MinorSportList as IEnumerable<SelectListItem>,
                             new { @Class = "chkMinorSport" },
                             false)*@
+                        @foreach (var item in (ViewBag.MinorSportList as IEnumerable<SelectListItem>)!)
+                        {
+                            <div>
+                                <input @(Model.SportIDList.Contains(item.Value) ? "checked" : "")
+                                    class="chkMinorSport" id="@("chkMinorSport" + item.Value)" name="chkMinorSport" type="checkbox" value="@item.Value">
+                                <label class="font-normal" for="@("chkMinorSport" + item.Value)">@item.Text</label>
+                            </div>
+                        }
                     </div>
                 </div>
                 <div class="grid3" style="line-height: 170px; text-align: left">
@@ -354,6 +394,14 @@
                             (IEnumerable<SelectListItem>)ViewBag.CountriesList,
                             new { @class = "chkCountry" },
                             false)*@
+                        @foreach (var item in (ViewBag.CountriesList as IEnumerable<SelectListItem>)!)
+                        {
+                            <div>
+                                <input @(Model.CountryCodeList.Contains(item.Value) ? "checked" : "")
+                                    class="chkCountry" id="@("chkCountry" + item.Value)" name="chkCountry" type="checkbox" value="@item.Value">
+                                <label class="font-normal" for="@("chkCountry" + item.Value)">@item.Text</label>
+                            </div>
+                        }
                         @Html.HiddenFor(m => m.CountryCodeList)
                     </div>
                 </div>
@@ -366,7 +414,7 @@
                 </div>
             </div>
             <div id="League" class="row3">
-                @Html.Partial("_LeaguePartialView", new GetLeagueCriteria
+                @await Html.PartialAsync("_LeaguePartialView", new GetLeagueCriteria
                 {
                     SportIDList = Model.SportIDList,
                     LeagueIDList = Model.LeagueIDList,
@@ -377,7 +425,7 @@
                 })
             </div>
             <div id="Outrights" class="row3" style="max-height: 210px">
-                @Html.Partial("_OutrightPartialView", new GetOutRightCriteria
+                @await Html.PartialAsync("_OutrightPartialView", new GetOutRightCriteria
                 {
                     SportIDList = Model.SportIDList,
                     OutRightIDList = Model.OutRightIDList,
@@ -398,10 +446,18 @@
                         <input id="majormarket-filter" />
                     </div>
                     <div class="grid7 checkbox-list">
-                     @*   @Html.CheckBoxDropDownListFor(m => m.BetTypeIDList,
+                       @* @Html.CheckBoxDropDownListFor(m => m.BetTypeIDList,
                             ViewBag.MajorBettypesList as IEnumerable<SelectListItem>,
                             new { @Class = "chkMajorMarket" },
                             false)*@
+                        @foreach (var item in (ViewBag.MajorBettypesList as IEnumerable<SelectListItem>)!)
+                        {
+                            <div>
+                                <input @(Model.BetTypeIDList.Contains(item.Value) ? "checked" : "")
+                                    class="chkMajorMarket" id="@("chkMajorMarket" + item.Value)" name="chkMajorMarket" type="checkbox" value="@item.Value">
+                                <label class="font-normal" for="@("chkMajorMarket" + item.Value)">@item.Text</label>
+                            </div>
+                        }
                     </div>
                 </div>
                 <div class="grid4" style="line-height: 170px; text-align: right">
@@ -414,10 +470,18 @@
                         <input id="minorMarket-filter" />
                     </div>
                     <div class="grid7 checkbox-list">
-                      @*  @Html.CheckBoxDropDownListFor(m => m.BetTypeIDList,
+                       @* @Html.CheckBoxDropDownListFor(m => m.BetTypeIDList,
                             ViewBag.MinorBettypesList as IEnumerable<SelectListItem>,
                             new { @Class = "chkMinorMarket" },
                             false)*@
+                        @foreach (var item in (ViewBag.MinorBettypesList as IEnumerable<SelectListItem>)!)
+                        {
+                            <div>
+                                <input @(Model.BetTypeIDList.Contains(item.Value) ? "checked" : "")
+                                    class="chkMinorMarket" id="@("chkMinorMarket" + item.Value)" name="chkMinorMarket" type="checkbox" value="@item.Value">
+                                <label class="font-normal" for="@("chkMinorMarket" + item.Value)">@item.Text</label>
+                            </div>
+                        }
                     </div>
                 </div>
                 <div class="grid3" style="line-height: 170px; text-align: left">

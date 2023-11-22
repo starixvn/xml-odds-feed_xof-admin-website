@@ -197,7 +197,7 @@
                 </div>
             </div>
             <div id="League" class="row3">
-                @Html.Partial("_LeaguePartialView", new GetLeagueCriteria
+                @await Html.PartialAsync("_LeaguePartialView", new GetLeagueCriteria
                 {
                     SportIDList = Model.SportIDList,
                     LeagueIDList = Model.LeagueIDList,
@@ -208,7 +208,7 @@
                 })
             </div>
             <div id="Outrights" class="row3" style="max-height: 210px">
-                @Html.Partial("_OutrightPartialView", new GetOutRightCriteria
+                @await Html.PartialAsync("_OutrightPartialView", new GetOutRightCriteria
                 {
                     SportIDList = Model.SportIDList,
                     OutRightIDList = Model.OutRightIDList,

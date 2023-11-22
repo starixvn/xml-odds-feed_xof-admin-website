@@ -50,9 +50,9 @@
             ViewBag.OddsStyleList = oddsStyles.Select(x => new SelectListItem { Value = x.Value, Text = x.Key }).ToList();
 
             // Config
-            ViewBag.DelayTimeList = GenerateDelayTime();
-            ViewBag.ResultDelayTimeList = _licenseeService.GetResultDelayTimeList();
-            ViewBag.NumberOfIPs = GetMaxNumberOfIPs();
+            ViewBag.DelayTimeList = await GenerateDelayTime();
+            ViewBag.ResultDelayTimeList = await _licenseeService.GetResultDelayTimeList();
+            ViewBag.NumberOfIPs = await GetMaxNumberOfIPs();
 
             // Domain
             var domains = await baseService.GetDataAsync<Domain>(new GetAllDomainCriteria { SystemID = 0 });
@@ -94,9 +94,9 @@
             criteria.ContactEmail = criteria.ContactEmail.Trim();
             criteria.Creator = currentSession.UserId;
             criteria.IP = currentContext.IP;
-            criteria.BetTypeIDList = criteria.BetTypeIDList ?? string.Empty;
-            criteria.LeagueKeyword = criteria.LeagueKeyword ?? string.Empty;
-            criteria.LeagueKeyword_O = criteria.LeagueKeyword_O ?? string.Empty;
+            criteria.BetTypeIDList ??= string.Empty;
+            criteria.LeagueKeyword ??= string.Empty;
+            criteria.LeagueKeyword_O ??= string.Empty;
 
             criteria.SportIDList = UpdateSportIDListForCricket(criteria.SportIDList);
             var result = await baseService.ExecuteNonQueryAsync(criteria);
@@ -162,8 +162,8 @@
             var listIPTo = new StringBuilder();
             foreach (var record in licensees)
             {
-                listIPFrom.AppendFormat("{0},", record.IPFrom);
-                listIPTo.AppendFormat("{0},", record.IPTo);
+                listIPFrom.Append($"{record.IPFrom},");
+                listIPTo.Append($"{record.IPTo},");
             }
 
             criteria.ListIPFrom = listIPFrom.ToString().Trim(',');
@@ -174,7 +174,7 @@
             ViewBag.SelectedDomainList = selectedDomains.Select(x => new SelectListItem { Value = x.DomainId.ToString(), Text = x.DomainName }).ToList();
 
             var domainList = await baseService.GetDataAsync<Domain>(new GetAllDomainCriteria { SystemID = 0 });
-            var domains = domainList.Where(d => !selectedDomains.Any(s => s.DomainId == d.DomainId)).ToList();
+            var domains = domainList.Where(d => selectedDomains.All(s => s.DomainId != d.DomainId)).ToList();
             ViewBag.DomainList = domains.Select(x => new SelectListItem { Value = x.DomainId.ToString(), Text = x.DomainName }).ToList();
 
             ViewBag.NumberOfIPs = GetMaxNumberOfIPs();
@@ -352,7 +352,7 @@
                     case "Year":
                         dateStart = DateTime.Parse(date);
                         dateStart = new DateTime(dateStart.Year, dateStart.Month, 1);
-                        dateEnd = DateTime.Parse(date).AddMonths(1).AddDays(-1); ////get last day of month
+                        dateEnd = DateTime.Parse(date).AddMonths(1).AddDays(-1); 
                         break;
 
                     default:
@@ -437,7 +437,6 @@
         {
             var missingProfile = new MissingPartnersProfile();
 
-            ////get profile of all affs
             var partnerProfile = await _licenseeService.GetProfileAllPartnersBySystemId(criteria.SystemID);
 
             missingProfile.AffsOddsType = Utilities.ProducesDifferenceTwoString(partnerProfile.AffsOddsType, criteria.OddsType);
@@ -667,7 +666,7 @@
             return sports.Where(s => s.SportType != Cricket).ToList();
         }
 
-        private static string UpdateSportIDListForCricket(string sportIDList)
+        private static string? UpdateSportIDListForCricket(string sportIDList)
         {
             if (sportIDList == null)
             {

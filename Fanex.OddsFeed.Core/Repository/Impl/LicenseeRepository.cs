@@ -14,7 +14,6 @@
             using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
                 await db.QueryEntityAsync<PartnersProfile>(criteria);
-                var partnersProfile = new PartnersProfile();
                 var hash = db.GetOutputParams();
 
                 return new PartnersProfile

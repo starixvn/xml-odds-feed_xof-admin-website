@@ -43,7 +43,6 @@
 
             if (criteria.IsValid())
             {
-                var demo = await baseService.GetDataAsync<PartnersProfile>(criteria);
                 return await licenseeRepository.GetProfileAllPartnersBySystemId(criteria);
             }
 
