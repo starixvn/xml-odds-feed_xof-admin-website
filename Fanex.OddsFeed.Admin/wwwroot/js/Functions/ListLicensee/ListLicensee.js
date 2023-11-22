@@ -61,7 +61,7 @@ function renderBodyRows(licensees) {
 function Submit() {
     $(".result-message-box").addClass("hidden");
     var searchParams = {
-        SystemName: parseInt($.trim($("#SystemName").val())),
+        SystemName: $.trim($("#SystemName").val()),
         IsActive: parseInt($("#isActive option:selected").val()),
         PageSize: PageSize,
         PageIndex: PageIndex
