@@ -31,11 +31,19 @@
         {
             var criteria = new GetProfileAllPartnersBySystemIdCriteria
             {
-                SystemID = systemId
+                SystemID = systemId,
+                AffsOddsType = string.Empty,
+                AffsLanguageList = string.Empty,
+                AffsSportIDList = string.Empty,
+                AffsCountryCodeList = string.Empty,
+                AffsLeagueIDList = string.Empty,
+                AffsOutrightIDList = string.Empty,
+                AffsBettypeIDList = string.Empty,
             };
 
             if (criteria.IsValid())
             {
+                var demo = await baseService.GetDataAsync<PartnersProfile>(criteria);
                 return await licenseeRepository.GetProfileAllPartnersBySystemId(criteria);
             }
 
