@@ -1,13 +1,13 @@
 ﻿namespace Fanex.OddsFeed.Admin
 {
     using Fanex.Data.Repository;
-    using Fanex.OddsFeed.Admin.Models;
-    using Fanex.OddsFeed.Core.Repository.Impl;
-    using Fanex.OddsFeed.Core.Repository.Interface;
-    using Fanex.OddsFeed.Core.Service.Impl;
-    using Fanex.OddsFeed.Core.Service.Interface;
-    using Fanex.OddsFeed.Core.Web.Context;
-    using Fanex.OddsFeed.Core.Web.Session;
+    using Fanex.OddsFeed.Core.Context;
+    using Fanex.OddsFeed.Core.Session;
+    using Fanex.OddsFeed.Models;
+    using Fanex.OddsFeed.Repositories.Impl;
+    using Fanex.OddsFeed.Repositories.Interface;
+    using Fanex.OddsFeed.Services.Impl;
+    using Fanex.OddsFeed.Services.Interface;
     using Microsoft.AspNetCore.Mvc.Infrastructure;
     using ONEbook.UM.AspNetCore;
     using ONEbook.UM.AspNetCore.Filters;
@@ -16,6 +16,7 @@
     using ONEbook.UM.Services;
     using ONEbook.UM.Transport;
     using WebOptimizer;
+
     public static class DIExtensions
     {
         public static void RegisterServices(this IServiceCollection services, IConfiguration configuration)

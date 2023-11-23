@@ -1,12 +1,13 @@
 ﻿namespace Fanex.OddsFeed.Admin.Views.Shared.Components.Header
 {
     using System.Text;
-    using Fanex.OddsFeed.Core.Criteria.Administrator;
-    using Fanex.OddsFeed.Core.Model;
-    using Fanex.OddsFeed.Core.Service.Interface;
-    using Fanex.OddsFeed.Core.Web.Session;
+    using Fanex.OddsFeed.Core.Session;
+    using Fanex.OddsFeed.Criteria.Administrator;
+    using Fanex.OddsFeed.Models;
+    using Fanex.OddsFeed.Services.Interface;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
+
     public class HeaderViewComponent : ViewComponent
     {
         private readonly ICurrentSession currentSession;

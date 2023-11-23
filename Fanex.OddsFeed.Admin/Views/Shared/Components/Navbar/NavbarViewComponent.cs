@@ -1,8 +1,9 @@
 ﻿namespace Fanex.OddsFeed.Admin.Views.Shared.Components.Navbar
 {
-    using Fanex.OddsFeed.Core.Service.Interface;
-    using Fanex.OddsFeed.Core.Web.Session;
+    using Fanex.OddsFeed.Services.Interface;
     using Microsoft.AspNetCore.Mvc;
+    using Fanex.OddsFeed.Core.Session;
+
     public class NavbarViewComponent : ViewComponent
     {
         private readonly ICurrentSession currentSession;

@@ -1,0 +1,9 @@
+﻿namespace Fanex.OddsFeed.Models
+{
+    public class Sport
+    {
+        public int SportType { get; set; }
+        public string SportName { get; set; }
+        public string Group { get; set; }
+    }
+}
