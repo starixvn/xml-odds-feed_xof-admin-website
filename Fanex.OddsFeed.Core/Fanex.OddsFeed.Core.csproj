@@ -16,29 +16,4 @@
 	  <PackageReference Include="UAParser" Version="3.1.47" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Compile Update="Lang.Designer.cs">
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>Lang.resx</DependentUpon>
-	  </Compile>
-	  <Compile Update="ViewResources.Designer.cs">
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>ViewResources.resx</DependentUpon>
-	  </Compile>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <EmbeddedResource Update="Lang.resx">
-	    <Generator>PublicResXFileCodeGenerator</Generator>
-	    <LastGenOutput>Lang.Designer.cs</LastGenOutput>
-	  </EmbeddedResource>
-	  <EmbeddedResource Update="ViewResources.resx">
-	    <SubType>Designer</SubType>
-	    <LastGenOutput>ViewResources.Designer.cs</LastGenOutput>
-	    <Generator>PublicResXFileCodeGenerator</Generator>
-	  </EmbeddedResource>
-	</ItemGroup>
-
 </Project>

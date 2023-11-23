@@ -4,11 +4,11 @@
     using System.Drawing.Imaging;
     using Fanex.Data;
     using Fanex.OddsFeed.Admin.Utility;
-    using Fanex.OddsFeed.Core;
     using Fanex.OddsFeed.Core.Context;
     using Fanex.OddsFeed.Core.Session;
     using Fanex.OddsFeed.Criteria.User;
     using Fanex.OddsFeed.Models;
+    using Fanex.OddsFeed.Resources;
     using Fanex.OddsFeed.Services.Interface;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;

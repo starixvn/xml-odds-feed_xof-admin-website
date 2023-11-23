@@ -35,6 +35,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{8F77BD1E-87F
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fanex.OddsFeed.Controllers", "Fanex.OddsFeed.Controllers\Fanex.OddsFeed.Controllers.csproj", "{B4601468-BACA-41D7-A50F-775228CEE1BD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fanex.OddsFeed.Resources", "Fanex.OddsFeed.Resources\Fanex.OddsFeed.Resources.csproj", "{C16B166B-9824-4FD1-BC94-641F4F6255F4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -159,6 +161,18 @@ Global
 		{B4601468-BACA-41D7-A50F-775228CEE1BD}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{B4601468-BACA-41D7-A50F-775228CEE1BD}.Release|x86.ActiveCfg = Release|Any CPU
 		{B4601468-BACA-41D7-A50F-775228CEE1BD}.Release|x86.Build.0 = Release|Any CPU
+		{C16B166B-9824-4FD1-BC94-641F4F6255F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C16B166B-9824-4FD1-BC94-641F4F6255F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C16B166B-9824-4FD1-BC94-641F4F6255F4}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C16B166B-9824-4FD1-BC94-641F4F6255F4}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C16B166B-9824-4FD1-BC94-641F4F6255F4}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C16B166B-9824-4FD1-BC94-641F4F6255F4}.Debug|x86.Build.0 = Debug|Any CPU
+		{C16B166B-9824-4FD1-BC94-641F4F6255F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C16B166B-9824-4FD1-BC94-641F4F6255F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C16B166B-9824-4FD1-BC94-641F4F6255F4}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{C16B166B-9824-4FD1-BC94-641F4F6255F4}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{C16B166B-9824-4FD1-BC94-641F4F6255F4}.Release|x86.ActiveCfg = Release|Any CPU
+		{C16B166B-9824-4FD1-BC94-641F4F6255F4}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -178,6 +192,7 @@ Global
 		{7347857A-7ED0-46F0-BB40-97EEB2D3E421} = {A531C4A4-8ADA-418A-9DD8-2DCA2762D748}
 		{8F77BD1E-87F1-4250-936F-F319D7B5C27C} = {A531C4A4-8ADA-418A-9DD8-2DCA2762D748}
 		{B4601468-BACA-41D7-A50F-775228CEE1BD} = {8F77BD1E-87F1-4250-936F-F319D7B5C27C}
+		{C16B166B-9824-4FD1-BC94-641F4F6255F4} = {7347857A-7ED0-46F0-BB40-97EEB2D3E421}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.0\lib\NET35;packages\Unity.Interception.2.1.505.0\lib\NET35;packages\EnterpriseLibrary.Common.5.0.505.0\lib\NET35;packages\EnterpriseLibrary.Caching.5.0.505.0\lib\NET35;packages\EnterpriseLibrary.Data.5.0.505.0\lib\NET35;packages\EnterpriseLibrary.Logging.5.0.505.0\lib\NET35

@@ -7,6 +7,7 @@
     using Fanex.OddsFeed.Criteria.Domain;
     using Fanex.OddsFeed.Models;
     using Fanex.OddsFeed.Models.ValueObject;
+    using Fanex.OddsFeed.Resources;
     using Fanex.OddsFeed.Services.Interface;
     using Microsoft.AspNetCore.Mvc;
 

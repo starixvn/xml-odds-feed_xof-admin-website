@@ -1,14 +1,14 @@
 ﻿namespace Fanex.OddsFeed.Controllers
 {
     using System.Text;
-    using Microsoft.AspNetCore.Mvc;
-    using Core;
+    using Fanex.OddsFeed.Core.Attribute;
     using Fanex.OddsFeed.Core.Context;
     using Fanex.OddsFeed.Core.Session;
-    using Fanex.OddsFeed.Core.Attribute;
-    using Fanex.OddsFeed.Services.Interface;
-    using Fanex.OddsFeed.Models;
     using Fanex.OddsFeed.Criteria.CompanyIP;
+    using Fanex.OddsFeed.Models;
+    using Fanex.OddsFeed.Resources;
+    using Fanex.OddsFeed.Services.Interface;
+    using Microsoft.AspNetCore.Mvc;
 
     [IsAuthorize]
     public class CompanyController : BaseController
