@@ -10,7 +10,7 @@ namespace Fanex.OddsFeed.Admin
     {
         public static void Main(string[] args)
         {
-            var appBasePath = System.IO.Directory.GetCurrentDirectory();
+            var appBasePath = Directory.GetCurrentDirectory();
             NLog.GlobalDiagnosticsContext.Set("appbasepath", appBasePath);
             var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
             try

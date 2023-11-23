@@ -1,5 +1,5 @@
-﻿@using Fanex.OddsFeed.Core.Web
-@using Fanex.OddsFeed.Core
+﻿@using Fanex.OddsFeed.Core
+@using Fanex.OddsFeed.Models.ValueObject
 @{
     ViewBag.Title = "Edit authentication settings";
     ViewBag.IsDashboard = false;
@@ -150,7 +150,7 @@
                     <tbody>
                         @if (ViewBag.IpList.Count > 0)
                         {
-                            foreach (Fanex.OddsFeed.Core.Model.PartnerIP item in ViewBag.IpList)
+                            foreach (Fanex.OddsFeed.Models.ValueObject.PartnerIP item in ViewBag.IpList)
                             {
                                 <tr>
                                     <td>

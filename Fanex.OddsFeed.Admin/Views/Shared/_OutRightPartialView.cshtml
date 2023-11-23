@@ -1,6 +1,5 @@
-﻿@using Fanex.OddsFeed.Core.Web
-@using Fanex.OddsFeed.Core
-@model Fanex.OddsFeed.Core.Criteria.Licensee.GetOutRightCriteria
+﻿@using Fanex.OddsFeed.Core
+@model Fanex.OddsFeed.Criteria.Licensee.GetOutRightCriteria
 @{
     ViewBag.OutrightList = Model.ViewBagOutrightList ?? (ViewBag.OutrightList ?? new List<SelectListItem>());
     ViewBag.OutRightIDList = Model.OutRightIDList != null ? Model.OutRightIDList.Split(',') : null;
