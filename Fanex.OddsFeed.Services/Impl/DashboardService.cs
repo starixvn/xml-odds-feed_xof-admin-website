@@ -1,9 +1,8 @@
-﻿using Fanex.OddsFeed.Criteria.Dashboard;
-using Fanex.OddsFeed.Models.Report;
-using Fanex.OddsFeed.Services.Interface;
-
-namespace Fanex.OddsFeed.Services.Impl
+﻿namespace Fanex.OddsFeed.Services.Impl
 {
+    using Fanex.OddsFeed.Criteria.Dashboard;
+    using Fanex.OddsFeed.Models.Report;
+    using Fanex.OddsFeed.Services.Interface;
     public class DashboardService : IDashboardService
     {
         private readonly IBaseService baseService;

@@ -2,7 +2,7 @@
 {
     using System;
     using System.ComponentModel.DataAnnotations;
-    using Fanex.OddsFeed.Core;
+    using Fanex.OddsFeed.Resources;
 
     [Serializable]
     public class User

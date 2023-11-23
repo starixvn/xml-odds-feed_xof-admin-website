@@ -5,6 +5,7 @@
     using Fanex.OddsFeed.Core;
     using Fanex.OddsFeed.Models;
     using Fanex.OddsFeed.Repositories.Interface;
+    using Fanex.OddsFeed.Resources;
     using Fanex.OddsFeed.Services.Interface;
 
     public class BaseService : IBaseService

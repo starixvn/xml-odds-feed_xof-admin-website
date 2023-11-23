@@ -2,7 +2,7 @@ namespace Fanex.OddsFeed.Criteria.User
 {
     using System.ComponentModel.DataAnnotations;
     using Fanex.Data;
-    using Fanex.OddsFeed.Core;
+    using Fanex.OddsFeed.Resources;
 
     public class UpdatePasswordUserCriteria : BaseCommand
     {

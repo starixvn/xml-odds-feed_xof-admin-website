@@ -2,7 +2,7 @@ namespace Fanex.OddsFeed.Criteria.Licensee
 {
     using System.ComponentModel.DataAnnotations;
     using Fanex.Data;
-    using Fanex.OddsFeed.Core;
+    using Fanex.OddsFeed.Resources;
 
     public class CreateLicenseeCriteria : BaseCommand
     {

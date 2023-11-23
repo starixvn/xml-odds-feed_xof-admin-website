@@ -15,6 +15,7 @@
     <ProjectReference Include="..\Fanex.OddsFeed.Criteria\Fanex.OddsFeed.Criteria.csproj" />
     <ProjectReference Include="..\Fanex.OddsFeed.Models\Fanex.OddsFeed.Models.csproj" />
     <ProjectReference Include="..\Fanex.OddsFeed.Repositories\Fanex.OddsFeed.Repositories.csproj" />
+    <ProjectReference Include="..\Fanex.OddsFeed.Resources\Fanex.OddsFeed.Resources.csproj" />
     <ProjectReference Include="..\Fanex.OddsFeed.Services\Fanex.OddsFeed.Services.csproj" />
   </ItemGroup>
 
