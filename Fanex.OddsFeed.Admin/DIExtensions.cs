@@ -57,6 +57,7 @@
             services.AddSingleton<IDashboardService, DashboardService>();
             services.AddSingleton<IAffiliateService, AffiliateService>();
             services.AddSingleton<ILicenseeService, LicenseeService>();
+            services.AddSingleton<ISubAccService, SubAccService>();
         }
 
         private static void InjectRepository(IServiceCollection services)
@@ -66,6 +67,7 @@
             services.AddSingleton<IUserRepository, UserRepository>();
             services.AddSingleton<IAffiliateRepository, AffiliateRepository>();
             services.AddSingleton<ILicenseeRepository, LicenseeRepository>();
+            services.AddSingleton<ISubAccRepository, SubAccRepository>();
         }
 
         private static void RegisterBundlesCSS(IAssetPipeline pipeline)
@@ -171,9 +173,12 @@
                "js/Affiliate/CommonAffiliate.js",
                "js/Affiliate/EditAffiliateStep2.js");
             pipeline.AddJavaScriptBundle("minify/js/editaffiliateprofile.min.js",
-               "js/Functions/ListLicensee/CommonLicensee.js",
+                "js/Functions/ListLicensee/CommonLicensee.js",
                 "js/Affiliate/CommonAffiliate.js",
                 "js/Affiliate/EditAffiliateStep3.js");
+            pipeline.AddJavaScriptBundle("minify/js/subaccountlist.min.js",
+                "js/SubAccount/SubAccList.js",
+                "js/SubAccount/EditSubAcc.js");
         }
 
     }
