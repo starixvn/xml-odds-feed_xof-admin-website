@@ -319,16 +319,16 @@ function DoUpdatePassword() {
         beforeSend: function (xhr) {
         },
         success: function (result) {
-            if (result.IsSuccessful) {
+            if (result.isSuccessful) {
                 $(".result-message-box").empty()
-                    .html(" <ul><li>" + result.Message + "</li></ul>")
+                    .html(" <ul><li>" + result.message + "</li></ul>")
                     .addClass("success-message-box")
                     .removeClass("hidden");
 
                 OddsFeedAdminManager.confirmAfterSuccess(currentDomainURL + "SubAccount/List");
             } else {
                 $(".result-message-box").empty()
-                    .html(" <ul><li>" + result.Message + "</li></ul>")
+                    .html(" <ul><li>" + result.message + "</li></ul>")
                     .addClass("error-message-box")
                     .removeClass("hidden");
             }
