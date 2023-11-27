@@ -2,6 +2,7 @@
 {
     using System;
     using System.ComponentModel.DataAnnotations;
+    using System.Globalization;
     using Data.Repository;
     using Fanex.Data;
     using Fanex.OddsFeed.Models.ValueObject;
@@ -118,6 +119,16 @@
         public override bool IsValid()
         {
             return this.DateStart <= this.DateEnd;
+        }
+
+        public int GetIso8601WeekOfYear(DateTime time)
+        {
+            var day = CultureInfo.InvariantCulture.Calendar.GetDayOfWeek(time);
+            if (day is >= DayOfWeek.Monday and <= DayOfWeek.Wednesday)
+            {
+                time = time.AddDays(3);
+            }
+            return CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(time, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
         }
     }
 }

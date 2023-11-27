@@ -314,8 +314,11 @@
             {
                 return this.NoAuthorization();
             }
-
+            ViewBag.MinDate = new DateTime(DefaultMinDate, 1, 1);
+            ViewBag.MaxDate = DateTime.Now;
             var model = new LicenseeRequestCriteria();
+            model.Week = model.GetIso8601WeekOfYear(model.DateStart).ToString();
+            model.ToWeek = model.GetIso8601WeekOfYear(model.DateEnd).ToString();
             return View("LicenseeRequest", model);
         }
 
@@ -331,18 +334,18 @@
             return new JsonResult(new { data = result, totalItems = criteria.RowCount });
         }
 
-        public async Task<JsonResult> GetLicenseeRequestsDetail([FromBody] RequestStatisticCriteria criteria, string date, int year)
+        public async Task<JsonResult> GetLicenseeRequestsDetail([FromBody] RequestStatisticCriteria criteria)
         {
             const int numberDaysInWeek = 7;
 
-            if (!string.IsNullOrEmpty(date))
+            if (!string.IsNullOrEmpty(criteria.Date))
             {
                 DateTime dateStart;
                 DateTime dateEnd;
                 switch (criteria.PeriodOption.ToString())
                 {
                     case "Week":
-                        var dt = new DateTime(year, 1, 1).AddDays(((int.Parse(date) - 1) * 7) - (int.Parse(date) == 1 ? 0 : 1));
+                        var dt = new DateTime(criteria.Year, 1, 1).AddDays(((int.Parse(criteria.Date) - 1) * 7) - (int.Parse(criteria.Date) == 1 ? 0 : 1));
                         dt = dt.AddDays(-(int)dt.DayOfWeek);
 
                         dateStart = dt.AddDays(1);
@@ -350,14 +353,14 @@
                         break;
 
                     case "Year":
-                        dateStart = DateTime.Parse(date);
+                        dateStart = DateTime.Parse(criteria.Date);
                         dateStart = new DateTime(dateStart.Year, dateStart.Month, 1);
-                        dateEnd = DateTime.Parse(date).AddMonths(1).AddDays(-1); 
+                        dateEnd = DateTime.Parse(criteria.Date).AddMonths(1).AddDays(-1); 
                         break;
 
                     default:
-                        dateStart = DateTime.Parse(date);
-                        dateEnd = DateTime.Parse(date);
+                        dateStart = DateTime.Parse(criteria.Date);
+                        dateEnd = DateTime.Parse(criteria.Date);
                         break;
                 }
 

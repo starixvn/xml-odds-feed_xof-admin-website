@@ -104,6 +104,9 @@
         public string Week { get; set; }
 
         [SpParam(Ignored = true)]
+        public string Date { get; set; }
+
+        [SpParam(Ignored = true)]
         public string ToWeek { get; set; }
 
         [SpParam(Ignored = true)]

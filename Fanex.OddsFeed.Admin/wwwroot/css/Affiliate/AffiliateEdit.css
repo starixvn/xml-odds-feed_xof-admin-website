@@ -1,17 +1,74 @@
-﻿select.AffiliateEdit
-{
-    border:1px solid #c8c8c8;
+﻿#myFormLicenseeStatistcs .custom-datepicker {
+    position: relative;
+    width: 150px;
+    height: 23px;
+    color: white;
+}
+
+#myFormLicenseeStatistcs input[type="month"] {
+    height: 27px !important;
+}
+
+#myFormLicenseeStatistcs input[type="date"]::before,
+#myFormLicenseeStatistcs input[type="week"]::before,
+#myFormLicenseeStatistcs input[type="month"]::before {
+    font-weight: normal;
+    display: block;
+    min-height: 1.2em;
+    padding: 0px 2px 1px;
+    white-space: nowrap;
+    font-size: 13.5px;
+}
+
+
+#myFormLicenseeStatistcs input:before {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    content: attr(data-date);
+    display: inline-block;
+    color: black;
+}
+
+#myFormLicenseeStatistcs input::-webkit-datetime-edit,
+#myFormLicenseeStatistcs input::-webkit-inner-spin-button,
+#myFormLicenseeStatistcs input::-webkit-clear-button {
+        display: none;
+}
+
+#myFormLicenseeStatistcs input::-webkit-calendar-picker-indicator {
+    position: absolute;
+    top: 3px;
+    right: 0;
+    color: black;
+    opacity: 1;
+}
+
+#myFormLicenseeStatistcs input[type="date"]::-webkit-calendar-picker-indicator,
+#myFormLicenseeStatistcs input[type="week"]::-webkit-calendar-picker-indicator,
+#myFormLicenseeStatistcs input[type="month"]::-webkit-calendar-picker-indicator {
+    color: rgba(0, 0, 0, 0);
+    opacity: 1;
+    display: block;
+    background: url(../Images/calendar.gif) no-repeat;
+    width: 20px;
+    height: 20px;
+    border-width: thin;
+}
+
+select.AffiliateEdit {
+    border: 1px solid #c8c8c8;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
-    -moz-box-shadow:    1px 1px 3px 3px #f2f2f2;
+    -moz-box-shadow: 1px 1px 3px 3px #f2f2f2;
     -webkit-box-shadow: 1px 1px 3px 3px #f2f2f2;
-    box-shadow:         1px 1px 3px 3px #f2f2f2;
+    box-shadow: 1px 1px 3px 3px #f2f2f2;
     padding: 4px;
     text-align: left;
     vertical-align: bottom;
-    margin-left:0px;    
-    min-width:auto;
+    margin-left: 0px;
+    min-width: auto;
 }
 
 select.request
