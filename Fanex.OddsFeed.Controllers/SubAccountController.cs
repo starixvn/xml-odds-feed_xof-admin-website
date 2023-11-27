@@ -206,7 +206,7 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> ResetPassword(ResetPassSubAccCriteria criteria)
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPassSubAccCriteria criteria)
         {
             var result = new CommandResult();
             if (ModelState.IsValid)
