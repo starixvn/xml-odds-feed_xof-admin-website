@@ -274,7 +274,7 @@ function UpdateSubAccountInfo() {
         beforeSend: function (xhr) {
         },
         success: function (result) {
-            if (result.IsSuccessful) {
+            if (result.isSuccessful) {
                 $("#editStep1 .result-message-box").empty()
                     .html(" <ul><li>" + viewResources.ActionResult_Success_UpdateSubAccount + "</li></ul>")
                     .addClass("success-message-box")
@@ -285,7 +285,7 @@ function UpdateSubAccountInfo() {
                 });
             } else {
                 $("#editStep1 .result-message-box").empty()
-                    .html(" <ul><li>" + result.Message + "</li></ul>")
+                    .html(" <ul><li>" + result.message + "</li></ul>")
                     .addClass("error-message-box")
                     .removeClass("hidden");
             }
