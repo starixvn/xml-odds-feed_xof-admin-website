@@ -157,7 +157,7 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditSubAccInfo(UpdateSubAccCriteria criteria)
+        public async Task<IActionResult> EditSubAccInfo([FromBody] UpdateSubAccCriteria criteria)
         {
             var result = new CommandResult();
             if (ModelState.IsValid)

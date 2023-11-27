@@ -26,7 +26,7 @@
         [Display(Name = "Is_Active", ResourceType = typeof(ViewResources))]
         public bool IsActive { get; set; }
 
-        public string Ip { get; set; }
+        public string? Ip { get; set; }
 
         [Required]
         [Display(Name = "Name", ResourceType = typeof(ViewResources))]
@@ -34,7 +34,7 @@
             ErrorMessageResourceName = "InvalidNameValidationMsg",
             ErrorMessageResourceType = typeof(ViewResources))]
         [SpParam(Ignored = true)]
-        public string UserName { get; set; }
+        public string? UserName { get; set; }
 
         public override string GetSettingKey() => "Odds_User_Upd";
 
