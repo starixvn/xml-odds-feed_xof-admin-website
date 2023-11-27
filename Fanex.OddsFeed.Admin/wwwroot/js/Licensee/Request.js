@@ -11,6 +11,47 @@ $(document).ready(function () {
 
     Core.registerWeekPicker();
 
+    $("#DateStartLicensee").on("change", function () {
+        this.setAttribute(
+            "data-date",
+            moment(this.value, "YYYY-MM-DD")
+                .format(this.getAttribute("data-date-format"))
+        )
+    }).trigger("change")
+
+    $("#DateEndLicensee").on("change", function () {
+        this.setAttribute(
+            "data-date",
+            moment(this.value, "YYYY-MM-DD")
+                .format(this.getAttribute("data-date-format"))
+        )
+    }).trigger("change")
+
+    $("#FromWeekLicensee").on("change", function () {
+        let demo = moment(this.value, "yyyy-Www");
+        this.setAttribute(
+            "data-date",
+            moment(this.value, "yyyy-Www")
+                .format(this.getAttribute("data-date-format"))
+        )
+    }).trigger("change")
+
+    $("#ToWeekLicensee").on("change", function () {
+        this.setAttribute(
+            "data-date",
+            moment(this.value, "yyyy-Www")
+                .format(this.getAttribute("data-date-format"))
+        )
+    }).trigger("change")
+
+    $("#MonthLicensee").on("change", function () {
+        this.setAttribute(
+            "data-date",
+            moment(this.value, "yyyy-MM")
+                .format(this.getAttribute("data-date-format"))
+        )
+    }).trigger("change")
+
     $("#Week").weekpicker("onSelect", function (start, end) {
         $("#DateStart").datepicker("setDate", start);
     });
@@ -20,12 +61,11 @@ $(document).ready(function () {
     });
 
     $("#PeriodOption").change(function () {
-        setVisibleDateControl($(this).val(), true);
+        setVisibleDateControl($("#PeriodOption option:selected").text(), true);
     });
 
-    setVisibleDateControl($("#PeriodOption").val(), false);
+    setVisibleDateControl($("#PeriodOption option:selected").text(), false);
 
-    $("#Systemname").Watermark("Licensee name");
     $("#LicenseeId").val(0); //get all systems
 
     $("#Systemname").autocomplete({
@@ -102,10 +142,27 @@ function SearchAll() {
 
     $("#SearchResult").show();
     _currentDate = null;
+    var month = $('#myFormLicenseeStatistcs #MonthLicensee').val();
+    var searchParams = {
+        PageSize: parseInt($('#myFormLicenseeStatistcs #PageSize').val()),
+        PageIndex: parseInt($('#myFormLicenseeStatistcs #PageIndex').val()),
+        PageCount: parseInt($('#myFormLicenseeStatistcs #PageCount').val()),
+        LicenseeId: parseInt($('#myFormLicenseeStatistcs #LicenseeId').val()),
+        PeriodOption: parseInt($('#PeriodOption').val()),
+        DateStart: $('#myFormLicenseeStatistcs #DateStartLicensee').val(),
+        Week: $('#myFormLicenseeStatistcs #FromWeekLicensee').val(),
+        Month: parseInt(month.slice(month.length - 2, month.length)),
+        DateEnd: $('#myFormLicenseeStatistcs #DateEndLicensee').val(),
+        ToWeek: $('#myFormLicenseeStatistcs #ToWeekLicensee').val(),
+        Year: parseInt($('#myFormLicenseeStatistcs #YearLicensee').val())
+    };
     $.ajax({
         url: "GetAllLicenseeRequest",
         type: "POST",
-        data: $('#myForm').serialize(),
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify(searchParams),
+        cache: false,
         success: function (result) {
             gridOptions =
             {
@@ -213,10 +270,31 @@ function SearchDetail(licenseeID, date, year) {
 
     _currentLicenseeID = licenseeID;
     _currentDate = date;
+
+    var month = $('#myFormLicenseeStatistcs #MonthLicensee').val();
+    var searchDetailParams = {
+        PageSize: parseInt($('#myFormLicenseeStatistcs #PageSize').val()),
+        PageIndex: parseInt($('#myFormLicenseeStatistcs #PageIndex').val()),
+        PageCount: parseInt($('#myFormLicenseeStatistcs #PageCount').val()),
+        LicenseeId: parseInt($('#myFormLicenseeStatistcs #LicenseeId').val()),
+        PeriodOption: parseInt($('#PeriodOption').val()),
+        DateStart: $('#myFormLicenseeStatistcs #DateStartLicensee').val(),
+        Week: $('#myFormLicenseeStatistcs #FromWeekLicensee').val(),
+        Month: parseInt(month.slice(month.length - 2, month.length)),
+        DateEnd: $('#myFormLicenseeStatistcs #DateEndLicensee').val(),
+        ToWeek: $('#myFormLicenseeStatistcs #ToWeekLicensee').val(),
+        Year: parseInt($('#myFormLicenseeStatistcs #YearLicensee').val()),
+        SystemId: parseInt(licenseeID),
+        date: date
+    };
+
     $.ajax({
         url: "GetLicenseeRequestsDetail",
         type: "POST",
-        data: $('#myForm').serialize() + "&SystemId=" + licenseeID + "&date=" + date + "&year=" + year,
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        cache: false,
+        data: JSON.stringify(searchDetailParams),
         success: function (result) {
             gridOptionsDetail =
             {
