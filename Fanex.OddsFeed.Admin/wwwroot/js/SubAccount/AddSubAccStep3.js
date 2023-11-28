@@ -97,9 +97,9 @@ function DoAddSubAccount() {
         beforeSend: function (xhr) {
         },
         success: function (result) {
-            if (result.IsSuccessful == true) {
+            if (result.isSuccessful == true) {
                 $("#step3 .result-message-box").empty()
-                    .append("<ul><li>" + result.Message + "</li></ul>")
+                    .append("<ul><li>" + result.message + "</li></ul>")
                     .addClass("success-message-box")
                     .removeClass("error-message-box")
                     .removeClass("hidden");
@@ -107,7 +107,7 @@ function DoAddSubAccount() {
                 OddsFeedAdminManager.confirmAfterSuccess(currentDomainURL + "SubAccount/List");
             } else {
                 $("#step3 .result-message-box").empty()
-                    .append("<ul><li>" + result.Message + "</li></ul>")
+                    .append("<ul><li>" + result.message + "</li></ul>")
                     .addClass("error-message-box")
                     .removeClass("success-message-box")
                     .removeClass("hidden");

@@ -71,9 +71,7 @@
                 </div>
                 <div class="grid6 licenseeList" style="text-align: left; border-style: solid; border-width: 1px;
                     border-color: #C8C8C8; overflow: scroll">
-                    @*@Html.CheckBoxDropDownListFor(a => a.SystemList, ViewBag.SystemListID as IEnumerable<SelectListItem>, new { @class = "chkSystem" })*@
-
-                        @for (var i = 0; i < ViewBag.SystemListID.Count; i++)
+                    @for (var i = 0; i < ViewBag.SystemListID.Count; i++)
                     {
                         var oddsType = ViewBag.SystemListID[i];
                         var id = "SystemList" + oddsType.Value.ToString();

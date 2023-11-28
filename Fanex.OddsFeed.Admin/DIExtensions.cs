@@ -179,6 +179,11 @@
             pipeline.AddJavaScriptBundle("minify/js/subaccountlist.min.js",
                 "js/SubAccount/SubAccList.js",
                 "js/SubAccount/EditSubAcc.js");
+            pipeline.AddJavaScriptBundle("minify/js/addsubaccount.min.js",
+                "js/SubAccount/AddSubAcc.js",
+                "js/SubAccount/AddSubAccStep1.js",
+                "js/SubAccount/AddSubAccStep2.js",
+                "js/SubAccount/AddSubAccStep3.js");
         }
 
     }
