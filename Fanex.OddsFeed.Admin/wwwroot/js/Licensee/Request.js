@@ -6,6 +6,7 @@
     ,_settingPageSize = 10
     ,_currentLicenseeID;
 let _currentDate = null;
+let monthNames = new Array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
 
 $(document).ready(function () {
 
@@ -19,7 +20,7 @@ $(document).ready(function () {
 
     setVisibleDateLicenseeControl($("#PeriodOption option:selected").text());
 
-    $("#LicenseeId").val(0); //get all systems
+    $("#LicenseeId").val(0);
 
     $("#Systemname").autocomplete({
         source: [],
@@ -33,10 +34,26 @@ $(document).ready(function () {
         }
     });
 
+    $('#YearLicensee').change(renderMonth);
+    renderMonth();
+
     Search();
 });
 
 //--------------------------------------------------------------------------------------------------------------------
+function renderMonth() {
+    $.each(monthNames, function (index, value) {
+        let year = parseInt($('#YearLicensee').val());
+        let isDisabled = year === new Date().getFullYear() && index > new Date().getMonth();
+        $('#MonthLicensee').find('[value="' + (index + 1) + '"]').remove();
+        $('#MonthLicensee').append($('<option>', {
+            value: index + 1,
+            text: value,
+            disabled: isDisabled
+        }));
+    });
+}
+
 
 function setVisibleDateLicenseeControl(currentValue) {
 
@@ -150,8 +167,6 @@ Date.prototype.MonthSubtract = function (d) {
     } else {
         return this.getMonth() - d.getMonth() + 12 * (this.getFullYear() - d.getFullYear());
     }
-
-    return 1;
 };
 
 function OnSearch() {
@@ -190,14 +205,6 @@ function FormatDatePicker() {
         this.setAttribute(
             "data-date",
             moment(this.value, "YYYY-Www")
-                .format(this.getAttribute("data-date-format"))
-        )
-    }).trigger("change");
-
-    $("#MonthLicensee").on("change", function () {
-        this.setAttribute(
-            "data-date",
-            moment(this.value, "YYYY-MM")
                 .format(this.getAttribute("data-date-format"))
         )
     }).trigger("change");
@@ -270,7 +277,7 @@ function SearchAll() {
         PeriodOption: parseInt($('#PeriodOption').val()),
         DateStart: dateStart,
         Week: $('#FromWeekLicensee').val(),
-        Month: parseInt(month.slice(month.length - 2, month.length)),
+        Month: parseInt(month),
         DateEnd: dateEnd,
         ToWeek: $('#ToWeekLicensee').val(),
         Year: parseInt($('#YearLicensee').val())
@@ -406,7 +413,7 @@ function SearchDetail(licenseeID, date, year) {
         PeriodOption: parseInt($('#PeriodOption').val()),
         DateStart: dateStart,
         Week: $('#FromWeekLicensee').val(),
-        Month: parseInt(month.slice(month.length - 2, month.length)),
+        Month: parseInt(month),
         DateEnd: dateEnd,
         ToWeek: $('#ToWeekLicensee').val(),
         Year: parseInt($('#YearLicensee').val()),
@@ -484,7 +491,6 @@ function StartAutoSuggesttion() {
         dataType: 'html',
         cache: false,
         success: function (result) {
-            //lower case keys
             result = result.replace(/"([^"]+)":/g, function ($0, $1) { return ('"' + $1.toLowerCase() + '":'); })
 
             let sourceAdmin = $.parseJSON(result);

@@ -78,9 +78,7 @@
                            value="@($"{Model.DateStart.Year}-W{Model.Week}")" required />
                 </span>
                 <span class="month-area hide">
-                    <input class="width-auto-fit request custom-datepicker" data-date="" data-date-format="MMMM" type="month" 
-                           max="@ViewBag.MaxDate.ToString("yyyy-MM")" min="@ViewBag.MinDate.ToString("yyyy-MM")"
-                           id="MonthLicensee" name="Month" value="@Model.DateStart.ToString("yyyy-MM")" />
+                    <select class="width-auto-fit request" id="MonthLicensee" name="Month"></select>
                 </span>
             </div>
         
