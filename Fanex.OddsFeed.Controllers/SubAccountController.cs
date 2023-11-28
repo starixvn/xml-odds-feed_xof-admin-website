@@ -45,12 +45,12 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(InsertSubAccCriteria criteria)
+        public async Task<IActionResult> Add([FromBody] InsertSubAccCriteria criteria)
         {
             criteria.SystemID = currentSession.SystemId;
             criteria.Creator = currentSession.UserId;
             criteria.RoleID = (byte)Constant.UserRole.LicenseeSubAccount;
-            criteria.Password = Cryptography.EncryptPassword(HttpUtility.HtmlEncode(criteria.Password.Trim()));
+            criteria.Password = Cryptography.EncryptPassword(criteria.Password.Trim());
             criteria.FirstName = criteria.FirstName ?? string.Empty;
             criteria.LastName = criteria.LastName ?? string.Empty;
 
@@ -64,7 +64,7 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> CheckExistSubAccount(InsertSubAccCriteria criteria)
+        public async Task<IActionResult> CheckExistSubAccount([FromBody] InsertSubAccCriteria criteria)
         {
             var result = new CommandResult { Code = 0 };
             var users = await baseService.GetDataAsync<User>(new CheckExistSubAccountCriteria
@@ -217,7 +217,7 @@
                 }
                 else
                 {
-                    criteria.Password = Cryptography.EncryptPassword(HttpUtility.HtmlEncode(criteria.Password.Trim()));
+                    criteria.Password = Cryptography.EncryptPassword(criteria.Password.Trim());
                     result = await baseService.ExecuteNonQueryAsync(criteria);
 
                     if (result.IsSuccessful)

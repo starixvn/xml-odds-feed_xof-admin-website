@@ -119,7 +119,7 @@ function DoAdd_SubAccount() {
         success: function (result) {
             var ret = true;
             if (addParams.UserName != "") {
-                if (result.IsSuccessful) {
+                if (result.isSuccessful) {
                     $("#nameExistedErr").hide('fast');
                     $('#txtUserName').removeClass('error');
                 } else {

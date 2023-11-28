@@ -64,7 +64,7 @@
             // hash password incase of add new
             if (!criteria.IsImport)
             {
-                criteria.Password = Cryptography.EncryptPassword(HttpUtility.HtmlEncode(criteria.Password));
+                criteria.Password = Cryptography.EncryptPassword(criteria.Password);
             }
 
             criteria.Creator = currentSession.UserId;
@@ -398,7 +398,7 @@
             }
             else
             {
-                criteria.Password = Cryptography.EncryptPassword(HttpUtility.HtmlEncode(criteria.Password.Trim()));
+                criteria.Password = Cryptography.EncryptPassword(criteria.Password.Trim());
                 criteria.Creator = currentSession.UserId;
                 criteria.IP = currentContext.IP;
                 result = await baseService.ExecuteNonQueryAsync(criteria);
