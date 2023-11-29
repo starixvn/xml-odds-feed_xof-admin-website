@@ -13,17 +13,19 @@
 {
     <link rel="stylesheet" href="~/minify/css/licenseeedit.min.css" asp-append-version="true">
     <link rel="stylesheet" href="~/minify/css/affiliate.min.css" asp-append-version="true">
-        @* <link rel="Stylesheet" type="text/css" href="@BundleTable.Bundles.ResolveBundleUrl("~/App_Themes/Default/Licensee/LicenseeCss")" />
-    <link rel="Stylesheet" type="text/css" href="@BundleTable.Bundles.ResolveBundleUrl("~/App_Themes/Default/Affiliate/AffiliateCss")" />*@
 }
 @section Scripts
 {
-    @*<script type="text/javascript" src="@BundleTable.Bundles.ResolveBundleUrl("~/Scripts/Functions/ListLicensee/AddLicenseeJs")"></script>*@
-    <script src="~/js/Functions/ListLicensee/CommonLicensee.js" type="text/javascript"></script>
-    <script src="~/js/Functions/ListLicensee/AddLicensee.js" type="text/javascript"></script>
-    <script src="~/js/Functions/ListLicensee/AddLicenseeStep1.js" type="text/javascript"></script>
-    <script src="~/js/Functions/ListLicensee/AddLicenseeStep2.js" type="text/javascript"></script>
-    <script src="~/js/Functions/ListLicensee/AddLicenseeStep3.js" type="text/javascript"></script>
+    <environment include="Development">
+        <script src="~/js/Functions/ListLicensee/CommonLicensee.js" type="text/javascript"></script>
+        <script src="~/js/Functions/ListLicensee/AddLicensee.js" type="text/javascript"></script>
+        <script src="~/js/Functions/ListLicensee/AddLicenseeStep1.js" type="text/javascript"></script>
+        <script src="~/js/Functions/ListLicensee/AddLicenseeStep2.js" type="text/javascript"></script>
+        <script src="~/js/Functions/ListLicensee/AddLicenseeStep3.js" type="text/javascript"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/minify/js/addlicensee.min.js" asp-append-version="true"></script>
+    </environment>
 
     <script type="text/javascript">
         var viewResources = {

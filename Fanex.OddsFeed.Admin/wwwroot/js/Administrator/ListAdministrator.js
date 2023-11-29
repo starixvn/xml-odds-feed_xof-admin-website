@@ -2,8 +2,6 @@
     ,_pageIndex = 0
     ,_pageSize = 10;
 $(document).ready(function () {
-    $("#Username").Watermark("Username");
-
     $("#Username").autocomplete({
         source: [],
         minLength: 1

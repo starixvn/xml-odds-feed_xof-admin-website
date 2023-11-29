@@ -21,7 +21,15 @@
 }
 @section Scripts
 {
-    <script src="~/minify/js/addadministrator.min.js" asp-append-version="true"></script>
+    <environment include="Development">
+        <script src="~/js/Libs/jquery.watermarkinput.js" asp-append-version="true"></script>
+        <script src="~/js/Administrator/AddAdministrator.js" asp-append-version="true"></script>
+        <script src="~/js/Administrator/AddAdministratorStep1.js" asp-append-version="true"></script>
+        <script src="~/js/Administrator/AddAdministratorStep2.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/minify/js/addadministrator.min.js" asp-append-version="true"></script>
+    </environment>
 }
 <div class="infor">
     <span class="infor-ic">&nbsp;</span><span class="infor-text">The wizard will help you to create a new Administrator in your licensee system.</span>
