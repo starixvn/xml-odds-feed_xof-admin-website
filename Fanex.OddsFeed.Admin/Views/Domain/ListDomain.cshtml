@@ -15,10 +15,16 @@
 }
 @section Scripts
 {
-    <script src="~/minify/js/fanexgrid.min.js" asp-append-version="true"></script>
-    <script src="~/js/Functions/ListDomain/ListDomain.js" asp-append-version="true"></script>
-    <script src="~/js/Functions/ListDomain/RegisterDialog.js" asp-append-version="true"></script>
-    <script src="~/js/Views/Core.js" asp-append-version="true"></script>
+    <environment include="Development">
+        <script src="~/minify/js/fanexgrid.min.js" asp-append-version="true"></script>
+        <script src="~/js/Functions/ListDomain/ListDomain.js" asp-append-version="true"></script>
+        <script src="~/js/Functions/ListDomain/RegisterDialog.js" asp-append-version="true"></script>
+        <script src="~/js/Views/Core.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/minify/js/fanexgrid.min.js" asp-append-version="true"></script>
+        <script src="~/minify/js/listdomain.min.js" asp-append-version="true"></script>
+    </environment>
 
     <script type="text/javascript">
         var viewResources = {

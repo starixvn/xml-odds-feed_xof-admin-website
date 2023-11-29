@@ -184,6 +184,22 @@
                 "js/SubAccount/AddSubAccStep1.js",
                 "js/SubAccount/AddSubAccStep2.js",
                 "js/SubAccount/AddSubAccStep3.js");
+            pipeline.AddJavaScriptBundle("minify/js/listdomain.min.js",
+                "js/Functions/ListDomain/ListDomain.js",
+                "js/Functions/ListDomain/RegisterDialog.js",
+                "js/Views/Core.js");
+            pipeline.AddJavaScriptBundle("minify/js/editinfolicensee.min.js",
+                "js/Functions/ListLicensee/CommonLicensee.js",
+                "js/Functions/ListLicensee/EditLicenseeInfo.js");
+            pipeline.AddJavaScriptBundle("minify/js/editprofilelicensee.min.js",
+                "js/Functions/ListLicensee/CommonLicensee.js",
+                "js/Functions/ListLicensee/EditLicenseeProfile.js");
+            pipeline.AddJavaScriptBundle("minify/js/editsettinglicensee.min.js",
+                "js/Functions/ListLicensee/CommonLicensee.js",
+                "js/Functions/ListLicensee/EditLicenseeSetting.js");
+            pipeline.AddJavaScriptBundle("minify/js/requestlicensee.min.js",
+                "js/Affiliate/CommonAffiliate.js",
+                "js/Licensee/Request.js");
         }
 
     }
