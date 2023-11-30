@@ -148,7 +148,7 @@ function AddAffilliate() {
         success: function (result) {
             $('body').removeClass('wait');
 
-            if (result && result.IsSuccessful) {
+            if (result && result.isSuccessful) {
                 $('.result-message-box').addClass('hidden');
                 $('div.step-active').attr('class', 'step-inactive');
                 $('#panelStep4').attr('class', 'step-active');
@@ -157,7 +157,7 @@ function AddAffilliate() {
                 addAffiliateStep4.showDone();
             } else {
                 $('.result-message-box').empty()
-                    .append("<ul><li>" + result.Message + "</li></ul>")
+                    .append("<ul><li>" + result.message + "</li></ul>")
                     .addClass("error-message-box")
                     .removeClass("success-message-box")
                     .removeClass("hidden");

@@ -102,7 +102,7 @@ function DoAdd_Affiliate() {
         success: function (result) {
             var ret = true;
             if (addParams.UserName != '') {
-                if (result && result.IsSuccessful) {
+                if (result && result.isSuccessful) {
                     $('#nameExistedErr').hide('fast');
                     $('#txtName').removeClass('error');
                 } else {

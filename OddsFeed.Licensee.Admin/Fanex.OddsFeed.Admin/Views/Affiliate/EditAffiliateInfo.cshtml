@@ -49,7 +49,6 @@
                 </div>
                 <div class="grid5">
                     @Html.TextBoxFor(a => a.UserName, new { id = "txtUsername", @disabled = "true" })
-                    @*@Html.TextBoxFor(a => a.UserName, new { id = "txtUsername", @disabled="true", autocomplete = "off", onfocus = "$(this).blur();" })  *@
                 </div>
             </div>
             <div class="row">
@@ -82,14 +81,6 @@
                     @Html.TextAreaFor(a => a.Note, new { id = "txtNote" })
                 </div>
             </div>
-            @* <div class="row2">
-                    <div class="grid2">
-                        @Html.LabelFor(a => a.Content)
-                        </div>
-                    <div class="grid5">
-                        @Html.TextAreaFor(a => a.Content, new { id = "txtContent" })
-                    </div>
-                </div>*@
             <div class="row">
                 <div class="grid2">
                 </div>
