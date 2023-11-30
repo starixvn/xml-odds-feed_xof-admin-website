@@ -87,7 +87,7 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddNew(InsertAffiliateCriteria criteria)
+        public async Task<IActionResult> AddNew([FromBody] InsertAffiliateCriteria criteria)
         {
             var result = new CommandResult();
             await CustomizeDataBeforeAddNew(criteria);
@@ -109,7 +109,7 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> CheckExistAffiliate(InsertAffiliateCriteria criteria)
+        public async Task<IActionResult> CheckExistAffiliate([FromBody] InsertAffiliateCriteria criteria)
         {
             var result = new CommandResult { Code = 0 };
             if (string.IsNullOrEmpty(criteria.UserName))

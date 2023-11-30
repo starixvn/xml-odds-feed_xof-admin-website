@@ -200,6 +200,15 @@
             pipeline.AddJavaScriptBundle("minify/js/requestlicensee.min.js",
                 "js/Affiliate/CommonAffiliate.js",
                 "js/Licensee/Request.js");
+            pipeline.AddJavaScriptBundle("minify/js/addaffiliate.min.js",
+                "js/Functions/ListLicensee/CommonLicensee.js",
+                "js/Affiliate/CommonAffiliate.js",
+                "js/Affiliate/AddAffiliate.js",
+                "js/Affiliate/AddAffiliateStep1.js",
+                "js/Affiliate/AddAffiliateStep2.js",
+                "js/Affiliate/AddAffiliateStep3.js",
+                "js/Affiliate/AddAffiliateStep4.js",
+                "js/Affiliate/EditAffiliate.js");
         }
 
     }
