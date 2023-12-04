@@ -54,7 +54,7 @@
         [HttpPost]
         public async Task<IActionResult> Index(UserLoginUserCriteria criteria)
         {
-            CommandResult result = new CommandResult();
+            var result = new CommandResult();
 
             var username = criteria.UserName;
             var password = criteria.UserPwd;
@@ -164,12 +164,6 @@
             criteria.UserPwd = password;
             criteria.LoginDomain = currentContext.DomainName;
             criteria.LoginIP = currentContext.IP;
-            criteria.NetSessionID = HttpContext.Session.Id;
-            criteria.LoginDate = DateTime.Now;
-            criteria.BrowserName = currentContext.BrowserName;
-            criteria.CountryCode = currentContext.CountryCode;
-            criteria.Domain = currentContext.DomainName;
-            criteria.Platform = currentContext.Platform;
         }
 
         private async Task CustomizeDataAfterLogin(UserLoginUserCriteria criteria, User user, CommandResult result)

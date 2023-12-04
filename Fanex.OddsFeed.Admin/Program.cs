@@ -10,9 +10,7 @@ namespace Fanex.OddsFeed.Admin
     {
         public static void Main(string[] args)
         {
-            var appBasePath = Directory.GetCurrentDirectory();
-            NLog.GlobalDiagnosticsContext.Set("appbasepath", appBasePath);
-            var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
+            var logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
             try
             {
                 CreateWebHostBuilder(args).Build().Run();
@@ -30,7 +28,8 @@ namespace Fanex.OddsFeed.Admin
 
         private static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-            .UseUrls($"http://*:5000")
-            .UseStartup<Startup>();
+                .UseNLog()
+                .UseUrls($"http://*:5000")
+                .UseStartup<Startup>();
     }
 }

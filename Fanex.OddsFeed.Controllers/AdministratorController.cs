@@ -1,9 +1,7 @@
 ﻿namespace Fanex.OddsFeed.Controllers
 {
     using System.Text;
-    using System.Web;
-    using Core;
-    using Data;
+    using Fanex.Data;
     using Fanex.OddsFeed.Core.Attribute;
     using Fanex.OddsFeed.Core.Context;
     using Fanex.OddsFeed.Core.Session;
@@ -240,7 +238,7 @@
 
             ViewBag.CurrentUser = " \"" + username + "\"";
             // System
-            var systems = role == (int)Constant.UserRole.Licensee
+            var systems = role == (byte)Core.Enums.UserRole.Licensee
                 ? await baseService.GetDataAsync<SystemDto>(new GetSystemByUserIDCriteria { UserID = currentSession.UserId, IgnoreIsActive = true })
                 : await baseService.GetDataAsync<SystemDto>(new GetOptionalSystemBySubAccountIDCriteria { UserID = currentSession.UserId, SubAccountID = id });
             ViewBag.SystemListID = systems.Select(x => new SelectListItem { Value = x.SystemId.ToString(), Text = x.SystemName }).ToList();
@@ -436,10 +434,10 @@
                 var editedUserRole = userInfo.RoleID;
                 switch (userRole)
                 {
-                    case (int)Constant.UserRole.ITAdministrator:
+                    case (byte)Core.Enums.UserRole.ITAdministrator:
                         return true;
-                    case (int)Constant.UserRole.Licensee:
-                        return editedUserRole == (int)Constant.UserRole.LicenseeSubAccount;
+                    case (byte)Core.Enums.UserRole.Licensee:
+                        return editedUserRole == (byte)Core.Enums.UserRole.LicenseeSubAccount;
                     default:
                         return false;
                 }

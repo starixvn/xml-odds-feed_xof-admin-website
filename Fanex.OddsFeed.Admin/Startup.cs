@@ -33,11 +33,11 @@
                });
 
             var connections = Configuration.GetSection("ConnectionStrings")
-                                                            .GetChildren()
-                                                            .AsEnumerable()
-                                                            .Where(x => !string.IsNullOrWhiteSpace(x.GetValue<string>("Name")))
-                                                            .ToDictionary(x => x.GetValue<string>("Name"),
-                                                            y => new ConnectionConfiguration(y.GetValue<string>("Name"), y.GetValue<string>("ConnectionString"), y.GetValue<string>("ProviderName")));
+                .GetChildren()
+                .AsEnumerable()
+                .Where(x => !string.IsNullOrWhiteSpace(x.GetValue<string>("Name")))
+                .ToDictionary(x => x.GetValue<string>("Name"),
+                    y => new ConnectionConfiguration(y.GetValue<string>("Name"), y.GetValue<string>("ConnectionString"), y.GetValue<string>("ProviderName")));
 
             DbSettingProviderManager
                 .StartNewSession()

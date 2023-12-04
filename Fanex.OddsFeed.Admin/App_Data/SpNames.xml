@@ -9,7 +9,7 @@
         </Setting>
         <Setting Key="Odds_SystemSettingsSel" SpName="Odds_SystemSettingsSel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
         <Setting Key="Odds_Partner_Statistic_Sel" SpName="Odds_Partner_Statistic_Sel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
-        <Setting Key="Odds_Partner_SelByName" SpName="Odds_Partner_SelByName_xtest" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
+        <Setting Key="Odds_Partner_SelByName" SpName="Odds_Partner_SelByName" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
             <Mapping DataField="PartnerId" ObjectProperty="Id" />
             <Mapping DataField="UserName" ObjectProperty="Name" />
         </Setting>
@@ -40,7 +40,7 @@
     <!-- SP mapping for Administrator-->
     <Function Name="Administrator">
         <Setting Key="Odds_Admin_Ins" SpName="Odds_Admin_Ins" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
-        <Setting Key="Odds_Admin_Sel" SpName="Odds_Admin_Sel_xtest" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+        <Setting Key="Odds_Admin_Sel" SpName="Odds_Admin_Sel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
         <Setting Key="Odds_Admin_Del" SpName="Odds_Admin_Del" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
         <Setting Key="Odds_Admin_UpdInfo" SpName="Odds_Admin_UpdInfo" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
         <Setting Key="Odds_Admin_UpdPwd" SpName="Odds_Admin_UpdPwd" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
@@ -69,7 +69,7 @@
         <Setting Key="Odds_SubAccount_CheckExist" SpName="Odds_SubAccount_CheckExist" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
             <Mapping DataField="UserId" ObjectProperty="Id" />
         </Setting>
-        <Setting Key="Odds_User_SelByName_SystemId_RoleId" SpName="Odds_User_SelByName_SystemId_RoleId_xtest" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+        <Setting Key="Odds_User_SelByName_SystemId_RoleId" SpName="Odds_User_SelByName_SystemId_RoleId" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
         <Setting Key="Odds_User_GetPermission" SpName="Odds_User_GetPermission" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
         <Setting Key="Odds_User_EditPermission" SpName="Odds_User_EditPermission" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
         <Setting Key="Odds_User_ResetPass" SpName="Odds_User_ResetPass" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
@@ -108,7 +108,7 @@
         <Setting Key="Odds_LicenseeProfileUpd" SpName="Odds_LicenseeProfileUpd" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
         <Setting Key="Odds_LicenseeSettingUpd" SpName="Odds_LicenseeSettingUpd" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
         <Setting Key="Odds_LicenseeInfoUpd" SpName="Odds_LicenseeInfoUpd" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
-        <Setting Key="Odds_LicenseeSelByPage" SpName="Odds_LicenseeSelByPage_xtest" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+        <Setting Key="Odds_LicenseeSelByPage" SpName="Odds_LicenseeSelByPage" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
         <Setting Key="Odds_LicenseeActiveUpd" SpName="Odds_LicenseeActiveUpd" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
         <Setting Key="Odds_LicenseeByIDSel" SpName="Odds_LicenseeByIDSel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
         <Setting Key="Odds_LicenseeProfileByLicenseeIDSel" SpName="Odds_LicenseeProfileByLicenseeIDSel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
@@ -126,7 +126,7 @@
         <Setting Key="Odds_CompanyIPIns" SpName="Odds_CompanyIPIns" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
         <Setting Key="Odds_CompanyIP_Setting" SpName="Odds_CompanyIP_Setting" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
         <Setting Key="Odds_CompanyIP_DeleteSetting" SpName="Odds_CompanyIP_DeleteSetting" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
-        <Setting Key="Odds_DeactiveLicenseeAutomatically_OIC" SpName="Odds_DeactiveLicenseeAutomatically_OIC_xtest" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
+        <Setting Key="Odds_DeactiveLicenseeAutomatically_OIC" SpName="Odds_DeactiveLicenseeAutomatically_OIC" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
     </Function>
 
     <Function Name="Domain">

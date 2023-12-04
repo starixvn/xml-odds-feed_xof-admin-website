@@ -3,8 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Fanex.Common;
-    using Fanex.OddsFeed.Core;
     using Fanex.OddsFeed.Core.Context;
     using Fanex.OddsFeed.Core.Session;
     using Fanex.OddsFeed.Criteria.Affiliate;
@@ -76,12 +74,12 @@
 
         public bool IsAccountManagerRole()
         {
-            return currentSession.UserRole == (int)Constant.UserRole.ITAdministrator;
+            return currentSession.UserRole == (byte)Core.Enums.UserRole.ITAdministrator;
         }
 
         public bool IsLicenseeAdminRole()
         {
-            return currentSession.UserRole == (int)Constant.UserRole.Licensee;
+            return currentSession.UserRole == (byte)Core.Enums.UserRole.Licensee;
         }
 
         #endregion PermissionRegion
@@ -111,8 +109,8 @@
             var delayTimeList = new List<SelectListItem>();
             if (configs.Count() > 1)
             {
-                var cacheInterval = Converter.ToInt(configs.First(m => m.Key == "CacheInterval").Value);
-                var numberOfCacheVersion = Converter.ToInt(configs.First(m => m.Key == "NumberOfCacheVersion").Value);
+                var cacheInterval = int.Parse(configs.First(m => m.Key == "CacheInterval").Value);
+                var numberOfCacheVersion = int.Parse(configs.First(m => m.Key == "NumberOfCacheVersion").Value);
 
                 for (int i = cacheInterval; i <= (numberOfCacheVersion - 1) * cacheInterval; i += cacheInterval)
                 {
@@ -126,7 +124,7 @@
         public async Task<int> GetMaxNumberOfIPs()
         {
             var configs = await baseService.GetDataAsync<SystemSetting>(new GetTypeSettingCriteria { SystemID = 0, Type = "Config" });
-            return Converter.ToInt(configs.First(m => m.Key == "MaximumNumberOfIPs").Value);
+            return int.Parse(configs.First(m => m.Key == "MaximumNumberOfIPs").Value);
         }
 
         #endregion Common

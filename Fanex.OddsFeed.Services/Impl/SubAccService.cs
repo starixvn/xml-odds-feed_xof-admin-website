@@ -4,8 +4,6 @@
     using System.Data;
     using System.Linq;
     using System.Threading.Tasks;
-    using Fanex.Common.Helper;
-    using Fanex.OddsFeed.Core;
     using Fanex.OddsFeed.Criteria.SubAccount;
     using Fanex.OddsFeed.Criteria.User;
     using Fanex.OddsFeed.Models;
@@ -30,9 +28,10 @@
             var criteria = new GetSubAccBySystemIDCriteria
             {
                 SystemId = systemId,
-                RoleId = (byte)Constant.UserRole.LicenseeSubAccount
+                RoleId = (byte)Core.Enums.UserRole.LicenseeSubAccount
             };
-            return (await baseService.GetDataAsync<User>(criteria)).OrderBy(s => s.Name).ToList();
+            var users = await baseService.GetDataAsync<User>(criteria);
+            return users.OrderBy(s => s.Name).ToList();
         }
 
         public async Task<PermissionFlag> GetUserPermission(int userId, short systemId)
@@ -47,15 +46,12 @@
 
         public async Task<CommandResult> Insert(InsertSubAccCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             if (criteria.IsValid())
             {
                 return await subAccRepository.Insert(criteria);
             }
 
             return null;
-        }
-
-        
+        }        
     }
 }

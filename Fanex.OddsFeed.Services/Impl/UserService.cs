@@ -1,6 +1,5 @@
 ﻿namespace Fanex.OddsFeed.Services.Impl
 {
-    using Fanex.Common.Helper;
     using Fanex.OddsFeed.Criteria.User;
     using Fanex.OddsFeed.Models;
     using Fanex.OddsFeed.Repositories.Interface;
@@ -21,10 +20,7 @@
 
         public async Task<User> UserLogin(UserLoginUserCriteria criteria)
         {
-            Check.Argument.IsNotEmpty(criteria.UserName, "username");
-            Check.Argument.IsNotEmpty(criteria.UserPwd, "password");
             User user = null;
-
             if (criteria.IsValid())
             {
                  user = await userRepository.UserLogin(criteria);
@@ -46,7 +42,6 @@
 
         public async Task ReUserCheckIn(UserReCheckInUserCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
             if (criteria.IsValid())
             {
                 await userRepository.UserReCheckIn(criteria);
