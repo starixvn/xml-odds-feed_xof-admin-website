@@ -9,17 +9,20 @@ $(document).ready(function () {
     FormatDatePicker();
 
     $("#PeriodOption").change(function () {
-        setVisibleDateLicenseeControl($("#PeriodOption option:selected").text());
+        setVisibleDateAffiliateControl($("#PeriodOption option:selected").text());
     });
-    setVisibleDateLicenseeControl($("#PeriodOption option:selected").text());
+    setVisibleDateAffiliateControl($("#PeriodOption option:selected").text());
 
-    //if ($("#StartDateConfig").val() != "") {
-    //    setVisibleDateControlConfig($("#StartDateConfig").val());
-    //}
-
-    //$("#Affiliatename").Watermark("Affiliate name");
-
-    //$("#DomainName").Watermark("Domain name");
+    if ($("#StartDateConfig").val() != "") {
+        var firstDateOfMonth = new Date($("#StartDateConfig").val());
+        var dateChange = moment(firstDateOfMonth.format(), "DD MMM YYYY").format("YYYY-MM-DD");
+        $('#DateStartAffiliate').val(dateChange);
+        $("#DateStartAffiliate")[0].setAttribute(
+            "data-date",
+            moment(dateChange, "YYYY-MM-DD")
+                .format($("#DateStartAffiliate")[0].getAttribute("data-date-format"))
+        )
+    }
 
     $("#Affiliatename").autocomplete({
         source: [],
@@ -46,14 +49,14 @@ $(document).ready(function () {
     $("#DateStart").attr("readonly", "true");
     $("#DateEnd").attr("readonly", "true");
 
-    $('#YearLicensee').change(renderMonth);
+    $('#YearAffiliate').change(renderMonth);
     renderMonth();
 
     Search();
 });
 
 //--------------------------------------------------------------------------------------------------------------------
-function setVisibleDateLicenseeControl(currentValue) {
+function setVisibleDateAffiliateControl(currentValue) {
     if (currentValue == "Week") {
         $(".date-area, .month-area, .year-area").hide();
         $(".week-area").show();
@@ -70,47 +73,44 @@ function setVisibleDateLicenseeControl(currentValue) {
         $(".date-area").show();
         $(".week-area, .month-area, .year-area").hide();
     }
-    $('#DateStartLicensee').change(setFromToDateConstraintLimit1Year);
-    $('#DateEndLicensee').change(setFromToDateConstraintLimit1Year);
-    $('#FromWeekLicensee').change(setWeekRangeConstraintLimit1Year);
-    $('#ToWeekLicensee').change(setWeekRangeConstraintLimit1Year);
+    $('#DateStartAffiliate').change(setFromToDateConstraintLimit1Year);
+    $('#DateEndAffiliate').change(setFromToDateConstraintLimit1Year);
+    $('#FromWeekAffiliate').change(setWeekRangeConstraintLimit1Year);
+    $('#ToWeekAffiliate').change(setWeekRangeConstraintLimit1Year);
 }
 function setWeekRangeConstraintLimit1Year() {
-    let $from = $('#FromWeekLicensee');
-    let $to = $('#ToWeekLicensee');
+    let $from = $('#FromWeekAffiliate');
+    let $to = $('#ToWeekAffiliate');
     let from = new Date(moment($from.val(), "YYYY-Www").format("YYYY-MM-DD"));
     let to = new Date(moment($to.val(), "YYYY-Www").format("YYYY-MM-DD"));
     let i = from.MonthSubtract(to);
     if (Math.abs(i) > 12 || from > to) {
-        if (this.id === 'FromWeekLicensee') {
-            let numWeekChange = from.getWeek() < 10 ? ("0" + from.getWeek()) : from.getWeek();
-            let weekChange = from.getFullYear() + "-W" + numWeekChange;
-            $to.val(weekChange);
+        if (this.id === 'FromWeekAffiliate') {
+            $to.val($from.val());
             $to[0].setAttribute(
                 "data-date",
-                moment(weekChange, "YYYY-Www")
+                moment($from.val(), "YYYY-Www")
                     .format($to[0].getAttribute("data-date-format"))
             )
         }
         else {
-            let numWeekChange = to.getWeek() < 10 ? ("0" + to.getWeek()) : to.getWeek();
-            let weekChange = to.getFullYear() + "-W" + numWeekChange;
-            $from.val(weekChange);
+            $from.val($to.val());
             $from[0].setAttribute(
                 "data-date",
-                moment(weekChange, "YYYY-Www")
+                moment($to.val(), "YYYY-Www")
                     .format($from[0].getAttribute("data-date-format"))
             )
         }
+
     }
 }
 function setFromToDateConstraintLimit1Year() {
-    let $dateStart = $('#DateStartLicensee');
-    let $dateEnd = $('#DateEndLicensee');
+    let $dateStart = $('#DateStartAffiliate');
+    let $dateEnd = $('#DateEndAffiliate');
     let startdate = new Date($dateStart.val().toString());
     let enddate = new Date($dateEnd.val().toString());
     if (enddate < startdate) {
-        if (this.id === 'DateStartLicensee') {
+        if (this.id === 'DateStartAffiliate') {
             let dateChange = moment(startdate.format(), "DD MMM YYYY").format("YYYY-MM-DD");
             $dateEnd.val(dateChange);
             $dateEnd[0].setAttribute(
@@ -131,7 +131,7 @@ function setFromToDateConstraintLimit1Year() {
     }
     else if (enddate.getFullYear() != startdate.getFullYear()) {
         if (enddate.MonthSubtract(startdate) > 12) {
-            if (this.id === 'DateStartLicensee') {
+            if (this.id === 'DateStartAffiliate') {
                 let dateChange = moment(startdate.format(), "DD MMM YYYY").format("YYYY-MM-DD");
                 $dateEnd.val(dateChange);
                 $dateEnd[0].setAttribute(
@@ -161,10 +161,10 @@ Date.prototype.MonthSubtract = function (d) {
 };
 function renderMonth() {
     $.each(monthNames, function (index, value) {
-        let year = parseInt($('#YearLicensee').val());
+        let year = parseInt($('#YearAffiliate').val());
         let isDisabled = year === new Date().getFullYear() && index > new Date().getMonth();
-        $('#MonthLicensee').find('[value="' + (index + 1) + '"]').remove();
-        $('#MonthLicensee').append($('<option>', {
+        $('#MonthAffiliate').find('[value="' + (index + 1) + '"]').remove();
+        $('#MonthAffiliate').append($('<option>', {
             value: index + 1,
             text: value,
             disabled: isDisabled
@@ -179,28 +179,28 @@ function OnSearch() {
 };
 
 function FormatDatePicker() {
-    $("#DateStartLicensee").on("change", function () {
+    $("#DateStartAffiliate").on("change", function () {
         this.setAttribute(
             "data-date",
             moment(this.value, "YYYY-MM-DD")
                 .format(this.getAttribute("data-date-format"))
         )
     }).trigger("change");
-    $("#DateEndLicensee").on("change", function () {
+    $("#DateEndAffiliate").on("change", function () {
         this.setAttribute(
             "data-date",
             moment(this.value, "YYYY-MM-DD")
                 .format(this.getAttribute("data-date-format"))
         )
     }).trigger("change");
-    $("#FromWeekLicensee").on("change", function () {
+    $("#FromWeekAffiliate").on("change", function () {
         this.setAttribute(
             "data-date",
             moment(this.value, "YYYY-Www")
                 .format(this.getAttribute("data-date-format"))
         )
     }).trigger("change");
-    $("#ToWeekLicensee").on("change", function () {
+    $("#ToWeekAffiliate").on("change", function () {
         this.setAttribute(
             "data-date",
             moment(this.value, "YYYY-Www")
@@ -238,13 +238,17 @@ function Search() {
     $('#PageSize').val(_pageSize);
     $('#PageIndex').val(_pageIndex);
 
-    var month = $('#MonthLicensee').val();
+    var month = $('#MonthAffiliate').val();
     var dateStart = $("#PeriodOption option:selected").text() === 'Week' ?
-        moment($('#FromWeekLicensee').val(), "YYYY-Www").format("YYYY-MM-DD").toString() :
-        $('#DateStartLicensee').val();
+        moment($('#FromWeekAffiliate').val(), "YYYY-Www").format("YYYY-MM-DD").toString() :
+        $('#DateStartAffiliate').val();
+    var dateEndWeek = new Date(moment($('#ToWeekAffiliate').val(), "YYYY-Www"));
+    dateEndWeek.setDate(dateEndWeek.getDate() + 6);
     var dateEnd = $("#PeriodOption option:selected").text() === 'Week' ?
-        moment($('#ToWeekLicensee').val(), "YYYY-Www").format("YYYY-MM-DD").toString() :
-        $('#DateEndLicensee').val();
+        moment(dateEndWeek.format(), "DD MMM YYYY").format("YYYY-MM-DD") :
+        $('#DateEndAffiliate').val();
+
+    
 
     var searchParams = {
         PartnerName: $.trim($("#Affiliatename").val()),
@@ -254,12 +258,11 @@ function Search() {
         DateStart: dateStart,
         Month: parseInt(month),
         DateEnd: dateEnd,
-        ToWeek: $('#ToWeekLicensee').val(),
-        Year: parseInt($('#YearLicensee').val()),
+        ToWeek: $('#ToWeekAffiliate').val(),
+        Year: parseInt($('#YearAffiliate').val()),
         PageSize: parseInt(_pageSize),
         PageIndex: parseInt(_pageIndex),
     };
-    console.log(searchParams)
 
     $.ajax({
         url: "GetPartnerRequestStatistic",

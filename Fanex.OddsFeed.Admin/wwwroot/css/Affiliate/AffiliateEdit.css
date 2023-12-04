@@ -1,4 +1,4 @@
-﻿#myFormLicenseeStatistcs .custom-datepicker {
+﻿#myFormStatistcs .custom-datepicker {
     position: relative;
     width: 144px !important;
     height: 25px;
@@ -7,13 +7,13 @@
     border-radius: 3px;
 }
 
-#myFormLicenseeStatistcs input[type="month"] {
+#myFormStatistcs input[type="month"] {
     height: 27px !important;
 }
 
-#myFormLicenseeStatistcs input[type="date"]::before,
-#myFormLicenseeStatistcs input[type="week"]::before,
-#myFormLicenseeStatistcs input[type="month"]::before {
+#myFormStatistcs input[type="date"]::before,
+#myFormStatistcs input[type="week"]::before,
+#myFormStatistcs input[type="month"]::before {
     font-weight: normal;
     display: block;
     min-height: 1.2em;
@@ -23,7 +23,7 @@
 }
 
 
-#myFormLicenseeStatistcs input:before {
+#myFormStatistcs input:before {
     position: absolute;
     top: 3px;
     left: 3px;
@@ -36,13 +36,13 @@
     margin-top:2px !important
 }
 
-#myFormLicenseeStatistcs input::-webkit-datetime-edit,
-#myFormLicenseeStatistcs input::-webkit-inner-spin-button,
-#myFormLicenseeStatistcs input::-webkit-clear-button {
+#myFormStatistcs input::-webkit-datetime-edit,
+#myFormStatistcs input::-webkit-inner-spin-button,
+#myFormStatistcs input::-webkit-clear-button {
         display: none;
 }
 
-#myFormLicenseeStatistcs input::-webkit-calendar-picker-indicator {
+#myFormStatistcs input::-webkit-calendar-picker-indicator {
     position: absolute;
     top: 3px;
     right: 0;
@@ -50,9 +50,9 @@
     opacity: 1;
 }
 
-#myFormLicenseeStatistcs input[type="date"]::-webkit-calendar-picker-indicator,
-#myFormLicenseeStatistcs input[type="week"]::-webkit-calendar-picker-indicator,
-#myFormLicenseeStatistcs input[type="month"]::-webkit-calendar-picker-indicator {
+#myFormStatistcs input[type="date"]::-webkit-calendar-picker-indicator,
+#myFormStatistcs input[type="week"]::-webkit-calendar-picker-indicator,
+#myFormStatistcs input[type="month"]::-webkit-calendar-picker-indicator {
     color: rgba(0, 0, 0, 0);
     opacity: 1;
     display: block;

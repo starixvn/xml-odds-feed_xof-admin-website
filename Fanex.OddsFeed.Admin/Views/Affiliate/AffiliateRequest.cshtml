@@ -39,7 +39,7 @@
 <div class="newline">
     &nbsp;
 </div>
-<form id="myFormLicenseeStatistcs" method="get" action="">
+<form id="myFormStatistcs" method="get" action="">
     <div class="form" style="width: auto;">
         @Html.HiddenFor(s => s.PageSize)
         @Html.HiddenFor(s => s.PageIndex)
@@ -51,14 +51,14 @@
         <div class="grid4">
             @Html.Hidden("StartDateConfig")
             <input id="Affiliatename" type="text" value="" onkeyup="AffiliateAutoSuggesttion()"
-                   name="Affiliatename" maxlength="50" style="width: 140px" />
+                       name="Affiliatename" maxlength="50" style="width: 140px" placeholder="Affiliate name" />
         </div>
         <div class="grid2">
             @Html.LabelFor(m => m.DomainName, ViewResources.Domain)
         </div>
         <div class="grid4">
             <input id="DomainName" type="text" value="" onkeyup="DomainAutoSuggesttion()" name="Domainname"
-                   maxlength="50" style="width: 135px" />
+                       maxlength="50" style="width: 135px" placeholder="Domain name" />
         </div>
     </div>
 
@@ -95,7 +95,7 @@
                 data-val-date="The field DateStart must be a date." 
                 data-val-required="The DateStart field is required." 
                 disableddate=""        
-                id="DateStartLicensee" 
+                id="DateStartAffiliate" 
                 max="@ViewBag.MaxDate.ToString("yyyy-MM-dd")" 
                 min="@ViewBag.MinDate.ToString("yyyy-MM-dd")" 
                 name="DateStart" 
@@ -108,22 +108,15 @@
                 name="Week" 
                 data-date="" 
                 data-date-format="ww (DD MMM YYYY)"  
-                id="FromWeekLicensee" 
+                id="FromWeekAffiliate" 
                 min="@($"{((DateTime)ViewBag.MinDate).Year}-W01")"   
                 max="@($"{((DateTime)ViewBag.MaxDate).Year}-W{Model.Week}")"
                 value="@($"{Model.DateStart.Year}-W{Model.Week}")" 
                 required />
         </span>
         <span class="month-area hide">
-            <select class="width-auto-fit request" id="MonthLicensee" name="Month"></select>
+            <select class="width-auto-fit request" id="MonthAffiliate" name="Month"></select>
         </span>
-@*        <span class="date-area hide">
-            @Html.DatePickerFor(m => m.DateStart, (DateTime?)ViewBag.MinDate, (DateTime?)ViewBag.MaxDate)
-        </span><span class="week-area hide">
-            @Html.WeekPickerFor(m => m.Week, Model.DateStart, (DateTime?)ViewBag.MinDate, (DateTime?)ViewBag.MaxDate)
-        </span><span class="month-area hide">
-            @Html.MonthPickerFor(model => model.Month, Model.Month, new { @class = "width-auto-fit request" })
-        </span>*@
     </div>
     <div class="grid2">
         <span class="date-area ">
@@ -143,7 +136,7 @@
                 data-val-date="The field DateEnd must be a date."
                 data-val-required="The DateEnd field is required." 
                 disableddate="" 
-                id="DateEndLicensee" 
+                id="DateEndAffiliate" 
                 max="@ViewBag.MaxDate.ToString("yyyy-MM-dd")"
                 min="@ViewBag.MinDate.ToString("yyyy-MM-dd")" 
                 name="DateEnd" 
@@ -158,13 +151,13 @@
                 data-date-format="ww (DD MMM YYYY)"
                 min="@($"{((DateTime)ViewBag.MinDate).Year}-W01")"
                 max="@($"{((DateTime)ViewBag.MaxDate).Year}-W{Model.Week}")"
-                id="ToWeekLicensee" 
+                id="ToWeekAffiliate" 
                 value="@($"{Model.DateEnd.Year}-W{Model.ToWeek}")" 
                 required />
         </span>
         <span class="month-area year-area hide">
             <select class="width-auto-fit request" data-val="true" data-val-number="The field Year must be a number."
-                    data-val-required="The Year field is required." id="YearLicensee" name="Year">
+                    data-val-required="The Year field is required." id="YearAffiliate" name="Year">
                 @for (var i = ((DateTime)ViewBag.MinDate).Year; i <= ((DateTime)ViewBag.MaxDate).Year; i++)
                 {
                     if (i == ((DateTime)ViewBag.MaxDate).Year)
@@ -178,13 +171,6 @@
                 }
             </select>
         </span>
-        @*<span class="date-area hide">
-            @Html.DatePickerFor(m => m.DateEnd, (DateTime?)ViewBag.MinDate, (DateTime?)ViewBag.MaxDate)
-        </span><span class="week-area hide">
-            @Html.WeekPickerFor(m => m.ToWeek, Model.DateEnd, (DateTime?)ViewBag.MinDate, (DateTime?)ViewBag.MaxDate)
-        </span><span class="month-area year-area hide">
-            @Html.YearPickerFor(model => model.Year, ((DateTime)ViewBag.MinDate).Year, htmlAttributes: new { @class = "width-auto-fit request" })
-        </span>*@
     </div>
     <div class="clear">
     </div>
