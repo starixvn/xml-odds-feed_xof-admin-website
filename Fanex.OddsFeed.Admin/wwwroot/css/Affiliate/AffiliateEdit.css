@@ -1,8 +1,10 @@
 ﻿#myFormLicenseeStatistcs .custom-datepicker {
     position: relative;
-    width: 150px;
-    height: 23px;
+    width: 144px !important;
+    height: 25px;
     color: white;
+    border: 1px solid #c8c8c8;
+    border-radius: 3px;
 }
 
 #myFormLicenseeStatistcs input[type="month"] {
@@ -28,6 +30,10 @@
     content: attr(data-date);
     display: inline-block;
     color: black;
+    /*font-family: Tahoma;*/
+    font-family: Arial,Tahoma,Verdana,Helvetical,sans-serif;
+    font-size:14px !important;
+    margin-top:2px !important
 }
 
 #myFormLicenseeStatistcs input::-webkit-datetime-edit,
@@ -54,6 +60,7 @@
     width: 20px;
     height: 20px;
     border-width: thin;
+    top: 1px !important;
 }
 
 select.AffiliateEdit {

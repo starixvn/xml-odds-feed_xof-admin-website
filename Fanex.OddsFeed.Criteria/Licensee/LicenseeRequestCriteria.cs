@@ -120,15 +120,5 @@
         {
             return this.DateStart <= this.DateEnd;
         }
-
-        public int GetIso8601WeekOfYear(DateTime time)
-        {
-            var day = CultureInfo.InvariantCulture.Calendar.GetDayOfWeek(time);
-            if (day is >= DayOfWeek.Monday and <= DayOfWeek.Wednesday)
-            {
-                time = time.AddDays(3);
-            }
-            return CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(time, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
-        }
     }
 }

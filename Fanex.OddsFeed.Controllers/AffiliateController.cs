@@ -445,16 +445,22 @@
         public IActionResult Requests(string curmonth = "")
         {
             ViewBag.SystemName = currentSession.SystemName;
+            ViewBag.MinDate = new DateTime(DefaultMinDate, 1, 1);
+            ViewBag.MaxDate = DateTime.Now;
             if (curmonth != string.Empty)
             {
                 var curDate = DateTime.Now;
                 ViewBag.StartDateConfig = new DateTime(curDate.Year, curDate.Month, 1);
             }
 
-            return View("AffiliateRequest", new RequestStatisticCriteria());
+            var model = new RequestStatisticCriteria();
+            model.Week = Utilities.GetIso8601WeekOfYear(model.DateStart).ToString();
+            model.ToWeek = Utilities.GetIso8601WeekOfYear(model.DateEnd).ToString();
+
+            return View("AffiliateRequest", model);
         }
 
-        public async Task<IActionResult> GetPartnerRequestStatistic(RequestStatisticCriteria criteria)
+        public async Task<IActionResult> GetPartnerRequestStatistic([FromBody] RequestStatisticCriteria criteria)
         {
             if (string.IsNullOrEmpty(criteria.PartnerName) || criteria.PartnerName.ToLowerInvariant() == ViewResources.Affiliate_Name.ToLowerInvariant())
             {

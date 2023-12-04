@@ -317,8 +317,8 @@
             ViewBag.MinDate = new DateTime(DefaultMinDate, 1, 1);
             ViewBag.MaxDate = DateTime.Now;
             var model = new LicenseeRequestCriteria();
-            model.Week = model.GetIso8601WeekOfYear(model.DateStart).ToString();
-            model.ToWeek = model.GetIso8601WeekOfYear(model.DateEnd).ToString();
+            model.Week = Utilities.GetIso8601WeekOfYear(model.DateStart).ToString();
+            model.ToWeek = Utilities.GetIso8601WeekOfYear(model.DateEnd).ToString();
             return View("LicenseeRequest", model);
         }
 
