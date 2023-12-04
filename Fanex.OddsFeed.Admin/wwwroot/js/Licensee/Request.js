@@ -81,30 +81,27 @@ function setVisibleDateLicenseeControl(currentValue) {
     $('#ToWeekLicensee').change(setWeekRangeConstraintLimit1Year);
 }
 
-function setWeekRangeConstraintLimit1Year() {    
+function setWeekRangeConstraintLimit1Year() {
     let $from = $('#FromWeekLicensee');
     let $to = $('#ToWeekLicensee');
 
     let from = new Date(moment($from.val(), "YYYY-Www").format("YYYY-MM-DD"));
     let to = new Date(moment($to.val(), "YYYY-Www").format("YYYY-MM-DD"));
     let i = from.MonthSubtract(to);
-
     if (Math.abs(i) > 12 || from > to) {
         if (this.id === 'FromWeekLicensee') {
-            let weekChange = from.getFullYear() + "-W" + from.getWeek();
-            $to.val(weekChange);
+            $to.val($from.val());
             $to[0].setAttribute(
                 "data-date",
-                moment(weekChange, "YYYY-Www")
+                moment($from.val(), "YYYY-Www")
                     .format($to[0].getAttribute("data-date-format"))
             )
         }
         else {
-            let weekChange = moment(to.format(), "DD MMM YYYY").format("YYYY-Www");
-            $from.val(weekChange);
+            $from.val($to.val());
             $from[0].setAttribute(
                 "data-date",
-                moment(weekChange, "YYYY-Www")
+                moment($to.val(), "YYYY-Www")
                     .format($from[0].getAttribute("data-date-format"))
             )
         }
@@ -265,8 +262,10 @@ function SearchAll() {
     let dateStart = $("#PeriodOption option:selected").text() === 'Week' ?
         moment($('#FromWeekLicensee').val(), "YYYY-Www").format("YYYY-MM-DD").toString() :
         $('#DateStartLicensee').val();
+    let dateEndWeek = new Date(moment($('#ToWeekLicensee').val(), "YYYY-Www"));
+    dateEndWeek.setDate(dateEndWeek.getDate() + 6);
     let dateEnd = $("#PeriodOption option:selected").text() === 'Week' ?
-        moment($('#ToWeekLicensee').val(), "YYYY-Www").format("YYYY-MM-DD").toString() :
+        moment(dateEndWeek.format(), "DD MMM YYYY").format("YYYY-MM-DD") :
         $('#DateEndLicensee').val();
 
     let searchParams = {
@@ -402,8 +401,10 @@ function SearchDetail(licenseeID, date, year) {
     let dateStart = $("#PeriodOption option:selected").text() === 'Week' ?
         moment($('#FromWeekLicensee').val(), "YYYY-Www").format("YYYY-MM-DD").toString() :
         $('#DateStartLicensee').val();
+    let dateEndWeek = new Date(moment($('#ToWeekLicensee').val(), "YYYY-Www"));
+    dateEndWeek.setDate(dateEndWeek.getDate() + 6);
     let dateEnd = $("#PeriodOption option:selected").text() === 'Week' ?
-        moment($('#ToWeekLicensee').val(), "YYYY-Www").format("YYYY-MM-DD").toString() :
+        moment(dateEndWeek.format(), "DD MMM YYYY").format("YYYY-MM-DD") :
         $('#DateEndLicensee').val();
     let searchDetailParams = {
         PageSize: parseInt($('#PageSize').val()),
