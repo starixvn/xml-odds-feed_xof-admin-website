@@ -1,19 +1,18 @@
 ﻿namespace Fanex.OddsFeed.Controllers
 {
     using Fanex.Data;
-    using System.Web;
+    using Fanex.OddsFeed.Core;
     using Fanex.OddsFeed.Core.Attribute;
     using Fanex.OddsFeed.Core.Context;
     using Fanex.OddsFeed.Core.Session;
+    using Fanex.OddsFeed.Criteria.Administrator;
+    using Fanex.OddsFeed.Criteria.Licensee;
+    using Fanex.OddsFeed.Criteria.SubAccount;
     using Fanex.OddsFeed.Models;
+    using Fanex.OddsFeed.Resources;
     using Fanex.OddsFeed.Services.Interface;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.AspNetCore.Mvc;
-    using Fanex.OddsFeed.Criteria.Administrator;
-    using Fanex.OddsFeed.Criteria.Licensee;
-    using Fanex.OddsFeed.Resources;
-    using Fanex.OddsFeed.Criteria.SubAccount;
-    using Fanex.OddsFeed.Core;
 
     [IsAuthorize]
     public class SubAccountController : BaseController
@@ -49,7 +48,7 @@
         {
             criteria.SystemID = currentSession.SystemId;
             criteria.Creator = currentSession.UserId;
-            criteria.RoleID = (byte)Constant.UserRole.LicenseeSubAccount;
+            criteria.RoleID = (byte)Core.Enums.UserRole.LicenseeSubAccount;
             criteria.Password = Cryptography.EncryptPassword(criteria.Password.Trim());
             criteria.FirstName = criteria.FirstName ?? string.Empty;
             criteria.LastName = criteria.LastName ?? string.Empty;
@@ -72,7 +71,7 @@
                 Username = string.IsNullOrEmpty(criteria.UserName) ? string.Empty : criteria.UserName,
                 PageIndex = 1,
                 PageSize = 1,
-                RoleId = (byte)Constant.UserRole.LicenseeSubAccount
+                RoleId = (byte)Core.Enums.UserRole.LicenseeSubAccount
             });
 
             if (users != null && users.Any())
@@ -102,7 +101,7 @@
         {
             criteria.SystemId = currentSession.SystemId;
             criteria.Username = (criteria.Username == null || criteria.Username == "Username") ? string.Empty : criteria.Username.Trim();
-            criteria.RoleId = (byte)Constant.UserRole.LicenseeSubAccount;
+            criteria.RoleId = (byte)Core.Enums.UserRole.LicenseeSubAccount;
             criteria.PageIndex++;
             var result = await baseService.GetDataGrid<User>(criteria);
             return new CustomJsonResult(result);
@@ -113,7 +112,7 @@
             var criteria = new GetTop10SubAccCriteria
             {
                 SystemId = currentSession.SystemId,
-                RoleId = (byte)Constant.UserRole.LicenseeSubAccount,
+                RoleId = (byte)Core.Enums.UserRole.LicenseeSubAccount,
                 Username = username
             };
             var users = await baseService.GetDataAsync<User>(criteria);
@@ -394,7 +393,7 @@
 
         private static bool HasEditPermission(int userRole)
         {
-            return userRole != (byte)Constant.UserRole.LicenseeSubAccount;
+            return userRole != (byte)Core.Enums.UserRole.LicenseeSubAccount;
         }
 
         #endregion AssignLicensee

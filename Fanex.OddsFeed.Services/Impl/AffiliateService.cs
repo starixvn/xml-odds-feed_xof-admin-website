@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Fanex.Common.Helper;
     using Fanex.OddsFeed.Criteria.Affiliate;
     using Fanex.OddsFeed.Models;
     using Fanex.OddsFeed.Models.ValueObject;
@@ -33,8 +32,6 @@
 
         public async Task<CommandResult> Insert(InsertAffiliateCriteria criteria)
         {
-            Check.Argument.IsNotNull(criteria, "criteria");
-
             if (criteria.IsValid())
             {
                 return await affilliateRepository.Insert(criteria);

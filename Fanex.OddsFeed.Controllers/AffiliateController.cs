@@ -1,7 +1,6 @@
 ﻿namespace Fanex.OddsFeed.Controllers
 {
     using System.Text;
-    using Fanex.Common;
     using Fanex.OddsFeed.Core;
     using Fanex.OddsFeed.Core.Attribute;
     using Fanex.OddsFeed.Core.Context;
@@ -547,7 +546,7 @@
             var arrIpsTo = ipsTo.Split(',');
 
             var config = await baseService.GetDataAsync<SystemSetting>(new GetTypeSettingCriteria { SystemID = 0, Type = "Config" });
-            var maxNumOfIPs = Converter.ToInt(config.First(m => m.Key == "MaximumNumberOfIPs").Value);
+            var maxNumOfIPs = int.Parse(config.First(m => m.Key == "MaximumNumberOfIPs").Value);
 
             for (int i = 0; i < arrIpsFrom.Length; i++)
             {
