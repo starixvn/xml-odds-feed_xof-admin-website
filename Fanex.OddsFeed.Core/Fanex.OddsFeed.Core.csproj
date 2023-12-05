@@ -12,6 +12,7 @@
 
 	<ItemGroup>
 	  <PackageReference Include="Fanex.Data.Repository" Version="4.2.4" />
+	  <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 	</ItemGroup>
 
 </Project>
