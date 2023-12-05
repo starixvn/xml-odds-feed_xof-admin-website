@@ -68,7 +68,7 @@
 
             if (!string.IsNullOrWhiteSpace(username) && !string.IsNullOrWhiteSpace(password))
             {
-                CustomizeDataBeforeLogin(ref criteria, password);
+                CustomizeDataBeforeLogin(criteria, password);
                 User user = await userService.UserLogin(criteria);
                 if (user != null)
                 {
@@ -158,7 +158,7 @@
             return Json(result);
         }
 
-        private void CustomizeDataBeforeLogin(ref UserLoginUserCriteria criteria, string password)
+        private void CustomizeDataBeforeLogin(UserLoginUserCriteria criteria, string password)
         {
             password = Cryptography.EncryptPassword(password);
             criteria.UserPwd = password;
