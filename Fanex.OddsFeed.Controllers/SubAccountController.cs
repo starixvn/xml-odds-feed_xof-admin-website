@@ -1,6 +1,6 @@
 ﻿namespace Fanex.OddsFeed.Controllers
 {
-    using Fanex.Data;
+    using System.Web;
     using Fanex.OddsFeed.Core;
     using Fanex.OddsFeed.Core.Attribute;
     using Fanex.OddsFeed.Core.Context;
@@ -11,8 +11,8 @@
     using Fanex.OddsFeed.Models;
     using Fanex.OddsFeed.Resources;
     using Fanex.OddsFeed.Services.Interface;
-    using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Rendering;
 
     [IsAuthorize]
     public class SubAccountController : BaseController
@@ -49,7 +49,7 @@
             criteria.SystemID = currentSession.SystemId;
             criteria.Creator = currentSession.UserId;
             criteria.RoleID = (byte)Core.Enums.UserRole.LicenseeSubAccount;
-            criteria.Password = Cryptography.EncryptPassword(criteria.Password.Trim());
+            criteria.Password = Cryptography.CfsEnCode(HttpUtility.HtmlEncode(criteria.Password.Trim()));
             criteria.FirstName = criteria.FirstName ?? string.Empty;
             criteria.LastName = criteria.LastName ?? string.Empty;
 
@@ -216,7 +216,7 @@
                 }
                 else
                 {
-                    criteria.Password = Cryptography.EncryptPassword(criteria.Password.Trim());
+                    criteria.Password = Cryptography.CfsEnCode(HttpUtility.HtmlEncode(criteria.Password.Trim()));
                     result = await baseService.ExecuteNonQueryAsync(criteria);
 
                     if (result.IsSuccessful)

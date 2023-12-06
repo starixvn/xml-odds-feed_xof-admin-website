@@ -2,7 +2,7 @@
 {
     using Microsoft.VisualBasic;
 
-    public static class Cryptography1
+    public static class Cryptography
     {
         public static string CfsEnCode(string codeStr)
         {

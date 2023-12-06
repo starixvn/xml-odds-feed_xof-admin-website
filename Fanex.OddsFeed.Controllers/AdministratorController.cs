@@ -1,7 +1,8 @@
 ﻿namespace Fanex.OddsFeed.Controllers
 {
     using System.Text;
-    using Fanex.Data;
+    using System.Web;
+    using Fanex.OddsFeed.Core;
     using Fanex.OddsFeed.Core.Attribute;
     using Fanex.OddsFeed.Core.Context;
     using Fanex.OddsFeed.Core.Session;
@@ -62,7 +63,7 @@
             // hash password incase of add new
             if (!criteria.IsImport)
             {
-                criteria.Password = Cryptography.EncryptPassword(criteria.Password);
+                criteria.Password = Cryptography.CfsEnCode(HttpUtility.HtmlEncode(criteria.Password));
             }
 
             criteria.Creator = currentSession.UserId;
@@ -396,7 +397,7 @@
             }
             else
             {
-                criteria.Password = Cryptography.EncryptPassword(criteria.Password.Trim());
+                criteria.Password = Cryptography.CfsEnCode(HttpUtility.HtmlEncode(criteria.Password.Trim()));
                 criteria.Creator = currentSession.UserId;
                 criteria.IP = currentContext.IP;
                 result = await baseService.ExecuteNonQueryAsync(criteria);
