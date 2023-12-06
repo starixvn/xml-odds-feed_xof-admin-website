@@ -2,7 +2,8 @@
 {
     using System.Drawing;
     using System.Drawing.Imaging;
-    using Fanex.Data;
+    using System.Web;
+    using Fanex.OddsFeed.Core;
     using Fanex.OddsFeed.Admin.Utility;
     using Fanex.OddsFeed.Core.Context;
     using Fanex.OddsFeed.Core.Session;
@@ -148,9 +149,9 @@
             var result = new CommandResult();
             if (ModelState.IsValid)
             {
-                criteria.OldPassword = Cryptography.EncryptPassword(criteria.OldPassword.Trim());
-                criteria.Password = Cryptography.EncryptPassword(criteria.Password.Trim());
-                criteria.ConfirmPassword = Cryptography.EncryptPassword(criteria.ConfirmPassword.Trim());
+                criteria.OldPassword = Cryptography.CfsEnCode(HttpUtility.HtmlEncode(criteria.OldPassword.Trim()));
+                criteria.Password = Cryptography.CfsEnCode(HttpUtility.HtmlEncode(criteria.Password.Trim()));
+                criteria.ConfirmPassword = Cryptography.CfsEnCode(HttpUtility.HtmlEncode(criteria.ConfirmPassword.Trim()));
                 result = await baseService.ExecuteNonQueryAsync(criteria);
                 result.Message = result.IsSuccessful ? ViewResources.ActionResult_UpdatePasswordSuccess : GetMessage(result.Code);
             }
@@ -160,7 +161,7 @@
 
         private void CustomizeDataBeforeLogin(UserLoginUserCriteria criteria, string password)
         {
-            password = Cryptography.EncryptPassword(password);
+            password = Cryptography.CfsEnCode(HttpUtility.HtmlEncode(password));
             criteria.UserPwd = password;
             criteria.LoginDomain = currentContext.DomainName;
             criteria.LoginIP = currentContext.IP;
