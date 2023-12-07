@@ -27,7 +27,6 @@
         [SpParam(SqlParamName = "ContactEmail")]
         public string Email { get; set; }
 
-        // Ignored
         [Required]
         [Display(Name = "Name", ResourceType = typeof(ViewResources))]
         [StringLength(50, MinimumLength = 2,
