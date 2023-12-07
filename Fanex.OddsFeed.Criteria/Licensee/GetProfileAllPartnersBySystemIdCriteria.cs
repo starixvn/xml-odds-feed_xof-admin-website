@@ -1,6 +1,6 @@
 ﻿namespace Fanex.OddsFeed.Criteria.Licensee
 {
-    using Data.Repository;
+    using Fanex.Data.Repository;
 
     public class GetProfileAllPartnersBySystemIdCriteria : CriteriaBase
     {

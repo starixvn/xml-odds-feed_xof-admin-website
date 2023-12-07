@@ -3,6 +3,7 @@
     using Fanex.OddsFeed.Criteria.Dashboard;
     using Fanex.OddsFeed.Models.Report;
     using Fanex.OddsFeed.Services.Interface;
+    
     public class DashboardService : IDashboardService
     {
         private readonly IBaseService baseService;
@@ -11,7 +12,7 @@
             this.baseService = baseService;
         }
 
-        public async Task<AccountStatistic> GetAccountStatistics(short systemId)
+        public async Task<AccountStatistic> GetAccountStatisticsAsync(short systemId)
         {
             var criteria = new GetAccountStatisticsCriteria
             {
@@ -20,7 +21,7 @@
             return await baseService.GetDataEntityAsync<AccountStatistic>(criteria);
         }
 
-        public async Task<IEnumerable<LoginInfoStatistic>> GetLoginInfo(int userId)
+        public async Task<IEnumerable<LoginInfoStatistic>> GetLoginInfoAsync(int userId)
         {
             var criteria = new GetLoginInfoCriteria
             {

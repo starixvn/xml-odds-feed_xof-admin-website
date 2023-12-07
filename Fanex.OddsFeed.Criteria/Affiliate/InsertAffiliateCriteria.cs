@@ -1,11 +1,10 @@
 ﻿namespace Fanex.OddsFeed.Criteria.Affiliate
 {
     using System.ComponentModel.DataAnnotations;
-    using Data.Repository;
     using Fanex.Data;
     using Fanex.OddsFeed.Resources;
 
-    public class InsertAffiliateCriteria : CriteriaBase
+    public class InsertAffiliateCriteria : BaseNonQueryCommand
     {
         public int PartnerID { get; set; }
 
@@ -94,12 +93,7 @@
         public bool BetTypeIDListFlag { get; set; }
 
         public string Ip { get; set; }
-
-        public int ErrCode { get; set; }
-
-        public string ErrMsg { get; set; }
-
-        // Ignored
+        
         [SpParam(Ignored = true)]
         public string DeadballDelayTimes { get; set; }
 

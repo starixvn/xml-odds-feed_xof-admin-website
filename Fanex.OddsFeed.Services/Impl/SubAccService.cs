@@ -7,23 +7,18 @@
     using Fanex.OddsFeed.Criteria.SubAccount;
     using Fanex.OddsFeed.Criteria.User;
     using Fanex.OddsFeed.Models;
-    using Fanex.OddsFeed.Repositories.Interface;
     using Fanex.OddsFeed.Services.Interface;
 
     public class SubAccService : ISubAccService
     {
         private readonly IBaseService baseService;
-        private readonly ISubAccRepository subAccRepository;
 
-        public SubAccService(
-            ISubAccRepository subAccRepository,
-            IBaseService baseService)
+        public SubAccService(IBaseService baseService)
         {
             this.baseService = baseService;
-            this.subAccRepository = subAccRepository;
         }
 
-        public async Task<IEnumerable<User>> GetBySystemId(short systemId)
+        public async Task<IEnumerable<User>> GetBySystemIdAsync(short systemId)
         {
             var criteria = new GetSubAccBySystemIDCriteria
             {
@@ -34,7 +29,7 @@
             return users.OrderBy(s => s.Name).ToList();
         }
 
-        public async Task<PermissionFlag> GetUserPermission(int userId, short systemId)
+        public async Task<PermissionFlag> GetUserPermissionAsync(int userId, short systemId)
         {
             var criteria = new UserGetPermissionCriteria
             {
@@ -44,14 +39,9 @@
             return await baseService.GetDataEntityAsync<PermissionFlag>(criteria);
         }
 
-        public async Task<CommandResult> Insert(InsertSubAccCriteria criteria)
+        public async Task<CommandResult> InsertAsync(InsertSubAccCriteria criteria)
         {
-            if (criteria.IsValid())
-            {
-                return await subAccRepository.Insert(criteria);
-            }
-
-            return null;
+            return await baseService.ExecuteNonQueryAsync(criteria);
         }        
     }
 }

@@ -1,6 +1,5 @@
 ﻿namespace Fanex.OddsFeed.Criteria.User
 {
-    using System;
     using Fanex.Data.Repository;
     using Fanex.Data;
 

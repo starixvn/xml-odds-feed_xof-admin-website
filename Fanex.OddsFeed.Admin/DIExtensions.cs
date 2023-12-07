@@ -5,8 +5,6 @@
     using Fanex.OddsFeed.Core.Context;
     using Fanex.OddsFeed.Core.Session;
     using Fanex.OddsFeed.Models;
-    using Fanex.OddsFeed.Repositories.Impl;
-    using Fanex.OddsFeed.Repositories.Interface;
     using Fanex.OddsFeed.Services.Impl;
     using Fanex.OddsFeed.Services.Interface;
     using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -22,7 +20,8 @@
     {
         public static void RegisterServices(this IServiceCollection services, IConfiguration configuration)
         {
-            InjectRepository(services);
+            services.AddSingleton<IDynamicRepository, DynamicRepository>();
+
             InjectServices(services, configuration);
         }
 
@@ -60,16 +59,6 @@
             services.AddSingleton<IAffiliateService, AffiliateService>();
             services.AddSingleton<ILicenseeService, LicenseeService>();
             services.AddSingleton<ISubAccService, SubAccService>();
-        }
-
-        private static void InjectRepository(IServiceCollection services)
-        {
-            services.AddSingleton<IDynamicRepository, DynamicRepository>();
-            services.AddSingleton<IBaseRepository, BaseRepository>();
-            services.AddSingleton<IUserRepository, UserRepository>();
-            services.AddSingleton<IAffiliateRepository, AffiliateRepository>();
-            services.AddSingleton<ILicenseeRepository, LicenseeRepository>();
-            services.AddSingleton<ISubAccRepository, SubAccRepository>();
         }
 
         private static void RegisterBundlesCSS(IAssetPipeline pipeline)

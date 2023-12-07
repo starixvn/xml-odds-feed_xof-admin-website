@@ -7,7 +7,8 @@
 
     public interface IAffiliateService
     {
-        Task<IEnumerable<PartnerIP>> GetPartnerIpByAffId(int partnerId);
-        Task<CommandResult> Insert(InsertAffiliateCriteria criteria);
+        Task<IEnumerable<PartnerIP>> GetPartnerIpByAffIdAsync(int partnerId);
+
+        Task<CommandResult> InsertAsync(InsertAffiliateCriteria criteria);
     }
 }

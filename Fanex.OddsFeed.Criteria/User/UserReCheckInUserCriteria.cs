@@ -1,6 +1,6 @@
 ﻿namespace Fanex.OddsFeed.Criteria.User
 {
-    using Data.Repository;
+    using Fanex.Data.Repository;
 
     public class UserReCheckInUserCriteria : CriteriaBase
     {

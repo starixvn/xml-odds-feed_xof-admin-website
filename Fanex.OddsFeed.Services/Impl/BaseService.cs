@@ -4,21 +4,16 @@
     using Fanex.Data.Repository;
     using Fanex.OddsFeed.Criteria;
     using Fanex.OddsFeed.Models;
-    using Fanex.OddsFeed.Repositories.Interface;
     using Fanex.OddsFeed.Resources;
     using Fanex.OddsFeed.Services.Interface;
 
     public class BaseService : IBaseService
     {
         private readonly IDynamicRepository dynamicRepository;
-        private readonly IBaseRepository baseRepository;
 
-        public BaseService(
-            IDynamicRepository dynamicRepository,
-            IBaseRepository baseRepository)
+        public BaseService(IDynamicRepository dynamicRepository)
         {
             this.dynamicRepository = dynamicRepository;
-            this.baseRepository = baseRepository;
         }
 
         public async Task<IEnumerable<T>> GetDataAsync<T>(ICriteria criteria)
@@ -29,26 +24,6 @@
             }
 
             return new List<T>();
-        }
-
-        public async Task<ValueTuple<IEnumerable<TFirst>, IEnumerable<TSecond>>> FetchMultipleAsync<TFirst, TSecond>(ICriteria criteria)
-        {
-            if (criteria != null && criteria.IsValid())
-            {
-                return await dynamicRepository.FetchMultipleAsync<TFirst, TSecond>(criteria);
-            }
-
-            return new ValueTuple<IEnumerable<TFirst>, IEnumerable<TSecond>>(new List<TFirst>(), new List<TSecond>());
-        }
-
-        public async Task<ValueTuple<IEnumerable<TFirst>, IEnumerable<TSecond>, IEnumerable<TThird>>> FetchMultipleAsync<TFirst, TSecond, TThird>(ICriteria criteria)
-        {
-            if (criteria != null && criteria.IsValid())
-            {
-                return await dynamicRepository.FetchMultipleAsync<TFirst, TSecond, TThird>(criteria);
-            }
-
-            return new ValueTuple<IEnumerable<TFirst>, IEnumerable<TSecond>, IEnumerable<TThird>>(new List<TFirst>(), new List<TSecond>(), new List<TThird>());
         }
 
         public async Task<T> GetDataEntityAsync<T>(ICriteria criteria)
@@ -77,11 +52,23 @@
             return commandResult;
         }
 
-        public async Task<DataGrid<T>> GetDataGrid<T>(ICriteria criteria)
+        public async Task<DataGrid<T>> GetDataGridAsync<T>(ICriteria criteria)
         {
             if (criteria != null && criteria.IsValid())
             {
-                return await baseRepository.GetDataGrid<T>(criteria);
+                var result = new DataGrid<T>
+                {
+                    Data = (await dynamicRepository.FetchAsync<T>(criteria)).ToList()
+                };
+                var properties = criteria.GetType().GetProperties()
+                    .Select(x => new KeyValuePair<string, object>(x.Name, x.GetValue(criteria, null)))
+                    .ToDictionary(x => x.Key.ToLower(), x => x.Value);
+                if (properties.ContainsKey("rowcount"))
+                {
+                    result.TotalItems = int.Parse(properties["rowcount"].ToString());
+                }
+
+                return result;
             }
 
             return default(DataGrid<T>);

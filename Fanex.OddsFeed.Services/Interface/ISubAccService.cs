@@ -6,10 +6,10 @@
 
     public interface ISubAccService
     {
-        Task<IEnumerable<User>> GetBySystemId(short systemId);
+        Task<IEnumerable<User>> GetBySystemIdAsync(short systemId);
 
-        Task<PermissionFlag> GetUserPermission(int userId, short systemId);
+        Task<PermissionFlag> GetUserPermissionAsync(int userId, short systemId);
 
-        Task<CommandResult> Insert(InsertSubAccCriteria criteria);
+        Task<CommandResult> InsertAsync(InsertSubAccCriteria criteria);
     }
 }

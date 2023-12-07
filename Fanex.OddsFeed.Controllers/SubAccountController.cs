@@ -53,7 +53,7 @@
             criteria.FirstName = criteria.FirstName ?? string.Empty;
             criteria.LastName = criteria.LastName ?? string.Empty;
 
-            CommandResult result = await subAccService.Insert(criteria);
+            CommandResult result = await subAccService.InsertAsync(criteria);
             if (result.IsSuccessful)
             {
                 result.Message = ViewResources.ActionResult_AddSubAccountSuccess;
@@ -103,7 +103,7 @@
             criteria.Username = (criteria.Username == null || criteria.Username == "Username") ? string.Empty : criteria.Username.Trim();
             criteria.RoleId = (byte)Core.Enums.UserRole.LicenseeSubAccount;
             criteria.PageIndex++;
-            var result = await baseService.GetDataGrid<User>(criteria);
+            var result = await baseService.GetDataGridAsync<User>(criteria);
             return new CustomJsonResult(result);
         }
 
@@ -141,7 +141,7 @@
                 UserName = userName
             };
 
-            var users = await subAccService.GetBySystemId(currentSession.SystemId);
+            var users = await subAccService.GetBySystemIdAsync(currentSession.SystemId);
             var user = users.FirstOrDefault(x => x.Id == id);
             if (user != null)
             {
@@ -245,7 +245,7 @@
             ViewBag.CurrentUser = " of \"" + userName + "\"";
             var systemId = currentSession.SystemId;
 
-            PermissionFlag result = await subAccService.GetUserPermission(id, systemId);
+            PermissionFlag result = await subAccService.GetUserPermissionAsync(id, systemId);
             if (result == null)
             {
                 return View();

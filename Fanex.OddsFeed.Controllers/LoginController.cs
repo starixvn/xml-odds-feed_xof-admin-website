@@ -70,7 +70,7 @@
             if (!string.IsNullOrWhiteSpace(username) && !string.IsNullOrWhiteSpace(password))
             {
                 CustomizeDataBeforeLogin(criteria, password);
-                User user = await userService.UserLogin(criteria);
+                User user = await userService.UserLoginAsync(criteria);
                 if (user != null)
                 {
                     await CustomizeDataAfterLogin(criteria, user, result);
@@ -109,7 +109,7 @@
             {
                 OnUserId = currentSession.OnUserId
             };
-            await userService.ReUserCheckIn(criteria);
+            await userService.ReUserCheckInAsync(criteria);
 
             return Json(criteria.IsKickedOut ? "1" : "0");
         }
@@ -210,7 +210,7 @@
                 NetSessionID = HttpContext.Session.Id
             };
 
-            await userService.UserGetProfile(criteriaProfile);
+            await userService.UserGetProfileAsync(criteriaProfile);
 
             // Save user session
             currentSession.UserId = user.Id;
