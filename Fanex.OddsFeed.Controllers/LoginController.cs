@@ -13,11 +13,13 @@
     using Fanex.OddsFeed.Services.Interface;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
+    using Fanex.OddsFeed.Core.Attribute;
 
     public class LoginController : BaseController
     {
         private readonly IHttpContextAccessor httpContextAccessor;
         private readonly IUserService userService;
+
         public LoginController(ICurrentContext currentContext, 
             ICurrentSession currentSession,
             IHttpContextAccessor httpContextAccessor,
@@ -115,6 +117,7 @@
         }
 
         [HttpGet]
+        [IsAuthorize]
         public IActionResult UpdateUserPassword()
         {
             ModelState.Clear();
@@ -144,6 +147,7 @@
         }
 
         [HttpPost]
+        [IsAuthorize]
         public async Task<IActionResult> UpdateUserPassword(UpdatePasswordUserCriteria criteria)
         {
             var result = new CommandResult();
