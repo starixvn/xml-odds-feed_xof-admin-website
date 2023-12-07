@@ -59,16 +59,14 @@
                 app.UseHsts();
             }
 
-            app.UseCookiePolicy();
             app.UseHttpsRedirection();
             app.UseWebOptimizer();
             app.UseStaticFiles();
-            app.UseAuthentication();
-            app.UseSession();
-
+            app.UseCookiePolicy();
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {
