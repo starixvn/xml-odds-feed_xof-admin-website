@@ -47,6 +47,8 @@
             if (command != null && command.IsValid())
             {
                 await dynamicRepository.ExecuteAsync(command);
+                commandResult.Code = command.ErrCode;
+                commandResult.Message = command.ErrMsg;
             }
 
             return commandResult;

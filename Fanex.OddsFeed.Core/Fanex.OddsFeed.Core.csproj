@@ -11,7 +11,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="Fanex.Data.Repository" Version="4.2.4" />
+	  <PackageReference Include="Fanex.Data.ProxyClient" Version="0.0.2-alpha07" />
 	  <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 	</ItemGroup>
 

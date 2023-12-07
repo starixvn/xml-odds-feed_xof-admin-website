@@ -1,7 +1,6 @@
 ﻿namespace Fanex.OddsFeed.Admin
 {
     using Fanex.Data;
-    using Fanex.Data.SqlServer;
     using Fanex.Logging;
     using Fanex.Logging.Sentry;
     using Sentry;
@@ -32,19 +31,7 @@
                     })
                });
 
-            var connections = Configuration.GetSection("ConnectionStrings")
-                .GetChildren()
-                .AsEnumerable()
-                .Where(x => !string.IsNullOrWhiteSpace(x.GetValue<string>("Name")))
-                .ToDictionary(x => x.GetValue<string>("Name"),
-                    y => new ConnectionConfiguration(y.GetValue<string>("Name"), y.GetValue<string>("ConnectionString"), y.GetValue<string>("ProviderName")));
-
-            DbSettingProviderManager
-                .StartNewSession()
-                .Use(connections)
-                .WithSqlServer()
-                .UseDefaultDbSettingProvider(resourcePath: $"~/App_Data/SpNames.xml")
-                .Run();
+            services.AddFanexData(Configuration);
         }
 
         public static void Configure(IApplicationBuilder app, IWebHostEnvironment env)
