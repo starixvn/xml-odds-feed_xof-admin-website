@@ -2,53 +2,33 @@
 {
     using Fanex.OddsFeed.Criteria.User;
     using Fanex.OddsFeed.Models;
-    using Fanex.OddsFeed.Repositories.Interface;
     using Fanex.OddsFeed.Services.Interface;
 
     public class UserService : IUserService
     {
-        private readonly IUserRepository userRepository;
         private readonly IBaseService baseService;
 
-        public UserService(
-            IUserRepository userRepository,
-            IBaseService baseService)
+        public UserService(IBaseService baseService)
         {
-            this.userRepository = userRepository;
             this.baseService = baseService;
         }
 
-        public async Task<User> UserLogin(UserLoginUserCriteria criteria)
+        public async Task<User> UserLoginAsync(UserLoginUserCriteria criteria)
         {
-            User user = null;
-            if (criteria.IsValid())
-            {
-                 user = await userRepository.UserLogin(criteria);
-            }
-
-            return user;
+            return await baseService.GetDataEntityAsync<User>(criteria);
         }
 
-        public async Task<PermissionFlag> UserGetProfile(UserGetProfileCriteria criteria)
+        public async Task<PermissionFlag> UserGetProfileAsync(UserGetProfileCriteria criteria)
         {
-            PermissionFlag flags = null;
-            if (criteria.IsValid())
-            {
-                flags = await userRepository.GetProfile(criteria);
-            }
-
-            return flags;
+            return await baseService.GetDataEntityAsync<PermissionFlag>(criteria);
         }
 
-        public async Task ReUserCheckIn(UserReCheckInUserCriteria criteria)
+        public async Task ReUserCheckInAsync(UserReCheckInUserCriteria criteria)
         {
-            if (criteria.IsValid())
-            {
-                await userRepository.UserReCheckIn(criteria);
-            }
+            await baseService.GetDataEntityAsync<bool>(criteria);
         }
 
-        public async Task<User> GetUserInfo(int userId)
+        public async Task<User> GetUserInfoAsync(int userId)
         {
             var criteria = new GetUserInfoCriteria
             {

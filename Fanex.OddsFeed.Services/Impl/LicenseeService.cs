@@ -2,23 +2,19 @@
 {
     using Fanex.OddsFeed.Criteria.Licensee;
     using Fanex.OddsFeed.Models;
-    using Fanex.OddsFeed.Repositories.Interface;
     using Fanex.OddsFeed.Services.Interface;
     using Microsoft.AspNetCore.Mvc.Rendering;
+
     public class LicenseeService : ILicenseeService
     {
         private readonly IBaseService baseService;
-        private readonly ILicenseeRepository licenseeRepository;
 
-        public LicenseeService(
-           ILicenseeRepository licenseeRepository,
-           IBaseService baseService)
+        public LicenseeService(IBaseService baseService)
         {
-           this.licenseeRepository = licenseeRepository;
             this.baseService = baseService;
         }
 
-        public async Task<bool> GetActiveBySystemId(int systemId)
+        public async Task<bool> GetActiveBySystemIdAsync(int systemId)
         {
             var criteria = new GetActivateByLicenseeIDCriteria
             {
@@ -27,7 +23,7 @@
             return await baseService.GetDataEntityAsync<bool>(criteria);
         }
 
-        public async Task<PartnersProfile> GetProfileAllPartnersBySystemId(int systemId)
+        public async Task<PartnersProfile> GetProfileAllPartnersBySystemIdAsync(int systemId)
         {
             var criteria = new GetProfileAllPartnersBySystemIdCriteria
             {
@@ -40,18 +36,22 @@
                 AffsOutrightIDList = string.Empty,
                 AffsBettypeIDList = string.Empty,
             };
+            await baseService.GetDataEntityAsync<PartnersProfile>(criteria);
 
-            if (criteria.IsValid())
+            return new PartnersProfile
             {
-                return await licenseeRepository.GetProfileAllPartnersBySystemId(criteria);
-            }
-
-            return null;
+                AffsOddsType = criteria.AffsOddsType,
+                AffsLanguageList = criteria.AffsLanguageList,
+                AffsSportIDList = criteria.AffsSportIDList,
+                AffsCountryCodeList = criteria.AffsCountryCodeList,
+                AffsLeagueIDList = criteria.AffsLeagueIDList,
+                AffsOutrightIDList = criteria.AffsOutrightIDList,
+                AffsBettypeIDList = criteria.AffsBettypeIDList
+            };
         }
 
-        public async Task<IEnumerable<SelectListItem>> GetResultDelayTimeList()
+        public IList<SelectListItem> GetResultDelayTimeList()
         {
-            await Task.CompletedTask;
             return new List<SelectListItem>
             {
                 new SelectListItem { Value = "5", Text = "5" },

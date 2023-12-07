@@ -32,7 +32,7 @@
         {
             ViewBag.IsDashboard = true;
             ViewBag.UserName = currentSession.SystemName;
-            AccountStatistic data = await dashboardService.GetAccountStatistics(currentSession.SystemId);
+            AccountStatistic data = await dashboardService.GetAccountStatisticsAsync(currentSession.SystemId);
             return View(data);
         }
 
@@ -44,7 +44,7 @@
                 UserID = currentSession.UserId
             };
             criteria.PageIndex++;
-            IEnumerable<LoginInfoStatistic> data = await dashboardService.GetLoginInfo(currentSession.UserId);
+            IEnumerable<LoginInfoStatistic> data = await dashboardService.GetLoginInfoAsync(currentSession.UserId);
             return GenerateLogInInfoTable(data);
         }
 
@@ -59,7 +59,7 @@
                 PageIndex = Convert.ToInt16(pageIndex) + 1,
                 PageSize = Convert.ToInt16(pageSize)
             };
-            var result = await baseService.GetDataGrid<UserOnlineStatistic>(criteria);
+            var result = await baseService.GetDataGridAsync<UserOnlineStatistic>(criteria);
             return new CustomJsonResult(result);
         }
 
@@ -74,7 +74,7 @@
                 PageIndex = Convert.ToInt16(pageIndex) + 1,
                 PageSize = Convert.ToInt16(pageSize)
             };
-            var result = await baseService.GetDataGrid<RecentActivityStatistic>(criteria);
+            var result = await baseService.GetDataGridAsync<RecentActivityStatistic>(criteria);
             return new CustomJsonResult(result);
         }
 

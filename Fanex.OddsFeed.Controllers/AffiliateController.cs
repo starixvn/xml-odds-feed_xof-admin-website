@@ -92,7 +92,7 @@
             await CustomizeDataBeforeAddNew(criteria);
             if (await IsValidListOfIPs(criteria.IpsFrom, criteria.IpsTo))
             {
-                result =await affiliateService.Insert(criteria);
+                result =await affiliateService.InsertAsync(criteria);
                 if (result.IsSuccessful)
                 {
                     result.Message = ViewResources.ActionResult_AddAffiliateSuccess;
@@ -214,7 +214,7 @@
                 .Select(x => new SelectListItem { Value = x.DomainId.ToString(), Text = x.DomainName }).ToList();
 
             // IP
-            ViewBag.IpList = await affiliateService.GetPartnerIpByAffId(id);
+            ViewBag.IpList = await affiliateService.GetPartnerIpByAffIdAsync(id);
 
             return View();
         }
@@ -393,7 +393,7 @@
         public async Task<IActionResult> List()
         {
             ViewBag.SystemName = currentSession.SystemName;
-            ViewBag.IsActivateSystem = await licenseeService.GetActiveBySystemId(currentSession.SystemId);
+            ViewBag.IsActivateSystem = await licenseeService.GetActiveBySystemIdAsync(currentSession.SystemId);
             return View("~/Views/Affiliate/AffiliateList.cshtml");
         }
 
@@ -403,7 +403,7 @@
             criteria.SystemId = currentSession.SystemId;
             criteria.UserName = (criteria.UserName == null || criteria.UserName == "Username") ? string.Empty : criteria.UserName.Trim();
             criteria.PageIndex++;
-            var result = await baseService.GetDataGrid<Affiliate>(criteria);
+            var result = await baseService.GetDataGridAsync<Affiliate>(criteria);
             return new CustomJsonResult(result);
         }
 
@@ -474,7 +474,7 @@
             criteria.SystemId = currentSession.SystemId;
             criteria.PageIndex++;
 
-            var result =await baseService.GetDataGrid<LicenseeRequestDetailStatistic>(criteria);
+            var result =await baseService.GetDataGridAsync<LicenseeRequestDetailStatistic>(criteria);
             return new CustomJsonResult(result);
         }
 
@@ -778,7 +778,7 @@
             ViewBag.LanguageIDList = languages.Select(x => new SelectListItem { Value = x.Code, Text = x.Name_EN }).ToList();
 
             ViewBag.DelayTimeList =await GenerateDelayTime();
-            ViewBag.ResultDelayTimeList = await licenseeService.GetResultDelayTimeList();
+            ViewBag.ResultDelayTimeList = licenseeService.GetResultDelayTimeList();
 
             // Country
             var countries = await baseService.GetDataAsync<Country>(new GetAllCountryCriteria());
@@ -878,7 +878,7 @@
             ViewBag.LanguageIDList = languages.Select(x => new SelectListItem { Value = x.Code, Text = x.Name_EN }).ToList();
 
             ViewBag.DelayTimeList = await GenerateDelayTime();
-            ViewBag.ResultDelayTimeList = await licenseeService.GetResultDelayTimeList();
+            ViewBag.ResultDelayTimeList = licenseeService.GetResultDelayTimeList();
 
             // Sport
             var sports = UpdateSportListForCricket(await baseService.GetDataAsync<Sport>(new GetSupportedSportCriteria()));

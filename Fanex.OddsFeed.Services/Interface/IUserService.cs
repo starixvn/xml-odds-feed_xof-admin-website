@@ -5,12 +5,12 @@
 
     public interface IUserService
     {
-        Task<User> UserLogin(UserLoginUserCriteria criteria);
+        Task<User> UserLoginAsync(UserLoginUserCriteria criteria);
 
-        Task<PermissionFlag> UserGetProfile(UserGetProfileCriteria criteria);
+        Task<PermissionFlag> UserGetProfileAsync(UserGetProfileCriteria criteria);
 
-        Task ReUserCheckIn(UserReCheckInUserCriteria criteria);
+        Task ReUserCheckInAsync(UserReCheckInUserCriteria criteria);
 
-        Task<User> GetUserInfo(int userId);
+        Task<User> GetUserInfoAsync(int userId);
     }
 }

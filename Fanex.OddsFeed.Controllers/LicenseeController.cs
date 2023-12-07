@@ -51,7 +51,7 @@
 
             // Config
             ViewBag.DelayTimeList = await GenerateDelayTime();
-            ViewBag.ResultDelayTimeList = await _licenseeService.GetResultDelayTimeList();
+            ViewBag.ResultDelayTimeList = _licenseeService.GetResultDelayTimeList();
             ViewBag.NumberOfIPs = await GetMaxNumberOfIPs();
 
             // Domain
@@ -440,7 +440,7 @@
         {
             var missingProfile = new MissingPartnersProfile();
 
-            var partnerProfile = await _licenseeService.GetProfileAllPartnersBySystemId(criteria.SystemID);
+            var partnerProfile = await _licenseeService.GetProfileAllPartnersBySystemIdAsync(criteria.SystemID);
 
             missingProfile.AffsOddsType = Utilities.ProducesDifferenceTwoString(partnerProfile.AffsOddsType, criteria.OddsType);
             missingProfile.AffsLanguageList = Utilities.ProducesDifferenceTwoString(partnerProfile.AffsLanguageList, criteria.LanguageList);
@@ -602,7 +602,7 @@
             ViewBag.LanguageIDList = languages.Select(x => new SelectListItem { Value = x.Code, Text = x.Name_EN }).ToList();
 
             ViewBag.DelayTimeList = await GenerateDelayTime();
-            ViewBag.ResultDelayTimeList = await _licenseeService.GetResultDelayTimeList();
+            ViewBag.ResultDelayTimeList = _licenseeService.GetResultDelayTimeList();
 
             //Sport
             var sports = UpdateSportListForCricket(await baseService.GetDataAsync<Sport>(new GetSupportedSportCriteria()));

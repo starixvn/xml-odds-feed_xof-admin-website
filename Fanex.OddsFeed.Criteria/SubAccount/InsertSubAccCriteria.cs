@@ -6,7 +6,7 @@
     using Fanex.OddsFeed.Core;
     using Fanex.OddsFeed.Resources;
 
-    public class InsertSubAccCriteria : ResultCriteria
+    public class InsertSubAccCriteria : BaseNonQueryCommand
     {
         public int UserID { get; set; }
 

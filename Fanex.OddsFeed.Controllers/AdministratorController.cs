@@ -174,7 +174,7 @@
                 return this.NoAuthorization();
             }
 
-            User userInfo =await userService.GetUserInfo(id);
+            User userInfo = await userService.GetUserInfoAsync(id);
             ViewBag.CurrentUser = " of \"" + username + "\"";
             ViewBag.CurrentUserId = currentSession.UserId;
             var criteria = new UpdateAdminInfoCriteria { UserID = id, Username = username };
@@ -429,7 +429,7 @@
 
         private async Task<bool> HasEditPermission(int userRole, int editedUserId)
         {
-            User userInfo = await userService.GetUserInfo(editedUserId);
+            User userInfo = await userService.GetUserInfoAsync(editedUserId);
             if (userInfo != null)
             {
                 var editedUserRole = userInfo.RoleID;
