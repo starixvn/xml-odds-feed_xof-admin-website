@@ -4,7 +4,7 @@
     using Fanex.Data;
     using Fanex.OddsFeed.Resources;
 
-    public class UpdateSubAccCriteria : BaseCommand
+    public class UpdateSubAccCriteria : BaseNonQueryCommand
     {
         [SpParam(SqlParamName = "UserID")]
         public int SubAccountID { get; set; }

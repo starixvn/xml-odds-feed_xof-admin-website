@@ -2,7 +2,7 @@
 {
     using Data.Repository;
 
-    public class DeleteSettingIP_LicenseeCriteria : BaseCommand
+    public class DeleteSettingIP_LicenseeCriteria : BaseNonQueryCommand
     {
         public int SystemId { get; set; }
 

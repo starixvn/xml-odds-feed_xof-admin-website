@@ -3,7 +3,7 @@
     using Data.Repository;
     using Fanex.Data;
 
-    public class UpdateSettingIPCriteria : BaseCommand
+    public class UpdateSettingIPCriteria : BaseNonQueryCommand
     {
         public int PartnerID { get; set; }
 

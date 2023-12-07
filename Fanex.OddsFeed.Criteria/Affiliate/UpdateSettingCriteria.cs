@@ -3,7 +3,7 @@
     using Data.Repository;
     using Fanex.Data;
 
-    public class UpdateSettingCriteria : BaseCommand
+    public class UpdateSettingCriteria : BaseNonQueryCommand
     {
         public int PartnerID { get; set; }
 

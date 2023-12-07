@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
     using Fanex.Data.Repository;
-    using Fanex.OddsFeed.Core;
+    using Fanex.OddsFeed.Criteria;
     using Fanex.OddsFeed.Models;
     using Fanex.OddsFeed.Repositories.Interface;
     using Fanex.OddsFeed.Resources;
@@ -61,7 +61,7 @@
             return default(T);
         }
 
-        public async Task<CommandResult> ExecuteNonQueryAsync(INonQueryCommand criteria)
+        public async Task<CommandResult> ExecuteNonQueryAsync(BaseNonQueryCommand command)
         {
             var commandResult = new CommandResult
             {
@@ -69,9 +69,9 @@
                 Message = ViewResources.InvalidInputData
             };
 
-            if (criteria != null && criteria.IsValid())
+            if (command != null && command.IsValid())
             {
-                commandResult = await baseRepository.ExecuteNonQueryAsync(criteria);
+                await dynamicRepository.ExecuteAsync(command);
             }
 
             return commandResult;

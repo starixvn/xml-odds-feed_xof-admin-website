@@ -4,7 +4,7 @@
     using Fanex.Data;
     using Fanex.OddsFeed.Resources;
 
-    public class UpdateAffiliateCriteria : BaseCommand
+    public class UpdateAffiliateCriteria : BaseNonQueryCommand
     {
         public int PartnerID { get; set; }
 

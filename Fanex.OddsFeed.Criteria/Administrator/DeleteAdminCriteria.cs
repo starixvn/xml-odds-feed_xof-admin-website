@@ -3,7 +3,7 @@
     using System.ComponentModel.DataAnnotations;
     using Data.Repository;
 
-    public class DeleteAdminCriteria : BaseCommand
+    public class DeleteAdminCriteria : BaseNonQueryCommand
     {
         [Required]
         public int AdminID { get; set; }

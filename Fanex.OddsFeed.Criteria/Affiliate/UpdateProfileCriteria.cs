@@ -3,7 +3,7 @@
     using Data.Repository;
     using Fanex.Data;
 
-    public class UpdateProfileCriteria : BaseCommand
+    public class UpdateProfileCriteria : BaseNonQueryCommand
     {
         public int Creator { get; set; }
 

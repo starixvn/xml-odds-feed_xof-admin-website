@@ -2,7 +2,7 @@
 {
     using Data.Repository;
 
-    public class UpdateActiveCriteria : BaseCommand
+    public class UpdateActiveCriteria : BaseNonQueryCommand
     {
         public int PartnerID { get; set; }
 

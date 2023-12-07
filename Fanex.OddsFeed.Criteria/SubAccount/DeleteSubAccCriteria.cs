@@ -2,7 +2,7 @@
 {
     using Fanex.Data;
 
-    public class DeleteSubAccCriteria : BaseCommand
+    public class DeleteSubAccCriteria : BaseNonQueryCommand
     {
         [SpParam(SqlParamName = "UserID")]
         public int SubAccountID { get; set; }

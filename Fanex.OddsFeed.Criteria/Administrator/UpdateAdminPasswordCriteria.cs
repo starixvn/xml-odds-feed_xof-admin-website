@@ -4,7 +4,7 @@
     using Fanex.Data;
     using Fanex.OddsFeed.Resources;
 
-    public class UpdateAdminPasswordCriteria : BaseCommand
+    public class UpdateAdminPasswordCriteria : BaseNonQueryCommand
     {  
         [Required]
         public int UserID { get; set; }
