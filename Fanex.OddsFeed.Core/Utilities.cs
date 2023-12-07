@@ -6,18 +6,9 @@
     using System.Text;
     using System.Text.RegularExpressions;
     using Microsoft.AspNetCore.Mvc.Rendering;
-    using Microsoft.Extensions.Caching.Distributed;
 
     public static class Utilities
     {
-        //private static readonly IMaintenanceService _maintenanceService = new MaintenanceService();
-        private static IDistributedCache cache;
-
-        public static void Initialize(IDistributedCache dc)
-        {
-            cache = dc;
-        }
-
         public static string ZeroPrefix(int value)
         {
             return value < 10 ? "0" + value : value.ToString();
@@ -103,47 +94,5 @@
             }
             return CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(time, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
         }
-
-        /*
-        public static bool GetDownTime(out string startTime, out string endTime)
-        {
-            startTime = endTime = null;
-            const int timeCacheUM = 10; // seconds
-            var isUM = false;
-
-            string isUMCache = cache.GetString("IsUM");
-            if (string.IsNullOrEmpty(isUMCache))
-            {
-                try
-                {
-                    var umTime = _maintenanceService.GetUnderMaintenanceTime();
-                    startTime = umTime.From;
-                    endTime = umTime.To;
-                    isUM = umTime.IsUnderMaintenanceTime;
-
-                    // Cache Information which is gotten from Service
-                    var cacheEntryOptions = new DistributedCacheEntryOptions
-                    {
-                        AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(timeCacheUM)
-                    };
-                    cache.SetString("IsUM", isUM.ToString(), cacheEntryOptions);
-                    cache.SetString("StartTime", startTime, cacheEntryOptions);
-                    cache.SetString("EndTime", endTime, cacheEntryOptions);
-                }
-                catch (Exception ex)
-                {
-                    //LogService.Error(ex.Message, ex);
-                }
-            }
-            else
-            {
-                isUM = Convert.ToBoolean(isUMCache);
-                startTime = cache.GetString("StartTime");
-                endTime = cache.GetString("EndTime");
-            }
-
-            return isUM;
-        }
-        */
     }
 }
