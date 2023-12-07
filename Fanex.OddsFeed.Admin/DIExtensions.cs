@@ -1,5 +1,6 @@
 ﻿namespace Fanex.OddsFeed.Admin
 {
+    using Fanex.Caching;
     using Fanex.Data.Repository;
     using Fanex.OddsFeed.Core.Context;
     using Fanex.OddsFeed.Core.Session;
@@ -52,6 +53,7 @@
             services.AddSingleton<ICurrentContext, CurrentContext>();
             services.AddSingleton<ICurrentSession, CurrentSession>();
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+            services.AddSingleton<ICacheService, CacheService>();
             services.AddSingleton<IBaseService, BaseService>();
             services.AddSingleton<IUserService, UserService>();
             services.AddSingleton<IDashboardService, DashboardService>();
