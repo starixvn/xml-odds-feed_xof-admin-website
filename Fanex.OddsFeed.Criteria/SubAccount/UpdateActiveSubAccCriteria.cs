@@ -1,7 +1,7 @@
 ﻿namespace Fanex.OddsFeed.Criteria.SubAccount
 {
     using Fanex.Data;
-    public class UpdateActiveSubAccCriteria : BaseCommand
+    public class UpdateActiveSubAccCriteria : BaseNonQueryCommand
     {
         [SpParam(SqlParamName = "UserID")]
         public int SubAccountID { get; set; }

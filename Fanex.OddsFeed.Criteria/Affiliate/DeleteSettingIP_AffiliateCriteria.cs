@@ -2,7 +2,7 @@
 {
     using Data.Repository;
 
-    public class DeleteSettingIP_AffiliateCriteria : BaseCommand
+    public class DeleteSettingIP_AffiliateCriteria : BaseNonQueryCommand
     {
         public int PartnerId { get; set; }
 

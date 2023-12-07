@@ -2,7 +2,7 @@
 {
     using Data.Repository;
 
-    public class CreateDomainCriteria : BaseCommand
+    public class CreateDomainCriteria : BaseNonQueryCommand
     {
         public short DomainID { get; set; }
 

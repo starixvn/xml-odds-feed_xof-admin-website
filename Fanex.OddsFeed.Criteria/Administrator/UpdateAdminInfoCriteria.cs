@@ -4,7 +4,7 @@
     using Fanex.Data;
     using Fanex.OddsFeed.Resources;
 
-    public class UpdateAdminInfoCriteria : BaseCommand
+    public class UpdateAdminInfoCriteria : BaseNonQueryCommand
     {
         [Required]
         [SpParam(SqlParamName = "AdminID")]

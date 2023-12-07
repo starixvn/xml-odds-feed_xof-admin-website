@@ -4,7 +4,7 @@ namespace Fanex.OddsFeed.Criteria.Licensee
     using Fanex.Data;
     using Fanex.OddsFeed.Resources;
 
-    public class CreateLicenseeCriteria : BaseCommand
+    public class CreateLicenseeCriteria : BaseNonQueryCommand
     {
         public short SystemID { get; set; }
 

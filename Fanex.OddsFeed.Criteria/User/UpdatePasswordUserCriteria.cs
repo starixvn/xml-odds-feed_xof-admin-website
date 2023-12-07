@@ -4,7 +4,7 @@ namespace Fanex.OddsFeed.Criteria.User
     using Fanex.Data;
     using Fanex.OddsFeed.Resources;
 
-    public class UpdatePasswordUserCriteria : BaseCommand
+    public class UpdatePasswordUserCriteria : BaseNonQueryCommand
     {
         public int UserID { get; set; }
 

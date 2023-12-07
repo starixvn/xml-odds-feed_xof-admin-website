@@ -5,7 +5,7 @@
     using Fanex.Data;
     using Fanex.OddsFeed.Resources;
 
-    public class ResetPassSubAccCriteria : BaseCommand
+    public class ResetPassSubAccCriteria : BaseNonQueryCommand
     {
         public ResetPassSubAccCriteria()
         {

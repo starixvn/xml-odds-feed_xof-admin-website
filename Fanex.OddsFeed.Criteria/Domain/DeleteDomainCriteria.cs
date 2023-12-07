@@ -2,7 +2,7 @@ namespace Fanex.OddsFeed.Criteria.Domain
 {
     using Data.Repository;
 
-    public class DeleteDomainCriteria : BaseCommand
+    public class DeleteDomainCriteria : BaseNonQueryCommand
     {
         public short DomainID { get; set; }
 

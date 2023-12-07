@@ -4,7 +4,7 @@
     using Fanex.Data;
     using Fanex.OddsFeed.Core;
 
-    public class AssignLicensee_SubAccCriteria : BaseCommand
+    public class AssignLicensee_SubAccCriteria : BaseNonQueryCommand
     {
         [SpParam(SqlParamName = "AdminID")]
         public int UserID { get; set; }

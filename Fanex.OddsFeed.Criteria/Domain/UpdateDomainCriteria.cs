@@ -2,7 +2,7 @@ namespace Fanex.OddsFeed.Criteria.Domain
 {
     using Data.Repository;
 
-    public class UpdateDomainCriteria : BaseCommand
+    public class UpdateDomainCriteria : BaseNonQueryCommand
     {
         public short DomainID { get; set; }
 

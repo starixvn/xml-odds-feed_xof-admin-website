@@ -2,7 +2,7 @@
 {
     using Data.Repository;
 
-    public class DeleteCompanyIPCriteria : BaseCommand
+    public class DeleteCompanyIPCriteria : BaseNonQueryCommand
     {
         public int Creator { get; set; }
 

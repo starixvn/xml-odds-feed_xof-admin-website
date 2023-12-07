@@ -4,7 +4,7 @@
     using Fanex.Data;
     using Fanex.OddsFeed.Resources;
 
-    public class InsertAdminCriteria : BaseCommand
+    public class InsertAdminCriteria : BaseNonQueryCommand
     {
         public int UserID { get; set; }
 
