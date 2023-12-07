@@ -64,25 +64,5 @@
     </div>
     <footer></footer>
     <script type="text/javascript" src="~/js/Libs/jquery.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            setInterval("reCheckUM()", 5000);
-        });
-
-        function reCheckUM() {
-            $.ajax({
-                url: '@Url.Content("~/")' + "Tolerance/IsUnderMaintainance",
-                type: "POST",
-                success: function (result) {
-                    console.log(result)
-                    if (result === false) {
-                        window.location = '@Url.Content("~/")' + "Login/Index";
-                    }
-                },
-                error: function (request, status, error) {
-                }
-            });
-        }
-    </script>
 </body>
 </html>
