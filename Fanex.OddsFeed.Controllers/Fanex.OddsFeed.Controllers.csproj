@@ -7,9 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Fanex.Caching" Version="2.2.4" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="5.3.5" />
     <PackageReference Include="ONEbook.UM.AspNetCore" Version="3.1.1.1" />
+    <PackageReference Include="ONEbook.UM.AspNetCore.Filters" Version="3.1.1.1" />
+    <PackageReference Include="ONEbook.UM.Transport" Version="3.1.2" />
     <PackageReference Include="System.Drawing.Common" Version="8.0.0" />
   </ItemGroup>
 
