@@ -9,22 +9,20 @@
     using Fanex.OddsFeed.Models;
     using Fanex.OddsFeed.Models.Report;
     using Fanex.OddsFeed.Services.Interface;
-    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
 
     [IsAuthorize]
     public class DashboardController : BaseController
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IDashboardService dashboardService;
-        public DashboardController(ICurrentContext currentContext, 
+
+        public DashboardController(
+            ICurrentContext currentContext, 
             ICurrentSession currentSession,
-            IHttpContextAccessor httpContextAccessor,
             IBaseService baseService,
             IDashboardService dashboardService,
             AppSettings appSettings) : base(currentContext, currentSession, baseService, appSettings)
         {
-            _httpContextAccessor = httpContextAccessor;
             this.dashboardService = dashboardService;
         }
 
