@@ -6,7 +6,7 @@
     using Fanex.OddsFeed.Services.Interface;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
-    using NLog;
+    using Microsoft.Extensions.Logging;
 
     [Route("api/[controller]/[action]")]
     [ApiController]
@@ -14,16 +14,17 @@
 
     public class LicenseeController
     {
-        private readonly Logger logger = LogManager.GetCurrentClassLogger();
+        private readonly ILogger<LicenseeController> logger;
         private readonly IHttpContextAccessor httpContextAccessor;
         private readonly IBaseService baseService;
-        
 
         public LicenseeController(IBaseService baseService, 
-            IHttpContextAccessor httpContextAccessor)
+            IHttpContextAccessor httpContextAccessor,
+            ILogger<LicenseeController> logger)
         {
             this.baseService = baseService;
             this.httpContextAccessor = httpContextAccessor;
+            this.logger = logger;
         }
 
         [HttpPost]
@@ -62,7 +63,7 @@
 
         private void WriteLogDeactiveLicensee(string ip, string licenseeName)
         {
-            logger.Info("IP: " + ip +
+            logger.LogInformation("IP: " + ip +
                    "\nAction: Deactive Licensee" +
                    "\nLicensee Name: " + licenseeName);
         }

@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Fanex.OddsFeed.Core\Fanex.OddsFeed.Core.csproj" />
     <ProjectReference Include="..\Fanex.OddsFeed.Resources\Fanex.OddsFeed.Resources.csproj" />
   </ItemGroup>
 
