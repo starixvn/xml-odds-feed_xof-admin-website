@@ -2,11 +2,9 @@
 {
     using Fanex.Data.Repository;
 
-    public class DeactiveLicenseeByNameCriteria : CriteriaBase
+    public class DeactiveLicenseeByNameCriteria : BaseNonQueryCommand
     {
         public string LicenseeName { get; set; }
-        public int ErrCode { get; set; }
-        public string ErrMsg { get; set; } = string.Empty;
 
         public override string GetSettingKey() => "Odds_DeactiveLicenseeAutomatically_OIC";
 
