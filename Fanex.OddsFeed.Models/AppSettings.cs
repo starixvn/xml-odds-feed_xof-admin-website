@@ -4,5 +4,6 @@
     {
         public string FeedUrlPath { get; set; }
         public string VirtualPathWebService { get; set; }
+        public string ApiKey { get; set; }
     }
 }
