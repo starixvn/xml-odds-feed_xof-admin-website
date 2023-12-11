@@ -14,10 +14,6 @@
 
         public string IPToOld { get; set; }
 
-        public int ErrCode { get; set; }
-
-        public string ErrMsg { get; set; }
-
         public override string GetSettingKey() => "Odds_Delete_Setting_IP_Licensee";
 
         public override bool IsValid() => true;

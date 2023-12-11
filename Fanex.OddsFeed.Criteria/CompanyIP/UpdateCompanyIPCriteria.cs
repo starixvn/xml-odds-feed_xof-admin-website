@@ -18,10 +18,6 @@
 
         public string IP { get; set; }
 
-        public int ErrCode { get; set; }
-
-        public string ErrMsg { get; set; }
-
         public override string GetSettingKey() => "Odds_CompanyIP_Setting";
 
         public override bool IsValid() => true;

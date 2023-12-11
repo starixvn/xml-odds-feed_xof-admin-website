@@ -37,7 +37,7 @@
 <div class="newline">
     &nbsp;
 </div>
-<form id="myForm" method="get" action="">
+<div>
     <div class="formSearch">
         @Html.HiddenFor(s => s.PageSize)
         @Html.HiddenFor(s => s.PageIndex)
@@ -61,6 +61,6 @@
         </div>
         <input type="button" value="Search" onclick="OnSearch();" />
     </div>
-</form>
+</div>
 <div class="newline">&nbsp;</div>
 <div id="SearchResult" class="freegrid  content-grid"></div>

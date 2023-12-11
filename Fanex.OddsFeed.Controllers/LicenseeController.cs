@@ -115,7 +115,7 @@
             return Json(result.Code);
         }
 
-        public async Task<JsonResult> EditActive([FromBody] UpdateLicenseeActiveCriteria criteria)
+        public async Task<JsonResult> EditActive(UpdateLicenseeActiveCriteria criteria)
         {
             criteria.Creator = currentSession.UserId;
             criteria.IP = currentContext.IP;

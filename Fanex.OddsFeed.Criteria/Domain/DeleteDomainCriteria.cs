@@ -10,10 +10,6 @@ namespace Fanex.OddsFeed.Criteria.Domain
 
         public string Ip { get; set; }
 
-        public int ErrCode { get; set; }
-
-        public string ErrMsg { get; set; }
-
         public override string GetSettingKey() => "Odds_DomainDel";
 
         public override bool IsValid() => true;
