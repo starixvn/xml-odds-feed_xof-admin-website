@@ -1,6 +1,8 @@
 ﻿var gridOptions
-    ,_pageIndex = 0
-    ,_pageSize = 10;
+    , _sortColumnName
+    , _sortDirection
+    , _pageIndex = 0
+    , _pageSize = 10;
 $(document).ready(function () {
     $("#Username").autocomplete({
         source: [],
@@ -18,8 +20,8 @@ $(document).ready(function () {
 
 function updateTips(t) {
     $(".validateTips")
-    .text(t)
-    .addClass("ui-state-highlight");
+        .text(t)
+        .addClass("ui-state-highlight");
     setTimeout(function () {
         $(".validateTips").removeClass("ui-state-highlight", 1500);
     }, 500);
@@ -62,9 +64,9 @@ function renderBodyRows(users) {
         var user = users[i];
         var colactive = '';
         if (user.isActive) {
-            colactive = "<a title='Deactivate this account' class='ico-tick' onclick='javascript:editActive(this, " + JSON.stringify({ userId: user.id, username: user.username }) + ");' />";
+            colactive = "<a title='Deactivate this account' class='ico-tick' onclick='javascript:editActive(this, " + JSON.stringify({ userId: user.userId, username: user.username }) + ");' />";
         } else {
-            colactive = "<a title='Activate this account' class='ico-untick' onclick='javascript:editActive(this, " + JSON.stringify({ userId: user.id, username: user.username }) + ");' />";
+            colactive = "<a title='Activate this account' class='ico-untick' onclick='javascript:editActive(this, " + JSON.stringify({ userId: user.userId, username: user.username }) + ");' />";
         }
 
         var row = {
@@ -91,15 +93,36 @@ function renderBodyRows(users) {
     return rows;
 }
 
-function Search() {
+function Search(sortColumnName, sortDirection) {
     $('#PageSize').val(_pageSize);
     $('#PageIndex').val(_pageIndex);
+
+    var typeSort = 0;
+    //1 --> Active || 2 --> CreatedDate || 3 --> Creator  || 4 --> Role
+    switch (sortColumnName) {
+        case "isactive":
+            typeSort = 1;
+            break;
+        case "createdate":
+            typeSort = 2;
+            break;
+        case "creator":
+            typeSort = 3;
+            break;
+        case "rolename":
+            typeSort = 4;
+            break;
+        default:
+            break;
+    }
 
     var searchParams = {
         SystemID: $("#SystemID option:selected").val(),
         Username: $("#Username").val(),
         IsActive: parseInt($("#isActive option:selected").val()),
         RoleID: parseInt($("#RoleID option:selected").val()),
+        SortByID: parseInt(typeSort),
+        IsSortAsc: sortDirection === "asc" ? true : false,
         PageSize: _pageSize,
         PageIndex: _pageIndex
     };
@@ -121,21 +144,28 @@ function Search() {
                         TdClass: "boldusername", CssClass: "boldusername", HeaderAlign: "center", CellAlign: "left"
                     },
                     { HeaderText: "Action", Width: 50, Name: "action", HeaderAlign: "center", CellAlign: "center" },
-                    { HeaderText: "Active", Width: 65, Name: "isactive", HeaderAlign: "center", CellAlign: "center", CssClass: "header-mt", Sort: true },
-                    { HeaderText: "Role", Width: 120, Name: "rolename", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true, CssClass: "header-mt", Sort: true },
+                    {
+                        HeaderText: "Active", Width: 65, Name: "isactive", HeaderAlign: "center", CellAlign: "center", CssClass: "header-mt",
+                        Sort: true,
+                        SortDirection: sortColumnName === "isactive" ? sortDirection : ''
+                    },
+                    {
+                        HeaderText: "Role", Width: 120, Name: "rolename", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true, CssClass: "header-mt",
+                        Sort: true,
+                        SortDirection: sortColumnName === "rolename" ? sortDirection : ''
+                    },
                     { HeaderText: "First Name", Width: 100, Name: "firstname", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true },
                     { HeaderText: "Last Name", Width: 100, Name: "lastname", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true },
                     { HeaderText: "Email", Width: 170, Name: "email", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true },
-                    { HeaderText: "Creator", Width: 110, Name: "creator", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true, CssClass: "header-mt", Sort: true },
+                    {
+                        HeaderText: "Creator", Width: 110, Name: "creator", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true, CssClass: "header-mt",
+                        Sort: true,
+                        SortDirection: sortColumnName === "creator" ? sortDirection : ''
+                    },
                     {
                         HeaderText: "Created Date", Width: 120, Name: "createdate", HeaderAlign: "center", CellAlign: "center", CssClass: "header-mt",
-                        Sort: true, FormatDateTime: 'DD MMM YYYY HH:mm:ss', CustomSortFunction: function (col1Value, col2Value, sortDirection) {
-                            if (sortDirection === 'asc') {
-                                return moment(col1Value).diff(col2Value);
-                            } else {
-                                return moment(col2Value).diff(col1Value);
-                            }
-                        }
+                        Sort: true, FormatDateTime: 'DD MMM YYYY HH:mm:ss',
+                        SortDirection: sortColumnName === "createdate" ? sortDirection : ''
                     }
                 ],
                 bodyRows: renderBodyRows(result.data),
@@ -151,13 +181,12 @@ function Search() {
                     pagerSelectCallBack: ReRenderAfterPaged
                 },
                 sortOption: {
-                    afterGridSorted: function (bodyRows, columnName, currentDirection) {
-                        $("#SearchResult").find('table#tblContent_SearchResult td.free-grid-td-0').each(function (index, item) {
-                            $(item).find('div.table-cell').html(index + 1);
-                        });
-
-                        return bodyRows;
+                    serverSortFunction: function (sortColumnName, sortDirection) {
+                        _sortColumnName = sortColumnName;
+                        _sortDirection = sortDirection;
+                        Search(sortColumnName, sortDirection);
                     }
+
                 }
             };
 
@@ -167,7 +196,7 @@ function Search() {
 }
 
 function ShowAction(user) {
-    _adminId = user.id;
+    _adminId = user.userId;
     _adminName = user.username;
 
     $.contextMenu('destroy');
@@ -265,7 +294,7 @@ function ReRenderAfterPaged(page_index, itemsPerPage, jq) {
     _pageSize = itemsPerPage;
 
     gridOptions.pagerOption.currentPage = page_index;
-    Search();
+    Search(_sortColumnName, _sortDirection);
 
     return false;
 }

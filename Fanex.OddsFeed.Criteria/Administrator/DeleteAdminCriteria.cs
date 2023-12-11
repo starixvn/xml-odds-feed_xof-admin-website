@@ -11,8 +11,6 @@
         [Required]
         public bool Isactive { get; set; }
 
-        public string ErrMsg { get; set; }
-
         public override string GetSettingKey()
         {
             return "Odds_Admin_Del";

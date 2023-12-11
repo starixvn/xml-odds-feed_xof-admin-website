@@ -17,10 +17,6 @@ namespace Fanex.OddsFeed.Criteria.Licensee
 
         public string IP { get; set; }
 
-        public int ErrCode { get; set; }
-
-        public string ErrMsg { get; set; }
-
         [SpParam(Ignored = true)]
         public string SystemName { get; set; }
 

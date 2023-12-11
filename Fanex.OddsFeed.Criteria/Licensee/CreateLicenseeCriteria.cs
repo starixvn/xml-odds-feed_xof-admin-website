@@ -82,10 +82,6 @@ namespace Fanex.OddsFeed.Criteria.Licensee
             ErrorMessageResourceType = typeof(ViewResources))]
         public string ContactEmail { get; set; } = string.Empty;
 
-        public int ErrCode { get; set; }
-
-        public string ErrMsg { get; set; }
-
         // Ignored
 
         [SpParam(Ignored = true)]

@@ -19,10 +19,6 @@
         [Display(Name = "New_Password", ResourceType = typeof(ViewResources))]
         public string Password { get; set; }
 
-        public int ErrCode { get; set; }
-
-        public string ErrMsg { get; set; }
-
         [SpParam(Ignored = true)]
         [Display(Name = "Confirm_Password", ResourceType = typeof(ViewResources))]
         [DataType(DataType.Password)]

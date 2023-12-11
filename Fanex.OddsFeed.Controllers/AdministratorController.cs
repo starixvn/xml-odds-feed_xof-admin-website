@@ -265,7 +265,7 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> AdministratorEditSystem([FromBody] UpdateAdminSystemCriteria criteria)
+        public async Task<IActionResult> AdministratorEditSystem(UpdateAdminSystemCriteria criteria)
         {
             criteria.Creator = currentSession.UserId;
             criteria.IP = currentContext.IP;
@@ -412,7 +412,7 @@
 
         #endregion
 
-        public async Task<string> ListExistedAdministrator([FromBody] AdminList_GetTop10Criteria criteria)
+        public async Task<string> ListExistedAdministrator(AdminList_GetTop10Criteria criteria)
         {
             criteria.SystemId = currentSession.SystemId;
             var users =await baseService.GetDataAsync<User>(criteria);

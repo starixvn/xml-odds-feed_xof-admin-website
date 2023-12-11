@@ -17,10 +17,6 @@
 
         public string IP { get; set; }
 
-        public int ErrCode { get; set; }
-
-        public string ErrMsg { get; set; }
-
         // Ignored
         [SpParam(Ignored = true)]
         public string UserName { get; set; }

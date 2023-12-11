@@ -60,10 +60,6 @@ namespace Fanex.OddsFeed.Criteria.Licensee
 
         public bool IsForceUpdate { get; set; }
 
-        public int ErrCode { get; set; }
-
-        public string ErrMsg { get; set; }
-
         // Ignored
         [SpParam(Ignored = true)]
         public string LeagueIDOutRightIDList => string.Join(";", this.LeagueIDList, this.OutRightIDList);
