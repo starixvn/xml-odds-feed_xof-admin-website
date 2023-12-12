@@ -20,7 +20,7 @@
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            ViewBag.SystemList = GenerateSystemList();
+            ViewBag.SystemList = await GenerateSystemList();
             ViewBag.Session = this.currentSession;
             await Task.CompletedTask;
             return View();

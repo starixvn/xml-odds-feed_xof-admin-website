@@ -18,9 +18,9 @@
         {
         }
 
-        public ActionResult Header()
+        public async Task<IActionResult> Header()
         {
-            ViewBag.SystemList = GenerateSystemList();
+            ViewBag.SystemList = await GenerateSystemList();
             return PartialView("_Header");
         }
 

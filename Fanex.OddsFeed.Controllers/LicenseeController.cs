@@ -177,7 +177,7 @@
             var domains = domainList.Where(d => selectedDomains.All(s => s.DomainId != d.DomainId)).ToList();
             ViewBag.DomainList = domains.Select(x => new SelectListItem { Value = x.DomainId.ToString(), Text = x.DomainName }).ToList();
 
-            ViewBag.NumberOfIPs = GetMaxNumberOfIPs();
+            ViewBag.NumberOfIPs = await GetMaxNumberOfIPs();
             ViewBag.CurrentSystem = " of \"" + criteria.SystemName + "\"";
 
             return View(criteria);

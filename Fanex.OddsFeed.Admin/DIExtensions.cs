@@ -85,12 +85,8 @@
                 "css/select2.min.css");
             pipeline.AddCssBundle("minify/css/administrator.min.css",
                 "css/Administrator/Administrator.css");
-            pipeline.AddCssBundle("minify/css/listcompanyip.min.css",
-                "css/Affiliate/AffiliateEdit.css");
             pipeline.AddCssBundle("minify/css/affiliate.min.css",
                 "css/Affiliate/AffiliateEdit.css");
-            pipeline.AddCssBundle("minify/css/licenseeedit.min.css",
-                "css/Licensee/LicenseeEdit.css");
             pipeline.AddCssBundle("minify/css/licensee.min.css",
                 "css/Licensee/LicenseeEdit.css");
         }
