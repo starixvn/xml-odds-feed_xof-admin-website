@@ -1,8 +1,8 @@
 ﻿namespace Fanex.OddsFeed.Controllers
 {
     using System;
+    using Fanex.OddsFeed.Core;
     using Fanex.OddsFeed.Core.Context;
-    using Fanex.OddsFeed.Core.Session;
     using Fanex.OddsFeed.Models;
     using Fanex.OddsFeed.Services.Interface;
     using Microsoft.AspNetCore.Mvc;
@@ -14,10 +14,10 @@
         private readonly IMaintenanceService maintenanceService;
 
         public ToleranceController(ICurrentContext currentContext, 
-            ICurrentSession currentSession,
+            ISessionService sessionService,
             IBaseService baseService,
             IMaintenanceService maintenanceService,
-            AppSettings appSettings) : base(currentContext, currentSession, baseService, appSettings)
+            AppSettings appSettings) : base(currentContext, sessionService, baseService, appSettings)
         {
             this.maintenanceService = maintenanceService;
         }

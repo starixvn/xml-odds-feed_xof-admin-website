@@ -5,7 +5,6 @@
     using Fanex.OddsFeed.Core;
     using Fanex.OddsFeed.Core.Attribute;
     using Fanex.OddsFeed.Core.Context;
-    using Fanex.OddsFeed.Core.Session;
     using Fanex.OddsFeed.Criteria.Administrator;
     using Fanex.OddsFeed.Criteria.Licensee;
     using Fanex.OddsFeed.Criteria.User;
@@ -22,9 +21,9 @@
 
         public AdministratorController(IUserService userService,
             ICurrentContext currentContext,
-            ICurrentSession currentSession,
+            ISessionService sessionService,
             IBaseService baseService,
-            AppSettings appSettings) : base(currentContext, currentSession, baseService, appSettings)
+            AppSettings appSettings) : base(currentContext, sessionService, baseService, appSettings)
         {
             this.userService = userService;
         }
@@ -40,7 +39,7 @@
             }
 
             // Sport Flag
-            var licenseeProfile = await baseService.GetDataEntityAsync<LicenseeProfile>(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = currentSession.SystemId });
+            var licenseeProfile = await baseService.GetDataEntityAsync<LicenseeProfile>(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = sessionService.SystemId });
             if (licenseeProfile != null)
             {
                 ViewBag.SportsFlag = licenseeProfile.SportIdListFlag;
@@ -66,7 +65,7 @@
                 criteria.Password = Cryptography.CfsEnCode(HttpUtility.HtmlEncode(criteria.Password));
             }
 
-            criteria.Creator = currentSession.UserId;
+            criteria.Creator = sessionService.UserId;
             criteria.IP = currentContext.IP;
             CommandResult result = await baseService.ExecuteNonQueryAsync(criteria);
             if (result != null && result.IsSuccessful)
@@ -176,7 +175,7 @@
 
             User userInfo = await userService.GetUserInfoAsync(id);
             ViewBag.CurrentUser = " of \"" + username + "\"";
-            ViewBag.CurrentUserId = currentSession.UserId;
+            ViewBag.CurrentUserId = sessionService.UserId;
             var criteria = new UpdateAdminInfoCriteria { UserID = id, Username = username };
             if (userInfo != null)
             {
@@ -185,7 +184,7 @@
                 criteria.Email = userInfo.Email;
                 criteria.RoleID = userInfo.RoleID;
 
-                ViewBag.HasEditPermission = await this.HasEditPermission(currentSession.UserRole, criteria.UserID);
+                ViewBag.HasEditPermission = await this.HasEditPermission(sessionService.UserRole, criteria.UserID);
                 if (!ViewBag.HasEditPermission)
                 {
                     ViewBag.Error = ViewResources.You_have_no_authorization;
@@ -199,12 +198,12 @@
         public async Task<IActionResult> AdministratorEditProfile([FromBody] UpdateAdminInfoCriteria criteria)
         {
             var result = new CommandResult();
-            criteria.Creator = currentSession.UserId;
+            criteria.Creator = sessionService.UserId;
             criteria.IP = currentContext.IP;
             criteria.FirstName = criteria.FirstName ?? string.Empty;
             criteria.LastName = criteria.LastName ?? string.Empty;
 
-            if (!await this.HasEditPermission(currentSession.UserRole, criteria.UserID))
+            if (!await this.HasEditPermission(sessionService.UserRole, criteria.UserID))
             {
                 result.Code = 1;
                 result.Message = ViewResources.You_can_not_update_this_administrator;
@@ -212,9 +211,9 @@
             }
 
             result =await baseService.ExecuteNonQueryAsync(criteria);
-            if (currentSession.UserId == criteria.UserID)
+            if (sessionService.UserId == criteria.UserID)
             {
-                currentSession.UserRole = (byte)criteria.RoleID;
+                sessionService.UserRole = (byte)criteria.RoleID;
             }
 
             return Json(result);
@@ -240,8 +239,8 @@
             ViewBag.CurrentUser = " \"" + username + "\"";
             // System
             var systems = role == (byte)Core.Enums.UserRole.Licensee
-                ? await baseService.GetDataAsync<SystemDto>(new GetSystemByUserIDCriteria { UserID = currentSession.UserId, IgnoreIsActive = true })
-                : await baseService.GetDataAsync<SystemDto>(new GetOptionalSystemBySubAccountIDCriteria { UserID = currentSession.UserId, SubAccountID = id });
+                ? await baseService.GetDataAsync<SystemDto>(new GetSystemByUserIDCriteria { UserID = sessionService.UserId, IgnoreIsActive = true })
+                : await baseService.GetDataAsync<SystemDto>(new GetOptionalSystemBySubAccountIDCriteria { UserID = sessionService.UserId, SubAccountID = id });
             ViewBag.SystemListID = systems.Select(x => new SelectListItem { Value = x.SystemId.ToString(), Text = x.SystemName }).ToList();
 
             var systemList = await baseService.GetDataAsync<SystemDto>(new GetSystemByUserIDCriteria
@@ -255,7 +254,7 @@
                         .Select(item => item.SystemId.ToString()).ToArray()
             };
 
-            ViewBag.HasEditPermission = await this.HasEditPermission(currentSession.UserRole, criteria.UserID);
+            ViewBag.HasEditPermission = await this.HasEditPermission(sessionService.UserRole, criteria.UserID);
             if (!ViewBag.HasEditPermission)
             {
                 ViewBag.Error = ViewResources.You_have_no_authorization;
@@ -267,10 +266,10 @@
         [HttpPost]
         public async Task<IActionResult> AdministratorEditSystem(UpdateAdminSystemCriteria criteria)
         {
-            criteria.Creator = currentSession.UserId;
+            criteria.Creator = sessionService.UserId;
             criteria.IP = currentContext.IP;
 
-            if (!await this.HasEditPermission(currentSession.UserRole, criteria.UserID))
+            if (!await this.HasEditPermission(sessionService.UserRole, criteria.UserID))
             {
                 ViewBag.Success = false;
                 ViewBag.Error = ViewResources.You_can_not_update_this_administrator;
@@ -279,8 +278,8 @@
 
             // System
             var systems = IsLicenseeAdminRole()
-                ? await baseService.GetDataAsync<SystemDto>(new GetSystemByUserIDCriteria { UserID = currentSession.UserId, IgnoreIsActive = true })
-                : await baseService.GetDataAsync<SystemDto>(new GetOptionalSystemBySubAccountIDCriteria { UserID = currentSession.UserId, SubAccountID = criteria.UserID });
+                ? await baseService.GetDataAsync<SystemDto>(new GetSystemByUserIDCriteria { UserID = sessionService.UserId, IgnoreIsActive = true })
+                : await baseService.GetDataAsync<SystemDto>(new GetOptionalSystemBySubAccountIDCriteria { UserID = sessionService.UserId, SubAccountID = criteria.UserID });
             var systemList = systems.Select(x => new SelectListItem { Value = x.SystemId.ToString(), Text = x.SystemName }).ToList();
 
             if (string.IsNullOrEmpty(criteria.ListSystemId))
@@ -317,7 +316,7 @@
         [HttpPost]
         public async Task<string> GetExistedAdmin(string username)
         {
-            var licenseeProfile =await baseService.GetDataEntityAsync<LicenseeProfile>(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = currentSession.SystemId });
+            var licenseeProfile =await baseService.GetDataEntityAsync<LicenseeProfile>(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = sessionService.SystemId });
             if (licenseeProfile != null)
             {
                 ViewBag.SportsFlag = licenseeProfile.SportIdListFlag;
@@ -371,7 +370,7 @@
                 UserID = id
             };
 
-            ViewBag.HasEditPermission = await this.HasEditPermission(currentSession.UserRole, criteria.UserID);
+            ViewBag.HasEditPermission = await this.HasEditPermission(sessionService.UserRole, criteria.UserID);
             if (!ViewBag.HasEditPermission)
             {
                 ViewBag.Error = ViewResources.You_have_no_authorization;
@@ -384,7 +383,7 @@
         public async Task<IActionResult> AdministratorResetPwd([FromBody] UpdateAdminPasswordCriteria criteria)
         {
             var result = new CommandResult();
-            if (!await this.HasEditPermission(currentSession.UserRole, criteria.UserID))
+            if (!await this.HasEditPermission(sessionService.UserRole, criteria.UserID))
             {
                 result.Code = 1;
                 result.Message = ViewResources.You_can_not_update_this_administrator;
@@ -398,7 +397,7 @@
             else
             {
                 criteria.Password = Cryptography.CfsEnCode(HttpUtility.HtmlEncode(criteria.Password.Trim()));
-                criteria.Creator = currentSession.UserId;
+                criteria.Creator = sessionService.UserId;
                 criteria.IP = currentContext.IP;
                 result = await baseService.ExecuteNonQueryAsync(criteria);
                 if (result.IsSuccessful)
@@ -414,7 +413,7 @@
 
         public async Task<string> ListExistedAdministrator(AdminList_GetTop10Criteria criteria)
         {
-            criteria.SystemId = currentSession.SystemId;
+            criteria.SystemId = sessionService.SystemId;
             var users =await baseService.GetDataAsync<User>(criteria);
             var builder = new StringBuilder();
             foreach (var user in users)
@@ -449,17 +448,17 @@
 
         private async Task<IActionResult> CustomizeAfterEditSystem(UpdateAdminSystemCriteria criteria, IEnumerable<SelectListItem> systemList)
         {
-            if (criteria.UserID == currentSession.UserId && systemList != null)
+            if (criteria.UserID == sessionService.UserId && systemList != null)
             {
                 if (criteria.SystemList == null)
                 {
                     var logOutUserCriteria = new LogOutUserCriteria
                     {
-                        OnUserId = currentSession.OnUserId
+                        OnUserId = sessionService.OnUserId
                     };
 
                     await baseService.GetDataEntityAsync<CommandResult>(logOutUserCriteria);
-                    currentSession.ClearAll();
+                    sessionService.ClearAll();
                     return RedirectToAction("Index", "Login");
                 }
                 else
@@ -477,7 +476,7 @@
                     }
 
                     ViewBag.SystemListID = updateList;
-                    currentSession.SystemList = strSystemList.ToString();
+                    sessionService.SystemList = strSystemList.ToString();
                 }
             }
             else

@@ -4,7 +4,6 @@
     using Fanex.OddsFeed.Core;
     using Fanex.OddsFeed.Core.Attribute;
     using Fanex.OddsFeed.Core.Context;
-    using Fanex.OddsFeed.Core.Session;
     using Fanex.OddsFeed.Criteria.Dashboard;
     using Fanex.OddsFeed.Models;
     using Fanex.OddsFeed.Models.Report;
@@ -18,10 +17,10 @@
 
         public DashboardController(
             ICurrentContext currentContext, 
-            ICurrentSession currentSession,
+            ISessionService sessionService,
             IBaseService baseService,
             IDashboardService dashboardService,
-            AppSettings appSettings) : base(currentContext, currentSession, baseService, appSettings)
+            AppSettings appSettings) : base(currentContext, sessionService, baseService, appSettings)
         {
             this.dashboardService = dashboardService;
         }
@@ -29,8 +28,8 @@
         public async Task<IActionResult> ShowDashboard()
         {
             ViewBag.IsDashboard = true;
-            ViewBag.UserName = currentSession.SystemName;
-            AccountStatistic data = await dashboardService.GetAccountStatisticsAsync(currentSession.SystemId);
+            ViewBag.UserName = sessionService.SystemName;
+            AccountStatistic data = await dashboardService.GetAccountStatisticsAsync(sessionService.SystemId);
             return View(data);
         }
 
@@ -39,10 +38,10 @@
         {
             var criteria = new GetLoginInfoCriteria
             {
-                UserID = currentSession.UserId
+                UserID = sessionService.UserId
             };
             criteria.PageIndex++;
-            IEnumerable<LoginInfoStatistic> data = await dashboardService.GetLoginInfoAsync(currentSession.UserId);
+            IEnumerable<LoginInfoStatistic> data = await dashboardService.GetLoginInfoAsync(sessionService.UserId);
             return GenerateLogInInfoTable(data);
         }
 
@@ -51,9 +50,9 @@
         {
             var criteria = new GetCurrentOnlineUserCriteria
             {
-                UserID = currentSession.UserId,
-                RoleID = currentSession.UserRole,
-                SystemID = currentSession.SystemId,
+                UserID = sessionService.UserId,
+                RoleID = sessionService.UserRole,
+                SystemID = sessionService.SystemId,
                 PageIndex = Convert.ToInt16(pageIndex) + 1,
                 PageSize = Convert.ToInt16(pageSize)
             };
@@ -66,9 +65,9 @@
         {
             var criteria = new GetRecentActivitiesCriteria
             {
-                UserID = optionActivities == 1 ? currentSession.UserId : 0,
-                RoleID = currentSession.UserRole,
-                SystemID = currentSession.SystemId,
+                UserID = optionActivities == 1 ? sessionService.UserId : 0,
+                RoleID = sessionService.UserRole,
+                SystemID = sessionService.SystemId,
                 PageIndex = Convert.ToInt16(pageIndex) + 1,
                 PageSize = Convert.ToInt16(pageSize)
             };

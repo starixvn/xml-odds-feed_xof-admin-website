@@ -1,6 +1,5 @@
 ﻿namespace Fanex.OddsFeed.Core
 {
-    using System.Text;
     using Microsoft.AspNetCore.Http;
     using Newtonsoft.Json;
     public static class SessionExtensions
