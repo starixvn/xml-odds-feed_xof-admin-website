@@ -2,12 +2,13 @@
 {
     using Fanex.Caching;
     using Fanex.Data.Repository;
+    using Fanex.OddsFeed.Core;
     using Fanex.OddsFeed.Core.Context;
-    using Fanex.OddsFeed.Core.Session;
     using Fanex.OddsFeed.Models;
     using Fanex.OddsFeed.Services.Impl;
     using Fanex.OddsFeed.Services.Interface;
     using Microsoft.AspNetCore.Mvc.Infrastructure;
+    using Microsoft.Extensions.DependencyInjection;
     using ONEbook.UM.AspNetCore;
     using ONEbook.UM.AspNetCore.Filters;
     using ONEbook.UM.Configurations;
@@ -50,7 +51,7 @@
             #endregion ONEbookUM
 
             services.AddSingleton<ICurrentContext, CurrentContext>();
-            services.AddSingleton<ICurrentSession, CurrentSession>();
+            services.AddScoped<ISessionService, SessionService>();
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
             services.AddSingleton<ICacheService, CacheService>();
             services.AddSingleton<IBaseService, BaseService>();

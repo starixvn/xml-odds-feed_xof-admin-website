@@ -4,7 +4,6 @@
     using Core;
     using Fanex.OddsFeed.Core.Attribute;
     using Fanex.OddsFeed.Core.Context;
-    using Fanex.OddsFeed.Core.Session;
     using Fanex.OddsFeed.Criteria.Affiliate;
     using Fanex.OddsFeed.Criteria.Licensee;
     using Fanex.OddsFeed.Models.ValueObject;
@@ -24,9 +23,9 @@
 
         public LicenseeController(ILicenseeService licenseeService,
             ICurrentContext currentContext,
-            ICurrentSession currentSession,
+            ISessionService sessionService,
             IBaseService baseService,
-            AppSettings appSettings) : base(currentContext, currentSession, baseService, appSettings)
+            AppSettings appSettings) : base(currentContext, sessionService, baseService, appSettings)
         {
             _licenseeService = licenseeService;
         }
@@ -92,7 +91,7 @@
         {
             criteria.SystemName = criteria.SystemName.Trim();
             criteria.ContactEmail = criteria.ContactEmail.Trim();
-            criteria.Creator = currentSession.UserId;
+            criteria.Creator = sessionService.UserId;
             criteria.IP = currentContext.IP;
             criteria.BetTypeIDList ??= string.Empty;
             criteria.LeagueKeyword ??= string.Empty;
@@ -109,7 +108,7 @@
 
         public async Task<JsonResult> EditLicensee([FromBody] EditLicenseeCriteria criteria)
         {
-            criteria.Creator = currentSession.UserId;
+            criteria.Creator = sessionService.UserId;
             criteria.IP = currentContext.IP;
             var result = await baseService.ExecuteNonQueryAsync(criteria);
             return Json(result.Code);
@@ -117,7 +116,7 @@
 
         public async Task<JsonResult> EditActive(UpdateLicenseeActiveCriteria criteria)
         {
-            criteria.Creator = currentSession.UserId;
+            criteria.Creator = sessionService.UserId;
             criteria.IP = currentContext.IP;
             var result = await baseService.ExecuteNonQueryAsync(criteria);
             return Json(result.Code);
@@ -138,7 +137,7 @@
         [HttpPost]
         public async Task<JsonResult> EditLicenseeInfoPost([FromBody] EditLicenseeInfoCriteria criteria)
         {
-            criteria.Creator = currentSession.UserId;
+            criteria.Creator = sessionService.UserId;
             criteria.IP = currentContext.IP;
             var result = await baseService.ExecuteNonQueryAsync(criteria);
             return Json(result.Code);
@@ -186,7 +185,7 @@
         [HttpPost]
         public async Task<JsonResult> EditSettingPost([FromBody] EditLicenseeSettingCriteria criteria)
         {
-            criteria.Creator = currentSession.UserId;
+            criteria.Creator = sessionService.UserId;
             criteria.IP = currentContext.IP;
             var result = await baseService.ExecuteNonQueryAsync(criteria);
             return Json(result.Code);
@@ -242,7 +241,7 @@
         [HttpPost]
         public async Task<JsonResult> UpdateIPRange_EditSetting([FromBody] UpdateSettingIP_LicenseeCriteria criteria)
         {
-            criteria.Creator = currentSession.UserId;
+            criteria.Creator = sessionService.UserId;
             criteria.IpFromOld = string.IsNullOrEmpty(criteria.IpFromOld) ? string.Empty : criteria.IpFromOld;
             criteria.IpToOld = string.IsNullOrEmpty(criteria.IpToOld) ? string.Empty : criteria.IpToOld;
 
@@ -409,7 +408,7 @@
 
         public async Task<JsonResult> DeleteLicensee(DeleteLicenseeCriteria criteria)
         {
-            criteria.Creator = currentSession.UserId;
+            criteria.Creator = sessionService.UserId;
             criteria.IP = currentContext.IP;
             CommandResult result = await baseService.ExecuteNonQueryAsync(criteria);
             return Json(result.Code);
@@ -418,7 +417,7 @@
         [HttpPost]
         public async Task<JsonResult> DeleteIPRange_EditSetting([FromBody] DeleteSettingIP_LicenseeCriteria criteria)
         {
-            criteria.Creator = currentSession.UserId;
+            criteria.Creator = sessionService.UserId;
             criteria.IP = currentContext.IP;
             criteria.IPFromOld = string.IsNullOrEmpty(criteria.IPFromOld) ? string.Empty : criteria.IPFromOld;
             criteria.IPToOld = string.IsNullOrEmpty(criteria.IPToOld) ? string.Empty : criteria.IPToOld;
@@ -526,7 +525,7 @@
 
         private async Task<JsonResult> SaveLicenseeProfile(EditLicenseeProfileCriteria criteria)
         {
-            criteria.Creator = currentSession.UserId;
+            criteria.Creator = sessionService.UserId;
             criteria.IP = currentContext.IP;
             criteria.BettypeIDListFlag = criteria.BettypeIDListFlag && criteria.BetTypeIDList != null;
             CommandResult result = await baseService.ExecuteNonQueryAsync(criteria);
@@ -540,7 +539,7 @@
 
         private async Task<EditLicenseeProfileCriteria> GetLicenseeProfile(EditLicenseeProfileCriteria criteria)
         {
-            var licensee = await baseService.GetDataEntityAsync<LicenseeProfile>(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = currentSession.SystemId });
+            var licensee = await baseService.GetDataEntityAsync<LicenseeProfile>(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = sessionService.SystemId });
             if (licensee != null)
             {
                 criteria.NumberOfIPs = licensee.NumberOfIPs;

@@ -3,7 +3,6 @@
     using Core;
     using Fanex.OddsFeed.Core.Attribute;
     using Fanex.OddsFeed.Core.Context;
-    using Fanex.OddsFeed.Core.Session;
     using Fanex.OddsFeed.Criteria.Domain;
     using Fanex.OddsFeed.Models;
     using Fanex.OddsFeed.Models.ValueObject;
@@ -16,10 +15,10 @@
     {
         public DomainController(
             ICurrentContext currentContext, 
-            ICurrentSession currentSession, 
+            ISessionService sessionService, 
             IBaseService baseService,
             AppSettings appSettings) 
-            : base(currentContext, currentSession, baseService, appSettings)
+            : base(currentContext, sessionService, baseService, appSettings)
         {
         }
 
@@ -51,7 +50,7 @@
         [HttpPost]
         public async Task<IActionResult> CreateDomain([FromBody] CreateDomainCriteria criteria)
         {
-            criteria.Creator = currentSession.UserId;
+            criteria.Creator = sessionService.UserId;
             criteria.CurrentIP = currentContext.IP;
             var result = await baseService.ExecuteNonQueryAsync(criteria);
             return Json(result.Code);
@@ -60,7 +59,7 @@
         [HttpPost]
         public async Task<IActionResult> UpdateDomain([FromBody] UpdateDomainCriteria criteria)
         {
-            criteria.Creator = currentSession.UserId;
+            criteria.Creator = sessionService.UserId;
             criteria.CurrentIP = currentContext.IP;
             criteria.IP = string.IsNullOrEmpty(criteria.IP) ? string.Empty : criteria.IP;
             criteria.ISP = string.IsNullOrEmpty(criteria.ISP) ? string.Empty : criteria.ISP;
@@ -70,7 +69,7 @@
 
         public async Task<IActionResult> DeleteDomain([FromBody] DeleteDomainCriteria criteria)
         {
-            criteria.Creator = currentSession.UserId;
+            criteria.Creator = sessionService.UserId;
             criteria.Ip = currentContext.IP;
             var result = await baseService.ExecuteNonQueryAsync(criteria);
             return Json(result.Code);

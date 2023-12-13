@@ -3,8 +3,8 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Fanex.OddsFeed.Core;
     using Fanex.OddsFeed.Core.Context;
-    using Fanex.OddsFeed.Core.Session;
     using Fanex.OddsFeed.Criteria.Affiliate;
     using Fanex.OddsFeed.Models;
     using Fanex.OddsFeed.Resources;
@@ -19,24 +19,22 @@
         protected const int DefaultMinDate = 2000;
 
         protected readonly ICurrentContext currentContext;
-        protected readonly ICurrentSession currentSession;
+        protected readonly ISessionService sessionService;
         protected readonly IBaseService baseService;
         private readonly AppSettings appSettings;
 
         public BaseController(
             ICurrentContext currentContext,
-            ICurrentSession currentSession,
+            ISessionService sessionService,
             IBaseService baseService,
             AppSettings appSettings)
         {
             this.currentContext = currentContext;
-            this.currentSession = currentSession ?? new CurrentSession()
-            {
-                LoginIp = this.currentContext.IP
-            };
+            this.sessionService = sessionService;
+            this.sessionService.LoginIp = this.currentContext.IP;
             this.baseService = baseService;
 
-            ViewBag.Session = this.currentSession;
+            ViewBag.Session = this.sessionService;
             ViewBag.MinDate = new DateTime(DefaultMinDate, 1, 1);
             ViewBag.MaxDate = DateTime.Now;
             ViewBag.CurrentTheme = "Default";
@@ -53,17 +51,17 @@
         [HttpGet]
         public ActionResult Home(short systemId = 0, string systemName = "")
         {
-            if (systemId != 0 && currentSession.SystemId != systemId)
+            if (systemId != 0 && sessionService.SystemId != systemId)
             {
-                currentSession.SystemId = systemId;
-                currentSession.SystemName = systemName;
+                sessionService.SystemId = systemId;
+                sessionService.SystemName = systemName;
             }
 
-            return currentSession.ActionName.ToLowerInvariant().Contains("edit")
-                || currentSession.ActionName.ToLowerInvariant().Contains("reset")
-                || currentSession.ActionName.ToLowerInvariant().Contains("assign")
-                    ? RedirectToAction(currentSession.ActionName, currentSession.ControllerName, new { id = 0 })
-                    : RedirectToAction(currentSession.ActionName, currentSession.ControllerName);
+            return sessionService.ActionName.ToLowerInvariant().Contains("edit")
+                || sessionService.ActionName.ToLowerInvariant().Contains("reset")
+                || sessionService.ActionName.ToLowerInvariant().Contains("assign")
+                    ? RedirectToAction(sessionService.ActionName, sessionService.ControllerName, new { id = 0 })
+                    : RedirectToAction(sessionService.ActionName, sessionService.ControllerName);
         }
 
         #region PermissionRegion
@@ -76,12 +74,12 @@
 
         public bool IsAccountManagerRole()
         {
-            return currentSession.UserRole == (byte)Core.Enums.UserRole.ITAdministrator;
+            return sessionService.UserRole == (byte)Core.Enums.UserRole.ITAdministrator;
         }
 
         public bool IsLicenseeAdminRole()
         {
-            return currentSession.UserRole == (byte)Core.Enums.UserRole.Licensee;
+            return sessionService.UserRole == (byte)Core.Enums.UserRole.Licensee;
         }
 
         #endregion PermissionRegion

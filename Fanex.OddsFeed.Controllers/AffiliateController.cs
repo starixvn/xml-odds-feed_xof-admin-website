@@ -4,7 +4,6 @@
     using Fanex.OddsFeed.Core;
     using Fanex.OddsFeed.Core.Attribute;
     using Fanex.OddsFeed.Core.Context;
-    using Fanex.OddsFeed.Core.Session;
     using Fanex.OddsFeed.Criteria.Affiliate;
     using Fanex.OddsFeed.Criteria.Licensee;
     using Fanex.OddsFeed.Criteria.User;
@@ -30,11 +29,11 @@
         private readonly ILicenseeService licenseeService;
 
         public AffiliateController(ICurrentContext currentContext,
-            ICurrentSession currentSession,
+            ISessionService sessionService,
             IBaseService baseService,
             IAffiliateService affiliateService,
             ILicenseeService licenseeService,
-            AppSettings appSettings) : base(currentContext, currentSession, baseService, appSettings)
+            AppSettings appSettings) : base(currentContext, sessionService, baseService, appSettings)
         {
             this.affiliateService = affiliateService;
             this.licenseeService = licenseeService;
@@ -49,12 +48,12 @@
             ViewBag.VirtualPath = GetVirtualPath();
 
             // Domain
-            var domains = await baseService.GetDataAsync<Domain>(new GetDomainBySystemIDCriteria { SystemID = currentSession.SystemId });
+            var domains = await baseService.GetDataAsync<Domain>(new GetDomainBySystemIDCriteria { SystemID = sessionService.SystemId });
             ViewData["slAssignedDomain"] = domains.Select(x => new SelectListItem { Value = x.DomainId.ToString(), Text = x.DomainName }).ToList();
             ViewData["slDomain"] = new List<SelectListItem>();
 
             // Profile
-            var licenseeProfile = await baseService.GetDataEntityAsync<LicenseeProfile>(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = currentSession.SystemId });
+            var licenseeProfile = await baseService.GetDataEntityAsync<LicenseeProfile>(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = sessionService.SystemId });
             if (licenseeProfile != null)
             {
                 criteria.OddsRegion = licenseeProfile.OddsRegion;
@@ -121,7 +120,7 @@
                 UserName = criteria.UserName,
                 PageIndex = 1,
                 PageSize = 1,
-                SystemId = currentSession.SystemId
+                SystemId = sessionService.SystemId
             });
             if (affiliates != null && affiliates.Any())
             {
@@ -150,7 +149,7 @@
             };
             var affiliates = await baseService.GetDataAsync<Affiliate>(new GetAffiliateByNameCriteria
             {
-                SystemId = currentSession.SystemId,
+                SystemId = sessionService.SystemId,
                 UserName = userName,
                 PageIndex = 1,
                 PageSize = 1
@@ -173,7 +172,7 @@
             var result = new CommandResult();
             if (ModelState.IsValid)
             {
-                criteria.UpdatedBy = currentSession.UserId;
+                criteria.UpdatedBy = sessionService.UserId;
                 criteria.Email = criteria.Email ?? string.Empty;
                 criteria.Website = criteria.Website ?? string.Empty;
                 criteria.Note = criteria.Note ?? string.Empty;
@@ -209,7 +208,7 @@
             var domainSelList = await baseService.GetDataAsync<Domain>(new GetDomainByAffiliateIDCriteria { PartnerID = id });
             ViewData["slAssignedDomain"] = domainSelList.Select(x => new SelectListItem { Value = x.DomainId.ToString(), Text = x.DomainName }).ToList();
 
-            var domains = await baseService.GetDataAsync<Domain>(new GetDomainBySystemIDCriteria { SystemID = currentSession.SystemId });
+            var domains = await baseService.GetDataAsync<Domain>(new GetDomainBySystemIDCriteria { SystemID = sessionService.SystemId });
             ViewData["slDomain"] = domains.Where(x => !domainSelList.Any(s => s.DomainId == x.DomainId))
                 .Select(x => new SelectListItem { Value = x.DomainId.ToString(), Text = x.DomainName }).ToList();
 
@@ -292,7 +291,7 @@
         [HttpPost]
         public async Task<IActionResult> DeleteIPRange_EditSetting_Partner(DeleteSettingIP_AffiliateCriteria criteria)
         {
-            criteria.Creator = currentSession.UserId;
+            criteria.Creator = sessionService.UserId;
             criteria.IPFromOld = string.IsNullOrEmpty(criteria.IPFromOld) ? string.Empty : criteria.IPFromOld;
             criteria.IPToOld = string.IsNullOrEmpty(criteria.IPToOld) ? string.Empty : criteria.IPToOld;
             criteria.IP = currentContext.IP;
@@ -377,7 +376,7 @@
             {
                 PartnerID = affId,
                 IsAllowed = status,
-                Creator = currentSession.UserId
+                Creator = sessionService.UserId
             };
             var result = await baseService.ExecuteNonQueryAsync(criteria);
 
@@ -392,15 +391,15 @@
         //[Compress]
         public async Task<IActionResult> List()
         {
-            ViewBag.SystemName = currentSession.SystemName;
-            ViewBag.IsActivateSystem = await licenseeService.GetActiveBySystemIdAsync(currentSession.SystemId);
+            ViewBag.SystemName = sessionService.SystemName;
+            ViewBag.IsActivateSystem = await licenseeService.GetActiveBySystemIdAsync(sessionService.SystemId);
             return View("~/Views/Affiliate/AffiliateList.cshtml");
         }
 
         //[Compress]
         public async Task<IActionResult> GetAffiliateList(GetAffiliateByNameCriteria criteria)
         {
-            criteria.SystemId = currentSession.SystemId;
+            criteria.SystemId = sessionService.SystemId;
             criteria.UserName = (criteria.UserName == null || criteria.UserName == "Username") ? string.Empty : criteria.UserName.Trim();
             criteria.PageIndex++;
             var result = await baseService.GetDataGridAsync<Affiliate>(criteria);
@@ -411,7 +410,7 @@
         {
             var criteria = new GetTop10AffiliateCriteria
             {
-                SystemId = currentSession.SystemId,
+                SystemId = sessionService.SystemId,
                 Username = username
             };
             var affiliates = await baseService.GetDataAsync<Affiliate>(criteria);
@@ -422,7 +421,7 @@
         {
             var criteria = new GetTop10AffiliateCriteria
             {
-                SystemId = currentSession.SystemId,
+                SystemId = sessionService.SystemId,
                 Username = username
             };
             var affiliates = await baseService.GetDataAsync<Affiliate>(criteria);
@@ -433,7 +432,7 @@
         {
             var criteria = new GetTop10DomainCriteria
             {
-                SystemId = currentSession.SystemId,
+                SystemId = sessionService.SystemId,
                 DomainName = domainName
             };
             var domains = await baseService.GetDataAsync<Domain>(criteria);
@@ -443,7 +442,7 @@
         [HttpGet]
         public IActionResult Requests(string curmonth = "")
         {
-            ViewBag.SystemName = currentSession.SystemName;
+            ViewBag.SystemName = sessionService.SystemName;
             ViewBag.MinDate = new DateTime(DefaultMinDate, 1, 1);
             ViewBag.MaxDate = DateTime.Now;
             if (curmonth != string.Empty)
@@ -471,7 +470,7 @@
                 criteria.DomainName = string.Empty;
             }
 
-            criteria.SystemId = currentSession.SystemId;
+            criteria.SystemId = sessionService.SystemId;
             criteria.PageIndex++;
 
             var result =await baseService.GetDataGridAsync<LicenseeRequestDetailStatistic>(criteria);
@@ -527,7 +526,7 @@
         {
             var criteria = new DeleteAffiliateCriteria
             {
-                Creator = currentSession.UserId,
+                Creator = sessionService.UserId,
                 PartnerID = affId
             };
 
@@ -578,8 +577,8 @@
                 }
             }
 
-            criteria.SystemID = currentSession.SystemId;
-            criteria.Creator = currentSession.UserId;
+            criteria.SystemID = sessionService.SystemId;
+            criteria.Creator = sessionService.UserId;
             criteria.IpsFrom = fromIPs.ToString();
             criteria.IpsTo = toIPs.ToString();
             criteria.Ip = currentContext.IP;
@@ -609,7 +608,7 @@
             criteria.CountryCodeList = criteria.CountryCodeList ?? string.Empty;
             criteria.BetTypeIDList = criteria.BetTypeIDList ?? string.Empty;
 
-            criteria.Creator = currentSession.UserId;
+            criteria.Creator = sessionService.UserId;
 
             criteria.SportIDList = UpdateSportIDListForCricket(criteria.SportIDList);
 
@@ -856,7 +855,7 @@
                 ViewBag.ActualNumberOfIps = affiliateProfile.ActualNumberOfIPs;
             }
 
-            var licenseeProfile = await baseService.GetDataEntityAsync<LicenseeProfile>(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = currentSession.SystemId });
+            var licenseeProfile = await baseService.GetDataEntityAsync<LicenseeProfile>(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = sessionService.SystemId });
             if (licenseeProfile != null)
             {
                 ViewBag.NumberOfIPs = licenseeProfile.NumberOfIPs;
@@ -961,7 +960,7 @@
 
         private async Task GetAffiliateProfileWithLicenseeAdminRole(UpdateProfileCriteria criteria)
         {
-            var licenseeProfile = await baseService.GetDataEntityAsync<LicenseeProfile>(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = currentSession.SystemId });
+            var licenseeProfile = await baseService.GetDataEntityAsync<LicenseeProfile>(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = sessionService.SystemId });
             if (licenseeProfile != null)
             {
                 var oddStyles = licenseeProfile.OddsType;
@@ -981,8 +980,8 @@
         {
             var userProfile =await baseService.GetDataEntityAsync<PermissionFlag>(new UserGetPermissionCriteria
             {
-                SystemID = currentSession.SystemId,
-                UserID = currentSession.UserId
+                SystemID = sessionService.SystemId,
+                UserID = sessionService.UserId
             });
 
             if (userProfile != null)
@@ -1004,8 +1003,8 @@
         {
             var userProfile = await baseService.GetDataEntityAsync<PermissionFlag>(new UserGetPermissionCriteria
             {
-                SystemID = currentSession.SystemId,
-                UserID = currentSession.UserId
+                SystemID = sessionService.SystemId,
+                UserID = sessionService.UserId
             });
 
             if (userProfile != null)
@@ -1025,7 +1024,7 @@
         private async Task ProfileForAddAffiliateWithLicenseeAdminAndSubAccountRole()
         {
             // OddsType
-            var oddsTypes = (await baseService.GetDataAsync<SystemSetting>(new GetTypeSettingCriteria { SystemID = currentSession.SystemId, Type = OddsTypeSettingType }))
+            var oddsTypes = (await baseService.GetDataAsync<SystemSetting>(new GetTypeSettingCriteria { SystemID = sessionService.SystemId, Type = OddsTypeSettingType }))
                 .Where(item => item.Key != "Live" || (item.Key == "Live" && IsAccountManagerRole()));
             ViewBag.OddsTypeList = oddsTypes.Select(x => new SelectListItem { Value = x.Value, Text = x.Key }).ToList();
 
@@ -1034,22 +1033,22 @@
             ViewBag.OddsStyleList = oddsStyles.Select(x => new SelectListItem { Value = x.Value, Text = x.Key }).ToList();
 
             // Language
-            var languages = await baseService.GetDataAsync<Language>(new GetLanguageBySystemIDCriteria { SystemID = currentSession.SystemId });
+            var languages = await baseService.GetDataAsync<Language>(new GetLanguageBySystemIDCriteria { SystemID = sessionService.SystemId });
             ViewBag.LanguageIDList = languages.Select(x => new SelectListItem { Value = x.Code, Text = x.Name_EN }).ToList();
 
             // Market
-            var bettypes = await baseService.GetDataAsync<BetType>(new GetBettypeBySystemIDCriteria { SystemID = currentSession.SystemId });
+            var bettypes = await baseService.GetDataAsync<BetType>(new GetBettypeBySystemIDCriteria { SystemID = sessionService.SystemId });
             ViewBag.MajorBetTypesList = bettypes.Where(x => x.Group == MajorGroup)
                 .Select(x => new SelectListItem { Value = x.TypeId.ToString(), Text = x.TypeNameE }).ToList();
             ViewBag.MinorBetTypesList = bettypes.Where(x => x.Group == MinorGroup)
                 .Select(x => new SelectListItem { Value = x.TypeId.ToString(), Text = x.TypeNameE }).ToList();
 
             // Country
-            var countries = await baseService.GetDataAsync<Country>(new GetCountryBySystemIDCriteria { SystemID = currentSession.SystemId });
+            var countries = await baseService.GetDataAsync<Country>(new GetCountryBySystemIDCriteria { SystemID = sessionService.SystemId });
             ViewBag.CountriesList = countries.Select(x => new SelectListItem { Value = x.CountryCode, Text = x.CountryName }).ToList();
 
             // Sport
-            var sports = UpdateSportListForCricket((await baseService.GetDataAsync<Sport>(new GetSportBySystemIDCriteria { SystemID = currentSession.SystemId })).OrderBy(s => s.SportName));
+            var sports = UpdateSportListForCricket((await baseService.GetDataAsync<Sport>(new GetSportBySystemIDCriteria { SystemID = sessionService.SystemId })).OrderBy(s => s.SportName));
             ViewBag.MajorSportList = sports.Where(sport => sport.Group == MajorGroup)
                 .Select(x => new SelectListItem { Value = x.SportType.ToString(), Text = x.SportName }).ToList();
             ViewBag.MinorSportList = sports.Where(sport => sport.Group == MinorGroup)
@@ -1059,7 +1058,7 @@
         private async Task ProfileForEditAffiliateWithLicenseeAdminAndSubAccountRole(UpdateProfileCriteria criteria)
         {
             // OddsType
-            var oddsTypes = (await baseService.GetDataAsync<SystemSetting>(new GetTypeSettingCriteria { SystemID = currentSession.SystemId, Type = OddsTypeSettingType }))
+            var oddsTypes = (await baseService.GetDataAsync<SystemSetting>(new GetTypeSettingCriteria { SystemID = sessionService.SystemId, Type = OddsTypeSettingType }))
                 .Where(item => item.Key != "Live" || (item.Key == "Live" && IsAccountManagerRole()));
             ViewBag.OddsTypeList = oddsTypes.Select(x => new SelectListItem { Value = x.Value, Text = x.Key }).ToList();
 
@@ -1068,11 +1067,11 @@
             ViewBag.OddsStyleList = oddsStyles.Select(x => new SelectListItem { Value = x.Value, Text = x.Key }).ToList();
 
             // Language
-            var languages =await baseService.GetDataAsync<Language>(new GetLanguageBySystemIDCriteria { SystemID = currentSession.SystemId });
+            var languages =await baseService.GetDataAsync<Language>(new GetLanguageBySystemIDCriteria { SystemID = sessionService.SystemId });
             ViewBag.LanguageIDList = languages.Select(x => new SelectListItem { Value = x.Code, Text = x.Name_EN }).ToList();
 
             // Sport
-            var sports = UpdateSportListForCricket((await baseService.GetDataAsync<Sport>(new GetSportBySystemIDCriteria { SystemID = currentSession.SystemId })).OrderBy(s => s.SportName));
+            var sports = UpdateSportListForCricket((await baseService.GetDataAsync<Sport>(new GetSportBySystemIDCriteria { SystemID = sessionService.SystemId })).OrderBy(s => s.SportName));
             if (criteria.SportIDList.Equals("all"))
             {
                 criteria.SportIDList = string.Join(",", sports.Select(item => item.SportType));
@@ -1083,7 +1082,7 @@
                 .Select(x => new SelectListItem { Value = x.SportType.ToString(), Text = x.SportName }).ToList();
 
             // Market
-            var bettypes = await baseService.GetDataAsync<BetType>(new GetBettypeBySystemIDCriteria { SystemID = currentSession.SystemId });
+            var bettypes = await baseService.GetDataAsync<BetType>(new GetBettypeBySystemIDCriteria { SystemID = sessionService.SystemId });
             if (criteria.BetTypeIDList.Equals("all"))
             {
                 criteria.BetTypeIDList = string.Join(",", bettypes.Select(item => item.TypeId));
@@ -1094,7 +1093,7 @@
                 .Select(x => new SelectListItem { Value = x.TypeId.ToString(), Text = x.TypeNameE }).ToList();
 
             // Country
-            var countries = await baseService.GetDataAsync<Country>(new GetCountryBySystemIDCriteria { SystemID = currentSession.SystemId });
+            var countries = await baseService.GetDataAsync<Country>(new GetCountryBySystemIDCriteria { SystemID = sessionService.SystemId });
             ViewBag.CountriesList = countries.Select(x => new SelectListItem { Value = x.CountryCode, Text = x.CountryName }).ToList();
             if (criteria.CountryCodeList.Equals("all"))
             {

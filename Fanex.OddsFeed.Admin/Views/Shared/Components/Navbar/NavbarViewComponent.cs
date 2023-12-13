@@ -1,16 +1,16 @@
 ﻿namespace Fanex.OddsFeed.Admin.Views.Shared.Components.Navbar
 {
+    using Fanex.OddsFeed.Core;
     using Fanex.OddsFeed.Services.Interface;
     using Microsoft.AspNetCore.Mvc;
-    using Fanex.OddsFeed.Core.Session;
 
     public class NavbarViewComponent : ViewComponent
     {
-        private readonly ICurrentSession currentSession;
+        private readonly ISessionService sessionService;
         private readonly IBaseService baseService;
-        public NavbarViewComponent(ICurrentSession currentSession, IBaseService baseService)
+        public NavbarViewComponent(ISessionService sessionService, IBaseService baseService)
         {
-            this.currentSession = currentSession;
+            this.sessionService = sessionService;
             this.baseService = baseService;
         }
         public async Task<IViewComponentResult> InvokeAsync()
@@ -18,10 +18,10 @@
             var routeData = RouteData;
             ViewBag.Controller = routeData.Values["controller"];
             ViewBag.Action = routeData.Values["action"];
-            ViewBag.RoleID = currentSession.UserRole;
+            ViewBag.RoleID = sessionService.UserRole;
 
-            currentSession.ControllerName = ViewBag.Controller;
-            currentSession.ActionName = ViewBag.Action;
+            sessionService.ControllerName = ViewBag.Controller;
+            sessionService.ActionName = ViewBag.Action;
             await Task.CompletedTask;
             return View();
         }

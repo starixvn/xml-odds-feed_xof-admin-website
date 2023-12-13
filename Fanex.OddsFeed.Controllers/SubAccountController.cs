@@ -4,7 +4,6 @@
     using Fanex.OddsFeed.Core;
     using Fanex.OddsFeed.Core.Attribute;
     using Fanex.OddsFeed.Core.Context;
-    using Fanex.OddsFeed.Core.Session;
     using Fanex.OddsFeed.Criteria.Administrator;
     using Fanex.OddsFeed.Criteria.Licensee;
     using Fanex.OddsFeed.Criteria.SubAccount;
@@ -19,10 +18,10 @@
     {
         private readonly ISubAccService subAccService;
         public SubAccountController(ICurrentContext currentContext, 
-            ICurrentSession currentSession, 
+            ISessionService sessionService, 
             IBaseService baseService,
             ISubAccService subAccService,
-            AppSettings appSettings) : base(currentContext, currentSession, baseService, appSettings)
+            AppSettings appSettings) : base(currentContext, sessionService, baseService, appSettings)
         {
             this.subAccService = subAccService;
         }
@@ -32,12 +31,12 @@
         [HttpGet]
         public async Task<IActionResult> Add()
         {
-            if (!HasEditPermission(currentSession.UserRole))
+            if (!HasEditPermission(sessionService.UserRole))
             {
                 return this.NoAuthorization();
             }
 
-            var systems = await baseService.GetDataAsync<SystemDto>(new GetSystemByUserIDCriteria { UserID = currentSession.UserId, IgnoreIsActive = IsAccountManagerRole() });
+            var systems = await baseService.GetDataAsync<SystemDto>(new GetSystemByUserIDCriteria { UserID = sessionService.UserId, IgnoreIsActive = IsAccountManagerRole() });
             ViewBag.SystemList = systems.Select(x => new SelectListItem { Value = x.SystemId.ToString(), Text = x.SystemName }).ToList();
             await ViewBagFlags();
             return View();
@@ -46,8 +45,8 @@
         [HttpPost]
         public async Task<IActionResult> Add([FromBody] InsertSubAccCriteria criteria)
         {
-            criteria.SystemID = currentSession.SystemId;
-            criteria.Creator = currentSession.UserId;
+            criteria.SystemID = sessionService.SystemId;
+            criteria.Creator = sessionService.UserId;
             criteria.RoleID = (byte)Core.Enums.UserRole.LicenseeSubAccount;
             criteria.Password = Cryptography.CfsEnCode(HttpUtility.HtmlEncode(criteria.Password.Trim()));
             criteria.FirstName = criteria.FirstName ?? string.Empty;
@@ -89,7 +88,7 @@
         [HttpGet]
         public IActionResult List()
         {
-            if (!HasEditPermission(currentSession.UserRole))
+            if (!HasEditPermission(sessionService.UserRole))
             {
                 return this.NoAuthorization();
             }
@@ -99,7 +98,7 @@
 
         public async Task<IActionResult> GetSubAccountList(GetSubAccByNameCriteria criteria)
         {
-            criteria.SystemId = currentSession.SystemId;
+            criteria.SystemId = sessionService.SystemId;
             criteria.Username = (criteria.Username == null || criteria.Username == "Username") ? string.Empty : criteria.Username.Trim();
             criteria.RoleId = (byte)Core.Enums.UserRole.LicenseeSubAccount;
             criteria.PageIndex++;
@@ -111,7 +110,7 @@
         {
             var criteria = new GetTop10SubAccCriteria
             {
-                SystemId = currentSession.SystemId,
+                SystemId = sessionService.SystemId,
                 RoleId = (byte)Core.Enums.UserRole.LicenseeSubAccount,
                 Username = username
             };
@@ -125,7 +124,7 @@
 
         public async Task<IActionResult> EditSubAccInfo(int id, string userName)
         {
-            if (!HasEditPermission(currentSession.UserRole))
+            if (!HasEditPermission(sessionService.UserRole))
             {
                 return this.NoAuthorization();
             }
@@ -141,7 +140,7 @@
                 UserName = userName
             };
 
-            var users = await subAccService.GetBySystemIdAsync(currentSession.SystemId);
+            var users = await subAccService.GetBySystemIdAsync(sessionService.SystemId);
             var user = users.FirstOrDefault(x => x.Id == id);
             if (user != null)
             {
@@ -185,7 +184,7 @@
         [HttpGet]
         public IActionResult ResetPassword(int id, string userName)
         {
-            if (!HasEditPermission(currentSession.UserRole))
+            if (!HasEditPermission(sessionService.UserRole))
             {
                 return this.NoAuthorization();
             }
@@ -232,7 +231,7 @@
         [HttpGet]
         public async Task<IActionResult> EditPermission(int id, string userName)
         {
-            if (!HasEditPermission(currentSession.UserRole))
+            if (!HasEditPermission(sessionService.UserRole))
             {
                 return NoAuthorization();
             }
@@ -243,7 +242,7 @@
             }
 
             ViewBag.CurrentUser = " of \"" + userName + "\"";
-            var systemId = currentSession.SystemId;
+            var systemId = sessionService.SystemId;
 
             PermissionFlag result = await subAccService.GetUserPermissionAsync(id, systemId);
             if (result == null)
@@ -273,7 +272,7 @@
         {
             if (ModelState.IsValid)
             {
-                criteria.UpdatedBy = currentSession.UserId;
+                criteria.UpdatedBy = sessionService.UserId;
                 var result = await baseService.ExecuteNonQueryAsync(criteria);
                 if (result != null && result.IsSuccessful)
                 {
@@ -326,7 +325,7 @@
                 return RedirectToAction("List", "SubAccount");
             }
 
-            if (!HasEditPermission(currentSession.UserRole))
+            if (!HasEditPermission(sessionService.UserRole))
             {
                 return this.NoAuthorization();
             }
@@ -334,7 +333,7 @@
             ViewBag.CurrentUser = " \"" + username + "\"";
 
             // System
-            var systems = await baseService.GetDataAsync<SystemDto>(new GetOptionalSystemBySubAccountIDCriteria { UserID = currentSession.UserId, SubAccountID = id });
+            var systems = await baseService.GetDataAsync<SystemDto>(new GetOptionalSystemBySubAccountIDCriteria { UserID = sessionService.UserId, SubAccountID = id });
             ViewBag.SystemListID = systems.Select(x => new SelectListItem { Value = x.SystemId.ToString(), Text = x.SystemName }).ToList();
 
             var criteria = new AssignLicensee_SubAccCriteria
@@ -344,7 +343,7 @@
                     .Select(item => item.SystemId.ToString()).ToArray()
             };
 
-            if (!HasEditPermission(currentSession.UserRole))
+            if (!HasEditPermission(sessionService.UserRole))
             {
                 ViewBag.HasEditPermission = false;
                 ViewBag.Error = ViewResources.You_have_no_authorization;
@@ -356,10 +355,10 @@
         [HttpPost]
         public async Task<IActionResult> AssignLicensee(AssignLicensee_SubAccCriteria criteria)
         {
-            criteria.Creator = currentSession.UserId;
+            criteria.Creator = sessionService.UserId;
             criteria.IP = currentContext.IP;
 
-            if (!HasEditPermission(currentSession.UserRole))
+            if (!HasEditPermission(sessionService.UserRole))
             {
                 ViewBag.Success = false;
                 ViewBag.Error = ViewResources.You_have_no_authorization;
@@ -369,7 +368,7 @@
             // System
             var systems = await baseService.GetDataAsync<SystemDto>(new GetOptionalSystemBySubAccountIDCriteria
             {
-                UserID = currentSession.UserId,
+                UserID = sessionService.UserId,
                 SubAccountID = criteria.UserID
             });
             ViewBag.SystemListID = systems.Select(x => new SelectListItem { Value = x.SystemId.ToString(), Text = x.SystemName }).ToList();
@@ -402,7 +401,7 @@
 
         private async Task ViewBagFlags()
         {
-            var licensee = await baseService.GetDataEntityAsync<LicenseeProfile>(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = currentSession.SystemId });
+            var licensee = await baseService.GetDataEntityAsync<LicenseeProfile>(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = sessionService.SystemId });
             if (licensee != null)
             {
                 var oddStyles = licensee.OddsType;

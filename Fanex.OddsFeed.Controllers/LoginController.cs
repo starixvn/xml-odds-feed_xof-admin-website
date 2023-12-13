@@ -3,17 +3,16 @@
     using System.Drawing;
     using System.Drawing.Imaging;
     using System.Web;
-    using Fanex.OddsFeed.Core;
     using Fanex.OddsFeed.Admin.Utility;
+    using Fanex.OddsFeed.Core;
+    using Fanex.OddsFeed.Core.Attribute;
     using Fanex.OddsFeed.Core.Context;
-    using Fanex.OddsFeed.Core.Session;
     using Fanex.OddsFeed.Criteria.User;
     using Fanex.OddsFeed.Models;
     using Fanex.OddsFeed.Resources;
     using Fanex.OddsFeed.Services.Interface;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
-    using Fanex.OddsFeed.Core.Attribute;
 
     public class LoginController : BaseController
     {
@@ -21,11 +20,11 @@
         private readonly IUserService userService;
 
         public LoginController(ICurrentContext currentContext, 
-            ICurrentSession currentSession,
+            ISessionService sessionService,
             IHttpContextAccessor httpContextAccessor,
             IUserService userService,
             IBaseService baseService,
-            AppSettings appSettings) : base(currentContext, currentSession, baseService, appSettings)
+            AppSettings appSettings) : base(currentContext, sessionService, baseService, appSettings)
         {
             this.httpContextAccessor = httpContextAccessor;
             this.userService = userService;
@@ -38,7 +37,7 @@
             var g = Graphics.FromImage(bmp);
             g.Clear(Color.CadetBlue);
             var randomString = LoginCaptcha.GetCaptchaString(4);
-            currentSession.Captcha = randomString;
+            sessionService.Captcha = randomString;
             g.DrawString(randomString, new Font("Courier New", 16), new SolidBrush(Color.WhiteSmoke), 2, 2);
             using (var stream = new MemoryStream())
             {
@@ -63,7 +62,7 @@
             var password = criteria.UserPwd;
             var validate = criteria.Validate;
 
-            if (currentSession.Captcha != null && validate != currentSession.Captcha)
+            if (sessionService.Captcha != null && validate != sessionService.Captcha)
             {
                 result.Message = ViewResources.Error_InvalCaptcha;
                 return Json(result);
@@ -97,11 +96,11 @@
         {
             var criteria = new LogOutUserCriteria 
             {
-                OnUserId = currentSession.OnUserId
+                OnUserId = sessionService.OnUserId
             };
 
             await baseService.GetDataEntityAsync<CommandResult>(criteria);
-            currentSession.ClearAll();
+            sessionService.ClearAll();
         }
 
         [HttpPost]
@@ -109,7 +108,7 @@
         {
             var criteria = new UserReCheckInUserCriteria
             {
-                OnUserId = currentSession.OnUserId
+                OnUserId = sessionService.OnUserId
             };
             await userService.ReUserCheckInAsync(criteria);
 
@@ -123,7 +122,7 @@
             ModelState.Clear();
             var criteria = new UpdatePasswordUserCriteria
             {
-                UserID = currentSession.UserId
+                UserID = sessionService.UserId
             };
 
             var referrer = httpContextAccessor?.HttpContext?.Request.Headers["Referer"].ToString();
@@ -217,15 +216,15 @@
             await userService.UserGetProfileAsync(criteriaProfile);
 
             // Save user session
-            currentSession.UserId = user.Id;
-            currentSession.UserRole = user.RoleID;
-            currentSession.Username = user.Username;
-            currentSession.OnUserId = criteriaProfile.OnUserId;
-            currentSession.SystemId = systemId;
-            currentSession.SystemName = systemName;
-            currentSession.SystemList = criteria.SystemIdNameList;
+            sessionService.UserId = user.Id;
+            sessionService.UserRole = user.RoleID;
+            sessionService.Username = user.Username;
+            sessionService.OnUserId = criteriaProfile.OnUserId;
+            sessionService.SystemId = systemId;
+            sessionService.SystemName = systemName;
+            sessionService.SystemList = criteria.SystemIdNameList;
 
-            currentSession.SessionId = HttpContext.Session.Id;
+            sessionService.SessionId = HttpContext.Session.Id;
         }
     }
 }

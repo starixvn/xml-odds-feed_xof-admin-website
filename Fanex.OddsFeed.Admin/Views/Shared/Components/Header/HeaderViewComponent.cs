@@ -1,7 +1,7 @@
 ﻿namespace Fanex.OddsFeed.Admin.Views.Shared.Components.Header
 {
     using System.Text;
-    using Fanex.OddsFeed.Core.Session;
+    using Fanex.OddsFeed.Core;
     using Fanex.OddsFeed.Criteria.Administrator;
     using Fanex.OddsFeed.Models;
     using Fanex.OddsFeed.Services.Interface;
@@ -10,18 +10,18 @@
 
     public class HeaderViewComponent : ViewComponent
     {
-        private readonly ICurrentSession currentSession;
+        private readonly ISessionService sessionService;
         private readonly IBaseService baseService;
-        public HeaderViewComponent(ICurrentSession currentSession, IBaseService baseService)
+        public HeaderViewComponent(ISessionService sessionService, IBaseService baseService)
         {
-            this.currentSession = currentSession;
+            this.sessionService = sessionService;
             this.baseService = baseService;
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
             ViewBag.SystemList = await GenerateSystemList();
-            ViewBag.Session = this.currentSession;
+            ViewBag.Session = this.sessionService;
             await Task.CompletedTask;
             return View();
         }
@@ -30,8 +30,8 @@
         {
             var systems = await baseService.GetDataAsync<SystemDto>(new GetAllSystemsByUserIdCriteria
             {
-                UserRole = currentSession.UserRole,
-                UserId = currentSession.UserId
+                UserRole = sessionService.UserRole,
+                UserId = sessionService.UserId
             });
 
             var strSystemList = new StringBuilder();
@@ -40,13 +40,13 @@
                 strSystemList.Append(system.SystemId + "," + system.SystemName + ";");
             }
 
-            currentSession.SystemList = strSystemList.ToString();
+            sessionService.SystemList = strSystemList.ToString();
 
             return systems.Select(x => new SelectListItem
             {
                 Value = x.SystemId.ToString(),
                 Text = x.SystemName,
-                Selected = x.SystemId == currentSession.SystemId
+                Selected = x.SystemId == sessionService.SystemId
             }).ToList();
         }
     }
