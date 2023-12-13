@@ -3,7 +3,9 @@
     using Fanex.Data;
     using Fanex.Logging;
     using Fanex.Logging.Sentry;
+    using Microsoft.AspNetCore.DataProtection;
     using Sentry;
+    using StackExchange.Redis;
 
     public class Startup
     {
@@ -32,6 +34,20 @@
                });
 
             services.AddFanexData(Configuration);
+
+            var redisConfig = Configuration.GetSection("AuthSettings:RedisConfig").Value;
+            var redis = ConnectionMultiplexer.Connect(redisConfig);
+            services.AddDataProtection()
+                .PersistKeysToStackExchangeRedis(redis, "XMLOddsFeed:DataProtection:Keys")
+                .SetApplicationName("XMLOddsFeed");
+
+            services.AddSession(options =>
+            {
+                options.Cookie.IsEssential = true;
+                options.IdleTimeout = TimeSpan.FromMinutes(int.Parse(Configuration.GetSection("AuthSettings:SessionTimeOut").Value));
+                options.Cookie.Name = "Fanex.OddsFeed.Session";
+            });
+
         }
 
         public static void Configure(IApplicationBuilder app, IWebHostEnvironment env)
