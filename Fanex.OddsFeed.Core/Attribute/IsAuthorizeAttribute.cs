@@ -1,6 +1,7 @@
 ﻿namespace Fanex.OddsFeed.Core.Attribute
 {
     using System;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Filters;
     using Microsoft.Extensions.DependencyInjection;
@@ -15,8 +16,20 @@
 
             if (sessionService?.OnUserId == 0)
             {
-                context.Result = new RedirectResult("~/login/LogOut");
+                if (IsAjaxRequest(context.HttpContext.Request))
+                {
+                    context.HttpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                }
+                else
+                {
+                    context.Result = new RedirectToActionResult("LogOut", "login", null);
+                }
             }
         }
+
+        private static bool IsAjaxRequest(HttpRequest request)
+           => string.Equals(request.Query["X-Requested-With"], "XMLHttpRequest", StringComparison.Ordinal) ||
+              string.Equals(request.Headers["X-Requested-With"], "XMLHttpRequest", StringComparison.Ordinal);
+
     }
 }

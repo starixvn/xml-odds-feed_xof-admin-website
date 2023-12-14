@@ -30,11 +30,6 @@
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers().AddJsonOptions(options =>
-                {
-                    options.JsonSerializerOptions.Converters.Add(new DateTimeConverter());
-                }
-            );
             LogManager
                .SetDefaultLogCategory(Configuration.GetSection("Fanex.Logging:LogCategory").Value)
                .Use(new List<ILogEngine>
@@ -86,7 +81,12 @@
                 options.Cookie.Name = "XMLOddsFeed.Admin.Session";
             });
             
-            services.AddControllersWithViews().AddControllersAsServices();
+            services.AddControllersWithViews()
+                .AddControllersAsServices()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.Converters.Add(new DateTimeConverter());
+                });
             services.RegisterServices(Configuration);
             services.RegisterBundle();
         }
@@ -103,6 +103,7 @@
                 app.UseHsts();
             }
 
+            app.UseStatusCodePagesWithReExecute("/Error/{0}");
             app.UseHttpsRedirection();
             app.UseWebOptimizer();
             app.UseStaticFiles();
