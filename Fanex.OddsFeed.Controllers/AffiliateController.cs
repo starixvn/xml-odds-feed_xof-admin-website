@@ -403,7 +403,7 @@
             criteria.UserName = (criteria.UserName == null || criteria.UserName == "Username") ? string.Empty : criteria.UserName.Trim();
             criteria.PageIndex++;
             var result = await baseService.GetDataGridAsync<Affiliate>(criteria);
-            return new CustomJsonResult(result);
+            return new JsonResult(result);
         }
 
         public async Task<string> ListExistedAff(string username)
@@ -474,7 +474,7 @@
             criteria.PageIndex++;
 
             var result =await baseService.GetDataGridAsync<LicenseeRequestDetailStatistic>(criteria);
-            return new CustomJsonResult(result);
+            return new JsonResult(result);
         }
 
         [HttpGet]

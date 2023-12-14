@@ -37,14 +37,14 @@
             criteria.DomainName = criteria.DomainName == ViewResources.Domain_Name ? string.Empty : criteria.DomainName;
             criteria.PageIndex++;
             var result = await baseService.GetDataAsync<Domain>(criteria);
-            return new CustomJsonResult(new { data = result, totalItems = criteria.RowCount });
+            return new JsonResult(new { data = result, totalItems = criteria.RowCount });
         }
 
         public async Task<IActionResult> GetDomainSetting([FromBody] GetDomainSettingByPageCriteria criteria)
         {
             criteria.PageIndex++;
             var result = await baseService.GetDataAsync<DomainSetting>(criteria);
-            return new CustomJsonResult(new { data = result, totalItems = criteria.RowCount });
+            return new JsonResult(new { data = result, totalItems = criteria.RowCount });
         }
 
         [HttpPost]

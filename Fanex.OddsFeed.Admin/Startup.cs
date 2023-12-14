@@ -1,8 +1,10 @@
 ﻿namespace Fanex.OddsFeed.Admin
 {
+    using System;
     using Fanex.Data;
     using Fanex.Logging;
     using Fanex.Logging.Sentry;
+    using Fanex.OddsFeed.Core;
     using Microsoft.AspNetCore.DataProtection;
     using Sentry;
     using StackExchange.Redis;
@@ -22,6 +24,11 @@
             services.AddControllersWithViews().AddControllersAsServices();
             services.RegisterServices(Configuration);
             services.RegisterBundle();
+            services.AddControllers().AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.Converters.Add(new DateTimeConverter());
+                }
+            );
 
             LogManager
                .SetDefaultLogCategory(Configuration.GetSection("Fanex.Logging:LogCategory").Value)
