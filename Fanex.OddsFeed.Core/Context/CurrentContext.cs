@@ -1,5 +1,7 @@
 ﻿namespace Fanex.OddsFeed.Core.Context
 {
+    using System;
+    using System.Linq;
     using Microsoft.AspNetCore.Http;
 
     public class CurrentContext : ICurrentContext

@@ -1,5 +1,7 @@
 ﻿namespace Fanex.OddsFeed.Services.Interface
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
     using Fanex.OddsFeed.Models;
     using Microsoft.AspNetCore.Mvc.Rendering;
 

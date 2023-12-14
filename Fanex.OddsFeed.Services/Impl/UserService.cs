@@ -1,5 +1,6 @@
 ﻿namespace Fanex.OddsFeed.Services.Impl
 {
+    using System.Threading.Tasks;
     using Fanex.OddsFeed.Criteria.User;
     using Fanex.OddsFeed.Models;
     using Fanex.OddsFeed.Services.Interface;

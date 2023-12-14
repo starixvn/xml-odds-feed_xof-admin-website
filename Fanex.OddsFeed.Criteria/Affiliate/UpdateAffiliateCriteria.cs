@@ -15,7 +15,7 @@
 
         [Display(Name = "Note", ResourceType = typeof(ViewResources))]
         [SpParam(SqlParamName = "Remark")]
-        public string? Note { get; set; }
+        public string Note { get; set; }
 
         public int UpdatedBy { get; set; }
 

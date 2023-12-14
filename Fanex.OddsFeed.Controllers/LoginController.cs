@@ -1,7 +1,10 @@
 ﻿namespace Fanex.OddsFeed.Controllers
 {
+    using System;
     using System.Drawing;
     using System.Drawing.Imaging;
+    using System.IO;
+    using System.Threading.Tasks;
     using System.Web;
     using Fanex.OddsFeed.Admin.Utility;
     using Fanex.OddsFeed.Core;
@@ -85,7 +88,7 @@
             return Json(result);
         }
 
-        public async Task<ActionResult> LogOut()
+        public async Task<IActionResult> LogOut()
         {
             await DoSignOut();
 

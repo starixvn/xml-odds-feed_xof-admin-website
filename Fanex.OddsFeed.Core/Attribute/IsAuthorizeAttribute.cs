@@ -8,7 +8,6 @@
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public class IsAuthorizeAttribute : ActionFilterAttribute
     {
-
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             var serviceProvider = context.HttpContext.RequestServices;

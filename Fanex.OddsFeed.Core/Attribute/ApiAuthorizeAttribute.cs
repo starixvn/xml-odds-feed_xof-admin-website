@@ -1,5 +1,6 @@
 ﻿namespace Fanex.OddsFeed.Core.Attribute
 {
+    using System;
     using System.Net;
     using Fanex.OddsFeed.Models;
     using Microsoft.AspNetCore.Mvc;
