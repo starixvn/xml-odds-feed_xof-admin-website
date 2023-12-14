@@ -13,11 +13,15 @@
             this.maintenanceService = maintenanceService;
         }
 
+        [Route("Error/404")]
+        [Route("Error/PageNotFound")]
         public IActionResult PageNotFound()
         {
             return View();
         }
 
+        [Route("Error/500")]
+        [Route("Error/InternalError")]
         public IActionResult InternalError()
         {
             return View();
