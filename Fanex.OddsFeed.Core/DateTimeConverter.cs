@@ -1,7 +1,9 @@
 ﻿namespace Fanex.OddsFeed.Core
 {
+    using System;
     using System.Text.Json;
     using System.Text.Json.Serialization;
+    
     public class DateTimeConverter : JsonConverter<DateTime>
     {
         public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
