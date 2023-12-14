@@ -103,7 +103,7 @@
             criteria.RoleId = (byte)Core.Enums.UserRole.LicenseeSubAccount;
             criteria.PageIndex++;
             var result = await baseService.GetDataGridAsync<User>(criteria);
-            return new CustomJsonResult(result);
+            return new JsonResult(result);
         }
 
         public async Task<string> ListExistedSubAccount(string username)
