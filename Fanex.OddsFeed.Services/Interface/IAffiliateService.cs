@@ -1,6 +1,7 @@
 ﻿namespace Fanex.OddsFeed.Services.Interface
 {
     using System.Collections.Generic;
+    using System.Threading.Tasks;
     using Fanex.OddsFeed.Criteria.Affiliate;
     using Fanex.OddsFeed.Models;
     using Fanex.OddsFeed.Models.ValueObject;

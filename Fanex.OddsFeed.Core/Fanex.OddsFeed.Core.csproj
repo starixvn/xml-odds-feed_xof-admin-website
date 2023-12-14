@@ -2,8 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
   </PropertyGroup>
 
 	<ItemGroup>
@@ -11,7 +9,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="Fanex.Data.ProxyClient" Version="0.0.2-alpha07" />
+	  <PackageReference Include="Fanex.Data.ProxyClient" Version="0.0.2-alpha08" />
+      <PackageReference Include="Fanex.Logging.Extensions.AspNetCore" Version="1.0.0" />
+	  <PackageReference Include="Fanex.Logging.Sentry" Version="1.0.6" />
 	  <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 	</ItemGroup>
 

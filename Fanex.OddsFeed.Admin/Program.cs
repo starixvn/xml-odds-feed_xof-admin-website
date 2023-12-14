@@ -22,7 +22,7 @@ namespace Fanex.OddsFeed.Admin
             }
             finally
             {
-                NLog.LogManager.Shutdown();
+                LogManager.Shutdown();
             }
         }
 

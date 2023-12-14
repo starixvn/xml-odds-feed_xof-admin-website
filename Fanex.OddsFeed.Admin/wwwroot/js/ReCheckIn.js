@@ -1,16 +1,13 @@
-var Recheckin = function ($) {
-
+let Recheckin = function ($) {
     return {
         time: null,
         root: null,
         headlineMsgBox: null,
         kickedOutMsg: null,
-
         init: function () {
             Recheckin.time = 30000;
             Recheckin.kickedOutMsg = 'You have logged in from another session or your login session has expired!';
         },
-
         reCheckin: function () {
             $.ajax({
                 url: currentDomainURL + "Login/ReCheckLogin",
@@ -22,16 +19,16 @@ var Recheckin = function ($) {
                     }
                 },
                 error: function (request, status, error) {
-                    var result = $.parseJSON(request.responseText);
+                    let result = $.parseJSON(request.responseText);
                     if (result.code == 999999) {
-                        location.href = currentDomainURL + "Tolerance/UnderMaintainance";
+                        location.href = currentDomainURL + "Error/UnderMaintainance";
                     }
                 }
             });
         },
 
         closeBrowser: function () {
-            var index = window;
+            let index = window;
             while (index != index.parent) // Jump out
             {
                 index = index.parent;

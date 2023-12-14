@@ -7,7 +7,9 @@
     using Fanex.OddsFeed.Models;
     using Fanex.OddsFeed.Services.Impl;
     using Fanex.OddsFeed.Services.Interface;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc.Infrastructure;
+    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using ONEbook.UM.AspNetCore;
     using ONEbook.UM.AspNetCore.Filters;
@@ -201,6 +203,5 @@
                 "js/Affiliate/AddAffiliateStep4.js",
                 "js/Affiliate/EditAffiliate.js");
         }
-
     }
 }

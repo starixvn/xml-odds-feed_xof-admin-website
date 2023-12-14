@@ -19,7 +19,7 @@ namespace Fanex.OddsFeed.Criteria.User
 
         public int Creator { get; set; }
 
-        public string? IP { get; set; }
+        public string IP { get; set; }
 
         [SpParam(Ignored = true)]
         public string PreController { get; set; }

@@ -1,6 +1,7 @@
 ﻿namespace Fanex.OddsFeed.Services.Impl
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using Fanex.OddsFeed.Criteria.Affiliate;
     using Fanex.OddsFeed.Models;

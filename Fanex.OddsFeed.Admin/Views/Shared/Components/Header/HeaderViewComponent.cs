@@ -1,6 +1,9 @@
 ﻿namespace Fanex.OddsFeed.Admin.Views.Shared.Components.Header
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Text;
+    using System.Threading.Tasks;
     using Fanex.OddsFeed.Core;
     using Fanex.OddsFeed.Criteria.Administrator;
     using Fanex.OddsFeed.Models;
@@ -12,6 +15,7 @@
     {
         private readonly ISessionService sessionService;
         private readonly IBaseService baseService;
+
         public HeaderViewComponent(ISessionService sessionService, IBaseService baseService)
         {
             this.sessionService = sessionService;
@@ -21,8 +25,8 @@
         public async Task<IViewComponentResult> InvokeAsync()
         {
             ViewBag.SystemList = await GenerateSystemList();
-            ViewBag.Session = this.sessionService;
-            await Task.CompletedTask;
+            ViewBag.Session = sessionService;
+            
             return View();
         }
 

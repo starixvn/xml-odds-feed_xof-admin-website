@@ -1,6 +1,10 @@
 ﻿namespace Fanex.OddsFeed.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Text;
+    using System.Threading.Tasks;
     using Fanex.OddsFeed.Core;
     using Fanex.OddsFeed.Core.Attribute;
     using Fanex.OddsFeed.Core.Context;
@@ -742,7 +746,7 @@
 
         #region Account Manager
 
-        private async Task AddAffiliateWithAccountManagerRole(LicenseeProfile? licenseeProfile, InsertAffiliateCriteria criteria)
+        private async Task AddAffiliateWithAccountManagerRole(LicenseeProfile licenseeProfile, InsertAffiliateCriteria criteria)
         {
             if (licenseeProfile != null)
             {
@@ -836,7 +840,7 @@
             }
         }
 
-        private async Task GetAffiliateProfileWithAccountManageRole(LicenseeProfile? affiliateProfile, UpdateProfileCriteria criteria)
+        private async Task GetAffiliateProfileWithAccountManageRole(LicenseeProfile affiliateProfile, UpdateProfileCriteria criteria)
         {
             if (affiliateProfile != null)
             {
@@ -940,7 +944,7 @@
 
         #region LicenseeAdmin/Sub-Acc
 
-        private async Task AddAffiliateWithLicenseeAdminRole(LicenseeProfile? licenseeProfile)
+        private async Task AddAffiliateWithLicenseeAdminRole(LicenseeProfile licenseeProfile)
         {
             if (licenseeProfile != null)
             {

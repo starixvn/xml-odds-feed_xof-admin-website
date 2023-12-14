@@ -1,19 +1,15 @@
 ﻿namespace Fanex.OddsFeed.Core
 {
+    using System;
+    using System.Collections.Generic;
     using System.Globalization;
+    using System.Linq;
     using System.Net;
-    using System.Security.Cryptography;
     using System.Text;
-    using System.Text.RegularExpressions;
     using Microsoft.AspNetCore.Mvc.Rendering;
 
     public static class Utilities
     {
-        public static string ZeroPrefix(int value)
-        {
-            return value < 10 ? "0" + value : value.ToString();
-        }
-
         public static string StringArrayToString(string[] array)
         {
             if (array == null || array.Length == 0)

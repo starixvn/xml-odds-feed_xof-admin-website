@@ -1,11 +1,21 @@
 ﻿namespace Fanex.OddsFeed.Admin
 {
     using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
     using Fanex.Data;
     using Fanex.Logging;
     using Fanex.Logging.Sentry;
     using Fanex.OddsFeed.Core;
+    using Fanex.OddsFeed.Core.Middlewares;
+    using Microsoft.AspNetCore.Authentication.Cookies;
+    using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.DataProtection;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
     using Sentry;
     using StackExchange.Redis;
 
@@ -20,16 +30,11 @@
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSession();
-            services.AddControllersWithViews().AddControllersAsServices();
-            services.RegisterServices(Configuration);
-            services.RegisterBundle();
             services.AddControllers().AddJsonOptions(options =>
                 {
                     options.JsonSerializerOptions.Converters.Add(new DateTimeConverter());
                 }
             );
-
             LogManager
                .SetDefaultLogCategory(Configuration.GetSection("Fanex.Logging:LogCategory").Value)
                .Use(new List<ILogEngine>
@@ -45,16 +50,45 @@
             var redisConfig = Configuration.GetSection("AuthSettings:RedisConfig").Value;
             var redis = ConnectionMultiplexer.Connect(redisConfig);
             services.AddDataProtection()
-                .PersistKeysToStackExchangeRedis(redis, "XMLOddsFeed:DataProtection:Keys")
-                .SetApplicationName("XMLOddsFeed");
+                .PersistKeysToStackExchangeRedis(redis, "XMLOddsFeedAdmin:DataProtection:Keys")
+                .SetApplicationName("XMLOddsFeedAdmin");
+            
+            services.AddAuthentication(options =>
+            {
+                options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            })
+            .AddCookie(options =>
+            {
+                options.LoginPath = Configuration.GetSection("AuthSettings:SignInPath").Value;
+                options.LogoutPath = Configuration.GetSection("AuthSettings:SignOutPath").Value;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(int.Parse(Configuration["AuthSettings:SessionTimeout"]));
+                options.SlidingExpiration = true;
+                options.Cookie = new CookieBuilder
+                {
+                    Name = "XMLOddsFeed.Admin.Cookie",
+                    SecurePolicy = CookieSecurePolicy.SameAsRequest
+                };
+                options.Events.OnSigningOut = context =>
+                {
+                    context.Response.Redirect(options.LoginPath);
+                    return Task.CompletedTask;
+                };
+            });
+
+            services.AddAuthorization();
 
             services.AddSession(options =>
             {
                 options.Cookie.IsEssential = true;
                 options.IdleTimeout = TimeSpan.FromMinutes(int.Parse(Configuration.GetSection("AuthSettings:SessionTimeOut").Value));
-                options.Cookie.Name = "Fanex.OddsFeed.Session";
+                options.Cookie.Name = "XMLOddsFeed.Admin.Session";
             });
-
+            
+            services.AddControllersWithViews().AddControllersAsServices();
+            services.RegisterServices(Configuration);
+            services.RegisterBundle();
         }
 
         public static void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -65,7 +99,7 @@
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseMiddleware<ErrorHandlerMiddleware>();
                 app.UseHsts();
             }
 

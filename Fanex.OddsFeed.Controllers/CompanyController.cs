@@ -1,6 +1,7 @@
 ﻿namespace Fanex.OddsFeed.Controllers
 {
     using System.Text;
+    using System.Threading.Tasks;
     using Fanex.OddsFeed.Core;
     using Fanex.OddsFeed.Core.Attribute;
     using Fanex.OddsFeed.Core.Context;
