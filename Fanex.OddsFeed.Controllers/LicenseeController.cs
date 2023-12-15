@@ -53,9 +53,9 @@
             ViewBag.OddsStyleList = oddsStyles.Select(x => new SelectListItem { Value = x.Value, Text = x.Key }).ToList();
 
             // Config
-            ViewBag.DelayTimeList = await GenerateDelayTime();
+            ViewBag.DelayTimeList = await GenerateDelayTimeAsync();
             ViewBag.ResultDelayTimeList = _licenseeService.GetResultDelayTimeList();
-            ViewBag.NumberOfIPs = await GetMaxNumberOfIPs();
+            ViewBag.NumberOfIPs = await GetMaxNumberOfIPsAsync();
 
             // Domain
             var domains = await baseService.GetDataAsync<Domain>(new GetAllDomainCriteria { SystemID = 0 });
@@ -180,7 +180,7 @@
             var domains = domainList.Where(d => selectedDomains.All(s => s.DomainId != d.DomainId)).ToList();
             ViewBag.DomainList = domains.Select(x => new SelectListItem { Value = x.DomainId.ToString(), Text = x.DomainName }).ToList();
 
-            ViewBag.NumberOfIPs = await GetMaxNumberOfIPs();
+            ViewBag.NumberOfIPs = await GetMaxNumberOfIPsAsync();
             ViewBag.CurrentSystem = " of \"" + criteria.SystemName + "\"";
 
             return View(criteria);
@@ -208,8 +208,8 @@
                 return this.NoAuthorization();
             }
 
-            criteria = await GetLicenseeProfile(criteria);
-            criteria = await ViewBagForEditLicenseeProfile(criteria);
+            criteria = await GetLicenseeProfileAsync(criteria);
+            criteria = await ViewBagForEditLicenseeProfileAsync(criteria);
 
             ViewBag.CurrentSystem = " of \"" + criteria.SystemName + "\"";
 
@@ -224,11 +224,11 @@
 
             if (criteria.IsForceUpdate)
             {
-                return await SaveLicenseeProfile(criteria);
+                return await SaveLicenseeProfileAsync(criteria);
             }
             else
             {
-                var missingPartnersProfile = await GetMissingProfile(criteria);
+                var missingPartnersProfile = await GetMissingProfileAsync(criteria);
                 if (IsMissingProfile(missingPartnersProfile))
                 {
                     // Assign a error code in case some affiliates under this licensee have the number of selections greater than the current licensee's profile
@@ -237,7 +237,7 @@
                 }
                 else
                 {
-                    return await SaveLicenseeProfile(criteria);
+                    return await SaveLicenseeProfileAsync(criteria);
                 }
             }
         }
@@ -307,7 +307,7 @@
             }
 
             var result = await baseService.GetDataAsync<Licensee>(criteria);
-            return new JsonResult(new { data = result, totalItems = criteria.RowCount });
+            return Json(new { data = result, totalItems = criteria.RowCount });
         }
 
         [HttpGet]
@@ -334,7 +334,7 @@
             }
 
             var result = await baseService.GetDataAsync<LicenseeRequestStatistic>(criteria);
-            return new JsonResult(new { data = result, totalItems = criteria.RowCount });
+            return Json(new { data = result, totalItems = criteria.RowCount });
         }
 
         public async Task<JsonResult> GetLicenseeRequestsDetail([FromBody] RequestStatisticCriteria criteria)
@@ -373,7 +373,7 @@
 
             criteria.PageIndex++;
             var result = await baseService.GetDataAsync<LicenseeRequestDetailStatistic>(criteria);
-            return new JsonResult(new { data = result, totalItems = criteria.RowCount });
+            return Json(new { data = result, totalItems = criteria.RowCount });
         }
 
         public async Task<JsonResult> ListExistedSystems(string systemName)
@@ -439,7 +439,7 @@
 
         #region Common
 
-        private async Task<MissingPartnersProfile> GetMissingProfile(EditLicenseeProfileCriteria criteria)
+        private async Task<MissingPartnersProfile> GetMissingProfileAsync(EditLicenseeProfileCriteria criteria)
         {
             var missingProfile = new MissingPartnersProfile();
 
@@ -527,7 +527,7 @@
             }
         }
 
-        private async Task<JsonResult> SaveLicenseeProfile(EditLicenseeProfileCriteria criteria)
+        private async Task<JsonResult> SaveLicenseeProfileAsync(EditLicenseeProfileCriteria criteria)
         {
             criteria.Creator = sessionService.UserId;
             criteria.IP = currentContext.IP;
@@ -541,7 +541,7 @@
             return Json(missingPartnersProfile);
         }
 
-        private async Task<EditLicenseeProfileCriteria> GetLicenseeProfile(EditLicenseeProfileCriteria criteria)
+        private async Task<EditLicenseeProfileCriteria> GetLicenseeProfileAsync(EditLicenseeProfileCriteria criteria)
         {
             var licensee = await baseService.GetDataEntityAsync<LicenseeProfile>(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = sessionService.SystemId });
             if (licensee != null)
@@ -593,7 +593,7 @@
             return criteria;
         }
 
-        private async Task<EditLicenseeProfileCriteria> ViewBagForEditLicenseeProfile(EditLicenseeProfileCriteria criteria)
+        private async Task<EditLicenseeProfileCriteria> ViewBagForEditLicenseeProfileAsync(EditLicenseeProfileCriteria criteria)
         {
             var oddsTypes = await baseService.GetDataAsync<SystemSetting>(new GetTypeSettingCriteria { SystemID = 0, Type = "OddsType" });
             ViewBag.OddsTypeList = oddsTypes.Select(x => new SelectListItem { Value = x.Value, Text = x.Key }).ToList();
@@ -604,7 +604,7 @@
             var languages = await baseService.GetDataAsync<Language>(new GetAllLanguageCriteria());
             ViewBag.LanguageIDList = languages.Select(x => new SelectListItem { Value = x.Code, Text = x.Name_EN }).ToList();
 
-            ViewBag.DelayTimeList = await GenerateDelayTime();
+            ViewBag.DelayTimeList = await GenerateDelayTimeAsync();
             ViewBag.ResultDelayTimeList = _licenseeService.GetResultDelayTimeList();
 
             //Sport

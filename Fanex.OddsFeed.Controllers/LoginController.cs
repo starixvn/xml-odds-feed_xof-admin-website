@@ -77,7 +77,7 @@
                 User user = await userService.UserLoginAsync(criteria);
                 if (user != null)
                 {
-                    await CustomizeDataAfterLogin(criteria, user, result);
+                    await CustomizeDataAfterLoginAsync(criteria, user, result);
                 }
             }
             else
@@ -90,12 +90,12 @@
 
         public async Task<IActionResult> LogOut()
         {
-            await DoSignOut();
+            await DoSignOutAsync();
 
             return RedirectToAction("Index");
         }
 
-        public async Task DoSignOut()
+        public async Task DoSignOutAsync()
         {
             var criteria = new LogOutUserCriteria 
             {
@@ -173,7 +173,7 @@
             criteria.LoginIP = currentContext.IP;
         }
 
-        private async Task CustomizeDataAfterLogin(UserLoginUserCriteria criteria, User user, CommandResult result)
+        private async Task CustomizeDataAfterLoginAsync(UserLoginUserCriteria criteria, User user, CommandResult result)
         {
             const byte InvalidUsernamePassword = 101;
             const byte Inactive = 102;
@@ -195,12 +195,12 @@
                     break;
                 default:
                     result.Code = 0;
-                    await SaveUserSession(criteria, user);
+                    await SaveUserSessionAsync(criteria, user);
                     break;
             }
         }
 
-        private async Task SaveUserSession(UserLoginUserCriteria criteria, User user)
+        private async Task SaveUserSessionAsync(UserLoginUserCriteria criteria, User user)
         {
             ////get systemId
             var systemIdNameList = criteria.SystemIdNameList.Split(';');

@@ -88,7 +88,7 @@
         public async Task<IActionResult> CheckExistAdministrator([FromBody] InsertAdminCriteria criteria)
         {
             var result = new CommandResult { Code = 0 };
-            var users =await baseService.GetDataAsync<User>(new CheckExistAdministratorCriteria
+            var users = await baseService.GetDataAsync<User>(new CheckExistAdministratorCriteria
             {
                 Username = criteria.UserName,
                 PageIndex = 1,
@@ -135,7 +135,7 @@
             criteria.PageIndex++;
             criteria.Username = criteria.Username.Equals("Username") ? string.Empty : criteria.Username.Trim();
             var result = await baseService.GetDataAsync<User>(criteria);
-            return new JsonResult(new {data = result, totalItems = criteria.RowCount});
+            return Json(new {data = result, totalItems = criteria.RowCount});
         }
 
         #endregion
@@ -187,7 +187,7 @@
                 criteria.Email = userInfo.Email;
                 criteria.RoleID = userInfo.RoleID;
 
-                ViewBag.HasEditPermission = await this.HasEditPermission(sessionService.UserRole, criteria.UserID);
+                ViewBag.HasEditPermission = await this.HasEditPermissionAsync(sessionService.UserRole, criteria.UserID);
                 if (!ViewBag.HasEditPermission)
                 {
                     ViewBag.Error = ViewResources.You_have_no_authorization;
@@ -206,7 +206,7 @@
             criteria.FirstName = criteria.FirstName ?? string.Empty;
             criteria.LastName = criteria.LastName ?? string.Empty;
 
-            if (!await this.HasEditPermission(sessionService.UserRole, criteria.UserID))
+            if (!await this.HasEditPermissionAsync(sessionService.UserRole, criteria.UserID))
             {
                 result.Code = 1;
                 result.Message = ViewResources.You_can_not_update_this_administrator;
@@ -257,7 +257,7 @@
                         .Select(item => item.SystemId.ToString()).ToArray()
             };
 
-            ViewBag.HasEditPermission = await this.HasEditPermission(sessionService.UserRole, criteria.UserID);
+            ViewBag.HasEditPermission = await this.HasEditPermissionAsync(sessionService.UserRole, criteria.UserID);
             if (!ViewBag.HasEditPermission)
             {
                 ViewBag.Error = ViewResources.You_have_no_authorization;
@@ -272,7 +272,7 @@
             criteria.Creator = sessionService.UserId;
             criteria.IP = currentContext.IP;
 
-            if (!await this.HasEditPermission(sessionService.UserRole, criteria.UserID))
+            if (!await this.HasEditPermissionAsync(sessionService.UserRole, criteria.UserID))
             {
                 ViewBag.Success = false;
                 ViewBag.Error = ViewResources.You_can_not_update_this_administrator;
@@ -299,7 +299,7 @@
                 ViewBag.Success = true;
             }
 
-            return await CustomizeAfterEditSystem(criteria, systemList);
+            return await CustomizeAfterEditSystemAsync(criteria, systemList);
         }
         #endregion
 
@@ -373,7 +373,7 @@
                 UserID = id
             };
 
-            ViewBag.HasEditPermission = await this.HasEditPermission(sessionService.UserRole, criteria.UserID);
+            ViewBag.HasEditPermission = await this.HasEditPermissionAsync(sessionService.UserRole, criteria.UserID);
             if (!ViewBag.HasEditPermission)
             {
                 ViewBag.Error = ViewResources.You_have_no_authorization;
@@ -386,7 +386,7 @@
         public async Task<IActionResult> AdministratorResetPwd([FromBody] UpdateAdminPasswordCriteria criteria)
         {
             var result = new CommandResult();
-            if (!await this.HasEditPermission(sessionService.UserRole, criteria.UserID))
+            if (!await this.HasEditPermissionAsync(sessionService.UserRole, criteria.UserID))
             {
                 result.Code = 1;
                 result.Message = ViewResources.You_can_not_update_this_administrator;
@@ -429,7 +429,7 @@
 
         #region Private methods
 
-        private async Task<bool> HasEditPermission(int userRole, int editedUserId)
+        private async Task<bool> HasEditPermissionAsync(int userRole, int editedUserId)
         {
             User userInfo = await userService.GetUserInfoAsync(editedUserId);
             if (userInfo != null)
@@ -449,7 +449,7 @@
             return false;
         }
 
-        private async Task<IActionResult> CustomizeAfterEditSystem(UpdateAdminSystemCriteria criteria, IEnumerable<SelectListItem> systemList)
+        private async Task<IActionResult> CustomizeAfterEditSystemAsync(UpdateAdminSystemCriteria criteria, IEnumerable<SelectListItem> systemList)
         {
             if (criteria.UserID == sessionService.UserId && systemList != null)
             {

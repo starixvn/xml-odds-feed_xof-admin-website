@@ -61,7 +61,7 @@
                 PageSize = Convert.ToInt16(pageSize)
             };
             var result = await baseService.GetDataGridAsync<UserOnlineStatistic>(criteria);
-            return new JsonResult(result);
+            return Json(result);
         }
 
         [HttpPost]
@@ -76,7 +76,7 @@
                 PageSize = Convert.ToInt16(pageSize)
             };
             var result = await baseService.GetDataGridAsync<RecentActivityStatistic>(criteria);
-            return new JsonResult(result);
+            return Json(result);
         }
 
         private static string GenerateLogInInfoTable(IEnumerable<LoginInfoStatistic> records)

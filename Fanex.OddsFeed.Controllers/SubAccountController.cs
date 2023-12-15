@@ -40,7 +40,7 @@
 
             var systems = await baseService.GetDataAsync<SystemDto>(new GetSystemByUserIDCriteria { UserID = sessionService.UserId, IgnoreIsActive = IsAccountManagerRole() });
             ViewBag.SystemList = systems.Select(x => new SelectListItem { Value = x.SystemId.ToString(), Text = x.SystemName }).ToList();
-            await ViewBagFlags();
+            await ViewBagFlagsAsync();
             return View();
         }
 
@@ -105,7 +105,7 @@
             criteria.RoleId = (byte)Core.Enums.UserRole.LicenseeSubAccount;
             criteria.PageIndex++;
             var result = await baseService.GetDataGridAsync<User>(criteria);
-            return new JsonResult(result);
+            return Json(result);
         }
 
         public async Task<string> ListExistedSubAccount(string username)
@@ -264,7 +264,7 @@
                 BetTypeIDListFlag = result.BetTypeIDListFlag
             };
 
-            await ViewBagFlags();
+            await ViewBagFlagsAsync();
 
             return View(criteria);
         }
@@ -286,7 +286,7 @@
                 }
             }
 
-            await ViewBagFlags();
+            await ViewBagFlagsAsync();
 
             ViewBag.CurrentUser = " of \"" + criteria.SubAccountName + "\"";
             return View(criteria);
@@ -401,7 +401,7 @@
 
         #region Private methods
 
-        private async Task ViewBagFlags()
+        private async Task ViewBagFlagsAsync()
         {
             var licensee = await baseService.GetDataEntityAsync<LicenseeProfile>(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = sessionService.SystemId });
             if (licensee != null)
