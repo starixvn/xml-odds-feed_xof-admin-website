@@ -24,13 +24,13 @@
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            ViewBag.SystemList = await GenerateSystemList();
+            ViewBag.SystemList = await GenerateSystemListAsync();
             ViewBag.Session = sessionService;
             
             return View();
         }
 
-        private async Task<IEnumerable<SelectListItem>> GenerateSystemList()
+        private async Task<IEnumerable<SelectListItem>> GenerateSystemListAsync()
         {
             var systems = await baseService.GetDataAsync<SystemDto>(new GetAllSystemsByUserIdCriteria
             {

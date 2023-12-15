@@ -74,15 +74,15 @@
             if (IsAccountManagerRole())
             {
                 ViewBag.HasAccountManagerPermission = true;
-                await AddAffiliateWithAccountManagerRole(licenseeProfile,criteria);
+                await AddAffiliateWithAccountManagerRoleAsync(licenseeProfile,criteria);
             }
             else if (IsLicenseeAdminRole())
             {
-                await AddAffiliateWithLicenseeAdminRole(licenseeProfile);
+                await AddAffiliateWithLicenseeAdminRoleAsync(licenseeProfile);
             }
             else
             {
-                await AddAffiliateWithSubAccountRole();
+                await AddAffiliateWithSubAccountRoleAsync();
             }
 
             return View(criteria);
@@ -92,8 +92,8 @@
         public async Task<IActionResult> AddNew([FromBody] InsertAffiliateCriteria criteria)
         {
             var result = new CommandResult();
-            await CustomizeDataBeforeAddNew(criteria);
-            if (await IsValidListOfIPs(criteria.IpsFrom, criteria.IpsTo))
+            await CustomizeDataBeforeAddNewAsync(criteria);
+            if (await IsValidListOfIPsAsync(criteria.IpsFrom, criteria.IpsTo))
             {
                 result =await affiliateService.InsertAsync(criteria);
                 if (result.IsSuccessful)
@@ -240,7 +240,7 @@
                 }
             }
 
-            if (!await IsValidListOfIPs(fromIPs.ToString(), toIPs.ToString()))
+            if (!await IsValidListOfIPsAsync(fromIPs.ToString(), toIPs.ToString()))
             {
                 result.Code = 1;
                 result.Message = ViewResources.Error_InvalidInput;
@@ -341,16 +341,16 @@
             if (IsAccountManagerRole())
             {
                 ViewBag.HasAccountManagerPermission = true;
-                await GetAffiliateProfileWithAccountManageRole(affiliateProfile,criteria);
+                await GetAffiliateProfileWithAccountManageRoleAsync(affiliateProfile,criteria);
             }
             else if (IsLicenseeAdminRole())
             {
-                await GetAffiliateProfileWithLicenseeAdminRole(criteria);
+                await GetAffiliateProfileWithLicenseeAdminRoleAsync(criteria);
             }
             else
             {
                 // Sub-Acc
-                await GetAffiliateProfileWithSubAccountRole(criteria);
+                await GetAffiliateProfileWithSubAccountRoleAsync(criteria);
             }
 
             return View(criteria);
@@ -362,7 +362,7 @@
             var result = new CommandResult();
             if (ModelState.IsValid)
             {
-                await CustomizeDataBeforeEditProfile(criteria);
+                await CustomizeDataBeforeEditProfileAsync(criteria);
 
                 result = await baseService.ExecuteNonQueryAsync(criteria);
                 if (result.IsSuccessful)
@@ -407,7 +407,7 @@
             criteria.UserName = (criteria.UserName == null || criteria.UserName == "Username") ? string.Empty : criteria.UserName.Trim();
             criteria.PageIndex++;
             var result = await baseService.GetDataGridAsync<Affiliate>(criteria);
-            return new JsonResult(result);
+            return Json(result);
         }
 
         public async Task<string> ListExistedAff(string username)
@@ -477,8 +477,8 @@
             criteria.SystemId = sessionService.SystemId;
             criteria.PageIndex++;
 
-            var result =await baseService.GetDataGridAsync<LicenseeRequestDetailStatistic>(criteria);
-            return new JsonResult(result);
+            var result = await baseService.GetDataGridAsync<LicenseeRequestDetailStatistic>(criteria);
+            return Json(result);
         }
 
         [HttpGet]
@@ -542,7 +542,7 @@
 
         #region Common
 
-        private async Task<bool> IsValidListOfIPs(string ipsFrom, string ipsTo)
+        private async Task<bool> IsValidListOfIPsAsync(string ipsFrom, string ipsTo)
         {
             uint totalIPs = 0;
             var arrIpsFrom = ipsFrom.Split(',');
@@ -565,7 +565,7 @@
             return totalIPs <= maxNumOfIPs;
         }
 
-        private async Task CustomizeDataBeforeAddNew(InsertAffiliateCriteria criteria)
+        private async Task CustomizeDataBeforeAddNewAsync(InsertAffiliateCriteria criteria)
         {
             var fromIPs = new StringBuilder();
             var toIPs = new StringBuilder();
@@ -596,14 +596,14 @@
             criteria.LeagueKeyword_O = criteria.LeagueKeyword_O ?? string.Empty;
 
             criteria.SportIDList = UpdateSportIDListForCricket(criteria.SportIDList);
-            criteria.LeagueIDList = await GetLeagueIds(criteria.SportIDList, criteria.CountryCodeList, criteria.LeagueIDList);
-            criteria.OutRightIDList = await GetOutRightIds(criteria.SportIDList, criteria.CountryCodeList, criteria.OutRightIDList);
-            criteria.SportIDList = await GetSportIds(criteria.SportIDList);
-            criteria.CountryCodeList = await GetCountryCodes(criteria.CountryCodeList);
-            criteria.BetTypeIDList = await GetBetTypeIds(criteria.BetTypeIDList);
+            criteria.LeagueIDList = await GetLeagueIdsAsync(criteria.SportIDList, criteria.CountryCodeList, criteria.LeagueIDList);
+            criteria.OutRightIDList = await GetOutRightIdsAsync(criteria.SportIDList, criteria.CountryCodeList, criteria.OutRightIDList);
+            criteria.SportIDList = await GetSportIdsAsync(criteria.SportIDList);
+            criteria.CountryCodeList = await GetCountryCodesAsync(criteria.CountryCodeList);
+            criteria.BetTypeIDList = await GetBetTypeIdsAsync(criteria.BetTypeIDList);
         }
 
-        private async Task CustomizeDataBeforeEditProfile(UpdateProfileCriteria criteria)
+        private async Task CustomizeDataBeforeEditProfileAsync(UpdateProfileCriteria criteria)
         {
             criteria.OddsType = criteria.OddsType ?? string.Empty;
             criteria.OddsRegion = criteria.OddsRegion ?? string.Empty;
@@ -616,11 +616,11 @@
 
             criteria.SportIDList = UpdateSportIDListForCricket(criteria.SportIDList);
 
-            criteria.LeagueIDList = await GetLeagueIds(criteria.SportIDList, criteria.CountryCodeList, criteria.LeagueIDList);
-            criteria.OutRightIDList = await GetOutRightIds(criteria.SportIDList, criteria.CountryCodeList, criteria.OutRightIDList);
-            criteria.SportIDList = await GetSportIds(criteria.SportIDList);
-            criteria.CountryCodeList = await GetCountryCodes(criteria.CountryCodeList);
-            criteria.BetTypeIDList = await GetBetTypeIds(criteria.BetTypeIDList);
+            criteria.LeagueIDList = await GetLeagueIdsAsync(criteria.SportIDList, criteria.CountryCodeList, criteria.LeagueIDList);
+            criteria.OutRightIDList = await GetOutRightIdsAsync(criteria.SportIDList, criteria.CountryCodeList, criteria.OutRightIDList);
+            criteria.SportIDList = await GetSportIdsAsync(criteria.SportIDList);
+            criteria.CountryCodeList = await GetCountryCodesAsync(criteria.CountryCodeList);
+            criteria.BetTypeIDList = await GetBetTypeIdsAsync(criteria.BetTypeIDList);
         }
 
         private static string UpdateSportIDListForCricket(string sportIDList)
@@ -645,7 +645,7 @@
             return string.Join(",", sportList.ToArray());
         }
 
-        private async Task<string> GetLeagueIds(string sportIds, string countryCodes, string leagueIds)
+        private async Task<string> GetLeagueIdsAsync(string sportIds, string countryCodes, string leagueIds)
         {
             if (!string.IsNullOrWhiteSpace(leagueIds))
             {
@@ -664,7 +664,7 @@
             return leagueIds;
         }
 
-        private async Task<string> GetOutRightIds(string sportIds, string countryCodes, string outRightIds)
+        private async Task<string> GetOutRightIdsAsync(string sportIds, string countryCodes, string outRightIds)
         {
             if (!string.IsNullOrWhiteSpace(outRightIds))
             {
@@ -683,7 +683,7 @@
             return outRightIds;
         }
 
-        private async Task<string> GetSportIds(string sportIds)
+        private async Task<string> GetSportIdsAsync(string sportIds)
         {
             if (!string.IsNullOrWhiteSpace(sportIds))
             {
@@ -698,7 +698,7 @@
             return sportIds;
         }
 
-        private async Task<string> GetCountryCodes(string countryCodes)
+        private async Task<string> GetCountryCodesAsync(string countryCodes)
         {
             if (!string.IsNullOrWhiteSpace(countryCodes))
             {
@@ -713,7 +713,7 @@
             return countryCodes;
         }
 
-        private async Task<string> GetBetTypeIds(string betTypeIds)
+        private async Task<string> GetBetTypeIdsAsync(string betTypeIds)
         {
             if (!string.IsNullOrWhiteSpace(betTypeIds))
             {
@@ -746,7 +746,7 @@
 
         #region Account Manager
 
-        private async Task AddAffiliateWithAccountManagerRole(LicenseeProfile licenseeProfile, InsertAffiliateCriteria criteria)
+        private async Task AddAffiliateWithAccountManagerRoleAsync(LicenseeProfile? licenseeProfile, InsertAffiliateCriteria criteria)
         {
             if (licenseeProfile != null)
             {
@@ -764,11 +764,11 @@
 
                 ViewBagForFlags(true, true, true, true, true, true);
 
-                await ProfileForAddAffiliateWithAccountManagerRole(criteria);
+                await ProfileForAddAffiliateWithAccountManagerRoleAsync(criteria);
             }
         }
 
-        private async Task ProfileForAddAffiliateWithAccountManagerRole(InsertAffiliateCriteria criteria)
+        private async Task ProfileForAddAffiliateWithAccountManagerRoleAsync(InsertAffiliateCriteria criteria)
         {
             var oddsTypes = (await baseService.GetDataAsync<SystemSetting>(new GetTypeSettingCriteria { SystemID = 0, Type = OddsTypeSettingType }))
                 .Where(x => x.Key != "Live" || (x.Key == "Live" && IsAccountManagerRole())).ToList();
@@ -780,7 +780,7 @@
             var languages = await baseService.GetDataAsync<Language>(new GetAllLanguageCriteria());
             ViewBag.LanguageIDList = languages.Select(x => new SelectListItem { Value = x.Code, Text = x.Name_EN }).ToList();
 
-            ViewBag.DelayTimeList =await GenerateDelayTime();
+            ViewBag.DelayTimeList =await GenerateDelayTimeAsync();
             ViewBag.ResultDelayTimeList = licenseeService.GetResultDelayTimeList();
 
             // Country
@@ -840,7 +840,7 @@
             }
         }
 
-        private async Task GetAffiliateProfileWithAccountManageRole(LicenseeProfile affiliateProfile, UpdateProfileCriteria criteria)
+        private async Task GetAffiliateProfileWithAccountManageRoleAsync(LicenseeProfile? affiliateProfile, UpdateProfileCriteria criteria)
         {
             if (affiliateProfile != null)
             {
@@ -865,11 +865,11 @@
                 ViewBag.NumberOfIPs = licenseeProfile.NumberOfIPs;
                 ViewBagForFlags(true, true, true, true, true, true);
 
-                await ProfileForEditAffiliateWithAccountManagerRole(criteria);
+                await ProfileForEditAffiliateWithAccountManagerRoleAsync(criteria);
             }
         }
 
-        private async Task ProfileForEditAffiliateWithAccountManagerRole(UpdateProfileCriteria criteria)
+        private async Task ProfileForEditAffiliateWithAccountManagerRoleAsync(UpdateProfileCriteria criteria)
         {
             var oddsTypes = await baseService.GetDataAsync<SystemSetting>(new GetTypeSettingCriteria { SystemID = 0, Type = OddsTypeSettingType });
             ViewBag.OddsTypeList = oddsTypes.Select(x => new SelectListItem { Value = x.Value, Text = x.Key }).ToList();
@@ -880,7 +880,7 @@
             var languages = await baseService.GetDataAsync<Language>(new GetAllLanguageCriteria());
             ViewBag.LanguageIDList = languages.Select(x => new SelectListItem { Value = x.Code, Text = x.Name_EN }).ToList();
 
-            ViewBag.DelayTimeList = await GenerateDelayTime();
+            ViewBag.DelayTimeList = await GenerateDelayTimeAsync();
             ViewBag.ResultDelayTimeList = licenseeService.GetResultDelayTimeList();
 
             // Sport
@@ -944,7 +944,7 @@
 
         #region LicenseeAdmin/Sub-Acc
 
-        private async Task AddAffiliateWithLicenseeAdminRole(LicenseeProfile licenseeProfile)
+        private async Task AddAffiliateWithLicenseeAdminRoleAsync(LicenseeProfile? licenseeProfile)
         {
             if (licenseeProfile != null)
             {
@@ -958,11 +958,11 @@
                     licenseeProfile.CountryCodeListFlag,
                     licenseeProfile.BetTypeIdListFlag && (oddStyles != "8" && !string.IsNullOrWhiteSpace(oddStyles)));
 
-                await ProfileForAddAffiliateWithLicenseeAdminAndSubAccountRole();
+                await ProfileForAddAffiliateWithLicenseeAdminAndSubAccountRoleAsync();
             }
         }
 
-        private async Task GetAffiliateProfileWithLicenseeAdminRole(UpdateProfileCriteria criteria)
+        private async Task GetAffiliateProfileWithLicenseeAdminRoleAsync(UpdateProfileCriteria criteria)
         {
             var licenseeProfile = await baseService.GetDataEntityAsync<LicenseeProfile>(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = sessionService.SystemId });
             if (licenseeProfile != null)
@@ -976,11 +976,11 @@
                 ViewBag.CountriesFlag = licenseeProfile.CountryCodeListFlag;
                 ViewBag.MarketsFlag = licenseeProfile.BetTypeIdListFlag && (oddStyles != "8" && !string.IsNullOrWhiteSpace(oddStyles));
 
-                await ProfileForEditAffiliateWithLicenseeAdminAndSubAccountRole(criteria);
+                await ProfileForEditAffiliateWithLicenseeAdminAndSubAccountRoleAsync(criteria);
             }
         }
 
-        private async Task AddAffiliateWithSubAccountRole()
+        private async Task AddAffiliateWithSubAccountRoleAsync()
         {
             var userProfile =await baseService.GetDataEntityAsync<PermissionFlag>(new UserGetPermissionCriteria
             {
@@ -999,11 +999,11 @@
                     userProfile.CountryCodeListFlag,
                     userProfile.BetTypeIDListFlag);
 
-                await ProfileForAddAffiliateWithLicenseeAdminAndSubAccountRole();
+                await ProfileForAddAffiliateWithLicenseeAdminAndSubAccountRoleAsync();
             }
         }
 
-        private async Task GetAffiliateProfileWithSubAccountRole(UpdateProfileCriteria criteria)
+        private async Task GetAffiliateProfileWithSubAccountRoleAsync(UpdateProfileCriteria criteria)
         {
             var userProfile = await baseService.GetDataEntityAsync<PermissionFlag>(new UserGetPermissionCriteria
             {
@@ -1021,11 +1021,11 @@
                 ViewBag.CountriesFlag = userProfile.CountryCodeListFlag;
                 ViewBag.MarketsFlag = userProfile.BetTypeIDListFlag;
 
-                await ProfileForEditAffiliateWithLicenseeAdminAndSubAccountRole(criteria);
+                await ProfileForEditAffiliateWithLicenseeAdminAndSubAccountRoleAsync(criteria);
             }
         }
 
-        private async Task ProfileForAddAffiliateWithLicenseeAdminAndSubAccountRole()
+        private async Task ProfileForAddAffiliateWithLicenseeAdminAndSubAccountRoleAsync()
         {
             // OddsType
             var oddsTypes = (await baseService.GetDataAsync<SystemSetting>(new GetTypeSettingCriteria { SystemID = sessionService.SystemId, Type = OddsTypeSettingType }))
@@ -1059,7 +1059,7 @@
                 .Select(x => new SelectListItem { Value = x.SportType.ToString(), Text = x.SportName }).ToList();
         }
 
-        private async Task ProfileForEditAffiliateWithLicenseeAdminAndSubAccountRole(UpdateProfileCriteria criteria)
+        private async Task ProfileForEditAffiliateWithLicenseeAdminAndSubAccountRoleAsync(UpdateProfileCriteria criteria)
         {
             // OddsType
             var oddsTypes = (await baseService.GetDataAsync<SystemSetting>(new GetTypeSettingCriteria { SystemID = sessionService.SystemId, Type = OddsTypeSettingType }))
