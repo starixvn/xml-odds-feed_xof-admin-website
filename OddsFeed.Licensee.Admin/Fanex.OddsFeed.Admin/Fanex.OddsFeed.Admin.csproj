@@ -262,6 +262,9 @@
     <Content Include="App_Data\SpNames.MNL.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="App_Data\SpNames.KLDR.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="App_Data\SpNames.PROD.xml">
       <SubType>Designer</SubType>
     </Content>
