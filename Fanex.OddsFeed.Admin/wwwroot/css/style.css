@@ -307,7 +307,7 @@ input.button, input.button-icon {
     width: 16px;
     height: 16px;
     margin: 5px auto;
-    background: transparent url("Images/loading.gif") no-repeat 0 0;
+    background: transparent url("images/loading.gif") no-repeat 0 0;
     opacity: 0.5; }
 
 .buttons {
@@ -417,7 +417,7 @@ body {
 .content_wrap .content_scroll {
     overflow-y: auto;
     position: absolute;
-    xxxbackground: url(Images/bg_home.jpg) repeat;
+    xxxbackground: url('images/bg_home.jpg') repeat;
     top: 50px;
     left: 0;
     bottom: 0;
@@ -427,7 +427,7 @@ body {
 .content_wrap .content_scrolldashboard {
     overflow-y: auto;
     position: absolute;
-    xxxbackground: url(Images/bg_home.jpg) repeat;
+    xxxbackground: url('images/bg_home.jpg') repeat;
     top: 0px;
     left: 0;
     bottom: 0;
@@ -567,7 +567,7 @@ body {
 .right_pane_visible .right_wrap .separator {
     position: fixed;
     height: 24px;
-    background: url(Images/sprite_v.png) repeat-x 0px -83px;
+    background: url('images/sprite_v.png') repeat-x 0px -83px;
     z-index: 10;
     right: 0;
     width: 323px; }
@@ -692,7 +692,7 @@ p.extra_margin_top {
     line-height: 26px;
     padding-right: 16px;
     padding-left: 5px;
-    background: transparent url("Images/breadcrumb.png") no-repeat right center;
+    background: transparent url("images/breadcrumb.png") no-repeat right center;
     top: 0; }
 .breadcrumb .step:last-child {
       padding-right: 0;
@@ -701,7 +701,7 @@ p.extra_margin_top {
     color: #777777; }
 
 .header_wrap {
-  background: #000000 url("Images/top-bg.png") repeat;
+  background: #000000 url("images/top-bg.png") repeat;
   height: 46px;
   border-top: 1px solid #f5f5f5;
   border-bottom: 1px solid #898989;
@@ -739,7 +739,7 @@ div.header #user_utilities
 div.header #user_utilities h2 
     {
         width:auto !important;
-      background: url(Images/sprite_btn.png) -126px 0 no-repeat;
+      background: url(images/sprite_btn.png) -126px 0 no-repeat;
       display: block;
       float: left;
       clear: none;
@@ -763,7 +763,7 @@ div.header #user_utilities .dropdown_arrow {
       clear: none;
       width: 32px;
       height: 28px;
-      background: url(Images/sprite_btn.png) -474px 0 no-repeat;
+      background: url(images/sprite_btn.png) -474px 0 no-repeat;
       margin: 0; }
 div.header #user_utilities ol {
       position: absolute;
@@ -816,9 +816,9 @@ div.header #user_utilities ol li a:hover, div.header #user_utilities ol li a:vis
     color: #535353;
     text-decoration: none; }
 div.header #user_utilities:hover h2 {
-    background: url(Images/sprite_btn.png) -126px -28px no-repeat; }
+    background: url(images/sprite_btn.png) -126px -28px no-repeat; }
 div.header #user_utilities:hover .dropdown_arrow {
-    background: url(Images/sprite_btn.png) -474px -28px no-repeat; }
+    background: url(images/sprite_btn.png) -474px -28px no-repeat; }
 div.header #user_utilities:hover ol {
     display: block; }
 div.header #quick_add_buttons {
@@ -889,7 +889,7 @@ form {
   right: 5px;
   width: 45px; }
   .plus_icon span {
-    background: url("Images/sprite_btn.png") right -392px no-repeat;
+    background: url("images/sprite_btn.png") right -392px no-repeat;
     margin-left: 20px;
     font-size: 11px;
     font-weight: bold;
@@ -904,7 +904,7 @@ form {
       background-position: right -412px; }
 
 .attach_icon {
-  background-image: url("Images/_sprites_16px.png");
+  background-image: url("images/_sprites_16px.png");
   background-position: -128px 0px;
   background-repeat: no-repeat;
   display: inline-block;
@@ -914,7 +914,7 @@ form {
   width: 16px;
   height: 16px; }
   .attach_icon:hover {
-    background-image: url("Images/_sprites_16px.png");
+    background-image: url("images/_sprites_16px.png");
     background-position: -128px -16px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -925,7 +925,7 @@ form {
     height: 16px; }
 
 .comment_icon {
-  background-image: url("Images/_sprites_16px.png");
+  background-image: url("images/_sprites_16px.png");
   background-position: -48px 0px;
   background-repeat: no-repeat;
   display: inline-block;
@@ -935,7 +935,7 @@ form {
   width: 16px;
   height: 16px; }
   .comment_icon:hover {
-    background-image: url("Images/_sprites_16px.png");
+    background-image: url("images/_sprites_16px.png");
     background-position: -48px -16px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -946,7 +946,7 @@ form {
     height: 16px; }
 
 .task_icon {
-  background-image: url("Images/_sprites_16px.png");
+  background-image: url("images/_sprites_16px.png");
   background-position: -64px 0px;
   background-repeat: no-repeat;
   display: inline-block;
@@ -956,7 +956,7 @@ form {
   width: 16px;
   height: 16px; }
   .task_icon:hover {
-    background-image: url("Images/_sprites_16px.png");
+    background-image: url("images/_sprites_16px.png");
     background-position: -64px -16px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -967,7 +967,7 @@ form {
     height: 16px; }
 
 .page_icon {
-  background-image: url("Images/_sprites_16px.png");
+  background-image: url("images/_sprites_16px.png");
   background-position: -96px 0px;
   background-repeat: no-repeat;
   display: inline-block;
@@ -977,7 +977,7 @@ form {
   width: 16px;
   height: 16px; }
   .page_icon:hover {
-    background-image: url("Images/_sprites_16px.png");
+    background-image: url("images/_sprites_16px.png");
     background-position: -96px -16px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -988,13 +988,13 @@ form {
     height: 16px; }
 
 .style_icon {
-  background: url(Images/ico/edit-small-caps.png) no-repeat;
+  background: url(images/ico/edit-small-caps.png) no-repeat;
   height: 20px;
   width: 20px;
   display: block; }
 
 .left_arrow_icon {
-  background-image: url("Images/_sprites_16px.png");
+  background-image: url("images/_sprites_16px.png");
   background-position: -176px 3px;
   background-repeat: no-repeat;
   display: inline-block;
@@ -1004,7 +1004,7 @@ form {
   width: 16px;
   height: 16px; }
   .left_arrow_icon:hover {
-    background-image: url("Images/_sprites_16px.png");
+    background-image: url("images/_sprites_16px.png");
     background-position: -176px -13px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1015,7 +1015,7 @@ form {
     height: 16px; }
 
 .loading_icon {
-  background-image: url("Images/loading.gif");
+  background-image: url("images/loading.gif");
   background-position: 0 0;
   background-repeat: no-repeat;
   display: inline-block;
@@ -1026,7 +1026,7 @@ form {
   height: 16px; }
 
 .google_docs_icon {
-  background-image: url("Images/google_docs/icon_6_document.gif");
+  background-image: url("images/google_docs/icon_6_document.gif");
   background-position: 0 0;
   background-repeat: no-repeat;
   display: inline-block;
@@ -1042,7 +1042,7 @@ form {
   padding: 0 !important;
   vertical-align: middle; }
   .icon.phone {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: 0px 0px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1052,7 +1052,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.users {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -24px 0px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1062,7 +1062,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.tick {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -48px 0px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1072,7 +1072,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.balloon {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -72px 0px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1082,7 +1082,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.gear {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -96px 0px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1092,7 +1092,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.folder, .uploads_content .folder.children-folder .icon {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -120px 0px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1102,7 +1102,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.pages {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -144px 0px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1112,7 +1112,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.news {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -168px 0px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1122,7 +1122,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.calendar {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -192px 0px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1132,7 +1132,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.building {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -216px 0px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1142,7 +1142,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.star {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: 0px -24px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1152,7 +1152,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.info {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -24px -24px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1162,7 +1162,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.pin {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -48px -24px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1172,7 +1172,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.pin_remove {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -72px -24px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1182,7 +1182,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.pin_add {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -96px -24px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1192,7 +1192,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.mail {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -120px -24px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1202,7 +1202,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.twitter {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -144px -24px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1212,7 +1212,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.fingerprint {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -168px -24px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1222,7 +1222,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.map {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -192px -24px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1232,7 +1232,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.web {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -216px -24px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1242,7 +1242,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.arrow_left, .uploads_content .folder.parent-folder .icon {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: 0px -48px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1252,7 +1252,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.glass {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -24px -48px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1262,7 +1262,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.card {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -48px -48px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1272,7 +1272,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.user {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -72px -48px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1282,7 +1282,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.gantt {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -96px -48px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1292,7 +1292,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.currency {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -120px -48px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1302,7 +1302,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.clock {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -144px -48px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1312,7 +1312,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.arrow_left_up {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -168px -48px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1322,7 +1322,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.store {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -192px -48px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1332,7 +1332,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.key {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -216px -48px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1342,7 +1342,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.plus {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: 0px -72px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1352,7 +1352,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.geckoboard {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -24px -72px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1362,7 +1362,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.eye {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -48px -72px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1378,7 +1378,7 @@ form {
     .icon.eye.hoverable:hover {
       opacity: 0.7 !important; }
   .icon.empty_check, .resolved_switch {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -72px -72px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1388,7 +1388,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.tick_check, .resolved_switch:hover, div .resolved_switch.loading, .status_3 .resolved_switch, .status_4 .resolved_switch {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -96px -72px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1398,7 +1398,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.plus_small {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -120px -72px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1408,7 +1408,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.minus_small {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -216px -96px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1418,7 +1418,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.folder_open, .uploads_content .folder.active .icon {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -144px -72px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1428,7 +1428,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.task_list {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -168px -72px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1438,7 +1438,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.task_add {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -192px -72px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1448,7 +1448,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.balloon_add {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -216px -72px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1458,7 +1458,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.magnifier {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: 0px -96px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1468,7 +1468,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.small_pencil {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -24px -96px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1478,7 +1478,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.small_pencil_gray {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -48px -96px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1488,7 +1488,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.lock {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -72px -96px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1498,7 +1498,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.paperclip {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -96px -96px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1508,7 +1508,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.gdoc, .uploads_content .gdocs.children-folder .icon {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -120px -96px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1518,7 +1518,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.arrow_circle {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -144px -96px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1529,7 +1529,7 @@ form {
     height: 24px;
     padding: 0; }
   .icon.cross {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -168px -96px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1539,7 +1539,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.information {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -192px -96px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1553,7 +1553,7 @@ form {
       .icon.information.hoverable:hover {
         opacitiy: 1; }
   .icon.minus_small {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -216px -96px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1563,7 +1563,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.xxxxx {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: 0px -168px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1573,7 +1573,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.xxxxx {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -24px -168px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1583,7 +1583,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.blueprint {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -48px -168px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1593,7 +1593,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.share_folder {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -72px -168px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1603,7 +1603,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.share_file {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -96px -168px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1613,7 +1613,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.globe {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -120px -168px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1623,7 +1623,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.pencil {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -144px -168px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1633,7 +1633,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.funnel {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -168px -168px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1643,7 +1643,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.move_vertical {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -192px -168px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1653,7 +1653,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.plus_medium {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -216px -168px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1663,7 +1663,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.email_send_small {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: 0px -192px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1673,7 +1673,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.cross_small {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -24px -192px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1683,7 +1683,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.arrow_right {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -48px -192px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1693,7 +1693,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.arrow_left_medium {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -72px -192px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1703,7 +1703,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.arrow_right_medium {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -96px -192px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1713,7 +1713,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.printer {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -120px -192px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1723,7 +1723,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.box-service {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -144px -192px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1733,7 +1733,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.comment-bubble {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -168px -192px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1743,7 +1743,7 @@ form {
     width: 24px;
     height: 24px; }
   .icon.xxxxx {
-    background-image: url("Images/sprite_ico_2012-05-15.png");
+    background-image: url("images/sprite_ico_2012-05-15.png");
     background-position: -192px -192px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1759,7 +1759,7 @@ form {
   height: 24px;
   vertical-align: middle; }
   .icon_big.user {
-    background-image: url("Images/sprite_ico_big.png");
+    background-image: url("images/sprite_ico_big.png");
     background-position: 0px 0px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -1805,7 +1805,7 @@ form {
       box-shadow: inset 1px 1px 0px white;
       -webkit-box-shadow: inset 1px 1px 0px white;
       -moz-box-shadow: inset 1px 1px 0px white;
-      background: url(Images/sprite_v.png) repeat-x 0px -83px;
+      background: url(images/sprite_v.png) repeat-x 0px -83px;
       padding: 5px 10px;
       position: relative;
       height: 16px;
@@ -2059,7 +2059,7 @@ ul#quicksearch_results {
     color: #444444; }
 
   a.gantt_link {
-    background-image: url("Images/_sprites_16px.png");
+    background-image: url("images/_sprites_16px.png");
     background-position: -240px -48px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -2068,7 +2068,7 @@ ul#quicksearch_results {
     _height: 16px; }
 
   a.calendars_link {
-    background-image: url("Images/_sprites_16px.png");
+    background-image: url("images/_sprites_16px.png");
     background-position: -240px 0px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -2077,7 +2077,7 @@ ul#quicksearch_results {
     _height: 16px; }
 
   a.csv_link {
-    background-image: url("Images/_sprites_16px.png");
+    background-image: url("images/_sprites_16px.png");
     background-position: -240px -112px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -2086,7 +2086,7 @@ ul#quicksearch_results {
     _height: 16px; }
 
   a.print_link {
-    background-image: url("Images/_sprites_16px.png");
+    background-image: url("images/_sprites_16px.png");
     background-position: -240px -64px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -2095,7 +2095,7 @@ ul#quicksearch_results {
     _height: 16px; }
 
   a.email_link {
-    background-image: url("Images/_sprites_16px.png");
+    background-image: url("images/_sprites_16px.png");
     background-position: -240px -32px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -2104,7 +2104,7 @@ ul#quicksearch_results {
     _height: 16px; }
 
   a.public_link {
-    background-image: url("Images/_sprites_16px.png");
+    background-image: url("images/_sprites_16px.png");
     background-position: -240px -80px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -2114,7 +2114,7 @@ ul#quicksearch_results {
 
   a.leave_link {
     margin-top: 20px;
-    background-image: url("Images/_sprites_16px.png");
+    background-image: url("images/_sprites_16px.png");
     background-position: -240px -96px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -2137,7 +2137,7 @@ ul#quicksearch_results {
 
   a.subscribe {
     margin-top: 15px;
-    background-image: url("Images/_sprites_16px.png");
+    background-image: url("images/_sprites_16px.png");
     background-position: -240px -16px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -2165,7 +2165,7 @@ ul#quicksearch_results {
     font-size: 13px;
     padding-left: 25px;
     margin: 8px 0;
-    background-image: url("Images/_sprites_16px.png");
+    background-image: url("images/_sprites_16px.png");
     background-position: -240px 0px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -2310,14 +2310,14 @@ ul#quicksearch_results {
     padding-right: 10px;
     margin: 10px 15px;
     display: block;
-    background: url(Images/sprite_btn.png) right -56px no-repeat; }
+    background: url(images/sprite_btn.png) right -56px no-repeat; }
 .nav_links .btn_new_project a {
     font-size: 11px;
     color: red;
     height: 16px;
     padding-top: 7px;
     padding-left: 40px;
-    background: url(Images/sprite_btn.png) -126px -56px no-repeat;
+    background: url(images/sprite_btn.png) -126px -56px no-repeat;
     margin-left: -3px;
     text-shadow: rgba(255, 255, 255, 0.7) 1px 1px 0px; }
 .nav_links .btn_new_project:active {
@@ -2947,22 +2947,22 @@ div.message {
   -moz-box-shadow: 0px 0px 1px #999999 inset; }
 
 .background_picker a.original, body.original .content_scroll, body.original .background_preview {
-  background: url(Images/bg_home.jpg) #dddddd; }
+  background: url(images/bg_home.jpg) #dddddd; }
 
 .background_picker a.irongrip, body.irongrip .content_scroll, body.irongrip .background_preview {
-  background: url(Images/backgrounds/irongrip.png) #dddddd; }
+  background: url(images/backgrounds/irongrip.png) #dddddd; }
 
 .background_picker a.wood, body.wood .content_scroll, body.wood .background_preview {
-  background: url(Images/backgrounds/wood_pattern.png) #dddddd; }
+  background: url(images/backgrounds/wood_pattern.png) #dddddd; }
 
 .background_picker a.white_brick, body.white_brick .content_scroll, body.white_brick .background_preview {
-  background: url(Images/backgrounds/white_brick_wall.png) #dddddd; }
+  background: url(images/backgrounds/white_brick_wall.png) #dddddd; }
 
 .background_picker a.green_dust, body.green_dust .content_scroll, body.green_dust .background_preview {
-  background: url(Images/backgrounds/green_dust_scratch.png) #dddddd; }
+  background: url(images/backgrounds/green_dust_scratch.png) #dddddd; }
 
 .background_picker a.leather, body.leather .content_scroll, body.leather .background_preview {
-  background: url(Images/backgrounds/leather_1.png) #dddddd; }
+  background: url(images/backgrounds/leather_1.png) #dddddd; }
 
 
 
@@ -3061,7 +3061,7 @@ img.sticky-close {
 }
 
 .icon.remark {
-    background-image: url("Styles/Images/icons.png");
+    background-image: url("Styles/images/icons.png");
     background-position: -168px -192px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -3073,7 +3073,7 @@ img.sticky-close {
     }
     
 .icon.remark:hover {
-    background-image: url("Styles/Images/icons.png");
+    background-image: url("Styles/images/icons.png");
     background-position: -48px -240px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -3085,7 +3085,7 @@ img.sticky-close {
     }
     
  .icon.shiftinfo {
-    background-image: url("Styles/Images/icons.png");
+    background-image: url("Styles/images/icons.png");
     background-position: -24px -24px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -3097,7 +3097,7 @@ img.sticky-close {
     }
     
  .icon.delete {
-    background-image: url("Styles/Images/icons.png");
+    background-image: url("Styles/images/icons.png");
     background-position: -168px -96px;
     background-repeat: no-repeat;
     display: inline-block;
@@ -3187,7 +3187,7 @@ img.sticky-close {
 }
 .infor-ic
 {
-    background-image: url(Images/basic-icon.png);
+    background-image: url(images/basic-icon.png);
     background-repeat: no-repeat;
 }
 .infor-ic

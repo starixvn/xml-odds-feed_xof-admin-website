@@ -6,43 +6,37 @@
 
     public class CurrentContext : ICurrentContext
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IHttpContextAccessor httpContextAccessor;
 
         public CurrentContext(IHttpContextAccessor httpContextAccessor)
         {
-            _httpContextAccessor = httpContextAccessor;
+            this.httpContextAccessor = httpContextAccessor;
         }
 
         public string IP
         {
             get
             {
-                var clientIp = _httpContextAccessor?.HttpContext?.Request.Headers["X-Forwarded-For"];
+                var clientIp = httpContextAccessor.HttpContext.Request.Headers["X-Forwarded-For"];
                 if (!string.IsNullOrEmpty(clientIp))
                 {
-                    var forwardedIps = clientIp?.ToString().Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                    clientIp = forwardedIps?.Last().Trim();
+                    var forwardedIps = clientIp.ToString().Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                    clientIp = forwardedIps.Last().Trim();
                 }
                 else
                 {
-                    clientIp = _httpContextAccessor?.HttpContext?.Connection?.RemoteIpAddress?.ToString();
+                    clientIp = httpContextAccessor.HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
                 }
 
-                if (clientIp?.ToString() == "::1")
+                if (clientIp.ToString() == "::1")
                 {
                     clientIp = "127.0.0.1";
                 }
 
-                return clientIp?.ToString() == null ? "" : clientIp;
+                return clientIp.ToString() == null ? "" : clientIp;
             }
         }
 
-        public string DomainName
-        {
-            get
-            {
-                return _httpContextAccessor.HttpContext.Request.Host.Host;
-            }
-        }
+        public string DomainName => httpContextAccessor.HttpContext.Request.Host.Host;
     }
 }

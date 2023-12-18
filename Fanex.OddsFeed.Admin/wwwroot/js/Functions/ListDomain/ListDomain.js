@@ -36,9 +36,9 @@ function renderBodyRows(domains) {
                     Name: 'Action',
                     Value: "<div style='text-align:center;'>" +
                         "<a title='Edit' href='javascript:UpdateDomain(" + JSON.stringify(domain) + ")'><img src='" +
-                        currentDomainURL + "css/Images/Edit.png' alt='Edit'></a>&nbsp&nbsp;" +
+                        currentDomainURL + "css/images/Edit.png' alt='Edit'></a>&nbsp&nbsp;" +
                         "<a title='Delete' href='javascript:DeleteDomain(" + domain.domainId + ")'><img src='" +
-                        currentDomainURL + "css/Images/Delete.gif' alt='Delete'></a></div>"
+                        currentDomainURL + "css/images/Delete.gif' alt='Delete'></a></div>"
                 },
                 { Name: 'CreatedDate', Value: domain.createdDate },
                 { Name: 'IP', Value: domain.ip },

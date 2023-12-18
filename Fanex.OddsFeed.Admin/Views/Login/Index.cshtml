@@ -4,18 +4,18 @@
 }
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="utf-8" />
+    <title>LICENSEE ADMIN - Login</title>
     <meta name="viewport" content="width=device-width" />
-    <title>Login</title>
-    <link rel="stylesheet" href="~/minify/css/login.min.css" asp-append-version="true">
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <link rel="stylesheet" href="~/minify/css/login.min.css" asp-append-version="true" />
 </head>
 <body>
     <form >
         <div class="lgbox">
-            <div class="lgright">
-                &nbsp;
-            </div>
+            <div class="lgright">&nbsp;</div>
             <div class="lgcontent">
                 <div class="row line">
                     <span class="icadmin">&nbsp;</span>
@@ -44,11 +44,13 @@
                 </div>
                 <div class="row">
                     <div class="grid3">&nbsp;</div>
-                    <div class="grid5">
+                    <div class="grid5 flex">
                         <input asp-for="Validate" class="form-control" id="validate" name="validate" style="width: 100px" maxlength="4" />
-                        <img id="imgCaptchaId" alt="Validation Code" src="@Url.Action("ShowCaptchaImage", "login")" width="40" height="20" />
-                        <span class="icrefresh" id="refreshCaptcha" style="cursor: pointer;" onclick="ChangeCapchaCode('imgCaptchaId');">&nbsp;</span>
-                        <span style="margin-left: 40px"></span>
+                        <div class="captcha-container">
+                            <img id="imgCaptchaId" class="captcha-image" alt="Validation Code" src="@Url.Action("ShowCaptchaImage", "login")" width="40" height="20" />
+                            <span id="captchaCode" class="captcha-code"></span>
+                        </div>
+                        <span class="icrefresh" id="refreshCaptcha">&nbsp;</span>
                         <button id="submit" type="button" class="btn btn-primary">Login</button>
                     </div>
                 </div>
@@ -59,7 +61,6 @@
     <script type="text/javascript">
         var currentDomainURL = '@Url.Content("~/")';
     </script>
-    <script src="~/js/login/login.js"></script>
-    <script src="~/js/Libs/jquery.js"></script>
+    <script src="~/minify/js/login.min.js" asp-append-version="true"></script>
 </body>
 </html>

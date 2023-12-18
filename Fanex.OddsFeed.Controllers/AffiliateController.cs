@@ -74,7 +74,7 @@
             if (IsAccountManagerRole())
             {
                 ViewBag.HasAccountManagerPermission = true;
-                await AddAffiliateWithAccountManagerRoleAsync(licenseeProfile,criteria);
+                await AddAffiliateWithAccountManagerRoleAsync(criteria, licenseeProfile);
             }
             else if (IsLicenseeAdminRole())
             {
@@ -341,7 +341,7 @@
             if (IsAccountManagerRole())
             {
                 ViewBag.HasAccountManagerPermission = true;
-                await GetAffiliateProfileWithAccountManageRoleAsync(affiliateProfile,criteria);
+                await GetAffiliateProfileWithAccountManageRoleAsync(criteria, affiliateProfile);
             }
             else if (IsLicenseeAdminRole())
             {
@@ -746,7 +746,7 @@
 
         #region Account Manager
 
-        private async Task AddAffiliateWithAccountManagerRoleAsync(LicenseeProfile? licenseeProfile, InsertAffiliateCriteria criteria)
+        private async Task AddAffiliateWithAccountManagerRoleAsync(InsertAffiliateCriteria criteria, LicenseeProfile licenseeProfile = null)
         {
             if (licenseeProfile != null)
             {
@@ -840,7 +840,7 @@
             }
         }
 
-        private async Task GetAffiliateProfileWithAccountManageRoleAsync(LicenseeProfile? affiliateProfile, UpdateProfileCriteria criteria)
+        private async Task GetAffiliateProfileWithAccountManageRoleAsync(UpdateProfileCriteria criteria, LicenseeProfile affiliateProfile = null)
         {
             if (affiliateProfile != null)
             {
@@ -944,7 +944,7 @@
 
         #region LicenseeAdmin/Sub-Acc
 
-        private async Task AddAffiliateWithLicenseeAdminRoleAsync(LicenseeProfile? licenseeProfile)
+        private async Task AddAffiliateWithLicenseeAdminRoleAsync(LicenseeProfile licenseeProfile = null)
         {
             if (licenseeProfile != null)
             {

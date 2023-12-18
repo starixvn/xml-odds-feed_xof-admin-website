@@ -2,6 +2,8 @@
     ViewBag.Title = "NavBar";
 }
 <div class="column">
+    <input type="hidden" id="currentUrl" value="@(ViewBag.Controller.ToString().ToLower() + "_" + ViewBag.Action.ToString().ToLower())" />
+    <input type="hidden" id="minDate" value="@ViewBag.Action.ToString().ToLower()" />
     <div class="nav_links">
         <div id="0" class="overview_section togglable_section">
             <div class="separator first">
@@ -13,29 +15,18 @@
                 <span class="xicon dashboard"></span><a href="~/Dashboard/ShowDashboard">My Dashboard</a>
             </div>
             <div data-hashovermenu="True" class="el" id="affiliate_list">
-                <span class="xicon afflist"></span><a href="~/Affiliate/List">
-                    Affiliate
-                    List
-                </a> @*<div class="hoveraction hide" style="display: none;">
-                <a href="/leave/create" title="Create new leave request">
-                <span class="xicon plus"></span></a>
-                </div>*@
+                <span class="xicon afflist"></span><a href="~/Affiliate/List">Affiliate List</a>
             </div>
             <div data-hashovermenu="True" class="el" id="affiliate_add">
                 <span class="xicon addaff"></span><a href="~/Affiliate/Add">Add Affiliate</a>
             </div>
             <div data-hashovermenu="False" class="el" id="affiliate_requests">
-                <span class="xicon affstatistic"></span><a href="~/Affiliate/Requests">
-                    Affiliate's Statistics
-                </a>
+                <span class="xicon affstatistic"></span><a href="~/Affiliate/Requests">Affiliate's Statistics</a>
             </div>
             @if (ViewBag.RoleID == 1 || ViewBag.RoleID == 2) //IT admin or Licensee
             {
                 <div data-hashovermenu="True" class="el" id="subaccount_list">
-                    <span class="xicon subacclst"></span><a href="~/SubAccount/List">
-                        Sub-account
-                        List
-                    </a>
+                    <span class="xicon subacclst"></span><a href="~/SubAccount/List">Sub-account List</a>
                 </div>
                 <div data-hashovermenu="True" class="el" id="subaccount_add">
                     <span class="xicon addsubacc"></span><a href="~/SubAccount/Add">Add sub-account</a>
@@ -85,43 +76,3 @@
         }
     </div>
 </div>
-
-<script src="~/js/libs/jquery.js" asp-append-version="true"></script>
-
-<script type="text/javascript">
-    $(document).ready(function () {
-        var currentUrl = '@(ViewBag.Controller.ToString().ToLower() + "_" + ViewBag.Action.ToString().ToLower())';
-        var selectNavItem = $("#" + currentUrl);
-        if (selectNavItem != undefined) {
-            selectNavItem.addClass("selected");
-        }
-
-        //show/hide navigation secion
-        $("div.togglable_section").bind("click", function () {
-
-            var currentSection = $(this);
-            var divItems = currentSection.next("div.navItem");
-            if (currentSection.hasClass("folded")) {
-                currentSection.removeClass("folded");
-                divItems.show(200);
-            }
-            else {
-
-                currentSection.addClass("folded");
-                divItems.hide(200);
-            }
-        });
-
-        //add style for first item section
-        $("div.togglable_section:first-child").children(":first").addClass("first");
-
-        $('.el[data-hashovermenu=True], .el[data-hashovermenu=data-hashovermenu]').hover(
-            function () {
-                $(this).find('.hoveraction').fadeIn(400);
-            }, function () {
-                $(this).find('.hoveraction').hide();
-            });
-    });
-
-
-</script>

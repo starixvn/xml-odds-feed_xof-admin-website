@@ -2,6 +2,7 @@
 {
     using Fanex.Caching;
     using Fanex.Data.Repository;
+    using Fanex.Logging;
     using Fanex.OddsFeed.Core;
     using Fanex.OddsFeed.Core.Context;
     using Fanex.OddsFeed.Models;
@@ -52,6 +53,7 @@
             services.AddSingleton<IMaintenanceService, MaintenanceService>();
             #endregion ONEbookUM
 
+            services.AddSingleton<ILogger, Logger>();
             services.AddSingleton<ICurrentContext, CurrentContext>();
             services.AddScoped<ISessionService, SessionService>();
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
@@ -66,8 +68,6 @@
 
         private static void RegisterBundlesCSS(IAssetPipeline pipeline)
         {
-            pipeline.MinifyCssFiles();
-
             pipeline.AddCssBundle("minify/css/login.min.css",
                 "css/login.css");
             pipeline.AddCssBundle("minify/css/fanexgrid.min.css",
@@ -90,11 +90,15 @@
                 "css/Affiliate/AffiliateEdit.css");
             pipeline.AddCssBundle("minify/css/licensee.min.css",
                 "css/Licensee/LicenseeEdit.css");
+
+            pipeline.MinifyCssFiles("minify/css/*.css");
         }
 
         private static void RegisterBundlesJS(IAssetPipeline pipeline)
-        {
-            pipeline.MinifyJsFiles();
+        {            
+            pipeline.AddJavaScriptBundle("/minify/js/login.min.js",
+                "js/Libs/jquery.js",
+                "js/login/login.js");
 
             pipeline.AddJavaScriptBundle("minify/js/updatepassword.min.js",
                 "js/User/UpdatePassword.js");
@@ -193,6 +197,8 @@
                 "js/Affiliate/AddAffiliateStep3.js",
                 "js/Affiliate/AddAffiliateStep4.js",
                 "js/Affiliate/EditAffiliate.js");
+                
+            pipeline.MinifyJsFiles("minify/js/*.js");
         }
     }
 }
