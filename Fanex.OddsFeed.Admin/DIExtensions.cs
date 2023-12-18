@@ -80,6 +80,8 @@
                 "css/style.css",
                 "css/site.css",
                 "css/home.css",
+                "css/themes/Aristo/jquery.ui.css",
+                "css/jquery.contextMenu.css",
                 "css/msgbox/msgbox-0.0.1.css",
                 "css/select2.min.css");
             pipeline.AddCssBundle("minify/css/administrator.min.css",
@@ -109,6 +111,7 @@
             pipeline.AddJavaScriptBundle("minify/js/common.min.js",
                 "js/Libs/jquery.js",
                 "js/Libs/jquery.ui.js",
+                "js/Libs/jquery.contextMenu.js",
                 "js/Libs/msgbox/msgbox-0.0.1.js",
                 "js/Libs/select2.min.js",
                 "js/Libs/common.js",

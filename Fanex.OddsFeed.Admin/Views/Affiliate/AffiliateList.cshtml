@@ -38,14 +38,14 @@
 </div>
 <div>
     <div class="formSearch">
-        @Html.HiddenFor(s => s.PageSize)
-        @Html.HiddenFor(s => s.PageIndex)
-        @Html.HiddenFor(s => s.PageCount)
+        <input asp-for="PageSize" type="hidden" />
+        <input asp-for="PageIndex" type="hidden" />
+        <input asp-for="PageCount" type="hidden" />
         <div class="grid_3">
-            @Html.LabelFor(s => s.UserName, "Username")
+            <label asp-for="UserName">Username</label>
         </div>
         <div class="grid_6">
-            @Html.TextBoxFor(s => s.UserName, new { @id = "Username", @maxlength = 50, @onkeyup = "StartAutoSuggesttion()", @class = "username-autocomplete",placeholder = "Username" })
+            <input asp-for="UserName" id="Username" maxlength="50" onkeyup="StartAutoSuggesttion()" class="username-autocomplete" placeholder="Username" />
         </div>
         <input type="hidden" id="IsActivateSystem" value="@ViewBag.IsActivateSystem" />
         <div class="grid1">
