@@ -1,8 +1,6 @@
 ﻿namespace Fanex.OddsFeed.Controllers
 {
     using System;
-    using System.Drawing;
-    using System.Drawing.Imaging;
     using System.IO;
     using System.Threading.Tasks;
     using System.Web;
@@ -16,6 +14,7 @@
     using Fanex.OddsFeed.Services.Interface;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
+    using SkiaSharp;
 
     public class LoginController : BaseController
     {
@@ -35,19 +34,24 @@
 
         public IActionResult ShowCaptchaImage()
         {
-            #pragma warning disable CA1416 // Validate platform compatibility
-            var bmp = new Bitmap(70, 25);
-            var g = Graphics.FromImage(bmp);
-            g.Clear(Color.CadetBlue);
-            var randomString = LoginCaptcha.GetCaptchaString(4);
-            sessionService.Captcha = randomString;
-            g.DrawString(randomString, new Font("Courier New", 16), new SolidBrush(Color.WhiteSmoke), 2, 2);
-            using (var stream = new MemoryStream())
+            var bmp = new SKBitmap(70, 25);
+            var canvas = new SKCanvas(bmp);
+            canvas.Clear(SKColor.Parse("#FF5F9EA0"));
+
+            var captcha = LoginCaptcha.GetCaptchaString(4);
+            sessionService.Captcha = captcha;
+
+            var paint = new SKPaint
             {
-                bmp.Save(stream, ImageFormat.Jpeg);
-                var imageData = stream.ToArray();
-                return File(imageData, "image/jpeg");
-            }
+                TextSize = 20,
+                Color = SKColors.WhiteSmoke,
+                Typeface = SKTypeface.FromFamilyName("Arial", SKFontStyleWeight.Medium, SKFontStyleWidth.Normal, SKFontStyleSlant.Upright)
+            };
+            canvas.DrawText(captcha, 10, 20, paint);
+            canvas.Flush();
+            var resultImage = SKImage.FromBitmap(bmp);
+            var data = resultImage.Encode(SKEncodedImageFormat.Png, 100);
+            return File(data.ToArray(), "image/jpeg");
         }
 
         [HttpGet]
