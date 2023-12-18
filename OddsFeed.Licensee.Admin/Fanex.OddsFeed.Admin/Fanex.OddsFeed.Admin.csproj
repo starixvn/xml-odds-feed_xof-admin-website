@@ -1055,12 +1055,12 @@
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Web.KLDR.config">
+    <Content Include="Web.KLDR.config">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="Web.KLDR.ConnectionString.config">
+    </Content>
+    <Content Include="Web.KLDR.ConnectionString.config">
       <SubType>Designer</SubType>
-    </None>
+    </Content>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
