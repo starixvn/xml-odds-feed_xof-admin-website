@@ -1,8 +1,11 @@
 ﻿@using Fanex.OddsFeed.Resources
 @using Fanex.OddsFeed.Models.ValueObject
+@using Microsoft.AspNetCore.Html;
 @{
     ViewBag.Title = "Edit authentication settings";
     ViewBag.IsDashboard = false;
+    var slDomain = ViewData["slDomain"] as List<SelectListItem>;
+    var slAssignedDomain = ViewData["slAssignedDomain"] as List<SelectListItem>;
 }
 @section Breadcrumb {
     <a class="step" href="@Url.Action("ShowDashboard", "Dashboard")"><span class='xicon home'></span>Home</a>
@@ -40,7 +43,7 @@
         &nbsp;
     </div>
     <h3>
-        @Html.Raw(ViewResources.HtmlTemplate_InputRequired)
+        @(new HtmlString(ViewResources.HtmlTemplate_InputRequired))
     </h3>
     <h3 id="errorStep2_NumberOfIPs">
         Maximum number of IPs = @ViewBag.NumberOfIPs
@@ -67,25 +70,27 @@
                 border-color: #C8C8C8">
                 <div class="grid6" style="width: 305px">
                     <div class="row">
-                        @Html.Label(ViewResources.DomainList)
+                        <label>@ViewResources.DomainList</label>
                     </div>
                     <div class="row2">
                         <div class="grid4" style="overflow: auto; border: thin none; height: 155px; width: 300px;">
-                            @Html.ListBox("slDomain", null, new { size = 8 })
+                            <select id="slDomain" multiple="multiple" size="8">
+                                @foreach (var item in slDomain)
+                                {
+                                    <option value="@item.Value" selected="@item.Selected">@item.Text</option>
+                                }
+                            </select>
                         </div>
                     </div>
                     <div class="row">
                         <div class="grid4" style="text-align: left;">
-                            @Html.Label("leftShowing", "Showing", new { id = "showingDomainListId" })
+                            <label id="showingDomainListId">Showing</label>
                         </div>
                     </div>
                 </div>
                 <div class="grid2">
                     <div class="row">
                     </div>
-                    <!--[if ie]>
-                        <div id="ieOnly">
-                    <![endif]-->
                     <div class="row btndomain" style="margin-top: 15px;">
                         <span id="btnRight" class="arrow right"></span>
                         <br />
@@ -95,27 +100,29 @@
                         <br />
                         <span id="btnDoubleLeft" class="arrow doubleleft"></span>
                     </div>
-                    <!--[if ie]>
-                    </div>
-                    <![endif]-->
                 </div>
                 <div class="grid6" style="width: 305px">
                     <div class="row">
-                        @Html.Label("Assigned Domains")
+                        <label>Assigned Domains</label>
                     </div>
                     <div class="row2">
                         <div class="grid4" style="overflow: auto; border: thin none; height: 155px; width: 300px;">
-                            @Html.ListBox("slAssignedDomain", null, new { size = 8 })
+                            <select id="slAssignedDomain" multiple="multiple" size="8">
+                                @foreach (var item in slAssignedDomain)
+                                {
+                                    <option value="@item.Value" selected="@item.Selected">@item.Text</option>
+                                }
+                            </select>
                         </div>
                     </div>
                     <div class="row">
                         <div class="grid4" style="text-align: left;">
-                            @Html.Label("rightShowing", "Showing ", new { id = "showingAssignedDomainId" })
+                            <label id="showingAssignedDomainId">Showing</label>
                         </div>
                     </div>
                 </div>
                 <div class="grid1" style="line-height: 150px; text-align: left">
-                    @Html.Raw(ViewResources.HtmlTemplate_InputRequiredSymbol)
+                    @(new HtmlString(ViewResources.HtmlTemplate_InputRequiredSymbol))
                 </div>
             </div>
         </div>
