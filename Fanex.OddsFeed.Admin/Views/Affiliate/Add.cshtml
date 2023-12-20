@@ -1,10 +1,13 @@
 ﻿@using Fanex.OddsFeed.Core
 @using Fanex.OddsFeed.Criteria.Licensee
 @using Fanex.OddsFeed.Resources;
+@using Microsoft.AspNetCore.Html;
 @model Fanex.OddsFeed.Criteria.Affiliate.InsertAffiliateCriteria
 @{
     ViewBag.Title = "Add affiliate";
     ViewBag.IsDashboard = false;
+    var slDomain = ViewData["slDomain"] as List<SelectListItem>;
+    var slAssignedDomain = ViewData["slAssignedDomain"] as List<SelectListItem>;
     var getLeagueCriteria = new GetLeagueCriteria
     {
         SportIDList = Model.SportIDList,
@@ -87,11 +90,10 @@
     </div>
 </div>
 <div class="newline">&nbsp;</div>
-@using (Html.BeginForm("Home", "Index", FormMethod.Post, new { id = "formAffiliate" }))
-{
+<form id="formAffiliate">
     <div id="step1" class="step">
         <h2>Step 1: Affiliate Information Settings</h2>
-        <h3>@Html.Raw(ViewResources.HtmlTemplate_InputRequireds)</h3>
+        <h3>@(new HtmlString(ViewResources.HtmlTemplate_InputRequireds))</h3>
         <div id="errorStep1" class="validation-summary-errors hidden" data-valmsg-summary="true">
             <ul>
                 <li id="nameReqErr" style="display: none">@ViewResources.Error_NameRequired</li>
@@ -169,7 +171,7 @@
     <div id="step2" class="step hide">
         <h2>Step 2: Authentication Settings</h2>
         <h3>Each affiliate can only access our XML Odds Feeds data under allowed domains and IPs</h3>
-        <h3>@Html.Raw(ViewResources.HtmlTemplate_InputRequired)</h3>
+        <h3>@(new HtmlString(ViewResources.HtmlTemplate_InputRequired))</h3>
         <h3 id="errorStep2_NumberOfIPs">Maximum number of IPs = @ViewBag.NumberOfIPs</h3>
         <div id="errorStep2" class="validation-summary-errors hidden" data-valmsg-summary="true"></div>
         <div class="form2 formAssignDomainSetting">
@@ -180,15 +182,18 @@
                 </div>
                 <div class="grid9" style="height: 220px; border-style: solid; border-width: 1px; border-color: #C8C8C8">
                     <div class="grid6" style="width: 305px">
-                        <div class="row">@Html.Label(ViewResources.DomainList)</div>
+                        <div class="row">
+                            <label>@ViewResources.DomainList</label>
+                        </div>
                         <div class="row2">
                             <div class="grid4" style="overflow: auto; border: thin none; height: 155px; width: 300px;">
-                                @Html.ListBox("slDomain", null, new { size = 8 })
+                                <select id="slDomain" asp-items="slDomain" multiple="multiple" size="8">
+                                </select>
                             </div>
                         </div>
                         <div class="row">
                             <div class="grid4" style="text-align: left;">
-                                @Html.Label("leftShowing", ViewResources.Showing, new { id = "showingDomainListId" })
+                                <label id="showingDomainListId">@ViewResources.Showing</label>
                             </div>
                         </div>
                     </div>
@@ -205,20 +210,21 @@
                         </div>
                     </div>
                     <div class="grid6" style="width: 305px">
-                        <div class="row">@Html.Label(ViewResources.AssignedDomains)</div>
+                        <div class="row">@(new HtmlString(ViewResources.AssignedDomains))</div>
                         <div class="row2">
                             <div class="grid4" style="overflow: auto; border: thin none; height: 155px; width: 300px;">
-                                @Html.ListBox("slAssignedDomain", null, new { size = 8 })
+                                <select id="slAssignedDomain" asp-items="slAssignedDomain" multiple="multiple" size="8">
+                                </select>
                             </div>
                         </div>
                         <div class="row">
                             <div class="grid4" style="text-align: left;">
-                                @Html.Label("rightShowing", ViewResources.Showing, new { id = "showingAssignedDomainId" })
+                                <label id="showingAssignedDomainId">@ViewResources.Showing</label>
                             </div>
                         </div>
                     </div>
                     <div class="grid1" style="line-height: 150px; text-align: left">
-                        @Html.Raw(ViewResources.HtmlTemplate_InputRequiredSymbol)
+                        @(new HtmlString(ViewResources.HtmlTemplate_InputRequiredSymbol))
                     </div>
                 </div>
             </div>
@@ -276,7 +282,7 @@
     <div id="step3" class="step hide">
         <h2>Step 3: Profile Settings</h2>
         <h3>Profile will show which data (sports, markets, results, ...) affiliate should have in xml stream.</h3>
-        <h3>@Html.Raw(ViewResources.HtmlTemplate_InputRequireds)</h3>
+        <h3>@(new HtmlString(ViewResources.HtmlTemplate_InputRequireds))</h3>
         <div id="errorStep3" class="hidden validation-summary-errors" data-valmsg-summary="true"></div>
         <div class="form2" style="width: auto;">
             <input type="hidden" id="oddsTypeFlag" value="@ViewBag.OddsTypeFlag" />
@@ -304,45 +310,51 @@
                 }
 
                 <div class="grid1" style="float: none;">
-                    @Html.Raw(ViewResources.HtmlTemplate_InputRequiredSymbol)
+                    @(new HtmlString(ViewResources.HtmlTemplate_InputRequiredSymbol))
                 </div>
             </div>
             <div class="row">
                 <div class="grid4" style="text-align: right">
                     <label for="id1">@ViewResources.OddsStyle</label>
                 </div>
-                @Html.DropDownListFor(m => m.OddsRegion,
-                    ViewBag.OddsStyleList as IEnumerable<SelectListItem>,
-                    new { @id = "slOddsStyle", @isDisabled = @ViewBag.OddsStyleFlag ? string.Empty : "disabled" })
+
+                <select 
+                    asp-for="OddsRegion" 
+                    asp-items="ViewBag.OddsStyleList"
+                    id="slOddsStyle" disabled="@(!ViewBag.OddsStyleFlag)">
+                </select>
             </div>
             @if (ViewBag.HasAccountManagerPermission == true)
             {
                 <div class="row">
                     <div class="grid4" style="text-align: right">
-                        @Html.LabelFor(m => m.OddsDelayTimes, ViewResources.OddsDelayTime)
+                        <label asp-for="OddsDelayTimes">@ViewResources.OddsDelayTime</label>
                     </div>
                     <div class="grid7">
-                        @Html.LabelFor(m => m.DeadballDelayTimes, ViewResources.Deadball, new { @class = "font-normal" })
-                        @Html.DropDownListFor(m => m.DeadballDelayTimes, (IEnumerable<SelectListItem>)ViewBag.DelayTimeList, new { @style = "width: 50px" })
-                        @Html.LabelFor(m => m.LiveDelayTimes, "Live", new { @class = "font-normal" })
-                        @Html.DropDownListFor(m => m.LiveDelayTimes, (IEnumerable<SelectListItem>)ViewBag.DelayTimeList, new { @style = "width: 50px" })
-                        @Html.LabelFor(m => m.OutrightDelayTimes, ViewResources.Outright, new { @class = "font-normal" })
-                        @Html.DropDownListFor(m => m.OutrightDelayTimes, (IEnumerable<SelectListItem>)ViewBag.DelayTimeList, new { @style = "width: 50px" })
+                        <label asp-for="DeadballDelayTimes" class="font-normal">@ViewResources.Deadball</label>
+                        <select asp-for="DeadballDelayTimes" asp-items="ViewBag.DelayTimeList" style="width: 50px"></select>
+
+                        <label asp-for="LiveDelayTimes" class="font-normal">Live</label>
+                        <select asp-for="LiveDelayTimes" asp-items="ViewBag.DelayTimeList" style="width: 50px"></select>
+
+                        <label asp-for="OutrightDelayTimes" class="font-normal">@ViewResources.Outright</label>
+                        <select asp-for="OutrightDelayTimes" asp-items="ViewBag.DelayTimeList" style="width: 50px"></select>
+
                     </div>
                     <div class="grid4" style="text-align: right">
-                        @Html.LabelFor(m => m.ResultDelayTimes, ViewResources.ResultDelayTime)
+                        <label asp-for="ResultDelayTimes">@ViewResources.ResultDelayTime</label>
                     </div>
                     <div class="grid7">
-                        @Html.DropDownListFor(m => m.ResultDelayTimes, (IEnumerable<SelectListItem>)ViewBag.ResultDelayTimeList, new { @style = "width: 50px" })
+                        <select asp-for="ResultDelayTimes" asp-items="ViewBag.ResultDelayTimeList" style="width: 50px"></select>
                     </div>
                 </div>
                 <div class="row">
                     <div class="grid4" style="text-align: right">
-                        @Html.LabelFor(m => m.NumberOfIPs, ViewResources.NumberOfIPs)
+                        <label asp-for="NumberOfIPs">@ViewResources.NumberOfIPs</label>
                     </div>
-                    @Html.TextBoxFor(m => m.NumberOfIPs, new { @style = "width: 50px", @min = 0 })
+                    <input asp-for="NumberOfIPs" style="width: 50px" min="0" />
                     <div class="grid1" style="float: none;">
-                        @Html.Raw(ViewResources.HtmlTemplate_InputRequiredSymbol)
+                        @(new HtmlString(ViewResources.HtmlTemplate_InputRequiredSymbol))
                     </div>
                 </div>
             }
@@ -363,12 +375,11 @@
                 }
 
                 <div class="grid1" style="float: none;">
-                    @Html.Raw(ViewResources.HtmlTemplate_InputRequiredSymbol)
+                    @(new HtmlString(ViewResources.HtmlTemplate_InputRequiredSymbol))
                 </div>
             </div>
             <div class="row3">
-                @Html.HiddenFor(m => m.SportIDList)
-
+                <input type="hidden" asp-for="SportIDList" />
                 <div class="grid4" style="line-height: 170px; text-align: right">
                     <label for="chkAllMajorSports">
                         @ViewResources.MajorSports
@@ -383,7 +394,7 @@
                             var sport = ViewBag.MajorSportList[i];
                             var id = "SportIDList" + sport.Value.ToString();
                             var isDisabled = ViewBag.SportsFlag ? string.Empty : "disabled";
-                            
+
                             <label class="font-normal">
                                 <input class="chkMajorSport" checked id="@id" isdisabled="@isDisabled" type="checkbox" value="@sport.Value">
                                 @sport.Text
@@ -411,7 +422,7 @@
                             var sport = ViewBag.MinorSportList[i];
                             var id = "SportIDList" + sport.Value.ToString();
                             var isDisabled = ViewBag.SportsFlag ? string.Empty : "disabled";
-                            
+
                             <div>
                                 <input class="chkMinorSport" checked id="@id" isdisabled="@isDisabled" type="checkbox" value="@sport.Value">
                                 <label class="font-normal" for="@id">@sport.Text</label>
@@ -421,7 +432,7 @@
                     </div>
                 </div>
                 <div class="grid1" style="line-height: 150px; text-align: left">
-                    @Html.Raw(ViewResources.HtmlTemplate_InputRequiredSymbol)
+                    @(new HtmlString(ViewResources.HtmlTemplate_InputRequiredSymbol))
                 </div>
             </div>
             <div class="row3">
@@ -440,7 +451,7 @@
                         {
                             var country = ViewBag.CountriesList[i];
                             var id = "CountryCodeList" + country.Value.ToString();
-                            var isDisabled = ViewBag.CountriesFlag ? string.Empty : "disabled";     
+                            var isDisabled = ViewBag.CountriesFlag ? string.Empty : "disabled";
 
                             <div>
                                 <input checked class="chkCountry" id="@id" isdisabled="@isDisabled" type="checkbox" value="@country.Value">
@@ -448,11 +459,11 @@
                             </div>
                         }
 
-                        @Html.HiddenFor(m => m.CountryCodeList)
+                        <input type="hidden" asp-for="CountryCodeList" />
                     </div>
                 </div>
                 <div class="grid1" style="line-height: 170px;">
-                    @Html.Raw(ViewResources.HtmlTemplate_InputRequiredSymbol)
+                    @(new HtmlString(ViewResources.HtmlTemplate_InputRequiredSymbol))
                 </div>
             </div>
             @if (ViewBag.HasAccountManagerPermission == true)
@@ -520,7 +531,7 @@
                     </div>
                 </div>
                 <div class="grid1" style="line-height: 150px; text-align: left">
-                    @Html.Raw(ViewResources.HtmlTemplate_InputRequiredSymbol)
+                    @(new HtmlString(ViewResources.HtmlTemplate_InputRequiredSymbol))
                 </div>
             </div>
             <div class="row">
@@ -550,4 +561,4 @@
             </div>
         </div>
     </div>
-}
+</form>

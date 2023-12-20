@@ -1,5 +1,6 @@
 ﻿@using Fanex.OddsFeed.Criteria.Licensee
 @using Fanex.OddsFeed.Resources;
+@using Microsoft.AspNetCore.Html;
 @model Fanex.OddsFeed.Criteria.Affiliate.UpdateProfileCriteria
 @{
     ViewBag.Title = "Edit Affiliate Profile";
@@ -55,292 +56,289 @@
     </script>
 }
 <div class="newline">&nbsp;</div>
-@using (Html.BeginForm("EditProfile", "Affiliate", FormMethod.Post, new { id = "formAffiliate" }))
-{
+<form asp-action="EditProfile" asp-controller="Affiliate" method="post" id="formAffiliate">
     <div id="editStep3">
         <div class="infor">
             <span class="infor-ic"></span>
             <span class="infor-text">Profile will show which data (sports, markets, results, ...) affiliate should have in xml stream.</span>
         </div>
         <div class="newline">&nbsp;</div>
-        <h3>@Html.Raw(ViewResources.HtmlTemplate_InputRequireds)</h3>
-        @using (Html.BeginForm())
+        <h3>@(new HtmlString(ViewResources.HtmlTemplate_InputRequireds))</h3>
+        @if (ViewBag.Success == true)
         {
-            if (ViewBag.Success == true)
-            {
-                <div id="success-message-box" class="success-message-box">
-                    <ul>
-                        <li>@ViewResources.ActionResult_UpdateAffiliateInfoSuccess</li>
-                    </ul>
-                </div>
-                <input type="hidden" id="successed" value="true" />
-            }
-            else if (!string.IsNullOrEmpty(ViewBag.Error))
-            {
-                <div class="red">@ViewBag.Error</div>
-                <div class="newline">&nbsp;</div>
-            }
-            <div id="errorStep3" class="hidden validation-summary-errors" data-valmsg-summary="true"></div>
-            <div class="result-message-box hidden"></div>
-            @Html.ValidationSummary()
-            @Html.HiddenFor(m => m.PartnerID)
+            <div id="success-message-box" class="success-message-box">
+                <ul>
+                    <li>@ViewResources.ActionResult_UpdateAffiliateInfoSuccess</li>
+                </ul>
+            </div>
+            <input type="hidden" id="successed" value="true" />
+        }
+        else if (!string.IsNullOrEmpty(ViewBag.Error))
+        {
+            <div class="red">@ViewBag.Error</div>
+            <div class="newline">&nbsp;</div>
+        }
+        <div id="errorStep3" class="hidden validation-summary-errors" data-valmsg-summary="true"></div>
+        <div class="result-message-box hidden"></div>
+        <div asp-validation-summary="All"></div>
+        <input asp-for="PartnerID" type="hidden" />
 
-            <input type="hidden" id="oddsTypeFlag" value="@ViewBag.OddsTypeFlag" />
-            <input type="hidden" id="oddsStyleFlag" value="@ViewBag.OddsStyleFlag" />
-            <input type="hidden" id="languagesFlag" value="@ViewBag.LanguagesFlag" />
-            <input type="hidden" id="sportsFlag" value="@ViewBag.SportsFlag" />
-            <input type="hidden" id="countriesFlag" value="@ViewBag.CountriesFlag" />
-            <input type="hidden" id="marketsFlag" value="@ViewBag.MarketsFlag" />
-            <input type="hidden" id="isAccountManagerPermission" value="@ViewBag.HasAccountManagerPermission" />
-            <input type="hidden" id="ActualNumberOfIps" value="@ViewBag.ActualNumberOfIps" />
+        <input type="hidden" id="oddsTypeFlag" value="@ViewBag.OddsTypeFlag" />
+        <input type="hidden" id="oddsStyleFlag" value="@ViewBag.OddsStyleFlag" />
+        <input type="hidden" id="languagesFlag" value="@ViewBag.LanguagesFlag" />
+        <input type="hidden" id="sportsFlag" value="@ViewBag.SportsFlag" />
+        <input type="hidden" id="countriesFlag" value="@ViewBag.CountriesFlag" />
+        <input type="hidden" id="marketsFlag" value="@ViewBag.MarketsFlag" />
+        <input type="hidden" id="isAccountManagerPermission" value="@ViewBag.HasAccountManagerPermission" />
+        <input type="hidden" id="ActualNumberOfIps" value="@ViewBag.ActualNumberOfIps" />
 
-            <div class="form2" style="width: auto;">
-                <div class="row">
-                    <div class="grid4" style="text-align: right">
-                        <label for="id1">@ViewResources.OddsType</label>
-                    </div>
-                    @for (var i = 0; i < ViewBag.OddsTypeList.Count; i++)
-                    {
-                        var oddsType = ViewBag.OddsTypeList[i];
-                        var id = "OddsType" + oddsType.Value.ToString();
-                        var isDisabled = ViewBag.OddsTypeFlag ? string.Empty : "disabled";
-                        var isChecked = Array.IndexOf(ViewBag.OddsType, oddsType.Value.ToString()) > -1;
-                        <label class="font-normal">
-                            <input class="oddstype" @(isChecked ? "checked" : "") id="@id" isdisabled="@isDisabled" type="checkbox" value="@oddsType.Value">
-                            @oddsType.Text
-                        </label>
-                    }
-                    <div class="grid1" style="float: none;">
-                        @Html.Raw(ViewResources.HtmlTemplate_InputRequiredSymbol)
-                    </div>
+        <div class="form2" style="width: auto;">
+            <div class="row">
+                <div class="grid4" style="text-align: right">
+                    <label for="id1">@ViewResources.OddsType</label>
                 </div>
-                <div class="row">
-                    <div class="grid4" style="text-align: right">
-                        <label for="id1">@ViewResources.OddsStyle</label>
-                    </div>
-                    @Html.DropDownListFor(m => m.OddsRegion,
-                        ViewBag.OddsStyleList as IEnumerable<SelectListItem>,
-                        new { @id = "slOddsStyle", @isDisabled = @ViewBag.OddsStyleFlag ? string.Empty : "disabled" })
-                </div>
-                @if (ViewBag.HasAccountManagerPermission == true)
+                @for (var i = 0; i < ViewBag.OddsTypeList.Count; i++)
                 {
-                    <div class="row">
-                        <div class="grid4" style="text-align: right">
-                            @Html.LabelFor(m => m.OddsDelayTimes, ViewResources.OddsDelayTime)
-                        </div>
-                        <div class="grid7">
-                            @Html.LabelFor(m => m.DeadballDelayTimes, ViewResources.Deadball, new { @class = "font-normal" })
-                            @Html.DropDownListFor(m => m.DeadballDelayTimes, (IEnumerable<SelectListItem>)ViewBag.DelayTimeList, new { @style = "width: 50px" })
-                            @Html.LabelFor(m => m.LiveDelayTimes, "Live", new { @class = "font-normal" })
-                            @Html.DropDownListFor(m => m.LiveDelayTimes, (IEnumerable<SelectListItem>)ViewBag.DelayTimeList, new { @style = "width: 50px" })
-                            @Html.LabelFor(m => m.OutrightDelayTimes, ViewResources.Outright, new { @class = "font-normal" })
-                            @Html.DropDownListFor(m => m.OutrightDelayTimes, (IEnumerable<SelectListItem>)ViewBag.DelayTimeList, new { @style = "width: 50px" })
-                        </div>
-                        <div class="grid4" style="text-align: right">
-                            @Html.LabelFor(m => m.ResultDelayTimes, ViewResources.ResultDelayTime)
-                        </div>
-                        <div class="grid7">
-                            @Html.DropDownListFor(m => m.ResultDelayTimes, (IEnumerable<SelectListItem>)ViewBag.ResultDelayTimeList, new { @style = "width: 50px" })
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="grid4" style="text-align: right">
-                            @Html.LabelFor(m => m.NumberOfIPs, ViewResources.NumberOfIPs)
-                        </div>
-                        @Html.TextBoxFor(m => m.NumberOfIPs, new { @style = "width: 50px", @min = 0 })
-                        <div class="grid1" style="float: none;">
-                            @Html.Raw(ViewResources.HtmlTemplate_InputRequiredSymbol)
-                        </div>
-                    </div>
+                    var oddsType = ViewBag.OddsTypeList[i];
+                    var id = "OddsType" + oddsType.Value.ToString();
+                    var isDisabled = ViewBag.OddsTypeFlag ? string.Empty : "disabled";
+                    var isChecked = Array.IndexOf(ViewBag.OddsType, oddsType.Value.ToString()) > -1;
+                    <label class="font-normal">
+                        <input class="oddstype" @(isChecked ? "checked" : "") id="@id" isdisabled="@isDisabled" type="checkbox" value="@oddsType.Value">
+                        @oddsType.Text
+                    </label>
                 }
-                <div class="row">
-                    <div class="grid4" style="text-align: right">
-                        <label for="id1">@ViewResources.Languages</label>
-                    </div>
-                    
-                    @for (var i = 0; i < ViewBag.LanguageIDList.Count; i++)
-                    {
-                        var lang = ViewBag.LanguageIDList[i];
-                        var isDisabled = @ViewBag.LanguagesFlag ? "" : "disabled";
-                        var isChecked = Array.IndexOf(ViewBag.LanguageList, lang.Value.ToString()) > -1;
-                        <label class="font-normal">
-                            <input class="language" @(isChecked ? "checked" : "") id="slLanguage" isdisabled="@isDisabled" type="checkbox" value="@lang.Value">
-                            @lang.Text
-                        </label>
-                    }
-
-                    <div class="grid1" style="float: none;">
-                        @Html.Raw(ViewResources.HtmlTemplate_InputRequiredSymbol)
-                    </div>
-                </div>
-                <div class="row3">
-                    @Html.HiddenFor(m => m.SportIDList)
-
-                    <div class="grid4" style="line-height: 170px; text-align: right">
-                        <label for="chkAllMajorSports">
-                            @ViewResources.MajorSports
-                            <input class="hidden" type="checkbox" id="chkAllMajorSports" isdisabled=@(ViewBag.SportsFlag ? "" : "disabled") />
-                        </label>
-                    </div>
-                    <div class="grid7" style="line-height: 170px; text-align: left">
-                        <label class="font-normal">
-
-                            @for (var i = 0; i < ViewBag.MajorSportList.Count; i++)
-                            {
-                                var sport = ViewBag.MajorSportList[i];
-                                var id = "SportIDList" + sport.Value.ToString();
-                                var isDisabled = ViewBag.SportsFlag ? string.Empty : "disabled";
-                                var isChecked = Array.IndexOf(ViewBag.SportIdList, sport.Value.ToString()) > -1 || ViewBag.SportIdList[0] == "all";
-                                <label class="font-normal">
-                                    <input class="chkMajorSport" @(isChecked ? "checked" : "") id="@id" isdisabled="@isDisabled" type="checkbox" value="@sport.Value">
-                                    @sport.Text
-                                </label>
-                            }
-                        </label>
-                    </div>
-                    @{
-                        var minorSports = ViewBag.MinorSportList as IEnumerable<SelectListItem>;
-                    }
-                    <div class="grid4" style="line-height: 170px; text-align: right">
-                        <label for="chkAllSports">
-                            @ViewResources.MinorSports
-                        </label>
-                        <input type="checkbox" id="chkAllMinorSports" isdisabled=@(ViewBag.SportsFlag && minorSports.Any() ? "" : "disabled") />
-                    </div>
-                    <div class="grid7">
-                        <div class="checkbox-filter">
-                            <label>Search </label>
-                            <input id="minorSport-filter" />
-                        </div>
-                        <div class="grid7 checkbox-list">
-                            
-                            @for (var i = 0; i < ViewBag.MinorSportList.Count; i++)
-                            {
-                                var sport = ViewBag.MinorSportList[i];
-                                var id = "SportIDList" + sport.Value.ToString();
-                                var isDisabled = ViewBag.SportsFlag ? string.Empty : "disabled";
-                                var isChecked = Array.IndexOf(ViewBag.SportIdList, sport.Value.ToString()) > -1 || ViewBag.SportIdList[0] == "all";
-                                <div>
-                                    <input class="chkMinorSport" @(isChecked ? "checked" : "") id="@id" isdisabled="@isDisabled" type="checkbox" value="@sport.Value">
-                                    <label class="font-normal" for="@id">@sport.Text</label>
-                                </div>
-                            }
-                        </div>
-                    </div>
-                    <div class="grid1" style="line-height: 150px; text-align: left">
-                        @Html.Raw(ViewResources.HtmlTemplate_InputRequiredSymbol)
-                    </div>
-                </div>
-                <div class="row3">
-                    <div class="grid4" style="line-height: 170px; text-align: right">
-                        <label for="chkAllCountries">
-                            @ViewResources.Countries
-                        </label><input type="checkbox" id="chkAllCountries" isdisabled=@(ViewBag.CountriesFlag ? "" : "disabled") />
-                    </div>
-                    <div class="grid7">
-                        <div class="checkbox-filter">
-                            <label>Search </label>
-                            <input id="country-filter" />
-                        </div>
-                        <div class="grid7 checkbox-list">
-                            
-                            @for (var i = 0; i < ViewBag.CountriesList.Count; i++)
-                            {
-                                var country = ViewBag.CountriesList[i];
-                                var id = "CountryCodeList" + country.Value.ToString();
-                                var isDisabled = ViewBag.CountriesFlag ? string.Empty : "disabled";
-                                var isChecked = Array.IndexOf(ViewBag.CountryCodeList, country.Value.ToString()) > -1 || ViewBag.CountryCodeList[0] == "all";
-
-                                <div>
-                                    <input @(isChecked ? "checked" : "") class="chkCountry" id="@id" isdisabled="@isDisabled" type="checkbox" value="@country.Value">
-                                    <label class="font-normal" for="@id">@country.Text</label>
-                                </div>
-                            }
-                            @Html.HiddenFor(m => m.CountryCodeList)
-                        </div>
-                    </div>
-                    <div class="grid1" style="line-height: 150px; text-align: left">
-                        @Html.Raw(ViewResources.HtmlTemplate_InputRequiredSymbol)
-                    </div>
-                </div>
-                @if (ViewBag.HasAccountManagerPermission == true)
-                {
-                    <div id="League" class="row3">
-                        <partial name="_LeaguePartialView" for="@getLeagueCriteria" />
-                    </div>
-                    <div id="Outrights" class="row3" style="max-height: 210px">
-                        <partial name="_OutrightPartialView" for="@getOutRightCriteria" />
-                    </div>
-                }
-                <div id="Market" class="row3">
-                    @{
-                        var minorMarkets = (ViewBag.MinorBettypesList as IEnumerable<SelectListItem>);
-                        var majorMarkets = (ViewBag.MajorBettypesList as IEnumerable<SelectListItem>);
-                    }
-                    <div class="grid4" style="line-height: 170px; text-align: right">
-                        <label for="chkAllMajorMarkets">@ViewResources.MajorMarkets</label>
-                        <input type="checkbox" id="chkAllMajorMarkets" isdisabled=@(ViewBag.MarketsFlag && majorMarkets.Any() ? string.Empty : "disabled") />
-                    </div>
-                    <div class="grid7">
-                        <div class="checkbox-filter">
-                            <label>Search </label>
-                            <input id="majormarket-filter" />
-                        </div>
-                        <div class="grid7 checkbox-list">
-
-                            @for (var i = 0; i < ViewBag.MajorBettypesList.Count; i++)
-                            {
-                                var majorMarket = ViewBag.MajorBettypesList[i];
-                                var id = "BetTypeIDList" + majorMarket.Value.ToString();
-                                var isDisabled = ViewBag.MarketsFlag ? string.Empty : "disabled";
-                                var isChecked = Array.IndexOf(ViewBag.BetTypeIdList, majorMarket.Value.ToString()) > -1 || ViewBag.BetTypeIdList[0] == "all";
-
-                                <div>
-                                    <input class="chkMajorMarket" @(isChecked ? "checked" : "") id="@id" isdisabled="@isDisabled" type="checkbox" value="@majorMarket.Value">
-                                    <label class="font-normal" for="@id">@majorMarket.Text</label>
-                                </div>
-                            }
-                        </div>
-                    </div>
-                    <div class="grid4" style="line-height: 170px; text-align: right">
-                        <label for="chkAllMinorMarkets">@ViewResources.MinorMarkets</label>
-                        <input type="checkbox" id="chkAllMinorMarkets" isdisabled=@(ViewBag.MarketsFlag && minorMarkets.Any() ? string.Empty : "disabled") />
-                    </div>
-                    <div class="grid7">
-                        <div class="checkbox-filter">
-                            <label>Search </label>
-                            <input id="minorMarket-filter" />
-                        </div>
-                        <div class="grid7 checkbox-list">
-
-                            @for (var i = 0; i < ViewBag.MinorBettypesList.Count; i++)
-                            {
-                                var majorMarket = ViewBag.MinorBettypesList[i];
-                                var id = "BetTypeIDList" + majorMarket.Value.ToString();
-                                var isDisabled = ViewBag.MarketsFlag ? string.Empty : "disabled";
-                                var isChecked = Array.IndexOf(ViewBag.BetTypeIdList, majorMarket.Value.ToString()) > -1 || ViewBag.BetTypeIdList[0] == "all";
-
-                                <div>
-                                    <input class="chkMinorMarket" @(isChecked ? "checked" : "") id="@id" isdisabled="@isDisabled" type="checkbox" value="@majorMarket.Value">
-                                    <label class="font-normal" for="@id">@majorMarket.Text</label>
-                                </div>
-                            }
-                        </div>
-                    </div>
-                    <div class="grid1" style="line-height: 150px; text-align: left">
-                        @Html.Raw(ViewResources.HtmlTemplate_InputRequiredSymbol)
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="grid4"></div>
-                    <div class="grid2">
-                        <a href="@Url.Action("list", "affiliate")" class="button">@ViewResources.Back</a>
-                    </div>
-                    <div class="grid2">
-                        <input id="editStep3Save" type="button" value="@ViewResources.Save" />
-                    </div>
+                <div class="grid1" style="float: none;">
+                    @(new HtmlString(ViewResources.HtmlTemplate_InputRequiredSymbol))
                 </div>
             </div>
-        }
+            <div class="row">
+                <div class="grid4" style="text-align: right">
+                    <label for="id1">@ViewResources.OddsStyle</label>
+                </div>
+                <select asp-for="OddsRegion" asp-items="ViewBag.OddsStyleList" id="slOddsStyle" disabled="@(!ViewBag.OddsStyleFlag)">
+                </select>
+
+            </div>
+            @if (ViewBag.HasAccountManagerPermission == true)
+            {
+                <div class="row">
+                    <div class="grid4" style="text-align: right">
+                        <label asp-for="OddsDelayTimes">@ViewResources.OddsDelayTime</label>
+                    </div>
+                    <div class="grid7">
+                        <label asp-for="DeadballDelayTimes" class="font-normal">@ViewResources.Deadball</label>
+                        <select asp-for="DeadballDelayTimes" asp-items="ViewBag.DelayTimeList" style="width: 50px"></select>
+
+                        <label asp-for="LiveDelayTimes" class="font-normal">Live</label>
+                        <select asp-for="LiveDelayTimes" asp-items="ViewBag.DelayTimeList" style="width: 50px"></select>
+
+                        <label asp-for="OutrightDelayTimes" class="font-normal">@ViewResources.Outright</label>
+                        <select asp-for="OutrightDelayTimes" asp-items="ViewBag.DelayTimeList" style="width: 50px"></select>
+                    </div>
+                    <div class="grid4" style="text-align: right">
+                        <label asp-for="ResultDelayTimes">@ViewResources.ResultDelayTime</label>
+                    </div>
+                    <div class="grid7">
+                        <select asp-for="ResultDelayTimes" asp-items="ViewBag.ResultDelayTimeList" style="width: 50px"></select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="grid4" style="text-align: right">
+                        <label asp-for="NumberOfIPs">@ViewResources.NumberOfIPs</label>
+                    </div>
+                    <input asp-for="NumberOfIPs" style="width: 50px" min="0" />
+                    <div class="grid1" style="float: none;">
+                        @(new HtmlString(ViewResources.HtmlTemplate_InputRequiredSymbol))
+                    </div>
+                </div>
+            }
+            <div class="row">
+                <div class="grid4" style="text-align: right">
+                    <label for="id1">@ViewResources.Languages</label>
+                </div>
+
+                @for (var i = 0; i < ViewBag.LanguageIDList.Count; i++)
+                {
+                    var lang = ViewBag.LanguageIDList[i];
+                    var isDisabled = @ViewBag.LanguagesFlag ? "" : "disabled";
+                    var isChecked = Array.IndexOf(ViewBag.LanguageList, lang.Value.ToString()) > -1;
+                    <label class="font-normal">
+                        <input class="language" @(isChecked ? "checked" : "") id="slLanguage" isdisabled="@isDisabled" type="checkbox" value="@lang.Value">
+                        @lang.Text
+                    </label>
+                }
+
+                <div class="grid1" style="float: none;">
+                    @(new HtmlString(ViewResources.HtmlTemplate_InputRequiredSymbol))
+                </div>
+            </div>
+            <div class="row3">
+                <input type="hidden" asp-for="SportIDList" />
+                <div class="grid4" style="line-height: 170px; text-align: right">
+                    <label for="chkAllMajorSports">
+                        @ViewResources.MajorSports
+                        <input class="hidden" type="checkbox" id="chkAllMajorSports" isdisabled=@(ViewBag.SportsFlag ? "" : "disabled") />
+                    </label>
+                </div>
+                <div class="grid7" style="line-height: 170px; text-align: left">
+                    <label class="font-normal">
+
+                        @for (var i = 0; i < ViewBag.MajorSportList.Count; i++)
+                        {
+                            var sport = ViewBag.MajorSportList[i];
+                            var id = "SportIDList" + sport.Value.ToString();
+                            var isDisabled = ViewBag.SportsFlag ? string.Empty : "disabled";
+                            var isChecked = Array.IndexOf(ViewBag.SportIdList, sport.Value.ToString()) > -1 || ViewBag.SportIdList[0] == "all";
+                            <label class="font-normal">
+                                <input class="chkMajorSport" @(isChecked ? "checked" : "") id="@id" isdisabled="@isDisabled" type="checkbox" value="@sport.Value">
+                                @sport.Text
+                            </label>
+                        }
+                    </label>
+                </div>
+                @{
+                    var minorSports = ViewBag.MinorSportList as IEnumerable<SelectListItem>;
+                }
+                <div class="grid4" style="line-height: 170px; text-align: right">
+                    <label for="chkAllSports">
+                        @ViewResources.MinorSports
+                    </label>
+                    <input type="checkbox" id="chkAllMinorSports" isdisabled=@(ViewBag.SportsFlag && minorSports.Any() ? "" : "disabled") />
+                </div>
+                <div class="grid7">
+                    <div class="checkbox-filter">
+                        <label>Search </label>
+                        <input id="minorSport-filter" />
+                    </div>
+                    <div class="grid7 checkbox-list">
+
+                        @for (var i = 0; i < ViewBag.MinorSportList.Count; i++)
+                        {
+                            var sport = ViewBag.MinorSportList[i];
+                            var id = "SportIDList" + sport.Value.ToString();
+                            var isDisabled = ViewBag.SportsFlag ? string.Empty : "disabled";
+                            var isChecked = Array.IndexOf(ViewBag.SportIdList, sport.Value.ToString()) > -1 || ViewBag.SportIdList[0] == "all";
+                            <div>
+                                <input class="chkMinorSport" @(isChecked ? "checked" : "") id="@id" isdisabled="@isDisabled" type="checkbox" value="@sport.Value">
+                                <label class="font-normal" for="@id">@sport.Text</label>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="grid1" style="line-height: 150px; text-align: left">
+                    @(new HtmlString(ViewResources.HtmlTemplate_InputRequiredSymbol))
+                </div>
+            </div>
+            <div class="row3">
+                <div class="grid4" style="line-height: 170px; text-align: right">
+                    <label for="chkAllCountries">
+                        @ViewResources.Countries
+                    </label><input type="checkbox" id="chkAllCountries" isdisabled=@(ViewBag.CountriesFlag ? "" : "disabled") />
+                </div>
+                <div class="grid7">
+                    <div class="checkbox-filter">
+                        <label>Search </label>
+                        <input id="country-filter" />
+                    </div>
+                    <div class="grid7 checkbox-list">
+
+                        @for (var i = 0; i < ViewBag.CountriesList.Count; i++)
+                        {
+                            var country = ViewBag.CountriesList[i];
+                            var id = "CountryCodeList" + country.Value.ToString();
+                            var isDisabled = ViewBag.CountriesFlag ? string.Empty : "disabled";
+                            var isChecked = Array.IndexOf(ViewBag.CountryCodeList, country.Value.ToString()) > -1 || ViewBag.CountryCodeList[0] == "all";
+
+                            <div>
+                                <input @(isChecked ? "checked" : "") class="chkCountry" id="@id" isdisabled="@isDisabled" type="checkbox" value="@country.Value">
+                                <label class="font-normal" for="@id">@country.Text</label>
+                            </div>
+                        }
+                        <input type="hidden" asp-for="CountryCodeList" />
+                    </div>
+                </div>
+                <div class="grid1" style="line-height: 150px; text-align: left">
+                    @(new HtmlString(ViewResources.HtmlTemplate_InputRequiredSymbol))
+                </div>
+            </div>
+            @if (ViewBag.HasAccountManagerPermission == true)
+            {
+                <div id="League" class="row3">
+                    <partial name="_LeaguePartialView" for="@getLeagueCriteria" />
+                </div>
+                <div id="Outrights" class="row3" style="max-height: 210px">
+                    <partial name="_OutrightPartialView" for="@getOutRightCriteria" />
+                </div>
+            }
+            <div id="Market" class="row3">
+                @{
+                    var minorMarkets = (ViewBag.MinorBettypesList as IEnumerable<SelectListItem>);
+                    var majorMarkets = (ViewBag.MajorBettypesList as IEnumerable<SelectListItem>);
+                }
+                <div class="grid4" style="line-height: 170px; text-align: right">
+                    <label for="chkAllMajorMarkets">@ViewResources.MajorMarkets</label>
+                    <input type="checkbox" id="chkAllMajorMarkets" isdisabled=@(ViewBag.MarketsFlag && majorMarkets.Any() ? string.Empty : "disabled") />
+                </div>
+                <div class="grid7">
+                    <div class="checkbox-filter">
+                        <label>Search </label>
+                        <input id="majormarket-filter" />
+                    </div>
+                    <div class="grid7 checkbox-list">
+
+                        @for (var i = 0; i < ViewBag.MajorBettypesList.Count; i++)
+                        {
+                            var majorMarket = ViewBag.MajorBettypesList[i];
+                            var id = "BetTypeIDList" + majorMarket.Value.ToString();
+                            var isDisabled = ViewBag.MarketsFlag ? string.Empty : "disabled";
+                            var isChecked = Array.IndexOf(ViewBag.BetTypeIdList, majorMarket.Value.ToString()) > -1 || ViewBag.BetTypeIdList[0] == "all";
+
+                            <div>
+                                <input class="chkMajorMarket" @(isChecked ? "checked" : "") id="@id" isdisabled="@isDisabled" type="checkbox" value="@majorMarket.Value">
+                                <label class="font-normal" for="@id">@majorMarket.Text</label>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="grid4" style="line-height: 170px; text-align: right">
+                    <label for="chkAllMinorMarkets">@ViewResources.MinorMarkets</label>
+                    <input type="checkbox" id="chkAllMinorMarkets" isdisabled=@(ViewBag.MarketsFlag && minorMarkets.Any() ? string.Empty : "disabled") />
+                </div>
+                <div class="grid7">
+                    <div class="checkbox-filter">
+                        <label>Search </label>
+                        <input id="minorMarket-filter" />
+                    </div>
+                    <div class="grid7 checkbox-list">
+
+                        @for (var i = 0; i < ViewBag.MinorBettypesList.Count; i++)
+                        {
+                            var majorMarket = ViewBag.MinorBettypesList[i];
+                            var id = "BetTypeIDList" + majorMarket.Value.ToString();
+                            var isDisabled = ViewBag.MarketsFlag ? string.Empty : "disabled";
+                            var isChecked = Array.IndexOf(ViewBag.BetTypeIdList, majorMarket.Value.ToString()) > -1 || ViewBag.BetTypeIdList[0] == "all";
+
+                            <div>
+                                <input class="chkMinorMarket" @(isChecked ? "checked" : "") id="@id" isdisabled="@isDisabled" type="checkbox" value="@majorMarket.Value">
+                                <label class="font-normal" for="@id">@majorMarket.Text</label>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="grid1" style="line-height: 150px; text-align: left">
+                    @(new HtmlString(ViewResources.HtmlTemplate_InputRequiredSymbol))
+                </div>
+            </div>
+            <div class="row">
+                <div class="grid4"></div>
+                <div class="grid2">
+                    <a href="@Url.Action("list", "affiliate")" class="button">@ViewResources.Back</a>
+                </div>
+                <div class="grid2">
+                    <input id="editStep3Save" type="button" value="@ViewResources.Save" />
+                </div>
+            </div>
+        </div>
     </div>
-}
+</form>
