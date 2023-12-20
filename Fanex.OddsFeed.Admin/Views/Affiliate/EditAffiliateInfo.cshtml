@@ -1,4 +1,5 @@
 ﻿@using Fanex.OddsFeed.Resources
+@using Microsoft.AspNetCore.Html;
 @model Fanex.OddsFeed.Criteria.Affiliate.UpdateAffiliateCriteria
 @{
     ViewBag.Title = "Edit affiliate information";
@@ -36,7 +37,7 @@
 
 <div id="editStep1">
     <div class="infor">
-        <span class="infor-ic"></span><span class="infor-text">@Html.Raw(ViewResources.HtmlTemplate_InputRequireds)</span>
+        <span class="infor-ic"></span><span class="infor-text">@(new HtmlString(ViewResources.HtmlTemplate_InputRequireds))</span>
     </div>
     <div class="newline">
         &nbsp;
@@ -46,20 +47,20 @@
 
     <div class="form">
         <div class="row">
-            @Html.HiddenFor(a => a.PartnerID)
+            <input asp-for="PartnerID" type="hidden" />
             <div class="grid2">
-                @Html.LabelFor(a => a.UserName)
+                <label asp-for="UserName"></label>
             </div>
             <div class="grid5">
-                @Html.TextBoxFor(a => a.UserName, new { id = "txtUsername", @disabled = "true" })
+                <input asp-for="UserName" id="txtUsername" disabled="disabled" />
             </div>
         </div>
         <div class="row">
             <div class="grid2">
-                @Html.LabelFor(a => a.Email)
+                <label asp-for="Email"></label>
             </div>
             <div class="grid5">
-                @Html.TextBoxFor(a => a.Email, new { id = "txtEmail", @maxlength = 50 })
+                <input asp-for="Email" id="txtEmail" maxlength = "50" />
             </div>
             <div class="gird1">
                 <span style="padding-left: 120px" class="red">(*)</span>
@@ -67,10 +68,10 @@
         </div>
         <div class="row">
             <div class="grid2">
-                @Html.LabelFor(a => a.Website)
+                <label asp-for="Website"></label>
             </div>
             <div class="grid5">
-                @Html.TextBoxFor(a => a.Website, new { id = "txtWebsite", @maxlength = 200 })
+                <input asp-for="Website" id="txtWebsite" maxlength="200" />
             </div>
             <div class="gird1">
                 <span style="padding-left: 120px" class="red">(*)</span>
@@ -78,10 +79,10 @@
         </div>
         <div class="row2">
             <div class="grid2">
-                @Html.LabelFor(a => a.Note)
+                <label asp-for="Note"></label>
             </div>
             <div class="grid5">
-                @Html.TextAreaFor(a => a.Note, new { id = "txtNote" })
+                <input asp-for="Note" id="txtNote"/>
             </div>
         </div>
         <div class="row">
