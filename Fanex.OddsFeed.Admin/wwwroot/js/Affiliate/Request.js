@@ -119,7 +119,7 @@ function Search() {
         DateStart: $("#DateStart").val(),
         Month: parseInt(month),
         DateEnd: $("#DateEnd").val(),
-        ToWeek: $('#ToWeekAffiliate').val(),
+        ToWeek: $('#ToWeek').val(),
         Year: parseInt($('#YearAffiliate').val()),
         PageSize: parseInt(_pageSize),
         PageIndex: parseInt(_pageIndex),

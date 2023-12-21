@@ -129,12 +129,12 @@ function SearchAll() {
         PageIndex: parseInt($('#PageIndex').val()),
         PageCount: parseInt($('#PageCount').val()),
         LicenseeId: parseInt($('#LicenseeId').val()),
-        PeriodOption: parseInt($('#PeriodOption').val()),
+        PeriodOption: $('#PeriodOption option:selected').text(),
         DateStart: $("#DateStart").val(), 
-        Week: $('#FromWeekLicensee').val(),
+        Week: $('#Week').val(),
         Month: parseInt(month),
         DateEnd: $("#DateEnd").val(),
-        ToWeek: $('#ToWeekLicensee').val(),
+        ToWeek: $('#ToWeek').val(),
         Year: parseInt($('#YearLicensee').val())
     };
 
