@@ -43,4 +43,8 @@
     <ProjectReference Include="..\Fanex.OddsFeed.Services\Fanex.OddsFeed.Services.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Tolerance\" />
+  </ItemGroup>
+
 </Project>

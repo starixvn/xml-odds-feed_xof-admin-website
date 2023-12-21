@@ -87,31 +87,20 @@
     </div>
     <div class="grid4" style="height: auto">
         <span class="date-area ">
-            <input class="datepicker hasDatepicker valid custom-datepicker" 
-                data-date="" 
-                data-date-format="DD MMM YYYY" 
-                data-val="true"     
-                data-val-date="The field DateStart must be a date." 
-                data-val-required="The DateStart field is required." 
-                disableddate=""        
-                id="DateStartAffiliate" 
-                max="@ViewBag.MaxDate.ToString("yyyy-MM-dd")" 
-                min="@ViewBag.MinDate.ToString("yyyy-MM-dd")" 
-                name="DateStart" 
-                type="date" 
-                value="@Model.DateStart.ToString("yyyy-MM-dd")">
+            <input type="text"
+                asp-for="DateStart"
+                class="datepicker"
+                maxdate="@ViewBag.MaxDate.ToString("yyyy/MM/dd")"
+                mindate="@ViewBag.MinDate.ToString("yyyy/MM/dd")"
+                value="@Model.DateStart.ToString("dd MMM, yyyy")">
         </span>
         <span class="week-area hide">
-            <input class="custom-datepicker" 
-                type="Week" 
-                name="Week" 
-                data-date="" 
-                data-date-format="ww (DD MMM YYYY)"  
-                id="FromWeekAffiliate" 
-                min="@($"{((DateTime)ViewBag.MinDate).Year}-W01")"   
-                max="@($"{((DateTime)ViewBag.MaxDate).Year}-W{Model.Week}")"
-                value="@($"{Model.DateStart.Year}-W{Model.Week}")" 
-                required />
+            <input type="text"
+                asp-for="Week"
+                data-value="@((DateTime?)Model.DateStart)"
+                data-mindate="@((DateTime?)ViewBag.MinDate)"
+                data-maxdate="@((DateTime?)ViewBag.MaxDate)"
+                class="weekpicker">
         </span>
         <span class="month-area hide">
             <select class="width-auto-fit request" id="MonthAffiliate" name="Month"></select>
@@ -127,32 +116,22 @@
         </span>
     </div>
     <div class="grid4">
-        <span class="date-area ">
-            <input class="datepicker hasDatepicker valid custom-datepicker" 
-                data-date="" 
-                data-date-format="DD MMM YYYY" 
-                data-val="true" 
-                data-val-date="The field DateEnd must be a date."
-                data-val-required="The DateEnd field is required." 
-                disableddate="" 
-                id="DateEndAffiliate" 
-                max="@ViewBag.MaxDate.ToString("yyyy-MM-dd")"
-                min="@ViewBag.MinDate.ToString("yyyy-MM-dd")" 
-                name="DateEnd" 
-                type="date" 
-                value="@Model.DateEnd.ToString("yyyy-MM-dd")">
+        <span class="date-area">
+            <input type="text"
+                asp-for="DateEnd"
+                class="datepicker"
+                maxdate="@ViewBag.MaxDate.ToString("yyyy/MM/dd")"
+                mindate="@ViewBag.MinDate.ToString("yyyy/MM/dd")"
+                value="@Model.DateEnd.ToString("dd MMM, yyyy")">
         </span>
         <span class="week-area hide">
-            <input class="custom-datepicker" 
-                type="Week" 
-                name="Week" 
-                data-date="" 
-                data-date-format="ww (DD MMM YYYY)"
-                min="@($"{((DateTime)ViewBag.MinDate).Year}-W01")"
-                max="@($"{((DateTime)ViewBag.MaxDate).Year}-W{Model.Week}")"
-                id="ToWeekAffiliate" 
-                value="@($"{Model.DateEnd.Year}-W{Model.ToWeek}")" 
-                required />
+            <input 
+                type="text"
+                asp-for="ToWeek"
+                data-value="@Model.DateStart"
+                data-mindate="@ViewBag.MinDate"
+                data-maxdate="@ViewBag.MaxDate"
+                class="weekpicker">
         </span>
         <span class="month-area year-area hide">
             <select class="width-auto-fit request" data-val="true" data-val-number="The field Year must be a number."

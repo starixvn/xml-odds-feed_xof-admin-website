@@ -121,6 +121,7 @@
                 "js/Libs/common.js",
                 "js/Libs/Core.js",
                 "js/Views/Header.js",
+                "js/Views/date.visible.js",
                 "js/ReCheckIn.js",
                 "js/OddsFeedAdminManager.js");
             pipeline.AddJavaScriptBundle("minify/js/listcompanyip.min.js",

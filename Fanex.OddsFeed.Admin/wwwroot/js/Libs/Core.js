@@ -2,6 +2,8 @@ var currentTheme;
 var _monthNames = new Array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
 var DATE_FORMAT = "dd M yy";
 var Core = Core || {};
+var configsWeekPicker = {};
+
 
 /// Scripts run on page load complete
 $(document).ready(function () {
@@ -11,10 +13,10 @@ $(document).ready(function () {
     Core.ajaxTimeout = 3600000;
 
     currentTheme = $('#currentTheme').val();
-    
     if ($('.datepicker').length > 0) {
         var mindate = $('.datepicker').attr('mindate');
         var maxdate = $('.datepicker').attr('maxdate');
+
         $('.datepicker').datepicker({
             dateFormat: DATE_FORMAT,
             showOn: "button",
@@ -23,17 +25,16 @@ $(document).ready(function () {
             changeMonth: true,
             buttonImageOnly: true,
             buttonText: "",
-            buttonImage: currentDomainURL + "App_Themes/" + currentTheme + "/images/calendar.gif"
+            buttonImage: currentDomainURL + "css/images/calendar.gif",
         });
         if (mindate != undefined && mindate != 'null') {
             mindate = mindate.split("/");
-            $('.datepicker').datepicker("option", "minDate", new Date(mindate[0], mindate[1] - 1, mindate[2]));
+            $('.datepicker').datepicker("option", "minDate", new Date(parseInt(mindate[0]), parseInt(mindate[1]) - 1, parseInt(mindate[2])));
         }
         if (maxdate != undefined && maxdate != 'null') {
             maxdate = maxdate.split("/");
-            $('.datepicker').datepicker("option", "maxDate", new Date(maxdate[0], maxdate[1] - 1, maxdate[2]));
+            $('.datepicker').datepicker("option", "maxDate", new Date(parseInt(maxdate[0]), parseInt(maxdate[1]) - 1, parseInt(maxdate[2])));
         }
-
     }
 });
 
@@ -44,20 +45,16 @@ Date.prototype.compareTo = function (date) {
 
 
 Core.registerWeekPicker = function () {
-    // week picker plugin
-
-    var configs = {};
-
+    
     $.fn.weekpicker = function (options, func) {
-
         var $this = $(this);
         $this.css("margin", "2px");
         var $calendar = $this.nextAll("div:first");
-
         var id = $this.attr("id");
-        if (!configs[id])
-            configs[id] = { date: Core.maxDate };
-        var defaults = configs[id];
+
+        if (!configsWeekPicker[id])
+            configsWeekPicker[id] = { date: Core.maxDate };
+        var defaults = configsWeekPicker[id];
 
         var displayYear = defaults.date.getFullYear();
         var selectCurrentWeek = function () {
@@ -96,9 +93,7 @@ Core.registerWeekPicker = function () {
             
             if (hideOnSelect)
                 $this.weekpicker("hide");
-            //if (defaults.startDate == date) {
             $calendar.datepicker('setDate', defaults.startDate);
-            //}
             displayYear = defaults.startDate.getFullYear();
             selectCurrentWeek();
         };
@@ -130,7 +125,7 @@ Core.registerWeekPicker = function () {
             $.extend(defaults, options);
 
             $this.addClass("datepicker hasDatepicker");
-            $this.after("<div class='weekcalendar'></div><img style='position: relative; margin-top:4px;' class='ui-datepicker-trigger' src='" + currentDomainURL + "App_Themes/" + currentTheme + "images/calendar.gif' alt='' title=''>");
+            $this.after("<div class='weekcalendar'></div><img style='position: relative; margin-top:4px;' class='ui-datepicker-trigger' src='" + currentDomainURL + "css/images/calendar.gif' alt='' title=''>");
             $calendar = $this.next();
 
             $calendar.css({ "position": "absolute", "z-index": 1000, "margin-top": "2px", "float": "left" });
@@ -140,13 +135,11 @@ Core.registerWeekPicker = function () {
                 showOn: null,
                 buttonImageOnly: true,
                 buttonText: "",
-                buttonImage: currentDomainURL + "App_Themes/" + currentTheme + "/images/calendar.gif",
+                buttonImage: currentDomainURL + "css/images/calendar.gif",
                 firstDay: 1,
                 showOtherMonths: true,
                 selectOtherMonths: true,
                 showWeek: true,
-                //       minDate: new Date(2010,11,11),// defaults.minDate,
-                //       maxDate: new Date(2012,11,11), //defaults.maxDate,
                 changeYear: true,
                 changeMonth: true,
                 onSelect: function (dateText, inst) {
@@ -196,8 +189,7 @@ Core.registerWeekPicker = function () {
                 else
                     show();
             });
-
-            // set initial value    
+  
             selectWeek(defaults.date);
         }
     }
@@ -205,6 +197,9 @@ Core.registerWeekPicker = function () {
     if ($('.weekpicker').length > 0) {
         $('.weekpicker').each(function () {
             $(this).weekpicker({
+                //date: new Date($(this).data('value')),
+                //minDate: new Date($(this).data('mindate')),
+                //maxDate: new Date($(this).data('maxdate'))
                 date: new Date($(this).attr('data-value')),
                 minDate: new Date($(this).attr('data-mindate')),
                 maxDate: new Date($(this).attr('data-maxdate'))
