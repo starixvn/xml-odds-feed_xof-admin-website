@@ -55,7 +55,6 @@ window.onload = function () {
             contentType: "application/json; charset=utf-8",
             cache: false,
             success: function (result) {
-                console.log(result)
                 if (result.isSuccessful) {
                     document.location = currentDomainURL + "Dashboard/ShowDashboard";
                 } else {
