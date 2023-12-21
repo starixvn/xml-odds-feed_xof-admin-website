@@ -9,16 +9,19 @@ let _currentDate = null;
 let monthNames = new Array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
 
 $(document).ready(function () {
-
     Core.registerWeekPicker();
 
-    FormatDatePicker();
-
-    $("#PeriodOption").change(function () {
-        setVisibleDateLicenseeControl($("#PeriodOption option:selected").text());
+    $("#Week").weekpicker("onSelect", function (start, end) {
+        $("#DateStart").datepicker("setDate", start);
+    });
+    $("#ToWeek").weekpicker("onSelect", function (start, end) {
+        $("#DateEnd").datepicker("setDate", end);
     });
 
-    setVisibleDateLicenseeControl($("#PeriodOption option:selected").text());
+    $("#PeriodOption").change(function () {
+        setVisibleDateControl($("#PeriodOption option:selected").text(), true);
+    });
+    setVisibleDateControl($("#PeriodOption option:selected").text(), false);
 
     $("#LicenseeId").val(0);
 
@@ -53,111 +56,6 @@ function renderMonth() {
         }));
     });
 }
-
-
-function setVisibleDateLicenseeControl(currentValue) {
-
-    if (currentValue == "Week") {
-        $(".date-area, .month-area, .year-area").hide();
-        $(".week-area").show();
-    }
-    else if (currentValue == "Month") {
-        $(".date-area, .week-area, .year-area").hide();
-        $(".month-area").show();
-    }
-    else if (currentValue == "Year") {
-        $(".date-area, .month-area, .week-area").hide();
-        $(".year-area").show();
-    }
-    else {
-        $(".date-area").show();
-        $(".week-area, .month-area, .year-area").hide();
-    }
-
-
-    $('#DateStartLicensee').change(setFromToDateConstraintLimit1Year);
-    $('#DateEndLicensee').change(setFromToDateConstraintLimit1Year);
-    $('#FromWeekLicensee').change(setWeekRangeConstraintLimit1Year);
-    $('#ToWeekLicensee').change(setWeekRangeConstraintLimit1Year);
-}
-
-function setWeekRangeConstraintLimit1Year() {
-    let $from = $('#FromWeekLicensee');
-    let $to = $('#ToWeekLicensee');
-
-    let from = new Date(moment($from.val(), "YYYY-Www").format("YYYY-MM-DD"));
-    let to = new Date(moment($to.val(), "YYYY-Www").format("YYYY-MM-DD"));
-    let i = from.MonthSubtract(to);
-    if (Math.abs(i) > 12 || from > to) {
-        if (this.id === 'FromWeekLicensee') {
-            $to.val($from.val());
-            $to[0].setAttribute(
-                "data-date",
-                moment($from.val(), "YYYY-Www")
-                    .format($to[0].getAttribute("data-date-format"))
-            )
-        }
-        else {
-            $from.val($to.val());
-            $from[0].setAttribute(
-                "data-date",
-                moment($to.val(), "YYYY-Www")
-                    .format($from[0].getAttribute("data-date-format"))
-            )
-        }
-    }
-}
-
-function setFromToDateConstraintLimit1Year() {
-    let $dateStart = $('#DateStartLicensee');
-    let $dateEnd = $('#DateEndLicensee');
-    let startdate = new Date($dateStart.val().toString());
-    let enddate = new Date($dateEnd.val().toString());
-
-    if (enddate < startdate) {
-        if (this.id === 'DateStartLicensee') {
-            let dateChange = moment(startdate.format(), "DD MMM YYYY").format("YYYY-MM-DD");
-            $dateEnd.val(dateChange);
-            $dateEnd[0].setAttribute(
-                "data-date",
-                moment(dateChange, "YYYY-MM-DD")
-                    .format($dateEnd[0].getAttribute("data-date-format"))
-            )
-        }
-        else {
-            let dateChange = moment(enddate.format(), "DD MMM YYYY").format("YYYY-MM-DD");
-            $dateStart.val(dateChange);
-            $dateStart[0].setAttribute(
-                "data-date",
-                moment(dateChange, "YYYY-MM-DD")
-                    .format($dateStart[0].getAttribute("data-date-format"))
-            )
-        }
-    }
-    else if (enddate.getFullYear() != startdate.getFullYear()) {
-        if (enddate.MonthSubtract(startdate) > 12) {
-            if (this.id === 'DateStartLicensee') {
-                let dateChange = moment(startdate.format(), "DD MMM YYYY").format("YYYY-MM-DD");
-                $dateEnd.val(dateChange);
-                $dateEnd[0].setAttribute(
-                    "data-date",
-                    moment(dateChange, "YYYY-MM-DD")
-                        .format($dateEnd[0].getAttribute("data-date-format"))
-                )
-            }
-            else {
-                let dateChange = moment(enddate.format(), "DD MMM YYYY").format("YYYY-MM-DD");
-                $dateStart.val(dateChange);
-                $dateStart[0].setAttribute(
-                    "data-date",
-                    moment(dateChange, "YYYY-MM-DD")
-                        .format($dateStart[0].getAttribute("data-date-format"))
-                )
-            }
-        }
-    }
-}
-
 Date.prototype.MonthSubtract = function (d) {
     if (this.getFullYear() == d.getFullYear()) {
         return this.getMonth() - d.getMonth();
@@ -171,40 +69,6 @@ function OnSearch() {
     _pageSize = 10;
 
     Search();
-};
-
-function FormatDatePicker() {
-    $("#DateStartLicensee").on("change", function () {
-        this.setAttribute(
-            "data-date",
-            moment(this.value, "YYYY-MM-DD")
-                .format(this.getAttribute("data-date-format"))
-        )
-    }).trigger("change");
-
-    $("#DateEndLicensee").on("change", function () {
-        this.setAttribute(
-            "data-date",
-            moment(this.value, "YYYY-MM-DD")
-                .format(this.getAttribute("data-date-format"))
-        )
-    }).trigger("change");
-
-    $("#FromWeekLicensee").on("change", function () {
-        this.setAttribute(
-            "data-date",
-            moment(this.value, "YYYY-Www")
-                .format(this.getAttribute("data-date-format"))
-        )
-    }).trigger("change");
-
-    $("#ToWeekLicensee").on("change", function () {
-        this.setAttribute(
-            "data-date",
-            moment(this.value, "YYYY-Www")
-                .format(this.getAttribute("data-date-format"))
-        )
-    }).trigger("change");
 };
 
 function Search() {
@@ -259,14 +123,6 @@ function SearchAll() {
     _currentDate = null;
 
     let month = $('#MonthLicensee').val();
-    let dateStart = $("#PeriodOption option:selected").text() === 'Week' ?
-        moment($('#FromWeekLicensee').val(), "YYYY-Www").format("YYYY-MM-DD").toString() :
-        $('#DateStartLicensee').val();
-    let dateEndWeek = new Date(moment($('#ToWeekLicensee').val(), "YYYY-Www"));
-    dateEndWeek.setDate(dateEndWeek.getDate() + 6);
-    let dateEnd = $("#PeriodOption option:selected").text() === 'Week' ?
-        moment(dateEndWeek.format(), "DD MMM YYYY").format("YYYY-MM-DD") :
-        $('#DateEndLicensee').val();
 
     let searchParams = {
         PageSize: parseInt($('#PageSize').val()),
@@ -274,10 +130,10 @@ function SearchAll() {
         PageCount: parseInt($('#PageCount').val()),
         LicenseeId: parseInt($('#LicenseeId').val()),
         PeriodOption: parseInt($('#PeriodOption').val()),
-        DateStart: dateStart,
+        DateStart: $("#DateStart").val(), 
         Week: $('#FromWeekLicensee').val(),
         Month: parseInt(month),
-        DateEnd: dateEnd,
+        DateEnd: $("#DateEnd").val(),
         ToWeek: $('#ToWeekLicensee').val(),
         Year: parseInt($('#YearLicensee').val())
     };
@@ -398,24 +254,16 @@ function SearchDetail(licenseeID, date, year) {
     _currentDate = date;
 
     let month = $('#MonthLicensee').val();
-    let dateStart = $("#PeriodOption option:selected").text() === 'Week' ?
-        moment($('#FromWeekLicensee').val(), "YYYY-Www").format("YYYY-MM-DD").toString() :
-        $('#DateStartLicensee').val();
-    let dateEndWeek = new Date(moment($('#ToWeekLicensee').val(), "YYYY-Www"));
-    dateEndWeek.setDate(dateEndWeek.getDate() + 6);
-    let dateEnd = $("#PeriodOption option:selected").text() === 'Week' ?
-        moment(dateEndWeek.format(), "DD MMM YYYY").format("YYYY-MM-DD") :
-        $('#DateEndLicensee').val();
     let searchDetailParams = {
         PageSize: parseInt($('#PageSize').val()),
         PageIndex: parseInt($('#PageIndex').val()),
         PageCount: parseInt($('#PageCount').val()),
         LicenseeId: parseInt($('#LicenseeId').val()),
         PeriodOption: parseInt($('#PeriodOption').val()),
-        DateStart: dateStart,
+        DateStart: $("#DateStart").val(),
         Week: $('#FromWeekLicensee').val(),
         Month: parseInt(month),
-        DateEnd: dateEnd,
+        DateEnd: $("#DateEnd").val(), 
         ToWeek: $('#ToWeekLicensee').val(),
         Year: parseInt($('#YearLicensee').val()),
         SystemId: parseInt(licenseeID),
