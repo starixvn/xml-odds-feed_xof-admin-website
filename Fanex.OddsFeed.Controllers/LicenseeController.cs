@@ -333,7 +333,7 @@
                 criteria.SystemName = string.Empty;
             }
 
-            var result = await baseService.GetDataAsync<LicenseeRequestStatistic>(criteria);
+            var result = await baseService.GetDataGridAsync<LicenseeRequestStatistic>(criteria);
             return Json(new { data = result, totalItems = criteria.RowCount });
         }
 
