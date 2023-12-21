@@ -2,7 +2,6 @@
 {
     using System;
     using System.ComponentModel.DataAnnotations;
-    using System.Globalization;
     using Data.Repository;
     using Fanex.Data;
     using Fanex.OddsFeed.Models.ValueObject;
@@ -30,21 +29,21 @@
 
         public string SystemName { get; set; }
 
-        public PeriodType PeriodOption { get; set; }
+        
 
         [Required]
         public DateTime DateStart
         {
             get
             {
-                if (this.PeriodOption == PeriodType.Month)
+                if (this.PeriodOption == PeriodType.Month.ToString())
                 {
                     // select month period
                     this._dateStart = new DateTime(this.Year, this.Month, 1);
                 }
                 else
                 {
-                    if (this.PeriodOption == PeriodType.Year)
+                    if (this.PeriodOption == PeriodType.Year.ToString())
                     {
                         // select year period
                         this._dateStart = new DateTime(this.Year, 1, 1);
@@ -64,14 +63,14 @@
         {
             get
             {
-                if (this.PeriodOption == PeriodType.Month)
+                if (this.PeriodOption == PeriodType.Month.ToString())
                 {
                     // select month period
                     this._dateEnd = new DateTime(this.Year, this.Month, 1).AddMonths(1).AddDays(-1);
                 }
                 else
                 {
-                    if (this.PeriodOption == PeriodType.Year)
+                    if (this.PeriodOption == PeriodType.Year.ToString())
                     {
                         // select year period
                         const byte December = 12;
@@ -97,6 +96,7 @@
 
         public int RowCount { get; set; }
 
+        public string PeriodOption { get; set; }
 
         // Ignored
         [SpParam(Ignored = true)]

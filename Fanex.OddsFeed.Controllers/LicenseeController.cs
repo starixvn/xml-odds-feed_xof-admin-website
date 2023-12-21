@@ -334,7 +334,7 @@
             }
 
             var result = await baseService.GetDataGridAsync<LicenseeRequestStatistic>(criteria);
-            return Json(new { data = result, totalItems = criteria.RowCount });
+            return Json(result);
         }
 
         public async Task<JsonResult> GetLicenseeRequestsDetail([FromBody] RequestStatisticCriteria criteria)
