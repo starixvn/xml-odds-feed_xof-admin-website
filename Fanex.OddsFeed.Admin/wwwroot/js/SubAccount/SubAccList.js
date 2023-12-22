@@ -44,9 +44,9 @@ function renderBodyRows(users) {
         var user = users[i];
         var colactive = '';
         if (user.isActive) {
-            colactive = "<img title='Deactivate this account' class='ico-tick' alt='' onclick='javascript:editActive(this, " + user.id + ")' />";
+            colactive = "<img title='Deactivate this account' class='ico-tick' alt='' onclick='javascript:editActive(this, " + user.userId + ")' />";
         } else {
-            colactive = "<img title='Activate this account' class='ico-untick' alt='' onclick='javascript:editActive(this, " + user.id + "')' />";
+            colactive = "<img title='Activate this account' class='ico-untick' alt='' onclick='javascript:editActive(this, " + user.userId + "')' />";
         }
 
         var row = {
@@ -55,7 +55,7 @@ function renderBodyRows(users) {
                 { Name: 'Username', Value: user.username },
                 {
                     Name: 'Action',
-                    Value: "<div class='btn-action subAccount_" + user.id + "' onclick='javascript:ShowAction(" + JSON.stringify(user) + ");'></div>"
+                    Value: "<div class='btn-action subAccount_" + user.userId + "' onclick='javascript:ShowAction(" + JSON.stringify(user) + ");'></div>"
                 },
                 { Name: 'IsActive', Value: colactive },
                 { Name: 'FirstName', Value: user.firstName },
@@ -186,7 +186,7 @@ function ReRenderAfterPaged(page_index, itemsPerPage, jq) {
 
 function ShowAction(user) {
 
-    var subAccId = user.id;
+    var subAccId = user.userId;
     var userName = user.username;
 
     _subAccId = subAccId;

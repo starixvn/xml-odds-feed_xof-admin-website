@@ -2,112 +2,111 @@
 @using Fanex.OddsFeed.Resources;
 @model Fanex.OddsFeed.Criteria.SubAccount.EditPermissionSubAccCriteria
 @{
-    ViewBag.Title = "Edit permission";
-    ViewBag.IsDashboard = false;
+	ViewBag.Title = "Edit permission";
+	ViewBag.IsDashboard = false;
 }
 @section Breadcrumb {
-    <a class="step" href="@Url.Action("ShowDashboard", "Dashboard")"><span class='xicon home'></span>Home</a>
-    <a class="step" href="@Url.Action("List", "SubAccount")">Sub-account List</a>
-    <span class="step">@ViewBag.Title @ViewBag.CurrentUser</span>
+	<a class="step" href="@Url.Action("ShowDashboard", "Dashboard")"><span class='xicon home'></span>Home</a>
+	<a class="step" href="@Url.Action("List", "SubAccount")">Sub-account List</a>
+	<span class="step">@ViewBag.Title @ViewBag.CurrentUser</span>
 }
 @section Scripts
-{
-    <script src="~/js/SubAccount/EditSubAcc.js" asp-append-version="true"></script>
+	{
+	<script src="~/js/SubAccount/EditSubAcc.js" asp-append-version="true"></script>
 }
 <div id="editStep1">
-    @using (Html.BeginForm())
-    {
-        <div id="errorStep3" class="validation-summary-errors hidden" data-valmsg-summary="true">
-            <ul>
-                <li id="permissionSettingsReqErr">The Permission Settings field is required.</li>
-            </ul>
-        </div>
-        if (ViewBag.Success == true)
-        {
-            <div id="success-message-box" class="success-message-box">
-                <ul>
-                    <li>@ViewResources.ActionResult_Success_UpdateSubAccount</li>
-                </ul>
-            </div>
-            <input type="hidden" id="successed" value="true" />
-        }
-        else if (!string.IsNullOrEmpty(ViewBag.Error))
-        {
-            <div id="error-message-box" class="error-message-box">
-                <ul>
-                    <li>@ViewBag.Error</li>
-                </ul>
-            </div>
-        }
-        <div class="infor">
-            <span class="infor-ic"></span><span class="infor-text">Edit permission of sub-account.</span>
-        </div>
-        <div class="newline">
-            &nbsp;
-        </div>
+	<form method="post" asp-action="EditPermission" asp-controller="SubAccount">
+		<div id="errorStep3" class="validation-summary-errors hidden" data-valmsg-summary="true">
+			<ul>
+				<li id="permissionSettingsReqErr">The Permission Settings field is required.</li>
+			</ul>
+		</div>
+		@if (ViewBag.Success == true)
+		{
+			<div id="success-message-box" class="success-message-box">
+				<ul>
+					<li>@ViewResources.ActionResult_Success_UpdateSubAccount</li>
+				</ul>
+			</div>
+			<input type="hidden" id="successed" value="true" />
+		}
+		else if (!string.IsNullOrEmpty(ViewBag.Error))
+		{
+			<div id="error-message-box" class="error-message-box">
+				<ul>
+					<li>@ViewBag.Error</li>
+				</ul>
+			</div>
+		}
+		<div class="infor">
+			<span class="infor-ic"></span><span class="infor-text">Edit permission of sub-account.</span>
+		</div>
+		<div class="newline">
+			&nbsp;
+		</div>
 
-        @Html.ValidationSummary()
-        @Html.HiddenFor(a => a.SubAccountID)
-        @Html.HiddenFor(a => a.SubAccountName)
-        <div class="form" style="width: auto;">
-            <div class="row">
-                <div class="grid1">
-                    @Html.CheckBoxFor(a => a.OddsTypeFlag, new { id = "chkOddsTypeFlag", @class = "chkPerSettings", @isDisabled = @ViewBag.OddsTypeFlag ? "" : "disabled", @checked = "false" })
-                </div>
-                <div class="grid5">
-                    @Html.LabelFor(a => a.OddsTypeFlag, new { @for = "chkOddsTypeFlag" })
-                </div>
-            </div>
-            <div class="row">
-                <div class="grid1">
-                    @Html.CheckBoxFor(a => a.OddsStyleFlag, new { id = "chkOddsStyleFlag", @class = "chkPerSettings", @isDisabled = @ViewBag.OddsStyleFlag ? "" : "disabled", @checked = "false" })
-                </div>
-                <div class="grid5">
-                    @Html.LabelFor(a => a.OddsStyleFlag, new { @for = "chkOddsStyleFlag" })
-                </div>
-            </div>
-            <div class="row">
-                <div class="grid1">
-                    @Html.CheckBoxFor(a => a.LanguageListFlag, new { id = "chkLanguageListFlag", @class = "chkPerSettings", @isDisabled = @ViewBag.LanguagesFlag ? "" : "disabled", @checked = "false" })
-                </div>
-                <div class="grid5">
-                    @Html.LabelFor(a => a.LanguageListFlag, new { @for = "chkLanguageListFlag" })
-                </div>
-            </div>
-            <div class="row">
-                <div class="grid1">
-                    @Html.CheckBoxFor(a => a.SportIDListFlag, new { id = "chkSportIDListFlag", @class = "chkPerSettings", @isDisabled = @ViewBag.SportsFlag ? "" : "disabled", @checked = "false" })
-                </div>
-                <div class="grid5">
-                    @Html.LabelFor(a => a.SportIDListFlag, new { @for = "chkSportIDListFlag" })
-                </div>
-            </div>
-            <div class="row">
-                <div class="grid1">
-                    @Html.CheckBoxFor(a => a.CountryCodeListFlag, new { id = "chkCountryCodeListFlag", @class = "chkPerSettings", @isDisabled = @ViewBag.CountriesFlag ? "" : "disabled", @checked = "false" })
-                </div>
-                <div class="grid5">
-                    @Html.LabelFor(a => a.CountryCodeListFlag, new { @for = "chkCountryCodeListFlag" })
-                </div>
-            </div>
-            <div class="row">
-                <div class="grid1">
-                    @Html.CheckBoxFor(a => a.BetTypeIDListFlag, new { id = "chkBetTypeIDListFlag", @class = "chkPerSettings", @isDisabled = @ViewBag.MarketsFlag ? "" : "disabled", @checked = "false" })
-                </div>
-                <div class="grid5">
-                    @Html.LabelFor(a => a.BetTypeIDListFlag, new { @for = "chkBetTypeIDListFlag" })
-                </div>
-            </div>
-            <div class="row">
-                <div class="grid1">
-                </div>
-                <div class="grid2">
-                    <a href="@Url.Action("list", "subaccount")" class="button">@ViewResources.Cancel</a>
-                </div>
-                <div class="grid2">
-                    <input id="Save" onclick="return CheckValidation_Step3();" type="submit" value="@ViewResources.Save" />
-                </div>
-            </div>
-        </div>
-    }
+		@Html.ValidationSummary()
+		<input type="hidden" asp-for="SubAccountID" />
+		<input type="hidden" asp-for="SubAccountName" />
+		<div class="form" style="width: auto;">
+			<div class="row">
+				<div class="grid1">
+					<input asp-for="OddsTypeFlag" id="chkOddsTypeFlag" class="chkPerSettings" isDisabled="@(ViewBag.OddsTypeFlag ? string.Empty : "disabled")" checked="@false" />
+				</div>
+				<div class="grid5">
+					<label asp-for="OddsTypeFlag"></label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="grid1">
+					<input asp-for="OddsStyleFlag" id="chkOddsStyleFlag" class="chkPerSettings" isDisabled="@(ViewBag.OddsStyleFlag ? string.Empty : "disabled")" checked="@false" />
+				</div>
+				<div class="grid5">
+					<label asp-for="OddsStyleFlag"></label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="grid1">
+					<input asp-for="LanguageListFlag" id="chkLanguageListFlag" class="chkPerSettings" isDisabled="@(ViewBag.LanguagesFlag ? string.Empty : "disabled")" checked="@false" />
+				</div>
+				<div class="grid5">
+					<label asp-for="LanguageListFlag"></label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="grid1">
+					<input asp-for="SportIDListFlag" id="chkSportIDListFlag" class="chkPerSettings" isDisabled="@(ViewBag.SportsFlag ? string.Empty : "disabled")" checked="@false" />
+				</div>
+				<div class="grid5">
+					<label asp-for="SportIDListFlag"></label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="grid1">
+					<input asp-for="CountryCodeListFlag" id="chkCountryCodeListFlag" class="chkPerSettings" isDisabled="@(ViewBag.CountriesFlag ? string.Empty : "disabled")" checked="@false" />
+				</div>
+				<div class="grid5">
+					<label asp-for="CountryCodeListFlag"></label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="grid1">
+					<input asp-for="BetTypeIDListFlag" id="chkBetTypeIDListFlag" class="chkPerSettings" isDisabled="@(ViewBag.MarketsFlag ? string.Empty : "disabled")" checked="@false" />
+				</div>
+				<div class="grid5">
+					<label asp-for="BetTypeIDListFlag"></label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="grid1">
+				</div>
+				<div class="grid2">
+					<a href="@Url.Action("list", "subaccount")" class="button">@ViewResources.Cancel</a>
+				</div>
+				<div class="grid2">
+					<input id="Save" onclick="return CheckValidation_Step3();" type="submit" value="@ViewResources.Save" />
+				</div>
+			</div>
+		</div>
+	</form>
 </div>
