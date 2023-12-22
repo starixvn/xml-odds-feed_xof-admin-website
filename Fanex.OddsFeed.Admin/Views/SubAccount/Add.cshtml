@@ -220,12 +220,10 @@
             </div>
             <div class="licenseeList grid7" style="text-align: left; border-style: solid; border-width: 1px;
                     border-color: #C8C8C8; overflow: scroll">
-                @*@Html.CheckBoxDropDownListFor(a => a.SystemArray, ViewBag.SystemList as IEnumerable<SelectListItem>, new { @Class = "chkSystem" })*@
                 @for (var i = 0; i < ViewBag.SystemList.Count; i++)
                 {
                     var system = ViewBag.SystemList[i];
                     var id = "SystemArray" + system.Value.ToString();
-                    @*var isChecked = Array.IndexOf(Model.SystemList, oddsType.Value.ToString()) > -1;*@
                     <div>
                         <input class="chkSystem" id="@id" name="SystemArray" type="checkbox" value="@system.Value" checked="checked">
                         <label class="font-normal" for="@id">@system.Text</label>
