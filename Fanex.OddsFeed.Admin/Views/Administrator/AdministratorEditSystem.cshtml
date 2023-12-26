@@ -1,105 +1,105 @@
 ﻿@using Fanex.OddsFeed.Resources
+@using Microsoft.AspNetCore.Html;
 @model Fanex.OddsFeed.Criteria.Administrator.UpdateAdminSystemCriteria
 @{
-    ViewBag.IsDashboard = false;
-    ViewBag.Title = "Assign Licensee To";
+	ViewBag.IsDashboard = false;
+	ViewBag.Title = "Assign Licensee To";
 }
 @section Breadcrumb {
-    <a class="step" href="@Url.Action("ShowDashboard", "Dashboard")"><span class='xicon home'></span>Home</a>
-    <a class="step" href="@Url.Action("AdministratorList", "Administrator")">Administrator List</a>
-    <span class="step">@ViewBag.Title @ViewBag.CurrentUser</span>
+	<a class="step" href="@Url.Action("ShowDashboard", "Dashboard")"><span class='xicon home'></span>Home</a>
+	<a class="step" href="@Url.Action("AdministratorList", "Administrator")">Administrator List</a>
+	<span class="step">@ViewBag.Title @ViewBag.CurrentUser</span>
 }
 @section Styles
-{
-    <link rel="stylesheet" href="~/minify/css/administrator.min.css" asp-append-version="true">
+	{
+	<link rel="stylesheet" href="~/minify/css/administrator.min.css" asp-append-version="true">
 }
 @section Scripts
-{
-    <environment include="Development">
-        <script src="~/js/Administrator/EditAdministrator.js" asp-append-version="true"></script>
-    </environment>
-    <environment exclude="Development">
-        <script src="~/minify/js/editadministrator.min.js" asp-append-version="true"></script>
-    </environment>
+	{
+	<environment include="Development">
+		<script src="~/js/Administrator/EditAdministrator.js" asp-append-version="true"></script>
+	</environment>
+	<environment exclude="Development">
+		<script src="~/minify/js/editadministrator.min.js" asp-append-version="true"></script>
+	</environment>
 }
 <div id="step2" class="step">
-    @using (Html.BeginForm())
-    {
-        @Html.ValidationSummary()
+	<form asp-action="AdministratorEditSystem" asp-controller="Administrator">
+		@Html.ValidationSummary()
 
-        if (ViewBag.HasEditPermission == null || ViewBag.HasEditPermission == true)
-        {
-            @Html.HiddenFor(a => a.UserID, new { id = "txtid" })
-            @Html.HiddenFor(a => a.UserName)
+		@if (ViewBag.HasEditPermission == null || ViewBag.HasEditPermission == true)
+		{
+			<input type="hidden" asp-for="UserID" id="txtid" />
+			<input type="hidden" asp-for="UserName" />
 
-            <div class="infor">
-                <span class="infor-ic"></span><span class="infor-text">Assign Licensee(s) to Administrator.</span>
-            </div>
-            <h3>
-                @Html.Raw(ViewResources.HtmlTemplate_InputRequired)
-            </h3>
+			<div class="infor">
+				<span class="infor-ic"></span><span class="infor-text">Assign Licensee(s) to Administrator.</span>
+			</div>
+			<h3>
+				@(new HtmlString(ViewResources.HtmlTemplate_InputRequired))
+			</h3>
 
-            if (ViewBag.Success == true)
-            {
-                <div id="success-message-box" class="success-message-box">
-                    <ul>
-                        <li>The Administrator's information has been updated successfully!</li>
-                    </ul>
-                </div>
-                <input type="hidden" id="successed" value="true" />
-            }
-            else if (!string.IsNullOrEmpty(ViewBag.Error))
-            {
-                <div id="error-message-box" class="error-message-box">
-                    <ul>
-                        <li>@ViewBag.Error</li>
-                    </ul>
-                </div>
-            }
-            <div id="errorStep1" class="validation-summary-errors hidden" data-valmsg-summary="true">
-                <ul>
-                    <li id="licenseeRequiredErr" class="hidden">
-                        @ViewResources.Error_LicenseeRequired
-                </li>
-            </ul>
-        </div>
-            <div class="form480">
-                <div class="row">
-                    <div class="grid3"></div>
-                    <div class="grid6">
-                        <input type="text" id="search-licensee-txt" class="search-licensee-txt" placeholder="Licensee Name" onkeyup="SearchLicensee()" />
-                    </div>
-                </div>
-                <div class="row3 licensee-list-row">
-                    <div class="grid3" style="line-height: 170px; text-align: right">
-                        <label for="chkAllSystem">
-                            @ViewResources.Licensee
-                        </label><input type="checkbox" id="chkAllSystem" />
-                    </div>
-                    <div class="grid6 licensee-list">
-                        @foreach (var item in (ViewBag.SystemListID as IEnumerable<SelectListItem>)!)
-                        {
-                            <div class="">
-                                <input @(Model.SystemList.Count(x => x.Equals(item.Value)) > 0 ? "checked" : "")
-                                    class="chkSystem" id="@("SystemList" + item.Value)" name="SystemList" type="checkbox" value="@item.Value">
-                                <label class="font-normal" for="@("SystemList" + item.Value)">@item.Text</label>
-                            </div>
-                        }
-                    </div>
-                    <div class="grid1">
-                        <span style="line-height: 170px; text-align: left" class="red">(*)</span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="grid3"></div>
-                    <div class="grid2">
-                        <a href="@Url.Action("AdministratorList", "Administrator")" class="button">@ViewResources.Back</a>
-                    </div>
-                    <div class="grid2">
-                        <input type="submit" onclick="return CheckValidation_AssignLicensee();" value="@ViewResources.Save" />
-                    </div>
-                </div>
-            </div>
-    }
-}
+			@if (ViewBag.Success == true)
+			{
+				<div id="success-message-box" class="success-message-box">
+					<ul>
+						<li>The Administrator's information has been updated successfully!</li>
+					</ul>
+				</div>
+				<input type="hidden" id="successed" value="true" />
+			}
+			else if (!string.IsNullOrEmpty(ViewBag.Error))
+			{
+				<div id="error-message-box" class="error-message-box">
+					<ul>
+						<li>@ViewBag.Error</li>
+					</ul>
+				</div>
+			}
+			<div id="errorStep1" class="validation-summary-errors hidden" data-valmsg-summary="true">
+				<ul>
+					<li id="licenseeRequiredErr" class="hidden">
+						@ViewResources.Error_LicenseeRequired
+					</li>
+				</ul>
+			</div>
+			<div class="form480">
+				<div class="row">
+					<div class="grid3"></div>
+					<div class="grid6">
+						<input type="text" id="search-licensee-txt" class="search-licensee-txt" placeholder="Licensee Name" onkeyup="SearchLicensee()" />
+					</div>
+				</div>
+				<div class="row3 licensee-list-row">
+					<div class="grid3" style="line-height: 170px; text-align: right">
+						<label for="chkAllSystem">
+							@ViewResources.Licensee
+						</label><input type="checkbox" id="chkAllSystem" />
+					</div>
+					<div class="grid6 licensee-list">
+						@foreach (var item in (ViewBag.SystemListID as IEnumerable<SelectListItem>)!)
+						{
+							<div class="">
+								<input @(Model.SystemList.Count(x => x.Equals(item.Value)) > 0 ? "checked" : "")
+									   class="chkSystem" id="@("SystemList" + item.Value)" name="SystemList" type="checkbox" value="@item.Value">
+								<label class="font-normal" for="@("SystemList" + item.Value)">@item.Text</label>
+							</div>
+						}
+					</div>
+					<div class="grid1">
+						<span style="line-height: 170px; text-align: left" class="red">(*)</span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="grid3"></div>
+					<div class="grid2">
+						<a href="@Url.Action("AdministratorList", "Administrator")" class="button">@ViewResources.Back</a>
+					</div>
+					<div class="grid2">
+						<input type="submit" onclick="return CheckValidation_AssignLicensee();" value="@ViewResources.Save" />
+					</div>
+				</div>
+			</div>
+		}
+	</form>
 </div>
