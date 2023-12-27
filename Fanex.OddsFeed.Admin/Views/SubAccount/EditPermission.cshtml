@@ -45,7 +45,7 @@
 			&nbsp;
 		</div>
 
-		@Html.ValidationSummary()
+		<div asp-validation-summary="All"></div>
 		<input type="hidden" asp-for="SubAccountID" />
 		<input type="hidden" asp-for="SubAccountName" />
 		<div class="form" style="width: auto;">

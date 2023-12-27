@@ -25,7 +25,7 @@
 }
 <div id="step2" class="step">
 	<form asp-action="AdministratorEditSystem" asp-controller="Administrator">
-		@Html.ValidationSummary()
+		<div asp-validation-summary="All"></div>
 
 		@if (ViewBag.HasEditPermission == null || ViewBag.HasEditPermission == true)
 		{

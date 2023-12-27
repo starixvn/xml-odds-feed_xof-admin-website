@@ -1,32 +1,33 @@
 ﻿@using Fanex.OddsFeed.Resources
+@using Microsoft.AspNetCore.Html;
 @model Fanex.OddsFeed.Criteria.Domain.CreateDomainCriteria
 
-@using (Html.BeginForm())
-{    
-    <h3>
-        @Html.Raw(ViewResources.HtmlTemplate_InputRequired)</h3>
-    <div class="result-message-box hidden">
-    </div>
-    @Html.ValidationSummary(true)
-    <fieldset>
-        <div class="editor-label">
-            @Html.LabelFor(model => model.DomainName, "Domain Name", null)
-            @Html.Raw(ViewResources.HtmlTemplate_InputRequiredSymbol)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.DomainName)
-        </div>
-        <div class="editor-label">
-            @Html.LabelFor(model => model.IP)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.IP)
-        </div>
-        <div class="editor-label">
-            @Html.LabelFor(model => model.ISP)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.ISP)
-        </div>
-    </fieldset>
-}
+<form>
+	<h3>
+		@(new HtmlString(ViewResources.HtmlTemplate_InputRequired))
+	</h3>
+	<div class="result-message-box hidden">
+	</div>
+	<div asp-validation-summary="All"></div>
+	<fieldset>
+		<div class="editor-label">
+			<label asp-for="DomainName">Domain Name</label>
+			@(new HtmlString(ViewResources.HtmlTemplate_InputRequiredSymbol))
+		</div>
+		<div class="editor-field">
+			<input asp-for="DomainName" />
+		</div>
+		<div class="editor-label">
+			<label asp-for="IP">IP</label>
+		</div>
+		<div class="editor-field">
+			<input asp-for="IP" />
+		</div>
+		<div class="editor-label">
+			<label asp-for="ISP">ISP</label>
+		</div>
+		<div class="editor-field">
+			<input asp-for="ISP" />
+		</div>
+	</fieldset>
+</form>
