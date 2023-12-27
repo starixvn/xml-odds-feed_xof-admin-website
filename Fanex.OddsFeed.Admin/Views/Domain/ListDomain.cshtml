@@ -1,74 +1,74 @@
 ﻿@using Fanex.OddsFeed.Resources
 @model Fanex.OddsFeed.Criteria.Domain.GetDomainByPageCriteria
 @{
-    ViewBag.IsDashboard = false;
-    ViewBag.Title = "Domain List";
+	ViewBag.IsDashboard = false;
+	ViewBag.Title = "Domain List";
 }
 @section Breadcrumb {
-    <a class="step" href="@Url.Action("ShowDashboard", "Dashboard")"><span class='xicon home'></span>Home</a>
-    <span class="step">@ViewBag.Title</span>
+	<a class="step" href="@Url.Action("ShowDashboard", "Dashboard")"><span class='xicon home'></span>Home</a>
+	<span class="step">@ViewBag.Title</span>
 }
 @section Styles
-{
-    <link rel="stylesheet" href="~/minify/css/fanexgrid.min.css" asp-append-version="true">
-    <link rel="stylesheet" href="~/css/Functions/ListDomain/ListDomain.css" asp-append-version="true">
+	{
+	<link rel="stylesheet" href="~/minify/css/fanexgrid.min.css" asp-append-version="true">
+	<link rel="stylesheet" href="~/css/Functions/ListDomain/ListDomain.css" asp-append-version="true">
 }
 @section Scripts
-{
-    <environment include="Development">
-        <script src="~/minify/js/fanexgrid.min.js" asp-append-version="true"></script>
-        <script src="~/js/Functions/ListDomain/ListDomain.js" asp-append-version="true"></script>
-        <script src="~/js/Functions/ListDomain/RegisterDialog.js" asp-append-version="true"></script>
-        <script src="~/js/Views/Core.js" asp-append-version="true"></script>
-    </environment>
-    <environment exclude="Development">
-        <script src="~/minify/js/fanexgrid.min.js" asp-append-version="true"></script>
-        <script src="~/minify/js/listdomain.min.js" asp-append-version="true"></script>
-    </environment>
+	{
+	<environment include="Development">
+		<script src="~/minify/js/fanexgrid.min.js" asp-append-version="true"></script>
+		<script src="~/js/Functions/ListDomain/ListDomain.js" asp-append-version="true"></script>
+		<script src="~/js/Functions/ListDomain/RegisterDialog.js" asp-append-version="true"></script>
+		<script src="~/js/Views/Core.js" asp-append-version="true"></script>
+	</environment>
+	<environment exclude="Development">
+		<script src="~/minify/js/fanexgrid.min.js" asp-append-version="true"></script>
+		<script src="~/minify/js/listdomain.min.js" asp-append-version="true"></script>
+	</environment>
 
-    <script type="text/javascript">
-        var viewResources = {
-            ActionResult_Success_AddDomain: '@ViewResources.ActionResult_Success_AddDomain',
-            ActionResult_Success_UpdateDomain: '@ViewResources.ActionResult_Success_UpdateDomain',
-            ActionResult_Success_DeleteDomain: '@ViewResources.ActionResult_Success_DeleteDomain',
-            Domain_Name: '@ViewResources.Domain_Name'
-        };
-    </script>
+	<script type="text/javascript">
+		var viewResources = {
+			ActionResult_Success_AddDomain: '@ViewResources.ActionResult_Success_AddDomain',
+			ActionResult_Success_UpdateDomain: '@ViewResources.ActionResult_Success_UpdateDomain',
+			ActionResult_Success_DeleteDomain: '@ViewResources.ActionResult_Success_DeleteDomain',
+			Domain_Name: '@ViewResources.Domain_Name'
+		};
+	</script>
 }
 <div class="infor">
-    <span class="infor-ic">&nbsp;</span><span class="infor-text">The list of xml odds feed domains.</span>
+	<span class="infor-ic">&nbsp;</span><span class="infor-text">The list of xml odds feed domains.</span>
 </div>
 <div class="newline">
-    &nbsp;
+	&nbsp;
 </div>
 <div id="success-message-box" class="success-message-box hidden">
 </div>
 <div class="listdomain-result-message-box hidden">
 </div>
 <div>
-    <form id="myForm" method="get" action="/request/dailyview">
-        @Html.HiddenFor(s => s.PageSize)
-        @Html.HiddenFor(s => s.PageIndex)
-        @Html.HiddenFor(s => s.PageCount)
-        <div class="container_24 bunhat">
-            <div class="grid_3 gridlabel">
-                @Html.LabelFor(s => s.DomainName, "Domain Name")
-                @Html.HiddenFor(s => s.DomainId)
-            </div>
-            <div class="grid_8">
-                @Html.TextBoxFor(s => s.DomainName, new { @onkeyup = "StartAutoSuggesttion()", placeholder = "Domain Name" })
-            </div>
-            <div class="grid_2">
-                <input type="button" value="Search" onclick="Submit()">
-            </div>
-            <div class="grid_2">
-                <input type="button" id="AddDomain" value="Add Domain" style="width: auto;" onclick="btnAddDomainClick();" />
-            </div>
-        </div>
-    </form>
+	<form id="myForm" method="get" action="/request/dailyview">
+		<input type="hidden" asp-for="PageSize" />
+		<input type="hidden" asp-for="PageIndex" />
+		<input type="hidden" asp-for="PageCount" />
+		<div class="container_24 bunhat">
+			<div class="grid_3 gridlabel">
+				<label asp-for="DomainName">Domain Name</label>
+				<input type="hidden" asp-for="DomainId" />
+			</div>
+			<div class="grid_8">
+				<input asp-for="DomainName" onkeyup="StartAutoSuggesttion()" placeholder="Domain Name" />
+			</div>
+			<div class="grid_2">
+				<input type="button" value="Search" onclick="Submit()">
+			</div>
+			<div class="grid_2">
+				<input type="button" id="AddDomain" value="Add Domain" style="width: auto;" onclick="btnAddDomainClick();" />
+			</div>
+		</div>
+	</form>
 </div>
 <div class="newline">
-    &nbsp;
+	&nbsp;
 </div>
 <div id="SearchResult" class="freegrid  content-grid">
 </div>
@@ -76,11 +76,11 @@
 <div id="DomainDetail" class="freegrid  content-grid hidden">
 </div>
 <div id="dialog-form" title="Create Domain" style="display: none">
-    @await Html.PartialAsync("DomainCreate")
+	<partial name="DomainCreate" />
 </div>
 <div id="dialog-form-update" title="Update Domain" style="display: none">
-    @await Html.PartialAsync("DomainEdit")
+	<partial name="DomainEdit" />
 </div>
 <div id="dialog-form-delete" title="LICENSEE ADMIN" style="display: none">
-    @await Html.PartialAsync("DomainDelete")
+	<partial name="DomainDelete" />
 </div>

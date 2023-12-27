@@ -19,7 +19,7 @@
 
 <div id="step2" class="step">
 	<form method="post" action="">
-		@Html.ValidationSummary()
+		<div asp-validation-summary="All"></div>
 		@if (ViewBag.Success == true)
 		{
 			<div id="success-message-box" class="success-message-box">
