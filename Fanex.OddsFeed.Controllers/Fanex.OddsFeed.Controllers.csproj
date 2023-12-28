@@ -1,9 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="NLog.Web.AspNetCore" Version="5.3.5" />
     <PackageReference Include="ONEbook.UM.AspNetCore" Version="3.1.1.1" />
@@ -11,7 +9,6 @@
     <PackageReference Include="ONEbook.UM.Transport" Version="3.1.2" />
     <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="2.88.6" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Fanex.OddsFeed.Core\Fanex.OddsFeed.Core.csproj" />
     <ProjectReference Include="..\Fanex.OddsFeed.Criteria\Fanex.OddsFeed.Criteria.csproj" />
@@ -19,5 +16,4 @@
     <ProjectReference Include="..\Fanex.OddsFeed.Resources\Fanex.OddsFeed.Resources.csproj" />
     <ProjectReference Include="..\Fanex.OddsFeed.Services\Fanex.OddsFeed.Services.csproj" />
   </ItemGroup>
-
 </Project>
