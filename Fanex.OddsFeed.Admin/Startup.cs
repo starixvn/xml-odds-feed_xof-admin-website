@@ -47,6 +47,11 @@
             services.AddDataProtection()
                 .PersistKeysToStackExchangeRedis(redis, "XMLOddsFeedAdmin:DataProtection:Keys")
                 .SetApplicationName("XMLOddsFeedAdmin");
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = redisConfig;
+                options.InstanceName = $"XMLOddsFeedAdmin:Session:";
+            });
             
             services.AddAuthentication(options =>
             {
