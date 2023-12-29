@@ -1,5 +1,6 @@
 ﻿@using Fanex.OddsFeed.Core
 @using Fanex.OddsFeed.Resources;
+@using Microsoft.AspNetCore.Html;
 @model Fanex.OddsFeed.Criteria.SubAccount.AssignLicensee_SubAccCriteria
 @{
 	ViewBag.Title = "Assign Licensee To";
@@ -52,7 +53,7 @@
 				<span class="infor-ic"></span><span class="infor-text">Assign Licensee(s) to Sub-account.</span>
 			</div>
 			<h3>
-				@Html.Raw(ViewResources.HtmlTemplate_InputRequired)
+				@(new HtmlString(ViewResources.HtmlTemplate_InputRequired))
 			</h3>
 			<div class="newline">
 				&nbsp;
@@ -82,7 +83,7 @@
 						}
 					</div>
 					<div class="grid1" style="line-height: 170px; text-align: left">
-						@Html.Raw(ViewResources.HtmlTemplate_InputRequiredSymbol)
+						@(new HtmlString(ViewResources.HtmlTemplate_InputRequiredSymbol))
 					</div>
 				</div>
 				<div class="row">
