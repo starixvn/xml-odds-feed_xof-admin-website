@@ -1,5 +1,6 @@
 ﻿@using Fanex.OddsFeed.Core
 @using Fanex.OddsFeed.Resources;
+@using Microsoft.AspNetCore.Html;
 @model Fanex.OddsFeed.Criteria.SubAccount.UpdateSubAccCriteria
 @{
 	ViewBag.Title = "Edit sub-account information";
@@ -24,7 +25,9 @@
 
 <div id="editStep1">
 	<div class="infor">
-		<span class="infor-ic"></span><span class="infor-text">@Html.Raw(ViewResources.HtmlTemplate_InputRequired)</span>
+		<span class="infor-ic"></span><span class="infor-text">
+			@(new HtmlString(ViewResources.HtmlTemplate_InputRequired))
+		</span>
 	</div>
 	<div class="newline">
 		&nbsp;
@@ -72,7 +75,7 @@
 					<input asp-for="Email" id="txtEmail" maxlength="50" />
 				</div>
 				<div class="grid1">
-					@Html.Raw(ViewResources.HtmlTemplate_InputRequiredSymbol)
+					@(new HtmlString(ViewResources.HtmlTemplate_InputRequiredSymbol))
 				</div>
 			</div>
 			<div class="row">
