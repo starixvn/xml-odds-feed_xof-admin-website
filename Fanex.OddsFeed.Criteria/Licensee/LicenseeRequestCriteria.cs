@@ -8,11 +8,12 @@
 
     public class LicenseeRequestCriteria : CriteriaBase
     {
+        private const int TimeZone = 7;
         private DateTime _dateStart;
         private DateTime _dateEnd;
 
         public LicenseeRequestCriteria()
-            : this(DateTime.Now)
+            : this(DateTimeOffset.Now.DateTime)
         {
         }
 
@@ -24,12 +25,12 @@
             this.Month = dateEnd.Month;
             this.Year = dateEnd.Year;
         }
-        
+
         public int? LicenseeId { get; set; }
 
         public string SystemName { get; set; }
 
-        
+
 
         [Required]
         public DateTime DateStart
@@ -39,14 +40,14 @@
                 if (this.PeriodOption == PeriodType.Month.ToString())
                 {
                     // select month period
-                    this._dateStart = new DateTime(this.Year, this.Month, 1);
+                    this._dateStart = new DateTimeOffset(this.Year, this.Month, 1, 0, 0, 0, TimeSpan.FromHours(-TimeZone)).DateTime;
                 }
                 else
                 {
                     if (this.PeriodOption == PeriodType.Year.ToString())
                     {
                         // select year period
-                        this._dateStart = new DateTime(this.Year, 1, 1);
+                        this._dateStart = new DateTimeOffset(this.Year, 1, 1, 0, 0, 0, TimeSpan.FromHours(-TimeZone)).DateTime;
                     }
                 }
 
@@ -66,7 +67,7 @@
                 if (this.PeriodOption == PeriodType.Month.ToString())
                 {
                     // select month period
-                    this._dateEnd = new DateTime(this.Year, this.Month, 1).AddMonths(1).AddDays(-1);
+                    this._dateEnd = new DateTimeOffset(this.Year, this.Month, 1, 0, 0, 0, TimeSpan.FromHours(-TimeZone)).DateTime.AddMonths(1).AddDays(-1);
                 }
                 else
                 {
@@ -75,7 +76,7 @@
                         // select year period
                         const byte December = 12;
                         const byte LastDayOfMonth = 31;
-                        this._dateEnd = new DateTime(this.Year, December, LastDayOfMonth);
+                        this._dateEnd = new DateTimeOffset(this.Year, December, LastDayOfMonth, 0, 0, 0, TimeSpan.FromHours(-TimeZone)).DateTime;
                     }
                 }
 

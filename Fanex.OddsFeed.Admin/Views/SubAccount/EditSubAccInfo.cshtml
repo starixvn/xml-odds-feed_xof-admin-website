@@ -3,101 +3,101 @@
 @using Microsoft.AspNetCore.Html;
 @model Fanex.OddsFeed.Criteria.SubAccount.UpdateSubAccCriteria
 @{
-	ViewBag.Title = "Edit sub-account information";
-	ViewBag.IsDashboard = false;
+    ViewBag.Title = "Edit sub-account information";
+    ViewBag.IsDashboard = false;
 }
 
 @section Breadcrumb {
-	<a class="step" href="@Url.Action("ShowDashboard", "Dashboard")"><span class='xicon home'></span>Home</a>
-	<a class="step" href="@Url.Action("List", "SubAccount")">Sub-account List</a>
-	<span class="step">@ViewBag.Title @ViewBag.CurrentUser</span>
+    <a class="step" href="@Url.Action("ShowDashboard", "Dashboard")"><span class='xicon home'></span>Home</a>
+    <a class="step" href="@Url.Action("List", "SubAccount")">Sub-account List</a>
+    <span class="step">@ViewBag.Title @ViewBag.CurrentUser</span>
 }
 
 @section Scripts
-	{
-	<script src="~/js/SubAccount/EditSubAcc.js" asp-append-version="true"></script>
-	<script type="text/javascript">
-		var viewResources = {
-			ActionResult_Success_UpdateSubAccount: '@ViewResources.ActionResult_Success_UpdateSubAccount'
-		};
-	</script>
+    {
+    <script src="~/js/SubAccount/EditSubAcc.js" asp-append-version="true"></script>
+    <script type="text/javascript">
+        var viewResources = {
+            ActionResult_Success_UpdateSubAccount: '@ViewResources.ActionResult_Success_UpdateSubAccount'
+        };
+    </script>
 }
 
 <div id="editStep1">
-	<div class="infor">
-		<span class="infor-ic"></span><span class="infor-text">
-			@(new HtmlString(ViewResources.HtmlTemplate_InputRequired))
-		</span>
-	</div>
-	<div class="newline">
-		&nbsp;
-	</div>
-	<div id="errorStep1" class="validation-summary-errors hidden" data-valmsg-summary="true">
-		<ul>
-			<li id="emailReqErr" style="display: none">The Email field is required.</li>
-			<li id="emailInvalidErr" style="display: none">The Email field is invalid.</li>
-		</ul>
-	</div>
-	<div class="result-message-box hidden">
-	</div>
-	<form method="post" action="">
-		<input type="hidden" asp-for="SubAccountID" />
-		<div class="form">
-			<div class="row">
-				<div class="grid2">
-					<label asp-for="UserName"></label>
-				</div>
-				<div class="grid5">
-					<input asp-for="UserName" id="txtUsername" disabled="disabled" />
-				</div>
-			</div>
-			<div class="row">
-				<div class="grid2">
-					<label asp-for="FirstName"></label>
-				</div>
-				<div class="grid5">
-					<input asp-for="FirstName" id="txtFirstName" maxlength="50" />
-				</div>
-			</div>
-			<div class="row">
-				<div class="grid2">
-					<label asp-for="LastName"></label>
-				</div>
-				<div class="grid5">
-					<input asp-for="LastName" id="txtLastName" maxlength="50" />
-				</div>
-			</div>
-			<div class="row">
-				<div class="grid2">
-					<label asp-for="Email"></label>
-				</div>
-				<div class="grid7">
-					<input asp-for="Email" id="txtEmail" maxlength="50" />
-				</div>
-				<div class="grid1">
-					@(new HtmlString(ViewResources.HtmlTemplate_InputRequiredSymbol))
-				</div>
-			</div>
-			<div class="row">
-				<div class="grid2">
-					<label asp-for="IsActive" for="chkIsActive"></label>
-				</div>
-				<div class="grid5">
-					<input asp-for="IsActive" type="checkbox" id="chkIsActive" />
-				</div>
-			</div>
-			<div class="row">
-			</div>
-			<div class="row">
-				<div class="grid2">
-				</div>
-				<div class="grid2">
-					<a href="@Url.Action("list", "subaccount")" class="button">@ViewResources.Cancel</a>
-				</div>
-				<div class="grid2">
-					<input id="Save" type="button" value="@ViewResources.Save" />
-				</div>
-			</div>
-		</div>
-	</form>
+    <div class="infor">
+        <span class="infor-ic"></span><span class="infor-text">
+            @(new HtmlString(ViewResources.HtmlTemplate_InputRequired))
+        </span>
+    </div>
+    <div class="newline">
+        &nbsp;
+    </div>
+    <div id="errorStep1" class="validation-summary-errors hidden" data-valmsg-summary="true">
+        <ul>
+            <li id="emailReqErr" style="display: none">The Email field is required.</li>
+            <li id="emailInvalidErr" style="display: none">The Email field is invalid.</li>
+        </ul>
+    </div>
+    <div class="result-message-box hidden">
+    </div>
+    <form method="post" action="">
+        <input type="hidden" asp-for="SubAccountID" />
+        <div class="form">
+            <div class="row">
+                <div class="grid2">
+                    <label asp-for="UserName"></label>
+                </div>
+                <div class="grid5">
+                    <input asp-for="UserName" id="txtUsername" disabled="disabled" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="grid2">
+                    <label asp-for="FirstName"></label>
+                </div>
+                <div class="grid5">
+                    <input asp-for="FirstName" id="txtFirstName" maxlength="50" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="grid2">
+                    <label asp-for="LastName"></label>
+                </div>
+                <div class="grid5">
+                    <input asp-for="LastName" id="txtLastName" maxlength="50" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="grid2">
+                    <label asp-for="Email"></label>
+                </div>
+                <div class="grid7">
+                    <input asp-for="Email" id="txtEmail" maxlength="50" />
+                </div>
+                <div class="grid1">
+                    @(new HtmlString(ViewResources.HtmlTemplate_InputRequiredSymbol))
+                </div>
+            </div>
+            <div class="row">
+                <div class="grid2">
+                    <label asp-for="IsActive" for="chkIsActive"></label>
+                </div>
+                <div class="grid5">
+                    <input asp-for="IsActive" type="checkbox" id="chkIsActive" />
+                </div>
+            </div>
+            <div class="row">
+            </div>
+            <div class="row">
+                <div class="grid2">
+                </div>
+                <div class="grid2">
+                    <a href="@Url.Action("list", "subaccount")" class="button">@ViewResources.Cancel</a>
+                </div>
+                <div class="grid2">
+                    <input id="Save" type="button" value="@ViewResources.Save" />
+                </div>
+            </div>
+        </div>
+    </form>
 </div>

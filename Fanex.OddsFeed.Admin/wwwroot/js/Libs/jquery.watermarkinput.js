@@ -52,30 +52,30 @@
         if (!color)
             color = "#aaa";
         return this.each(
-			function () {
-			    var input = $(this);
-			    var defaultColor = input.css("color");
-			    map[map.length] = { text: text, obj: input, DefaultColor: defaultColor, WatermarkColor: color };
-			    function clearMessage() {
-			        if (input.val() == text)
-			            input.val("");
-			        input.css("color", defaultColor);
-			    }
+            function () {
+                var input = $(this);
+                var defaultColor = input.css("color");
+                map[map.length] = { text: text, obj: input, DefaultColor: defaultColor, WatermarkColor: color };
+                function clearMessage() {
+                    if (input.val() == text)
+                        input.val("");
+                    input.css("color", defaultColor);
+                }
 
-			    function insertMessage() {
-			        if (input.val().length == 0 || input.val() == text) {
-			            input.val(text);
-			            input.css("color", color);
-			        } else
-			            input.css("color", defaultColor);
-			    }
+                function insertMessage() {
+                    if (input.val().length == 0 || input.val() == text) {
+                        input.val(text);
+                        input.css("color", color);
+                    } else
+                        input.css("color", defaultColor);
+                }
 
-			    input.focus(clearMessage);
-			    input.blur(insertMessage);
-			    input.change(insertMessage);
+                input.focus(clearMessage);
+                input.blur(insertMessage);
+                input.change(insertMessage);
 
-			    insertMessage();
-			}
-		);
+                insertMessage();
+            }
+        );
     };
 })(jQuery);

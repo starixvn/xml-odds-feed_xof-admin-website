@@ -66,7 +66,7 @@
                 };
                 var properties = criteria.GetType().GetProperties()
                     .Select(x => new KeyValuePair<string, object>(x.Name, x.GetValue(criteria, null)))
-                    .ToDictionary(x => x.Key.ToLower(), x => x.Value);
+                    .ToDictionary(x => x.Key.ToLowerInvariant(), x => x.Value);
                 if (properties.ContainsKey("rowcount"))
                 {
                     result.TotalItems = int.Parse(properties["rowcount"].ToString());

@@ -3,31 +3,31 @@
 @model Fanex.OddsFeed.Criteria.Domain.CreateDomainCriteria
 
 <form>
-	<h3>
-		@(new HtmlString(ViewResources.HtmlTemplate_InputRequired))
-	</h3>
-	<div class="result-message-box hidden">
-	</div>
-	<div asp-validation-summary="All"></div>
-	<fieldset>
-		<div class="editor-label">
-			<label asp-for="DomainName">Domain Name</label>
-			@(new HtmlString(ViewResources.HtmlTemplate_InputRequiredSymbol))
-		</div>
-		<div class="editor-field">
-			<input asp-for="DomainName" />
-		</div>
-		<div class="editor-label">
-			<label asp-for="IP">IP</label>
-		</div>
-		<div class="editor-field">
-			<input asp-for="IP" />
-		</div>
-		<div class="editor-label">
-			<label asp-for="ISP">ISP</label>
-		</div>
-		<div class="editor-field">
-			<input asp-for="ISP" />
-		</div>
-	</fieldset>
+    <h3>
+        @(new HtmlString(ViewResources.HtmlTemplate_InputRequired))
+    </h3>
+    <div class="result-message-box hidden">
+    </div>
+    <div asp-validation-summary="All"></div>
+    <fieldset>
+        <div class="editor-label">
+            <label asp-for="DomainName">Domain Name</label>
+            @(new HtmlString(ViewResources.HtmlTemplate_InputRequiredSymbol))
+        </div>
+        <div class="editor-field">
+            <input asp-for="DomainName" />
+        </div>
+        <div class="editor-label">
+            <label asp-for="IP">IP</label>
+        </div>
+        <div class="editor-field">
+            <input asp-for="IP" />
+        </div>
+        <div class="editor-label">
+            <label asp-for="ISP">ISP</label>
+        </div>
+        <div class="editor-field">
+            <input asp-for="ISP" />
+        </div>
+    </fieldset>
 </form>

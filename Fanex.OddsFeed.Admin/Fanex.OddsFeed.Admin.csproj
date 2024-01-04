@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
   </PropertyGroup>
-	
+    
   <ItemGroup>
     <None Remove="App_Data\SpNames.AWS.xml" />
     <None Remove="App_Data\SpNames.LOCAL.xml" />

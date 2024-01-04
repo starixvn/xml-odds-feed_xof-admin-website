@@ -2,110 +2,110 @@
 @using Microsoft.AspNetCore.Html;
 @model Fanex.OddsFeed.Criteria.Licensee.EditLicenseeInfoCriteria
 @{
-	ViewBag.IsDashboard = false;
-	ViewBag.Title = "Edit licensee information";
+    ViewBag.IsDashboard = false;
+    ViewBag.Title = "Edit licensee information";
 }
 @section Breadcrumb {
-	<a class="step" href="@Url.Action("ShowDashboard", "Dashboard")"><span class='xicon home'></span>Home</a>
-	<a class="step" href="@Url.Action("ListLicensee", "Licensee")">Licensee List</a>
-	<span class="step">@ViewBag.Title @ViewBag.CurrentSystem</span>
+    <a class="step" href="@Url.Action("ShowDashboard", "Dashboard")"><span class='xicon home'></span>Home</a>
+    <a class="step" href="@Url.Action("ListLicensee", "Licensee")">Licensee List</a>
+    <span class="step">@ViewBag.Title @ViewBag.CurrentSystem</span>
 }
 @section Styles
-	{
-	<link rel="stylesheet" href="~/minify/css/licensee.min.css" asp-append-version="true">
+    {
+    <link rel="stylesheet" href="~/minify/css/licensee.min.css" asp-append-version="true">
 }
 @section Scripts
-	{
-	<environment include="Development">
-		<script src="~/js/Functions/ListLicensee/CommonLicensee.js" type="text/javascript"></script>
-		<script src="~/js/Functions/ListLicensee/EditLicenseeInfo.js" type="text/javascript"></script>
-	</environment>
-	<environment exclude="Development">
-		<script src="~/minify/js/editinfolicensee.min.js" asp-append-version="true"></script>
-	</environment>
-	<script type="text/javascript">
-		var viewResources = {
-			Error_EmailRequired: '@ViewResources.Error_EmailRequired',
-			Error_EmailContent: '@ViewResources.Error_EmailContent'
-		};
-	</script>
+    {
+    <environment include="Development">
+        <script src="~/js/Functions/ListLicensee/CommonLicensee.js" type="text/javascript"></script>
+        <script src="~/js/Functions/ListLicensee/EditLicenseeInfo.js" type="text/javascript"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/minify/js/editinfolicensee.min.js" asp-append-version="true"></script>
+    </environment>
+    <script type="text/javascript">
+        var viewResources = {
+            Error_EmailRequired: '@ViewResources.Error_EmailRequired',
+            Error_EmailContent: '@ViewResources.Error_EmailContent'
+        };
+    </script>
 }
 
 <div id="editStep1">
-	<form asp-action="EditLicenseeInfoPost" asp-controller="Licensee" method="post" id="formEditLicenseeInfo">
-		@if (ViewBag.Success == true)
-		{
-			<div class="success">
-				The licensee has been updated successfully!
-			</div>
-			<input type="hidden" id="successed" value="true" />
-		}
-		else
-		{
-			<div class="infor">
-				<span class="infor-ic"> </span>
-				<span class="infor-text">
-					@(new HtmlString(ViewResources.HtmlTemplate_InputRequireds))
-				</span>
-			</div>
-			<div class="newline">
-				&nbsp;
-			</div>
-		}
+    <form asp-action="EditLicenseeInfoPost" asp-controller="Licensee" method="post" id="formEditLicenseeInfo">
+        @if (ViewBag.Success == true)
+        {
+            <div class="success">
+                The licensee has been updated successfully!
+            </div>
+            <input type="hidden" id="successed" value="true" />
+        }
+        else
+        {
+            <div class="infor">
+                <span class="infor-ic"> </span>
+                <span class="infor-text">
+                    @(new HtmlString(ViewResources.HtmlTemplate_InputRequireds))
+                </span>
+            </div>
+            <div class="newline">
+                &nbsp;
+            </div>
+        }
 
-		<div id="errorStep1" class="validation-summary-errors" data-valmsg-summary="true">
-			<ul>
-				<li id="nameReqErr" style="display: none">The Licensee Name field is required.</li>
-				<li id="nameInvalidErr" style="display: none">
-					The Licensee Name field can only contain
-					A-Z, a-z, 0-9, underscore, and spaces.
-				</li>
-				<li id="nameLengErr" style="display: none">
-					The Licensee Name field must be at least
-					2 and maximum 50 characters long.
-				</li>
-			</ul>
-		</div>
-		<div class="result-message-box hidden">
-		</div>
-		<div class="newline">
-			&nbsp;
-		</div>
-		<div class="form">
-			<div class="row licensee-name">
-				<input type="hidden" asp-for="SystemID" />
-				<input type="hidden" asp-for="IsActive" />
-				<div class="grid3">
-					<label asp-for="SystemName">Licensee Name</label>
-				</div>
-				<div class="grid7">
-					<input asp-for="SystemName" disabled="true" />
-				</div>
-				<div class="gird1">
-					<span class="red">(*)</span>
-				</div>
-			</div>
-			<div class="row contact-email">
-				<div class="grid3">
-					<label asp-for="ContactEmail">Contact Email</label>
-				</div>
-				<div class="grid7">
-					<input asp-for="ContactEmail" maxlength="100" />
-				</div>
-				<div class="gird1" style="text-align: left">
-					<span class="red">(*)</span>
-				</div>
-			</div>
-			<div class="row">
-				<div class="grid2">
-				</div>
-				<div class="grid2">
-					<a href="@Url.Action("ListLicensee", "licensee")" class="button">@ViewResources.Back</a>
-				</div>
-				<div class="grid2">
-					<input id="editStep1Save" type="button" value="@ViewResources.Save" />
-				</div>
-			</div>
-		</div>
-	</form>
+        <div id="errorStep1" class="validation-summary-errors" data-valmsg-summary="true">
+            <ul>
+                <li id="nameReqErr" style="display: none">The Licensee Name field is required.</li>
+                <li id="nameInvalidErr" style="display: none">
+                    The Licensee Name field can only contain
+                    A-Z, a-z, 0-9, underscore, and spaces.
+                </li>
+                <li id="nameLengErr" style="display: none">
+                    The Licensee Name field must be at least
+                    2 and maximum 50 characters long.
+                </li>
+            </ul>
+        </div>
+        <div class="result-message-box hidden">
+        </div>
+        <div class="newline">
+            &nbsp;
+        </div>
+        <div class="form">
+            <div class="row licensee-name">
+                <input type="hidden" asp-for="SystemID" />
+                <input type="hidden" asp-for="IsActive" />
+                <div class="grid3">
+                    <label asp-for="SystemName">Licensee Name</label>
+                </div>
+                <div class="grid7">
+                    <input asp-for="SystemName" disabled="true" />
+                </div>
+                <div class="gird1">
+                    <span class="red">(*)</span>
+                </div>
+            </div>
+            <div class="row contact-email">
+                <div class="grid3">
+                    <label asp-for="ContactEmail">Contact Email</label>
+                </div>
+                <div class="grid7">
+                    <input asp-for="ContactEmail" maxlength="100" />
+                </div>
+                <div class="gird1" style="text-align: left">
+                    <span class="red">(*)</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="grid2">
+                </div>
+                <div class="grid2">
+                    <a href="@Url.Action("ListLicensee", "licensee")" class="button">@ViewResources.Back</a>
+                </div>
+                <div class="grid2">
+                    <input id="editStep1Save" type="button" value="@ViewResources.Save" />
+                </div>
+            </div>
+        </div>
+    </form>
 </div>

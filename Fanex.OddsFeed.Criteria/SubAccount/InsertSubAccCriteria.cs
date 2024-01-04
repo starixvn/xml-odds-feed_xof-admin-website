@@ -8,6 +8,7 @@
 
     public class InsertSubAccCriteria : BaseNonQueryCommand
     {
+        private const int MaxLength = 50;
         public int UserID { get; set; }
 
         public int SystemID { get; set; }
@@ -22,7 +23,7 @@
 
         [Required]
         [Display(Name = "Name", ResourceType = typeof(ViewResources))]
-        [StringLength(50, MinimumLength = 2,
+        [StringLength(MaxLength, MinimumLength = 2,
             ErrorMessageResourceName = "InputLengthValidationMsg",
             ErrorMessageResourceType = typeof(ViewResources))]
         [RegularExpression(@"^[\w\s]{1,}$",
@@ -32,19 +33,19 @@
 
         [Required]
         [Display(Name = "Password", ResourceType = typeof(ViewResources))]
-        [StringLength(50, MinimumLength = 6,
+        [StringLength(MaxLength, MinimumLength = 6,
             ErrorMessageResourceName = "InputLengthValidationMsg",
             ErrorMessageResourceType = typeof(ViewResources))]
         public string Password { get; set; }
 
         [Display(Name = "First_Name", ResourceType = typeof(ViewResources))]
-        [StringLength(50, MinimumLength = 2,
+        [StringLength(MaxLength, MinimumLength = 2,
             ErrorMessageResourceName = "InputLengthValidationMsg",
             ErrorMessageResourceType = typeof(ViewResources))]
         public string FirstName { get; set; }
 
         [Display(Name = "Last_Name", ResourceType = typeof(ViewResources))]
-        [StringLength(50, MinimumLength = 2,
+        [StringLength(MaxLength, MinimumLength = 2,
             ErrorMessageResourceName = "InputLengthValidationMsg",
             ErrorMessageResourceType = typeof(ViewResources))]
         public string LastName { get; set; }
@@ -102,7 +103,7 @@
             {
                 if (string.IsNullOrWhiteSpace(Systems))
                 {
-                    return null;
+                    return new string[0];
                 }
 
                 return Systems.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);

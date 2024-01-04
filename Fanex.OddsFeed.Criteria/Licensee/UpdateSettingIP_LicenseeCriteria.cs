@@ -1,7 +1,6 @@
 ﻿namespace Fanex.OddsFeed.Criteria.Licensee
 {
     using System.ComponentModel.DataAnnotations;
-    using Data.Repository;
     using Fanex.Data;
 
     public class UpdateSettingIP_LicenseeCriteria : BaseNonQueryCommand

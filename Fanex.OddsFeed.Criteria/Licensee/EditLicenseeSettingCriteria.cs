@@ -1,26 +1,26 @@
 namespace Fanex.OddsFeed.Criteria.Licensee
 {
-	using Fanex.Data;
+    using Fanex.Data;
 
-	public class EditLicenseeSettingCriteria : BaseNonQueryCommand
-	{
-		public short SystemID { get; set; }
+    public class EditLicenseeSettingCriteria : BaseNonQueryCommand
+    {
+        public short SystemID { get; set; }
 
-		public string DomainList { get; set; }
+        public string DomainList { get; set; }
 
-		public string ListIPFrom { get; set; }
+        public string ListIPFrom { get; set; }
 
-		public string ListIPTo { get; set; }
+        public string ListIPTo { get; set; }
 
-		public int Creator { get; set; }
+        public int Creator { get; set; }
 
-		public string IP { get; set; }
+        public string IP { get; set; }
 
-		[SpParam(Ignored = true)]
-		public string SystemName { get; set; }
+        [SpParam(Ignored = true)]
+        public string SystemName { get; set; }
 
-		public override string GetSettingKey() => "Odds_LicenseeSettingUpd";
+        public override string GetSettingKey() => "Odds_LicenseeSettingUpd";
 
-		public override bool IsValid() => true;
-	}
+        public override bool IsValid() => true;
+    }
 }

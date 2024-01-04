@@ -2,45 +2,45 @@
 @using Microsoft.AspNetCore.Html;
 @model Fanex.OddsFeed.Criteria.Licensee.GetLeagueCriteria
 @{
-	ViewBag.LeagueList = Model.ViewBagLeagueList ?? (ViewBag.LeagueList ?? new List<SelectListItem>());
-	ViewBag.LeagueIDList = Model.LeagueIDList != null ? Model.LeagueIDList.Split(',') : null;
+    ViewBag.LeagueList = Model.ViewBagLeagueList ?? (ViewBag.LeagueList ?? new List<SelectListItem>());
+    ViewBag.LeagueIDList = Model.LeagueIDList != null ? Model.LeagueIDList.Split(',') : null;
 }
 <div class="grid4" style="height: 270px; text-align: right">
-	<br />
-	<br />
-	<br />
-	<label asp-for="LeagueIDList" for="chkAllLeagues">Leagues</label>
-	<input type="checkbox" id="chkAllLeagues" /><br />
-	<label asp-for="LeagueKeyword">Keyword</label>
-	<input type="text" id="LeagueKeyword" name="LeagueKeyword" class="keyword-textbox" />
-	<br />
+    <br />
+    <br />
+    <br />
+    <label asp-for="LeagueIDList" for="chkAllLeagues">Leagues</label>
+    <input type="checkbox" id="chkAllLeagues" /><br />
+    <label asp-for="LeagueKeyword">Keyword</label>
+    <input type="text" id="LeagueKeyword" name="LeagueKeyword" class="keyword-textbox" />
+    <br />
 </div>
 <div class="grid7">
-	<div class="checkbox-filter">
-		<label>Search </label>
-		<input id="league-filter" />
-	</div>
-	<div class="grid7 checkbox-list">
-		@for (var i = 0; i < ViewBag.LeagueList.Count; i++)
-		{
-			var country = ViewBag.LeagueList[i];
-			var id = "LeagueIDList" + country.Value.ToString();
-			var isChecked = false;
-			if (ViewBag.LeagueIDList != null
-			&& (Array.IndexOf(ViewBag.LeagueIDList, country.Value.ToString()) > -1 || ViewBag.LeagueIDList[0] == "all"))
-			{
-				isChecked = true;
-			}
+    <div class="checkbox-filter">
+        <label>Search </label>
+        <input id="league-filter" />
+    </div>
+    <div class="grid7 checkbox-list">
+        @for (var i = 0; i < ViewBag.LeagueList.Count; i++)
+        {
+            var country = ViewBag.LeagueList[i];
+            var id = "LeagueIDList" + country.Value.ToString();
+            var isChecked = false;
+            if (ViewBag.LeagueIDList != null
+            && (Array.IndexOf(ViewBag.LeagueIDList, country.Value.ToString()) > -1 || ViewBag.LeagueIDList[0] == "all"))
+            {
+                isChecked = true;
+            }
 
-			<div style="color: rgb(0, 0, 0);">
-				<input @(isChecked ? "checked" : "") class="chkLeague" id="@id" type="checkbox" value="@country.Value">
-				<label class="font-normal" for="@id">@country.Text</label>
-			</div>
-		}
+            <div style="color: rgb(0, 0, 0);">
+                <input @(isChecked ? "checked" : "") class="chkLeague" id="@id" type="checkbox" value="@country.Value">
+                <label class="font-normal" for="@id">@country.Text</label>
+            </div>
+        }
 
-		<input type="hidden" asp-for="LeagueIDList" />
-	</div>
+        <input type="hidden" asp-for="LeagueIDList" />
+    </div>
 </div>
 <div class="grid1" style="line-height: 170px;">
-	@(new HtmlString(ViewResources.HtmlTemplate_InputRequiredSymbol))
+    @(new HtmlString(ViewResources.HtmlTemplate_InputRequiredSymbol))
 </div>

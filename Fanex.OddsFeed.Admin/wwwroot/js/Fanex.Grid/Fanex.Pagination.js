@@ -120,8 +120,8 @@
                     }
                     else {
                         var lnk = $("<a>" + (appendopts.text) + "</a>")
-						.bind("click", getClickHandler(page_id))
-						.attr('href', opts.linkTo.replace(/__id__/, page_id));
+                        .bind("click", getClickHandler(page_id))
+                        .attr('href', opts.linkTo.replace(/__id__/, page_id));
                     }
                     if (appendopts.classes) { lnk.addClass(appendopts.classes); }
                     $(numberList).append($('<li class="' + (appendopts.classes == "" ? 'sep ' : ' ') + lastcss + '"></li>').append(lnk));
