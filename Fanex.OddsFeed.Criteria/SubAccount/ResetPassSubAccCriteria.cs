@@ -1,7 +1,6 @@
 ﻿namespace Fanex.OddsFeed.Criteria.SubAccount
 {
     using System.ComponentModel.DataAnnotations;
-    using Data.Repository;
     using Fanex.Data;
     using Fanex.OddsFeed.Resources;
 

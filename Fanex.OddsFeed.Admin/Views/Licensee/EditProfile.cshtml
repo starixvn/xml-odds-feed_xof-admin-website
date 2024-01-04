@@ -3,299 +3,299 @@
 @using Microsoft.AspNetCore.Html;
 @model EditLicenseeProfileCriteria
 @{
-	ViewBag.IsDashboard = false;
-	ViewBag.Title = " Edit Licensee Profile";
-	var getLeagueCriteria = new GetLeagueCriteria
-			{
-				SportIDList = Model.SportIDList,
-				LeagueIDList = Model.LeagueIDList,
-				LeagueIDListFlag = Model.LeagueIDListFlag,
-				CountryCodeList = Model.CountryCodeList,
-				LeagueKeyword = Model.LeagueKeyword,
-				LeagueKeywordFlag = Model.LeagueKeywordFlag
-			};
-	var getOutRightCriteria = new GetOutRightCriteria
-			{
-				SportIDList = Model.SportIDList,
-				OutRightIDList = Model.OutRightIDList,
-				CountryCodeList = Model.CountryCodeList,
-				LeagueKeyword_O = Model.LeagueKeyword_O,
-				LeagueKeyword_OFlag = Model.LeagueKeyword_OFlag
-			};
+    ViewBag.IsDashboard = false;
+    ViewBag.Title = " Edit Licensee Profile";
+    var getLeagueCriteria = new GetLeagueCriteria
+            {
+                SportIDList = Model.SportIDList,
+                LeagueIDList = Model.LeagueIDList,
+                LeagueIDListFlag = Model.LeagueIDListFlag,
+                CountryCodeList = Model.CountryCodeList,
+                LeagueKeyword = Model.LeagueKeyword,
+                LeagueKeywordFlag = Model.LeagueKeywordFlag
+            };
+    var getOutRightCriteria = new GetOutRightCriteria
+            {
+                SportIDList = Model.SportIDList,
+                OutRightIDList = Model.OutRightIDList,
+                CountryCodeList = Model.CountryCodeList,
+                LeagueKeyword_O = Model.LeagueKeyword_O,
+                LeagueKeyword_OFlag = Model.LeagueKeyword_OFlag
+            };
 }
 @section Breadcrumb {
-	<a class="step" href="@Url.Action("ShowDashboard", "Dashboard")"><span class='xicon home'></span>Home</a>
-	<a class="step" href="@Url.Action("ListLicensee", "Licensee")">Licensee List</a>
-	<span class="step">@ViewBag.Title @ViewBag.CurrentSystem</span>
+    <a class="step" href="@Url.Action("ShowDashboard", "Dashboard")"><span class='xicon home'></span>Home</a>
+    <a class="step" href="@Url.Action("ListLicensee", "Licensee")">Licensee List</a>
+    <span class="step">@ViewBag.Title @ViewBag.CurrentSystem</span>
 }
 @section Styles
-	{
-	<link rel="stylesheet" href="~/minify/css/affiliate.min.css" asp-append-version="true">
+    {
+    <link rel="stylesheet" href="~/minify/css/affiliate.min.css" asp-append-version="true">
 }
 @section Scripts
-	{
-	<environment include="Development">
-		<script src="~/js/Functions/ListLicensee/CommonLicensee.js" type="text/javascript"></script>
-		<script src="~/js/Functions/ListLicensee/EditLicenseeProfile.js" type="text/javascript"></script>
-	</environment>
-	<environment exclude="Development">
-		<script src="~/minify/js/editprofilelicensee.min.js" asp-append-version="true"></script>
-	</environment>
+    {
+    <environment include="Development">
+        <script src="~/js/Functions/ListLicensee/CommonLicensee.js" type="text/javascript"></script>
+        <script src="~/js/Functions/ListLicensee/EditLicenseeProfile.js" type="text/javascript"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/minify/js/editprofilelicensee.min.js" asp-append-version="true"></script>
+    </environment>
 
-	<script type="text/javascript">
-		var viewResources = {
-			Error_Require_OddType: '@ViewResources.Error_Require_OddType',
-			Error_Require_Deadball_or_Outright: '@ViewResources.Error_Require_Deadball_or_Outright',
-			Error_Require_Language: '@ViewResources.Error_Require_Language',
-			Error_Require_Sport: '@ViewResources.Error_Require_Sport',
-			Error_Require_Country: '@ViewResources.Error_Require_Country',
-			Error_Require_Market: '@ViewResources.Error_Require_Market',
-			Error_Require_League: '@ViewResources.Error_Require_League',
-			Error_Require_Outright: '@ViewResources.Error_Require_Outright',
-			Error_Require_NumberOfIPs: '@ViewResources.Error_Require_NumberOfIPs',
-			MaximumNumberOfIPs: '@ViewResources.MaximumNumberOfIPs'
-		};
-	</script>
+    <script type="text/javascript">
+        var viewResources = {
+            Error_Require_OddType: '@ViewResources.Error_Require_OddType',
+            Error_Require_Deadball_or_Outright: '@ViewResources.Error_Require_Deadball_or_Outright',
+            Error_Require_Language: '@ViewResources.Error_Require_Language',
+            Error_Require_Sport: '@ViewResources.Error_Require_Sport',
+            Error_Require_Country: '@ViewResources.Error_Require_Country',
+            Error_Require_Market: '@ViewResources.Error_Require_Market',
+            Error_Require_League: '@ViewResources.Error_Require_League',
+            Error_Require_Outright: '@ViewResources.Error_Require_Outright',
+            Error_Require_NumberOfIPs: '@ViewResources.Error_Require_NumberOfIPs',
+            MaximumNumberOfIPs: '@ViewResources.MaximumNumberOfIPs'
+        };
+    </script>
 }
 
 <form asp-action="EditProfilePost" asp-controller="Licensee" method="post" id="formEditLicenseeProfile">
-	<div id="step3" class="step">
-		<div class="infor">
-			<span class="infor-ic"></span><span class="infor-text">
-				Profile will show which data (sports, markets, results, ...) affiliate should have in their xml stream.
-			</span>
-		</div>
-		<h3>
-			@(new HtmlString(ViewResources.HtmlTemplate_InputRequireds))
-		</h3>
-		<div class="newline">&nbsp;</div>
-		<div id="errorStep3" class="validation-summary-errors hidden" data-valmsg-summary="true"></div>
-		<div class="result-message-box hidden"></div>
-		<div class="form2" style="width: auto;">
-			<input type="hidden" asp-for="SystemID" />
-			<div class="row">
-				<div class="grid4" style="text-align: right">
-					<label asp-for="OddsType">@ViewResources.OddsType</label>
-				</div>
-				@foreach (var item in (ViewBag.OddsTypeList as IEnumerable<SelectListItem>)!)
-				{
-					<label class="font-normal">
-						<input class="oddstype" @(Model.OddsType.Contains(item.Value) ? "checked" : "")
-							   id="@("OddsType" + item.Value)" type="checkbox" value="@item.Value">
-						@item.Text
-					</label>
-				}
-				<input type="hidden" asp-for="OddsType" />
-				<input type="checkbox" asp-for="OddsTypeFlag" />
-				<label class="font-normal" asp-for="OddsTypeFlag">Editable</label>
-				@(new HtmlString(ViewResources.HtmlTemplate_InputRequiredSymbol))
-			</div>
-			<div class="row">
-				<div class="grid4" style="text-align: right">
-					<label asp-for="OddsRegion">@ViewResources.OddsStyle</label>
-				</div>
-				<select asp-for="OddsRegion" asp-items="ViewBag.OddsStyleList"></select>
-				<input type="checkbox" asp-for="OddsRegionFlag" />
-				<label class="font-normal" asp-for="OddsRegionFlag">Editable</label>
-			</div>
-			<div class="row">
-				<div class="grid4" style="text-align: right">
-					<label asp-for="OddsDelayTimes">@ViewResources.OddsDelayTime</label>
-				</div>
-				<div class="grid7">
-					<label class="font-normal" asp-for="DeadballDelayTimes">@ViewResources.Deadball</label>
-					<select asp-for="DeadballDelayTimes" asp-items="ViewBag.DelayTimeList" style="width: 50px"></select>
+    <div id="step3" class="step">
+        <div class="infor">
+            <span class="infor-ic"></span><span class="infor-text">
+                Profile will show which data (sports, markets, results, ...) affiliate should have in their xml stream.
+            </span>
+        </div>
+        <h3>
+            @(new HtmlString(ViewResources.HtmlTemplate_InputRequireds))
+        </h3>
+        <div class="newline">&nbsp;</div>
+        <div id="errorStep3" class="validation-summary-errors hidden" data-valmsg-summary="true"></div>
+        <div class="result-message-box hidden"></div>
+        <div class="form2" style="width: auto;">
+            <input type="hidden" asp-for="SystemID" />
+            <div class="row">
+                <div class="grid4" style="text-align: right">
+                    <label asp-for="OddsType">@ViewResources.OddsType</label>
+                </div>
+                @foreach (var item in (ViewBag.OddsTypeList as IEnumerable<SelectListItem>)!)
+                {
+                    <label class="font-normal">
+                        <input class="oddstype" @(Model.OddsType.Contains(item.Value) ? "checked" : "")
+                               id="@("OddsType" + item.Value)" type="checkbox" value="@item.Value">
+                        @item.Text
+                    </label>
+                }
+                <input type="hidden" asp-for="OddsType" />
+                <input type="checkbox" asp-for="OddsTypeFlag" />
+                <label class="font-normal" asp-for="OddsTypeFlag">Editable</label>
+                @(new HtmlString(ViewResources.HtmlTemplate_InputRequiredSymbol))
+            </div>
+            <div class="row">
+                <div class="grid4" style="text-align: right">
+                    <label asp-for="OddsRegion">@ViewResources.OddsStyle</label>
+                </div>
+                <select asp-for="OddsRegion" asp-items="ViewBag.OddsStyleList"></select>
+                <input type="checkbox" asp-for="OddsRegionFlag" />
+                <label class="font-normal" asp-for="OddsRegionFlag">Editable</label>
+            </div>
+            <div class="row">
+                <div class="grid4" style="text-align: right">
+                    <label asp-for="OddsDelayTimes">@ViewResources.OddsDelayTime</label>
+                </div>
+                <div class="grid7">
+                    <label class="font-normal" asp-for="DeadballDelayTimes">@ViewResources.Deadball</label>
+                    <select asp-for="DeadballDelayTimes" asp-items="ViewBag.DelayTimeList" style="width: 50px"></select>
 
-					<label class="font-normal">Live</label>
-					<select asp-for="LiveDelayTimes" asp-items="ViewBag.DelayTimeList" style="width: 50px"></select>
+                    <label class="font-normal">Live</label>
+                    <select asp-for="LiveDelayTimes" asp-items="ViewBag.DelayTimeList" style="width: 50px"></select>
 
-					<label class="font-normal" asp-for="OutrightDelayTimes">@ViewResources.Outright</label>
-					<select asp-for="OutrightDelayTimes" asp-items="ViewBag.DelayTimeList" style="width: 50px"></select>
-				</div>
-				<div class="grid4" style="text-align: right">
-					<label asp-for="ResultDelayTimes">@ViewResources.ResultDelayTime</label>
-				</div>
-				<div class="grid7">
-					<select asp-for="ResultDelayTimes" asp-items="ViewBag.ResultDelayTimeList" style="width: 50px"></select>
-				</div>
-			</div>
-			<div class="row">
-				<div class="grid4" style="text-align: right">
-					<label asp-for="NumberOfIPs">@ViewResources.NumberOfIPs</label>
-				</div>
-				<input asp-for="NumberOfIPs" style="width: 50px" min="0" />
-				<div class="grid1" style="float: none;">
-					@(new HtmlString(ViewResources.HtmlTemplate_InputRequiredSymbol))
-				</div>
-			</div>
-			<div class="row">
-				<div class="grid4" style="text-align: right">
-					<label asp-for="LanguageList">@ViewResources.Languages</label>
-				</div>
-				@foreach (var item in (ViewBag.LanguageIDList as IEnumerable<SelectListItem>)!)
-				{
-					<label class="font-normal">
-						<input class="language" @(Model.LanguageList.Contains(item.Value) ? "checked" : "")
-							   id="@("LanguageList" + item.Value)" type="checkbox" value="@item.Value">
-						@item.Text
-					</label>
-				}
-				<input type="hidden" asp-for="LanguageList" />
-				<input type="checkbox" asp-for="LanguageListFlag" />
-				<label class="font-normal" asp-for="LanguageListFlag">Editable</label>
-				@(new HtmlString(ViewResources.HtmlTemplate_InputRequiredSymbol))
-			</div>
-			<div class="row3">
-				<input type="hidden" asp-for="SportIDList" />
-				<div class="grid4" style="line-height: 270px; text-align: right">
-					<label for="chkAllMajorSports">
-						@ViewResources.MajorSports
-						<input class="hidden" type="checkbox" id="chkAllMajorSports" />
-					</label>
-				</div>
-				<div class="grid7" style="line-height: 270px; text-align: left">
-					<label class="font-normal">
-						@foreach (var item in (ViewBag.MajorSportList as IEnumerable<SelectListItem>)!)
-						{
-							<label class="font-normal">
-								<input class="chkMajorSport" @(Model.SportIDList.Contains(item.Value) ? "checked" : "")
-									   id="@("SportIDList" + item.Value)" type="checkbox" value="@item.Value">
-								@item.Text
-							</label>
-						}
-					</label>
-				</div>
-				<div class="grid4" style="line-height: 270px; text-align: right">
-					<label for="chkAllSports">@ViewResources.MinorSports</label>
-					<input type="checkbox" id="chkAllMinorSports" />
-				</div>
-				<div class="grid7">
-					<div class="checkbox-filter">
-						<label>Search </label>
-						<input id="minorSport-filter" />
-					</div>
-					<div class="grid7 checkbox-list">
-						@foreach (var item in (ViewBag.MinorSportList as IEnumerable<SelectListItem>)!)
-						{
-							<div>
-								<input @(Model.SportIDList.Contains(item.Value) ? "checked" : "")
-									   class="chkMinorSport" id="@("chkMinorSport" + item.Value)" name="chkMinorSport" type="checkbox" value="@item.Value">
-								<label class="font-normal" for="@("chkMinorSport" + item.Value)">@item.Text</label>
-							</div>
-						}
-					</div>
-				</div>
-				<div class="grid3" style="line-height: 270px; text-align: left">
-					<input type="checkbox" asp-for="SportIDListFlag" />
-					<label class="font-normal" asp-for="SportIDListFlag">Editable</label>
-				</div>
-				<div class="grid1" style="line-height: 270px;">
-					@(new HtmlString(ViewResources.HtmlTemplate_InputRequiredSymbol))
-				</div>
-			</div>
-			<div class="row3">
-				<div class="grid4" style="line-height: 270px; text-align: right">
-					<label for="chkAllCountries" asp-for="CountryCodeList">Countries</label>
-					<input type="checkbox" id="chkAllCountries" />
-				</div>
-				<div class="grid7">
-					<div class="checkbox-filter">
-						<label>Search </label>
-						<input id="country-filter" />
-					</div>
-					<div class="grid7 checkbox-list">
-						@foreach (var item in (ViewBag.CountriesList as IEnumerable<SelectListItem>)!)
-						{
-							<div>
-								<input @(Model.CountryCodeList.Contains(item.Value) ? "checked" : "")
-									   class="chkCountry" id="@("chkCountry" + item.Value)" name="chkCountry" type="checkbox" value="@item.Value">
-								<label class="font-normal" for="@("chkCountry" + item.Value)">@item.Text</label>
-							</div>
-						}
-						<input type="hidden" asp-for="CountryCodeList" />
-					</div>
-				</div>
-				<div class="grid3" style="line-height: 270px; text-align: left">
-					<input type="checkbox" asp-for="CountryCodeListFlag" />
-					<label class="font-normal" asp-for="CountryCodeListFlag">Editable</label>
-				</div>
-				<div class="grid1" style="line-height: 270px;">
-					@(new HtmlString(ViewResources.HtmlTemplate_InputRequiredSymbol))
-				</div>
-			</div>
-			<div id="League" class="row3">
-				<partial name="_LeaguePartialView" for="@getLeagueCriteria" />
-			</div>
-			<div id="Outrights" class="row3" style="max-height: 210px">
-				<partial name="_OutrightPartialView" for="@getOutRightCriteria" />
-			</div>
-			<div id="Market" class="row3">
-				<input type="hidden" asp-for="BetTypeIDList" />
-				<div class="grid4" style="line-height: 270px; text-align: right">
-					<label for="chkAllMajorMarkets">@ViewResources.MajorMarkets</label>
-					<input type="checkbox" id="chkAllMajorMarkets" />
-				</div>
-				<div class="grid7">
-					<div class="checkbox-filter">
-						<label>Search </label>
-						<input id="majormarket-filter" />
-					</div>
-					<div class="grid7 checkbox-list">
-						@foreach (var item in (ViewBag.MajorBettypesList as IEnumerable<SelectListItem>)!)
-						{
-							<div>
-								<input @(Model.BetTypeIDList.Contains(item.Value) ? "checked" : "")
-									   class="chkMajorMarket" id="@("chkMajorMarket" + item.Value)" name="chkMajorMarket" type="checkbox" value="@item.Value">
-								<label class="font-normal" for="@("chkMajorMarket" + item.Value)">@item.Text</label>
-							</div>
-						}
-					</div>
-				</div>
-				<div class="grid4" style="line-height: 270px; text-align: right">
-					<label for="chkAllMinorMarkets">@ViewResources.MinorMarkets</label>
-					<input type="checkbox" id="chkAllMinorMarkets" />
-				</div>
-				<div class="grid7">
-					<div class="checkbox-filter">
-						<label>Search </label>
-						<input id="minorMarket-filter" />
-					</div>
-					<div class="grid7 checkbox-list">
-						@foreach (var item in (ViewBag.MinorBettypesList as IEnumerable<SelectListItem>)!)
-						{
-							<div>
-								<input @(Model.BetTypeIDList.Contains(item.Value) ? "checked" : "")
-									   class="chkMinorMarket" id="@("chkMinorMarket" + item.Value)" name="chkMinorMarket" type="checkbox" value="@item.Value">
-								<label class="font-normal" for="@("chkMinorMarket" + item.Value)">@item.Text</label>
-							</div>
-						}
-					</div>
-				</div>
-				<div class="grid3" style="line-height: 270px; text-align: left">
-					<input type="checkbox" asp-for="BettypeIDListFlag" />
-					<label class="font-normal" asp-for="BettypeIDListFlag">Editable</label>
+                    <label class="font-normal" asp-for="OutrightDelayTimes">@ViewResources.Outright</label>
+                    <select asp-for="OutrightDelayTimes" asp-items="ViewBag.DelayTimeList" style="width: 50px"></select>
+                </div>
+                <div class="grid4" style="text-align: right">
+                    <label asp-for="ResultDelayTimes">@ViewResources.ResultDelayTime</label>
+                </div>
+                <div class="grid7">
+                    <select asp-for="ResultDelayTimes" asp-items="ViewBag.ResultDelayTimeList" style="width: 50px"></select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="grid4" style="text-align: right">
+                    <label asp-for="NumberOfIPs">@ViewResources.NumberOfIPs</label>
+                </div>
+                <input asp-for="NumberOfIPs" style="width: 50px" min="0" />
+                <div class="grid1" style="float: none;">
+                    @(new HtmlString(ViewResources.HtmlTemplate_InputRequiredSymbol))
+                </div>
+            </div>
+            <div class="row">
+                <div class="grid4" style="text-align: right">
+                    <label asp-for="LanguageList">@ViewResources.Languages</label>
+                </div>
+                @foreach (var item in (ViewBag.LanguageIDList as IEnumerable<SelectListItem>)!)
+                {
+                    <label class="font-normal">
+                        <input class="language" @(Model.LanguageList.Contains(item.Value) ? "checked" : "")
+                               id="@("LanguageList" + item.Value)" type="checkbox" value="@item.Value">
+                        @item.Text
+                    </label>
+                }
+                <input type="hidden" asp-for="LanguageList" />
+                <input type="checkbox" asp-for="LanguageListFlag" />
+                <label class="font-normal" asp-for="LanguageListFlag">Editable</label>
+                @(new HtmlString(ViewResources.HtmlTemplate_InputRequiredSymbol))
+            </div>
+            <div class="row3">
+                <input type="hidden" asp-for="SportIDList" />
+                <div class="grid4" style="line-height: 270px; text-align: right">
+                    <label for="chkAllMajorSports">
+                        @ViewResources.MajorSports
+                        <input class="hidden" type="checkbox" id="chkAllMajorSports" />
+                    </label>
+                </div>
+                <div class="grid7" style="line-height: 270px; text-align: left">
+                    <label class="font-normal">
+                        @foreach (var item in (ViewBag.MajorSportList as IEnumerable<SelectListItem>)!)
+                        {
+                            <label class="font-normal">
+                                <input class="chkMajorSport" @(Model.SportIDList.Contains(item.Value) ? "checked" : "")
+                                       id="@("SportIDList" + item.Value)" type="checkbox" value="@item.Value">
+                                @item.Text
+                            </label>
+                        }
+                    </label>
+                </div>
+                <div class="grid4" style="line-height: 270px; text-align: right">
+                    <label for="chkAllSports">@ViewResources.MinorSports</label>
+                    <input type="checkbox" id="chkAllMinorSports" />
+                </div>
+                <div class="grid7">
+                    <div class="checkbox-filter">
+                        <label>Search </label>
+                        <input id="minorSport-filter" />
+                    </div>
+                    <div class="grid7 checkbox-list">
+                        @foreach (var item in (ViewBag.MinorSportList as IEnumerable<SelectListItem>)!)
+                        {
+                            <div>
+                                <input @(Model.SportIDList.Contains(item.Value) ? "checked" : "")
+                                       class="chkMinorSport" id="@("chkMinorSport" + item.Value)" name="chkMinorSport" type="checkbox" value="@item.Value">
+                                <label class="font-normal" for="@("chkMinorSport" + item.Value)">@item.Text</label>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="grid3" style="line-height: 270px; text-align: left">
+                    <input type="checkbox" asp-for="SportIDListFlag" />
+                    <label class="font-normal" asp-for="SportIDListFlag">Editable</label>
+                </div>
+                <div class="grid1" style="line-height: 270px;">
+                    @(new HtmlString(ViewResources.HtmlTemplate_InputRequiredSymbol))
+                </div>
+            </div>
+            <div class="row3">
+                <div class="grid4" style="line-height: 270px; text-align: right">
+                    <label for="chkAllCountries" asp-for="CountryCodeList">Countries</label>
+                    <input type="checkbox" id="chkAllCountries" />
+                </div>
+                <div class="grid7">
+                    <div class="checkbox-filter">
+                        <label>Search </label>
+                        <input id="country-filter" />
+                    </div>
+                    <div class="grid7 checkbox-list">
+                        @foreach (var item in (ViewBag.CountriesList as IEnumerable<SelectListItem>)!)
+                        {
+                            <div>
+                                <input @(Model.CountryCodeList.Contains(item.Value) ? "checked" : "")
+                                       class="chkCountry" id="@("chkCountry" + item.Value)" name="chkCountry" type="checkbox" value="@item.Value">
+                                <label class="font-normal" for="@("chkCountry" + item.Value)">@item.Text</label>
+                            </div>
+                        }
+                        <input type="hidden" asp-for="CountryCodeList" />
+                    </div>
+                </div>
+                <div class="grid3" style="line-height: 270px; text-align: left">
+                    <input type="checkbox" asp-for="CountryCodeListFlag" />
+                    <label class="font-normal" asp-for="CountryCodeListFlag">Editable</label>
+                </div>
+                <div class="grid1" style="line-height: 270px;">
+                    @(new HtmlString(ViewResources.HtmlTemplate_InputRequiredSymbol))
+                </div>
+            </div>
+            <div id="League" class="row3">
+                <partial name="_LeaguePartialView" for="@getLeagueCriteria" />
+            </div>
+            <div id="Outrights" class="row3" style="max-height: 210px">
+                <partial name="_OutrightPartialView" for="@getOutRightCriteria" />
+            </div>
+            <div id="Market" class="row3">
+                <input type="hidden" asp-for="BetTypeIDList" />
+                <div class="grid4" style="line-height: 270px; text-align: right">
+                    <label for="chkAllMajorMarkets">@ViewResources.MajorMarkets</label>
+                    <input type="checkbox" id="chkAllMajorMarkets" />
+                </div>
+                <div class="grid7">
+                    <div class="checkbox-filter">
+                        <label>Search </label>
+                        <input id="majormarket-filter" />
+                    </div>
+                    <div class="grid7 checkbox-list">
+                        @foreach (var item in (ViewBag.MajorBettypesList as IEnumerable<SelectListItem>)!)
+                        {
+                            <div>
+                                <input @(Model.BetTypeIDList.Contains(item.Value) ? "checked" : "")
+                                       class="chkMajorMarket" id="@("chkMajorMarket" + item.Value)" name="chkMajorMarket" type="checkbox" value="@item.Value">
+                                <label class="font-normal" for="@("chkMajorMarket" + item.Value)">@item.Text</label>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="grid4" style="line-height: 270px; text-align: right">
+                    <label for="chkAllMinorMarkets">@ViewResources.MinorMarkets</label>
+                    <input type="checkbox" id="chkAllMinorMarkets" />
+                </div>
+                <div class="grid7">
+                    <div class="checkbox-filter">
+                        <label>Search </label>
+                        <input id="minorMarket-filter" />
+                    </div>
+                    <div class="grid7 checkbox-list">
+                        @foreach (var item in (ViewBag.MinorBettypesList as IEnumerable<SelectListItem>)!)
+                        {
+                            <div>
+                                <input @(Model.BetTypeIDList.Contains(item.Value) ? "checked" : "")
+                                       class="chkMinorMarket" id="@("chkMinorMarket" + item.Value)" name="chkMinorMarket" type="checkbox" value="@item.Value">
+                                <label class="font-normal" for="@("chkMinorMarket" + item.Value)">@item.Text</label>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="grid3" style="line-height: 270px; text-align: left">
+                    <input type="checkbox" asp-for="BettypeIDListFlag" />
+                    <label class="font-normal" asp-for="BettypeIDListFlag">Editable</label>
 
-				</div>
-				<div class="grid1" style="line-height: 270px;">
-					@(new HtmlString(ViewResources.HtmlTemplate_InputRequiredSymbol))
-				</div>
-			</div>
-			<div class="row">
-				<div class="grid3"></div>
-				<div class="grid7">
-					<input type="checkbox" asp-for="ApplyAllCurrentAffiliates" />
-					<label asp-for="ApplyAllCurrentAffiliates" style="color: Red">Apply this profile for all current affiliates under</label>
-				</div>
-			</div>
-			<div class="row">
-				<div class="grid4"></div>
-				<div class="grid2">
-					<input id="step3Cancel" type="button" value="Cancel" class="cancel" />
-				</div>
-				<div class="grid2">
-					<input id="step3Done" type="button" value="Save" />
-				</div>
-			</div>
-		</div>
-	</div>
+                </div>
+                <div class="grid1" style="line-height: 270px;">
+                    @(new HtmlString(ViewResources.HtmlTemplate_InputRequiredSymbol))
+                </div>
+            </div>
+            <div class="row">
+                <div class="grid3"></div>
+                <div class="grid7">
+                    <input type="checkbox" asp-for="ApplyAllCurrentAffiliates" />
+                    <label asp-for="ApplyAllCurrentAffiliates" style="color: Red">Apply this profile for all current affiliates under</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="grid4"></div>
+                <div class="grid2">
+                    <input id="step3Cancel" type="button" value="Cancel" class="cancel" />
+                </div>
+                <div class="grid2">
+                    <input id="step3Done" type="button" value="Save" />
+                </div>
+            </div>
+        </div>
+    </div>
 </form>

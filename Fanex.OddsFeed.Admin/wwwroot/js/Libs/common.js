@@ -9,52 +9,52 @@
         title: 'LICENSEE ADMIN',
         height: 120,
         show: 'fade',
-		hide: 'fade',
+        hide: 'fade',
         modal: true
     });
   };
 })();
 
 $.extend({
-	getOrCreateDialog: function(id) {
-		 
-	$box = $('#' + id);
-	if (!$box.length) {
-	 	$box = $('<div id="' + id + '"><p></p></div>').hide().appendTo('body');
-	}
-	return $box;
-	}		
+    getOrCreateDialog: function(id) {
+         
+    $box = $('#' + id);
+    if (!$box.length) {
+         $box = $('<div id="' + id + '"><p></p></div>').hide().appendTo('body');
+    }
+    return $box;
+    }        
 });
 function confirm(message, callback, options) {
-	var defaults = {
+    var defaults = {
         title: 'LICENSEE ADMIN',
-		modal		: true,
-		resizable	: false,
-		buttons		: {
-			OK: function() {
-				$(this).dialog('close');
+        modal        : true,
+        resizable    : false,
+        buttons        : {
+            OK: function() {
+                $(this).dialog('close');
                 if(callback != null)
                 {
                     callback();
                 }
                 return true;
-			},
-			Cancel: function() {
-				$(this).dialog('close');
+            },
+            Cancel: function() {
+                $(this).dialog('close');
                 return false;
-			}
-		},
-		show		: 'fade',
-		hide		: 'fade',
-		minHeight	: 50,
-		dialogClass	: 'modal-shadow'
-	}
-	
-	$confirm = $.getOrCreateDialog('confirm');	
-	// set message
-	$("p", $confirm).html(message);
-	// init dialog
-	$confirm.dialog($.extend({}, defaults, options));
+            }
+        },
+        show        : 'fade',
+        hide        : 'fade',
+        minHeight    : 50,
+        dialogClass    : 'modal-shadow'
+    }
+    
+    $confirm = $.getOrCreateDialog('confirm');    
+    // set message
+    $("p", $confirm).html(message);
+    // init dialog
+    $confirm.dialog($.extend({}, defaults, options));
 }
 
 $(document).ready(function(){
@@ -153,16 +153,16 @@ function tooltip(element, enable) {
 }
 
 function getParam(name) {
-	name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
-	var regexS = "[\\?&]" + name + "=([^&#]*)";
-	var regex = new RegExp(regexS);
-	var results = regex.exec(window.location.href);
-	if (results == null)
+    name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+    var regexS = "[\\?&]" + name + "=([^&#]*)";
+    var regex = new RegExp(regexS);
+    var results = regex.exec(window.location.href);
+    if (results == null)
     {
-		return null;
+        return null;
         }
-	else
-		return results[1];
+    else
+        return results[1];
 }
 
 function stringToBool(value)
@@ -179,15 +179,15 @@ function stringToBool(value)
 }
 
 function showMessage(message) {
-	$('#message').html(message + ' <img src="/images/ajax-loader.gif" />').css('left',$(window).width()/2);
-	$('#message').slideDown();
+    $('#message').html(message + ' <img src="/images/ajax-loader.gif" />').css('left',$(window).width()/2);
+    $('#message').slideDown();
 }
 function fadeOutMessage() {
-	$('#message').fadeOut(500);
+    $('#message').fadeOut(500);
 }
 function hideMessage() {
-	$('#message').text('Done');
-	$('#message').fadeOut(500);
+    $('#message').text('Done');
+    $('#message').fadeOut(500);
 }
 function flashMessage(message) {
     $('#message').hide();
@@ -213,21 +213,21 @@ function reloadButtonText(element)
 }
 
 function getDomain(url) {
-	return url.match(/:\/\/(www\.)?(.[^/:]+)/)[2];
+    return url.match(/:\/\/(www\.)?(.[^/:]+)/)[2];
 }
 function getPlainText(text) {
     if(text == null || typeof(text) != "string") return null;
-	return text.replace(/<[^>]*>/g, '');
+    return text.replace(/<[^>]*>/g, '');
 }
 
 function getEncodePlainText(text) {
     if(text == null || typeof(text) != "string") return null;
-	return encodeURIComponent(text.replace(/<[^>]*>/g, ''));
+    return encodeURIComponent(text.replace(/<[^>]*>/g, ''));
 }
 function jsonToDate(jsonDate) {
-	var date = Date.parse(jsonDate);        
+    var date = Date.parse(jsonDate);        
     return date.format("mm/dd/yyyy HH:MM:ss");
-	//return (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear() + " "
+    //return (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear() + " "
     //+ date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
 }
 
@@ -239,7 +239,7 @@ function jsonToShortDate(jsonDate) {
 
 function jsonTojsDate(jsonDate) {
     return Date.parse(jsonDate);
-//	return new Date(parseInt(jsonDate.substr(6)));
+//    return new Date(parseInt(jsonDate.substr(6)));
 }
 
 function dateToString(date) {
@@ -288,59 +288,59 @@ function initEditor(element, type) {
 }
 
 function removeSign(str) {
-	str = str.toLowerCase();
-	str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
-	str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
-	str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
-	str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
-	str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
-	str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
-	str = str.replace(/đ/g, "d");
-	str = str.replace(/!|@|\$|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\'| |\"|\&|\#|\[|\]|~/g, "-");
-	str = str.replace(/-+-/g, "-"); //change -- become -
-	str = str.replace(/^\-+|\-+$/g, ""); //remove - at begin and end of string
-	return str;
+    str = str.toLowerCase();
+    str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
+    str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
+    str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
+    str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
+    str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
+    str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
+    str = str.replace(/đ/g, "d");
+    str = str.replace(/!|@|\$|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\'| |\"|\&|\#|\[|\]|~/g, "-");
+    str = str.replace(/-+-/g, "-"); //change -- become -
+    str = str.replace(/^\-+|\-+$/g, ""); //remove - at begin and end of string
+    return str;
 }
 
 function enableEmotion(str) {
-	var path = '<img src="/images/emoticon/';
-	var endClose = '.gif" />';
-	str = str.replace(/\n/g, '<br />');
-	str = str.replace(/\*:\)/g, path + 'devilish' + endClose);
-	str = str.replace(/:\)\)/g, path + 'laughing' + endClose);
-	str = str.replace(/:\)/g, path + 'smile' + endClose);
-	str = str.replace(/o:-\)/g, path + 'angel' + endClose);
-	str = str.replace(/x-\(/g, path + 'angry' + endClose);
-	str = str.replace(/:D|:d/g, path + 'biggrin' + endClose);
-	str = str.replace(/=\(\(/g, path + 'brokenheart' + endClose);
-	str = str.replace(/:\(\(/g, path + 'crying' + endClose);
+    var path = '<img src="/images/emoticon/';
+    var endClose = '.gif" />';
+    str = str.replace(/\n/g, '<br />');
+    str = str.replace(/\*:\)/g, path + 'devilish' + endClose);
+    str = str.replace(/:\)\)/g, path + 'laughing' + endClose);
+    str = str.replace(/:\)/g, path + 'smile' + endClose);
+    str = str.replace(/o:-\)/g, path + 'angel' + endClose);
+    str = str.replace(/x-\(/g, path + 'angry' + endClose);
+    str = str.replace(/:D|:d/g, path + 'biggrin' + endClose);
+    str = str.replace(/=\(\(/g, path + 'brokenheart' + endClose);
+    str = str.replace(/:\(\(/g, path + 'crying' + endClose);
 
-	str = str.replace(/=p~/g, path + 'drooling' + endClose);
-	str = str.replace(/:\(/g, path + 'frown' + endClose);
-	str = str.replace(/:-\*/g, path + 'kiss' + endClose);
+    str = str.replace(/=p~/g, path + 'drooling' + endClose);
+    str = str.replace(/:\(/g, path + 'frown' + endClose);
+    str = str.replace(/:-\*/g, path + 'kiss' + endClose);
 
-	str = str.replace(/:x/g, path + 'lovestruck' + endClose);
-	str = str.replace(/\*:p/g, path + 'phbbbt' + endClose);
-	str = str.replace(/\[-O\*/g, path + 'praying' + endClose);
-	str = str.replace(/:-&/g, path + 'puke' + endClose);
-	str = str.replace(/=\)\)/g, path + 'rolling' + endClose);
-	str = str.replace(/:-p/g, path + 'tongue' + endClose);
-	str = str.replace(/#:-s/g, path + 'whew' + endClose);
-	str = str.replace(/:-s/g, path + 'worried' + endClose);
-	return str;
+    str = str.replace(/:x/g, path + 'lovestruck' + endClose);
+    str = str.replace(/\*:p/g, path + 'phbbbt' + endClose);
+    str = str.replace(/\[-O\*/g, path + 'praying' + endClose);
+    str = str.replace(/:-&/g, path + 'puke' + endClose);
+    str = str.replace(/=\)\)/g, path + 'rolling' + endClose);
+    str = str.replace(/:-p/g, path + 'tongue' + endClose);
+    str = str.replace(/#:-s/g, path + 'whew' + endClose);
+    str = str.replace(/:-s/g, path + 'worried' + endClose);
+    return str;
 }
 
 function getImage(text) {
     text = text.replace(/\)|\(|&quot;/g, "");
-	var img = $(text).find("img:first").attr("src");
-	if(img != null && img != undefined)
-	{
-		return "<img alt='' src='" + img + "' />";
-	}
-	else
-	{
-		return '';
-	}
+    var img = $(text).find("img:first").attr("src");
+    if(img != null && img != undefined)
+    {
+        return "<img alt='' src='" + img + "' />";
+    }
+    else
+    {
+        return '';
+    }
 }
 
 /*
@@ -358,115 +358,115 @@ function getImage(text) {
  */
 
 var dateFormat = function () {
-	var	token = /d{1,4}|m{1,4}|yy(?:yy)?|([HhMsTt])\1?|[LloSZ]|"[^"]*"|'[^']*'/g,
-		timezone = /\b(?:[PMCEA][SDP]T|(?:Pacific|Mountain|Central|Eastern|Atlantic) (?:Standard|Daylight|Prevailing) Time|(?:GMT|UTC)(?:[-+]\d{4})?)\b/g,
-		timezoneClip = /[^-+\dA-Z]/g,
-		pad = function (val, len) {
-			val = String(val);
-			len = len || 2;
-			while (val.length < len) val = "0" + val;
-			return val;
-		};
+    var    token = /d{1,4}|m{1,4}|yy(?:yy)?|([HhMsTt])\1?|[LloSZ]|"[^"]*"|'[^']*'/g,
+        timezone = /\b(?:[PMCEA][SDP]T|(?:Pacific|Mountain|Central|Eastern|Atlantic) (?:Standard|Daylight|Prevailing) Time|(?:GMT|UTC)(?:[-+]\d{4})?)\b/g,
+        timezoneClip = /[^-+\dA-Z]/g,
+        pad = function (val, len) {
+            val = String(val);
+            len = len || 2;
+            while (val.length < len) val = "0" + val;
+            return val;
+        };
 
-	// Regexes and supporting functions are cached through closure
-	return function (date, mask, utc) {
-		var dF = dateFormat;
+    // Regexes and supporting functions are cached through closure
+    return function (date, mask, utc) {
+        var dF = dateFormat;
 
-		// You can't provide utc if you skip other args (use the "UTC:" mask prefix)
-		if (arguments.length == 1 && Object.prototype.toString.call(date) == "[object String]" && !/\d/.test(date)) {
-			mask = date;
-			date = undefined;
-		}
+        // You can't provide utc if you skip other args (use the "UTC:" mask prefix)
+        if (arguments.length == 1 && Object.prototype.toString.call(date) == "[object String]" && !/\d/.test(date)) {
+            mask = date;
+            date = undefined;
+        }
 
-		// Passing date through Date applies Date.parse, if necessary
-		date = date ? new Date(date) : new Date;
-		if (isNaN(date)) throw SyntaxError("invalid date");
+        // Passing date through Date applies Date.parse, if necessary
+        date = date ? new Date(date) : new Date;
+        if (isNaN(date)) throw SyntaxError("invalid date");
 
-		mask = String(dF.masks[mask] || mask || dF.masks["default"]);
+        mask = String(dF.masks[mask] || mask || dF.masks["default"]);
 
-		// Allow setting the utc argument via the mask
-		if (mask.slice(0, 4) == "UTC:") {
-			mask = mask.slice(4);
-			utc = true;
-		}
+        // Allow setting the utc argument via the mask
+        if (mask.slice(0, 4) == "UTC:") {
+            mask = mask.slice(4);
+            utc = true;
+        }
 
-		var	_ = utc ? "getUTC" : "get",
-			d = date[_ + "Date"](),
-			D = date[_ + "Day"](),
-			m = date[_ + "Month"](),
-			y = date[_ + "FullYear"](),
-			H = date[_ + "Hours"](),
-			M = date[_ + "Minutes"](),
-			s = date[_ + "Seconds"](),
-			L = date[_ + "Milliseconds"](),
-			o = utc ? 0 : date.getTimezoneOffset(),
-			flags = {
-				d:    d,
-				dd:   pad(d),
-				ddd:  dF.i18n.dayNames[D],
-				dddd: dF.i18n.dayNames[D + 7],
-				m:    m + 1,
-				mm:   pad(m + 1),
-				mmm:  dF.i18n.monthNames[m],
-				mmmm: dF.i18n.monthNames[m + 12],
-				yy:   String(y).slice(2),
-				yyyy: y,
-				h:    H % 12 || 12,
-				hh:   pad(H % 12 || 12),
-				H:    H,
-				HH:   pad(H),
-				M:    M,
-				MM:   pad(M),
-				s:    s,
-				ss:   pad(s),
-				l:    pad(L, 3),
-				L:    pad(L > 99 ? Math.round(L / 10) : L),
-				t:    H < 12 ? "a"  : "p",
-				tt:   H < 12 ? "am" : "pm",
-				T:    H < 12 ? "A"  : "P",
-				TT:   H < 12 ? "AM" : "PM",
-				Z:    utc ? "UTC" : (String(date).match(timezone) || [""]).pop().replace(timezoneClip, ""),
-				o:    (o > 0 ? "-" : "+") + pad(Math.floor(Math.abs(o) / 60) * 100 + Math.abs(o) % 60, 4),
-				S:    ["th", "st", "nd", "rd"][d % 10 > 3 ? 0 : (d % 100 - d % 10 != 10) * d % 10]
-			};
+        var    _ = utc ? "getUTC" : "get",
+            d = date[_ + "Date"](),
+            D = date[_ + "Day"](),
+            m = date[_ + "Month"](),
+            y = date[_ + "FullYear"](),
+            H = date[_ + "Hours"](),
+            M = date[_ + "Minutes"](),
+            s = date[_ + "Seconds"](),
+            L = date[_ + "Milliseconds"](),
+            o = utc ? 0 : date.getTimezoneOffset(),
+            flags = {
+                d:    d,
+                dd:   pad(d),
+                ddd:  dF.i18n.dayNames[D],
+                dddd: dF.i18n.dayNames[D + 7],
+                m:    m + 1,
+                mm:   pad(m + 1),
+                mmm:  dF.i18n.monthNames[m],
+                mmmm: dF.i18n.monthNames[m + 12],
+                yy:   String(y).slice(2),
+                yyyy: y,
+                h:    H % 12 || 12,
+                hh:   pad(H % 12 || 12),
+                H:    H,
+                HH:   pad(H),
+                M:    M,
+                MM:   pad(M),
+                s:    s,
+                ss:   pad(s),
+                l:    pad(L, 3),
+                L:    pad(L > 99 ? Math.round(L / 10) : L),
+                t:    H < 12 ? "a"  : "p",
+                tt:   H < 12 ? "am" : "pm",
+                T:    H < 12 ? "A"  : "P",
+                TT:   H < 12 ? "AM" : "PM",
+                Z:    utc ? "UTC" : (String(date).match(timezone) || [""]).pop().replace(timezoneClip, ""),
+                o:    (o > 0 ? "-" : "+") + pad(Math.floor(Math.abs(o) / 60) * 100 + Math.abs(o) % 60, 4),
+                S:    ["th", "st", "nd", "rd"][d % 10 > 3 ? 0 : (d % 100 - d % 10 != 10) * d % 10]
+            };
 
-		return mask.replace(token, function ($0) {
-			return $0 in flags ? flags[$0] : $0.slice(1, $0.length - 1);
-		});
-	};
+        return mask.replace(token, function ($0) {
+            return $0 in flags ? flags[$0] : $0.slice(1, $0.length - 1);
+        });
+    };
 }();
 
 // Some common format strings
 dateFormat.masks = {
-	"default":      "ddd mmm dd yyyy HH:MM:ss",
-	shortDate:      "m/d/yy",
-	mediumDate:     "mmm d, yyyy",
-	longDate:       "mmmm d, yyyy",
-	fullDate:       "dddd, mmmm d, yyyy",
-	shortTime:      "h:MM TT",
-	mediumTime:     "h:MM:ss TT",
-	longTime:       "h:MM:ss TT Z",
-	isoDate:        "yyyy-mm-dd",
-	isoTime:        "HH:MM:ss",
-	isoDateTime:    "yyyy-mm-dd'T'HH:MM:ss",
-	isoUtcDateTime: "UTC:yyyy-mm-dd'T'HH:MM:ss'Z'"
+    "default":      "ddd mmm dd yyyy HH:MM:ss",
+    shortDate:      "m/d/yy",
+    mediumDate:     "mmm d, yyyy",
+    longDate:       "mmmm d, yyyy",
+    fullDate:       "dddd, mmmm d, yyyy",
+    shortTime:      "h:MM TT",
+    mediumTime:     "h:MM:ss TT",
+    longTime:       "h:MM:ss TT Z",
+    isoDate:        "yyyy-mm-dd",
+    isoTime:        "HH:MM:ss",
+    isoDateTime:    "yyyy-mm-dd'T'HH:MM:ss",
+    isoUtcDateTime: "UTC:yyyy-mm-dd'T'HH:MM:ss'Z'"
 };
 
 // Internationalization strings
 dateFormat.i18n = {
-	dayNames: [
-		"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat",
-		"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
-	],
-	monthNames: [
-		"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
-		"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
-	]
+    dayNames: [
+        "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat",
+        "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+    ],
+    monthNames: [
+        "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+        "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
+    ]
 };
 
 // For convenience...
 //Date.prototype.format = function (mask, utc) {
-//	return dateFormat(this, mask, utc);
+//    return dateFormat(this, mask, utc);
 //};
 
 jQuery.cookie = function (key, value, options) {

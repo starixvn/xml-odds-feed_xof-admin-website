@@ -26,7 +26,7 @@
             {
                 if (string.IsNullOrWhiteSpace(ListSystemId))
                 {
-                    return null;
+                    return new string[0];
                 }
 
                 return ListSystemId.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);

@@ -3,161 +3,161 @@
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model Fanex.OddsFeed.Criteria.Licensee.LicenseeRequestCriteria
 @{
-	ViewBag.IsDashboard = false;
-	ViewBag.Title = "Licensee's statistics";
+    ViewBag.IsDashboard = false;
+    ViewBag.Title = "Licensee's statistics";
 }
 @section Breadcrumb {
-	<a class="step" href="@Url.Action("ShowDashboard", "Dashboard")"><span class='xicon home'></span>Home</a>
-	<span class="step">@ViewBag.Title</span>
+    <a class="step" href="@Url.Action("ShowDashboard", "Dashboard")"><span class='xicon home'></span>Home</a>
+    <span class="step">@ViewBag.Title</span>
 }
 @section Styles
-	{
-	<link rel="stylesheet" href="~/minify/css/fanexgrid.min.css" asp-append-version="true">
-	<link rel="stylesheet" href="~/css/Affiliate/AffiliateEdit.css" asp-append-version="true">
+    {
+    <link rel="stylesheet" href="~/minify/css/fanexgrid.min.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/Affiliate/AffiliateEdit.css" asp-append-version="true">
 }
 @section Scripts
-	{
-	<environment include="Development">
-		<script src="~/minify/js/fanexgrid.min.js" asp-append-version="true"></script>
-		<script src="~/js/Affiliate/CommonAffiliate.js" asp-append-version="true"></script>
-		<script src="~/js/Licensee/Request.js" asp-append-version="true"></script>
-	</environment>
-	<environment exclude="Development">
-		<script src="~/minify/js/fanexgrid.min.js" asp-append-version="true"></script>
-		<script src="~/minify/js/requestlicensee.min.js" asp-append-version="true"></script>
-	</environment>
+    {
+    <environment include="Development">
+        <script src="~/minify/js/fanexgrid.min.js" asp-append-version="true"></script>
+        <script src="~/js/Affiliate/CommonAffiliate.js" asp-append-version="true"></script>
+        <script src="~/js/Licensee/Request.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/minify/js/fanexgrid.min.js" asp-append-version="true"></script>
+        <script src="~/minify/js/requestlicensee.min.js" asp-append-version="true"></script>
+    </environment>
 }
 <div class="infor">
-	<span class="infor-ic">&nbsp;</span><span class="infor-text">The report will show all affiliate's xml odds feed requests from all licensees.</span>
+    <span class="infor-ic">&nbsp;</span><span class="infor-text">The report will show all affiliate's xml odds feed requests from all licensees.</span>
 </div>
 <div class="newline">
-	&nbsp;
+    &nbsp;
 </div>
 <form id="myFormStatistcs" method="get" action="">
-	<div class="form" style="width: auto;">
-		<input type="hidden" asp-for="PageSize" />
-		<input type="hidden" asp-for="PageIndex" />
-		<input type="hidden" asp-for="PageCount" />
-		<div class="row request">
-			<div class="grid2">
-				<label asp-for="LicenseeId">@ViewResources.Licensee</label>
-			</div>
-			<div class="grid4">
-				<input type="hidden" asp-for="LicenseeId" />
-				<input id="Systemname" type="text" value="" maxlength="50" style="width:140px" placeholder="Licensee name" />
-			</div>
-		</div>
-		<div class="row">
-			<div class="grid2">
-				<label asp-for="PeriodOption">Group by</label>
-			</div>
-			<div class="grid4">
-				<select class="width-auto-fit request valid" asp-for="PeriodOption"
-						data-val="true" data-val-required="The PeriodOption field is required."
-						id="PeriodOption" name="PeriodOption">
-					<option value="@((int) PeriodType.Date)">@PeriodType.Date</option>
-					<option value="@((int) PeriodType.Week)">@PeriodType.Week</option>
-					<option value="@((int) PeriodType.Month)">@PeriodType.Month</option>
-					<option value="@((int) PeriodType.Year)">@PeriodType.Year</option>
-				</select>
-			</div>
-			<div class="grid2 center" style="height: auto">
-				<span class="date-area hide">
-					<label asp-for="DateStart">From</label>
-				</span>
-				<span class="week-area hide">
-					<label asp-for="Week">From</label>
-				</span>
-				<span class="month-area hide">
-					<label asp-for="Month">Month</label>
-				</span>
-			</div>
-			<div class="grid4" style="height: auto">
-				<span class="date-area hide">
-					<input type="text"
-						   asp-for="DateStart"
-						   class="datepicker"
-						   maxdate="@ViewBag.MaxDate.ToString("yyyy/MM/dd")"
-						   mindate="@ViewBag.MinDate.ToString("yyyy/MM/dd")"
-						   value="@Model.DateStart.ToString("dd MMM, yyyy")">
-				</span>
-				<span class="week-area hide">
-					<input type="text"
-						   asp-for="Week"
-						   data-value="@((DateTime?)Model.DateStart)"
-						   data-mindate="@ViewBag.MinDate"
-						   data-maxdate="@ViewBag.MaxDate"
-						   class="weekpicker">
-				</span>
-				<span class="month-area hide">
-					<select class="width-auto-fit request" id="MonthLicensee" name="Month"></select>
-				</span>
-			</div>
+    <div class="form" style="width: auto;">
+        <input type="hidden" asp-for="PageSize" />
+        <input type="hidden" asp-for="PageIndex" />
+        <input type="hidden" asp-for="PageCount" />
+        <div class="row request">
+            <div class="grid2">
+                <label asp-for="LicenseeId">@ViewResources.Licensee</label>
+            </div>
+            <div class="grid4">
+                <input type="hidden" asp-for="LicenseeId" />
+                <input id="Systemname" type="text" value="" maxlength="50" style="width:140px" placeholder="Licensee name" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="grid2">
+                <label asp-for="PeriodOption">Group by</label>
+            </div>
+            <div class="grid4">
+                <select class="width-auto-fit request valid" asp-for="PeriodOption"
+                        data-val="true" data-val-required="The PeriodOption field is required."
+                        id="PeriodOption" name="PeriodOption">
+                    <option value="@((int) PeriodType.Date)">@PeriodType.Date</option>
+                    <option value="@((int) PeriodType.Week)">@PeriodType.Week</option>
+                    <option value="@((int) PeriodType.Month)">@PeriodType.Month</option>
+                    <option value="@((int) PeriodType.Year)">@PeriodType.Year</option>
+                </select>
+            </div>
+            <div class="grid2 center" style="height: auto">
+                <span class="date-area hide">
+                    <label asp-for="DateStart">From</label>
+                </span>
+                <span class="week-area hide">
+                    <label asp-for="Week">From</label>
+                </span>
+                <span class="month-area hide">
+                    <label asp-for="Month">Month</label>
+                </span>
+            </div>
+            <div class="grid4" style="height: auto">
+                <span class="date-area hide">
+                    <input type="text"
+                           asp-for="DateStart"
+                           class="datepicker"
+                           maxdate="@ViewBag.MaxDate.ToString("yyyy/MM/dd")"
+                           mindate="@ViewBag.MinDate.ToString("yyyy/MM/dd")"
+                           value="@Model.DateStart.ToString("dd MMM, yyyy")">
+                </span>
+                <span class="week-area hide">
+                    <input type="text"
+                           asp-for="Week"
+                           data-value="@((DateTime?)Model.DateStart)"
+                           data-mindate="@ViewBag.MinDate"
+                           data-maxdate="@ViewBag.MaxDate"
+                           class="weekpicker">
+                </span>
+                <span class="month-area hide">
+                    <select class="width-auto-fit request" id="MonthLicensee" name="Month"></select>
+                </span>
+            </div>
 
 
-			<div class="grid2 center">
-				<span class="date-area hide">
-					<label asp-for="DateEnd">To</label>
-				</span>
-				<span class="week-area hide">
-					<label asp-for="ToWeek">To</label>
-				</span>
-				<span class="month-area year-area hide">
-					<label asp-for="Year">Year</label>
-				</span>
-			</div>
-			<div class="grid4">
-				<span class="date-area hide">
-					<input type="text"
-						   asp-for="DateEnd"
-						   class="datepicker"
-						   maxdate="@ViewBag.MaxDate.ToString("yyyy/MM/dd")"
-						   mindate="@ViewBag.MinDate.ToString("yyyy/MM/dd")"
-						   value="@Model.DateEnd.ToString("dd MMM, yyyy")">
-				</span>
-				<span class="week-area hide">
-					<input type="text"
-						   asp-for="ToWeek"
-						   data-value="@Model.DateStart"
-						   data-mindate="@ViewBag.MinDate"
-						   data-maxdate="@ViewBag.MaxDate"
-						   class="weekpicker">
-				</span>
-				<span class="month-area year-area hide">
-					<select class="width-auto-fit request" data-val="true" data-val-number="The field Year must be a number."
-							data-val-required="The Year field is required." id="YearLicensee" name="Year">
-						@for (var i = (ViewBag.MinDate).Year; i <= (ViewBag.MaxDate).Year; i++)
-						{
-							if (i == (ViewBag.MaxDate).Year)
-							{
-								<option selected value="@i">@i</option>
-							}
-							else
-							{
-								<option value="@i">@i</option>
-							}
-						}
-					</select>
-				</span>
-			</div>
+            <div class="grid2 center">
+                <span class="date-area hide">
+                    <label asp-for="DateEnd">To</label>
+                </span>
+                <span class="week-area hide">
+                    <label asp-for="ToWeek">To</label>
+                </span>
+                <span class="month-area year-area hide">
+                    <label asp-for="Year">Year</label>
+                </span>
+            </div>
+            <div class="grid4">
+                <span class="date-area hide">
+                    <input type="text"
+                           asp-for="DateEnd"
+                           class="datepicker"
+                           maxdate="@ViewBag.MaxDate.ToString("yyyy/MM/dd")"
+                           mindate="@ViewBag.MinDate.ToString("yyyy/MM/dd")"
+                           value="@Model.DateEnd.ToString("dd MMM, yyyy")">
+                </span>
+                <span class="week-area hide">
+                    <input type="text"
+                           asp-for="ToWeek"
+                           data-value="@Model.DateStart"
+                           data-mindate="@ViewBag.MinDate"
+                           data-maxdate="@ViewBag.MaxDate"
+                           class="weekpicker">
+                </span>
+                <span class="month-area year-area hide">
+                    <select class="width-auto-fit request" data-val="true" data-val-number="The field Year must be a number."
+                            data-val-required="The Year field is required." id="YearLicensee" name="Year">
+                        @for (var i = (ViewBag.MinDate).Year; i <= (ViewBag.MaxDate).Year; i++)
+                        {
+                            if (i == (ViewBag.MaxDate).Year)
+                            {
+                                <option selected value="@i">@i</option>
+                            }
+                            else
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        }
+                    </select>
+                </span>
+            </div>
 
-		</div>
-		<div class="row">
-			<div class="grid2">
-			</div>
-			<div class="grid4">
-				<input type="button" value="Search" onclick="OnSearch();" />
-			</div>
-		</div>
-	</div>
+        </div>
+        <div class="row">
+            <div class="grid2">
+            </div>
+            <div class="grid4">
+                <input type="button" value="Search" onclick="OnSearch();" />
+            </div>
+        </div>
+    </div>
 </form>
 <div class="newline">
-	&nbsp;
+    &nbsp;
 </div>
 <div id="SearchResult" class="freegrid  content-grid">
 </div>
 <div class="newline">
-	&nbsp;
+    &nbsp;
 </div>
 <div id="SearchResultDetail" class="freegrid  content-grid">
 </div>

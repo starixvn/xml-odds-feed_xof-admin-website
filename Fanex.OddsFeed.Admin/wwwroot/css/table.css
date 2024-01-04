@@ -3,34 +3,34 @@
 /* Shift table */
 table.shift_table
 {
-	border: 1px solid #BBBBBB;
-	font-size: 12px;
-	width: 350px;
-	border-collapse: collapse;
-	clear: both;
+    border: 1px solid #BBBBBB;
+    font-size: 12px;
+    width: 350px;
+    border-collapse: collapse;
+    clear: both;
 }
 
 table.shift_table th
 {
-	border-bottom: 1px solid #BBBBBB;
-	text-align: left;
+    border-bottom: 1px solid #BBBBBB;
+    text-align: left;
 }
 
 table.shift_table th.left
 {
-	border-bottom: 1px solid #BBBBBB;
-	font-weight: normal;
+    border-bottom: 1px solid #BBBBBB;
+    font-weight: normal;
 }
 
 table.shift_table .left
 {
-	border-right: 1px solid #BBBBBB;
-	font-weight: bold;
+    border-right: 1px solid #BBBBBB;
+    font-weight: bold;
 }
 
 table.shift_table th, table.shift_table td
 {
-	padding: 7px;
+    padding: 7px;
 }
 
 .ShiftInfo
@@ -41,98 +41,98 @@ table.shift_table th, table.shift_table td
 /* general data table */
 table.data
 {
-	text-align: center;
-	border-collapse: collapse;
-	font-family: Arial;
-	font-size: 12px;
-	margin: 10px 0;
-	width: 100%;
-	-moz-box-shadow: 1px 1px 5px #888;
-	-webkit-box-shadow: 1px 1px 5px #888;
-	box-shadow: 1px 1px 5px #888;
+    text-align: center;
+    border-collapse: collapse;
+    font-family: Arial;
+    font-size: 12px;
+    margin: 10px 0;
+    width: 100%;
+    -moz-box-shadow: 1px 1px 5px #888;
+    -webkit-box-shadow: 1px 1px 5px #888;
+    box-shadow: 1px 1px 5px #888;
 }
 /* http://css-tricks.com/examples/CSS3Gradient/ */
 table.data th
 {
-	height: 20px;
-	text-align: center;
-	padding: 5px;
-	background: url(images/table_header_repeat.jpg) repeat-x;
-	color: #fff;
-	font-weight: bold;
-	border-left: 1px solid #373737;
-	text-transform: capitalize;
-	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.8);
+    height: 20px;
+    text-align: center;
+    padding: 5px;
+    background: url(images/table_header_repeat.jpg) repeat-x;
+    color: #fff;
+    font-weight: bold;
+    border-left: 1px solid #373737;
+    text-transform: capitalize;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.8);
 }
 
 table.data td
 {
-	border: 1px solid #d2d2d2;
-	padding: 5px 10px 5px 10px;
-	text-align: center;
-	white-space:nowrap;
+    border: 1px solid #d2d2d2;
+    padding: 5px 10px 5px 10px;
+    text-align: center;
+    white-space:nowrap;
 }
 
 table.data td.highlight {
-	background-color: #F2F2C2;	
-	
+    background-color: #F2F2C2;    
+    
 }
 
 table.data td.left
 {
-	text-align: left;
+    text-align: left;
 }
 
 table.data td.status
 {
-	width:80px;
+    width:80px;
 }
 
 table.data td.ddMMyyyy
 {
-	width: 100px;
+    width: 100px;
 }
 
 table.data td.cmd
 {
-	width: 50px;
+    width: 50px;
 }
 
 table.data td.ddMMyyyyhhmm
 {
-	width: 125px;
+    width: 125px;
 }
 
 table.data td:first-child
 {
-	width: 20px;
-	
+    width: 20px;
+    
 }
 
 table.data td.index
 {
-	width: 20px;
+    width: 20px;
 }
 
 table.data tr:nth-child(odd)
 {
-	background-color: #ececec;
+    background-color: #ececec;
 }
 
 table.data tr:nth-child(even)
 {
-	background-color: #fff;
+    background-color: #fff;
 }
 
 table.data tr
 {
-	height: 30px;
-	vertical-align: middle;
+    height: 30px;
+    vertical-align: middle;
 }
 
 table.data tr:hover
 {
-	background: #e3eceb;
+    background: #e3eceb;
 }
 
 table.data tr.disabled
@@ -142,14 +142,14 @@ table.data tr.disabled
     color: #663300;
 }
 table.data tr.disabled a{
-	color: #663300 !important;
+    color: #663300 !important;
 }
 
 
 table.form {
-	border-collapse: collapse;
-	padding: 10px;
-	width: 100%;
+    border-collapse: collapse;
+    padding: 10px;
+    width: 100%;
 }
 
 .overloadRequest a
@@ -157,49 +157,49 @@ table.form {
     color: Red;
     font-size: 15px;    
 }
-	
+    
 
 table.form td {
-	padding: 5px;
+    padding: 5px;
 }
 
 table.form td.label {
-	width: 100px;
+    width: 100px;
 }
 
 table.form div.time {
-	float: left;
-	margin-left: 10px;
-	width: 120px;
-	
+    float: left;
+    margin-left: 10px;
+    width: 120px;
+    
 }
 
 /*My space table*/
 table#myspace
 {
-	width:500px;       
+    width:500px;       
 }
 
 table#myspace th.firstColumn
 {
-	width:100px;   
+    width:100px;   
 }
 
 table#myspace td.firstColumn
 {
-	text-align:left;    
+    text-align:left;    
 }
 
 table#myspace td
 {
-	text-align:center;    
+    text-align:center;    
 }
 
 /*Management table*/
 
 table#data td.center
 {
-	text-align: center;    
+    text-align: center;    
 }
 
 /*memo details*/
@@ -210,18 +210,18 @@ table.memo td
 }
 /* tables sorter*/
 table.tablesorter thead tr th, table.tablesorter tfoot tr th {
-	background-color: blue;
-	border: 1px solid #FFF;
-	font-size: 8pt;
-	padding: 4px;
+    background-color: blue;
+    border: 1px solid #FFF;
+    font-size: 8pt;
+    padding: 4px;
 }
 
 
 table.tablesorter thead tr .headerSortUp {
-	background-image: url(images/asc.png);
+    background-image: url(images/asc.png);
 }
 table.tablesorter thead tr .headerSortDown {
-	background-image: url(images/desc.png);
+    background-image: url(images/desc.png);
 }
 table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSortUp {
 background-color: #7dbdd8;

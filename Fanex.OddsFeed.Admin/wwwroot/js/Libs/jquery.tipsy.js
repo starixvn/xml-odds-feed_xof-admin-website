@@ -225,9 +225,9 @@
     $.fn.tipsy.autoBounds = function (margin, prefer) {
         return function () {
             var dir = { ns: prefer[0], ew: (prefer.length > 1 ? prefer[1] : false) },
-			    boundTop = $(document).scrollTop() + margin,
-			    boundLeft = $(document).scrollLeft() + margin,
-			    $this = $(this);
+                boundTop = $(document).scrollTop() + margin,
+                boundLeft = $(document).scrollLeft() + margin,
+                $this = $(this);
 
             if ($this.offset().top < boundTop) dir.ns = 'n';
             if ($this.offset().left < boundLeft) dir.ew = 'w';

@@ -2,84 +2,84 @@
 @using Microsoft.AspNetCore.Html;
 @model Fanex.OddsFeed.Criteria.Administrator.UpdateAdminPasswordCriteria
 @{
-	ViewBag.IsDashboard = false;
-	ViewBag.Title = "Reset Password";
+    ViewBag.IsDashboard = false;
+    ViewBag.Title = "Reset Password";
 }
 @section Breadcrumb {
-	<a class="step" href="@Url.Action("ShowDashboard", "Dashboard")"><span class='xicon home'></span>Home</a>
-	<a class="step" href="@Url.Action("AdministratorList", "Administrator")">Administrator List</a>
-	<span class="step">@ViewBag.Title @ViewBag.CurrentUser</span>
+    <a class="step" href="@Url.Action("ShowDashboard", "Dashboard")"><span class='xicon home'></span>Home</a>
+    <a class="step" href="@Url.Action("AdministratorList", "Administrator")">Administrator List</a>
+    <span class="step">@ViewBag.Title @ViewBag.CurrentUser</span>
 }
 @section Scripts
-	{
-	<environment include="Development">
-		<script src="~/js/Administrator/EditAdministrator.js" asp-append-version="true"></script>
-	</environment>
-	<environment exclude="Development">
-		<script src="~/minify/js/editadministrator.min.js" asp-append-version="true"></script>
-	</environment>
+    {
+    <environment include="Development">
+        <script src="~/js/Administrator/EditAdministrator.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/minify/js/editadministrator.min.js" asp-append-version="true"></script>
+    </environment>
 }
 <div id="editStep1">
-	<form>
-		@if (ViewBag.HasEditPermission == null || ViewBag.HasEditPermission == true)
-		{
-			<div id="errorStep1" class="validation-summary-errors hidden" data-valmsg-summary="true">
-				<ul>
-					<li id="newPassReqErr" style="display: none">@ViewResources.Error_NewPasswordRequired</li>
-					<li id="newPassWhiteSpaceErr" style="display: none">@ViewResources.InvalidFieldValidationNewPassword</li>
-					<li id="newPassLengErr" style="display: none">@ViewResources.Error_NewPasswordLength</li>
-					<li id="confirmPassReqErr" style="display: none">@ViewResources.Error_ConfirmPasswordRequired</li>
-					<li id="confirmPassWhiteSpaceErr" style="display: none">@ViewResources.InvalidFieldValidationConfirmPassword</li>
-					<li id="confirmPassLengErr" style="display: none">@ViewResources.Error_ConfirmPasswordLength</li>
-					<li id="pwdNotMatchErr" style="display: none">@ViewResources.Error_PasswordNotMatch</li>
-				</ul>
-			</div>
-			<div class="result-message-box hidden">
-			</div>
-			<div class="infor">
-				<span class="infor-ic">
-					@(new HtmlString(ViewResources.HtmlTemplate_InputRequireds))
-				</span>
-			</div>
-			<div class="newline">
-				&nbsp;
-			</div>
+    <form>
+        @if (ViewBag.HasEditPermission == null || ViewBag.HasEditPermission == true)
+        {
+            <div id="errorStep1" class="validation-summary-errors hidden" data-valmsg-summary="true">
+                <ul>
+                    <li id="newPassReqErr" style="display: none">@ViewResources.Error_NewPasswordRequired</li>
+                    <li id="newPassWhiteSpaceErr" style="display: none">@ViewResources.InvalidFieldValidationNewPassword</li>
+                    <li id="newPassLengErr" style="display: none">@ViewResources.Error_NewPasswordLength</li>
+                    <li id="confirmPassReqErr" style="display: none">@ViewResources.Error_ConfirmPasswordRequired</li>
+                    <li id="confirmPassWhiteSpaceErr" style="display: none">@ViewResources.InvalidFieldValidationConfirmPassword</li>
+                    <li id="confirmPassLengErr" style="display: none">@ViewResources.Error_ConfirmPasswordLength</li>
+                    <li id="pwdNotMatchErr" style="display: none">@ViewResources.Error_PasswordNotMatch</li>
+                </ul>
+            </div>
+            <div class="result-message-box hidden">
+            </div>
+            <div class="infor">
+                <span class="infor-ic">
+                    @(new HtmlString(ViewResources.HtmlTemplate_InputRequireds))
+                </span>
+            </div>
+            <div class="newline">
+                &nbsp;
+            </div>
 
-			<div class="form">
-				<input type="hidden" asp-for="UserID" />
-				<div class="row">
-					<div class="grid3">
-						<label asp-for="Password">New Password</label>
-					</div>
-					<div class="grid4">
-						<input asp-for="Password" id="txtPassword" style="width:250px" autocomplete="off" />
-					</div>
-					<div class="gird1">
-						<span style="padding-left: 120px" class="red">(*)</span>
-					</div>
-				</div>
-				<div class="row">
-					<div class="grid3">
-						<label asp-for="ConfirmPassword">Confirm Password</label>
-					</div>
-					<div class="grid4">
-						<input asp-for="ConfirmPassword" id="txtConfirmPassword" style="width:250px" autocomplete="off" />
-					</div>
-					<div class="gird1">
-						<span style="padding-left: 120px" class="red">(*)</span>
-					</div>
-				</div>
-				<div class="row">
-					<div class="grid3">
-					</div>
-					<div class="grid2">
-						<a href="@Url.Action("AdministratorList", "Administrator")" class="button">@ViewResources.Back</a>
-					</div>
-					<div class="grid2">
-						<input id="Save" class="resetPassword" type="button" value="@ViewResources.Save" />
-					</div>
-				</div>
-			</div>
-		}
-	</form>
+            <div class="form">
+                <input type="hidden" asp-for="UserID" />
+                <div class="row">
+                    <div class="grid3">
+                        <label asp-for="Password">New Password</label>
+                    </div>
+                    <div class="grid4">
+                        <input asp-for="Password" id="txtPassword" style="width:250px" autocomplete="off" />
+                    </div>
+                    <div class="gird1">
+                        <span style="padding-left: 120px" class="red">(*)</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="grid3">
+                        <label asp-for="ConfirmPassword">Confirm Password</label>
+                    </div>
+                    <div class="grid4">
+                        <input asp-for="ConfirmPassword" id="txtConfirmPassword" style="width:250px" autocomplete="off" />
+                    </div>
+                    <div class="gird1">
+                        <span style="padding-left: 120px" class="red">(*)</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="grid3">
+                    </div>
+                    <div class="grid2">
+                        <a href="@Url.Action("AdministratorList", "Administrator")" class="button">@ViewResources.Back</a>
+                    </div>
+                    <div class="grid2">
+                        <input id="Save" class="resetPassword" type="button" value="@ViewResources.Save" />
+                    </div>
+                </div>
+            </div>
+        }
+    </form>
 </div>
