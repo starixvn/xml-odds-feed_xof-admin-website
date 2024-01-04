@@ -350,8 +350,9 @@
                 switch (criteria.PeriodOption.ToString())
                 {
                     case "Week":
-                        var dt = new DateTimeOffset(criteria.Year, 1, 1, 0, 0, 0, TimeSpan.FromHours(-TimeZone)).AddDays(((int.Parse(criteria.Date) - 1) * 7) - (int.Parse(criteria.Date) == 1 ? 0 : 1)).DateTime;
-                        dt = dt.AddDays(-(int)dt.DayOfWeek);
+                        var dt = new DateTimeOffset(criteria.Year, 1, 1, 0, 0, 0, TimeSpan.FromHours(-TimeZone))
+                            .AddDays(((int.Parse(criteria.Date) - 1) * 7) - (int.Parse(criteria.Date) == 1 ? 0 : 1))
+                            .DateTime;
 
                         dateStart = dt.AddDays(1);
                         dateEnd = dt.AddDays(numberDaysInWeek);
@@ -359,8 +360,11 @@
 
                     case "Year":
                         dateStart = DateTime.ParseExact(criteria.Date, "MMM yyyy", CultureInfo.InvariantCulture);
-                        dateStart = new DateTimeOffset(dateStart.Year, dateStart.Month, 1, 0, 0, 0, TimeSpan.FromHours(-TimeZone)).DateTime;
-                        dateEnd = DateTime.ParseExact(criteria.Date, "MMM yyyy", CultureInfo.InvariantCulture).AddMonths(1).AddDays(-1);
+                        dateStart = new DateTimeOffset(dateStart.Year, dateStart.Month, 1, 0, 0, 0, TimeSpan.FromHours(-TimeZone))
+                            .DateTime;
+                        dateEnd = DateTime.ParseExact(criteria.Date, "MMM yyyy", CultureInfo.InvariantCulture)
+                            .AddMonths(1)
+                            .AddDays(-1);
                         break;
 
                     default:
