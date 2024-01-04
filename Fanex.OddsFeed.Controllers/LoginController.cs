@@ -1,7 +1,6 @@
 ﻿namespace Fanex.OddsFeed.Controllers
 {
 	using System;
-	using System.IO;
 	using System.Threading.Tasks;
 	using System.Web;
 	using Fanex.OddsFeed.Admin.Utility;
@@ -47,7 +46,10 @@
 				Color = SKColors.WhiteSmoke,
 				Typeface = SKTypeface.FromFamilyName("Arial", SKFontStyleWeight.Medium, SKFontStyleWidth.Normal, SKFontStyleSlant.Upright)
 			};
-			canvas.DrawText(captcha, 10, 20, paint);
+
+			float xCoordinate = 10;
+			float yCoordinate = 20;
+			canvas.DrawText(captcha, xCoordinate, yCoordinate, paint);
 			canvas.Flush();
 			var resultImage = SKImage.FromBitmap(bmp);
 			var data = resultImage.Encode(SKEncodedImageFormat.Png, 100);
@@ -137,9 +139,10 @@
 			if (!string.IsNullOrEmpty(referrer))
 			{
 				var segments = new Uri(referrer).Segments;
+				var indexRefController = 2;
 				if (segments.Length >= 4)
 				{
-					ViewBag.RefController = segments[^2];
+					ViewBag.RefController = segments[^indexRefController];
 					ViewBag.RefAction = segments[^1];
 				}
 				else
