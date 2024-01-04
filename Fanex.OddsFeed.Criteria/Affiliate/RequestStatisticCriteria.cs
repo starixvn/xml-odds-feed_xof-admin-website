@@ -1,131 +1,131 @@
 ﻿namespace Fanex.OddsFeed.Criteria.Affiliate
 {
-    using System;
-    using System.ComponentModel.DataAnnotations;
-    using Data.Repository;
-    using Fanex.Data;
-    using Fanex.OddsFeed.Models.ValueObject;
+	using System;
+	using System.ComponentModel.DataAnnotations;
+	using Data.Repository;
+	using Fanex.Data;
+	using Fanex.OddsFeed.Models.ValueObject;
 
-    public class RequestStatisticCriteria : CriteriaBase
-    {
-        private DateTime _dateStart;
-     
-        private DateTime _dateEnd;
+	public class RequestStatisticCriteria : CriteriaBase
+	{
+		private DateTime _dateStart;
 
-        public RequestStatisticCriteria()
-            : this(DateTime.Now)
-        {
-        }
+		private DateTime _dateEnd;
 
-        public RequestStatisticCriteria(DateTime dateEnd)
-        {
-            this.DateStart = dateEnd;
-            this.DateEnd = dateEnd;
+		public RequestStatisticCriteria()
+			: this(DateTimeOffset.Now.DateTime)
+		{
+		}
 
-            this.Month = dateEnd.Month;
-            this.Year = dateEnd.Year;
-        }
+		public RequestStatisticCriteria(DateTime dateEnd)
+		{
+			this.DateStart = dateEnd;
+			this.DateEnd = dateEnd;
 
-        public int SystemId { get; set; }
+			this.Month = dateEnd.Month;
+			this.Year = dateEnd.Year;
+		}
 
-        public string PartnerName { get; set; }
+		public int SystemId { get; set; }
 
-        public string DomainName { get; set; }
+		public string PartnerName { get; set; }
 
-        [Required]
-        public DateTime DateStart
-        {
-            get
-            {
-                if (this.PeriodOption == PeriodType.Month)
-                {
-                    // select month period
-                    this._dateStart = new DateTime(this.Year, this.Month, 1);
-                }
-                else
-                {
-                    if (this.PeriodOption == PeriodType.Year)
-                    {
-                        // select year period
-                        this._dateStart = new DateTime(this.Year, 1, 1);
-                    }
-                }
+		public string DomainName { get; set; }
 
-                return this._dateStart;
-            }
+		[Required]
+		public DateTime DateStart
+		{
+			get
+			{
+				if (this.PeriodOption == PeriodType.Month)
+				{
+					// select month period
+					this._dateStart = new DateTimeOffset(this.Year, this.Month, 1, 0, 0, 0, TimeSpan.FromHours(-7)).DateTime;
+				}
+				else
+				{
+					if (this.PeriodOption == PeriodType.Year)
+					{
+						// select year period
+						this._dateStart = new DateTimeOffset(this.Year, 1, 1, 0, 0, 0, TimeSpan.FromHours(-7)).DateTime;
+					}
+				}
 
-            set
-            {
-                this._dateStart = value;
-            }
-        }
-        
-        public DateTime DateEnd
-        {
-            get
-            {
-                if (this.PeriodOption == PeriodType.Month)
-                {
-                    // select month period
-                    this._dateEnd = new DateTime(this.Year, this.Month, 1).AddMonths(1).AddDays(-1);
-                }
-                else
-                {
-                    if (this.PeriodOption == PeriodType.Year)
-                    {
-                        const byte December = 12;
-                        const byte LastDayOfMonth = 31;
-                        this._dateEnd = new DateTime(this.Year, December, LastDayOfMonth);
-                    }
-                }
+				return this._dateStart;
+			}
 
-                return this._dateEnd;
-            }
+			set
+			{
+				this._dateStart = value;
+			}
+		}
 
-            set
-            {
-                this._dateEnd = value;
-            }
-        }
+		public DateTime DateEnd
+		{
+			get
+			{
+				if (this.PeriodOption == PeriodType.Month)
+				{
+					// select month period
+					this._dateEnd = new DateTimeOffset(this.Year, this.Month, 1, 0, 0, 0, TimeSpan.FromHours(-7)).DateTime.AddMonths(1).AddDays(-1);
+				}
+				else
+				{
+					if (this.PeriodOption == PeriodType.Year)
+					{
+						const byte December = 12;
+						const byte LastDayOfMonth = 31;
+						this._dateEnd = new DateTimeOffset(this.Year, December, LastDayOfMonth, 0, 0, 0, TimeSpan.FromHours(-7)).DateTime;
+					}
+				}
 
-        public int PageSize { get; set; }
+				return this._dateEnd;
+			}
 
-        public int PageIndex { get; set; }
+			set
+			{
+				this._dateEnd = value;
+			}
+		}
 
-        public int PageCount { get; set; }
+		public int PageSize { get; set; }
 
-        public int RowCount { get; set; }
+		public int PageIndex { get; set; }
 
-        // Ignored
-        [SpParam(Ignored = true)]
-        public PeriodType PeriodOption { get; set; }
+		public int PageCount { get; set; }
 
-        [SpParam(Ignored = true)]
-        public string Week { get; set; }
+		public int RowCount { get; set; }
 
-        [SpParam(Ignored = true)]
-        public string Date { get; set; }
+		// Ignored
+		[SpParam(Ignored = true)]
+		public PeriodType PeriodOption { get; set; }
 
-        [SpParam(Ignored = true)]
-        public string ToWeek { get; set; }
+		[SpParam(Ignored = true)]
+		public string Week { get; set; }
 
-        [SpParam(Ignored = true)]
-        public int Month { get; set; }
+		[SpParam(Ignored = true)]
+		public string Date { get; set; }
 
-        [SpParam(Ignored = true)]
-        public int Year { get; set; }
+		[SpParam(Ignored = true)]
+		public string ToWeek { get; set; }
 
-        [SpParam(Ignored = true)]
-        public string SystemName { get; set; }
+		[SpParam(Ignored = true)]
+		public int Month { get; set; }
 
-        public override string GetSettingKey()
-        {
-            return "Odds_Partner_Statistic_Sel";
-        }
+		[SpParam(Ignored = true)]
+		public int Year { get; set; }
 
-        public override bool IsValid()
-        {
-            return this.DateStart <= this.DateEnd;
-        }
-    }
+		[SpParam(Ignored = true)]
+		public string SystemName { get; set; }
+
+		public override string GetSettingKey()
+		{
+			return "Odds_Partner_Statistic_Sel";
+		}
+
+		public override bool IsValid()
+		{
+			return this.DateStart <= this.DateEnd;
+		}
+	}
 }
