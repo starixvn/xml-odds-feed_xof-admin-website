@@ -146,7 +146,7 @@
             };
 
             var users = await subAccService.GetBySystemIdAsync(sessionService.SystemId);
-            var user = users.FirstOrDefault(x => x.Id == id);
+            var user = users.FirstOrDefault(x => x.UserId == id);
             if (user != null)
             {
                 ViewBag.CurrentUser = GetCurrentUserName(userName);

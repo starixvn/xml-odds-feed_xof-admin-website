@@ -42,7 +42,7 @@ function renderBodyRows(users) {
     var totalRows = users.length;
     for (var i = 0; i < totalRows; i++) {
         var user = users[i];
-        var userId = user.userId !== 0 ? user.userId : user.id
+        var userId = user.userId;
         var colactive = '';
         if (user.isActive) {
             colactive = "<img title='Deactivate this account' class='ico-tick' alt='' onclick='javascript:editActive(this, " + userId + ")' />";
@@ -186,7 +186,7 @@ function ReRenderAfterPaged(page_index, itemsPerPage, jq) {
 }
 
 function ShowAction(user) {
-    var subAccId = user.userId !== 0 ? user.userId : user.id;
+    var subAccId = user.userId;
     var userName = user.username;
 
     _subAccId = subAccId;

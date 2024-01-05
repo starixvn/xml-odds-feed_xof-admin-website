@@ -66,9 +66,7 @@
 
     <Function Name="User">
         <Setting Key="Odds_Top10SubAccount_Sel" SpName="Odds_Top10SubAccount_Sel" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
-        <Setting Key="Odds_SubAccount_CheckExist" SpName="Odds_SubAccount_CheckExist" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
-            <Mapping DataField="UserId" ObjectProperty="Id" />
-        </Setting>
+        <Setting Key="Odds_SubAccount_CheckExist" SpName="Odds_SubAccount_CheckExist" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet"/>
         <Setting Key="Odds_User_SelByName_SystemId_RoleId" SpName="Odds_User_SelByName_SystemId_RoleId" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
         <Setting Key="Odds_User_GetPermission" SpName="Odds_User_GetPermission" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
         <Setting Key="Odds_User_EditPermission" SpName="Odds_User_EditPermission" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
@@ -76,15 +74,9 @@
         <Setting Key="Odds_User_Upd_Active" SpName="Odds_User_Upd_Active" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
         <Setting Key="Odds_User_Del" SpName="Odds_User_Del" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
         <Setting Key="Odds_User_Upd" SpName="Odds_User_Upd" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
-        <Setting Key="Odds_User_Ins" SpName="Odds_User_Ins" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
-            <Mapping DataField="UserId" ObjectProperty="Id" />
-        </Setting>
-        <Setting Key="Odds_User_GetBySystemIdAndRoleId" SpName="Odds_User_GetBySystemIdAndRoleId" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet">
-            <Mapping DataField="UserId" ObjectProperty="Id" />
-        </Setting>
-        <Setting Key="Odds_User_Login" SpName="Odds_User_Login" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" >
-            <Mapping DataField="UserId" ObjectProperty="Id" />
-        </Setting>
+        <Setting Key="Odds_User_Ins" SpName="Odds_User_Ins" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet"/>
+        <Setting Key="Odds_User_GetBySystemIdAndRoleId" SpName="Odds_User_GetBySystemIdAndRoleId" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet"/>
+        <Setting Key="Odds_User_Login" SpName="Odds_User_Login" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
         <Setting Key="Odds_User_GetProfile" SpName="Odds_User_GetProfile" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
         <Setting Key="Odds_User_GetPermission_Flags" SpName="Odds_User_GetPermission_Flags" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
         <Setting Key="Odds_User_Logout" SpName="Odds_User_Logout" DbName="DBODDSFEED.bodb_OddsFeed.bodbAdminNet" />
