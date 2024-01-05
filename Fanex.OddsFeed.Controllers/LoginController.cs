@@ -217,7 +217,7 @@
 
             var criteriaProfile = new UserGetProfileCriteria
             {
-                UserId = user.Id,
+                UserId = user.UserId,
                 SystemId = systemId,
                 IP = currentContext.IP,
                 NetSessionID = HttpContext.Session.Id
@@ -226,7 +226,7 @@
             await userService.UserGetProfileAsync(criteriaProfile);
 
             // Save user session
-            sessionService.UserId = user.Id;
+            sessionService.UserId = user.UserId;
             sessionService.UserRole = user.RoleID;
             sessionService.Username = user.Username;
             sessionService.OnUserId = criteriaProfile.OnUserId;
