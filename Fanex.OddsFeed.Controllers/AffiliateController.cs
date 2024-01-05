@@ -393,7 +393,6 @@
         #region Get
 
         [HttpGet]
-        //[Compress]
         public async Task<IActionResult> List()
         {
             ViewBag.SystemName = sessionService.SystemName;
@@ -401,7 +400,6 @@
             return View("~/Views/Affiliate/AffiliateList.cshtml");
         }
 
-        //[Compress]
         public async Task<IActionResult> GetAffiliateList(GetAffiliateByNameCriteria criteria)
         {
             criteria.SystemId = sessionService.SystemId;
