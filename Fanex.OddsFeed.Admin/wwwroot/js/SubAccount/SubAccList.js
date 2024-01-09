@@ -247,7 +247,7 @@ function ShowAction(user) {
 
 function StartAutoSuggesttion() {
     var temp = $("#Username").val()
-    var url = currentDomainURL + 'SubAccount/ListExistedSubAccount?username=' + temp;
+    var url = 'ListExistedSubAccount?username=' + temp;
 
     $.ajax({
         url: url,

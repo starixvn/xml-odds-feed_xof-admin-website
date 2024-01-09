@@ -29,8 +29,7 @@
 });
 //--------------------------------------------------------------------------------------------------------------------
 function SearchExistedAdmin() {
-    // clear the watermark
-    $.Watermark.HideAll();
+
     $("#success-message-box").addClass("hidden");
     $("#step1 .error-message-box").addClass("hidden");
     // get data
