@@ -48,7 +48,7 @@
                 <label asp-for="PartnerName">@ViewResources.Affiliate</label>
             </div>
             <div class="grid4">
-                <input type="hidden" id="StartDateConfig" name="StartDateConfig" />
+                <input type="hidden" id="StartDateConfig" name="StartDateConfig" value="@ViewBag.StartDateConfig" />
                 <input id="Affiliatename" type="text" value="" onkeyup="AffiliateAutoSuggesttion()"
                        name="Affiliatename" maxlength="50" style="width: 140px" placeholder="Affiliate name" />
             </div>

@@ -13,7 +13,7 @@
 
         public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(value.ToLocalTime().ToString("dd MMM yyyy HH:mm:ss"));
+            writer.WriteStringValue(value.ToString("dd MMM yyyy HH:mm:ss"));
         }
     }
 }
