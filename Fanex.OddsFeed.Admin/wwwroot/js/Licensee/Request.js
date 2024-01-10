@@ -72,20 +72,9 @@ function OnSearch() {
 };
 
 function Search() {
-    let _systemName = $.trim($("#Systemname").val());
-    if (_systemName == "" || _systemName == "Licensee name") {
-        $("#LicenseeId").val(0);
-    }
-
-    let licenseeId = $("#LicenseeId").val();
-
-    if (licenseeId == 0) {
-        $("#SearchResultDetail").hide();
-        SearchAll();
-    } else {
-        $("#SearchResult").hide();
-        SearchDetail(licenseeId);
-    }
+    $("#LicenseeId").val(0);
+    $("#SearchResultDetail").hide();
+    SearchAll();
 }
 
 function renderBodyRows(records) {
@@ -129,6 +118,7 @@ function SearchAll() {
         PageIndex: parseInt($('#PageIndex').val()),
         PageCount: parseInt($('#PageCount').val()),
         LicenseeId: parseInt($('#LicenseeId').val()),
+        SystemName: $('#Systemname').val(),
         PeriodOption: $('#PeriodOption option:selected').text(),
         DateStart: $("#DateStart").val(), 
         Week: $('#Week').val(),

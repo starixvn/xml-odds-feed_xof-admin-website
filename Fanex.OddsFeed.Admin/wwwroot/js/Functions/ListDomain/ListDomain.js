@@ -13,6 +13,12 @@ $(document).ready(function () {
     $('#PageSize').val(domainPageSize);
     $('#PageIndex').val(domainPageIndex);
 
+    $("#DomainName").keyup(function (e) {
+        if (e.keyCode == $.ui.keyCode.ENTER) {
+            Submit();
+        }
+    });
+
     Submit();
     RegisterDialog();
     //OddsFeedAdminManager.makeWatermask($("#DomainName"), viewResources.Domain_Name, Submit);
@@ -177,10 +183,10 @@ function renderDomainSettingBodyRows(domains) {
 function QueryDomainSetting(domainId) {
     currentDomainID = domainId;
     let data = {
-        PageSize: parseInt($('#myForm #PageSize').val()),
-        PageIndex: parseInt($('#myForm #PageIndex').val()),
-        DomainId: parseInt($('#myForm #DomainId').val()),
-        DomainName: $('#myForm #DomainName').val()
+        PageSize: parseInt($('#PageSize').val()),
+        PageIndex: parseInt($('#PageIndex').val()),
+        DomainId: parseInt($('#DomainId').val()),
+        DomainName: $('#DomainName').val()
     };
     
     $.ajax({
