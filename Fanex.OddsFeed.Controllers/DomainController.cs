@@ -77,7 +77,7 @@
             return Json(result.Code);
         }
 
-        public async Task<IActionResult> DomainList_GetTop10([FromBody] GetTop10DomainCriteria criteria)
+        public async Task<IActionResult> DomainList_GetTop10(GetTop10DomainCriteria criteria)
         {
             var domains = await baseService.GetDataAsync<Domain>(criteria);
             return Json(domains.Select(x => new JSONSource { Value = x.DomainId.ToString(), Label = x.DomainName }).ToList());

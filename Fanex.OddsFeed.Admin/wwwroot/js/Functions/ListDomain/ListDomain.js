@@ -21,7 +21,6 @@ $(document).ready(function () {
 
     Submit();
     RegisterDialog();
-    //OddsFeedAdminManager.makeWatermask($("#DomainName"), viewResources.Domain_Name, Submit);
 });
 
 function renderBodyRows(domains) {
