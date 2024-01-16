@@ -31,3 +31,5 @@ _ReSharper*/
 packages/
 .vs
 *.orig
+
+*/node_modules/
