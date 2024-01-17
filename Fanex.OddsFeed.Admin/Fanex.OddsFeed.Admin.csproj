@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <Content Include="App_Data\SpNames.AWS.xml" />
+    <Content Include="App_Data\SpNames.KLDR.xml" />
     <Content Include="App_Data\SpNames.LOCAL.xml" />
     <Content Include="App_Data\SpNames.MNL.xml" />
     <Content Include="App_Data\SpNames.PROD.xml" />
