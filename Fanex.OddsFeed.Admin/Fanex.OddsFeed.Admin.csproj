@@ -46,6 +46,8 @@
 
   <ItemGroup>
     <Folder Include="Views\Tolerance\" />
+    <Folder Include="www\sources\js\pages\" />
+    <Folder Include="www\sources\styles\Administrator\" />
   </ItemGroup>
 
 </Project>

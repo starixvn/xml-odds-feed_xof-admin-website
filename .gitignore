@@ -32,4 +32,4 @@ packages/
 .vs
 *.orig
 
-*/node_modules/
+Fanex.OddsFeed.Admin/www/node_modules/
