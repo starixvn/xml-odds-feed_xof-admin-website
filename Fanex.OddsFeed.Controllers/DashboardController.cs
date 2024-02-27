@@ -20,7 +20,7 @@
         private readonly IDashboardService dashboardService;
 
         public DashboardController(
-            ICurrentContext currentContext, 
+            ICurrentContext currentContext,
             ISessionService sessionService,
             IBaseService baseService,
             IDashboardService dashboardService,
@@ -76,6 +76,10 @@
                 PageSize = Convert.ToInt16(pageSize)
             };
             var result = await baseService.GetDataGridAsync<RecentActivityStatistic>(criteria);
+            foreach (RecentActivityStatistic item in result.Data)
+            {
+                item.Detail = InsertSpaceAfterComma(item.Detail);
+            }
             return Json(result);
         }
 
@@ -105,6 +109,20 @@
             htmlStr.Append("</table>");
 
             return htmlStr.ToString();
+        }
+
+        private static string InsertSpaceAfterComma(string input)
+        {
+            string result = "";
+            foreach (char c in input)
+            {
+                result += c;
+                if (c == ',')
+                {
+                    result += ' ';
+                }
+            }
+            return result;
         }
     }
 }
