@@ -20,7 +20,7 @@
                 if (!string.IsNullOrEmpty(clientIp))
                 {
                     var forwardedIps = clientIp.ToString().Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                    clientIp = forwardedIps[forwardedIps.Length - 1].Trim();
+                    clientIp = forwardedIps[0].Trim();
                 }
                 else
                 {
