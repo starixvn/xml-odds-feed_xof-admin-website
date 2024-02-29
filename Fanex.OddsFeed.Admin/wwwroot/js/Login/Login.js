@@ -45,14 +45,19 @@ window.onload = function () {
         if (!isValid) {
             return;
         }
-    
-        const url = `Index?UserName=${username.value}&UserPwd=${password.value}&Validate=${validate.value}`;
-    
+
+        const loginParams = {
+            username: username.value,
+            userPwd: password.value,
+            validate: validate.value
+        };
+
         $.ajax({
             type: 'POST',
-            url: url,
+            url: 'Index',
             dataType: "json",
             contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(loginParams),
             cache: false,
             success: function (result) {
                 if (result.isSuccessful) {

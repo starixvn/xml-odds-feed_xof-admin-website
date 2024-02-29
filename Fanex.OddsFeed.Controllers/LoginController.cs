@@ -63,7 +63,7 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index(UserLoginUserCriteria criteria)
+        public async Task<IActionResult> Index([FromBody] UserLoginUserCriteria criteria)
         {
             var result = new CommandResult();
 
