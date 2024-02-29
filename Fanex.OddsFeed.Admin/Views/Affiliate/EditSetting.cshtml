@@ -60,69 +60,32 @@
     <div class="form2 formAssignDomainSetting">
         <input type="hidden" id="affID" value="@ViewBag.AffId" />
         <input type="hidden" id="numberOfIPs" value="@ViewBag.NumberOfIPs" />
-        <div class="row3">
-            <div class="grid2" style="line-height: 150px; text-align: center">
-                <label for="id1">
-                    @ViewResources.Domains
-                </label>
+        <div class="licensee-assign-domain">
+            <div style="width: 70px;"><label for="id1">@ViewResources.Domains</label></div>
+            <div>
+                <div><label>@ViewResources.DomainList</label></div>
+                <select id="slDomain" asp-items="slDomain" multiple="multiple" size="8"></select>
+                <div style="text-align: left;"><label id="showingDomainListId">Showing</label></div>
             </div>
-            <div class="grid9" style="height: 220px; border-style: solid; border-width: 1px;
-                border-color: #C8C8C8">
-                <div class="grid6" style="width: 305px">
-                    <div class="row">
-                        <label>@ViewResources.DomainList</label>
-                    </div>
-                    <div class="row2">
-                        <div class="grid4" style="overflow: auto; border: thin none; height: 155px; width: 300px;">
-                            <select id="slDomain" asp-items="slDomain" multiple="multiple" size="8">
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="grid4" style="text-align: left;">
-                            <label id="showingDomainListId">Showing</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="grid2">
-                    <div class="row">
-                    </div>
-                    <div class="row btndomain" style="margin-top: 15px;">
-                        <span id="btnRight" class="arrow right"></span>
-                        <br />
-                        <span id="btnDoubleRight" class="arrow doubleright"></span>
-                        <br />
-                        <span id="btnLeft" class="arrow left"></span>
-                        <br />
-                        <span id="btnDoubleLeft" class="arrow doubleleft"></span>
-                    </div>
-                </div>
-                <div class="grid6" style="width: 305px">
-                    <div class="row">
-                        <label>Assigned Domains</label>
-                    </div>
-                    <div class="row2">
-                        <div class="grid4" style="overflow: auto; border: thin none; height: 155px; width: 300px;">
-                            <select id="slAssignedDomain" asp-items="slAssignedDomain" multiple="multiple" size="8">
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="grid4" style="text-align: left;">
-                            <label id="showingAssignedDomainId">Showing</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="grid1" style="line-height: 150px; text-align: left">
-                    @(new HtmlString(ViewResources.HtmlTemplate_InputRequiredSymbol))
-                </div>
+            <div class="btndomain domainsActionGroup">
+                <span id="btnRight" class="arrow right"></span>
+                <br />
+                <span id="btnDoubleRight" class="arrow doubleright"></span>
+                <br />
+                <span id="btnLeft" class="arrow left"></span>
+                <br />
+                <span id="btnDoubleLeft" class="arrow doubleleft"></span>
             </div>
+            <div>
+                <div><label>Assigned Domains</label></div>
+                <select id="slAssignedDomain" asp-items="slAssignedDomain" multiple="multiple" size="8"></select>
+                <div style="text-align: left;"><label id="showingAssignedDomainId">Showing</label></div>
+            </div>
+            <div>@(new HtmlString(ViewResources.HtmlTemplate_InputRequiredSymbol))</div>
         </div>
         <div id="IpDiv" class="row2" style="margin-top: 20px;">
             <div class="grid2" style="line-height: 70px; text-align: center">
-                <label for="id2">
-                    IP
-                </label>
+                <label for="id2">IP</label>
             </div>
             <div class="grid8" style="width:700px">
                 <table id="IpTable" style="width: 100%; height: 30px;">

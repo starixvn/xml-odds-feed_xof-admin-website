@@ -328,3 +328,27 @@ select.request
 .header-mt .display-inline-block {
     margin-top: 2px !important;
 }
+
+.licensee-assign-domain {
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+    line-height: 27px;
+    padding-bottom: 10px;
+    text-align: center;
+    width: 830px;
+    border: 1px solid #C8C8C8;
+    margin-bottom: 30px;
+}
+
+.licensee-assign-domain select {
+    width: 300px;
+    height: 170px;
+}
+
+.licensee-assign-domain .domainsActionGroup {
+    width: 60px;
+    margin-top: -30px;
+    margin-left: -25px;
+    padding: 0 10px;
+}
