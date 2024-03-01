@@ -508,10 +508,10 @@
         }
 
         public string GetXMLOddsFeedLink(string domainURL, string affiliateName)
-            => string.IsNullOrEmpty(domainURL) ? string.Empty : string.Format("{0}/{1}/{2}/odds.xml", domainURL, GetVirtualPath(), affiliateName);
+            => string.IsNullOrEmpty(domainURL) ? string.Empty : string.Format("{0}/{1}{2}/odds.xml", domainURL, GetVirtualPath(), affiliateName);
 
         public string GetXMLOddsFeed_HelpLink(string domainURL, string affiliateName)
-            => string.IsNullOrEmpty(domainURL) ? string.Empty : string.Format("{0}/{1}/{2}/help.htm", domainURL, GetVirtualPath(), affiliateName);
+            => string.IsNullOrEmpty(domainURL) ? string.Empty : string.Format("{0}/{1}{2}/help.htm", domainURL, GetVirtualPath(), affiliateName);
 
         #endregion Get
 
