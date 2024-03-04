@@ -549,7 +549,7 @@
 
         private async Task<EditLicenseeProfileCriteria> GetLicenseeProfileAsync(EditLicenseeProfileCriteria criteria)
         {
-            var licensee = await baseService.GetDataEntityAsync<LicenseeProfile>(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = sessionService.SystemId });
+            var licensee = await baseService.GetDataEntityAsync<LicenseeProfile>(new GetLicenseeProfileByLicenseeIDCriteria { SystemID = criteria.SystemID });
             if (licensee != null)
             {
                 criteria.NumberOfIPs = licensee.NumberOfIPs;
