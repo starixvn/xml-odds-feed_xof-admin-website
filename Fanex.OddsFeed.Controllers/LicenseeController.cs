@@ -469,7 +469,7 @@
 
         private static bool IsMissingProfile(MissingPartnersProfile missingPartnersProfile)
         {
-            StringBuilder missingSummary = new StringBuilder();
+            var missingSummary = new StringBuilder();
             missingSummary.Append(missingPartnersProfile.AffsOddsType);
             missingSummary.Append(missingPartnersProfile.AffsLanguageList);
             missingSummary.Append(missingPartnersProfile.AffsSportIDList);

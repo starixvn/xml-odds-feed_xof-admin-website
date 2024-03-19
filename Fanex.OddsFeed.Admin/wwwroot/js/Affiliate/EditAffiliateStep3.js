@@ -45,7 +45,7 @@
         $('.result-message-box').addClass('hidden');
 
         // Refresh values
-        var updateParams = {
+        const updateParams = {
             PartnerID: $('#PartnerID').val(),
             OddsType: affiliateManager.GetDropDownCheckBoxListValue('oddstype'),
             OddsRegion: $('#slOddsStyle option:selected').val(),
@@ -70,7 +70,7 @@
             BetTypeIDListFlag: $('#marketsFlag').val() == 'value'
         };
 
-        var isValid = affiliateManager.CheckValidation_OddsProfile(updateParams);
+        const isValid = affiliateManager.CheckValidation_OddsProfile(updateParams);
         if (!isValid) {
             return;
         }

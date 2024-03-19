@@ -44,7 +44,7 @@
         if (!$('#ApplyAllCurrentAffiliates').prop('checked')) {
             UpdateLicenseeProfile(false);
         } else {
-            var alertMsg = 'Warning! This will make all the current settings of all affiliates changed also and it will affect their output XML. Are you sure?';
+            let alertMsg = 'Warning! This will make all the current settings of all affiliates changed also and it will affect their output XML. Are you sure?';
             confirm(alertMsg.fontcolor('red'), function () {
                 UpdateLicenseeProfile(true);
             });
@@ -60,7 +60,7 @@
 
 function UpdateLicenseeProfile(isForceUpdate) {
     // Refresh values
-    var updateParams = {
+    const updateParams = {
         SystemID: parseInt($('#SystemID').val()),
         OddsType: GetDropDownCheckBoxListValue('oddstype'),
         OddsRegion: $('#OddsRegion option:selected').val(),
@@ -104,7 +104,7 @@ function UpdateLicenseeProfile(isForceUpdate) {
 
                 if (obj.errCode != 0) {
                     if (obj.errCode == 10701) {//some affiliates under this licensee have the number of selections greater than the current licensee's profile
-                        var alertMsg = "You are removing some selections that affiliates under this licensee are available. Are you sure you want to remove these selections for all affiliates' odds profile also?";
+                        let alertMsg = "You are removing some selections that affiliates under this licensee are available. Are you sure you want to remove these selections for all affiliates' odds profile also?";
                         confirmUpdateMissingProfile(alertMsg.fontcolor('red'), 'LICENSEE ADMIN', updateParams.SystemID, obj);
                     }
                     else {
