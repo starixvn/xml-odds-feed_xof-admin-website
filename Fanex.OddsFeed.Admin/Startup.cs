@@ -3,11 +3,8 @@
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Fanex.Data.SqlServer;
+    using Fanex.Data;
     using Fanex.Logging;
-    using Fanex.Logging.Extensions;
-    using Fanex.Logging.Extensions.AspNetCore;
-    using Fanex.Logging.Extensions.Database;
     using Fanex.Logging.Sentry;
     using Fanex.OddsFeed.Core;
     using Fanex.OddsFeed.Core.Middlewares;
@@ -44,11 +41,7 @@
                     })
                });
 
-            services.AddFanexSql(Configuration);
-            
-            ExceptionHandler
-                .UseConfig(new LoggingConfiguration())
-                .UseGetDbExceptionInfo(DatabaseInfoGetters.GetDbExceptionInfo);
+            services.AddFanexData(Configuration);
 
             var redisConfig = Configuration.GetSection("AuthSettings:RedisConfig").Value;
             var redis = ConnectionMultiplexer.Connect(redisConfig);
