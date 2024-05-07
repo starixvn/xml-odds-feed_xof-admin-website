@@ -556,7 +556,7 @@ function InitFilterSearchEvent(filter) {
         if (keyword == undefined || keyword == '') {
             $(this).parent('div').show()
         } else {
-            if ($(this).html().toLowerCase().indexOf(keyword.toLowerCase()) != -1) {
+            if ($(this).text().toLowerCase().indexOf(keyword.toLowerCase()) != -1) {
                 $(this).parent('div').show()
             } else {
                 $(this).parent('div').hide()
