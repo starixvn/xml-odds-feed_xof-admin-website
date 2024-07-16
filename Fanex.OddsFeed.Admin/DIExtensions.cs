@@ -55,6 +55,7 @@
         private static void RegisterBundlesCSS(IAssetPipeline pipeline)
         {
             AddCssBundleLogin(pipeline);
+            AddCssBundleVerifyOTP(pipeline);
             AddCssBundleFanexgrid(pipeline);
             AddCssBundleDashboard(pipeline);
             AddCssBundleCommon(pipeline);
@@ -67,6 +68,7 @@
         private static void RegisterBundlesJS(IAssetPipeline pipeline)
         {
             AddJSBundleLogin(pipeline);
+            AddJSBundleVerifyOTP(pipeline);
             AddJSBundleUpdatePassword(pipeline);
             AddJSBundleFanexgrid(pipeline);
             AddJSBundleDashboard(pipeline);
@@ -142,6 +144,12 @@
         {
             pipeline.AddCssBundle("minify/css/login.min.css",
                 "css/login.css");
+        }
+
+        private static void AddCssBundleVerifyOTP(IAssetPipeline pipeline)
+        {
+            pipeline.AddCssBundle("minify/css/verifyotp.min.css",
+                "css/verifyotp.css");
         }
 
         private static void AddJSBundleAddAffiliate(IAssetPipeline pipeline)
@@ -336,6 +344,13 @@
             pipeline.AddJavaScriptBundle("/minify/js/login.min.js",
                 "js/Libs/jquery.js",
                 "js/login/login.js");
+        }
+
+        private static void AddJSBundleVerifyOTP(IAssetPipeline pipeline)
+        {
+            pipeline.AddJavaScriptBundle("/minify/js/verifyotp.min.js",
+                "js/Libs/jquery.js",
+                "js/login/VerifyOTP.js");
         }
     }
 }

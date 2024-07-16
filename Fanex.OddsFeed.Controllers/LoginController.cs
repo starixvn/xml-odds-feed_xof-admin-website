@@ -59,6 +59,25 @@
             return View();
         }
 
+        [HttpGet]
+        public IActionResult VerifyOTP()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> VerifyOTP([FromBody] VerifyOtpCriteria criteria)
+        {
+            var result = new CommandResult();
+            if(criteria.Otp == "123123")
+            {
+                result.Code = 0;
+            }
+
+            result.Message = "Wrong OTP, please try again";
+            return Json(result);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Index([FromBody] UserLoginUserCriteria criteria)
         {

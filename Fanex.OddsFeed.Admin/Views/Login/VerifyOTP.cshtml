@@ -1,0 +1,46 @@
+﻿@model Fanex.OddsFeed.Criteria.User.VerifyOtpCriteria
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>LICENSEE ADMIN - Verify OTP</title>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <link rel="stylesheet" href="~/minify/css/verifyotp.min.css" asp-append-version="true" />
+</head>
+<body>
+    <form >
+        <div class="lgbox">
+            <div class="lgright">&nbsp;</div>
+            <div class="lgcontent-otp">
+                <div class="row line">
+                    <span class="icadmin">&nbsp;</span>
+                    <label class="tit">VERIFY OTP</label>
+                </div> 
+                <div id="msg" class="row">
+                    <span id="inner-msg">@ViewBag.Message</span>
+                </div>
+                <div class="row">
+                    Please enter an OTP to continue
+                </div>
+                <div class="row">
+                    <div class="grid6">
+                        <input asp-for="Otp" class="form-control input-otp" id="otp" />
+                    </div>
+                    <div >
+                        <button id="submit" type="button" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <script type="text/javascript">
+        var currentDomainURL = '@Url.Content("~/")';
+    </script>
+    <script src="~/minify/js/verifyotp.min.js" asp-append-version="true"></script>
+</body>
+</html>
