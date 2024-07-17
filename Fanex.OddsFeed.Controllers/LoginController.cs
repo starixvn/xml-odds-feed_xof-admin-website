@@ -62,6 +62,7 @@
         [HttpGet]
         public IActionResult VerifyOTP()
         {
+            ViewBag.Username = sessionService.Username;
             return View();
         }
 
@@ -81,7 +82,7 @@
         [HttpPost]
         public async Task<IActionResult> Index([FromBody] UserLoginUserCriteria criteria)
         {
-            var result = new CommandResult();
+            var result = new CustomLoginResult();
 
             var username = criteria.UserName;
             var password = criteria.UserPwd;
@@ -190,11 +191,19 @@
             return Json(result);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> AuthorizeLogin()
+        {
+            sessionService.IsAuthorize = true;
+            return Ok();
+        }
+
         private static string GetMessage(int errCode)
         {
             var msg = Lang.ResourceManager.GetString("Msg" + errCode.ToString());
             return msg ?? errCode.ToString();
         }
+
 
         private void CustomizeDataBeforeLogin(UserLoginUserCriteria criteria, string password)
         {
@@ -204,7 +213,7 @@
             criteria.LoginIP = currentContext.IP;
         }
 
-        private async Task CustomizeDataAfterLoginAsync(UserLoginUserCriteria criteria, User user, CommandResult result)
+        private async Task CustomizeDataAfterLoginAsync(UserLoginUserCriteria criteria, User user, CustomLoginResult result)
         {
             const byte InvalidUsernamePassword = 101;
             const byte Inactive = 102;
@@ -226,6 +235,7 @@
                     break;
                 default:
                     result.Code = 0;
+                    result.IgnoreOTP = user.IgnoreOTP;
                     await SaveUserSessionAsync(criteria, user);
                     break;
             }
@@ -257,7 +267,6 @@
             sessionService.SystemId = systemId;
             sessionService.SystemName = systemName;
             sessionService.SystemList = criteria.SystemIdNameList;
-
             sessionService.SessionId = HttpContext.Session.Id;
             await DoSignInAsync();
         }

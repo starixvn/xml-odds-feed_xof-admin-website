@@ -2,6 +2,7 @@
 
 window.onload = function () {
     setTimeout('window.history.forward()', 0);
+    //navigator.clipboard.writeText("testasdasdasđá")
 
     msg = document.getElementById('msg');
     innerMsg = document.getElementById('inner-msg');
@@ -12,8 +13,8 @@ window.onload = function () {
 
     let VerifyOTP = function () {
         msg.style.display = 'none';
-
         let isValid = true;
+
         otp.value = otp.value.trim();
         if (otp.value.length == 0) {
             otp.classList.add('err');
@@ -39,9 +40,8 @@ window.onload = function () {
             data: JSON.stringify(params),
             cache: false,
             success: function (result) {
-                console.log(result)
                 if (result.isSuccessful) {
-                    document.location = currentDomainURL + "Dashboard/ShowDashboard";
+                    authorizeLogin();
                 } else {
                     innerMsg.innerHTML = result.message;
                     msg.style.display = 'block';
@@ -60,15 +60,36 @@ window.onload = function () {
         msg.style.display = 'none';
     }
 
+    otp.onkeyup = function (e) {
+        if (e && e.keyCode == 13) {
+            VerifyOTP();
+        }
+    };
+
     btnSubmit.onclick = function () {
         VerifyOTP();
     };
 };
 
 
-//String.prototype.trim = function () {
-//    return this.replace(/^\s*/, "").replace(/\s*$/, "");
-//};
+function authorizeLogin() {
+    $.ajax({
+        type: 'POST',
+        url: 'AuthorizeLogin',
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        cache: false,
+        success: function () {
+            document.location = currentDomainURL + "Dashboard/ShowDashboard";
+        },
+        error: function (xhr, status, err) {
+        }
+    });
+}
+
+String.prototype.trim = function () {
+    return this.replace(/^\s*/, "").replace(/\s*$/, "");
+};
 
 function shake(target, times, duration) {
     for (let i = times, j = 0; i >= 0; i--) {

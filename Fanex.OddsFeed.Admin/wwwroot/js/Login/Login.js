@@ -61,7 +61,12 @@ window.onload = function () {
             cache: false,
             success: function (result) {
                 if (result.isSuccessful) {
-                    document.location = currentDomainURL + "Dashboard/ShowDashboard";
+                    if (result.ignoreOTP) {
+                        authorizeLogin();
+                    }
+                    else {
+                        document.location = currentDomainURL + "Login/VerifyOTP";
+                    }
                 } else {
                     innerMsg.innerHTML = result.message;
                     msg.style.display = 'block';
@@ -114,4 +119,19 @@ function shake(target, times, duration) {
         setTimeout(target + ".style.left = '-" + i + "0px'", j++ * duration);
         setTimeout(target + ".style.left = '" + i + "0px'", j++ * duration);
     }
+}
+
+function authorizeLogin() {
+    $.ajax({
+        type: 'POST',
+        url: 'AuthorizeLogin',
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        cache: false,
+        success: function () {
+            document.location = currentDomainURL + "Dashboard/ShowDashboard"; 
+        },
+        error: function (xhr, status, err) {
+        }
+    });
 }

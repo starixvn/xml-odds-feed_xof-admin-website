@@ -16,6 +16,7 @@
         string ControllerName { get; set; }
         string ActionName { get; set; }
         string LoginIp { get; set; }
+        bool IsAuthorize { get; set; }
         void ClearAll();
     }
 
@@ -103,6 +104,12 @@
         {
             get => session.Get<string>("LoginIp");
             set => session.Set("LoginIp", value);
+        }
+
+        public bool IsAuthorize
+        {
+            get => session.Get<bool>("IsAuthorize");
+            set => session.Set("IsAuthorize", value);
         }
 
         public void ClearAll()
