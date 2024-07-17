@@ -18,6 +18,7 @@
         public int Creator { get; set; }
 
         public string Ip { get; set; }
+        public string SecretKey { get; set; }
 
         #region step1
 
