@@ -57,7 +57,6 @@
             criteria.Password = Cryptography.CfsEnCode(HttpUtility.HtmlEncode(criteria.Password.Trim()));
             criteria.FirstName ??= string.Empty;
             criteria.LastName ??= string.Empty;
-            criteria.SecretKey = Guid.NewGuid().ToString("N");
 
             CommandResult result = await subAccService.InsertAsync(criteria);
             if (result.IsSuccessful)

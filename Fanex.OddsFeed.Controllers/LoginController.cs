@@ -235,7 +235,7 @@
                     break;
                 default:
                     result.Code = 0;
-                    result.IgnoreOTP = user.IgnoreOTP;
+                    result.IgnoreOTP = user.IsIgnoreOTP;
                     await SaveUserSessionAsync(criteria, user);
                     break;
             }

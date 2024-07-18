@@ -17,7 +17,7 @@
 
         public override string GetSettingKey()
         {
-            return "Odds_OTP_AdminUserOTP_IngoreOTP";
+            return "Odds_OTP_AdminUserOTP_IgnoreOTP";
         }
 
         public override bool IsValid()

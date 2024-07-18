@@ -40,7 +40,7 @@
     <!-- SP mapping for Administrator-->
     <Function Name="Administrator">
         <Setting Key="Odds_Admin_Ins" SpName="Odds_Admin_Ins" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
-        <Setting Key="Odds_Admin_Sel" SpName="Odds_Admin_Sel" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_Admin_Sel" SpName="Odds_Admin_Sel_xtest" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
         <Setting Key="Odds_Admin_Del" SpName="Odds_Admin_Del" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
         <Setting Key="Odds_Admin_UpdInfo" SpName="Odds_Admin_UpdInfo" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
         <Setting Key="Odds_Admin_UpdPwd" SpName="Odds_Admin_UpdPwd" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
@@ -52,7 +52,7 @@
         <Setting Key="Odds_AdminList_Top10_Sel" SpName="Odds_AdminList_Top10_Sel" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
         <Setting Key="Odds_Admin_CheckExist" SpName="Odds_Admin_CheckExist" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
         <Setting Key="Odds_AdminSystem_SelAll" SpName="Odds_AdminSystem_SelAll" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
-        <Setting Key="Odds_OTP_AdminUserOTP_IngoreOTP" SpName="Odds_OTP_AdminUserOTP_IngoreOTP" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_OTP_AdminUserOTP_IgnoreOTP" SpName="Odds_OTP_AdminUserOTP_IgnoreOTP_xtest" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
     </Function>
     <!-- End SP mapping for Administrator-->
 

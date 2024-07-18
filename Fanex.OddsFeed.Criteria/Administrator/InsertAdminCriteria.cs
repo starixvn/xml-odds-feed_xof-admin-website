@@ -59,9 +59,6 @@
         [Required]
         public string IP { get; set; }
 
-        [Required]
-        public string SecretKey { get; set; }
-
         public override string GetSettingKey() => "Odds_Admin_Ins";
 
         public override bool IsValid() => true;

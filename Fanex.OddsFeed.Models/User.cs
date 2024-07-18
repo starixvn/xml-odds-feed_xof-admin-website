@@ -50,7 +50,8 @@
 
         [Display(Name = "Active", ResourceType = typeof(ViewResources))]
         public bool IsActive { get; set; }
-        public bool IgnoreOTP { get; set; }
+        public bool IsIgnoreOTP { get; set; }
+        public bool IsDeleted { get; set; }
 
         public string Creator { get; set; }
     }

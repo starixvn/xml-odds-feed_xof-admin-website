@@ -14,7 +14,7 @@ $(document).ready(function () {
             Search();
         }
     });
-
+    //alert("errorMsg")
     Search();
 });
 
@@ -70,11 +70,13 @@ function renderBodyRows(users) {
         }
 
         var colIgnoreOTP = '';
-        if (user.ignoreOTP) {
-            colIgnoreOTP = "<a title='Require OTP for this account' class='ico-tick' onclick='javascript:editIgnoreOTP(this, " + JSON.stringify({ userId: user.userId}) + ");' />";
+        if (user.isIgnoreOTP) {
+            colIgnoreOTP = "<a disabled title='Require OTP for this account' class='ico-tick' onclick='javascript:editIgnoreOTP(this, " + JSON.stringify({ userId: user.userId}) + ");' />";
         } else {
             colIgnoreOTP = "<a title='Ignore OTP for this account' class='ico-untick' onclick='javascript:editIgnoreOTP(this, " + JSON.stringify({ userId: user.userId}) + ");' />";
         }
+
+        var test = "<a title='Generate key' class='ico-key'></a><a  title='Copy key' class='ico-copy'></a>"
 
         var row = {
             Columns: [
@@ -92,6 +94,7 @@ function renderBodyRows(users) {
                 { Name: 'creator', Value: user.creator },
                 { Name: 'createdate', Value: user.createDate },
                 { Name: 'ignoreotp', Value: colIgnoreOTP },
+                { Name: 'generatekey', Value: test },
             ]
         };
 
@@ -176,6 +179,7 @@ function Search(sortColumnName, sortDirection) {
                         SortDirection: sortColumnName === "createdate" ? sortDirection : ''
                     },
                     { HeaderText: "Ignore OTP", Width: 65, Name: "ignoreotp", HeaderAlign: "center", CellAlign: "center" },
+                    { HeaderText: "Generate Key", Width: 100, Name: "generatekey", HeaderAlign: "center", CellAlign: "center" },
                 ],
                 bodyRows: renderBodyRows(result.data),
                 hideYBackGroundScroller: true,

@@ -71,7 +71,7 @@
 
             criteria.Creator = sessionService.UserId;
             criteria.IP = currentContext.IP;
-            criteria.SecretKey = Guid.NewGuid().ToString("N");
+
             CommandResult result = await baseService.ExecuteNonQueryAsync(criteria);
             if (result != null && result.IsSuccessful)
             {
