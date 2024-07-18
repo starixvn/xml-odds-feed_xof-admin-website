@@ -69,6 +69,13 @@ function renderBodyRows(users) {
             colactive = "<a title='Activate this account' class='ico-untick' onclick='javascript:editActive(this, " + JSON.stringify({ userId: user.userId, username: user.username }) + ");' />";
         }
 
+        var colIgnoreOTP = '';
+        if (user.ignoreOTP) {
+            colIgnoreOTP = "<a title='Require OTP for this account' class='ico-tick' onclick='javascript:editIgnoreOTP(this, " + JSON.stringify({ userId: user.userId}) + ");' />";
+        } else {
+            colIgnoreOTP = "<a title='Ignore OTP for this account' class='ico-untick' onclick='javascript:editIgnoreOTP(this, " + JSON.stringify({ userId: user.userId}) + ");' />";
+        }
+
         var row = {
             Columns: [
                 { Name: 'row', Value: user.row },
@@ -83,7 +90,8 @@ function renderBodyRows(users) {
                 { Name: 'lastname', Value: user.lastName },
                 { Name: 'email', Value: user.email },
                 { Name: 'creator', Value: user.creator },
-                { Name: 'createdate', Value: user.createDate }
+                { Name: 'createdate', Value: user.createDate },
+                { Name: 'ignoreotp', Value: colIgnoreOTP },
             ]
         };
 
@@ -166,7 +174,8 @@ function Search(sortColumnName, sortDirection) {
                         HeaderText: "Created Date", Width: 120, Name: "createdate", HeaderAlign: "center", CellAlign: "center", CssClass: "header-mt",
                         Sort: true, FormatDateTime: 'DD MMM YYYY HH:mm:ss',
                         SortDirection: sortColumnName === "createdate" ? sortDirection : ''
-                    }
+                    },
+                    { HeaderText: "Ignore OTP", Width: 65, Name: "ignoreotp", HeaderAlign: "center", CellAlign: "center" },
                 ],
                 bodyRows: renderBodyRows(result.data),
                 hideYBackGroundScroller: true,

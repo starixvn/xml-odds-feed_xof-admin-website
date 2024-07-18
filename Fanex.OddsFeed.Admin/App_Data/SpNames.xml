@@ -52,6 +52,7 @@
         <Setting Key="Odds_AdminList_Top10_Sel" SpName="Odds_AdminList_Top10_Sel" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
         <Setting Key="Odds_Admin_CheckExist" SpName="Odds_Admin_CheckExist" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
         <Setting Key="Odds_AdminSystem_SelAll" SpName="Odds_AdminSystem_SelAll" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_OTP_AdminUserOTP_IngoreOTP" SpName="Odds_OTP_AdminUserOTP_IngoreOTP" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
     </Function>
     <!-- End SP mapping for Administrator-->
 

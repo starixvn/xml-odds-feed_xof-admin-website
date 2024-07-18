@@ -59,6 +59,67 @@
 });
 
 //--------------------------------------------------------------------------------------------------------------------
+function editIgnoreOTP(obj, user) {
+    if ($(obj).hasClass('ico-tick')) {
+        var temp = 'Are you sure you want to require OTP for this account?';
+        confirm(temp, function () {
+            $(obj).removeClass('ico-tick').addClass('ico-untick');
+
+            var url = 'UpdateIgnoreOTP?userId=' + user.userId + '&isIgnoreOTP=false';
+
+            //todo
+            $.ajax({
+                url: url,
+                type: 'POST',
+                dataType: 'html',
+                cache: false,
+                beforeSend: function (xhr) {
+                },
+                success: function (result) {
+                    result = result.toLowerCase();
+
+                    if (result == 'successfully!') {
+                        document.location = currentDomainURL + 'Administrator/AdministratorList';
+                    }
+                    else {
+                        alert(result);
+                    }
+                },
+                error: function (xhr, status, err) {
+                }
+            });
+        });
+    } else {
+        var temp = 'Are you sure you want to ignore OTP for this account?';
+        confirm(temp, function () {
+            $(obj).removeClass('ico-untick').addClass('ico-tick');
+            var url = 'UpdateIgnoreOTP?userId=' + user.userId + '&isIgnoreOTP=true';
+
+            //todo
+            $.ajax({
+                url: url,
+                type: 'POST',
+                dataType: 'html',
+                cache: false,
+                beforeSend: function (xhr) {
+                },
+                success: function (result) {
+                    result = result.toLowerCase();
+
+                    if (result == 'successfully!') {
+                        document.location = currentDomainURL + 'Administrator/AdministratorList';
+                    }
+                    else {
+                        alert(result);
+                    }
+                },
+                error: function (xhr, status, err) {
+                }
+            });
+        });
+    }
+};
+
 
 function editActive(obj, user) {
     if ($(obj).hasClass('ico-tick')) {

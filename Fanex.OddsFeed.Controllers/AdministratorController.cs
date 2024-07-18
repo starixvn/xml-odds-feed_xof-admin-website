@@ -416,6 +416,29 @@
 
         #endregion
 
+        #region Update Ignore OTP
+
+        [HttpPost]
+        public async Task<string> UpdateIgnoreOTP(int userId, bool isIgnoreOTP)
+        {
+            var criteria = new UpdateIgnoreOTPCriteria
+            {
+                UserId = userId,
+                IsIgnoreOTP = isIgnoreOTP,
+                Creator = sessionService.UserId,
+                IP = currentContext.IP
+            };
+            CommandResult result = await baseService.ExecuteNonQueryAsync(criteria);
+
+            var responseMessage = (result != null && result.IsSuccessful)
+                ? ViewResources.SuccessfulMessage
+                : ViewResources.InternalErrorMessage;
+
+            return responseMessage;
+        }
+
+        #endregion
+
         public async Task<string> ListExistedAdministrator(AdminList_GetTop10Criteria criteria)
         {
             criteria.SystemId = sessionService.SystemId;
