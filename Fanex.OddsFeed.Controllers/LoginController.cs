@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Reflection;
     using System.Security.Claims;
     using System.Threading.Tasks;
     using System.Web;
@@ -9,9 +10,11 @@
     using Fanex.OddsFeed.Core;
     using Fanex.OddsFeed.Core.Attribute;
     using Fanex.OddsFeed.Core.Context;
+    using Fanex.OddsFeed.Criteria.Administrator;
     using Fanex.OddsFeed.Criteria.User;
     using Fanex.OddsFeed.Models;
     using Fanex.OddsFeed.Resources;
+    using Fanex.OddsFeed.Services.Impl;
     using Fanex.OddsFeed.Services.Interface;
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authentication.Cookies;
@@ -23,11 +26,15 @@
     [ServiceFilter(typeof(CheckUMFilterAttribute))]
     public class LoginController(
         ICurrentContext currentContext,
+        private readonly IOtpService otpService;
         ISessionService sessionService,
         IHttpContextAccessor httpContextAccessor,
         IUserService userService,
-        IBaseService baseService) : Controller
+        IBaseService baseService,
+        IOtpService otpService,
+        AppSettings appSettings) : Controller
     {
+            this.otpService = otpService;
         public IActionResult ShowCaptchaImage()
         {
             var bmp = new SKBitmap(70, 25);
@@ -70,7 +77,10 @@
         public async Task<IActionResult> VerifyOTP([FromBody] VerifyOtpCriteria criteria)
         {
             var result = new CommandResult();
-            if(criteria.Otp == "123123")
+            var userOtp = await baseService.GetDataEntityAsync<UserOTP>(new GetUserOTPCriteria { UserId = sessionService.UserId });
+            var isOTPValid = otpService.ValidateOTPCode(userOtp.SecretKey, criteria.Otp);
+
+            if (isOTPValid)
             {
                 result.Code = 0;
             }
