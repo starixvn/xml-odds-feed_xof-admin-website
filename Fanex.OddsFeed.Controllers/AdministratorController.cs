@@ -61,12 +61,10 @@
         [HttpPost]
         public async Task<IActionResult> AddNew([FromBody] InsertAdminCriteria criteria)
         {
-            string addResult;
-
             criteria.FirstName ??= string.Empty;
             criteria.LastName ??= string.Empty;
             criteria.Password = criteria.Password.Trim();
-            // hash password incase of add new
+
             if (!criteria.IsImport)
             {
                 criteria.Password = Cryptography.CfsEnCode(HttpUtility.HtmlEncode(criteria.Password));
@@ -76,17 +74,33 @@
             criteria.IP = currentContext.IP;
 
             CommandResult result = await baseService.ExecuteNonQueryAsync(criteria);
-            if (result != null && result.IsSuccessful)
+            if (result == null)
             {
-                ViewBag.Success = true;
-                addResult = ViewResources.SuccessfulMessage;
-            }
-            else
-            {
-                addResult = result != null ? result.Message : ViewResources.InternalErrorMessage;
+                return Json(ViewResources.InternalErrorMessage);
             }
 
-            return Json(addResult);
+            if (result.IsSuccessful)
+            {
+                var generateSecretKeyCriteria = new GenerateSecretKeyOTPCriteria
+                {
+                    UserId = criteria.UserID,
+                    SecretKey = Guid.NewGuid().ToString("N"),
+                    Creator = sessionService.UserId,
+                    IP = currentContext.IP
+                };
+
+                CommandResult generateSecretKeyResult = await baseService.ExecuteNonQueryAsync(generateSecretKeyCriteria);
+
+                if (generateSecretKeyResult.IsSuccessful)
+                {
+                    ViewBag.Success = true;
+                    return Json(ViewResources.SuccessfulMessage);
+                }
+
+                return Json(ViewResources.InternalErrorMessage);
+            }
+
+            return Json(result.Message);
         }
 
         [HttpPost]

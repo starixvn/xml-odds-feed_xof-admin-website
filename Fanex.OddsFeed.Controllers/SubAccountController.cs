@@ -61,7 +61,20 @@
             CommandResult result = await subAccService.InsertAsync(criteria);
             if (result.IsSuccessful)
             {
-                result.Message = ViewResources.ActionResult_AddSubAccountSuccess;
+                var generateSecretKeyCriteria = new GenerateSecretKeyOTPCriteria
+                {
+                    UserId = criteria.UserID,
+                    SecretKey = Guid.NewGuid().ToString("N"),
+                    Creator = sessionService.UserId,
+                    IP = currentContext.IP
+                };
+
+                CommandResult generateSecretKeyResult = await baseService.ExecuteNonQueryAsync(generateSecretKeyCriteria);
+
+                if (generateSecretKeyResult.IsSuccessful)
+                {
+                    result.Message = ViewResources.ActionResult_AddSubAccountSuccess;
+                }
             }
 
             return Json(result);
