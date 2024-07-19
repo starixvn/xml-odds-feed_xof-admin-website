@@ -120,6 +120,49 @@ function editIgnoreOTP(obj, user) {
     }
 };
 
+function generateKey(user) {
+    var url = 'GenerateSecretKeyOTP?userId=' + user.userId;
+
+    $.ajax({
+        url: url,
+        type: 'POST',
+        dataType: 'json',
+        cache: false,
+        beforeSend: function (xhr) {
+        },
+        success: function (result) {
+            if (result && result.isSuccessful) {
+                alert("Generate key successfully!");
+                _pageIndex = 0;
+                Search();
+            } else {
+                alert(result.message);
+            }
+        },
+        error: function (xhr, status, err) {
+        }
+    });
+};
+
+function copyKey(user) {
+    var url = 'GetSetupKeyOTP?userId=' + user.userId;
+
+    $.ajax({
+        url: url,
+        type: 'GET',
+        dataType: 'json',
+        cache: false,
+        beforeSend: function (xhr) {
+        },
+        success: function (result) {
+            navigator.clipboard.writeText(result)
+            alert("Copied key to clipboard!");
+        },
+        error: function (xhr, status, err) {
+        }
+    });
+};
+
 
 function editActive(obj, user) {
     if ($(obj).hasClass('ico-tick')) {

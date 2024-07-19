@@ -14,7 +14,7 @@ $(document).ready(function () {
             Search();
         }
     });
-    //alert("errorMsg")
+
     Search();
 });
 
@@ -76,7 +76,11 @@ function renderBodyRows(users) {
             colIgnoreOTP = "<a title='Ignore OTP for this account' class='ico-untick' onclick='javascript:editIgnoreOTP(this, " + JSON.stringify({ userId: user.userId}) + ");' />";
         }
 
-        var test = "<a title='Generate key' class='ico-key'></a><a  title='Copy key' class='ico-copy'></a>"
+        var generateKey = "<a title='Generate key' class='ico-key' onclick='javascript:generateKey(" + JSON.stringify({ userId: user.userId }) + ");'/>";
+        var copyKey = user.isDeleted
+            ? "<a class='ico-key-disabled'/>"
+            : "<a title='Copy key' class='ico-copy' onclick='javascript:copyKey(" + JSON.stringify({ userId: user.userId }) + ");'/>";
+        var colGenerateKey = generateKey + copyKey;
 
         var row = {
             Columns: [
@@ -94,7 +98,7 @@ function renderBodyRows(users) {
                 { Name: 'creator', Value: user.creator },
                 { Name: 'createdate', Value: user.createDate },
                 { Name: 'ignoreotp', Value: colIgnoreOTP },
-                { Name: 'generatekey', Value: test },
+                { Name: 'generatekey', Value: colGenerateKey },
             ]
         };
 

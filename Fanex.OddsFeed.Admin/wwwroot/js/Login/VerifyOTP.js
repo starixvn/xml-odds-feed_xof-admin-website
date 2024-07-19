@@ -2,7 +2,6 @@
 
 window.onload = function () {
     setTimeout('window.history.forward()', 0);
-    //navigator.clipboard.writeText("testasdasdasđá")
 
     msg = document.getElementById('msg');
     innerMsg = document.getElementById('inner-msg');

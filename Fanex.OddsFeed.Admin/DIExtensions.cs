@@ -38,7 +38,11 @@
             var appSettings = configuration.GetSection("AppSettings").Get<AppSettings>();
             services.AddSingleton(appSettings);
 
+            var otpConfig = configuration.GetSection("OtpConfig").Get<OtpConfig>();
+            services.AddSingleton(otpConfig);
+
             services.AddOneBookUm(configuration);
+
 
             services.AddSingleton<ILogger, Logger>();
             services.AddSingleton<ICurrentContext, CurrentContext>();
@@ -46,6 +50,7 @@
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
             services.AddSingleton<IBaseService, BaseService>();
             services.AddSingleton<IUserService, UserService>();
+            services.AddSingleton<IOtpService, OtpService>();
             services.AddSingleton<IDashboardService, DashboardService>();
             services.AddSingleton<IAffiliateService, AffiliateService>();
             services.AddSingleton<ILicenseeService, LicenseeService>();

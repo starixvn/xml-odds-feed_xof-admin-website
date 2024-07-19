@@ -14,6 +14,7 @@
     using Fanex.OddsFeed.Criteria.User;
     using Fanex.OddsFeed.Models;
     using Fanex.OddsFeed.Resources;
+    using Fanex.OddsFeed.Services.Impl;
     using Fanex.OddsFeed.Services.Interface;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
@@ -22,14 +23,17 @@
     public class AdministratorController : BaseController
     {
         private readonly IUserService userService;
+        private readonly IOtpService otpService;
 
         public AdministratorController(IUserService userService,
             ICurrentContext currentContext,
             ISessionService sessionService,
             IBaseService baseService,
+            IOtpService otpService,
             AppSettings appSettings) : base(currentContext, sessionService, baseService, appSettings)
         {
             this.userService = userService;
+            this.otpService = otpService;
         }
 
         #region Add New Administrator
@@ -416,7 +420,7 @@
 
         #endregion
 
-        #region Update Ignore OTP
+        #region OTP
 
         [HttpPost]
         public async Task<string> UpdateIgnoreOTP(int userId, bool isIgnoreOTP)
@@ -435,6 +439,39 @@
                 : ViewResources.InternalErrorMessage;
 
             return responseMessage;
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> GenerateSecretKeyOTP(int userId)
+        {
+            var criteria = new GenerateSecretKeyOTPCriteria
+            {
+                UserId = userId,
+                SecretKey = Guid.NewGuid().ToString("N"),
+                Creator = sessionService.UserId,
+                IP = currentContext.IP
+            };
+            CommandResult result = await baseService.ExecuteNonQueryAsync(criteria);
+            return Json(result);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetSetupKeyOTP(int userId)
+        {
+            var criteria = new GetUserOTPCriteria
+            {
+                UserId = userId
+            };
+
+            var userOtp = await baseService.GetDataEntityAsync<UserOTP>(criteria);
+
+            if (userOtp == null)
+            {
+                return Json(string.Empty);
+            }
+
+            var setupKey = otpService.GenerateSetupCode(userOtp.UserId.ToString(), userOtp.SecretKey);
+            return Json(setupKey);
         }
 
         #endregion
