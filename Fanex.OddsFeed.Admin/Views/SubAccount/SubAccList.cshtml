@@ -30,6 +30,9 @@
         <script src="~/minify/js/fanexgrid.min.js" asp-append-version="true"></script>
         <script src="~/minify/js/subaccountlist.min.js" asp-append-version="true"></script>
     </environment>
+    <script type="text/javascript">
+        const isAccountManagerRole = @Html.Raw(Json.Serialize(ViewData["IsAccountManagerRole"]));
+    </script>
 }
 
 <div class="infor">

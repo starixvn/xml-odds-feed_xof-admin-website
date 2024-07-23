@@ -50,6 +50,14 @@ function renderBodyRows(users) {
             colactive = "<img title='Activate this account' class='ico-untick' alt='' onclick='javascript:editActive(this, " + userId + "')' />";
         }
 
+        var generateKey = isAccountManagerRole
+            ? "<a title='Generate key' class='ico-key' onclick='javascript:generateKey(" + JSON.stringify({ userId: user.userId }) + ");'/>"
+            : "";
+        var copyKey = user.isDeleted
+            ? "<a class='ico-copy-disabled " + (isAccountManagerRole ? '' : 'ico-copy-no-ml') + "'/>"
+            : "<a title='Copy key' class='ico-copy " + (isAccountManagerRole ? '' : 'ico-copy-no-ml') + "' onclick='javascript:copyKey(" + JSON.stringify({ userId: user.userId }) + ");'/>";
+        var colGenerateKey = generateKey + copyKey;
+
         var row = {
             Columns: [
                 { Name: 'Row', Value: user.row },
@@ -63,7 +71,8 @@ function renderBodyRows(users) {
                 { Name: 'LastName', Value: user.lastName },
                 { Name: 'Email', Value: user.email },
                 { Name: 'Creator', Value: user.creator },
-                { Name: 'CreatedDate', Value: user.createdDate }
+                { Name: 'CreatedDate', Value: user.createdDate },
+                { Name: 'OTPKey', Value:  colGenerateKey}
             ]
         };
 
@@ -139,7 +148,8 @@ function Search(sortColumnName, sortDirection) {
                         HeaderText: "Created Date", Width: 120, Name: "CreatedDate", HeaderAlign: "center", CellAlign: "center", CssClass: "header-mt",
                         Sort: true, FormatDateTime: 'DD MMM YYYY HH:mm:ss',
                         SortDirection: sortColumnName === "CreatedDate" ? sortDirection : ''
-                    }
+                    },
+                    { HeaderText: isAccountManagerRole ? "Generate Key" : "Copy OTP Key", Width: 100, Name: "OTPKey", HeaderAlign: "center", CellAlign: "center" },
                 ],
                 bodyRows: renderBodyRows(result.data),
                 hideYBackGroundScroller: true,

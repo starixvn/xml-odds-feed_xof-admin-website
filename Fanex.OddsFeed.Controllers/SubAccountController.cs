@@ -112,6 +112,8 @@
                 return this.NoAuthorization();
             }
 
+            ViewData["IsAccountManagerRole"] = this.IsAccountManagerRole();
+
             return View("SubAccList");
         }
 

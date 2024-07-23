@@ -58,6 +58,57 @@
 });
 
 //--------------------------------------------------------------------------------------------------------------------
+function generateKey(user) {
+    var url = currentDomainURL + 'Administrator/GenerateSecretKeyOTP?userId=' + user.userId;
+
+    $.ajax({
+        url: url,
+        type: 'POST',
+        dataType: 'json',
+        cache: false,
+        beforeSend: function (xhr) {
+        },
+        success: function (result) {
+            if (result && result.isSuccessful) {
+                alert("Generate key successfully!");
+                _pageIndex = 0;
+                Search();
+            } else {
+                alert(result.message);
+            }
+        },
+        error: function (xhr, status, err) {
+        }
+    });
+};
+
+function copyKey(user) {
+    var url = currentDomainURL + 'Administrator/GetSetupKeyOTP?userId=' + user.userId;
+
+    $.ajax({
+        url: url,
+        type: 'GET',
+        dataType: 'json',
+        cache: false,
+        beforeSend: function (xhr) {
+        },
+        success: function (result) {
+            const tempInput = document.createElement('input');
+            document.body.appendChild(tempInput);
+            tempInput.value = result;
+            tempInput.select();
+
+            navigator.clipboard.writeText(tempInput.value);
+            alert("Copied key to clipboard!");
+
+            document.body.removeChild(tempInput);
+        },
+        error: function (xhr, status, err) {
+        }
+    });
+};
+
+
 function editActive(obj, userId) {
     if ($(obj).hasClass('ico-tick')) {
         confirm('Do you want to deactivate this sub-account ?', function () {

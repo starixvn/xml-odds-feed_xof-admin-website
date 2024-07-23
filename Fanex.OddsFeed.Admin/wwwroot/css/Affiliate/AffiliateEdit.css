@@ -110,6 +110,35 @@ select.request
     min-width:300px;    
 }
 
+.ico-copy-no-ml {
+    margin-left: unset !important;
+}
+
+.ico-copy-disabled {
+    background: url("../images/disabled-copy-icon.png") round scroll 0 0 transparent;
+    display: inline-block;
+    height: 16px;
+    width: 16px;
+    margin-left: 10px;
+    cursor: not-allowed;
+}
+
+.ico-key {
+    background: url("../images/key-icon.png") round scroll 0 0 transparent;
+    display: inline-block;
+    height: 16px;
+    width: 16px;
+    margin-right: 10px;
+}
+
+.ico-copy {
+    background: url("../images/copy-icon.png") round scroll 0 0 transparent;
+    display: inline-block;
+    height: 16px;
+    width: 16px;
+    margin-left: 10px;
+}
+
 .ico-tick {
     background: url("../images/tick-ico-16.png") no-repeat scroll 0 0 transparent;    
     display: inline-block;

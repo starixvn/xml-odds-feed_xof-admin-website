@@ -78,7 +78,7 @@ function renderBodyRows(users) {
 
         var generateKey = "<a title='Generate key' class='ico-key' onclick='javascript:generateKey(" + JSON.stringify({ userId: user.userId }) + ");'/>";
         var copyKey = user.isDeleted
-            ? "<a class='ico-key-disabled'/>"
+            ? "<a class='ico-copy-disabled'/>"
             : "<a title='Copy key' class='ico-copy' onclick='javascript:copyKey(" + JSON.stringify({ userId: user.userId }) + ");'/>";
         var colGenerateKey = generateKey + copyKey;
 

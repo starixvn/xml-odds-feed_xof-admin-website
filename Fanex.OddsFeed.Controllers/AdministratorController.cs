@@ -436,8 +436,13 @@
         #region OTP
 
         [HttpPost]
-        public async Task<string> UpdateIgnoreOTP(int userId, bool isIgnoreOTP)
+        public async Task<IActionResult> UpdateIgnoreOTP(int userId, bool isIgnoreOTP)
         {
+            if (!this.IsAccountManagerRole())
+            {
+                return this.NoAuthorization();
+            }
+
             var criteria = new UpdateIgnoreOTPCriteria
             {
                 UserId = userId,
@@ -446,17 +451,17 @@
                 IP = currentContext.IP
             };
             CommandResult result = await baseService.ExecuteNonQueryAsync(criteria);
-
-            var responseMessage = (result != null && result.IsSuccessful)
-                ? ViewResources.SuccessfulMessage
-                : ViewResources.InternalErrorMessage;
-
-            return responseMessage;
+            return Json(result);
         }
         
         [HttpPost]
         public async Task<IActionResult> GenerateSecretKeyOTP(int userId)
         {
+            if (!this.IsAccountManagerRole())
+            {
+                return this.NoAuthorization();
+            }
+
             var criteria = new GenerateSecretKeyOTPCriteria
             {
                 UserId = userId,
