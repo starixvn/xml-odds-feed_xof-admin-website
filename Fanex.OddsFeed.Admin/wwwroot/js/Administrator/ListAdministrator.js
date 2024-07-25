@@ -127,6 +127,9 @@ function Search(sortColumnName, sortDirection) {
         case "rolename":
             typeSort = 4;
             break;
+        case "ignoreotp":
+            typeSort = 5;
+            break;
         default:
             break;
     }
@@ -182,7 +185,11 @@ function Search(sortColumnName, sortDirection) {
                         Sort: true, FormatDateTime: 'DD MMM YYYY HH:mm:ss',
                         SortDirection: sortColumnName === "createdate" ? sortDirection : ''
                     },
-                    { HeaderText: "Ignore OTP", Width: 65, Name: "ignoreotp", HeaderAlign: "center", CellAlign: "center" },
+                    {
+                        HeaderText: "Ignore OTP", Width: 100, Name: "ignoreotp", HeaderAlign: "center", CellAlign: "center", CssClass: "header-mt",
+                        Sort: true,
+                        SortDirection: sortColumnName === "ignoreotp" ? sortDirection : ''
+                    },
                     { HeaderText: "Generate Key", Width: 100, Name: "generatekey", HeaderAlign: "center", CellAlign: "center" },
                 ],
                 bodyRows: renderBodyRows(result.data),
