@@ -129,4 +129,10 @@
         <Setting Key="Odds_DomainUpd" SpName="Odds_DomainUpd" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
         <Setting Key="Odds_DomainList_Top10_Sel" SpName="Odds_DomainList_Top10_Sel" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
     </Function>
+
+    <Function Name="OTP">
+        <Setting Key="Odds_OTP_AdminUserOTP_IgnoreOTP" SpName="Odds_OTP_AdminUserOTP_IgnoreOTP" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_OTP_AdminUserOTPIns" SpName="Odds_OTP_AdminUserOTPIns" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_OTP_AdminUserOTPSel" SpName="Odds_OTP_AdminUserOTPSel" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+    </Function>
 </Functions>
