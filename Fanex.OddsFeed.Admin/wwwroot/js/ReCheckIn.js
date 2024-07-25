@@ -10,18 +10,18 @@ let Recheckin = function ($) {
         },
         reCheckin: function () {
             $.ajax({
-                url: currentDomainURL + "Login/ReCheckLogin",
-                type: "POST",
-                dataType: "json",
+                url: currentDomainURL + 'Login/ReCheckLogin',
+                type: 'POST',
+                dataType: 'json',
                 success: function (result) {
-                    if (result == "1") {
+                    if (result == '1') {
                         Recheckin.headlineMsgBox.showInfo(Recheckin.kickedOutMsg, { closeBtn: false });
                     }
                 },
                 error: function (request, status, error) {
                     let result = $.parseJSON(request.responseText);
                     if (result.code == 999999) {
-                        location.href = currentDomainURL + "Error/UnderMaintainance";
+                        location.href = currentDomainURL + 'Common/UnderMaintainance';
                     }
                 }
             });
@@ -54,9 +54,9 @@ $(document).ready(function () {
         duration: 2000,
         useAnimation: false,
         beforeClose: function () {
-            window.location = currentDomainURL + "Login/LogOut";
+            window.location = currentDomainURL + 'Login/LogOut';
         }
     });
 
-    setInterval("Recheckin.reCheckin()", Recheckin.time);
+    setInterval('Recheckin.reCheckin()', Recheckin.time);
 });
