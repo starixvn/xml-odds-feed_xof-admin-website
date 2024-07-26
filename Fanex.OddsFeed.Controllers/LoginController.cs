@@ -172,6 +172,12 @@
             return Json(result);
         }
 
+        private static string GetMessage(int errCode)
+        {
+            var msg = Lang.ResourceManager.GetString("Msg" + errCode.ToString());
+            return msg ?? errCode.ToString();
+        }
+
         private void CustomizeDataBeforeLogin(UserLoginUserCriteria criteria, string password)
         {
             password = Cryptography.CfsEnCode(HttpUtility.HtmlEncode(password));

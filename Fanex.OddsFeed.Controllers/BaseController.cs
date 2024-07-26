@@ -8,7 +8,6 @@
     using Fanex.OddsFeed.Core.Context;
     using Fanex.OddsFeed.Criteria.Affiliate;
     using Fanex.OddsFeed.Models;
-    using Fanex.OddsFeed.Resources;
     using Fanex.OddsFeed.Services.Interface;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
@@ -42,12 +41,6 @@
             ViewBag.CurrentTheme = "Default";
             ViewBag.IsDashboard = false;
             this.appSettings = appSettings;
-        }
-
-        public string GetMessage(int errCode)
-        {
-            var msg = Lang.ResourceManager.GetString("Msg" + errCode.ToString());
-            return msg ?? errCode.ToString();
         }
 
         [HttpGet]

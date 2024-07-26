@@ -22,7 +22,7 @@
                 }
                 else
                 {
-                    context.Result = new RedirectToActionResult("LogOut", "login", null);
+                    context.Result = new RedirectToActionResult("index", "login", null);
                 }
             }
         }
