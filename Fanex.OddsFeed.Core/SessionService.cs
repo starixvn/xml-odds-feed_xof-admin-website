@@ -23,6 +23,11 @@
     {
         private readonly ISession session;
 
+        public SessionService(ISession session)
+        {
+            this.session = session;
+        }
+
         public SessionService(IHttpContextAccessor accessor)
         {
             session = accessor.HttpContext.Session;

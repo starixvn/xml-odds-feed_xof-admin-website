@@ -1,6 +1,8 @@
 ﻿namespace Fanex.OddsFeed.Controllers
 {
     using System;
+    using System.Collections.Generic;
+    using System.Security.Claims;
     using System.Threading.Tasks;
     using System.Web;
     using Fanex.OddsFeed.Admin.Utility;
@@ -11,26 +13,21 @@
     using Fanex.OddsFeed.Models;
     using Fanex.OddsFeed.Resources;
     using Fanex.OddsFeed.Services.Interface;
+    using Microsoft.AspNetCore.Authentication;
+    using Microsoft.AspNetCore.Authentication.Cookies;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
+    using ONEbook.UM.AspNetCore.Filters;
     using SkiaSharp;
 
-    public class LoginController : BaseController
+    [ServiceFilter(typeof(CheckUMFilterAttribute))]
+    public class LoginController(
+        ICurrentContext currentContext,
+        ISessionService sessionService,
+        IHttpContextAccessor httpContextAccessor,
+        IUserService userService,
+        IBaseService baseService) : Controller
     {
-        private readonly IHttpContextAccessor httpContextAccessor;
-        private readonly IUserService userService;
-
-        public LoginController(ICurrentContext currentContext,
-            ISessionService sessionService,
-            IHttpContextAccessor httpContextAccessor,
-            IUserService userService,
-            IBaseService baseService,
-            AppSettings appSettings) : base(currentContext, sessionService, baseService, appSettings)
-        {
-            this.httpContextAccessor = httpContextAccessor;
-            this.userService = userService;
-        }
-
         public IActionResult ShowCaptchaImage()
         {
             var bmp = new SKBitmap(70, 25);
@@ -110,6 +107,8 @@
 
             await baseService.GetDataEntityAsync<CommandResult>(criteria);
             sessionService.ClearAll();
+
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         }
 
         [HttpPost]
@@ -241,6 +240,20 @@
             sessionService.SystemList = criteria.SystemIdNameList;
 
             sessionService.SessionId = HttpContext.Session.Id;
+            await DoSignInAsync();
+        }
+
+        private async Task DoSignInAsync()
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, sessionService.Username),
+                new Claim(ClaimTypes.NameIdentifier, sessionService.UserId.ToString()),
+                new Claim("OnUserId", sessionService.OnUserId.ToString())
+            };
+
+            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
         }
     }
 }

@@ -23,7 +23,6 @@
     {
         private const string MajorGroup = "Major";
         private const string MinorGroup = "Minor";
-        private const string URLPrefix = "http://";
         private const string DefaultController = "Affiliate";
         private const string OddsRegionSettingType = "OddsRegion";
         private const string OddsTypeSettingType = "OddsType";

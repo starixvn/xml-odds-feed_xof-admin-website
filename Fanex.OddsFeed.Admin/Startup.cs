@@ -17,6 +17,7 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using ONEbook.UM.AspNetCore.Filters;
     using Sentry;
     using StackExchange.Redis;
 
@@ -62,8 +63,8 @@
             })
             .AddCookie(options =>
             {
-                options.LoginPath = Configuration.GetSection("AuthSettings:SignInPath").Value;
-                options.LogoutPath = Configuration.GetSection("AuthSettings:SignOutPath").Value;
+                options.LoginPath = Configuration.GetSection("AuthSettings:LoginPath").Value;
+                options.LogoutPath = Configuration.GetSection("AuthSettings:LogoutPath").Value;
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(int.Parse(Configuration["AuthSettings:SessionTimeout"]));
                 options.SlidingExpiration = true;
                 options.Cookie = new CookieBuilder
