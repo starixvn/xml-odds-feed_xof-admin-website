@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Reflection;
     using System.Security.Claims;
     using System.Threading.Tasks;
     using System.Web;
@@ -14,7 +13,6 @@
     using Fanex.OddsFeed.Criteria.User;
     using Fanex.OddsFeed.Models;
     using Fanex.OddsFeed.Resources;
-    using Fanex.OddsFeed.Services.Impl;
     using Fanex.OddsFeed.Services.Interface;
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authentication.Cookies;
@@ -26,15 +24,12 @@
     [ServiceFilter(typeof(CheckUMFilterAttribute))]
     public class LoginController(
         ICurrentContext currentContext,
-        private readonly IOtpService otpService;
         ISessionService sessionService,
         IHttpContextAccessor httpContextAccessor,
         IUserService userService,
         IBaseService baseService,
-        IOtpService otpService,
-        AppSettings appSettings) : Controller
+        IOtpService otpService) : Controller
     {
-            this.otpService = otpService;
         public IActionResult ShowCaptchaImage()
         {
             var bmp = new SKBitmap(70, 25);
@@ -66,29 +61,6 @@
             return View();
         }
 
-        [HttpGet]
-        public IActionResult VerifyOTP()
-        {
-            ViewBag.Username = sessionService.Username;
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> VerifyOTP([FromBody] VerifyOtpCriteria criteria)
-        {
-            var result = new CommandResult();
-            var userOtp = await baseService.GetDataEntityAsync<UserOTP>(new GetUserOTPCriteria { UserId = sessionService.UserId });
-            var isOTPValid = otpService.ValidateOTPCode(userOtp.SecretKey, criteria.Otp);
-
-            if (isOTPValid)
-            {
-                result.Code = 0;
-            }
-
-            result.Message = "Wrong OTP, please try again";
-            return Json(result);
-        }
-
         [HttpPost]
         public async Task<IActionResult> Index([FromBody] UserLoginUserCriteria criteria)
         {
@@ -118,6 +90,29 @@
                 result.Message = ViewResources.Error_InvalidInput;
             }
 
+            return Json(result);
+        }
+
+        [HttpGet]
+        public IActionResult VerifyOTP()
+        {
+            ViewBag.Username = sessionService.Username;
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> VerifyOTP([FromBody] VerifyOtpCriteria criteria)
+        {
+            var result = new CommandResult();
+            var userOtp = await baseService.GetDataEntityAsync<UserOTP>(new GetUserOTPCriteria { UserId = sessionService.UserId });
+            var isOTPValid = otpService.ValidateOTPCode(userOtp.SecretKey, criteria.Otp);
+
+            if (isOTPValid)
+            {
+                result.Code = 0;
+            }
+
+            result.Message = "Wrong OTP, please try again";
             return Json(result);
         }
 
@@ -202,9 +197,9 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> AuthorizeLogin()
+        public async Task<IActionResult> SignIn()
         {
-            sessionService.IsAuthorize = true;
+            await DoSignInAsync();
             return Ok();
         }
 
@@ -278,7 +273,6 @@
             sessionService.SystemName = systemName;
             sessionService.SystemList = criteria.SystemIdNameList;
             sessionService.SessionId = HttpContext.Session.Id;
-            await DoSignInAsync();
         }
 
         private async Task DoSignInAsync()

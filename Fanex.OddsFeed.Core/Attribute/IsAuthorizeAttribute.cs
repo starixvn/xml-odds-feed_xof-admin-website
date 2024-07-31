@@ -11,7 +11,7 @@
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             var sessionService = new SessionService(context.HttpContext.Session);
-            if (!sessionService.IsAuthorize)
+            if (sessionService.OnUserId <= 0)
             {
                 if (IsAjaxRequest(context.HttpContext.Request))
                 {

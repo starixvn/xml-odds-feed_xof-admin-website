@@ -10,6 +10,19 @@ window.onload = function () {
 
     otp.focus();
 
+    let signIn = function () {
+        $.ajax({
+            type: 'POST',
+            url: 'signIn',
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            cache: false,
+            success: function () {
+                document.location = currentDomainURL + "Dashboard/ShowDashboard"; 
+            }
+        });
+    };
+
     let VerifyOTP = function () {
         msg.style.display = 'none';
         let isValid = true;
@@ -40,13 +53,11 @@ window.onload = function () {
             cache: false,
             success: function (result) {
                 if (result.isSuccessful) {
-                    authorizeLogin();
+                    signIn();
                 } else {
                     innerMsg.innerHTML = result.message;
                     msg.style.display = 'block';
                 }
-            },
-            error: function (xhr, status, err) {
             }
         });
     };
@@ -69,22 +80,6 @@ window.onload = function () {
         VerifyOTP();
     };
 };
-
-
-function authorizeLogin() {
-    $.ajax({
-        type: 'POST',
-        url: 'AuthorizeLogin',
-        dataType: "json",
-        contentType: "application/json; charset=utf-8",
-        cache: false,
-        success: function () {
-            document.location = currentDomainURL + "Dashboard/ShowDashboard";
-        },
-        error: function (xhr, status, err) {
-        }
-    });
-}
 
 String.prototype.trim = function () {
     return this.replace(/^\s*/, "").replace(/\s*$/, "");

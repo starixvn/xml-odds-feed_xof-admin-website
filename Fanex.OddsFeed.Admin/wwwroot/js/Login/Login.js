@@ -12,6 +12,19 @@ window.onload = function () {
 
     username.focus();
 
+    let signIn = function () {
+        $.ajax({
+            type: 'POST',
+            url: 'signIn',
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            cache: false,
+            success: function () {
+                document.location = currentDomainURL + "Dashboard/ShowDashboard"; 
+            }
+        });
+    };
+
     let DoLogin = function () {
         msg.style.display = 'none';
         let isValid = true;
@@ -62,7 +75,7 @@ window.onload = function () {
             success: function (result) {
                 if (result.isSuccessful) {
                     if (result.ignoreOTP) {
-                        authorizeLogin();
+                        signIn();
                     }
                     else {
                         document.location = currentDomainURL + "Login/VerifyOTP";
@@ -72,8 +85,6 @@ window.onload = function () {
                     msg.style.display = 'block';
                     getCaptcha();
                 }
-            },
-            error: function (xhr, status, err) {
             }
         });
     };
@@ -109,7 +120,6 @@ window.onload = function () {
     });
 };
 
-
 String.prototype.trim = function () {
     return this.replace(/^\s*/, "").replace(/\s*$/, "");
 };
@@ -119,19 +129,4 @@ function shake(target, times, duration) {
         setTimeout(target + ".style.left = '-" + i + "0px'", j++ * duration);
         setTimeout(target + ".style.left = '" + i + "0px'", j++ * duration);
     }
-}
-
-function authorizeLogin() {
-    $.ajax({
-        type: 'POST',
-        url: 'AuthorizeLogin',
-        dataType: "json",
-        contentType: "application/json; charset=utf-8",
-        cache: false,
-        success: function () {
-            document.location = currentDomainURL + "Dashboard/ShowDashboard"; 
-        },
-        error: function (xhr, status, err) {
-        }
-    });
 }
