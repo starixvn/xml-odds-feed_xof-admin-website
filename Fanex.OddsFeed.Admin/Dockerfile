@@ -1,4 +1,14 @@
+ARG CI_REGISTRY_IMAGE
+
+FROM $CI_REGISTRY_IMAGE:builder AS deps
+
+RUN mkdir -p /src/packages
+
 FROM hub.nexdev.net/base/dotnet/core/sdk:8.0-alpine AS builder
+
+ENV NUGET_PACKAGES=/src/packages
+
+COPY --from=deps $NUGET_PACKAGES/. $NUGET_PACKAGES/
 
 WORKDIR /src
 
@@ -11,8 +21,7 @@ COPY ["Fanex.OddsFeed.Controllers/Fanex.OddsFeed.Controllers.csproj", "Fanex.Odd
 COPY ["Fanex.OddsFeed.Admin/Fanex.OddsFeed.Admin.csproj", "Fanex.OddsFeed.Admin/"]
 
 RUN dotnet nuget add source https://nuget.nexdev.net/api/v2
-RUN --mount=type=cache,target=/root/.nuget/packages \
-    dotnet restore -v n "Fanex.OddsFeed.Admin/Fanex.OddsFeed.Admin.csproj"
+RUN dotnet restore -v n -r linux-x64 "Fanex.OddsFeed.Admin/Fanex.OddsFeed.Admin.csproj"
 
 COPY ["Fanex.OddsFeed.Resources/", "Fanex.OddsFeed.Resources/"]
 COPY ["Fanex.OddsFeed.Core/", "Fanex.OddsFeed.Core/"]
@@ -24,8 +33,7 @@ COPY ["Fanex.OddsFeed.Admin/", "Fanex.OddsFeed.Admin/"]
 
 WORKDIR /src/Fanex.OddsFeed.Admin
 
-RUN --mount=type=cache,target=/root/.nuget/packages \
-    dotnet publish -r linux-x64 --self-contained false -o /app
+RUN dotnet publish -r linux-x64 --self-contained false -o /app
 
 FROM hub.nexdev.net/base/dotnet/core/aspnet:8.0-slim AS base
 
