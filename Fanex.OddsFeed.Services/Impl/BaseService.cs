@@ -1,4 +1,4 @@
-﻿namespace Fanex.OddsFeed.Services.Impl
+﻿namespace Fanex.OddsFeed.Services
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -7,17 +7,9 @@
     using Fanex.OddsFeed.Criteria;
     using Fanex.OddsFeed.Models;
     using Fanex.OddsFeed.Resources;
-    using Fanex.OddsFeed.Services.Interface;
 
-    public class BaseService : IBaseService
+    public class BaseService(IDynamicRepository dynamicRepository) : IBaseService
     {
-        private readonly IDynamicRepository dynamicRepository;
-
-        public BaseService(IDynamicRepository dynamicRepository)
-        {
-            this.dynamicRepository = dynamicRepository;
-        }
-
         public async Task<IEnumerable<T>> GetDataAsync<T>(ICriteria criteria)
         {
             if (criteria != null && criteria.IsValid())

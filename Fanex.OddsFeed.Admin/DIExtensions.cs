@@ -5,8 +5,7 @@
     using Fanex.OddsFeed.Core;
     using Fanex.OddsFeed.Core.Context;
     using Fanex.OddsFeed.Models;
-    using Fanex.OddsFeed.Services.Impl;
-    using Fanex.OddsFeed.Services.Interface;
+    using Fanex.OddsFeed.Services;
     using Microsoft.AspNetCore.Mvc.Infrastructure;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;

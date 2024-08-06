@@ -1,19 +1,12 @@
-﻿namespace Fanex.OddsFeed.Services.Impl
+﻿namespace Fanex.OddsFeed.Services
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Fanex.OddsFeed.Criteria.Dashboard;
     using Fanex.OddsFeed.Models.Report;
-    using Fanex.OddsFeed.Services.Interface;
     
-    public class DashboardService : IDashboardService
+    public class DashboardService(IBaseService baseService) : IDashboardService
     {
-        private readonly IBaseService baseService;
-        public DashboardService(IBaseService baseService) 
-        {
-            this.baseService = baseService;
-        }
-
         public async Task<AccountStatistic> GetAccountStatisticsAsync(short systemId)
         {
             var criteria = new GetAccountStatisticsCriteria

@@ -73,16 +73,12 @@ function editIgnoreOTP(obj, user) {
                 type: 'POST',
                 dataType: 'json',
                 cache: false,
-                beforeSend: function (xhr) {
-                },
                 success: function (result) {
                     if (result && result.isSuccessful) {
                         document.location = currentDomainURL + 'Administrator/AdministratorList';
                     } else {
                         alert(result.message);
                     }
-                },
-                error: function (xhr, status, err) {
                 }
             });
         });
@@ -98,16 +94,12 @@ function editIgnoreOTP(obj, user) {
                 type: 'POST',
                 dataType: 'json',
                 cache: false,
-                beforeSend: function (xhr) {
-                },
                 success: function (result) {
                     if (result && result.isSuccessful) {
                         document.location = currentDomainURL + 'Administrator/AdministratorList';
                     } else {
                         alert(result.message);
                     }
-                },
-                error: function (xhr, status, err) {
                 }
             });
         });
@@ -122,18 +114,14 @@ function generateKey(user) {
         type: 'POST',
         dataType: 'json',
         cache: false,
-        beforeSend: function (xhr) {
-        },
         success: function (result) {
             if (result && result.isSuccessful) {
-                alert("Generate key successfully!");
+                alert('Generate key successfully!');
                 _pageIndex = 0;
                 Search();
             } else {
                 alert(result.message);
             }
-        },
-        error: function (xhr, status, err) {
         }
     });
 };
@@ -146,8 +134,6 @@ function copyKey(user) {
         type: 'GET',
         dataType: 'json',
         cache: false,
-        beforeSend: function (xhr) {
-        },
         success: function (result) {
             const tempInput = document.createElement('input');
             document.body.appendChild(tempInput);
@@ -155,11 +141,9 @@ function copyKey(user) {
             tempInput.select();
 
             navigator.clipboard.writeText(tempInput.value);
-            alert("Copied key to clipboard!");
+            alert('Copied key to clipboard!');
 
             document.body.removeChild(tempInput);
-        },
-        error: function (xhr, status, err) {
         }
     });
 };
@@ -179,19 +163,14 @@ function editActive(obj, user) {
                 type: 'POST',
                 dataType: 'html',
                 cache: false,
-                beforeSend: function (xhr) {
-                },
                 success: function (result) {
                     result = result.toLowerCase();
 
                     if (result == 'successfully!') {
                         document.location = currentDomainURL + 'Administrator/AdministratorList';
-                    }
-                    else {
+                    } else {
                         alert(result);
                     }
-                },
-                error: function (xhr, status, err) {
                 }
             });
         });
@@ -207,19 +186,14 @@ function editActive(obj, user) {
                 type: 'POST',
                 dataType: 'html',
                 cache: false,
-                beforeSend: function (xhr) {
-                },
                 success: function (result) {
                     result = result.toLowerCase();
 
                     if (result == 'successfully!') {
                         document.location = currentDomainURL + 'Administrator/AdministratorList';
-                    }
-                    else {
+                    } else {
                         alert(result);
                     }
-                },
-                error: function (xhr, status, err) {
                 }
             });
         });
@@ -249,13 +223,9 @@ function UpdateInfo() {
                     confirm('Successfull!\nPress OK to continue', function () {
                         document.location = currentDomainURL + 'Administrator/AdministratorList';
                     });
-                }
-                else {
+                } else {
                     alert(result);
                 }
-            },
-            error: function (xhr, status, err) {
-                alert('d');
             }
         });
     }
@@ -273,12 +243,10 @@ function CheckValidation() {
     if (name == '') {
         $('#nameReqErr').show();
         ret = false;
-    }
-    else if (name.length > 50 || name.length < 2) {
+    } else if (name.length > 50 || name.length < 2) {
         $('#nameLengErr').show();
         ret = false;
-    }
-    else if (!validateRegex.NameField.test(name)) {
+    } else if (!validateRegex.NameField.test(name)) {
         $('#nameInvalidErr').show();
         ret = false;
     }
@@ -290,8 +258,7 @@ function CheckValidation() {
     if (email == '') {
         $('#emailReqErr').show();
         ret = false;
-    }
-    else if (!validateRegex.EmailField.test(email)) {
+    } else if (!validateRegex.EmailField.test(email)) {
         $('#emailInvalidErr').show();
         ret = false;
     }
@@ -313,12 +280,7 @@ function CheckValidation_ResetPassword() {
     if (newpass == '') {
         $('#newPassReqErr').show();
         newPass_IsValid = false;
-    }
-    //    else if (newpass.indexOf(' ') != -1) {
-    //        $('#newPassWhiteSpaceErr').show();
-    //        newPass_IsValid = false;
-    //    }
-    else if (newpass.length > 50 || newpass.length < 6) {
+    } else if (newpass.length > 50 || newpass.length < 6) {
         $('#newPassLengErr').show();
         newPass_IsValid = false;
     }
@@ -333,12 +295,7 @@ function CheckValidation_ResetPassword() {
     if (confirmpass == '') {
         $('#confirmPassReqErr').show();
         confirmPass_IsValid = false;
-    }
-    //    else if (confirmpass.indexOf(' ') != -1) {
-    //        $('#confirmPassWhiteSpaceErr').show();
-    //        confirmPass_IsValid = false;
-    //    }
-    else if (confirmpass.length > 50 || confirmpass.length < 6) {
+    } else if (confirmpass.length > 50 || confirmpass.length < 6) {
         $('#confirmPassLengErr').show();
         confirmPass_IsValid = false;
     } else if (newpass != confirmpass) {
@@ -364,8 +321,7 @@ function CheckValidation_ResetPassword() {
     var ret = newPass_IsValid && confirmPass_IsValid;
     if (ret) {
         $('#errorStep1').addClass('hidden');
-    }
-    else {
+    } else {
         $('#errorStep1').removeClass('hidden');
     }
 
@@ -384,8 +340,7 @@ function CheckValidation_EditInfo() {
     if (email == '') {
         $('#emailReqErr').show();
         isValid_Email = false;
-    }
-    else if (!validateRegex.EmailField.test(email)) {
+    } else if (!validateRegex.EmailField.test(email)) {
         $('#emailInvalidErr').show();
         isValid_Email = false;
     }
@@ -428,8 +383,6 @@ function UpdateAdministratorInfo() {
         contentType: 'application/json; charset=utf-8',
         data: JSON.stringify(updateParams),
         cache: false,
-        beforeSend: function (xhr) {
-        },
         success: function (result) {
             if (result && result.isSuccessful) {
                 $('#editStep1 .result-message-box')
@@ -453,8 +406,6 @@ function UpdateAdministratorInfo() {
                     .removeClass('error-message-box')
                     .removeClass('hidden');
             }
-        },
-        error: function (xhr, status, err) {
         }
     });
 };
@@ -478,8 +429,6 @@ function ResetPassword() {
         contentType: 'application/json; charset=utf-8',
         data: JSON.stringify(updateParams),
         cache: false,
-        beforeSend: function (xhr) {
-        },
         success: function (result) {
             if (result && result.isSuccessful) {
                 $('#editStep1 .result-message-box').empty()
@@ -495,8 +444,6 @@ function ResetPassword() {
                     .removeClass('success-message-box')
                     .removeClass('hidden');
             }
-        },
-        error: function (xhr, status, err) {
         }
     });
 };

@@ -4,12 +4,12 @@
     , _pageIndex = 0
     , _pageSize = 10;
 $(document).ready(function () {
-    $("#Username").autocomplete({
+    $('#Username').autocomplete({
         source: [],
         minLength: 1
     });
 
-    $("#Username").keyup(function (e) {
+    $('#Username').keyup(function (e) {
         if (e.keyCode == $.ui.keyCode.ENTER) {
             Search();
         }
@@ -19,18 +19,18 @@ $(document).ready(function () {
 });
 
 function updateTips(t) {
-    $(".validateTips")
+    $('.validateTips')
         .text(t)
-        .addClass("ui-state-highlight");
+        .addClass('ui-state-highlight');
     setTimeout(function () {
-        $(".validateTips").removeClass("ui-state-highlight", 1500);
+        $('.validateTips').removeClass('ui-state-highlight', 1500);
     }, 500);
 }
 
 function checkRequired(o, n) {
     if (o.val() == undefined || o.val().length <= 0) {
-        o.addClass("ui-state-error");
-        updateTips("Please enter " + n + ".");
+        o.addClass('ui-state-error');
+        updateTips('Please enter ' + n + '.');
         return false;
     } else {
         return true;
@@ -39,8 +39,8 @@ function checkRequired(o, n) {
 
 function checkLength(o, n, min, max) {
     if (o.val().length > max || o.val().length < min) {
-        o.addClass("ui-state-error");
-        updateTips("Length of " + n + " must be between " + min + " and " + max + ".");
+        o.addClass('ui-state-error');
+        updateTips('Length of ' + n + ' must be between ' + min + ' and ' + max + '.');
         return false;
     } else {
         return true;
@@ -49,7 +49,7 @@ function checkLength(o, n, min, max) {
 
 function checkRegexp(o, regexp, n) {
     if (!(regexp.test(o.val()))) {
-        o.addClass("ui-state-error");
+        o.addClass('ui-state-error');
         updateTips(n);
         return false;
     } else {
@@ -115,19 +115,19 @@ function Search(sortColumnName, sortDirection) {
     var typeSort = 0;
     //1 --> Active || 2 --> CreatedDate || 3 --> Creator  || 4 --> Role
     switch (sortColumnName) {
-        case "isactive":
+        case 'isactive':
             typeSort = 1;
             break;
-        case "createdate":
+        case 'createdate':
             typeSort = 2;
             break;
-        case "creator":
+        case 'creator':
             typeSort = 3;
             break;
-        case "rolename":
+        case 'rolename':
             typeSort = 4;
             break;
-        case "ignoreotp":
+        case 'ignoreotp':
             typeSort = 5;
             break;
         default:
@@ -135,62 +135,58 @@ function Search(sortColumnName, sortDirection) {
     }
 
     var searchParams = {
-        SystemID: $("#SystemID option:selected").val(),
-        Username: $("#Username").val(),
-        IsActive: parseInt($("#isActive option:selected").val()),
-        RoleID: parseInt($("#RoleID option:selected").val()),
+        SystemID: $('#SystemID option:selected').val(),
+        Username: $('#Username').val(),
+        IsActive: parseInt($('#isActive option:selected').val()),
+        RoleID: parseInt($('#RoleID option:selected').val()),
         SortByID: parseInt(typeSort),
-        IsSortAsc: sortDirection === "asc" ? true : false,
+        IsSortAsc: sortDirection === 'asc' ? true : false,
         PageSize: _pageSize,
         PageIndex: _pageIndex
     };
 
     $.ajax({
-        url: "GetListAdminBySystemAndNameAndRole",
+        url: 'GetListAdminBySystemAndNameAndRole',
         type: 'POST',
-        dataType: "json",
-        contentType: "application/json; charset=utf-8",
+        dataType: 'json',
+        contentType: 'application/json; charset=utf-8',
         data: JSON.stringify(searchParams),
         cache: false,
         success: function (result) {
             gridOptions =
             {
                 columns: [
-                    { HeaderText: "#", Width: 40, Name: "row", HeaderAlign: "center", CellAlign: "center" },
+                    { HeaderText: '#', Width: 40, Name: 'row', HeaderAlign: 'center', CellAlign: 'center' },
                     {
-                        HeaderText: "Username", Width: 100, Name: "username", AllowTruncate: true,
-                        TdClass: "boldusername", CssClass: "boldusername", HeaderAlign: "center", CellAlign: "left"
+                        HeaderText: 'Username', Width: 100, Name: 'username', AllowTruncate: true,
+                        TdClass: 'boldusername', CssClass: 'boldusername', HeaderAlign: 'center', CellAlign: 'left'
                     },
-                    { HeaderText: "Action", Width: 50, Name: "action", HeaderAlign: "center", CellAlign: "center" },
+                    { HeaderText: 'Action', Width: 50, Name: 'action', HeaderAlign: 'center', CellAlign: 'center' },
                     {
-                        HeaderText: "Active", Width: 65, Name: "isactive", HeaderAlign: "center", CellAlign: "center", CssClass: "header-mt",
-                        Sort: true,
-                        SortDirection: sortColumnName === "isactive" ? sortDirection : ''
-                    },
-                    {
-                        HeaderText: "Role", Width: 120, Name: "rolename", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true, CssClass: "header-mt",
-                        Sort: true,
-                        SortDirection: sortColumnName === "rolename" ? sortDirection : ''
-                    },
-                    { HeaderText: "First Name", Width: 100, Name: "firstname", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true },
-                    { HeaderText: "Last Name", Width: 100, Name: "lastname", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true },
-                    { HeaderText: "Email", Width: 170, Name: "email", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true },
-                    {
-                        HeaderText: "Creator", Width: 110, Name: "creator", HeaderAlign: "center", CellAlign: "left", AllowTruncate: true, CssClass: "header-mt",
-                        Sort: true,
-                        SortDirection: sortColumnName === "creator" ? sortDirection : ''
+                        HeaderText: 'Active', Width: 65, Name: 'isactive', HeaderAlign: 'center', CellAlign: 'center', CssClass: 'header-mt',
+                        Sort: true, SortDirection: sortColumnName === 'isactive' ? sortDirection : ''
                     },
                     {
-                        HeaderText: "Created Date", Width: 120, Name: "createdate", HeaderAlign: "center", CellAlign: "center", CssClass: "header-mt",
+                        HeaderText: 'Role', Width: 120, Name: 'rolename', HeaderAlign: 'center', CellAlign: 'left', AllowTruncate: true, CssClass: 'header-mt',
+                        Sort: true, SortDirection: sortColumnName === 'rolename' ? sortDirection : ''
+                    },
+                    { HeaderText: 'First Name', Width: 100, Name: 'firstname', HeaderAlign: 'center', CellAlign: 'left', AllowTruncate: true },
+                    { HeaderText: 'Last Name', Width: 100, Name: 'lastname', HeaderAlign: 'center', CellAlign: 'left', AllowTruncate: true },
+                    { HeaderText: 'Email', Width: 170, Name: 'email', HeaderAlign: 'center', CellAlign: 'left', AllowTruncate: true },
+                    {
+                        HeaderText: 'Creator', Width: 110, Name: 'creator', HeaderAlign: 'center', CellAlign: 'left', AllowTruncate: true, CssClass: 'header-mt',
+                        Sort: true, SortDirection: sortColumnName === 'creator' ? sortDirection : ''
+                    },
+                    {
+                        HeaderText: 'Created Date', Width: 120, Name: 'createdate', HeaderAlign: 'center', CellAlign: 'center', CssClass: 'header-mt',
                         Sort: true, FormatDateTime: 'DD MMM YYYY HH:mm:ss',
-                        SortDirection: sortColumnName === "createdate" ? sortDirection : ''
+                        SortDirection: sortColumnName === 'createdate' ? sortDirection : ''
                     },
                     {
-                        HeaderText: "Ignore OTP", Width: 100, Name: "ignoreotp", HeaderAlign: "center", CellAlign: "center", CssClass: "header-mt",
-                        Sort: true,
-                        SortDirection: sortColumnName === "ignoreotp" ? sortDirection : ''
+                        HeaderText: 'Ignore OTP', Width: 100, Name: 'ignoreotp', HeaderAlign: 'center', CellAlign: 'center', CssClass: 'header-mt',
+                        Sort: true, SortDirection: sortColumnName === 'ignoreotp' ? sortDirection : ''
                     },
-                    { HeaderText: "Generate Key", Width: 100, Name: "generatekey", HeaderAlign: "center", CellAlign: "center" },
+                    { HeaderText: 'Generate Key', Width: 100, Name: 'generatekey', HeaderAlign: 'center', CellAlign: 'center' },
                 ],
                 bodyRows: renderBodyRows(result.data),
                 hideYBackGroundScroller: true,
@@ -214,7 +210,7 @@ function Search(sortColumnName, sortDirection) {
                 }
             };
 
-            $("#SearchResult").fanexGrid(gridOptions);
+            $('#SearchResult').fanexGrid(gridOptions);
         }
     });
 }
@@ -230,30 +226,30 @@ function ShowAction(user) {
             selector: '.btn-action',
             items: {
                 editInfo: {
-                    name: "Edit information",
+                    name: 'Edit information',
                     height: 25,
-                    className: "iconEditInfo",
+                    className: 'iconEditInfo',
                     callback: function (key, opt) {
                         var paramsString = $.param({
                             username: _adminName
                         });
-                        window.location = currentDomainURL + "Administrator/AdministratorEditProfile/" + _adminId + "?" + paramsString;
+                        window.location = currentDomainURL + 'Administrator/AdministratorEditProfile/' + _adminId + '?' + paramsString;
                     }
                 },
                 resetPassword: {
-                    name: "Reset password",
+                    name: 'Reset password',
                     height: 25,
-                    className: "iconResetPwd",
+                    className: 'iconResetPwd',
                     callback: function (key, opt) {
                         var paramsString = $.param({
                             username: _adminName,
                             role: user.roleID
                         });
-                        window.location = currentDomainURL + "Administrator/AdministratorResetPwd/" + _adminId + "?" + paramsString;
+                        window.location = currentDomainURL + 'Administrator/AdministratorResetPwd/' + _adminId + '?' + paramsString;
                     }
                 }
             },
-            trigger: "left",
+            trigger: 'left',
             ignoreRightClick: true,
             autoHide: true
         });
@@ -262,43 +258,43 @@ function ShowAction(user) {
             selector: '.btn-action',
             items: {
                 editSystem: {
-                    name: "Assign licensee",
+                    name: 'Assign licensee',
                     height: 25,
-                    className: "iconEditSystem",
+                    className: 'iconEditSystem',
                     callback: function (key, opt) {
                         var paramsString = $.param({
                             username: _adminName,
                             role: user.roleID
                         });
-                        window.location = currentDomainURL + "Administrator/AdministratorEditSystem/" + _adminId + "?" + paramsString;
+                        window.location = currentDomainURL + 'Administrator/AdministratorEditSystem/' + _adminId + '?' + paramsString;
                     }
                 },
                 editInfo: {
-                    name: "Edit information",
+                    name: 'Edit information',
                     height: 25,
-                    className: "iconEditInfo",
+                    className: 'iconEditInfo',
                     callback: function (key, opt) {
                         var paramsString = $.param({
                             username: _adminName
                         });
-                        window.location = currentDomainURL + "Administrator/AdministratorEditProfile/" + _adminId + "?" + paramsString;
+                        window.location = currentDomainURL + 'Administrator/AdministratorEditProfile/' + _adminId + '?' + paramsString;
                     }
                 },
                 resetPassword: {
-                    name: "Reset password",
+                    name: 'Reset password',
                     height: 25,
-                    className: "iconResetPwd",
+                    className: 'iconResetPwd',
                     callback: function (key, opt) {
                         var paramsString = $.param({
                             username: _adminName,
                             role: user.roleID
                         });
 
-                        window.location = currentDomainURL + "Administrator/AdministratorResetPwd/" + _adminId + "?" + paramsString;
+                        window.location = currentDomainURL + 'Administrator/AdministratorResetPwd/' + _adminId + '?' + paramsString;
                     }
                 }
             },
-            trigger: "left",
+            trigger: 'left',
             ignoreRightClick: true,
             autoHide: true
         });
@@ -325,9 +321,9 @@ function ReRenderAfterPaged(page_index, itemsPerPage, jq) {
 
 function GetErrorMessage(errCode) {
     $.ajax({
-        url: "GetMessage",
-        type: "POST",
-        data: "ErrCode=" + errCode,
+        url: 'GetMessage',
+        type: 'POST',
+        data: 'ErrCode=' + errCode,
         success: function (result) {
             return updateTips(result);
         }
@@ -336,7 +332,7 @@ function GetErrorMessage(errCode) {
 
 function StartAutoSuggesttion() {
     var urlParam = $.param({
-        username: $("#Username").val()
+        username: $('#Username').val()
     });
 
     var url = 'ListExistedAdministrator?' + urlParam;
@@ -347,7 +343,7 @@ function StartAutoSuggesttion() {
         cache: false,
         success: function (result) {
             var sourceAdmin = result.split(',');
-            $("#Username").autocomplete({
+            $('#Username').autocomplete({
                 source: sourceAdmin,
                 minLength: 1
             });

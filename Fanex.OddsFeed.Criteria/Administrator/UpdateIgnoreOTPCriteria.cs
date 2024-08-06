@@ -1,6 +1,7 @@
 ﻿namespace Fanex.OddsFeed.Criteria.Administrator
 {
     using System.ComponentModel.DataAnnotations;
+
     public class UpdateIgnoreOTPCriteria : BaseNonQueryCommand
     {
         [Required]
@@ -15,14 +16,8 @@
         [Required]
         public string IP { get; set; }
 
-        public override string GetSettingKey()
-        {
-            return "Odds_OTP_AdminUserOTP_IgnoreOTP";
-        }
+        public override string GetSettingKey() => "Odds_OTP_AdminUserOTP_IgnoreOTP";
 
-        public override bool IsValid()
-        {
-            return true;
-        }
+        public override bool IsValid() => UserId > 0;
     }
 }

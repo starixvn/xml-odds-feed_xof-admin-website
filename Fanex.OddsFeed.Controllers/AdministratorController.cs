@@ -14,7 +14,7 @@
     using Fanex.OddsFeed.Criteria.User;
     using Fanex.OddsFeed.Models;
     using Fanex.OddsFeed.Resources;
-    using Fanex.OddsFeed.Services.Interface;
+    using Fanex.OddsFeed.Services;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -438,9 +438,9 @@
         [HttpPost]
         public async Task<IActionResult> UpdateIgnoreOTP(int userId, bool isIgnoreOTP)
         {
-            if (!this.IsAccountManagerRole())
+            if (!IsAccountManagerRole())
             {
-                return this.NoAuthorization();
+                return NoAuthorization();
             }
 
             var criteria = new UpdateIgnoreOTPCriteria
@@ -451,15 +451,16 @@
                 IP = currentContext.IP
             };
             CommandResult result = await baseService.ExecuteNonQueryAsync(criteria);
+
             return Json(result);
         }
-        
+
         [HttpPost]
         public async Task<IActionResult> GenerateSecretKeyOTP(int userId)
         {
-            if (!this.IsAccountManagerRole())
+            if (!IsAccountManagerRole())
             {
-                return this.NoAuthorization();
+                return NoAuthorization();
             }
 
             var criteria = new GenerateSecretKeyOTPCriteria
@@ -470,6 +471,7 @@
                 IP = currentContext.IP
             };
             CommandResult result = await baseService.ExecuteNonQueryAsync(criteria);
+
             return Json(result);
         }
 
@@ -514,16 +516,12 @@
             User userInfo = await userService.GetUserInfoAsync(editedUserId);
             if (userInfo != null)
             {
-                var editedUserRole = userInfo.RoleID;
-                switch (userRole)
+                return userRole switch
                 {
-                    case (byte)Core.Enums.UserRole.ITAdministrator:
-                        return true;
-                    case (byte)Core.Enums.UserRole.Licensee:
-                        return editedUserRole == (byte)Core.Enums.UserRole.LicenseeSubAccount;
-                    default:
-                        return false;
-                }
+                    (byte)Core.Enums.UserRole.ITAdministrator => true,
+                    (byte)Core.Enums.UserRole.Licensee => userInfo.RoleID == (byte)Core.Enums.UserRole.LicenseeSubAccount,
+                    _ => false,
+                };
             }
 
             return false;
@@ -549,9 +547,7 @@
                     var updateList = new List<SelectListItem>();
                     var strSystemList = new StringBuilder();
 
-                    var matchingSystems = systemList
-                        .Where(system => criteria.SystemList.Contains(system.Value))
-                        .ToList();
+                    var matchingSystems = systemList.Where(system => criteria.SystemList.Contains(system.Value)).ToList();
 
                     strSystemList.Append(string.Join(";", matchingSystems.Select(system => $"{system.Value},{system.Text}")));
                     updateList.AddRange(matchingSystems);

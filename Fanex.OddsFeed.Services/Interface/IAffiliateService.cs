@@ -1,4 +1,4 @@
-﻿namespace Fanex.OddsFeed.Services.Interface
+﻿namespace Fanex.OddsFeed.Services
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;

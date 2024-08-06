@@ -1,4 +1,4 @@
-﻿namespace Fanex.OddsFeed.Services.Impl
+﻿namespace Fanex.OddsFeed.Services
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -6,17 +6,9 @@
     using Fanex.OddsFeed.Criteria.SubAccount;
     using Fanex.OddsFeed.Criteria.User;
     using Fanex.OddsFeed.Models;
-    using Fanex.OddsFeed.Services.Interface;
 
-    public class SubAccService : ISubAccService
+    public class SubAccService(IBaseService baseService) : ISubAccService
     {
-        private readonly IBaseService baseService;
-
-        public SubAccService(IBaseService baseService)
-        {
-            this.baseService = baseService;
-        }
-
         public async Task<IEnumerable<User>> GetBySystemIdAsync(short systemId)
         {
             var criteria = new GetSubAccBySystemIDCriteria
@@ -41,6 +33,6 @@
         public async Task<CommandResult> InsertAsync(InsertSubAccCriteria criteria)
         {
             return await baseService.ExecuteNonQueryAsync(criteria);
-        }        
+        }
     }
 }

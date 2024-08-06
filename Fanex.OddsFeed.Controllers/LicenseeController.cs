@@ -13,7 +13,7 @@
     using Fanex.OddsFeed.Criteria.Licensee;
     using Fanex.OddsFeed.Models.ValueObject;
     using Fanex.OddsFeed.Resources;
-    using Fanex.OddsFeed.Services.Interface;
+    using Fanex.OddsFeed.Services;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Models;

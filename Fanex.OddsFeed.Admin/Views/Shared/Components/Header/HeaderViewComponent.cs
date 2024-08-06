@@ -7,7 +7,7 @@
     using Fanex.OddsFeed.Core;
     using Fanex.OddsFeed.Criteria.Administrator;
     using Fanex.OddsFeed.Models;
-    using Fanex.OddsFeed.Services.Interface;
+    using Fanex.OddsFeed.Services;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
 

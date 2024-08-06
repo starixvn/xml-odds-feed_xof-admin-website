@@ -13,7 +13,7 @@
     using Fanex.OddsFeed.Criteria.User;
     using Fanex.OddsFeed.Models;
     using Fanex.OddsFeed.Resources;
-    using Fanex.OddsFeed.Services.Interface;
+    using Fanex.OddsFeed.Services;
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authentication.Cookies;
     using Microsoft.AspNetCore.Http;
@@ -70,7 +70,7 @@
             var password = criteria.UserPwd;
             var validate = criteria.Validate;
 
-            if (sessionService.Captcha != null && validate != sessionService.Captcha)
+            if (!string.IsNullOrWhiteSpace(sessionService.Captcha) && validate != sessionService.Captcha)
             {
                 result.Message = ViewResources.Error_InvalCaptcha;
                 return Json(result);

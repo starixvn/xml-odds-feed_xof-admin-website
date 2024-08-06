@@ -8,7 +8,7 @@
     using Fanex.OddsFeed.Core.Context;
     using Fanex.OddsFeed.Criteria.Affiliate;
     using Fanex.OddsFeed.Models;
-    using Fanex.OddsFeed.Services.Interface;
+    using Fanex.OddsFeed.Services;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using ONEbook.UM.Filters;

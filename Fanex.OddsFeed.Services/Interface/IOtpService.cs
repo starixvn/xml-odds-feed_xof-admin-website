@@ -1,4 +1,4 @@
-﻿namespace Fanex.OddsFeed.Services.Interface
+﻿namespace Fanex.OddsFeed.Services
 {
     public interface IOtpService
     {

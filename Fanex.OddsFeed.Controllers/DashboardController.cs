@@ -11,7 +11,7 @@
     using Fanex.OddsFeed.Criteria.Dashboard;
     using Fanex.OddsFeed.Models;
     using Fanex.OddsFeed.Models.Report;
-    using Fanex.OddsFeed.Services.Interface;
+    using Fanex.OddsFeed.Services;
     using Microsoft.AspNetCore.Mvc;
 
     [IsAuthorize]

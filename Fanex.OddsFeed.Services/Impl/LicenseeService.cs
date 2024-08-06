@@ -1,21 +1,13 @@
-﻿namespace Fanex.OddsFeed.Services.Impl
+﻿namespace Fanex.OddsFeed.Services
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Fanex.OddsFeed.Criteria.Licensee;
     using Fanex.OddsFeed.Models;
-    using Fanex.OddsFeed.Services.Interface;
     using Microsoft.AspNetCore.Mvc.Rendering;
 
-    public class LicenseeService : ILicenseeService
+    public class LicenseeService(IBaseService baseService) : ILicenseeService
     {
-        private readonly IBaseService baseService;
-
-        public LicenseeService(IBaseService baseService)
-        {
-            this.baseService = baseService;
-        }
-
         public async Task<bool> GetActiveBySystemIdAsync(int systemId)
         {
             var criteria = new GetActivateByLicenseeIDCriteria

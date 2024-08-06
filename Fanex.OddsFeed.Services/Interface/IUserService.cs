@@ -1,4 +1,4 @@
-﻿namespace Fanex.OddsFeed.Services.Interface
+﻿namespace Fanex.OddsFeed.Services
 {
     using System.Threading.Tasks;
     using Fanex.OddsFeed.Criteria.User;

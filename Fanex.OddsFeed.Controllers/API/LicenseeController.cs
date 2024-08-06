@@ -5,7 +5,7 @@
     using Fanex.OddsFeed.Core.Attribute;
     using Fanex.OddsFeed.Criteria.Licensee;
     using Fanex.OddsFeed.Models;
-    using Fanex.OddsFeed.Services.Interface;
+    using Fanex.OddsFeed.Services;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;

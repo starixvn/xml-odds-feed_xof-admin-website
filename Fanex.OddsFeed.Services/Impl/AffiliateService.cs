@@ -1,4 +1,4 @@
-﻿namespace Fanex.OddsFeed.Services.Impl
+﻿namespace Fanex.OddsFeed.Services
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -6,17 +6,9 @@
     using Fanex.OddsFeed.Criteria.Affiliate;
     using Fanex.OddsFeed.Models;
     using Fanex.OddsFeed.Models.ValueObject;
-    using Fanex.OddsFeed.Services.Interface;
 
-    public class AffiliateService : IAffiliateService
+    public class AffiliateService(IBaseService baseService) : IAffiliateService
     {
-        private readonly IBaseService baseService;
-
-        public AffiliateService(IBaseService baseService)
-        {
-            this.baseService = baseService;
-        }
-
         public async Task<IEnumerable<PartnerIP>> GetPartnerIpByAffIdAsync(int partnerId)
         {
             var criteria = new GetIpByAffiliateIDCriteria

@@ -1,19 +1,11 @@
-﻿namespace Fanex.OddsFeed.Services.Impl
+﻿namespace Fanex.OddsFeed.Services
 {
     using System.Threading.Tasks;
     using Fanex.OddsFeed.Criteria.User;
     using Fanex.OddsFeed.Models;
-    using Fanex.OddsFeed.Services.Interface;
 
-    public class UserService : IUserService
+    public class UserService(IBaseService baseService) : IUserService
     {
-        private readonly IBaseService baseService;
-
-        public UserService(IBaseService baseService)
-        {
-            this.baseService = baseService;
-        }
-
         public async Task<User> UserLoginAsync(UserLoginUserCriteria criteria)
         {
             return await baseService.GetDataEntityAsync<User>(criteria);
