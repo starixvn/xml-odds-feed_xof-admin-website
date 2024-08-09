@@ -66,8 +66,6 @@ function generateKey(user) {
         type: 'POST',
         dataType: 'json',
         cache: false,
-        beforeSend: function (xhr) {
-        },
         success: function (result) {
             if (result && result.isSuccessful) {
                 alert("Generate key successfully!");
@@ -76,8 +74,6 @@ function generateKey(user) {
             } else {
                 alert(result.message);
             }
-        },
-        error: function (xhr, status, err) {
         }
     });
 };
@@ -90,8 +86,6 @@ function copyKey(user) {
         type: 'GET',
         dataType: 'json',
         cache: false,
-        beforeSend: function (xhr) {
-        },
         success: function (result) {
             const tempInput = document.createElement('input');
             document.body.appendChild(tempInput);
@@ -102,8 +96,6 @@ function copyKey(user) {
             alert("Copied key to clipboard!");
 
             document.body.removeChild(tempInput);
-        },
-        error: function (xhr, status, err) {
         }
     });
 };
@@ -119,8 +111,6 @@ function editActive(obj, userId) {
                 type: 'POST',
                 dataType: 'html',
                 cache: false,
-                beforeSend: function (xhr) {
-                },
                 success: function (result) {
                     result = result.toLowerCase();
                     if (result == 'successfully!') {
@@ -129,8 +119,6 @@ function editActive(obj, userId) {
                     else {
                         alert(result);
                     }
-                },
-                error: function (xhr, status, err) {
                 }
             });
         });
@@ -143,8 +131,6 @@ function editActive(obj, userId) {
                 type: 'POST',
                 dataType: 'html',
                 cache: false,
-                beforeSend: function (xhr) {
-                },
                 success: function (result) {
                     result = result.toLowerCase();
 
@@ -154,8 +140,6 @@ function editActive(obj, userId) {
                     else {
                         alert(result);
                     }
-                },
-                error: function (xhr, status, err) {
                 }
             });
         });
@@ -170,8 +154,6 @@ function deleteSubAccount(userId, name) {
             type: 'POST',
             dataType: 'html',
             cache: false,
-            beforeSend: function (xhr) {
-            },
             success: function (result) {
                 result = result.toLowerCase();
 
@@ -181,8 +163,6 @@ function deleteSubAccount(userId, name) {
                 else {
                     alert(result);
                 }
-            },
-            error: function (xhr, status, err) {
             }
         });
     });
