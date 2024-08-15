@@ -87,7 +87,7 @@
                 options.Cookie.Name = "XMLOddsFeed.Admin.Session";
             });
             
-            services.AddControllersWithViews()
+            services.AddControllersWithViews(options => options.Filters.Add<CheckUMFilterAttribute>())
                 .AddControllersAsServices()
                 .AddJsonOptions(options =>
                 {

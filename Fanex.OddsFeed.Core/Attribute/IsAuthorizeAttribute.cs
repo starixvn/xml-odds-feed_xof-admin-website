@@ -1,14 +1,15 @@
 ﻿namespace Fanex.OddsFeed.Core.Attribute
 {
     using System;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Filters;
 
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-    public class IsAuthorizeAttribute : ActionFilterAttribute
+    public class IsAuthorizeAttribute : AuthorizeAttribute, IAuthorizationFilter
     {
-        public override void OnActionExecuting(ActionExecutingContext context)
+        public void OnAuthorization(AuthorizationFilterContext context)
         {
             var sessionService = new SessionService(context.HttpContext.Session);
             if (sessionService.OnUserId <= 0)

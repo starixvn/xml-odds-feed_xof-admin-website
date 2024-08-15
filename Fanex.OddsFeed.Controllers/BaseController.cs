@@ -11,9 +11,7 @@
     using Fanex.OddsFeed.Services;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
-    using ONEbook.UM.Filters;
 
-    [ServiceFilter(typeof(CheckUMFilterAttribute))]
     public class BaseController : Controller
     {
         protected const int DefaultMinDate = 2000;

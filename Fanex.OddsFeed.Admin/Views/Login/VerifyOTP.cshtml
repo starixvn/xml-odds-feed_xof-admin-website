@@ -14,7 +14,6 @@
 </head>
 <body>
     <div class="lgbox">
-        <div class="lgright">&nbsp;</div>
         <div class="lgcontent-otp">
             <div class="row line">
                 <span class="icadmin">&nbsp;</span>
@@ -26,13 +25,9 @@
             <div class="row">
                 Hi @ViewBag.Username, please enter an OTP to continue.
             </div>
-            <div class="row">
-                <div class="grid6">
-                    <input asp-for="Otp" class="form-control input-otp" id="otp" name="otp" maxlength="6" />
-                </div>
-                <div>
-                    <button id="submit" type="button" class="btn btn-primary">Submit</button>
-                </div>
+            <div class="row d-flex">
+                <input asp-for="Otp" class="form-control input-otp" id="otp" name="otp" maxlength="6" />
+                <button id="submit" type="button" class="btn btn-primary">Submit</button>
             </div>
         </div>
     </div>

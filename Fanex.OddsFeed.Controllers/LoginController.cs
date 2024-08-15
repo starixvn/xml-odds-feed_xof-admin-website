@@ -18,10 +18,8 @@
     using Microsoft.AspNetCore.Authentication.Cookies;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
-    using ONEbook.UM.Filters;
     using SkiaSharp;
 
-    [ServiceFilter(typeof(CheckUMFilterAttribute))]
     public class LoginController(
         ICurrentContext currentContext,
         ISessionService sessionService,

@@ -3,7 +3,9 @@ namespace Fanex.OddsFeed.Controllers
     using System;
     using System.Text;
     using Microsoft.AspNetCore.Mvc;
+    using ONEbook.UM.AspNetCore.Filters;
 
+    [SkipUMFilter]
     public class WhoamiController : Controller
     {
         [Route("Whoami")]
