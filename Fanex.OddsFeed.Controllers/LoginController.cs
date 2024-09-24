@@ -156,7 +156,7 @@
 
         [HttpPost]
         [IsAuthorize]
-        public async Task<IActionResult> UpdateUserPassword(UpdatePasswordUserCriteria criteria)
+        public async Task<IActionResult> UpdateUserPassword([FromBody] UpdatePasswordUserCriteria criteria)
         {
             var result = new CommandResult();
             if (ModelState.IsValid)
