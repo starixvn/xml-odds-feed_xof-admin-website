@@ -101,52 +101,45 @@ function IsPassword(str) {
 function DoUpdatePassword() {
     var isParamsValid = CheckValidation();
     if (!isParamsValid) {
-        $(".result-message-box").addClass("hidden");
+        $('.result-message-box').addClass('hidden');
         return;
     }
 
-    var preController = $("#PreController").val();
-    var preAction = $("#PreAction").val();
+    var preController = $('#PreController').val();
+    var preAction = $('#PreAction').val();
     var updateParams = {
-        UserID: $("#UserID").val(),
-        OldPassword: $("#OldPassword").val(),
-        Password: $("#Password").val(),
-        ConfirmPassword: $("#ConfirmPassword").val(),
-        PreController: preController != '' ? preController : "Dashboard",
-        PreAction: preAction != '' ? preAction : "ShowDashboard"
+        UserID: $('#UserID').val(),
+        OldPassword: $('#OldPassword').val(),
+        Password: $('#Password').val(),
+        ConfirmPassword: $('#ConfirmPassword').val(),
+        PreController: preController != '' ? preController : 'Dashboard',
+        PreAction: preAction != '' ? preAction : 'ShowDashboard'
     };
 
-    var url = currentDomainURL +
-        "Login/UpdateUserPassword?UserID=" + updateParams.UserID + 
-        "&OldPassword=" + updateParams.OldPassword + 
-        "&Password=" + updateParams.Password +
-        "&ConfirmPassword=" + updateParams.ConfirmPassword +
-        "&PreController=" + updateParams.PreController +
-        "&PreAction=" + updateParams.PreAction
-
     $.ajax({
-        url: url,
+        url: currentDomainURL + 'Login/UpdateUserPassword',
         type: 'POST',
         cache: false,
-        dataType: "json",
-        contentType: "application/json; charset=utf-8",
+        dataType: 'json',
+        contentType: 'application/json; charset=utf-8',
+        data: JSON.stringify(updateParams),
         success: function (result) {
             if (result.isSuccessful == true) {
-                $(".result-message-box").empty()
-                    .append("<ul><li>" + result.message + "</li></ul>")
-                    .addClass("success-message-box")
-                    .removeClass("error-message-box")
-                    .removeClass("hidden");
+                $('.result-message-box').empty()
+                    .append('<ul><li>' + result.message + '</li></ul>')
+                    .addClass('success-message-box')
+                    .removeClass('error-message-box')
+                    .removeClass('hidden');
 
-                OddsFeedAdminManager.confirmAfterSuccess(currentDomainURL + "" +
-                    updateParams.PreController.replace(/\/$/g, '') + "/" +
+                OddsFeedAdminManager.confirmAfterSuccess(currentDomainURL + '' +
+                    updateParams.PreController.replace(/\/$/g, '') + '/' +
                     updateParams.PreAction.replace(/^\//g, ''));
             } else {
-                $(".result-message-box").empty()
-                    .append("<ul><li>" + result.message + "</li></ul>")
-                    .addClass("error-message-box")
-                    .removeClass("success-message-box")
-                    .removeClass("hidden");
+                $('.result-message-box').empty()
+                    .append('<ul><li>' + result.message + '</li></ul>')
+                    .addClass('error-message-box')
+                    .removeClass('success-message-box')
+                    .removeClass('hidden');
             }
         },
         error: function (xhr, status, err) {
