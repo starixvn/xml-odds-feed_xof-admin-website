@@ -5,7 +5,7 @@
     using System.Threading.Tasks;
     using Fanex.Data;
     using Fanex.Logging;
-    using Fanex.Logging.Sentry;
+    using Fanex.Logging.Sentry.RavenClient;
     using Fanex.OddsFeed.Core;
     using Fanex.OddsFeed.Core.Middlewares;
     using Microsoft.AspNetCore.Authentication.Cookies;
@@ -17,8 +17,7 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
-    using ONEbook.UM.AspNetCore.Filters;
-    using Sentry;
+    using SharpRaven;
     using StackExchange.Redis;
 
     public class Startup
