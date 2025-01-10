@@ -1,6 +1,5 @@
 ﻿namespace Fanex.OddsFeed.Admin
 {
-    using Fanex.Caching;
     using Fanex.Data.Repository;
     using Fanex.Logging;
     using Fanex.OddsFeed.Core;
@@ -8,16 +7,10 @@
     using Fanex.OddsFeed.Models;
     using Fanex.OddsFeed.Services.Impl;
     using Fanex.OddsFeed.Services.Interface;
-    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc.Infrastructure;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using ONEbook.UM.AspNetCore;
-    using ONEbook.UM.AspNetCore.Filters;
-    using ONEbook.UM.Configurations;
-    using ONEbook.UM.Helpers;
-    using ONEbook.UM.Services;
-    using ONEbook.UM.Transport;
+    using ONEbook.UM.DependencyInjection;
     using WebOptimizer;
 
     public static class DIExtensions
@@ -45,21 +38,12 @@
             var appSettings = configuration.GetSection("AppSettings").Get<AppSettings>();
             services.AddSingleton(appSettings);
 
-            #region ONEbookUM
-            services.AddSingleton(new UMClientConfiguration().Initialize(configuration));
-            services.AddSingleton<CheckUMFilterAttribute>();
-            services.AddSingleton<IUMCacheService, UMCacheService>();
-            services.AddSingleton<IUMRestClient, UMRestClient>();
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddSingleton<IHttpContextHelper, HttpContextHelper>();
-            services.AddSingleton<IMaintenanceService, MaintenanceService>();
-            #endregion ONEbookUM
+            services.AddOneBookUm(configuration);
 
             services.AddSingleton<ILogger, Logger>();
             services.AddSingleton<ICurrentContext, CurrentContext>();
             services.AddScoped<ISessionService, SessionService>();
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
-            services.AddSingleton<ICacheService, CacheService>();
             services.AddSingleton<IBaseService, BaseService>();
             services.AddSingleton<IUserService, UserService>();
             services.AddSingleton<IDashboardService, DashboardService>();
