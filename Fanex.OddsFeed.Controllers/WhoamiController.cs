@@ -3,7 +3,7 @@ namespace Fanex.OddsFeed.Controllers
     using System;
     using System.Text;
     using Microsoft.AspNetCore.Mvc;
-    using ONEbook.UM.AspNetCore.Filters;
+    using ONEbook.UM.Filters;
 
     [SkipUMFilter]
     public class WhoamiController : Controller

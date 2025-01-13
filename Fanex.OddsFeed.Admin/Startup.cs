@@ -17,6 +17,7 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using ONEbook.UM.Filters;
     using SharpRaven;
     using StackExchange.Redis;
 
