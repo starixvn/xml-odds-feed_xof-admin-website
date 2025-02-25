@@ -94,7 +94,7 @@
         <Setting Key="Odds_SupportedSportSel" SpName="Odds_SupportedSportSel" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
         <Setting Key="Odds_Language_GetAll" SpName="Odds_Language_GetAll" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
         <Setting Key="Odds_LicenseeSel" SpName="Odds_LicenseeSel" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
-        <Setting Key="Odds_LeagueSel" SpName="Odds_LeagueSel" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_LeagueSel" SpName="Odds_LeagueSel_xpre" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
         <Setting Key="Odds_OutRightsSel" SpName="Odds_OutRightsSel" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
         <Setting Key="Odds_LicenseeIns" SpName="Odds_LicenseeIns" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
         <Setting Key="Odds_LicenseeProfileUpd" SpName="Odds_LicenseeProfileUpd" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
