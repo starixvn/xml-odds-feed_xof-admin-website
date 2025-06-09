@@ -306,7 +306,7 @@
                 "js/Libs/Core.js",
                 "js/Views/Header.js",
                 "js/Views/date.visible.js",
-                "js/ReCheckIn.js",
+                //"js/ReCheckIn.js",
                 "js/OddsFeedAdminManager.js");
         }
 
