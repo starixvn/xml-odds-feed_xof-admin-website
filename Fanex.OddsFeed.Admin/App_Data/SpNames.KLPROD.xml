@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Functions>
+    <Function Name="Affiliate">
+        <Setting Key="Odds_Delete_Setting_IP_Partner" SpName="Odds_Delete_Setting_IP_Partner" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_Top10Domain_Sel" SpName="Odds_Top10Domain_Sel" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_Top10Partner_Sel" SpName="Odds_Top10Partner_Sel" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap">
+            <Mapping DataField="PartnerId" ObjectProperty="Id" />
+            <Mapping DataField="UserName" ObjectProperty="Name" />
+        </Setting>
+        <Setting Key="Odds_SystemSettingsSel" SpName="Odds_SystemSettingsSel" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_Partner_Statistic_Sel" SpName="Odds_Partner_Statistic_Sel" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_Partner_SelByName" SpName="Odds_Partner_SelByName" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap">
+            <Mapping DataField="PartnerId" ObjectProperty="Id" />
+            <Mapping DataField="UserName" ObjectProperty="Name" />
+        </Setting>
+        <Setting Key="Odds_Domain_Sel" SpName="Odds_Domain_Sel" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_Domain_GetAll" SpName="Odds_Domain_GetAll" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_Domain_SelByPartnerId" SpName="Odds_Domain_SelByPartnerId" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_Ip_SelByPartnerId" SpName="Odds_Ip_SelByPartnerId" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap">
+            <Mapping DataField="PartnerID" ObjectProperty="Id" />
+        </Setting>
+        <Setting Key="Odds_BetTypeSel" SpName="Odds_BetTypeSel" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_CountrySel" SpName="Odds_CountrySel" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_SportSel" SpName="Odds_SportSel" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_LanguageSel" SpName="Odds_LanguageSel" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_Partner_Ins" SpName="Odds_Partner_Ins" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_Partner_Upd_Info" SpName="Odds_Partner_Upd_Info" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_Partner_Upd_Setting" SpName="Odds_Partner_Upd_Setting" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_Partner_Upd_Setting_IP" SpName="Odds_Partner_Upd_Setting_IP" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_Partner_Upd_Profile" SpName="Odds_Partner_Upd_Profile" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_Partner_Upd_Active" SpName="Odds_Partner_Upd_Active" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_Partner_Del" SpName="Odds_Partner_Del" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_Partner_CheckExist" SpName="Odds_Partner_CheckExist" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap">
+            <Mapping DataField="PartnerId" ObjectProperty="Id" />
+            <Mapping DataField="UserName" ObjectProperty="Name" />
+        </Setting>
+        <Setting Key="Odds_PartnerProfileSelByID" SpName="Odds_PartnerProfileSelByID" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+    </Function>
+
+    <!-- SP mapping for Administrator-->
+    <Function Name="Administrator">
+        <Setting Key="Odds_Admin_Ins" SpName="Odds_Admin_Ins" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_Admin_Sel" SpName="Odds_Admin_Sel" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_Admin_Del" SpName="Odds_Admin_Del" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_Admin_UpdInfo" SpName="Odds_Admin_UpdInfo" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_Admin_UpdPwd" SpName="Odds_Admin_UpdPwd" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_Admin_UpdSystem" SpName="Odds_Admin_UpdSystem" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_System_SelByUserID" SpName="Odds_System_SelByUserID" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_ExistedAdmin_Sel" SpName="Odds_ExistedAdmin_Sel" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_Role_Sel" SpName="Odds_Role_Sel" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_Top10Admin_Sel" SpName="Odds_Top10Admin_Sel" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_AdminList_Top10_Sel" SpName="Odds_AdminList_Top10_Sel" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_Admin_CheckExist" SpName="Odds_Admin_CheckExist" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_AdminSystem_SelAll" SpName="Odds_AdminSystem_SelAll" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+    </Function>
+    <!-- End SP mapping for Administrator-->
+
+    <!-- SP mapping for Dashboard-->
+    <Function Name="Dashboard">
+        <Setting Key="Odds_Dashboard_LastLogin" SpName="Odds_Dashboard_LastLogin" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_Dashboard_CurrentOnlUsers" SpName="Odds_Dashboard_CurrentOnlUsers" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_Dashboard_RecentActivities" SpName="Odds_Dashboard_RecentActivities" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_Dashboard_AccountStatistics" SpName="Odds_Dashboard_AccountStatistics" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+    </Function>
+    <!-- End SP mapping for Dashboard-->
+
+    <Function Name="User">
+        <Setting Key="Odds_Top10SubAccount_Sel" SpName="Odds_Top10SubAccount_Sel" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_SubAccount_CheckExist" SpName="Odds_SubAccount_CheckExist" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap"/>
+        <Setting Key="Odds_User_SelByName_SystemId_RoleId" SpName="Odds_User_SelByName_SystemId_RoleId" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_User_GetPermission" SpName="Odds_User_GetPermission" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_User_EditPermission" SpName="Odds_User_EditPermission" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_User_ResetPass" SpName="Odds_User_ResetPass" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_User_Upd_Active" SpName="Odds_User_Upd_Active" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_User_Del" SpName="Odds_User_Del" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_User_Upd" SpName="Odds_User_Upd" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_User_Ins" SpName="Odds_User_Ins" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap"/>
+        <Setting Key="Odds_User_GetBySystemIdAndRoleId" SpName="Odds_User_GetBySystemIdAndRoleId" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap"/>
+        <Setting Key="Odds_User_Login" SpName="Odds_User_Login" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_User_GetProfile" SpName="Odds_User_GetProfile" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_User_GetPermission_Flags" SpName="Odds_User_GetPermission_Flags" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_User_Logout" SpName="Odds_User_Logout" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_UserPasswordUpd" SpName="Odds_UserPasswordUpd" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_User_ReCheckIn" SpName="Odds_User_ReCheckIn" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_User_GetInfo" SpName="Odds_User_GetInfo" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+    </Function>
+
+    <Function Name="Licensee">
+        <Setting Key="Odds_SystemSel" SpName="Odds_SystemSel" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_SystemUpd" SpName="Odds_SystemUpd" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_LicenseeDel" SpName="Odds_LicenseeDel" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_SupportedBetTypeSel" SpName="Odds_SupportedBetTypeSel" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_AllCountrySel" SpName="Odds_AllCountrySel" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_SupportedSportSel" SpName="Odds_SupportedSportSel" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_Language_GetAll" SpName="Odds_Language_GetAll" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_LicenseeSel" SpName="Odds_LicenseeSel" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_LeagueSel" SpName="Odds_LeagueSel" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_OutRightsSel" SpName="Odds_OutRightsSel" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_LicenseeIns" SpName="Odds_LicenseeIns" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_LicenseeProfileUpd" SpName="Odds_LicenseeProfileUpd" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_LicenseeSettingUpd" SpName="Odds_LicenseeSettingUpd" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_LicenseeInfoUpd" SpName="Odds_LicenseeInfoUpd" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_LicenseeSelByPage" SpName="Odds_LicenseeSelByPage" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_LicenseeActiveUpd" SpName="Odds_LicenseeActiveUpd" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_LicenseeByIDSel" SpName="Odds_LicenseeByIDSel" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_LicenseeProfileByLicenseeIDSel" SpName="Odds_LicenseeProfileByLicenseeIDSel" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_LicenseeSettingByLicenseeIDSel" SpName="Odds_LicenseeSettingByLicenseeIDSel" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_Licensee_CheckExistLicensee" SpName="Odds_Licensee_CheckExistLicensee" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_Top10System_Sel" SpName="Odds_Top10System_Sel" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_Licensee_Statistic_Sel" SpName="Odds_Licensee_Statistic_Sel" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_Upd_Setting_IP_Licensee" SpName="Odds_Upd_Setting_IP_Licensee" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_Delete_Setting_IP_Licensee" SpName="Odds_Delete_Setting_IP_Licensee" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_Licensee_GetActivate" SpName="Odds_Licensee_GetActivate" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_System_SelAll" SpName="Odds_System_SelAll" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_GetProfileAllPartnersBySystemId" SpName="Odds_GetProfileAllPartnersBySystemId" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_System_SelByUserIDAndSubAccountID" SpName="Odds_System_SelByUserIDAndSubAccountID" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_CompanyIPSel" SpName="Odds_CompanyIPSel" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_CompanyIPIns" SpName="Odds_CompanyIPIns" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_CompanyIP_Setting" SpName="Odds_CompanyIP_Setting" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_CompanyIP_DeleteSetting" SpName="Odds_CompanyIP_DeleteSetting" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_DeactiveLicenseeAutomatically_OIC" SpName="Odds_DeactiveLicenseeAutomatically_OIC" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+    </Function>
+
+    <Function Name="Domain">
+        <Setting Key="Odds_DomainDel" SpName="Odds_DomainDel" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_DomainIns" SpName="Odds_DomainIns" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_DomainSelByPage" SpName="Odds_DomainSelByPage" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_DomainSettingSelByPage" SpName="Odds_DomainSettingSelByPage" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_DomainUpd" SpName="Odds_DomainUpd" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+        <Setting Key="Odds_DomainList_Top10_Sel" SpName="Odds_DomainList_Top10_Sel" DbName="DBODDSFEED.bodb_OddsFeed.wsv_nap" />
+    </Function>
+</Functions>
