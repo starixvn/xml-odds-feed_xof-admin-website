@@ -4,7 +4,7 @@ FROM $CI_REGISTRY_IMAGE:builder AS deps
 
 RUN mkdir -p /src/packages
 
-FROM hub.nexdev.net/base/dotnet/core/sdk:8.0-alpine AS builder
+FROM hub.nexdev.net/base/dotnet/core/sdk:9.0-alpine-25h2 AS builder
 
 ENV NUGET_PACKAGES=/src/packages
 
@@ -35,7 +35,7 @@ WORKDIR /src/Fanex.OddsFeed.Admin
 
 RUN dotnet publish -r linux-x64 --self-contained false -o /app
 
-FROM hub.nexdev.net/base/dotnet/core/aspnet:8.0-slim AS base
+FROM hub.nexdev.net/base/dotnet/core/aspnet:9.0-slim-25h2 AS base
 
 RUN apt-get update \
     && apt-get -y install libfontconfig1 \
